@@ -829,6 +829,17 @@ type GetVPNUsersParams struct {
 	EnvironmentId string
 }
 
+// GetVpnLoginsParams is parameters of getVpnLogins operation.
+type GetVpnLoginsParams struct {
+	// The environmentId where the VPN resides.
+	EnvironmentId string
+	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort []string
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetVpnLoginsPage
+}
+
 // GetZonesCollectionParams is parameters of getZonesCollection operation.
 type GetZonesCollectionParams struct {
 	// A comma separated list of include values. Included resources will show up under the root

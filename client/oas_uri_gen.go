@@ -2985,6 +2985,99 @@ func (s *GetUsableServersPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetVpnLoginsPage as URI form.
+func (s *GetVpnLoginsPage) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("number", func(e uri.Encoder) error {
+		if val, ok := s.Number.Get(); ok {
+			return e.EncodeValue(conv.Float64ToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"number\"")
+	}
+	if err := e.EncodeField("size", func(e uri.Encoder) error {
+		if val, ok := s.Size.Get(); ok {
+			return e.EncodeValue(conv.Float64ToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"size\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetVpnLoginsPage = [2]string{
+	0: "number",
+	1: "size",
+}
+
+// DecodeURI decodes GetVpnLoginsPage from URI form.
+func (s *GetVpnLoginsPage) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetVpnLoginsPage to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "number":
+			if err := func() error {
+				var sDotNumberVal float64
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToFloat64(val)
+					if err != nil {
+						return err
+					}
+
+					sDotNumberVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Number.SetTo(sDotNumberVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"number\"")
+			}
+		case "size":
+			if err := func() error {
+				var sDotSizeVal float64
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToFloat64(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSizeVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Size.SetTo(sDotSizeVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"size\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetVpnLoginsPage")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetZonesCollectionPage as URI form.
 func (s *GetZonesCollectionPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {

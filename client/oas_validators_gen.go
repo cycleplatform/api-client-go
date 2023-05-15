@@ -3253,24 +3253,6 @@ func (s *CreateVPNUserCreated) Validate() error {
 	}
 	return nil
 }
-func (s *CreateVPNUserReq) Validate() error {
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Value.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "value",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
 func (s *CreatorInclude) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -6877,6 +6859,41 @@ func (s *GetHubUsageOK) Validate() error {
 	}
 	return nil
 }
+func (s GetHubsFilter) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetHubsFilterItem) Validate() error {
+	switch s.Type {
+	case StringGetHubsFilterItem:
+		return nil // no validation needed
+	case StringArrayGetHubsFilterItem:
+		if s.StringArray == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
 func (s *GetHubsOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -9556,6 +9573,49 @@ func (s *GetVPNUsersOK) Validate() error {
 	}
 	return nil
 }
+func (s *GetVpnLoginsPage) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Number.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Number.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "number",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Size.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Size.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "size",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
 func (s GetZonesCollectionFilter) Validate() error {
 	var failures []validate.FieldError
 	for key, elem := range s {
@@ -9741,7 +9801,7 @@ func (s *HAProxyConfigBackend) Validate() error {
 }
 func (s HAProxyConfigBackendBalance) Validate() error {
 	switch s {
-	case "round-robin":
+	case "roundrobin":
 		return nil
 	case "static-rr":
 		return nil

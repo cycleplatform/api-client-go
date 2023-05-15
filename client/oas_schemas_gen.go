@@ -3801,10 +3801,10 @@ func (s *Config) SetIntegrations(val OptContainerIntegrations) {
 // Ref: #/components/schemas/Container
 type Container struct {
 	ID ID `json:"id"`
-	// A user defined name for the container resource.
-	Name string `json:"name"`
 	// A human readable slugged identifier for this container. Usually used as a key in a stack file.
-	Identifier  string                      `json:"identifier"`
+	Identifier Identifier `json:"identifier"`
+	// A user defined name for the container resource.
+	Name        string                      `json:"name"`
 	Creator     CreatorScope                `json:"creator"`
 	Environment ContainerEnvironmentSummary `json:"environment"`
 	HubID       HubID                       `json:"hub_id"`
@@ -3833,14 +3833,14 @@ func (s *Container) GetID() ID {
 	return s.ID
 }
 
+// GetIdentifier returns the value of Identifier.
+func (s *Container) GetIdentifier() Identifier {
+	return s.Identifier
+}
+
 // GetName returns the value of Name.
 func (s *Container) GetName() string {
 	return s.Name
-}
-
-// GetIdentifier returns the value of Identifier.
-func (s *Container) GetIdentifier() string {
-	return s.Identifier
 }
 
 // GetCreator returns the value of Creator.
@@ -3923,14 +3923,14 @@ func (s *Container) SetID(val ID) {
 	s.ID = val
 }
 
+// SetIdentifier sets the value of Identifier.
+func (s *Container) SetIdentifier(val Identifier) {
+	s.Identifier = val
+}
+
 // SetName sets the value of Name.
 func (s *Container) SetName(val string) {
 	s.Name = val
-}
-
-// SetIdentifier sets the value of Identifier.
-func (s *Container) SetIdentifier(val string) {
-	s.Identifier = val
 }
 
 // SetCreator sets the value of Creator.
@@ -5230,8 +5230,7 @@ func (s *ContainerResources) SetRAM(val ContainerResourcesRAM) {
 type ContainerResourcesCPU struct {
 	// A share represents 1/10th of the available compute time on a single thread.
 	Shares OptContainerResourcesCPUShares `json:"shares"`
-	// An array of CPU cores this container will be pinned to.
-	Cpus []int `json:"cpus"`
+	Cpus   OptString                      `json:"cpus"`
 }
 
 // GetShares returns the value of Shares.
@@ -5240,7 +5239,7 @@ func (s *ContainerResourcesCPU) GetShares() OptContainerResourcesCPUShares {
 }
 
 // GetCpus returns the value of Cpus.
-func (s *ContainerResourcesCPU) GetCpus() []int {
+func (s *ContainerResourcesCPU) GetCpus() OptString {
 	return s.Cpus
 }
 
@@ -5250,7 +5249,7 @@ func (s *ContainerResourcesCPU) SetShares(val OptContainerResourcesCPUShares) {
 }
 
 // SetCpus sets the value of Cpus.
-func (s *ContainerResourcesCPU) SetCpus(val []int) {
+func (s *ContainerResourcesCPU) SetCpus(val OptString) {
 	s.Cpus = val
 }
 
@@ -6695,7 +6694,8 @@ func (s *CreateContainerInstanceReqItem) SetNewInstances(val int) {
 
 type CreateContainerReq struct {
 	// A user defined name for the container.
-	Name string `json:"name"`
+	Name       string        `json:"name"`
+	Identifier OptIdentifier `json:"identifier"`
 	// An identifier for the environment this container will be deployed to.
 	EnvironmentID string `json:"environment_id"`
 	// An identifier for the image used to create this container.
@@ -6711,6 +6711,11 @@ type CreateContainerReq struct {
 // GetName returns the value of Name.
 func (s *CreateContainerReq) GetName() string {
 	return s.Name
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *CreateContainerReq) GetIdentifier() OptIdentifier {
+	return s.Identifier
 }
 
 // GetEnvironmentID returns the value of EnvironmentID.
@@ -6746,6 +6751,11 @@ func (s *CreateContainerReq) GetAnnotations() OptCreateContainerReqAnnotations {
 // SetName sets the value of Name.
 func (s *CreateContainerReq) SetName(val string) {
 	s.Name = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *CreateContainerReq) SetIdentifier(val OptIdentifier) {
+	s.Identifier = val
 }
 
 // SetEnvironmentID sets the value of EnvironmentID.
@@ -6956,7 +6966,8 @@ func (s *CreateEnvironmentJobReqAction) UnmarshalText(data []byte) error {
 
 type CreateEnvironmentReq struct {
 	// A user defined name for the environment resource.
-	Name string `json:"name"`
+	Name       string        `json:"name"`
+	Identifier OptIdentifier `json:"identifier"`
 	// The cluster this environment is associated with.
 	Cluster string `json:"cluster"`
 	// Contains details regarding the environment.
@@ -6969,6 +6980,11 @@ type CreateEnvironmentReq struct {
 // GetName returns the value of Name.
 func (s *CreateEnvironmentReq) GetName() string {
 	return s.Name
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *CreateEnvironmentReq) GetIdentifier() OptIdentifier {
+	return s.Identifier
 }
 
 // GetCluster returns the value of Cluster.
@@ -6994,6 +7010,11 @@ func (s *CreateEnvironmentReq) GetStack() NilCreateEnvironmentReqStack {
 // SetName sets the value of Name.
 func (s *CreateEnvironmentReq) SetName(val string) {
 	s.Name = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *CreateEnvironmentReq) SetIdentifier(val OptIdentifier) {
+	s.Identifier = val
 }
 
 // SetCluster sets the value of Cluster.
@@ -7229,6 +7250,7 @@ func (s *CreateHubOK) SetData(val OptHub) {
 type CreateHubReq struct {
 	// A name for the hub.
 	Name         OptString          `json:"name"`
+	Identifier   OptIdentifier      `json:"identifier"`
 	Integrations OptHubIntegrations `json:"integrations"`
 	// All hub webhooks for the given hub.
 	Webhooks OptCreateHubReqWebhooks `json:"webhooks"`
@@ -7237,6 +7259,11 @@ type CreateHubReq struct {
 // GetName returns the value of Name.
 func (s *CreateHubReq) GetName() OptString {
 	return s.Name
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *CreateHubReq) GetIdentifier() OptIdentifier {
+	return s.Identifier
 }
 
 // GetIntegrations returns the value of Integrations.
@@ -7252,6 +7279,11 @@ func (s *CreateHubReq) GetWebhooks() OptCreateHubReqWebhooks {
 // SetName sets the value of Name.
 func (s *CreateHubReq) SetName(val OptString) {
 	s.Name = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *CreateHubReq) SetIdentifier(val OptIdentifier) {
+	s.Identifier = val
 }
 
 // SetIntegrations sets the value of Integrations.
@@ -8386,17 +8418,28 @@ func (s *CreateVPNUserCreated) SetData(val OptVPNUsers) {
 }
 
 type CreateVPNUserReq struct {
-	Value VPNUsers `json:"value"`
+	Username string `json:"username"`
+	Password string `json:"password"`
 }
 
-// GetValue returns the value of Value.
-func (s *CreateVPNUserReq) GetValue() VPNUsers {
-	return s.Value
+// GetUsername returns the value of Username.
+func (s *CreateVPNUserReq) GetUsername() string {
+	return s.Username
 }
 
-// SetValue sets the value of Value.
-func (s *CreateVPNUserReq) SetValue(val VPNUsers) {
-	s.Value = val
+// GetPassword returns the value of Password.
+func (s *CreateVPNUserReq) GetPassword() string {
+	return s.Password
+}
+
+// SetUsername sets the value of Username.
+func (s *CreateVPNUserReq) SetUsername(val string) {
+	s.Username = val
+}
+
+// SetPassword sets the value of Password.
+func (s *CreateVPNUserReq) SetPassword(val string) {
+	s.Password = val
 }
 
 // An identity that created a resource.
@@ -9983,6 +10026,8 @@ func (s *EmployeeLoginType) UnmarshalText(data []byte) error {
 // Ref: #/components/schemas/Environment
 type Environment struct {
 	ID ID `json:"id"`
+	// A human readable slugged identifier for this environment.
+	Identifier Identifier `json:"identifier"`
 	// A user defined name for the environment resource.
 	Name string `json:"name"`
 	// The cluster this environment is associated with.
@@ -10002,6 +10047,11 @@ type Environment struct {
 // GetID returns the value of ID.
 func (s *Environment) GetID() ID {
 	return s.ID
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *Environment) GetIdentifier() Identifier {
+	return s.Identifier
 }
 
 // GetName returns the value of Name.
@@ -10062,6 +10112,11 @@ func (s *Environment) GetMeta() OptEnvironmentMeta {
 // SetID sets the value of ID.
 func (s *Environment) SetID(val ID) {
 	s.ID = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *Environment) SetIdentifier(val Identifier) {
+	s.Identifier = val
 }
 
 // SetName sets the value of Name.
@@ -15031,6 +15086,81 @@ func (s *GetHubUsageOK) SetData(val []HubUsageDatum) {
 	s.Data = val
 }
 
+type GetHubsFilter map[string]GetHubsFilterItem
+
+func (s *GetHubsFilter) init() GetHubsFilter {
+	m := *s
+	if m == nil {
+		m = map[string]GetHubsFilterItem{}
+		*s = m
+	}
+	return m
+}
+
+// GetHubsFilterItem represents sum type.
+type GetHubsFilterItem struct {
+	Type        GetHubsFilterItemType // switch on this field
+	String      string
+	StringArray []string
+}
+
+// GetHubsFilterItemType is oneOf type of GetHubsFilterItem.
+type GetHubsFilterItemType string
+
+// Possible values for GetHubsFilterItemType.
+const (
+	StringGetHubsFilterItem      GetHubsFilterItemType = "string"
+	StringArrayGetHubsFilterItem GetHubsFilterItemType = "[]string"
+)
+
+// IsString reports whether GetHubsFilterItem is string.
+func (s GetHubsFilterItem) IsString() bool { return s.Type == StringGetHubsFilterItem }
+
+// IsStringArray reports whether GetHubsFilterItem is []string.
+func (s GetHubsFilterItem) IsStringArray() bool { return s.Type == StringArrayGetHubsFilterItem }
+
+// SetString sets GetHubsFilterItem to string.
+func (s *GetHubsFilterItem) SetString(v string) {
+	s.Type = StringGetHubsFilterItem
+	s.String = v
+}
+
+// GetString returns string and true boolean if GetHubsFilterItem is string.
+func (s GetHubsFilterItem) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringGetHubsFilterItem returns new GetHubsFilterItem from string.
+func NewStringGetHubsFilterItem(v string) GetHubsFilterItem {
+	var s GetHubsFilterItem
+	s.SetString(v)
+	return s
+}
+
+// SetStringArray sets GetHubsFilterItem to []string.
+func (s *GetHubsFilterItem) SetStringArray(v []string) {
+	s.Type = StringArrayGetHubsFilterItem
+	s.StringArray = v
+}
+
+// GetStringArray returns []string and true boolean if GetHubsFilterItem is []string.
+func (s GetHubsFilterItem) GetStringArray() (v []string, ok bool) {
+	if !s.IsStringArray() {
+		return v, false
+	}
+	return s.StringArray, true
+}
+
+// NewStringArrayGetHubsFilterItem returns new GetHubsFilterItem from []string.
+func NewStringArrayGetHubsFilterItem(v []string) GetHubsFilterItem {
+	var s GetHubsFilterItem
+	s.SetStringArray(v)
+	return s
+}
+
 type GetHubsOK struct {
 	Data []Hub `json:"data"`
 }
@@ -18133,6 +18263,47 @@ func (s *GetVPNUsersOK) SetData(val []VPNUsers) {
 	s.Data = val
 }
 
+type GetVpnLoginsOK struct {
+	Data []VPNLogin `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *GetVpnLoginsOK) GetData() []VPNLogin {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *GetVpnLoginsOK) SetData(val []VPNLogin) {
+	s.Data = val
+}
+
+type GetVpnLoginsPage struct {
+	// The page to jump to.
+	Number OptFloat64 `json:"number"`
+	// The number of resources returned per page.
+	Size OptFloat64 `json:"size"`
+}
+
+// GetNumber returns the value of Number.
+func (s *GetVpnLoginsPage) GetNumber() OptFloat64 {
+	return s.Number
+}
+
+// GetSize returns the value of Size.
+func (s *GetVpnLoginsPage) GetSize() OptFloat64 {
+	return s.Size
+}
+
+// SetNumber sets the value of Number.
+func (s *GetVpnLoginsPage) SetNumber(val OptFloat64) {
+	s.Number = val
+}
+
+// SetSize sets the value of Size.
+func (s *GetVpnLoginsPage) SetSize(val OptFloat64) {
+	s.Size = val
+}
+
 type GetZonesCollectionFilter map[string]GetZonesCollectionFilterItem
 
 func (s *GetZonesCollectionFilter) init() GetZonesCollectionFilter {
@@ -18322,7 +18493,7 @@ func (s *HAProxyConfig) SetBackend(val NilHAProxyConfigBackend) {
 // Settings related to how the load balancer routes connections to container instances.
 type HAProxyConfigBackend struct {
 	// How connections are balanced across your container instances. Can be one of the following:
-	// - `round-robin`: Each container instance is used in turns.
+	// - `roundrobin`: Each container instance is used in turns.
 	// - `static-rr`: Each container instance is used in turns, but is faster than Round Robin at the
 	// expense of being less dynamic.
 	// - `leastconn`: Routes traffic to the instance with the least number of active connections.
@@ -18356,7 +18527,7 @@ func (s *HAProxyConfigBackend) SetTimeouts(val NilHAProxyConfigBackendTimeouts) 
 }
 
 // How connections are balanced across your container instances. Can be one of the following:
-// - `round-robin`: Each container instance is used in turns.
+// - `roundrobin`: Each container instance is used in turns.
 // - `static-rr`: Each container instance is used in turns, but is faster than Round Robin at the
 // expense of being less dynamic.
 // - `leastconn`: Routes traffic to the instance with the least number of active connections.
@@ -18366,7 +18537,7 @@ func (s *HAProxyConfigBackend) SetTimeouts(val NilHAProxyConfigBackendTimeouts) 
 type HAProxyConfigBackendBalance string
 
 const (
-	HAProxyConfigBackendBalanceRoundRobin HAProxyConfigBackendBalance = "round-robin"
+	HAProxyConfigBackendBalanceRoundrobin HAProxyConfigBackendBalance = "roundrobin"
 	HAProxyConfigBackendBalanceStaticRr   HAProxyConfigBackendBalance = "static-rr"
 	HAProxyConfigBackendBalanceLeastconn  HAProxyConfigBackendBalance = "leastconn"
 	HAProxyConfigBackendBalanceFirst      HAProxyConfigBackendBalance = "first"
@@ -18376,7 +18547,7 @@ const (
 // MarshalText implements encoding.TextMarshaler.
 func (s HAProxyConfigBackendBalance) MarshalText() ([]byte, error) {
 	switch s {
-	case HAProxyConfigBackendBalanceRoundRobin:
+	case HAProxyConfigBackendBalanceRoundrobin:
 		return []byte(s), nil
 	case HAProxyConfigBackendBalanceStaticRr:
 		return []byte(s), nil
@@ -18394,8 +18565,8 @@ func (s HAProxyConfigBackendBalance) MarshalText() ([]byte, error) {
 // UnmarshalText implements encoding.TextUnmarshaler.
 func (s *HAProxyConfigBackendBalance) UnmarshalText(data []byte) error {
 	switch HAProxyConfigBackendBalance(data) {
-	case HAProxyConfigBackendBalanceRoundRobin:
-		*s = HAProxyConfigBackendBalanceRoundRobin
+	case HAProxyConfigBackendBalanceRoundrobin:
+		*s = HAProxyConfigBackendBalanceRoundrobin
 		return nil
 	case HAProxyConfigBackendBalanceStaticRr:
 		*s = HAProxyConfigBackendBalanceStaticRr
@@ -18634,6 +18805,8 @@ func (s *HAProxyConfigFrontendTimeouts) SetHTTPRequestMs(val NilInt) {
 // Ref: #/components/schemas/Hub
 type Hub struct {
 	ID ID `json:"id"`
+	// A human readable slugged identifier for this hub.
+	Identifier Identifier `json:"identifier"`
 	// A name for the hub.
 	Name    string       `json:"name"`
 	Creator CreatorScope `json:"creator"`
@@ -18650,6 +18823,11 @@ type Hub struct {
 // GetID returns the value of ID.
 func (s *Hub) GetID() ID {
 	return s.ID
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *Hub) GetIdentifier() Identifier {
+	return s.Identifier
 }
 
 // GetName returns the value of Name.
@@ -18695,6 +18873,11 @@ func (s *Hub) GetMeta() OptHubMeta {
 // SetID sets the value of ID.
 func (s *Hub) SetID(val ID) {
 	s.ID = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *Hub) SetIdentifier(val Identifier) {
+	s.Identifier = val
 }
 
 // SetName sets the value of Name.
@@ -20175,6 +20358,8 @@ func (s *IPNet) SetIP(val string) {
 func (s *IPNet) SetCidr(val string) {
 	s.Cidr = val
 }
+
+type Identifier string
 
 // A summary of the image this container was created from.
 // Ref: #/components/schemas/ImageSummary
@@ -33059,6 +33244,52 @@ func (o OptGetHubUsageFilter) Or(d GetHubUsageFilter) GetHubUsageFilter {
 	return d
 }
 
+// NewOptGetHubsFilter returns new OptGetHubsFilter with value set to v.
+func NewOptGetHubsFilter(v GetHubsFilter) OptGetHubsFilter {
+	return OptGetHubsFilter{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetHubsFilter is optional GetHubsFilter.
+type OptGetHubsFilter struct {
+	Value GetHubsFilter
+	Set   bool
+}
+
+// IsSet returns true if OptGetHubsFilter was set.
+func (o OptGetHubsFilter) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetHubsFilter) Reset() {
+	var v GetHubsFilter
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetHubsFilter) SetTo(v GetHubsFilter) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetHubsFilter) Get() (v GetHubsFilter, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetHubsFilter) Or(d GetHubsFilter) GetHubsFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptGetInfrastructureIPPoolsPage returns new OptGetInfrastructureIPPoolsPage with value set to v.
 func NewOptGetInfrastructureIPPoolsPage(v GetInfrastructureIPPoolsPage) OptGetInfrastructureIPPoolsPage {
 	return OptGetInfrastructureIPPoolsPage{
@@ -34577,6 +34808,52 @@ func (o OptGetUsableServersPage) Or(d GetUsableServersPage) GetUsableServersPage
 	return d
 }
 
+// NewOptGetVpnLoginsPage returns new OptGetVpnLoginsPage with value set to v.
+func NewOptGetVpnLoginsPage(v GetVpnLoginsPage) OptGetVpnLoginsPage {
+	return OptGetVpnLoginsPage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetVpnLoginsPage is optional GetVpnLoginsPage.
+type OptGetVpnLoginsPage struct {
+	Value GetVpnLoginsPage
+	Set   bool
+}
+
+// IsSet returns true if OptGetVpnLoginsPage was set.
+func (o OptGetVpnLoginsPage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetVpnLoginsPage) Reset() {
+	var v GetVpnLoginsPage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetVpnLoginsPage) SetTo(v GetVpnLoginsPage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetVpnLoginsPage) Get() (v GetVpnLoginsPage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetVpnLoginsPage) Or(d GetVpnLoginsPage) GetVpnLoginsPage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptGetZonesCollectionFilter returns new OptGetZonesCollectionFilter with value set to v.
 func NewOptGetZonesCollectionFilter(v GetZonesCollectionFilter) OptGetZonesCollectionFilter {
 	return OptGetZonesCollectionFilter{
@@ -35537,6 +35814,52 @@ func (o OptID) Get() (v ID, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptID) Or(d ID) ID {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptIdentifier returns new OptIdentifier with value set to v.
+func NewOptIdentifier(v Identifier) OptIdentifier {
+	return OptIdentifier{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptIdentifier is optional Identifier.
+type OptIdentifier struct {
+	Value Identifier
+	Set   bool
+}
+
+// IsSet returns true if OptIdentifier was set.
+func (o OptIdentifier) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptIdentifier) Reset() {
+	var v Identifier
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptIdentifier) SetTo(v Identifier) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptIdentifier) Get() (v Identifier, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptIdentifier) Or(d Identifier) Identifier {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -52572,6 +52895,82 @@ func (s *VPNInfoReturn) SetURL(val string) {
 // SetService sets the value of Service.
 func (s *VPNInfoReturn) SetService(val NilVpnEnvironmentService) {
 	s.Service = val
+}
+
+// A VPN login event record.
+// Ref: #/components/schemas/VPNLogin
+type VPNLogin struct {
+	ID ID `json:"id"`
+	// The username used when logging in.
+	Username string `json:"username"`
+	// The ID of the environment the VPN service is in.
+	EnvironmentID string `json:"environment_id"`
+	// The IP address of the machine the user has logged in from.
+	IP string `json:"ip"`
+	// The timestamp for when the login occured.
+	Time DateTime `json:"time"`
+	// A boolean where true means the login attempt was successful.
+	Success bool `json:"success"`
+}
+
+// GetID returns the value of ID.
+func (s *VPNLogin) GetID() ID {
+	return s.ID
+}
+
+// GetUsername returns the value of Username.
+func (s *VPNLogin) GetUsername() string {
+	return s.Username
+}
+
+// GetEnvironmentID returns the value of EnvironmentID.
+func (s *VPNLogin) GetEnvironmentID() string {
+	return s.EnvironmentID
+}
+
+// GetIP returns the value of IP.
+func (s *VPNLogin) GetIP() string {
+	return s.IP
+}
+
+// GetTime returns the value of Time.
+func (s *VPNLogin) GetTime() DateTime {
+	return s.Time
+}
+
+// GetSuccess returns the value of Success.
+func (s *VPNLogin) GetSuccess() bool {
+	return s.Success
+}
+
+// SetID sets the value of ID.
+func (s *VPNLogin) SetID(val ID) {
+	s.ID = val
+}
+
+// SetUsername sets the value of Username.
+func (s *VPNLogin) SetUsername(val string) {
+	s.Username = val
+}
+
+// SetEnvironmentID sets the value of EnvironmentID.
+func (s *VPNLogin) SetEnvironmentID(val string) {
+	s.EnvironmentID = val
+}
+
+// SetIP sets the value of IP.
+func (s *VPNLogin) SetIP(val string) {
+	s.IP = val
+}
+
+// SetTime sets the value of Time.
+func (s *VPNLogin) SetTime(val DateTime) {
+	s.Time = val
+}
+
+// SetSuccess sets the value of Success.
+func (s *VPNLogin) SetSuccess(val bool) {
+	s.Success = val
 }
 
 // A VPN user for a given VPN.
