@@ -1,4 +1,4 @@
-module cycle-go-client
+module github.com/cycleplatform/api-client-go
 
 go 1.19
 
