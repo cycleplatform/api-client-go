@@ -6169,6 +6169,208 @@ func (s *ContainerSummary) SetEnvironment(val ContainerEnvironmentSummary) {
 	s.Environment = val
 }
 
+// Configuration settings for container volumes.
+// Ref: #/components/schemas/ContainerVolume
+type ContainerVolume struct {
+	// A boolean where true marks the volume as read only.
+	ReadOnly bool `json:"read_only"`
+	// Configuration for settings local to the container filesystem.
+	Local OptContainerVolumeLocal `json:"local"`
+	// The mountpoint path for the container.
+	Destination string `json:"destination"`
+	// Configuration settings for remotely accessing the container volume.
+	RemoteAccess OptContainerVolumeRemoteAccess `json:"remote_access"`
+}
+
+// GetReadOnly returns the value of ReadOnly.
+func (s *ContainerVolume) GetReadOnly() bool {
+	return s.ReadOnly
+}
+
+// GetLocal returns the value of Local.
+func (s *ContainerVolume) GetLocal() OptContainerVolumeLocal {
+	return s.Local
+}
+
+// GetDestination returns the value of Destination.
+func (s *ContainerVolume) GetDestination() string {
+	return s.Destination
+}
+
+// GetRemoteAccess returns the value of RemoteAccess.
+func (s *ContainerVolume) GetRemoteAccess() OptContainerVolumeRemoteAccess {
+	return s.RemoteAccess
+}
+
+// SetReadOnly sets the value of ReadOnly.
+func (s *ContainerVolume) SetReadOnly(val bool) {
+	s.ReadOnly = val
+}
+
+// SetLocal sets the value of Local.
+func (s *ContainerVolume) SetLocal(val OptContainerVolumeLocal) {
+	s.Local = val
+}
+
+// SetDestination sets the value of Destination.
+func (s *ContainerVolume) SetDestination(val string) {
+	s.Destination = val
+}
+
+// SetRemoteAccess sets the value of RemoteAccess.
+func (s *ContainerVolume) SetRemoteAccess(val OptContainerVolumeRemoteAccess) {
+	s.RemoteAccess = val
+}
+
+// Configuration for settings local to the container filesystem.
+type ContainerVolumeLocal struct {
+	// The maximum size the volume can grow to. A number followed by a size. `10G` would be 10 gigabytes.
+	MaxSize string `json:"max_size"`
+	// A boolean where true signifies using the largest drive over 2TB for the target server.
+	StoragePool OptBool `json:"storage_pool"`
+}
+
+// GetMaxSize returns the value of MaxSize.
+func (s *ContainerVolumeLocal) GetMaxSize() string {
+	return s.MaxSize
+}
+
+// GetStoragePool returns the value of StoragePool.
+func (s *ContainerVolumeLocal) GetStoragePool() OptBool {
+	return s.StoragePool
+}
+
+// SetMaxSize sets the value of MaxSize.
+func (s *ContainerVolumeLocal) SetMaxSize(val string) {
+	s.MaxSize = val
+}
+
+// SetStoragePool sets the value of StoragePool.
+func (s *ContainerVolumeLocal) SetStoragePool(val OptBool) {
+	s.StoragePool = val
+}
+
+// Configuration settings for remotely accessing the container volume.
+type ContainerVolumeRemoteAccess struct {
+	// A boolean where true represents this container volume being open to remote access connections over
+	// SFTP.
+	Enable bool     `json:"enable"`
+	Ips    []string `json:"ips"`
+	// Call out to a webhook to authenticate usernames/passwords if an organization manages their own
+	// accounts.
+	WebHook OptString `json:"web_hook"`
+	// Password configuration settings for the remote access of the container volume.
+	Password NilContainerVolumeRemoteAccessPassword `json:"password"`
+}
+
+// GetEnable returns the value of Enable.
+func (s *ContainerVolumeRemoteAccess) GetEnable() bool {
+	return s.Enable
+}
+
+// GetIps returns the value of Ips.
+func (s *ContainerVolumeRemoteAccess) GetIps() []string {
+	return s.Ips
+}
+
+// GetWebHook returns the value of WebHook.
+func (s *ContainerVolumeRemoteAccess) GetWebHook() OptString {
+	return s.WebHook
+}
+
+// GetPassword returns the value of Password.
+func (s *ContainerVolumeRemoteAccess) GetPassword() NilContainerVolumeRemoteAccessPassword {
+	return s.Password
+}
+
+// SetEnable sets the value of Enable.
+func (s *ContainerVolumeRemoteAccess) SetEnable(val bool) {
+	s.Enable = val
+}
+
+// SetIps sets the value of Ips.
+func (s *ContainerVolumeRemoteAccess) SetIps(val []string) {
+	s.Ips = val
+}
+
+// SetWebHook sets the value of WebHook.
+func (s *ContainerVolumeRemoteAccess) SetWebHook(val OptString) {
+	s.WebHook = val
+}
+
+// SetPassword sets the value of Password.
+func (s *ContainerVolumeRemoteAccess) SetPassword(val NilContainerVolumeRemoteAccessPassword) {
+	s.Password = val
+}
+
+// Password configuration settings for the remote access of the container volume.
+type ContainerVolumeRemoteAccessPassword struct {
+	// The hashing algorithm used to has the password.
+	Algorithm ContainerVolumeRemoteAccessPasswordAlgorithm `json:"algorithm"`
+	// The raw or hashed password.
+	Data string `json:"data"`
+}
+
+// GetAlgorithm returns the value of Algorithm.
+func (s *ContainerVolumeRemoteAccessPassword) GetAlgorithm() ContainerVolumeRemoteAccessPasswordAlgorithm {
+	return s.Algorithm
+}
+
+// GetData returns the value of Data.
+func (s *ContainerVolumeRemoteAccessPassword) GetData() string {
+	return s.Data
+}
+
+// SetAlgorithm sets the value of Algorithm.
+func (s *ContainerVolumeRemoteAccessPassword) SetAlgorithm(val ContainerVolumeRemoteAccessPasswordAlgorithm) {
+	s.Algorithm = val
+}
+
+// SetData sets the value of Data.
+func (s *ContainerVolumeRemoteAccessPassword) SetData(val string) {
+	s.Data = val
+}
+
+// The hashing algorithm used to has the password.
+type ContainerVolumeRemoteAccessPasswordAlgorithm string
+
+const (
+	ContainerVolumeRemoteAccessPasswordAlgorithmRaw    ContainerVolumeRemoteAccessPasswordAlgorithm = "raw"
+	ContainerVolumeRemoteAccessPasswordAlgorithmSha512 ContainerVolumeRemoteAccessPasswordAlgorithm = "sha512"
+	ContainerVolumeRemoteAccessPasswordAlgorithmMD5    ContainerVolumeRemoteAccessPasswordAlgorithm = "md5"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerVolumeRemoteAccessPasswordAlgorithm) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerVolumeRemoteAccessPasswordAlgorithmRaw:
+		return []byte(s), nil
+	case ContainerVolumeRemoteAccessPasswordAlgorithmSha512:
+		return []byte(s), nil
+	case ContainerVolumeRemoteAccessPasswordAlgorithmMD5:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerVolumeRemoteAccessPasswordAlgorithm) UnmarshalText(data []byte) error {
+	switch ContainerVolumeRemoteAccessPasswordAlgorithm(data) {
+	case ContainerVolumeRemoteAccessPasswordAlgorithmRaw:
+		*s = ContainerVolumeRemoteAccessPasswordAlgorithmRaw
+		return nil
+	case ContainerVolumeRemoteAccessPasswordAlgorithmSha512:
+		*s = ContainerVolumeRemoteAccessPasswordAlgorithmSha512
+		return nil
+	case ContainerVolumeRemoteAccessPasswordAlgorithmMD5:
+		*s = ContainerVolumeRemoteAccessPasswordAlgorithmMD5
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // A resource thats associated with a contianer.
 // Ref: #/components/schemas/ContainersIncludes
 type ContainersIncludes map[string]Container
@@ -6701,9 +6903,9 @@ type CreateContainerReq struct {
 	// An identifier for the image used to create this container.
 	ImageID string `json:"image_id"`
 	// A boolean where true represents this container is stateful.
-	Stateful bool      `json:"stateful"`
-	Config   Config    `json:"config"`
-	Volumes  []Volumes `json:"volumes"`
+	Stateful bool              `json:"stateful"`
+	Config   Config            `json:"config"`
+	Volumes  []ContainerVolume `json:"volumes"`
 	// User defined meta data for the container.
 	Annotations OptCreateContainerReqAnnotations `json:"annotations"`
 }
@@ -6739,7 +6941,7 @@ func (s *CreateContainerReq) GetConfig() Config {
 }
 
 // GetVolumes returns the value of Volumes.
-func (s *CreateContainerReq) GetVolumes() []Volumes {
+func (s *CreateContainerReq) GetVolumes() []ContainerVolume {
 	return s.Volumes
 }
 
@@ -6779,7 +6981,7 @@ func (s *CreateContainerReq) SetConfig(val Config) {
 }
 
 // SetVolumes sets the value of Volumes.
-func (s *CreateContainerReq) SetVolumes(val []Volumes) {
+func (s *CreateContainerReq) SetVolumes(val []ContainerVolume) {
 	s.Volumes = val
 }
 
@@ -22174,10 +22376,10 @@ func (s *InstanceTelemetryReport) SetSnapshots(val []ResourceSnapshot) {
 // A container instance volume resource.
 // Ref: #/components/schemas/InstanceVolume
 type InstanceVolume struct {
-	ID       ID             `json:"id"`
-	Config   Volumes        `json:"config"`
-	Deployed DeployedVolume `json:"deployed"`
-	Sftp     SFTP           `json:"sftp"`
+	ID       ID              `json:"id"`
+	Config   ContainerVolume `json:"config"`
+	Deployed DeployedVolume  `json:"deployed"`
+	Sftp     SFTP            `json:"sftp"`
 }
 
 // GetID returns the value of ID.
@@ -22186,7 +22388,7 @@ func (s *InstanceVolume) GetID() ID {
 }
 
 // GetConfig returns the value of Config.
-func (s *InstanceVolume) GetConfig() Volumes {
+func (s *InstanceVolume) GetConfig() ContainerVolume {
 	return s.Config
 }
 
@@ -22206,7 +22408,7 @@ func (s *InstanceVolume) SetID(val ID) {
 }
 
 // SetConfig sets the value of Config.
-func (s *InstanceVolume) SetConfig(val Volumes) {
+func (s *InstanceVolume) SetConfig(val ContainerVolume) {
 	s.Config = val
 }
 
@@ -25240,6 +25442,51 @@ func (o NilContainerRuntimeSeccomp) Or(d ContainerRuntimeSeccomp) ContainerRunti
 	return d
 }
 
+// NewNilContainerVolumeRemoteAccessPassword returns new NilContainerVolumeRemoteAccessPassword with value set to v.
+func NewNilContainerVolumeRemoteAccessPassword(v ContainerVolumeRemoteAccessPassword) NilContainerVolumeRemoteAccessPassword {
+	return NilContainerVolumeRemoteAccessPassword{
+		Value: v,
+	}
+}
+
+// NilContainerVolumeRemoteAccessPassword is nullable ContainerVolumeRemoteAccessPassword.
+type NilContainerVolumeRemoteAccessPassword struct {
+	Value ContainerVolumeRemoteAccessPassword
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilContainerVolumeRemoteAccessPassword) SetTo(v ContainerVolumeRemoteAccessPassword) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilContainerVolumeRemoteAccessPassword) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilContainerVolumeRemoteAccessPassword) SetToNull() {
+	o.Null = true
+	var v ContainerVolumeRemoteAccessPassword
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilContainerVolumeRemoteAccessPassword) Get() (v ContainerVolumeRemoteAccessPassword, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilContainerVolumeRemoteAccessPassword) Or(d ContainerVolumeRemoteAccessPassword) ContainerVolumeRemoteAccessPassword {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewNilCreateEnvironmentReqStack returns new NilCreateEnvironmentReqStack with value set to v.
 func NewNilCreateEnvironmentReqStack(v CreateEnvironmentReqStack) NilCreateEnvironmentReqStack {
 	return NilCreateEnvironmentReqStack{
@@ -26404,51 +26651,6 @@ func (o NilTermRenew) Get() (v TermRenew, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o NilTermRenew) Or(d TermRenew) TermRenew {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewNilVolumesRemoteAccessPassword returns new NilVolumesRemoteAccessPassword with value set to v.
-func NewNilVolumesRemoteAccessPassword(v VolumesRemoteAccessPassword) NilVolumesRemoteAccessPassword {
-	return NilVolumesRemoteAccessPassword{
-		Value: v,
-	}
-}
-
-// NilVolumesRemoteAccessPassword is nullable VolumesRemoteAccessPassword.
-type NilVolumesRemoteAccessPassword struct {
-	Value VolumesRemoteAccessPassword
-	Null  bool
-}
-
-// SetTo sets value to v.
-func (o *NilVolumesRemoteAccessPassword) SetTo(v VolumesRemoteAccessPassword) {
-	o.Null = false
-	o.Value = v
-}
-
-// IsSet returns true if value is Null.
-func (o NilVolumesRemoteAccessPassword) IsNull() bool { return o.Null }
-
-// SetNull sets value to null.
-func (o *NilVolumesRemoteAccessPassword) SetToNull() {
-	o.Null = true
-	var v VolumesRemoteAccessPassword
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o NilVolumesRemoteAccessPassword) Get() (v VolumesRemoteAccessPassword, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o NilVolumesRemoteAccessPassword) Or(d VolumesRemoteAccessPassword) VolumesRemoteAccessPassword {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -28730,6 +28932,98 @@ func (o OptContainerSummary) Get() (v ContainerSummary, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptContainerSummary) Or(d ContainerSummary) ContainerSummary {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptContainerVolumeLocal returns new OptContainerVolumeLocal with value set to v.
+func NewOptContainerVolumeLocal(v ContainerVolumeLocal) OptContainerVolumeLocal {
+	return OptContainerVolumeLocal{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerVolumeLocal is optional ContainerVolumeLocal.
+type OptContainerVolumeLocal struct {
+	Value ContainerVolumeLocal
+	Set   bool
+}
+
+// IsSet returns true if OptContainerVolumeLocal was set.
+func (o OptContainerVolumeLocal) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerVolumeLocal) Reset() {
+	var v ContainerVolumeLocal
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerVolumeLocal) SetTo(v ContainerVolumeLocal) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerVolumeLocal) Get() (v ContainerVolumeLocal, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerVolumeLocal) Or(d ContainerVolumeLocal) ContainerVolumeLocal {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptContainerVolumeRemoteAccess returns new OptContainerVolumeRemoteAccess with value set to v.
+func NewOptContainerVolumeRemoteAccess(v ContainerVolumeRemoteAccess) OptContainerVolumeRemoteAccess {
+	return OptContainerVolumeRemoteAccess{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerVolumeRemoteAccess is optional ContainerVolumeRemoteAccess.
+type OptContainerVolumeRemoteAccess struct {
+	Value ContainerVolumeRemoteAccess
+	Set   bool
+}
+
+// IsSet returns true if OptContainerVolumeRemoteAccess was set.
+func (o OptContainerVolumeRemoteAccess) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerVolumeRemoteAccess) Reset() {
+	var v ContainerVolumeRemoteAccess
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerVolumeRemoteAccess) SetTo(v ContainerVolumeRemoteAccess) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerVolumeRemoteAccess) Get() (v ContainerVolumeRemoteAccess, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerVolumeRemoteAccess) Or(d ContainerVolumeRemoteAccess) ContainerVolumeRemoteAccess {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -42285,98 +42579,6 @@ func (o OptVPNUsers) Or(d VPNUsers) VPNUsers {
 	return d
 }
 
-// NewOptVolumesLocal returns new OptVolumesLocal with value set to v.
-func NewOptVolumesLocal(v VolumesLocal) OptVolumesLocal {
-	return OptVolumesLocal{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptVolumesLocal is optional VolumesLocal.
-type OptVolumesLocal struct {
-	Value VolumesLocal
-	Set   bool
-}
-
-// IsSet returns true if OptVolumesLocal was set.
-func (o OptVolumesLocal) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptVolumesLocal) Reset() {
-	var v VolumesLocal
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptVolumesLocal) SetTo(v VolumesLocal) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptVolumesLocal) Get() (v VolumesLocal, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptVolumesLocal) Or(d VolumesLocal) VolumesLocal {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptVolumesRemoteAccess returns new OptVolumesRemoteAccess with value set to v.
-func NewOptVolumesRemoteAccess(v VolumesRemoteAccess) OptVolumesRemoteAccess {
-	return OptVolumesRemoteAccess{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptVolumesRemoteAccess is optional VolumesRemoteAccess.
-type OptVolumesRemoteAccess struct {
-	Value VolumesRemoteAccess
-	Set   bool
-}
-
-// IsSet returns true if OptVolumesRemoteAccess was set.
-func (o OptVolumesRemoteAccess) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptVolumesRemoteAccess) Reset() {
-	var v VolumesRemoteAccess
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptVolumesRemoteAccess) SetTo(v VolumesRemoteAccess) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptVolumesRemoteAccess) Get() (v VolumesRemoteAccess, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptVolumesRemoteAccess) Or(d VolumesRemoteAccess) VolumesRemoteAccess {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptZone returns new OptZone with value set to v.
 func NewOptZone(v Zone) OptZone {
 	return OptZone{
@@ -53104,8 +53306,8 @@ func (s *VPNUsersEvents) SetDeleted(val DateTime) {
 type VolumeSummary struct {
 	ID ID `json:"id"`
 	// A unique hash for the given volume.
-	Hash   string  `json:"hash"`
-	Config Volumes `json:"config"`
+	Hash   string          `json:"hash"`
+	Config ContainerVolume `json:"config"`
 }
 
 // GetID returns the value of ID.
@@ -53119,7 +53321,7 @@ func (s *VolumeSummary) GetHash() string {
 }
 
 // GetConfig returns the value of Config.
-func (s *VolumeSummary) GetConfig() Volumes {
+func (s *VolumeSummary) GetConfig() ContainerVolume {
 	return s.Config
 }
 
@@ -53134,210 +53336,8 @@ func (s *VolumeSummary) SetHash(val string) {
 }
 
 // SetConfig sets the value of Config.
-func (s *VolumeSummary) SetConfig(val Volumes) {
+func (s *VolumeSummary) SetConfig(val ContainerVolume) {
 	s.Config = val
-}
-
-// Configuration settings for container volumes.
-// Ref: #/components/schemas/Volumes
-type Volumes struct {
-	// A boolean where true marks the volume as read only.
-	ReadOnly bool `json:"read_only"`
-	// Configuration for settings local to the container filesystem.
-	Local OptVolumesLocal `json:"local"`
-	// The mountpoint path for the container.
-	Destination string `json:"destination"`
-	// Configuration settings for remotely accessing the container volume.
-	RemoteAccess OptVolumesRemoteAccess `json:"remote_access"`
-}
-
-// GetReadOnly returns the value of ReadOnly.
-func (s *Volumes) GetReadOnly() bool {
-	return s.ReadOnly
-}
-
-// GetLocal returns the value of Local.
-func (s *Volumes) GetLocal() OptVolumesLocal {
-	return s.Local
-}
-
-// GetDestination returns the value of Destination.
-func (s *Volumes) GetDestination() string {
-	return s.Destination
-}
-
-// GetRemoteAccess returns the value of RemoteAccess.
-func (s *Volumes) GetRemoteAccess() OptVolumesRemoteAccess {
-	return s.RemoteAccess
-}
-
-// SetReadOnly sets the value of ReadOnly.
-func (s *Volumes) SetReadOnly(val bool) {
-	s.ReadOnly = val
-}
-
-// SetLocal sets the value of Local.
-func (s *Volumes) SetLocal(val OptVolumesLocal) {
-	s.Local = val
-}
-
-// SetDestination sets the value of Destination.
-func (s *Volumes) SetDestination(val string) {
-	s.Destination = val
-}
-
-// SetRemoteAccess sets the value of RemoteAccess.
-func (s *Volumes) SetRemoteAccess(val OptVolumesRemoteAccess) {
-	s.RemoteAccess = val
-}
-
-// Configuration for settings local to the container filesystem.
-type VolumesLocal struct {
-	// The maximum size the volume can grow to. A number followed by a size. `10G` would be 10 gigabytes.
-	MaxSize string `json:"max_size"`
-	// A boolean where true signifies using the largest drive over 2TB for the target server.
-	StoragePool OptBool `json:"storage_pool"`
-}
-
-// GetMaxSize returns the value of MaxSize.
-func (s *VolumesLocal) GetMaxSize() string {
-	return s.MaxSize
-}
-
-// GetStoragePool returns the value of StoragePool.
-func (s *VolumesLocal) GetStoragePool() OptBool {
-	return s.StoragePool
-}
-
-// SetMaxSize sets the value of MaxSize.
-func (s *VolumesLocal) SetMaxSize(val string) {
-	s.MaxSize = val
-}
-
-// SetStoragePool sets the value of StoragePool.
-func (s *VolumesLocal) SetStoragePool(val OptBool) {
-	s.StoragePool = val
-}
-
-// Configuration settings for remotely accessing the container volume.
-type VolumesRemoteAccess struct {
-	// A boolean where true represents this container volume being open to remote access connections over
-	// SFTP.
-	Enable bool     `json:"enable"`
-	Ips    []string `json:"ips"`
-	// Call out to a webhook to authenticate usernames/passwords if an organization manages their own
-	// accounts.
-	WebHook OptString `json:"web_hook"`
-	// Password configuration settings for the remote access of the container volume.
-	Password NilVolumesRemoteAccessPassword `json:"password"`
-}
-
-// GetEnable returns the value of Enable.
-func (s *VolumesRemoteAccess) GetEnable() bool {
-	return s.Enable
-}
-
-// GetIps returns the value of Ips.
-func (s *VolumesRemoteAccess) GetIps() []string {
-	return s.Ips
-}
-
-// GetWebHook returns the value of WebHook.
-func (s *VolumesRemoteAccess) GetWebHook() OptString {
-	return s.WebHook
-}
-
-// GetPassword returns the value of Password.
-func (s *VolumesRemoteAccess) GetPassword() NilVolumesRemoteAccessPassword {
-	return s.Password
-}
-
-// SetEnable sets the value of Enable.
-func (s *VolumesRemoteAccess) SetEnable(val bool) {
-	s.Enable = val
-}
-
-// SetIps sets the value of Ips.
-func (s *VolumesRemoteAccess) SetIps(val []string) {
-	s.Ips = val
-}
-
-// SetWebHook sets the value of WebHook.
-func (s *VolumesRemoteAccess) SetWebHook(val OptString) {
-	s.WebHook = val
-}
-
-// SetPassword sets the value of Password.
-func (s *VolumesRemoteAccess) SetPassword(val NilVolumesRemoteAccessPassword) {
-	s.Password = val
-}
-
-// Password configuration settings for the remote access of the container volume.
-type VolumesRemoteAccessPassword struct {
-	// The hashing algorithm used to has the password.
-	Algorithm VolumesRemoteAccessPasswordAlgorithm `json:"algorithm"`
-	// The raw or hashed password.
-	Data string `json:"data"`
-}
-
-// GetAlgorithm returns the value of Algorithm.
-func (s *VolumesRemoteAccessPassword) GetAlgorithm() VolumesRemoteAccessPasswordAlgorithm {
-	return s.Algorithm
-}
-
-// GetData returns the value of Data.
-func (s *VolumesRemoteAccessPassword) GetData() string {
-	return s.Data
-}
-
-// SetAlgorithm sets the value of Algorithm.
-func (s *VolumesRemoteAccessPassword) SetAlgorithm(val VolumesRemoteAccessPasswordAlgorithm) {
-	s.Algorithm = val
-}
-
-// SetData sets the value of Data.
-func (s *VolumesRemoteAccessPassword) SetData(val string) {
-	s.Data = val
-}
-
-// The hashing algorithm used to has the password.
-type VolumesRemoteAccessPasswordAlgorithm string
-
-const (
-	VolumesRemoteAccessPasswordAlgorithmRaw    VolumesRemoteAccessPasswordAlgorithm = "raw"
-	VolumesRemoteAccessPasswordAlgorithmSha512 VolumesRemoteAccessPasswordAlgorithm = "sha512"
-	VolumesRemoteAccessPasswordAlgorithmMD5    VolumesRemoteAccessPasswordAlgorithm = "md5"
-)
-
-// MarshalText implements encoding.TextMarshaler.
-func (s VolumesRemoteAccessPasswordAlgorithm) MarshalText() ([]byte, error) {
-	switch s {
-	case VolumesRemoteAccessPasswordAlgorithmRaw:
-		return []byte(s), nil
-	case VolumesRemoteAccessPasswordAlgorithmSha512:
-		return []byte(s), nil
-	case VolumesRemoteAccessPasswordAlgorithmMD5:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *VolumesRemoteAccessPasswordAlgorithm) UnmarshalText(data []byte) error {
-	switch VolumesRemoteAccessPasswordAlgorithm(data) {
-	case VolumesRemoteAccessPasswordAlgorithmRaw:
-		*s = VolumesRemoteAccessPasswordAlgorithmRaw
-		return nil
-	case VolumesRemoteAccessPasswordAlgorithmSha512:
-		*s = VolumesRemoteAccessPasswordAlgorithmSha512
-		return nil
-	case VolumesRemoteAccessPasswordAlgorithmMD5:
-		*s = VolumesRemoteAccessPasswordAlgorithmMD5
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
 }
 
 // Information about the environments vpn service(s).

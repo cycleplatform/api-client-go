@@ -1975,6 +1975,79 @@ func (s *ContainerSummary) Validate() error {
 	}
 	return nil
 }
+func (s *ContainerVolume) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.RemoteAccess.Set {
+			if err := func() error {
+				if err := s.RemoteAccess.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "remote_access",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ContainerVolumeRemoteAccess) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Password.Value.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "password",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ContainerVolumeRemoteAccessPassword) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Algorithm.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "algorithm",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ContainerVolumeRemoteAccessPasswordAlgorithm) Validate() error {
+	switch s {
+	case "raw":
+		return nil
+	case "sha512":
+		return nil
+	case "md5":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
 func (s ContainersIncludes) Validate() error {
 	var failures []validate.FieldError
 	for key, elem := range s {
@@ -15665,79 +15738,6 @@ func (s *VolumeSummary) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
-}
-func (s *Volumes) Validate() error {
-	var failures []validate.FieldError
-	if err := func() error {
-		if s.RemoteAccess.Set {
-			if err := func() error {
-				if err := s.RemoteAccess.Value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "remote_access",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s *VolumesRemoteAccess) Validate() error {
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Password.Value.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "password",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s *VolumesRemoteAccessPassword) Validate() error {
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Algorithm.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "algorithm",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s VolumesRemoteAccessPasswordAlgorithm) Validate() error {
-	switch s {
-	case "raw":
-		return nil
-	case "sha512":
-		return nil
-	case "md5":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
 }
 func (s *Zone) Validate() error {
 	var failures []validate.FieldError
