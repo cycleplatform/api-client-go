@@ -64,6 +64,414 @@ func (s AccountStateCurrent) Validate() error {
 		return errors.Errorf("invalid value: %v", s)
 	}
 }
+func (s *Activity) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.User.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "user",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Changes == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "changes",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Status.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "status",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Event.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "event",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ActivityEvent) Validate() error {
+	switch s {
+	case "hub.task.delete":
+		return nil
+	case "hub.update":
+		return nil
+	case "hub.create":
+		return nil
+	case "hub.images.prune":
+		return nil
+	case "hub.task.images.prune":
+		return nil
+	case "environment.initialize":
+		return nil
+	case "environment.start":
+		return nil
+	case "environment.stop":
+		return nil
+	case "environment.task.start":
+		return nil
+	case "environment.task.stop":
+		return nil
+	case "environment.task.initialize":
+		return nil
+	case "environment.delete":
+		return nil
+	case "environment.task.delete":
+		return nil
+	case "environment.update":
+		return nil
+	case "environment.create":
+		return nil
+	case "environment.services.discovery.task.reconfigure":
+		return nil
+	case "environment.services.lb.task.reconfigure":
+		return nil
+	case "environment.services.vpn.task.reconfigure":
+		return nil
+	case "image.import":
+		return nil
+	case "image.task.import":
+		return nil
+	case "image.update":
+		return nil
+	case "image.create":
+		return nil
+	case "image.delete":
+		return nil
+	case "image.task.delete":
+		return nil
+	case "image.source.create":
+		return nil
+	case "image.source.update":
+		return nil
+	case "image.source.task.delete":
+		return nil
+	case "container.create":
+		return nil
+	case "container.update":
+		return nil
+	case "container.initialize":
+		return nil
+	case "container.start":
+		return nil
+	case "container.task.start":
+		return nil
+	case "container.stop":
+		return nil
+	case "container.task.stop":
+		return nil
+	case "container.reconfigure":
+		return nil
+	case "container.task.reconfigure":
+		return nil
+	case "container.reconfigure.volumes":
+		return nil
+	case "container.task.reconfigure.volumes":
+		return nil
+	case "container.reimage":
+		return nil
+	case "container.task.reimage":
+		return nil
+	case "container.scale":
+		return nil
+	case "container.task.scale":
+		return nil
+	case "container.delete":
+		return nil
+	case "container.task.delete":
+		return nil
+	case "container.instance.error":
+		return nil
+	case "container.instance.sftp.login":
+		return nil
+	case "container.instance.migration.start":
+		return nil
+	case "container.instance.migration.revert":
+		return nil
+	case "container.instance.delete":
+		return nil
+	case "container.instances.delete":
+		return nil
+	case "container.instances.create":
+		return nil
+	case "container.instance.healthcheck.restarted":
+		return nil
+	case "container.backup.create":
+		return nil
+	case "container.backup.restore":
+		return nil
+	case "container.backup.task.restore":
+		return nil
+	case "container.backup.delete":
+		return nil
+	case "container.backup.task.delete":
+		return nil
+	case "dns.zone.task.verify":
+		return nil
+	case "dns.zone.task.delete":
+		return nil
+	case "dns.zone.update":
+		return nil
+	case "dns.zone.create":
+		return nil
+	case "dns.zone.verify":
+		return nil
+	case "dns.zone.delete":
+		return nil
+	case "dns.zone.record.cert.generate.auto":
+		return nil
+	case "dns.zone.record.cert.generate":
+		return nil
+	case "dns.zone.record.delete":
+		return nil
+	case "dns.zone.record.update":
+		return nil
+	case "dns.zone.record.create":
+		return nil
+	case "dns.zone.record.task.delete":
+		return nil
+	case "dns.zone.record.task.cert.generate":
+		return nil
+	case "stack.task.delete":
+		return nil
+	case "stack.update":
+		return nil
+	case "stack.create":
+		return nil
+	case "stack.task.prune":
+		return nil
+	case "stack.build.create":
+		return nil
+	case "stack.build.generate":
+		return nil
+	case "stack.build.deploy":
+		return nil
+	case "stack.build.delete":
+		return nil
+	case "stack.build.task.generate":
+		return nil
+	case "stack.build.task.delete":
+		return nil
+	case "infrastructure.server.task.delete":
+		return nil
+	case "infrastructure.server.task.restart":
+		return nil
+	case "infrastructure.server.task.provision":
+		return nil
+	case "infrastructure.server.update":
+		return nil
+	case "infrastructure.server.delete":
+		return nil
+	case "infrastructure.server.restart":
+		return nil
+	case "infrastructure.server.compute.restart":
+		return nil
+	case "infrastructure.server.provision":
+		return nil
+	case "infrastructure.server.live":
+		return nil
+	case "infrastructure.server.services.sftp.lockdown.auto":
+		return nil
+	case "infrastructure.server.reconfigure.features":
+		return nil
+	case "infrastructure.server.task.reconfigure.features":
+		return nil
+	case "infrastructure.provider.create":
+		return nil
+	case "infrastructure.provider.update":
+		return nil
+	case "infrastructure.provider.delete":
+		return nil
+	case "sdn.network.task.delete":
+		return nil
+	case "sdn.network.update":
+		return nil
+	case "sdn.network.create":
+		return nil
+	case "sdn.network.task.reconfigure":
+		return nil
+	case "infrastructure.ips.pool.task.delete":
+		return nil
+	case "billing.order.task.confirm":
+		return nil
+	case "billing.order.confirm":
+		return nil
+	case "billing.invoice.task.void":
+		return nil
+	case "billing.invoice.task.credit":
+		return nil
+	case "billing.invoice.task.refund":
+		return nil
+	case "billing.invoice.task.pay":
+		return nil
+	case "billing.invoice.pay":
+		return nil
+	case "billing.method.update":
+		return nil
+	case "billing.method.create":
+		return nil
+	case "billing.method.delete":
+		return nil
+	case "billing.method.task.delete":
+		return nil
+	case "hub.apikey.create":
+		return nil
+	case "hub.apikey.update":
+		return nil
+	case "hub.apikey.delete":
+		return nil
+	case "hub.membership.create":
+		return nil
+	case "hub.membership.delete":
+		return nil
+	case "pipeline.update":
+		return nil
+	case "pipeline.task.delete":
+		return nil
+	case "pipeline.delete":
+		return nil
+	case "pipeline.create":
+		return nil
+	case "pipeline.task.trigger":
+		return nil
+	case "pipeline.trigger":
+		return nil
+	case "pipeline.key.update":
+		return nil
+	case "pipeline.key.delete":
+		return nil
+	case "pipeline.key.create":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *ActivityIncludes) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Users.Set {
+			if err := func() error {
+				if err := s.Users.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "users",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Components.Set {
+			if err := func() error {
+				if err := s.Components.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "components",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ActivityStatus) Validate() error {
+	switch s {
+	case "info":
+		return nil
+	case "warning":
+		return nil
+	case "request":
+		return nil
+	case "success":
+		return nil
+	case "error":
+		return nil
+	case "alert":
+		return nil
+	case "recovery":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *ActivityUser) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ActivityUserType) Validate() error {
+	switch s {
+	case "account":
+		return nil
+	case "environment":
+		return nil
+	case "platform":
+		return nil
+	case "platform-pipeline":
+		return nil
+	case "employee":
+		return nil
+	case "api-key":
+		return nil
+	case "visitor":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
 func (s *Announcement) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -1212,6 +1620,141 @@ func (s Capability) Validate() error {
 		return errors.Errorf("invalid value: %v", s)
 	}
 }
+func (s *ClusterVersionServerCount) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Agent.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "agent",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.AgentMinusSpawner.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "agent-spawner",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Compute.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "compute",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.ComputeMinusSpawner.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "compute-spawner",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ClusterVersionServerCountAgent) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := (validate.Float{}).Validate(float64(elem)); err != nil {
+				return errors.Wrap(err, "float")
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ClusterVersionServerCountAgentMinusSpawner) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := (validate.Float{}).Validate(float64(elem)); err != nil {
+				return errors.Wrap(err, "float")
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ClusterVersionServerCountCompute) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := (validate.Float{}).Validate(float64(elem)); err != nil {
+				return errors.Wrap(err, "float")
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ClusterVersionServerCountComputeMinusSpawner) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := (validate.Float{}).Validate(float64(elem)); err != nil {
+				return errors.Wrap(err, "float")
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
 func (s *Component) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -1230,6 +1773,114 @@ func (s *Component) Validate() error {
 	}
 	return nil
 }
+func (s ComponentsIncludes) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ComponentsIncludesItem) Validate() error {
+	switch s.Type {
+	case ContainerComponentsIncludesItem:
+		if err := s.Container.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case InstanceComponentsIncludesItem:
+		if err := s.Instance.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case EnvironmentComponentsIncludesItem:
+		if err := s.Environment.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ImageComponentsIncludesItem:
+		if err := s.Image.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case InfraServerComponentsIncludesItem:
+		if err := s.InfraServer.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case PoolComponentsIncludesItem:
+		if err := s.Pool.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case StackComponentsIncludesItem:
+		if err := s.Stack.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case StackBuildComponentsIncludesItem:
+		if err := s.StackBuild.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ZoneComponentsIncludesItem:
+		if err := s.Zone.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case RecordComponentsIncludesItem:
+		if err := s.Record.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ApiKeyComponentsIncludesItem:
+		if err := s.ApiKey.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ProviderComponentsIncludesItem:
+		if err := s.Provider.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case SDNNetworkComponentsIncludesItem:
+		if err := s.SDNNetwork.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case HubMembershipComponentsIncludesItem:
+		if err := s.HubMembership.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case PipelineComponentsIncludesItem:
+		if err := s.Pipeline.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case TriggerKeyComponentsIncludesItem:
+		if err := s.TriggerKey.Validate(); err != nil {
+			return err
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
 func (s *Config) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -1407,6 +2058,86 @@ func (s *Container) Validate() error {
 	}
 	return nil
 }
+func (s *ContainerCreateStep) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Details.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "details",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ContainerCreateStepAction) Validate() error {
+	switch s {
+	case "container.create":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *ContainerCreateStepDetails) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Config.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "config",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Volumes == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Volumes {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "volumes",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ContainerDeleteStepAction) Validate() error {
+	switch s {
+	case "container.delete":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
 func (s *ContainerDeploy) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -1581,6 +2312,103 @@ func (s ContainerImageSummaryService) Validate() error {
 		return errors.Errorf("invalid value: %v", s)
 	}
 }
+func (s *ContainerIncludes) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Creators.Set {
+			if err := func() error {
+				if err := s.Creators.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "creators",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Images.Set {
+			if err := func() error {
+				if err := s.Images.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "images",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.StackBuilds.Set {
+			if err := func() error {
+				if err := s.StackBuilds.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "stack_builds",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Stacks.Set {
+			if err := func() error {
+				if err := s.Stacks.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "stacks",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Environments.Set {
+			if err := func() error {
+				if err := s.Environments.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "environments",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
 func (s *ContainerIntegrations) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -1657,6 +2485,22 @@ func (s ContainerNetworkPublic) Validate() error {
 	case "egress-only":
 		return nil
 	case "disable":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s ContainerReimageStepAction) Validate() error {
+	switch s {
+	case "container.reimage":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s ContainerRestartStepAction) Validate() error {
+	switch s {
+	case "container.restart":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -1870,6 +2714,22 @@ func (s *ContainerRuntimeSeccomp) Validate() error {
 	}
 	return nil
 }
+func (s ContainerStartActionAction) Validate() error {
+	switch s {
+	case "start":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s ContainerStartStepAction) Validate() error {
+	switch s {
+	case "container.start":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
 func (s *ContainerState) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -1941,6 +2801,22 @@ func (s ContainerStateDesired) Validate() error {
 	case "deleting":
 		return nil
 	case "deleted":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s ContainerStopActionAction) Validate() error {
+	switch s {
+	case "stop":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s ContainerStopStepAction) Validate() error {
+	switch s {
+	case "container.stop":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -2431,18 +3307,26 @@ func (s *CreateContainerCreated) Validate() error {
 	}
 	return nil
 }
-func (s CreateContainerInstanceJobReq) Validate() error {
+func (s CreateContainerJobReq) Validate() error {
 	switch s.Type {
-	case RevertMigrationCreateContainerInstanceJobReq:
-		if err := s.RevertMigration.Validate(); err != nil {
+	case ContainerStartActionCreateContainerJobReq:
+		return nil // no validation needed
+	case ContainerStopActionCreateContainerJobReq:
+		return nil // no validation needed
+	case ReconfigureContainerCreateContainerJobReq:
+		if err := s.ReconfigureContainer.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case MigrateCreateContainerInstanceJobReq:
-		if err := s.Migrate.Validate(); err != nil {
+	case ReconfigureVolumesCreateContainerJobReq:
+		if err := s.ReconfigureVolumes.Validate(); err != nil {
 			return err
 		}
 		return nil
+	case ReimageCreateContainerJobReq:
+		return nil // no validation needed
+	case ScaleCreateContainerJobReq:
+		return nil // no validation needed
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
@@ -2776,6 +3660,31 @@ func (s *CreateImageCollectionJobReqContents) Validate() error {
 	}
 	return nil
 }
+func (s *CreateImageCreated) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
 func (s *CreateImageJobReq) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -2797,6 +3706,70 @@ func (s *CreateImageJobReq) Validate() error {
 func (s CreateImageJobReqAction) Validate() error {
 	switch s {
 	case "import":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *CreateImageSourceCreated) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *CreateImageSourceReq) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Origin.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "origin",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s CreateImageSourceReqType) Validate() error {
+	switch s {
+	case "stack_build":
+		return nil
+	case "direct":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -2971,6 +3944,31 @@ func (s CreateOrderReqTermLength) Validate() error {
 		return errors.Errorf("invalid value: %v", s)
 	}
 }
+func (s *CreatePipelineCreated) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
 func (s *CreatePipelineJobReq) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -2996,6 +3994,38 @@ func (s CreatePipelineJobReqAction) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
+}
+func (s *CreatePipelineReq) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Stages {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "stages",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 func (s *CreatePipelineTriggerKeyCreated) Validate() error {
 	var failures []validate.FieldError
@@ -3108,6 +4138,49 @@ func (s *CreateSDNNetworkReq) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "environments",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *CreateScopedVariableCreated) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *CreateScopedVariableReq) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Scope.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "scope",
 			Error: err,
 		})
 	}
@@ -3258,13 +4331,35 @@ func (s *CreateServerReqServersItemAdvancedItemProvisionOptions) Validate() erro
 	}
 	return nil
 }
+func (s *CreateStackBuildCreated) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
 func (s CreateStackBuildJobReq) Validate() error {
 	switch s.Type {
 	case GenerateStackBuildActionCreateStackBuildJobReq:
-		if err := s.GenerateStackBuildAction.Validate(); err != nil {
-			return err
-		}
-		return nil
+		return nil // no validation needed
 	case DeployStackBuildActionCreateStackBuildJobReq:
 		if err := s.DeployStackBuildAction.Validate(); err != nil {
 			return err
@@ -3275,6 +4370,56 @@ func (s CreateStackBuildJobReq) Validate() error {
 	}
 }
 
+func (s *CreateStackBuildReq) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Instructions.Set {
+			if err := func() error {
+				if err := s.Instructions.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "instructions",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *CreateStackCreated) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
 func (s *CreateStackJobReq) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -3300,6 +4445,24 @@ func (s CreateStackJobReqAction) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
+}
+func (s *CreateStackReq) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Source.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "source",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 func (s *CreateVPNUserCreated) Validate() error {
 	var failures []validate.FieldError
@@ -3444,6 +4607,22 @@ func (s CreatorScopeType) Validate() error {
 	case "api-key":
 		return nil
 	case "visitor":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s CredentialsHTTPType) Validate() error {
+	switch s {
+	case "http":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s CredentialsSSHType) Validate() error {
+	switch s {
+	case "ssh":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -3662,17 +4841,6 @@ func (s DNSZoneTaskReqAction) Validate() error {
 func (s *DeployStackBuildAction) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.Action.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "action",
-			Error: err,
-		})
-	}
-	if err := func() error {
 		if err := s.Contents.Validate(); err != nil {
 			return err
 		}
@@ -3775,6 +4943,105 @@ func (s *DnsTlsCertificate) Validate() error {
 	}
 	return nil
 }
+func (s DockerHubSourceType) Validate() error {
+	switch s {
+	case "docker-hub":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s DockerRegistrySourceType) Validate() error {
+	switch s {
+	case "docker-registry":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s DockerfileCredentials) Validate() error {
+	if s == nil {
+		return errors.New("nil is invalid value")
+	}
+	return nil
+}
+func (s *DockerfileFileSource) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Details.Set {
+			if err := func() error {
+				if err := s.Details.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "details",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *DockerfileFileSourceDetails) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Repo.Set {
+			if err := func() error {
+				if err := s.Repo.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "repo",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Credentials == nil {
+			return nil // optional
+		}
+		if err := func() error {
+			if err := s.Credentials.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			return errors.Wrap(err, "pointer")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "credentials",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s DockerfileFileSourceType) Validate() error {
+	switch s {
+	case "docker-file":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
 func (s *EmployeeLogin) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -3872,6 +5139,22 @@ func (s *Environment) Validate() error {
 	}
 	return nil
 }
+func (s EnvironmentCreateStepAction) Validate() error {
+	switch s {
+	case "environment.create":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s EnvironmentDeleteStepAction) Validate() error {
+	switch s {
+	case "environment.delete":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
 func (s EnvironmentIncludes) Validate() error {
 	var failures []validate.FieldError
 	for key, elem := range s {
@@ -3961,6 +5244,14 @@ func (s *EnvironmentServices) Validate() error {
 	}
 	return nil
 }
+func (s EnvironmentStartStepAction) Validate() error {
+	switch s {
+	case "environment.start":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
 func (s *EnvironmentState) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -3990,6 +5281,14 @@ func (s EnvironmentStateCurrent) Validate() error {
 	case "deleting":
 		return nil
 	case "deleted":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s EnvironmentStopStepAction) Validate() error {
+	switch s {
+	case "environment.stop":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -4355,16 +5654,23 @@ func (s ErrorStatus) Validate() error {
 		return errors.Errorf("invalid value: %v", s)
 	}
 }
-func (s *GenerateStackBuildAction) Validate() error {
+func (s *FetchScopedVariableOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.Action.Validate(); err != nil {
-			return err
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "action",
+			Name:  "data",
 			Error: err,
 		})
 	}
@@ -5621,6 +6927,81 @@ func (s *GetBillingSupportPlansPage) Validate() error {
 	}
 	return nil
 }
+func (s *GetCompatibleImagesOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Data {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *GetCompatibleImagesPage) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Number.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Number.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "number",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Size.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Size.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "size",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
 func (s GetContainerByIdIncludeItem) Validate() error {
 	switch s {
 	case "creators":
@@ -5882,6 +7263,164 @@ func (s *GetContainerSummaryOK) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetContainersFilter) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetContainersFilterItem) Validate() error {
+	switch s.Type {
+	case StringGetContainersFilterItem:
+		return nil // no validation needed
+	case StringArrayGetContainersFilterItem:
+		if s.StringArray == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s GetContainersIncludeItem) Validate() error {
+	switch s {
+	case "creators":
+		return nil
+	case "images":
+		return nil
+	case "stack_builds":
+		return nil
+	case "stacks":
+		return nil
+	case "environments":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s GetContainersMetaItem) Validate() error {
+	switch s {
+	case "instances_count":
+		return nil
+	case "domain":
+		return nil
+	case "domains":
+		return nil
+	case "ips":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *GetContainersOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Data {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Includes.Set {
+			if err := func() error {
+				if err := s.Includes.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "includes",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *GetContainersPage) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Number.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Number.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "number",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Size.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Size.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "size",
 			Error: err,
 		})
 	}
@@ -6338,6 +7877,154 @@ func (s *GetEnvironmentsOKIncludes) Validate() error {
 	return nil
 }
 func (s *GetEnvironmentsPage) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Number.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Number.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "number",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Size.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Size.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "size",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetHubActivityFilter) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetHubActivityFilterItem) Validate() error {
+	switch s.Type {
+	case StringGetHubActivityFilterItem:
+		return nil // no validation needed
+	case StringArrayGetHubActivityFilterItem:
+		if s.StringArray == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s GetHubActivityIncludeItem) Validate() error {
+	switch s {
+	case "users":
+		return nil
+	case "components":
+		return nil
+	case "creators":
+		return nil
+	case "images":
+		return nil
+	case "stack_builds":
+		return nil
+	case "stacks":
+		return nil
+	case "environments":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *GetHubActivityOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Data {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Includes.Set {
+			if err := func() error {
+				if err := s.Includes.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "includes",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *GetHubActivityPage) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Number.Set {
@@ -6991,6 +8678,264 @@ func (s *GetHubsOK) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetImageIncludeItem) Validate() error {
+	switch s {
+	case "creators":
+		return nil
+	case "stack_builds":
+		return nil
+	case "stacks":
+		return nil
+	case "sources":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s GetImageMetaItem) Validate() error {
+	switch s {
+	case "containers_count":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *GetImageOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Includes.Set {
+			if err := func() error {
+				if err := s.Includes.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "includes",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *GetImagePage) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Number.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Number.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "number",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Size.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Size.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "size",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetImagesFilter) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetImagesFilterItem) Validate() error {
+	switch s.Type {
+	case StringGetImagesFilterItem:
+		return nil // no validation needed
+	case StringArrayGetImagesFilterItem:
+		if s.StringArray == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s GetImagesIncludeItem) Validate() error {
+	switch s {
+	case "creators":
+		return nil
+	case "stack_builds":
+		return nil
+	case "stacks":
+		return nil
+	case "sources":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s GetImagesMetaItem) Validate() error {
+	switch s {
+	case "containers_count":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *GetImagesOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Data {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Includes.Set {
+			if err := func() error {
+				if err := s.Includes.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "includes",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *GetImagesPage) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Number.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Number.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "number",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Size.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Size.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "size",
 			Error: err,
 		})
 	}
@@ -8201,6 +10146,61 @@ func (s *GetOrdersPage) Validate() error {
 	}
 	return nil
 }
+func (s GetPipelineIncludeItem) Validate() error {
+	switch s {
+	case "creators":
+		return nil
+	case "name":
+		return nil
+	case "components":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *GetPipelineOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Includes.Set {
+			if err := func() error {
+				if err := s.Includes.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "includes",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
 func (s GetPipelineRunsIncludeItem) Validate() error {
 	switch s {
 	case "creators":
@@ -8377,6 +10377,146 @@ func (s *GetPipelineTriggerKeysOK) Validate() error {
 	return nil
 }
 func (s *GetPipelineTriggerKeysPage) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Number.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Number.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "number",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Size.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Size.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "size",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetPipelinesFilter) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetPipelinesFilterItem) Validate() error {
+	switch s.Type {
+	case StringGetPipelinesFilterItem:
+		return nil // no validation needed
+	case StringArrayGetPipelinesFilterItem:
+		if s.StringArray == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s GetPipelinesIncludeItem) Validate() error {
+	switch s {
+	case "creators":
+		return nil
+	case "name":
+		return nil
+	case "components":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *GetPipelinesOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Data {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Includes.Set {
+			if err := func() error {
+				if err := s.Includes.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "includes",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *GetPipelinesPage) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Number.Set {
@@ -9467,6 +11607,584 @@ func (s *GetSingleServerOK) Validate() error {
 	}
 	return nil
 }
+func (s GetSourceIncludeItem) Validate() error {
+	switch s {
+	case "creators":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s GetSourceMetaItem) Validate() error {
+	switch s {
+	case "images_count":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *GetSourceOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Includes.Set {
+			if err := func() error {
+				if err := s.Includes.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "includes",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetSourcesCollectionFilter) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetSourcesCollectionFilterItem) Validate() error {
+	switch s.Type {
+	case StringGetSourcesCollectionFilterItem:
+		return nil // no validation needed
+	case StringArrayGetSourcesCollectionFilterItem:
+		if s.StringArray == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s GetSourcesCollectionIncludeItem) Validate() error {
+	switch s {
+	case "creators":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s GetSourcesCollectionMetaItem) Validate() error {
+	switch s {
+	case "images_count":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *GetSourcesCollectionOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Data {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Includes.Set {
+			if err := func() error {
+				if err := s.Includes.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "includes",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *GetSourcesCollectionPage) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Number.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Number.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "number",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Size.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Size.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "size",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *GetStackBuildLookupOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *GetStackBuildOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetStackBuildsFilter) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetStackBuildsFilterItem) Validate() error {
+	switch s.Type {
+	case StringGetStackBuildsFilterItem:
+		return nil // no validation needed
+	case StringArrayGetStackBuildsFilterItem:
+		if s.StringArray == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s GetStackBuildsIncludeItem) Validate() error {
+	switch s {
+	case "stack_id":
+		return nil
+	case "hub_id":
+		return nil
+	case "about":
+		return nil
+	case "instructions":
+		return nil
+	case "events":
+		return nil
+	case "state":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s GetStackBuildsMetaItem) Validate() error {
+	switch s {
+	case "containers_count":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *GetStackBuildsOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Data {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Includes.Set {
+			if err := func() error {
+				if err := s.Includes.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "includes",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *GetStackBuildsPage) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Number.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Number.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "number",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Size.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Size.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "size",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *GetStackOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetStacksFilter) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s GetStacksFilterItem) Validate() error {
+	switch s.Type {
+	case StringGetStacksFilterItem:
+		return nil // no validation needed
+	case StringArrayGetStacksFilterItem:
+		if s.StringArray == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s GetStacksIncludeItem) Validate() error {
+	switch s {
+	case "creators":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s GetStacksMetaItem) Validate() error {
+	switch s {
+	case "containers_count":
+		return nil
+	case "builds_count":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *GetStacksOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Data {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Includes.Set {
+			if err := func() error {
+				if err := s.Includes.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "includes",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *GetStacksPage) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Number.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Number.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "number",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Size.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Size.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "size",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
 func (s *GetTiersOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -10272,6 +12990,17 @@ func (s *IP) Validate() error {
 			Error: err,
 		})
 	}
+	if err := func() error {
+		if err := s.State.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "state",
+			Error: err,
+		})
+	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
 	}
@@ -10282,6 +13011,749 @@ func (s IPKind) Validate() error {
 	case "ipv4":
 		return nil
 	case "ipv6":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *Image) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Stack.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "stack",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Tags == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "tags",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Config.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "config",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Source.Set {
+			if err := func() error {
+				if err := s.Source.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "source",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Creator.Set {
+			if err := func() error {
+				if err := s.Creator.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "creator",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.State.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "state",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ImageConfig) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Ports == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Ports {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ports",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Command == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "command",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Onbuild == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "onbuild",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Entrypoint == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "entrypoint",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Volumes == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Volumes {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "volumes",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ImageConfigPortsItem) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Host)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "host",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Container)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "container",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ImageConfigVolumesItem) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Mode.Set {
+			if err := func() error {
+				if err := s.Mode.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "mode",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ImageConfigVolumesItemMode) Validate() error {
+	switch s {
+	case "ro":
+		return nil
+	case "rw":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s ImageCreateStepAction) Validate() error {
+	switch s {
+	case "image.create":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s ImageImportStepAction) Validate() error {
+	switch s {
+	case "image.import":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *ImageIncludes) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Creators.Set {
+			if err := func() error {
+				if err := s.Creators.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "creators",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.StackBuilds.Set {
+			if err := func() error {
+				if err := s.StackBuilds.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "stack_builds",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Stacks.Set {
+			if err := func() error {
+				if err := s.Stacks.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "stacks",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Sources.Set {
+			if err := func() error {
+				if err := s.Sources.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "sources",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ImageSource) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Origin.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "origin",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Creator.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "creator",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.State.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "state",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Meta.Set {
+			if err := func() error {
+				if err := s.Meta.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "meta",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ImageSourceCreateStep) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Details.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "details",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ImageSourceCreateStepAction) Validate() error {
+	switch s {
+	case "image.source.create":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *ImageSourceCreateStepDetails) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Origin.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "origin",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ImageSourceDetails) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Details.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "details",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ImageSourceDetailsDetails) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Origin.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "origin",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ImageSourceIncludes) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ImageSourceMeta) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.ImagesCount.Set {
+			if err := func() error {
+				if err := s.ImagesCount.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "images_count",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ImageSourceMetaImagesCount) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Total)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "total",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.State.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "state",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ImageSourceMetaImagesCountState) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.New)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "new",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Downloading)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "downloading",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Building)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "building",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Verifying)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "verifying",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Saving)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "saving",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Live)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "live",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Deleting)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "deleting",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ImageSourceOrigin) Validate() error {
+	switch s.Type {
+	case DockerHubSourceImageSourceOrigin:
+		return nil // no validation needed
+	case DockerfileFileSourceImageSourceOrigin:
+		if err := s.DockerfileFileSource.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case DockerRegistrySourceImageSourceOrigin:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s *ImageSourceState) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Current.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "current",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ImageSourceStateCurrent) Validate() error {
+	switch s {
+	case "live":
+		return nil
+	case "deleting":
+		return nil
+	case "deleted":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *ImageStack) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Containers == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "containers",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ImageState) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Current.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "current",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ImageStateCurrent) Validate() error {
+	switch s {
+	case "new":
+		return nil
+	case "downloading":
+		return nil
+	case "building":
+		return nil
+	case "verifying":
+		return nil
+	case "saving":
+		return nil
+	case "live":
+		return nil
+	case "deleting":
+		return nil
+	case "deleted":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -10323,6 +13795,71 @@ func (s ImageSummaryService) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
+}
+func (s ImagesIncludes) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ImagesPruneStep) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Details.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "details",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ImagesPruneStepAction) Validate() error {
+	switch s {
+	case "images.prune":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *ImagesPruneStepDetails) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.SourceIds == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "source_ids",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 func (s *Index) Validate() error {
 	var failures []validate.FieldError
@@ -10691,6 +14228,17 @@ func (s InfrastructureSummaryClusters) Validate() error {
 }
 func (s *InfrastructureSummaryClustersItem) Validate() error {
 	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Versions.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "versions",
+			Error: err,
+		})
+	}
 	if err := func() error {
 		if err := s.Servers.Validate(); err != nil {
 			return err
@@ -11262,6 +14810,38 @@ func (s InvoiceStateCurrent) Validate() error {
 		return errors.Errorf("invalid value: %v", s)
 	}
 }
+func (s *IpState) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Current.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "current",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s IpStateCurrent) Validate() error {
+	switch s {
+	case "assigning":
+		return nil
+	case "assigned":
+		return nil
+	case "releasing":
+		return nil
+	case "available":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
 func (s *Job) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -11364,6 +14944,119 @@ func (s JobStateCurrent) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
+}
+func (s ListScopedVariablesFilter) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ListScopedVariablesFilterItem) Validate() error {
+	switch s.Type {
+	case StringListScopedVariablesFilterItem:
+		return nil // no validation needed
+	case StringArrayListScopedVariablesFilterItem:
+		if s.StringArray == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s *ListScopedVariablesOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Data {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ListScopedVariablesPage) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Number.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Number.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "number",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Size.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Size.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "size",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 func (s *LoadBalancerEnvironmentService) Validate() error {
 	var failures []validate.FieldError
@@ -11956,24 +15649,6 @@ func (s MethodStateCurrent) Validate() error {
 		return errors.Errorf("invalid value: %v", s)
 	}
 }
-func (s *Migrate) Validate() error {
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Action.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "action",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
 func (s MigrateAction) Validate() error {
 	switch s {
 	case "migrate":
@@ -12536,6 +16211,286 @@ func (s *Permissions) Validate() error {
 	}
 	return nil
 }
+func (s *Pipeline) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Creator.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "creator",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Stages {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "stages",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.State.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "state",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *PipelineIncludes) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Creators.Set {
+			if err := func() error {
+				if err := s.Creators.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "creators",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Components.Set {
+			if err := func() error {
+				if err := s.Components.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "components",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s PipelineIncludesComponents) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s PipelineIncludesComponentsItem) Validate() error {
+	switch s.Type {
+	case ContainerPipelineIncludesComponentsItem:
+		if err := s.Container.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case EnvironmentPipelineIncludesComponentsItem:
+		if err := s.Environment.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case StackPipelineIncludesComponentsItem:
+		if err := s.Stack.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case StackBuildPipelineIncludesComponentsItem:
+		if err := s.StackBuild.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ImagePipelineIncludesComponentsItem:
+		if err := s.Image.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ImageSourcePipelineIncludesComponentsItem:
+		if err := s.ImageSource.Validate(); err != nil {
+			return err
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s *PipelineStage) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Steps == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Steps {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "steps",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *PipelineState) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Current.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "current",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s PipelineStateCurrent) Validate() error {
+	switch s {
+	case "live":
+		return nil
+	case "deleting":
+		return nil
+	case "deleted":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s PipelineSteps) Validate() error {
+	switch s.Type {
+	case ImageSourceCreateStepPipelineSteps:
+		if err := s.ImageSourceCreateStep.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ImageCreateStepPipelineSteps:
+		return nil // no validation needed
+	case ImageImportStepPipelineSteps:
+		return nil // no validation needed
+	case ImagesPruneStepPipelineSteps:
+		if err := s.ImagesPruneStep.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ContainerCreateStepPipelineSteps:
+		if err := s.ContainerCreateStep.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ContainerStartStepPipelineSteps:
+		return nil // no validation needed
+	case ContainerStopStepPipelineSteps:
+		return nil // no validation needed
+	case ContainerDeleteStepPipelineSteps:
+		return nil // no validation needed
+	case ContainerReimageStepPipelineSteps:
+		return nil // no validation needed
+	case ContainerRestartStepPipelineSteps:
+		return nil // no validation needed
+	case EnvironmentCreateStepPipelineSteps:
+		return nil // no validation needed
+	case EnvironmentStartStepPipelineSteps:
+		return nil // no validation needed
+	case EnvironmentStopStepPipelineSteps:
+		return nil // no validation needed
+	case EnvironmentDeleteStepPipelineSteps:
+		return nil // no validation needed
+	case StackBuildCreateStepPipelineSteps:
+		if err := s.StackBuildCreateStep.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case StackBuildGenerateStepPipelineSteps:
+		return nil // no validation needed
+	case StackBuildDeployStepPipelineSteps:
+		if err := s.StackBuildDeployStep.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case SleepStepPipelineSteps:
+		return nil // no validation needed
+	case WebhookPostStepPipelineSteps:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
 func (s *Pool) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -13170,6 +17125,40 @@ func (s ProvidersIncludes) Validate() error {
 	}
 	return nil
 }
+func (s RawSourceType) Validate() error {
+	switch s {
+	case "raw":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *ReconfigureContainer) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Contents.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "contents",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ReconfigureContainerAction) Validate() error {
+	switch s {
+	case "reconfigure":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
 func (s *ReconfigureDiscoveryReq) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -13326,18 +17315,14 @@ func (s ReconfigureLoadBalancerReqContentsConfigHaproxyPorts) Validate() error {
 	}
 	return nil
 }
-func (s ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem) Validate() error {
-	switch s.Type {
-	case HAProxyConfigReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem:
-		if err := s.HAProxyConfig.Validate(); err != nil {
-			return err
-		}
+func (s ReconfigureServerAction) Validate() error {
+	switch s {
+	case "reconfigure.features":
 		return nil
 	default:
-		return errors.Errorf("invalid type %q", s.Type)
+		return errors.Errorf("invalid value: %v", s)
 	}
 }
-
 func (s *ReconfigureVPNReq) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -13359,6 +17344,49 @@ func (s *ReconfigureVPNReq) Validate() error {
 func (s ReconfigureVPNReqAction) Validate() error {
 	switch s {
 	case "reconfigure":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *ReconfigureVolumes) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Contents == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Contents {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "contents",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ReconfigureVolumesAction) Validate() error {
+	switch s {
+	case "reconfigure.volumes":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -13486,6 +17514,14 @@ func (s *Refund) Validate() error {
 	}
 	return nil
 }
+func (s ReimageAction) Validate() error {
+	switch s {
+	case "reimage":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
 func (s *RemoveAccountOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -13561,6 +17597,138 @@ func (s *RemoveHubInviteOK) Validate() error {
 	}
 	return nil
 }
+func (s *RepoSpec) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Details.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "details",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *RepoSpecDetails) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Ref.Set {
+			if err := func() error {
+				if err := s.Ref.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ref",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *RepoSpecDetailsRef) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s RepoSpecDetailsRefType) Validate() error {
+	switch s {
+	case "hash":
+		return nil
+	case "tag":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s RepoSpecType) Validate() error {
+	switch s {
+	case "git-repo":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *RepoType) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Ref.Set {
+			if err := func() error {
+				if err := s.Ref.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ref",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *RepoTypeRef) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s RepoTypeRefType) Validate() error {
+	switch s {
+	case "hash":
+		return nil
+	case "tag":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
 func (s *ResetPasswordOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -13626,6 +17794,22 @@ func (s *ResourceSnapshot) Validate() error {
 	}
 	return nil
 }
+func (s RestartComputeAction) Validate() error {
+	switch s {
+	case "compute.restart":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s RestartServerAction) Validate() error {
+	switch s {
+	case "restart":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
 func (s *RestoreBackupJobReq) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -13651,24 +17835,6 @@ func (s RestoreBackupJobReqAction) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
-}
-func (s *RevertMigration) Validate() error {
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Action.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "action",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
 }
 func (s RevertMigrationAction) Validate() error {
 	switch s {
@@ -14000,6 +18166,131 @@ func (s *SSHToken) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+func (s ScaleAction) Validate() error {
+	switch s {
+	case "scale":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *ScopedVariable) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Creator.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "creator",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Scope.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "scope",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.State.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "state",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ScopedVariableScope) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Containers.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "containers",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ScopedVariableScopeContainers) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Ids == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ids",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Identifiers == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "identifiers",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ScopedVariableState) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Current.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "current",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s ScopedVariableStateCurrent) Validate() error {
+	switch s {
+	case "live":
+		return nil
+	case "deleting":
+		return nil
+	case "deleted":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }
 func (s *SeccompRule) Validate() error {
 	var failures []validate.FieldError
@@ -14829,6 +19120,119 @@ func (s *SetupTwoFaOK) Validate() error {
 	}
 	return nil
 }
+func (s SleepStepAction) Validate() error {
+	switch s {
+	case "sleep":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *SourceIncludes) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Creators.Set {
+			if err := func() error {
+				if err := s.Creators.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "creators",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *Stack) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Creator.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "creator",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Source.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "source",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.State.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "state",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackBuild) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Spec.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "spec",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Instructions.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "instructions",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.State.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "state",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
 func (s *StackBuildContainerUpdate) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -14854,6 +19258,2105 @@ func (s StackBuildContainerUpdateContainers) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+func (s *StackBuildCreateStep) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Details.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "details",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackBuildCreateStepAction) Validate() error {
+	switch s {
+	case "stack.build.create":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *StackBuildCreateStepDetails) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Instructions.Set {
+			if err := func() error {
+				if err := s.Instructions.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "instructions",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackBuildDeployStep) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Details.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "details",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackBuildDeployStepAction) Validate() error {
+	switch s {
+	case "stack.build.deploy":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *StackBuildDeployStepDetails) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Update.Set {
+			if err := func() error {
+				if err := s.Update.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "update",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackBuildGenerateStepAction) Validate() error {
+	switch s {
+	case "stack.build.generate":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *StackBuildInclude) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Instructions.Set {
+			if err := func() error {
+				if err := s.Instructions.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "instructions",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.State.Set {
+			if err := func() error {
+				if err := s.State.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "state",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackBuildIncludeInstructions) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Git.Set {
+			if err := func() error {
+				if err := s.Git.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "git",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackBuildIncludeInstructionsGit) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackBuildIncludeInstructionsGitType) Validate() error {
+	switch s {
+	case "hash":
+		return nil
+	case "tag":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s StackBuildIncludes) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackBuildInstructions) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Git.Set {
+			if err := func() error {
+				if err := s.Git.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "git",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackBuildInstructionsDetails) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Git.Set {
+			if err := func() error {
+				if err := s.Git.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "git",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackBuildInstructionsDetailsGit) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackBuildInstructionsDetailsGitType) Validate() error {
+	switch s {
+	case "hash":
+		return nil
+	case "tag":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *StackBuildInstructionsGit) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackBuildInstructionsGitType) Validate() error {
+	switch s {
+	case "hash":
+		return nil
+	case "tag":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *StackBuildState) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Current.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "current",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackBuildStateCurrent) Validate() error {
+	switch s {
+	case "new":
+		return nil
+	case "importing":
+		return nil
+	case "building":
+		return nil
+	case "verifying":
+		return nil
+	case "saving":
+		return nil
+	case "live":
+		return nil
+	case "deploying":
+		return nil
+	case "deleting":
+		return nil
+	case "deleted":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s StackContainer) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigDeploy) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Instances)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "instances",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Strategy.Set {
+			if err := func() error {
+				if err := s.Strategy.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "strategy",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Stateful.Set {
+			if err := func() error {
+				if err := s.Stateful.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "stateful",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Shutdown.Set {
+			if err := func() error {
+				if err := s.Shutdown.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "shutdown",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Startup.Set {
+			if err := func() error {
+				if err := s.Startup.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "startup",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Restart.Set {
+			if err := func() error {
+				if err := s.Restart.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "restart",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.HealthCheck.Set {
+			if err := func() error {
+				if err := s.HealthCheck.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "health_check",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Telemetry.Set {
+			if err := func() error {
+				if err := s.Telemetry.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "telemetry",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Update.Set {
+			if err := func() error {
+				if err := s.Update.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "update",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigDeployHealthCheck) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Retries)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "retries",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Interval)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "interval",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Timeout)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "timeout",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigDeployRestart) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Condition.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "condition",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Delay)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "delay",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.MaxAttempts)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "max_attempts",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackContainerConfigDeployRestartCondition) Validate() error {
+	switch s {
+	case "always":
+		return nil
+	case "never":
+		return nil
+	case "failure":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *StackContainerConfigDeployShutdown) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.GracefulTimeout)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "graceful_timeout",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Signals {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "signals",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackContainerConfigDeployShutdownSignalsItem) Validate() error {
+	switch s {
+	case "SIGTERM":
+		return nil
+	case "SIGINT":
+		return nil
+	case "SIGUSR1":
+		return nil
+	case "SIGUSR2":
+		return nil
+	case "SIGHUP":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *StackContainerConfigDeployStartup) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Delay.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Delay.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "delay",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigDeployStateful) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Instances == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "instances",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackContainerConfigDeployStrategy) Validate() error {
+	switch s {
+	case "resource-density":
+		return nil
+	case "manual":
+		return nil
+	case "high-availability":
+		return nil
+	case "first-available":
+		return nil
+	case "ephemeral":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *StackContainerConfigDeployTelemetry) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Retention)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "retention",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Interval)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "interval",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigDeployUpdate) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Parallelism)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "parallelism",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Delay)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "delay",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigIntegrations) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Backups.Set {
+			if err := func() error {
+				if err := s.Backups.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "backups",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigIntegrationsBackups) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Destination.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "destination",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Backup.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "backup",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Restore.Value.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "restore",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigIntegrationsBackupsBackup) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Command.Value)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "command",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Timeout.Value)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "timeout",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackContainerConfigIntegrationsBackupsDestination) Validate() error {
+	switch s {
+	case "backblaze-b2":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *StackContainerConfigIntegrationsBackupsRestore) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Timeout.Value)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "timeout",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigNetwork) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Public.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "public",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackContainerConfigNetworkPublic) Validate() error {
+	switch s {
+	case "enable":
+		return nil
+	case "disable":
+		return nil
+	case "egress-only":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *StackContainerConfigResources) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.CPU.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "cpu",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.RAM.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ram",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigResourcesCPU) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Shares.Set {
+			if err := func() error {
+				if err := s.Shares.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "shares",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigResourcesCPUShares) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Limit)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "limit",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Reserve)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "reserve",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigResourcesRAM) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Swappiness.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Swappiness.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "swappiness",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigRuntime) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Namespaces {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "namespaces",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Rlimits.Set {
+			if err := func() error {
+				if err := s.Rlimits.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "rlimits",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Seccomp.Set {
+			if err := func() error {
+				if err := s.Seccomp.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "seccomp",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Capabilities {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "capabilities",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackContainerConfigRuntimeCapabilitiesItem) Validate() error {
+	switch s {
+	case "CAP_CHOWN":
+		return nil
+	case "CAP_FSETID":
+		return nil
+	case "CAP_DAC_OVERRIDE":
+		return nil
+	case "CAP_FOWNER":
+		return nil
+	case "CAP_SETFCAP":
+		return nil
+	case "CAP_SETGID":
+		return nil
+	case "CAP_SETUID":
+		return nil
+	case "CAP_KILL":
+		return nil
+	case "CAP_MKNOD":
+		return nil
+	case "CAP_NET_BIND_SERVICE":
+		return nil
+	case "CAP_NET_RAW":
+		return nil
+	case "CAP_AUDIT_WRITE":
+		return nil
+	case "CAP_SYS_CHROOT":
+		return nil
+	case "CAP_SETPCAP":
+		return nil
+	case "CAP_DAC_READ_SEARCH":
+		return nil
+	case "CAP_NET_ADMIN":
+		return nil
+	case "CAP_NET_BROADCAST":
+		return nil
+	case "CAP_SYS_ADMIN":
+		return nil
+	case "CAP_SYS_MODULE":
+		return nil
+	case "CAP_SYS_NICE":
+		return nil
+	case "CAP_SYS_PACCT":
+		return nil
+	case "CAP_SYS_PTRACE":
+		return nil
+	case "CAP_SYS_RAWIO":
+		return nil
+	case "CAP_SYS_RESOURCE":
+		return nil
+	case "CAP_SYS_TTY_CONFIG":
+		return nil
+	case "CAP_SYSLOG":
+		return nil
+	case "CAP_AUDIT_CONTROL":
+		return nil
+	case "CAP_AUDIT_READ":
+		return nil
+	case "CAP_IPC_LOCK":
+		return nil
+	case "CAP_IPC_OWNER":
+		return nil
+	case "CAP_LINUX_IMMUTABLE":
+		return nil
+	case "CAP_MAC_ADMIN":
+		return nil
+	case "CAP_MAC_OVERRIDE":
+		return nil
+	case "CAP_BLOCK_SUSPEND":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s StackContainerConfigRuntimeNamespacesItem) Validate() error {
+	switch s {
+	case "ipc":
+		return nil
+	case "pid":
+		return nil
+	case "uts":
+		return nil
+	case "network":
+		return nil
+	case "mount":
+		return nil
+	case "user":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s StackContainerConfigRuntimeRlimits) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigRuntimeRlimitsItem) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Hard)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "hard",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Soft)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "soft",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigRuntimeSeccomp) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Rules {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "rules",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigRuntimeSeccompRulesItem) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Specs.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "specs",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Names == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "names",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.ArrnoRet.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.ArrnoRet.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "arrnoRet",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Args == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Args {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "args",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Index)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "index",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Value)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "value",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Valuetwo.Set {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(s.Valuetwo.Value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "valuetwo",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigScaling) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Auto.Set {
+			if err := func() error {
+				if err := s.Auto.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "auto",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigScalingAuto) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Instances.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "instances",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Rules.Set {
+			if err := func() error {
+				if err := s.Rules.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "rules",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigScalingAutoInstances) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Min)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "min",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Max)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "max",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerConfigScalingAutoRules) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Metric.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "metric",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackContainerConfigScalingAutoRulesMetric) Validate() error {
+	switch s {
+	case "ram":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *StackContainerItem) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Image.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "image",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerItemImage) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Origin.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "origin",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Config.Set {
+			if err := func() error {
+				if err := s.Config.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "config",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Role.Set {
+			if err := func() error {
+				if err := s.Role.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "role",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Volumes {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "volumes",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerItemImageConfig) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Network.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "network",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Deploy.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "deploy",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Scaling.Set {
+			if err := func() error {
+				if err := s.Scaling.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "scaling",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Runtime.Set {
+			if err := func() error {
+				if err := s.Runtime.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "runtime",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Resources.Set {
+			if err := func() error {
+				if err := s.Resources.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "resources",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Integrations.Set {
+			if err := func() error {
+				if err := s.Integrations.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "integrations",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackContainerItemImageRole) Validate() error {
+	switch s {
+	case "orchestrator":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *StackContainerVolume) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.RemoteAccess.Set {
+			if err := func() error {
+				if err := s.RemoteAccess.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "remote_access",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerVolumeRemoteAccess) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Ips {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ips",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Password.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "password",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerVolumeRemoteAccessIpsItem) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Password.Value.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "password",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackContainerVolumeRemoteAccessIpsItemPassword) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Algorithm.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "algorithm",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm) Validate() error {
+	switch s {
+	case "raw":
+		return nil
+	case "sha512":
+		return nil
+	case "md5":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *StackContainerVolumeRemoteAccessPassword) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Algorithm.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "algorithm",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackContainerVolumeRemoteAccessPasswordAlgorithm) Validate() error {
+	switch s {
+	case "raw":
+		return nil
+	case "sha512":
+		return nil
+	case "md5":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *StackInclude) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Creators.Set {
+			if err := func() error {
+				if err := s.Creators.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "creators",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackIncludes) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackSource) Validate() error {
+	switch s.Type {
+	case RepoSpecStackSource:
+		if err := s.RepoSpec.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case StackSpecStackSource:
+		if err := s.StackSpec.Validate(); err != nil {
+			return err
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s *StackSpec) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Details.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "details",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *StackSpecDetails) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Containers {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "containers",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackSpecType) Validate() error {
+	switch s {
+	case "raw":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s *StackState) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Current.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "current",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s StackStateCurrent) Validate() error {
+	switch s {
+	case "live":
+		return nil
+	case "deleting":
+		return nil
+	case "deleted":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }
 func (s *SupportPlan) Validate() error {
 	var failures []validate.FieldError
@@ -15133,6 +21636,14 @@ func (s *TwoFaSetupResponse) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+func (s URLSourceType) Validate() error {
+	switch s {
+	case "url":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }
 func (s *Update) Validate() error {
 	var failures []validate.FieldError
@@ -15590,6 +22101,138 @@ func (s *UpdateHubOK) Validate() error {
 	}
 	return nil
 }
+func (s *UpdateImageOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *UpdateImageSourceOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *UpdateImageSourceReq) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Origin.Set {
+			if err := func() error {
+				if err := s.Origin.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "origin",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *UpdatePipelineOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *UpdatePipelineReq) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Stages {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "stages",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
 func (s *UpdateProviderOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -15640,6 +22283,56 @@ func (s *UpdateSDNNetworkOK) Validate() error {
 	}
 	return nil
 }
+func (s *UpdateScopedVariableOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *UpdateScopedVariableReq) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Scope.Set {
+			if err := func() error {
+				if err := s.Scope.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "scope",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
 func (s *UpdateServerOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -15657,6 +22350,56 @@ func (s *UpdateServerOK) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *UpdateStackOK) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data.Set {
+			if err := func() error {
+				if err := s.Data.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *UpdateStackReq) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Source.Set {
+			if err := func() error {
+				if err := s.Source.Value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "source",
 			Error: err,
 		})
 	}
@@ -15738,6 +22481,14 @@ func (s *VolumeSummary) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+func (s WebhookPostStepAction) Validate() error {
+	switch s {
+	case "webhook.post":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }
 func (s *Zone) Validate() error {
 	var failures []validate.FieldError

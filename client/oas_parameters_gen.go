@@ -32,6 +32,12 @@ type CreateContainerInstanceJobParams struct {
 	InstanceId string
 }
 
+// CreateContainerJobParams is parameters of createContainerJob operation.
+type CreateContainerJobParams struct {
+	// The ID of the requested container.
+	ContainerId string
+}
+
 // CreateDNSRecordParams is parameters of createDNSRecord operation.
 type CreateDNSRecordParams struct {
 	// The ID of the zone.
@@ -86,6 +92,24 @@ type CreateProviderJobParams struct {
 	ProviderId string
 }
 
+// CreateScopedVariableParams is parameters of createScopedVariable operation.
+type CreateScopedVariableParams struct {
+	// The ID of the requested environment.
+	EnvironmentId string
+}
+
+// CreateServerJobParams is parameters of createServerJob operation.
+type CreateServerJobParams struct {
+	// The ID for the given server.
+	ServerId string
+}
+
+// CreateStackBuildParams is parameters of createStackBuild operation.
+type CreateStackBuildParams struct {
+	// The ID of the stack.
+	StackId string
+}
+
 // CreateStackBuildJobParams is parameters of createStackBuildJob operation.
 type CreateStackBuildJobParams struct {
 	// The ID of the stack.
@@ -135,6 +159,14 @@ type ExpireInstanceSSHTokensParams struct {
 	ContainerId string
 	// The ID for the container instance.
 	InstanceId string
+}
+
+// FetchScopedVariableParams is parameters of fetchScopedVariable operation.
+type FetchScopedVariableParams struct {
+	// The ID of the requested environment.
+	EnvironmentId string
+	// The ID of the requested scoped variable.
+	ScopedVariableId string
 }
 
 // GetAccountInvitesParams is parameters of getAccountInvites operation.
@@ -270,6 +302,17 @@ type GetBillingSupportPlansParams struct {
 	Page OptGetBillingSupportPlansPage
 }
 
+// GetCompatibleImagesParams is parameters of getCompatibleImages operation.
+type GetCompatibleImagesParams struct {
+	// The ID of the requested container.
+	ContainerId string
+	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort []string
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetCompatibleImagesPage
+}
+
 // GetContainerByIdParams is parameters of getContainerById operation.
 type GetContainerByIdParams struct {
 	// The ID of the requested container.
@@ -322,6 +365,25 @@ type GetContainerInstancesTelemetryParams struct {
 type GetContainerSummaryParams struct {
 	// The ID of the requested container.
 	ContainerId string
+}
+
+// GetContainersParams is parameters of getContainers operation.
+type GetContainersParams struct {
+	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
+	// In the case of applying a meta to a collection of resources, each resource will have it's own
+	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
+	// in the root document. These will be clearly labeled.
+	Meta []GetContainersMetaItem
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetContainersIncludeItem
+	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort []string
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetContainersPage
 }
 
 // GetCreditParams is parameters of getCredit operation.
@@ -401,6 +463,20 @@ type GetHubParams struct {
 	Meta []GetHubMetaItem
 }
 
+// GetHubActivityParams is parameters of getHubActivity operation.
+type GetHubActivityParams struct {
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetHubActivityIncludeItem
+	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort []string
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetHubActivityPage
+}
+
 // GetHubInvitesParams is parameters of getHubInvites operation.
 type GetHubInvitesParams struct {
 	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
@@ -466,10 +542,50 @@ type GetHubMembersAccountParams struct {
 	Include []GetHubMembersAccountIncludeItem
 }
 
+// GetImageParams is parameters of getImage operation.
+type GetImageParams struct {
+	// The ID of the image.
+	ImageId string
+	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
+	// In the case of applying a meta to a collection of resources, each resource will have it's own
+	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
+	// in the root document. These will be clearly labeled.
+	Meta []GetImageMetaItem
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetImageIncludeItem
+	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort []string
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetImagePage
+}
+
 // GetImageBuildLogParams is parameters of getImageBuildLog operation.
 type GetImageBuildLogParams struct {
 	// The ID of the image.
 	ImageId string
+}
+
+// GetImagesParams is parameters of getImages operation.
+type GetImagesParams struct {
+	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
+	// In the case of applying a meta to a collection of resources, each resource will have it's own
+	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
+	// in the root document. These will be clearly labeled.
+	Meta []GetImagesMetaItem
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetImagesIncludeItem
+	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort []string
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetImagesPage
 }
 
 // GetInfrastructureIPPoolParams is parameters of getInfrastructureIPPool operation.
@@ -626,6 +742,17 @@ type GetOrdersParams struct {
 	Include []GetOrdersIncludeItem
 }
 
+// GetPipelineParams is parameters of getPipeline operation.
+type GetPipelineParams struct {
+	// The ID of the pipeline.
+	PipelineId string
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetPipelineIncludeItem
+}
+
 // GetPipelineRunsParams is parameters of getPipelineRuns operation.
 type GetPipelineRunsParams struct {
 	// The ID of the pipeline.
@@ -656,6 +783,20 @@ type GetPipelineTriggerKeysParams struct {
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetPipelineTriggerKeysPage
+}
+
+// GetPipelinesParams is parameters of getPipelines operation.
+type GetPipelinesParams struct {
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetPipelinesIncludeItem
+	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort []string
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetPipelinesPage
 }
 
 // GetPoolsIPsParams is parameters of getPoolsIPs operation.
@@ -796,6 +937,101 @@ type GetSingleServerParams struct {
 	Meta []GetSingleServerMetaItem
 }
 
+// GetSourceParams is parameters of getSource operation.
+type GetSourceParams struct {
+	// The ID of the image source.
+	SourceId string
+	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
+	// In the case of applying a meta to a collection of resources, each resource will have it's own
+	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
+	// in the root document. These will be clearly labeled.
+	Meta []GetSourceMetaItem
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetSourceIncludeItem
+}
+
+// GetSourcesCollectionParams is parameters of getSourcesCollection operation.
+type GetSourcesCollectionParams struct {
+	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
+	// In the case of applying a meta to a collection of resources, each resource will have it's own
+	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
+	// in the root document. These will be clearly labeled.
+	Meta []GetSourcesCollectionMetaItem
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetSourcesCollectionIncludeItem
+	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort []string
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetSourcesCollectionPage
+}
+
+// GetStackParams is parameters of getStack operation.
+type GetStackParams struct {
+	// The ID of the stack.
+	StackId string
+}
+
+// GetStackBuildParams is parameters of getStackBuild operation.
+type GetStackBuildParams struct {
+	// The ID of the stack.
+	StackId string
+	// The ID of the build.
+	BuildId string
+}
+
+// GetStackBuildLookupParams is parameters of getStackBuildLookup operation.
+type GetStackBuildLookupParams struct {
+	// The ID of the build.
+	BuildId string
+}
+
+// GetStackBuildsParams is parameters of getStackBuilds operation.
+type GetStackBuildsParams struct {
+	// The ID of the stack.
+	StackId string
+	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
+	// In the case of applying a meta to a collection of resources, each resource will have it's own
+	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
+	// in the root document. These will be clearly labeled.
+	Meta []GetStackBuildsMetaItem
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetStackBuildsIncludeItem
+	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort []string
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetStackBuildsPage
+}
+
+// GetStacksParams is parameters of getStacks operation.
+type GetStacksParams struct {
+	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
+	// In the case of applying a meta to a collection of resources, each resource will have it's own
+	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
+	// in the root document. These will be clearly labeled.
+	Meta []GetStacksMetaItem
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetStacksIncludeItem
+	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort []string
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetStacksPage
+}
+
 // GetUsableServersParams is parameters of getUsableServers operation.
 type GetUsableServersParams struct {
 	// The ID of the requested container.
@@ -860,6 +1096,17 @@ type InstanceConsoleAuthParams struct {
 	ContainerId string
 	// The ID of the instance.
 	InstanceId string
+}
+
+// ListScopedVariablesParams is parameters of listScopedVariables operation.
+type ListScopedVariablesParams struct {
+	// The ID of the requested environment.
+	EnvironmentId string
+	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort []string
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptListScopedVariablesPage
 }
 
 // LookupDnsCertificateParams is parameters of lookupDnsCertificate operation.
@@ -1111,6 +1358,24 @@ type UpdateHubMemberParams struct {
 	MemberId string
 }
 
+// UpdateImageParams is parameters of updateImage operation.
+type UpdateImageParams struct {
+	// The ID of the image.
+	ImageId string
+}
+
+// UpdateImageSourceParams is parameters of updateImageSource operation.
+type UpdateImageSourceParams struct {
+	// The ID of the image source.
+	SourceId string
+}
+
+// UpdatePipelineParams is parameters of updatePipeline operation.
+type UpdatePipelineParams struct {
+	// The ID of the pipeline.
+	PipelineId string
+}
+
 // UpdatePipelineTriggerKeyParams is parameters of updatePipelineTriggerKey operation.
 type UpdatePipelineTriggerKeyParams struct {
 	// The ID of the pipeline.
@@ -1131,8 +1396,22 @@ type UpdateSDNNetworkParams struct {
 	NetworkId string
 }
 
+// UpdateScopedVariableParams is parameters of updateScopedVariable operation.
+type UpdateScopedVariableParams struct {
+	// The ID of the requested environment.
+	EnvironmentId string
+	// The ID of the requested scoped variable.
+	ScopedVariableId string
+}
+
 // UpdateServerParams is parameters of updateServer operation.
 type UpdateServerParams struct {
 	// The ID for the given server.
 	ServerId string
+}
+
+// UpdateStackParams is parameters of updateStack operation.
+type UpdateStackParams struct {
+	// The ID of the stack.
+	StackId string
 }

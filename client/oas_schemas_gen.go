@@ -432,6 +432,1185 @@ func (s *AccountTwoFactorAuth) SetVerified(val bool) {
 	s.Verified = val
 }
 
+// A resource representing information about activity taking place on a given hub.
+// Ref: #/components/schemas/Activity
+type Activity struct {
+	ID    ID    `json:"id"`
+	HubID HubID `json:"hub_id"`
+	// Userscope.
+	User ActivityUser `json:"user"`
+	// A number representing how verbose the acitivty reporting is for a given hub.
+	Verbosity int           `json:"verbosity"`
+	Context   Context       `json:"context"`
+	Session   OptNilSession `json:"session"`
+	// An array of changes.
+	Changes []Change `json:"changes"`
+	// A record of additional annotations for the activity.
+	Annotations ActivityAnnotations `json:"annotations"`
+	// An object describing a given activity error.
+	Error NilActivityError `json:"error"`
+	// An object holding information about a component.
+	Component NilActivityComponent `json:"component"`
+	// An array of tags that denote things such as a type of security event, or can be user-provided.
+	Tags []string `json:"tags"`
+	// A status for the given activity.
+	Status ActivityStatus `json:"status"`
+	// The activity event.
+	Event ActivityEvent `json:"event"`
+	// A timestamp for when the activity took place.
+	Time DateTime `json:"time"`
+}
+
+// GetID returns the value of ID.
+func (s *Activity) GetID() ID {
+	return s.ID
+}
+
+// GetHubID returns the value of HubID.
+func (s *Activity) GetHubID() HubID {
+	return s.HubID
+}
+
+// GetUser returns the value of User.
+func (s *Activity) GetUser() ActivityUser {
+	return s.User
+}
+
+// GetVerbosity returns the value of Verbosity.
+func (s *Activity) GetVerbosity() int {
+	return s.Verbosity
+}
+
+// GetContext returns the value of Context.
+func (s *Activity) GetContext() Context {
+	return s.Context
+}
+
+// GetSession returns the value of Session.
+func (s *Activity) GetSession() OptNilSession {
+	return s.Session
+}
+
+// GetChanges returns the value of Changes.
+func (s *Activity) GetChanges() []Change {
+	return s.Changes
+}
+
+// GetAnnotations returns the value of Annotations.
+func (s *Activity) GetAnnotations() ActivityAnnotations {
+	return s.Annotations
+}
+
+// GetError returns the value of Error.
+func (s *Activity) GetError() NilActivityError {
+	return s.Error
+}
+
+// GetComponent returns the value of Component.
+func (s *Activity) GetComponent() NilActivityComponent {
+	return s.Component
+}
+
+// GetTags returns the value of Tags.
+func (s *Activity) GetTags() []string {
+	return s.Tags
+}
+
+// GetStatus returns the value of Status.
+func (s *Activity) GetStatus() ActivityStatus {
+	return s.Status
+}
+
+// GetEvent returns the value of Event.
+func (s *Activity) GetEvent() ActivityEvent {
+	return s.Event
+}
+
+// GetTime returns the value of Time.
+func (s *Activity) GetTime() DateTime {
+	return s.Time
+}
+
+// SetID sets the value of ID.
+func (s *Activity) SetID(val ID) {
+	s.ID = val
+}
+
+// SetHubID sets the value of HubID.
+func (s *Activity) SetHubID(val HubID) {
+	s.HubID = val
+}
+
+// SetUser sets the value of User.
+func (s *Activity) SetUser(val ActivityUser) {
+	s.User = val
+}
+
+// SetVerbosity sets the value of Verbosity.
+func (s *Activity) SetVerbosity(val int) {
+	s.Verbosity = val
+}
+
+// SetContext sets the value of Context.
+func (s *Activity) SetContext(val Context) {
+	s.Context = val
+}
+
+// SetSession sets the value of Session.
+func (s *Activity) SetSession(val OptNilSession) {
+	s.Session = val
+}
+
+// SetChanges sets the value of Changes.
+func (s *Activity) SetChanges(val []Change) {
+	s.Changes = val
+}
+
+// SetAnnotations sets the value of Annotations.
+func (s *Activity) SetAnnotations(val ActivityAnnotations) {
+	s.Annotations = val
+}
+
+// SetError sets the value of Error.
+func (s *Activity) SetError(val NilActivityError) {
+	s.Error = val
+}
+
+// SetComponent sets the value of Component.
+func (s *Activity) SetComponent(val NilActivityComponent) {
+	s.Component = val
+}
+
+// SetTags sets the value of Tags.
+func (s *Activity) SetTags(val []string) {
+	s.Tags = val
+}
+
+// SetStatus sets the value of Status.
+func (s *Activity) SetStatus(val ActivityStatus) {
+	s.Status = val
+}
+
+// SetEvent sets the value of Event.
+func (s *Activity) SetEvent(val ActivityEvent) {
+	s.Event = val
+}
+
+// SetTime sets the value of Time.
+func (s *Activity) SetTime(val DateTime) {
+	s.Time = val
+}
+
+// A record of additional annotations for the activity.
+type ActivityAnnotations map[string]string
+
+func (s *ActivityAnnotations) init() ActivityAnnotations {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+// An object holding information about a component.
+type ActivityComponent struct {
+	ID ID `json:"id"`
+	// The type of component.
+	Type string `json:"type"`
+}
+
+// GetID returns the value of ID.
+func (s *ActivityComponent) GetID() ID {
+	return s.ID
+}
+
+// GetType returns the value of Type.
+func (s *ActivityComponent) GetType() string {
+	return s.Type
+}
+
+// SetID sets the value of ID.
+func (s *ActivityComponent) SetID(val ID) {
+	s.ID = val
+}
+
+// SetType sets the value of Type.
+func (s *ActivityComponent) SetType(val string) {
+	s.Type = val
+}
+
+// An object describing a given activity error.
+type ActivityError struct {
+	// The error message.
+	Message string `json:"message"`
+}
+
+// GetMessage returns the value of Message.
+func (s *ActivityError) GetMessage() string {
+	return s.Message
+}
+
+// SetMessage sets the value of Message.
+func (s *ActivityError) SetMessage(val string) {
+	s.Message = val
+}
+
+// The activity event.
+type ActivityEvent string
+
+const (
+	ActivityEventHubTaskDelete                                ActivityEvent = "hub.task.delete"
+	ActivityEventHubUpdate                                    ActivityEvent = "hub.update"
+	ActivityEventHubCreate                                    ActivityEvent = "hub.create"
+	ActivityEventHubImagesPrune                               ActivityEvent = "hub.images.prune"
+	ActivityEventHubTaskImagesPrune                           ActivityEvent = "hub.task.images.prune"
+	ActivityEventEnvironmentInitialize                        ActivityEvent = "environment.initialize"
+	ActivityEventEnvironmentStart                             ActivityEvent = "environment.start"
+	ActivityEventEnvironmentStop                              ActivityEvent = "environment.stop"
+	ActivityEventEnvironmentTaskStart                         ActivityEvent = "environment.task.start"
+	ActivityEventEnvironmentTaskStop                          ActivityEvent = "environment.task.stop"
+	ActivityEventEnvironmentTaskInitialize                    ActivityEvent = "environment.task.initialize"
+	ActivityEventEnvironmentDelete                            ActivityEvent = "environment.delete"
+	ActivityEventEnvironmentTaskDelete                        ActivityEvent = "environment.task.delete"
+	ActivityEventEnvironmentUpdate                            ActivityEvent = "environment.update"
+	ActivityEventEnvironmentCreate                            ActivityEvent = "environment.create"
+	ActivityEventEnvironmentServicesDiscoveryTaskReconfigure  ActivityEvent = "environment.services.discovery.task.reconfigure"
+	ActivityEventEnvironmentServicesLbTaskReconfigure         ActivityEvent = "environment.services.lb.task.reconfigure"
+	ActivityEventEnvironmentServicesVpnTaskReconfigure        ActivityEvent = "environment.services.vpn.task.reconfigure"
+	ActivityEventImageImport                                  ActivityEvent = "image.import"
+	ActivityEventImageTaskImport                              ActivityEvent = "image.task.import"
+	ActivityEventImageUpdate                                  ActivityEvent = "image.update"
+	ActivityEventImageCreate                                  ActivityEvent = "image.create"
+	ActivityEventImageDelete                                  ActivityEvent = "image.delete"
+	ActivityEventImageTaskDelete                              ActivityEvent = "image.task.delete"
+	ActivityEventImageSourceCreate                            ActivityEvent = "image.source.create"
+	ActivityEventImageSourceUpdate                            ActivityEvent = "image.source.update"
+	ActivityEventImageSourceTaskDelete                        ActivityEvent = "image.source.task.delete"
+	ActivityEventContainerCreate                              ActivityEvent = "container.create"
+	ActivityEventContainerUpdate                              ActivityEvent = "container.update"
+	ActivityEventContainerInitialize                          ActivityEvent = "container.initialize"
+	ActivityEventContainerStart                               ActivityEvent = "container.start"
+	ActivityEventContainerTaskStart                           ActivityEvent = "container.task.start"
+	ActivityEventContainerStop                                ActivityEvent = "container.stop"
+	ActivityEventContainerTaskStop                            ActivityEvent = "container.task.stop"
+	ActivityEventContainerReconfigure                         ActivityEvent = "container.reconfigure"
+	ActivityEventContainerTaskReconfigure                     ActivityEvent = "container.task.reconfigure"
+	ActivityEventContainerReconfigureVolumes                  ActivityEvent = "container.reconfigure.volumes"
+	ActivityEventContainerTaskReconfigureVolumes              ActivityEvent = "container.task.reconfigure.volumes"
+	ActivityEventContainerReimage                             ActivityEvent = "container.reimage"
+	ActivityEventContainerTaskReimage                         ActivityEvent = "container.task.reimage"
+	ActivityEventContainerScale                               ActivityEvent = "container.scale"
+	ActivityEventContainerTaskScale                           ActivityEvent = "container.task.scale"
+	ActivityEventContainerDelete                              ActivityEvent = "container.delete"
+	ActivityEventContainerTaskDelete                          ActivityEvent = "container.task.delete"
+	ActivityEventContainerInstanceError                       ActivityEvent = "container.instance.error"
+	ActivityEventContainerInstanceSftpLogin                   ActivityEvent = "container.instance.sftp.login"
+	ActivityEventContainerInstanceMigrationStart              ActivityEvent = "container.instance.migration.start"
+	ActivityEventContainerInstanceMigrationRevert             ActivityEvent = "container.instance.migration.revert"
+	ActivityEventContainerInstanceDelete                      ActivityEvent = "container.instance.delete"
+	ActivityEventContainerInstancesDelete                     ActivityEvent = "container.instances.delete"
+	ActivityEventContainerInstancesCreate                     ActivityEvent = "container.instances.create"
+	ActivityEventContainerInstanceHealthcheckRestarted        ActivityEvent = "container.instance.healthcheck.restarted"
+	ActivityEventContainerBackupCreate                        ActivityEvent = "container.backup.create"
+	ActivityEventContainerBackupRestore                       ActivityEvent = "container.backup.restore"
+	ActivityEventContainerBackupTaskRestore                   ActivityEvent = "container.backup.task.restore"
+	ActivityEventContainerBackupDelete                        ActivityEvent = "container.backup.delete"
+	ActivityEventContainerBackupTaskDelete                    ActivityEvent = "container.backup.task.delete"
+	ActivityEventDNSZoneTaskVerify                            ActivityEvent = "dns.zone.task.verify"
+	ActivityEventDNSZoneTaskDelete                            ActivityEvent = "dns.zone.task.delete"
+	ActivityEventDNSZoneUpdate                                ActivityEvent = "dns.zone.update"
+	ActivityEventDNSZoneCreate                                ActivityEvent = "dns.zone.create"
+	ActivityEventDNSZoneVerify                                ActivityEvent = "dns.zone.verify"
+	ActivityEventDNSZoneDelete                                ActivityEvent = "dns.zone.delete"
+	ActivityEventDNSZoneRecordCertGenerateAuto                ActivityEvent = "dns.zone.record.cert.generate.auto"
+	ActivityEventDNSZoneRecordCertGenerate                    ActivityEvent = "dns.zone.record.cert.generate"
+	ActivityEventDNSZoneRecordDelete                          ActivityEvent = "dns.zone.record.delete"
+	ActivityEventDNSZoneRecordUpdate                          ActivityEvent = "dns.zone.record.update"
+	ActivityEventDNSZoneRecordCreate                          ActivityEvent = "dns.zone.record.create"
+	ActivityEventDNSZoneRecordTaskDelete                      ActivityEvent = "dns.zone.record.task.delete"
+	ActivityEventDNSZoneRecordTaskCertGenerate                ActivityEvent = "dns.zone.record.task.cert.generate"
+	ActivityEventStackTaskDelete                              ActivityEvent = "stack.task.delete"
+	ActivityEventStackUpdate                                  ActivityEvent = "stack.update"
+	ActivityEventStackCreate                                  ActivityEvent = "stack.create"
+	ActivityEventStackTaskPrune                               ActivityEvent = "stack.task.prune"
+	ActivityEventStackBuildCreate                             ActivityEvent = "stack.build.create"
+	ActivityEventStackBuildGenerate                           ActivityEvent = "stack.build.generate"
+	ActivityEventStackBuildDeploy                             ActivityEvent = "stack.build.deploy"
+	ActivityEventStackBuildDelete                             ActivityEvent = "stack.build.delete"
+	ActivityEventStackBuildTaskGenerate                       ActivityEvent = "stack.build.task.generate"
+	ActivityEventStackBuildTaskDelete                         ActivityEvent = "stack.build.task.delete"
+	ActivityEventInfrastructureServerTaskDelete               ActivityEvent = "infrastructure.server.task.delete"
+	ActivityEventInfrastructureServerTaskRestart              ActivityEvent = "infrastructure.server.task.restart"
+	ActivityEventInfrastructureServerTaskProvision            ActivityEvent = "infrastructure.server.task.provision"
+	ActivityEventInfrastructureServerUpdate                   ActivityEvent = "infrastructure.server.update"
+	ActivityEventInfrastructureServerDelete                   ActivityEvent = "infrastructure.server.delete"
+	ActivityEventInfrastructureServerRestart                  ActivityEvent = "infrastructure.server.restart"
+	ActivityEventInfrastructureServerComputeRestart           ActivityEvent = "infrastructure.server.compute.restart"
+	ActivityEventInfrastructureServerProvision                ActivityEvent = "infrastructure.server.provision"
+	ActivityEventInfrastructureServerLive                     ActivityEvent = "infrastructure.server.live"
+	ActivityEventInfrastructureServerServicesSftpLockdownAuto ActivityEvent = "infrastructure.server.services.sftp.lockdown.auto"
+	ActivityEventInfrastructureServerReconfigureFeatures      ActivityEvent = "infrastructure.server.reconfigure.features"
+	ActivityEventInfrastructureServerTaskReconfigureFeatures  ActivityEvent = "infrastructure.server.task.reconfigure.features"
+	ActivityEventInfrastructureProviderCreate                 ActivityEvent = "infrastructure.provider.create"
+	ActivityEventInfrastructureProviderUpdate                 ActivityEvent = "infrastructure.provider.update"
+	ActivityEventInfrastructureProviderDelete                 ActivityEvent = "infrastructure.provider.delete"
+	ActivityEventSdnNetworkTaskDelete                         ActivityEvent = "sdn.network.task.delete"
+	ActivityEventSdnNetworkUpdate                             ActivityEvent = "sdn.network.update"
+	ActivityEventSdnNetworkCreate                             ActivityEvent = "sdn.network.create"
+	ActivityEventSdnNetworkTaskReconfigure                    ActivityEvent = "sdn.network.task.reconfigure"
+	ActivityEventInfrastructureIpsPoolTaskDelete              ActivityEvent = "infrastructure.ips.pool.task.delete"
+	ActivityEventBillingOrderTaskConfirm                      ActivityEvent = "billing.order.task.confirm"
+	ActivityEventBillingOrderConfirm                          ActivityEvent = "billing.order.confirm"
+	ActivityEventBillingInvoiceTaskVoid                       ActivityEvent = "billing.invoice.task.void"
+	ActivityEventBillingInvoiceTaskCredit                     ActivityEvent = "billing.invoice.task.credit"
+	ActivityEventBillingInvoiceTaskRefund                     ActivityEvent = "billing.invoice.task.refund"
+	ActivityEventBillingInvoiceTaskPay                        ActivityEvent = "billing.invoice.task.pay"
+	ActivityEventBillingInvoicePay                            ActivityEvent = "billing.invoice.pay"
+	ActivityEventBillingMethodUpdate                          ActivityEvent = "billing.method.update"
+	ActivityEventBillingMethodCreate                          ActivityEvent = "billing.method.create"
+	ActivityEventBillingMethodDelete                          ActivityEvent = "billing.method.delete"
+	ActivityEventBillingMethodTaskDelete                      ActivityEvent = "billing.method.task.delete"
+	ActivityEventHubApikeyCreate                              ActivityEvent = "hub.apikey.create"
+	ActivityEventHubApikeyUpdate                              ActivityEvent = "hub.apikey.update"
+	ActivityEventHubApikeyDelete                              ActivityEvent = "hub.apikey.delete"
+	ActivityEventHubMembershipCreate                          ActivityEvent = "hub.membership.create"
+	ActivityEventHubMembershipDelete                          ActivityEvent = "hub.membership.delete"
+	ActivityEventPipelineUpdate                               ActivityEvent = "pipeline.update"
+	ActivityEventPipelineTaskDelete                           ActivityEvent = "pipeline.task.delete"
+	ActivityEventPipelineDelete                               ActivityEvent = "pipeline.delete"
+	ActivityEventPipelineCreate                               ActivityEvent = "pipeline.create"
+	ActivityEventPipelineTaskTrigger                          ActivityEvent = "pipeline.task.trigger"
+	ActivityEventPipelineTrigger                              ActivityEvent = "pipeline.trigger"
+	ActivityEventPipelineKeyUpdate                            ActivityEvent = "pipeline.key.update"
+	ActivityEventPipelineKeyDelete                            ActivityEvent = "pipeline.key.delete"
+	ActivityEventPipelineKeyCreate                            ActivityEvent = "pipeline.key.create"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ActivityEvent) MarshalText() ([]byte, error) {
+	switch s {
+	case ActivityEventHubTaskDelete:
+		return []byte(s), nil
+	case ActivityEventHubUpdate:
+		return []byte(s), nil
+	case ActivityEventHubCreate:
+		return []byte(s), nil
+	case ActivityEventHubImagesPrune:
+		return []byte(s), nil
+	case ActivityEventHubTaskImagesPrune:
+		return []byte(s), nil
+	case ActivityEventEnvironmentInitialize:
+		return []byte(s), nil
+	case ActivityEventEnvironmentStart:
+		return []byte(s), nil
+	case ActivityEventEnvironmentStop:
+		return []byte(s), nil
+	case ActivityEventEnvironmentTaskStart:
+		return []byte(s), nil
+	case ActivityEventEnvironmentTaskStop:
+		return []byte(s), nil
+	case ActivityEventEnvironmentTaskInitialize:
+		return []byte(s), nil
+	case ActivityEventEnvironmentDelete:
+		return []byte(s), nil
+	case ActivityEventEnvironmentTaskDelete:
+		return []byte(s), nil
+	case ActivityEventEnvironmentUpdate:
+		return []byte(s), nil
+	case ActivityEventEnvironmentCreate:
+		return []byte(s), nil
+	case ActivityEventEnvironmentServicesDiscoveryTaskReconfigure:
+		return []byte(s), nil
+	case ActivityEventEnvironmentServicesLbTaskReconfigure:
+		return []byte(s), nil
+	case ActivityEventEnvironmentServicesVpnTaskReconfigure:
+		return []byte(s), nil
+	case ActivityEventImageImport:
+		return []byte(s), nil
+	case ActivityEventImageTaskImport:
+		return []byte(s), nil
+	case ActivityEventImageUpdate:
+		return []byte(s), nil
+	case ActivityEventImageCreate:
+		return []byte(s), nil
+	case ActivityEventImageDelete:
+		return []byte(s), nil
+	case ActivityEventImageTaskDelete:
+		return []byte(s), nil
+	case ActivityEventImageSourceCreate:
+		return []byte(s), nil
+	case ActivityEventImageSourceUpdate:
+		return []byte(s), nil
+	case ActivityEventImageSourceTaskDelete:
+		return []byte(s), nil
+	case ActivityEventContainerCreate:
+		return []byte(s), nil
+	case ActivityEventContainerUpdate:
+		return []byte(s), nil
+	case ActivityEventContainerInitialize:
+		return []byte(s), nil
+	case ActivityEventContainerStart:
+		return []byte(s), nil
+	case ActivityEventContainerTaskStart:
+		return []byte(s), nil
+	case ActivityEventContainerStop:
+		return []byte(s), nil
+	case ActivityEventContainerTaskStop:
+		return []byte(s), nil
+	case ActivityEventContainerReconfigure:
+		return []byte(s), nil
+	case ActivityEventContainerTaskReconfigure:
+		return []byte(s), nil
+	case ActivityEventContainerReconfigureVolumes:
+		return []byte(s), nil
+	case ActivityEventContainerTaskReconfigureVolumes:
+		return []byte(s), nil
+	case ActivityEventContainerReimage:
+		return []byte(s), nil
+	case ActivityEventContainerTaskReimage:
+		return []byte(s), nil
+	case ActivityEventContainerScale:
+		return []byte(s), nil
+	case ActivityEventContainerTaskScale:
+		return []byte(s), nil
+	case ActivityEventContainerDelete:
+		return []byte(s), nil
+	case ActivityEventContainerTaskDelete:
+		return []byte(s), nil
+	case ActivityEventContainerInstanceError:
+		return []byte(s), nil
+	case ActivityEventContainerInstanceSftpLogin:
+		return []byte(s), nil
+	case ActivityEventContainerInstanceMigrationStart:
+		return []byte(s), nil
+	case ActivityEventContainerInstanceMigrationRevert:
+		return []byte(s), nil
+	case ActivityEventContainerInstanceDelete:
+		return []byte(s), nil
+	case ActivityEventContainerInstancesDelete:
+		return []byte(s), nil
+	case ActivityEventContainerInstancesCreate:
+		return []byte(s), nil
+	case ActivityEventContainerInstanceHealthcheckRestarted:
+		return []byte(s), nil
+	case ActivityEventContainerBackupCreate:
+		return []byte(s), nil
+	case ActivityEventContainerBackupRestore:
+		return []byte(s), nil
+	case ActivityEventContainerBackupTaskRestore:
+		return []byte(s), nil
+	case ActivityEventContainerBackupDelete:
+		return []byte(s), nil
+	case ActivityEventContainerBackupTaskDelete:
+		return []byte(s), nil
+	case ActivityEventDNSZoneTaskVerify:
+		return []byte(s), nil
+	case ActivityEventDNSZoneTaskDelete:
+		return []byte(s), nil
+	case ActivityEventDNSZoneUpdate:
+		return []byte(s), nil
+	case ActivityEventDNSZoneCreate:
+		return []byte(s), nil
+	case ActivityEventDNSZoneVerify:
+		return []byte(s), nil
+	case ActivityEventDNSZoneDelete:
+		return []byte(s), nil
+	case ActivityEventDNSZoneRecordCertGenerateAuto:
+		return []byte(s), nil
+	case ActivityEventDNSZoneRecordCertGenerate:
+		return []byte(s), nil
+	case ActivityEventDNSZoneRecordDelete:
+		return []byte(s), nil
+	case ActivityEventDNSZoneRecordUpdate:
+		return []byte(s), nil
+	case ActivityEventDNSZoneRecordCreate:
+		return []byte(s), nil
+	case ActivityEventDNSZoneRecordTaskDelete:
+		return []byte(s), nil
+	case ActivityEventDNSZoneRecordTaskCertGenerate:
+		return []byte(s), nil
+	case ActivityEventStackTaskDelete:
+		return []byte(s), nil
+	case ActivityEventStackUpdate:
+		return []byte(s), nil
+	case ActivityEventStackCreate:
+		return []byte(s), nil
+	case ActivityEventStackTaskPrune:
+		return []byte(s), nil
+	case ActivityEventStackBuildCreate:
+		return []byte(s), nil
+	case ActivityEventStackBuildGenerate:
+		return []byte(s), nil
+	case ActivityEventStackBuildDeploy:
+		return []byte(s), nil
+	case ActivityEventStackBuildDelete:
+		return []byte(s), nil
+	case ActivityEventStackBuildTaskGenerate:
+		return []byte(s), nil
+	case ActivityEventStackBuildTaskDelete:
+		return []byte(s), nil
+	case ActivityEventInfrastructureServerTaskDelete:
+		return []byte(s), nil
+	case ActivityEventInfrastructureServerTaskRestart:
+		return []byte(s), nil
+	case ActivityEventInfrastructureServerTaskProvision:
+		return []byte(s), nil
+	case ActivityEventInfrastructureServerUpdate:
+		return []byte(s), nil
+	case ActivityEventInfrastructureServerDelete:
+		return []byte(s), nil
+	case ActivityEventInfrastructureServerRestart:
+		return []byte(s), nil
+	case ActivityEventInfrastructureServerComputeRestart:
+		return []byte(s), nil
+	case ActivityEventInfrastructureServerProvision:
+		return []byte(s), nil
+	case ActivityEventInfrastructureServerLive:
+		return []byte(s), nil
+	case ActivityEventInfrastructureServerServicesSftpLockdownAuto:
+		return []byte(s), nil
+	case ActivityEventInfrastructureServerReconfigureFeatures:
+		return []byte(s), nil
+	case ActivityEventInfrastructureServerTaskReconfigureFeatures:
+		return []byte(s), nil
+	case ActivityEventInfrastructureProviderCreate:
+		return []byte(s), nil
+	case ActivityEventInfrastructureProviderUpdate:
+		return []byte(s), nil
+	case ActivityEventInfrastructureProviderDelete:
+		return []byte(s), nil
+	case ActivityEventSdnNetworkTaskDelete:
+		return []byte(s), nil
+	case ActivityEventSdnNetworkUpdate:
+		return []byte(s), nil
+	case ActivityEventSdnNetworkCreate:
+		return []byte(s), nil
+	case ActivityEventSdnNetworkTaskReconfigure:
+		return []byte(s), nil
+	case ActivityEventInfrastructureIpsPoolTaskDelete:
+		return []byte(s), nil
+	case ActivityEventBillingOrderTaskConfirm:
+		return []byte(s), nil
+	case ActivityEventBillingOrderConfirm:
+		return []byte(s), nil
+	case ActivityEventBillingInvoiceTaskVoid:
+		return []byte(s), nil
+	case ActivityEventBillingInvoiceTaskCredit:
+		return []byte(s), nil
+	case ActivityEventBillingInvoiceTaskRefund:
+		return []byte(s), nil
+	case ActivityEventBillingInvoiceTaskPay:
+		return []byte(s), nil
+	case ActivityEventBillingInvoicePay:
+		return []byte(s), nil
+	case ActivityEventBillingMethodUpdate:
+		return []byte(s), nil
+	case ActivityEventBillingMethodCreate:
+		return []byte(s), nil
+	case ActivityEventBillingMethodDelete:
+		return []byte(s), nil
+	case ActivityEventBillingMethodTaskDelete:
+		return []byte(s), nil
+	case ActivityEventHubApikeyCreate:
+		return []byte(s), nil
+	case ActivityEventHubApikeyUpdate:
+		return []byte(s), nil
+	case ActivityEventHubApikeyDelete:
+		return []byte(s), nil
+	case ActivityEventHubMembershipCreate:
+		return []byte(s), nil
+	case ActivityEventHubMembershipDelete:
+		return []byte(s), nil
+	case ActivityEventPipelineUpdate:
+		return []byte(s), nil
+	case ActivityEventPipelineTaskDelete:
+		return []byte(s), nil
+	case ActivityEventPipelineDelete:
+		return []byte(s), nil
+	case ActivityEventPipelineCreate:
+		return []byte(s), nil
+	case ActivityEventPipelineTaskTrigger:
+		return []byte(s), nil
+	case ActivityEventPipelineTrigger:
+		return []byte(s), nil
+	case ActivityEventPipelineKeyUpdate:
+		return []byte(s), nil
+	case ActivityEventPipelineKeyDelete:
+		return []byte(s), nil
+	case ActivityEventPipelineKeyCreate:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ActivityEvent) UnmarshalText(data []byte) error {
+	switch ActivityEvent(data) {
+	case ActivityEventHubTaskDelete:
+		*s = ActivityEventHubTaskDelete
+		return nil
+	case ActivityEventHubUpdate:
+		*s = ActivityEventHubUpdate
+		return nil
+	case ActivityEventHubCreate:
+		*s = ActivityEventHubCreate
+		return nil
+	case ActivityEventHubImagesPrune:
+		*s = ActivityEventHubImagesPrune
+		return nil
+	case ActivityEventHubTaskImagesPrune:
+		*s = ActivityEventHubTaskImagesPrune
+		return nil
+	case ActivityEventEnvironmentInitialize:
+		*s = ActivityEventEnvironmentInitialize
+		return nil
+	case ActivityEventEnvironmentStart:
+		*s = ActivityEventEnvironmentStart
+		return nil
+	case ActivityEventEnvironmentStop:
+		*s = ActivityEventEnvironmentStop
+		return nil
+	case ActivityEventEnvironmentTaskStart:
+		*s = ActivityEventEnvironmentTaskStart
+		return nil
+	case ActivityEventEnvironmentTaskStop:
+		*s = ActivityEventEnvironmentTaskStop
+		return nil
+	case ActivityEventEnvironmentTaskInitialize:
+		*s = ActivityEventEnvironmentTaskInitialize
+		return nil
+	case ActivityEventEnvironmentDelete:
+		*s = ActivityEventEnvironmentDelete
+		return nil
+	case ActivityEventEnvironmentTaskDelete:
+		*s = ActivityEventEnvironmentTaskDelete
+		return nil
+	case ActivityEventEnvironmentUpdate:
+		*s = ActivityEventEnvironmentUpdate
+		return nil
+	case ActivityEventEnvironmentCreate:
+		*s = ActivityEventEnvironmentCreate
+		return nil
+	case ActivityEventEnvironmentServicesDiscoveryTaskReconfigure:
+		*s = ActivityEventEnvironmentServicesDiscoveryTaskReconfigure
+		return nil
+	case ActivityEventEnvironmentServicesLbTaskReconfigure:
+		*s = ActivityEventEnvironmentServicesLbTaskReconfigure
+		return nil
+	case ActivityEventEnvironmentServicesVpnTaskReconfigure:
+		*s = ActivityEventEnvironmentServicesVpnTaskReconfigure
+		return nil
+	case ActivityEventImageImport:
+		*s = ActivityEventImageImport
+		return nil
+	case ActivityEventImageTaskImport:
+		*s = ActivityEventImageTaskImport
+		return nil
+	case ActivityEventImageUpdate:
+		*s = ActivityEventImageUpdate
+		return nil
+	case ActivityEventImageCreate:
+		*s = ActivityEventImageCreate
+		return nil
+	case ActivityEventImageDelete:
+		*s = ActivityEventImageDelete
+		return nil
+	case ActivityEventImageTaskDelete:
+		*s = ActivityEventImageTaskDelete
+		return nil
+	case ActivityEventImageSourceCreate:
+		*s = ActivityEventImageSourceCreate
+		return nil
+	case ActivityEventImageSourceUpdate:
+		*s = ActivityEventImageSourceUpdate
+		return nil
+	case ActivityEventImageSourceTaskDelete:
+		*s = ActivityEventImageSourceTaskDelete
+		return nil
+	case ActivityEventContainerCreate:
+		*s = ActivityEventContainerCreate
+		return nil
+	case ActivityEventContainerUpdate:
+		*s = ActivityEventContainerUpdate
+		return nil
+	case ActivityEventContainerInitialize:
+		*s = ActivityEventContainerInitialize
+		return nil
+	case ActivityEventContainerStart:
+		*s = ActivityEventContainerStart
+		return nil
+	case ActivityEventContainerTaskStart:
+		*s = ActivityEventContainerTaskStart
+		return nil
+	case ActivityEventContainerStop:
+		*s = ActivityEventContainerStop
+		return nil
+	case ActivityEventContainerTaskStop:
+		*s = ActivityEventContainerTaskStop
+		return nil
+	case ActivityEventContainerReconfigure:
+		*s = ActivityEventContainerReconfigure
+		return nil
+	case ActivityEventContainerTaskReconfigure:
+		*s = ActivityEventContainerTaskReconfigure
+		return nil
+	case ActivityEventContainerReconfigureVolumes:
+		*s = ActivityEventContainerReconfigureVolumes
+		return nil
+	case ActivityEventContainerTaskReconfigureVolumes:
+		*s = ActivityEventContainerTaskReconfigureVolumes
+		return nil
+	case ActivityEventContainerReimage:
+		*s = ActivityEventContainerReimage
+		return nil
+	case ActivityEventContainerTaskReimage:
+		*s = ActivityEventContainerTaskReimage
+		return nil
+	case ActivityEventContainerScale:
+		*s = ActivityEventContainerScale
+		return nil
+	case ActivityEventContainerTaskScale:
+		*s = ActivityEventContainerTaskScale
+		return nil
+	case ActivityEventContainerDelete:
+		*s = ActivityEventContainerDelete
+		return nil
+	case ActivityEventContainerTaskDelete:
+		*s = ActivityEventContainerTaskDelete
+		return nil
+	case ActivityEventContainerInstanceError:
+		*s = ActivityEventContainerInstanceError
+		return nil
+	case ActivityEventContainerInstanceSftpLogin:
+		*s = ActivityEventContainerInstanceSftpLogin
+		return nil
+	case ActivityEventContainerInstanceMigrationStart:
+		*s = ActivityEventContainerInstanceMigrationStart
+		return nil
+	case ActivityEventContainerInstanceMigrationRevert:
+		*s = ActivityEventContainerInstanceMigrationRevert
+		return nil
+	case ActivityEventContainerInstanceDelete:
+		*s = ActivityEventContainerInstanceDelete
+		return nil
+	case ActivityEventContainerInstancesDelete:
+		*s = ActivityEventContainerInstancesDelete
+		return nil
+	case ActivityEventContainerInstancesCreate:
+		*s = ActivityEventContainerInstancesCreate
+		return nil
+	case ActivityEventContainerInstanceHealthcheckRestarted:
+		*s = ActivityEventContainerInstanceHealthcheckRestarted
+		return nil
+	case ActivityEventContainerBackupCreate:
+		*s = ActivityEventContainerBackupCreate
+		return nil
+	case ActivityEventContainerBackupRestore:
+		*s = ActivityEventContainerBackupRestore
+		return nil
+	case ActivityEventContainerBackupTaskRestore:
+		*s = ActivityEventContainerBackupTaskRestore
+		return nil
+	case ActivityEventContainerBackupDelete:
+		*s = ActivityEventContainerBackupDelete
+		return nil
+	case ActivityEventContainerBackupTaskDelete:
+		*s = ActivityEventContainerBackupTaskDelete
+		return nil
+	case ActivityEventDNSZoneTaskVerify:
+		*s = ActivityEventDNSZoneTaskVerify
+		return nil
+	case ActivityEventDNSZoneTaskDelete:
+		*s = ActivityEventDNSZoneTaskDelete
+		return nil
+	case ActivityEventDNSZoneUpdate:
+		*s = ActivityEventDNSZoneUpdate
+		return nil
+	case ActivityEventDNSZoneCreate:
+		*s = ActivityEventDNSZoneCreate
+		return nil
+	case ActivityEventDNSZoneVerify:
+		*s = ActivityEventDNSZoneVerify
+		return nil
+	case ActivityEventDNSZoneDelete:
+		*s = ActivityEventDNSZoneDelete
+		return nil
+	case ActivityEventDNSZoneRecordCertGenerateAuto:
+		*s = ActivityEventDNSZoneRecordCertGenerateAuto
+		return nil
+	case ActivityEventDNSZoneRecordCertGenerate:
+		*s = ActivityEventDNSZoneRecordCertGenerate
+		return nil
+	case ActivityEventDNSZoneRecordDelete:
+		*s = ActivityEventDNSZoneRecordDelete
+		return nil
+	case ActivityEventDNSZoneRecordUpdate:
+		*s = ActivityEventDNSZoneRecordUpdate
+		return nil
+	case ActivityEventDNSZoneRecordCreate:
+		*s = ActivityEventDNSZoneRecordCreate
+		return nil
+	case ActivityEventDNSZoneRecordTaskDelete:
+		*s = ActivityEventDNSZoneRecordTaskDelete
+		return nil
+	case ActivityEventDNSZoneRecordTaskCertGenerate:
+		*s = ActivityEventDNSZoneRecordTaskCertGenerate
+		return nil
+	case ActivityEventStackTaskDelete:
+		*s = ActivityEventStackTaskDelete
+		return nil
+	case ActivityEventStackUpdate:
+		*s = ActivityEventStackUpdate
+		return nil
+	case ActivityEventStackCreate:
+		*s = ActivityEventStackCreate
+		return nil
+	case ActivityEventStackTaskPrune:
+		*s = ActivityEventStackTaskPrune
+		return nil
+	case ActivityEventStackBuildCreate:
+		*s = ActivityEventStackBuildCreate
+		return nil
+	case ActivityEventStackBuildGenerate:
+		*s = ActivityEventStackBuildGenerate
+		return nil
+	case ActivityEventStackBuildDeploy:
+		*s = ActivityEventStackBuildDeploy
+		return nil
+	case ActivityEventStackBuildDelete:
+		*s = ActivityEventStackBuildDelete
+		return nil
+	case ActivityEventStackBuildTaskGenerate:
+		*s = ActivityEventStackBuildTaskGenerate
+		return nil
+	case ActivityEventStackBuildTaskDelete:
+		*s = ActivityEventStackBuildTaskDelete
+		return nil
+	case ActivityEventInfrastructureServerTaskDelete:
+		*s = ActivityEventInfrastructureServerTaskDelete
+		return nil
+	case ActivityEventInfrastructureServerTaskRestart:
+		*s = ActivityEventInfrastructureServerTaskRestart
+		return nil
+	case ActivityEventInfrastructureServerTaskProvision:
+		*s = ActivityEventInfrastructureServerTaskProvision
+		return nil
+	case ActivityEventInfrastructureServerUpdate:
+		*s = ActivityEventInfrastructureServerUpdate
+		return nil
+	case ActivityEventInfrastructureServerDelete:
+		*s = ActivityEventInfrastructureServerDelete
+		return nil
+	case ActivityEventInfrastructureServerRestart:
+		*s = ActivityEventInfrastructureServerRestart
+		return nil
+	case ActivityEventInfrastructureServerComputeRestart:
+		*s = ActivityEventInfrastructureServerComputeRestart
+		return nil
+	case ActivityEventInfrastructureServerProvision:
+		*s = ActivityEventInfrastructureServerProvision
+		return nil
+	case ActivityEventInfrastructureServerLive:
+		*s = ActivityEventInfrastructureServerLive
+		return nil
+	case ActivityEventInfrastructureServerServicesSftpLockdownAuto:
+		*s = ActivityEventInfrastructureServerServicesSftpLockdownAuto
+		return nil
+	case ActivityEventInfrastructureServerReconfigureFeatures:
+		*s = ActivityEventInfrastructureServerReconfigureFeatures
+		return nil
+	case ActivityEventInfrastructureServerTaskReconfigureFeatures:
+		*s = ActivityEventInfrastructureServerTaskReconfigureFeatures
+		return nil
+	case ActivityEventInfrastructureProviderCreate:
+		*s = ActivityEventInfrastructureProviderCreate
+		return nil
+	case ActivityEventInfrastructureProviderUpdate:
+		*s = ActivityEventInfrastructureProviderUpdate
+		return nil
+	case ActivityEventInfrastructureProviderDelete:
+		*s = ActivityEventInfrastructureProviderDelete
+		return nil
+	case ActivityEventSdnNetworkTaskDelete:
+		*s = ActivityEventSdnNetworkTaskDelete
+		return nil
+	case ActivityEventSdnNetworkUpdate:
+		*s = ActivityEventSdnNetworkUpdate
+		return nil
+	case ActivityEventSdnNetworkCreate:
+		*s = ActivityEventSdnNetworkCreate
+		return nil
+	case ActivityEventSdnNetworkTaskReconfigure:
+		*s = ActivityEventSdnNetworkTaskReconfigure
+		return nil
+	case ActivityEventInfrastructureIpsPoolTaskDelete:
+		*s = ActivityEventInfrastructureIpsPoolTaskDelete
+		return nil
+	case ActivityEventBillingOrderTaskConfirm:
+		*s = ActivityEventBillingOrderTaskConfirm
+		return nil
+	case ActivityEventBillingOrderConfirm:
+		*s = ActivityEventBillingOrderConfirm
+		return nil
+	case ActivityEventBillingInvoiceTaskVoid:
+		*s = ActivityEventBillingInvoiceTaskVoid
+		return nil
+	case ActivityEventBillingInvoiceTaskCredit:
+		*s = ActivityEventBillingInvoiceTaskCredit
+		return nil
+	case ActivityEventBillingInvoiceTaskRefund:
+		*s = ActivityEventBillingInvoiceTaskRefund
+		return nil
+	case ActivityEventBillingInvoiceTaskPay:
+		*s = ActivityEventBillingInvoiceTaskPay
+		return nil
+	case ActivityEventBillingInvoicePay:
+		*s = ActivityEventBillingInvoicePay
+		return nil
+	case ActivityEventBillingMethodUpdate:
+		*s = ActivityEventBillingMethodUpdate
+		return nil
+	case ActivityEventBillingMethodCreate:
+		*s = ActivityEventBillingMethodCreate
+		return nil
+	case ActivityEventBillingMethodDelete:
+		*s = ActivityEventBillingMethodDelete
+		return nil
+	case ActivityEventBillingMethodTaskDelete:
+		*s = ActivityEventBillingMethodTaskDelete
+		return nil
+	case ActivityEventHubApikeyCreate:
+		*s = ActivityEventHubApikeyCreate
+		return nil
+	case ActivityEventHubApikeyUpdate:
+		*s = ActivityEventHubApikeyUpdate
+		return nil
+	case ActivityEventHubApikeyDelete:
+		*s = ActivityEventHubApikeyDelete
+		return nil
+	case ActivityEventHubMembershipCreate:
+		*s = ActivityEventHubMembershipCreate
+		return nil
+	case ActivityEventHubMembershipDelete:
+		*s = ActivityEventHubMembershipDelete
+		return nil
+	case ActivityEventPipelineUpdate:
+		*s = ActivityEventPipelineUpdate
+		return nil
+	case ActivityEventPipelineTaskDelete:
+		*s = ActivityEventPipelineTaskDelete
+		return nil
+	case ActivityEventPipelineDelete:
+		*s = ActivityEventPipelineDelete
+		return nil
+	case ActivityEventPipelineCreate:
+		*s = ActivityEventPipelineCreate
+		return nil
+	case ActivityEventPipelineTaskTrigger:
+		*s = ActivityEventPipelineTaskTrigger
+		return nil
+	case ActivityEventPipelineTrigger:
+		*s = ActivityEventPipelineTrigger
+		return nil
+	case ActivityEventPipelineKeyUpdate:
+		*s = ActivityEventPipelineKeyUpdate
+		return nil
+	case ActivityEventPipelineKeyDelete:
+		*s = ActivityEventPipelineKeyDelete
+		return nil
+	case ActivityEventPipelineKeyCreate:
+		*s = ActivityEventPipelineKeyCreate
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// All includable resources linkable to the given records.
+// Ref: #/components/schemas/ActivityIncludes
+type ActivityIncludes struct {
+	Users      OptCreatorInclude     `json:"users"`
+	Components OptComponentsIncludes `json:"components"`
+}
+
+// GetUsers returns the value of Users.
+func (s *ActivityIncludes) GetUsers() OptCreatorInclude {
+	return s.Users
+}
+
+// GetComponents returns the value of Components.
+func (s *ActivityIncludes) GetComponents() OptComponentsIncludes {
+	return s.Components
+}
+
+// SetUsers sets the value of Users.
+func (s *ActivityIncludes) SetUsers(val OptCreatorInclude) {
+	s.Users = val
+}
+
+// SetComponents sets the value of Components.
+func (s *ActivityIncludes) SetComponents(val OptComponentsIncludes) {
+	s.Components = val
+}
+
+// A status for the given activity.
+type ActivityStatus string
+
+const (
+	ActivityStatusInfo     ActivityStatus = "info"
+	ActivityStatusWarning  ActivityStatus = "warning"
+	ActivityStatusRequest  ActivityStatus = "request"
+	ActivityStatusSuccess  ActivityStatus = "success"
+	ActivityStatusError    ActivityStatus = "error"
+	ActivityStatusAlert    ActivityStatus = "alert"
+	ActivityStatusRecovery ActivityStatus = "recovery"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ActivityStatus) MarshalText() ([]byte, error) {
+	switch s {
+	case ActivityStatusInfo:
+		return []byte(s), nil
+	case ActivityStatusWarning:
+		return []byte(s), nil
+	case ActivityStatusRequest:
+		return []byte(s), nil
+	case ActivityStatusSuccess:
+		return []byte(s), nil
+	case ActivityStatusError:
+		return []byte(s), nil
+	case ActivityStatusAlert:
+		return []byte(s), nil
+	case ActivityStatusRecovery:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ActivityStatus) UnmarshalText(data []byte) error {
+	switch ActivityStatus(data) {
+	case ActivityStatusInfo:
+		*s = ActivityStatusInfo
+		return nil
+	case ActivityStatusWarning:
+		*s = ActivityStatusWarning
+		return nil
+	case ActivityStatusRequest:
+		*s = ActivityStatusRequest
+		return nil
+	case ActivityStatusSuccess:
+		*s = ActivityStatusSuccess
+		return nil
+	case ActivityStatusError:
+		*s = ActivityStatusError
+		return nil
+	case ActivityStatusAlert:
+		*s = ActivityStatusAlert
+		return nil
+	case ActivityStatusRecovery:
+		*s = ActivityStatusRecovery
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Userscope.
+type ActivityUser struct {
+	// The type of user.
+	Type ActivityUserType `json:"type"`
+	// The given users ID.
+	ID string `json:"id"`
+}
+
+// GetType returns the value of Type.
+func (s *ActivityUser) GetType() ActivityUserType {
+	return s.Type
+}
+
+// GetID returns the value of ID.
+func (s *ActivityUser) GetID() string {
+	return s.ID
+}
+
+// SetType sets the value of Type.
+func (s *ActivityUser) SetType(val ActivityUserType) {
+	s.Type = val
+}
+
+// SetID sets the value of ID.
+func (s *ActivityUser) SetID(val string) {
+	s.ID = val
+}
+
+// The type of user.
+type ActivityUserType string
+
+const (
+	ActivityUserTypeAccount          ActivityUserType = "account"
+	ActivityUserTypeEnvironment      ActivityUserType = "environment"
+	ActivityUserTypePlatform         ActivityUserType = "platform"
+	ActivityUserTypePlatformPipeline ActivityUserType = "platform-pipeline"
+	ActivityUserTypeEmployee         ActivityUserType = "employee"
+	ActivityUserTypeAPIKey           ActivityUserType = "api-key"
+	ActivityUserTypeVisitor          ActivityUserType = "visitor"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ActivityUserType) MarshalText() ([]byte, error) {
+	switch s {
+	case ActivityUserTypeAccount:
+		return []byte(s), nil
+	case ActivityUserTypeEnvironment:
+		return []byte(s), nil
+	case ActivityUserTypePlatform:
+		return []byte(s), nil
+	case ActivityUserTypePlatformPipeline:
+		return []byte(s), nil
+	case ActivityUserTypeEmployee:
+		return []byte(s), nil
+	case ActivityUserTypeAPIKey:
+		return []byte(s), nil
+	case ActivityUserTypeVisitor:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ActivityUserType) UnmarshalText(data []byte) error {
+	switch ActivityUserType(data) {
+	case ActivityUserTypeAccount:
+		*s = ActivityUserTypeAccount
+		return nil
+	case ActivityUserTypeEnvironment:
+		*s = ActivityUserTypeEnvironment
+		return nil
+	case ActivityUserTypePlatform:
+		*s = ActivityUserTypePlatform
+		return nil
+	case ActivityUserTypePlatformPipeline:
+		*s = ActivityUserTypePlatformPipeline
+		return nil
+	case ActivityUserTypeEmployee:
+		*s = ActivityUserTypeEmployee
+		return nil
+	case ActivityUserTypeAPIKey:
+		*s = ActivityUserTypeAPIKey
+		return nil
+	case ActivityUserTypeVisitor:
+		*s = ActivityUserTypeVisitor
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Address information for a given billing method.
 // Ref: #/components/schemas/Address
 type Address struct {
@@ -2041,6 +3220,35 @@ func (s *BillingMembersAdditionalTerm) UnmarshalText(data []byte) error {
 	}
 }
 
+// Expiration information for a billing method.
+// Ref: #/components/schemas/BillingMethodExpiration
+type BillingMethodExpiration struct {
+	// The month the billing method expires.
+	Month int `json:"month"`
+	// The year the billing method expires.
+	Year int `json:"year"`
+}
+
+// GetMonth returns the value of Month.
+func (s *BillingMethodExpiration) GetMonth() int {
+	return s.Month
+}
+
+// GetYear returns the value of Year.
+func (s *BillingMethodExpiration) GetYear() int {
+	return s.Year
+}
+
+// SetMonth sets the value of Month.
+func (s *BillingMethodExpiration) SetMonth(val int) {
+	s.Month = val
+}
+
+// SetYear sets the value of Year.
+func (s *BillingMethodExpiration) SetYear(val int) {
+	s.Year = val
+}
+
 // Information about an order.
 // Ref: #/components/schemas/BillingOrder
 type BillingOrder struct {
@@ -3520,53 +4728,136 @@ func (s *Certificate) SetWildcardChild(val bool) {
 	s.WildcardChild = val
 }
 
+// An object with information of details for before and after a resource changed.
+// Ref: #/components/schemas/Change
+type Change struct {
+	// A description of the resource that was changed.
+	Component string    `json:"component"`
+	Before    OptDetail `json:"before"`
+	After     OptDetail `json:"after"`
+}
+
+// GetComponent returns the value of Component.
+func (s *Change) GetComponent() string {
+	return s.Component
+}
+
+// GetBefore returns the value of Before.
+func (s *Change) GetBefore() OptDetail {
+	return s.Before
+}
+
+// GetAfter returns the value of After.
+func (s *Change) GetAfter() OptDetail {
+	return s.After
+}
+
+// SetComponent sets the value of Component.
+func (s *Change) SetComponent(val string) {
+	s.Component = val
+}
+
+// SetBefore sets the value of Before.
+func (s *Change) SetBefore(val OptDetail) {
+	s.Before = val
+}
+
+// SetAfter sets the value of After.
+func (s *Change) SetAfter(val OptDetail) {
+	s.After = val
+}
+
 // A count of servers in a cluster with the given version of Cycle software.
 // Ref: #/components/schemas/ClusterVersionServerCount
 type ClusterVersionServerCount struct {
-	Agent               jx.Raw `json:"agent"`
-	AgentMinusSpawner   jx.Raw `json:"agent-spawner"`
-	Compute             jx.Raw `json:"compute"`
-	ComputeMinusSpawner jx.Raw `json:"compute-spawner"`
+	Agent               ClusterVersionServerCountAgent               `json:"agent"`
+	AgentMinusSpawner   ClusterVersionServerCountAgentMinusSpawner   `json:"agent-spawner"`
+	Compute             ClusterVersionServerCountCompute             `json:"compute"`
+	ComputeMinusSpawner ClusterVersionServerCountComputeMinusSpawner `json:"compute-spawner"`
 }
 
 // GetAgent returns the value of Agent.
-func (s *ClusterVersionServerCount) GetAgent() jx.Raw {
+func (s *ClusterVersionServerCount) GetAgent() ClusterVersionServerCountAgent {
 	return s.Agent
 }
 
 // GetAgentMinusSpawner returns the value of AgentMinusSpawner.
-func (s *ClusterVersionServerCount) GetAgentMinusSpawner() jx.Raw {
+func (s *ClusterVersionServerCount) GetAgentMinusSpawner() ClusterVersionServerCountAgentMinusSpawner {
 	return s.AgentMinusSpawner
 }
 
 // GetCompute returns the value of Compute.
-func (s *ClusterVersionServerCount) GetCompute() jx.Raw {
+func (s *ClusterVersionServerCount) GetCompute() ClusterVersionServerCountCompute {
 	return s.Compute
 }
 
 // GetComputeMinusSpawner returns the value of ComputeMinusSpawner.
-func (s *ClusterVersionServerCount) GetComputeMinusSpawner() jx.Raw {
+func (s *ClusterVersionServerCount) GetComputeMinusSpawner() ClusterVersionServerCountComputeMinusSpawner {
 	return s.ComputeMinusSpawner
 }
 
 // SetAgent sets the value of Agent.
-func (s *ClusterVersionServerCount) SetAgent(val jx.Raw) {
+func (s *ClusterVersionServerCount) SetAgent(val ClusterVersionServerCountAgent) {
 	s.Agent = val
 }
 
 // SetAgentMinusSpawner sets the value of AgentMinusSpawner.
-func (s *ClusterVersionServerCount) SetAgentMinusSpawner(val jx.Raw) {
+func (s *ClusterVersionServerCount) SetAgentMinusSpawner(val ClusterVersionServerCountAgentMinusSpawner) {
 	s.AgentMinusSpawner = val
 }
 
 // SetCompute sets the value of Compute.
-func (s *ClusterVersionServerCount) SetCompute(val jx.Raw) {
+func (s *ClusterVersionServerCount) SetCompute(val ClusterVersionServerCountCompute) {
 	s.Compute = val
 }
 
 // SetComputeMinusSpawner sets the value of ComputeMinusSpawner.
-func (s *ClusterVersionServerCount) SetComputeMinusSpawner(val jx.Raw) {
+func (s *ClusterVersionServerCount) SetComputeMinusSpawner(val ClusterVersionServerCountComputeMinusSpawner) {
 	s.ComputeMinusSpawner = val
+}
+
+type ClusterVersionServerCountAgent map[string]float64
+
+func (s *ClusterVersionServerCountAgent) init() ClusterVersionServerCountAgent {
+	m := *s
+	if m == nil {
+		m = map[string]float64{}
+		*s = m
+	}
+	return m
+}
+
+type ClusterVersionServerCountAgentMinusSpawner map[string]float64
+
+func (s *ClusterVersionServerCountAgentMinusSpawner) init() ClusterVersionServerCountAgentMinusSpawner {
+	m := *s
+	if m == nil {
+		m = map[string]float64{}
+		*s = m
+	}
+	return m
+}
+
+type ClusterVersionServerCountCompute map[string]float64
+
+func (s *ClusterVersionServerCountCompute) init() ClusterVersionServerCountCompute {
+	m := *s
+	if m == nil {
+		m = map[string]float64{}
+		*s = m
+	}
+	return m
+}
+
+type ClusterVersionServerCountComputeMinusSpawner map[string]float64
+
+func (s *ClusterVersionServerCountComputeMinusSpawner) init() ClusterVersionServerCountComputeMinusSpawner {
+	m := *s
+	if m == nil {
+		m = map[string]float64{}
+		*s = m
+	}
+	return m
 }
 
 // Generic component format for describing resources for the search index.
@@ -3731,6 +5022,459 @@ func (s *ComponentAssociations) SetServer(val OptString) {
 // SetProviderMinusLocation sets the value of ProviderMinusLocation.
 func (s *ComponentAssociations) SetProviderMinusLocation(val OptString) {
 	s.ProviderMinusLocation = val
+}
+
+// A resource thats assocaited with activity.
+// Ref: #/components/schemas/ComponentsIncludes
+type ComponentsIncludes map[string]ComponentsIncludesItem
+
+func (s *ComponentsIncludes) init() ComponentsIncludes {
+	m := *s
+	if m == nil {
+		m = map[string]ComponentsIncludesItem{}
+		*s = m
+	}
+	return m
+}
+
+// ComponentsIncludesItem represents sum type.
+type ComponentsIncludesItem struct {
+	Type          ComponentsIncludesItemType // switch on this field
+	Container     Container
+	Instance      Instance
+	Environment   Environment
+	Image         Image
+	InfraServer   InfraServer
+	Pool          Pool
+	Stack         Stack
+	StackBuild    StackBuild
+	Zone          Zone
+	Record        Record
+	ApiKey        ApiKey
+	Provider      Provider
+	SDNNetwork    SDNNetwork
+	HubMembership HubMembership
+	Pipeline      Pipeline
+	TriggerKey    TriggerKey
+}
+
+// ComponentsIncludesItemType is oneOf type of ComponentsIncludesItem.
+type ComponentsIncludesItemType string
+
+// Possible values for ComponentsIncludesItemType.
+const (
+	ContainerComponentsIncludesItem     ComponentsIncludesItemType = "Container"
+	InstanceComponentsIncludesItem      ComponentsIncludesItemType = "Instance"
+	EnvironmentComponentsIncludesItem   ComponentsIncludesItemType = "Environment"
+	ImageComponentsIncludesItem         ComponentsIncludesItemType = "Image"
+	InfraServerComponentsIncludesItem   ComponentsIncludesItemType = "InfraServer"
+	PoolComponentsIncludesItem          ComponentsIncludesItemType = "Pool"
+	StackComponentsIncludesItem         ComponentsIncludesItemType = "Stack"
+	StackBuildComponentsIncludesItem    ComponentsIncludesItemType = "StackBuild"
+	ZoneComponentsIncludesItem          ComponentsIncludesItemType = "Zone"
+	RecordComponentsIncludesItem        ComponentsIncludesItemType = "Record"
+	ApiKeyComponentsIncludesItem        ComponentsIncludesItemType = "ApiKey"
+	ProviderComponentsIncludesItem      ComponentsIncludesItemType = "Provider"
+	SDNNetworkComponentsIncludesItem    ComponentsIncludesItemType = "SDNNetwork"
+	HubMembershipComponentsIncludesItem ComponentsIncludesItemType = "HubMembership"
+	PipelineComponentsIncludesItem      ComponentsIncludesItemType = "Pipeline"
+	TriggerKeyComponentsIncludesItem    ComponentsIncludesItemType = "TriggerKey"
+)
+
+// IsContainer reports whether ComponentsIncludesItem is Container.
+func (s ComponentsIncludesItem) IsContainer() bool { return s.Type == ContainerComponentsIncludesItem }
+
+// IsInstance reports whether ComponentsIncludesItem is Instance.
+func (s ComponentsIncludesItem) IsInstance() bool { return s.Type == InstanceComponentsIncludesItem }
+
+// IsEnvironment reports whether ComponentsIncludesItem is Environment.
+func (s ComponentsIncludesItem) IsEnvironment() bool {
+	return s.Type == EnvironmentComponentsIncludesItem
+}
+
+// IsImage reports whether ComponentsIncludesItem is Image.
+func (s ComponentsIncludesItem) IsImage() bool { return s.Type == ImageComponentsIncludesItem }
+
+// IsInfraServer reports whether ComponentsIncludesItem is InfraServer.
+func (s ComponentsIncludesItem) IsInfraServer() bool {
+	return s.Type == InfraServerComponentsIncludesItem
+}
+
+// IsPool reports whether ComponentsIncludesItem is Pool.
+func (s ComponentsIncludesItem) IsPool() bool { return s.Type == PoolComponentsIncludesItem }
+
+// IsStack reports whether ComponentsIncludesItem is Stack.
+func (s ComponentsIncludesItem) IsStack() bool { return s.Type == StackComponentsIncludesItem }
+
+// IsStackBuild reports whether ComponentsIncludesItem is StackBuild.
+func (s ComponentsIncludesItem) IsStackBuild() bool {
+	return s.Type == StackBuildComponentsIncludesItem
+}
+
+// IsZone reports whether ComponentsIncludesItem is Zone.
+func (s ComponentsIncludesItem) IsZone() bool { return s.Type == ZoneComponentsIncludesItem }
+
+// IsRecord reports whether ComponentsIncludesItem is Record.
+func (s ComponentsIncludesItem) IsRecord() bool { return s.Type == RecordComponentsIncludesItem }
+
+// IsApiKey reports whether ComponentsIncludesItem is ApiKey.
+func (s ComponentsIncludesItem) IsApiKey() bool { return s.Type == ApiKeyComponentsIncludesItem }
+
+// IsProvider reports whether ComponentsIncludesItem is Provider.
+func (s ComponentsIncludesItem) IsProvider() bool { return s.Type == ProviderComponentsIncludesItem }
+
+// IsSDNNetwork reports whether ComponentsIncludesItem is SDNNetwork.
+func (s ComponentsIncludesItem) IsSDNNetwork() bool {
+	return s.Type == SDNNetworkComponentsIncludesItem
+}
+
+// IsHubMembership reports whether ComponentsIncludesItem is HubMembership.
+func (s ComponentsIncludesItem) IsHubMembership() bool {
+	return s.Type == HubMembershipComponentsIncludesItem
+}
+
+// IsPipeline reports whether ComponentsIncludesItem is Pipeline.
+func (s ComponentsIncludesItem) IsPipeline() bool { return s.Type == PipelineComponentsIncludesItem }
+
+// IsTriggerKey reports whether ComponentsIncludesItem is TriggerKey.
+func (s ComponentsIncludesItem) IsTriggerKey() bool {
+	return s.Type == TriggerKeyComponentsIncludesItem
+}
+
+// SetContainer sets ComponentsIncludesItem to Container.
+func (s *ComponentsIncludesItem) SetContainer(v Container) {
+	s.Type = ContainerComponentsIncludesItem
+	s.Container = v
+}
+
+// GetContainer returns Container and true boolean if ComponentsIncludesItem is Container.
+func (s ComponentsIncludesItem) GetContainer() (v Container, ok bool) {
+	if !s.IsContainer() {
+		return v, false
+	}
+	return s.Container, true
+}
+
+// NewContainerComponentsIncludesItem returns new ComponentsIncludesItem from Container.
+func NewContainerComponentsIncludesItem(v Container) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetContainer(v)
+	return s
+}
+
+// SetInstance sets ComponentsIncludesItem to Instance.
+func (s *ComponentsIncludesItem) SetInstance(v Instance) {
+	s.Type = InstanceComponentsIncludesItem
+	s.Instance = v
+}
+
+// GetInstance returns Instance and true boolean if ComponentsIncludesItem is Instance.
+func (s ComponentsIncludesItem) GetInstance() (v Instance, ok bool) {
+	if !s.IsInstance() {
+		return v, false
+	}
+	return s.Instance, true
+}
+
+// NewInstanceComponentsIncludesItem returns new ComponentsIncludesItem from Instance.
+func NewInstanceComponentsIncludesItem(v Instance) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetInstance(v)
+	return s
+}
+
+// SetEnvironment sets ComponentsIncludesItem to Environment.
+func (s *ComponentsIncludesItem) SetEnvironment(v Environment) {
+	s.Type = EnvironmentComponentsIncludesItem
+	s.Environment = v
+}
+
+// GetEnvironment returns Environment and true boolean if ComponentsIncludesItem is Environment.
+func (s ComponentsIncludesItem) GetEnvironment() (v Environment, ok bool) {
+	if !s.IsEnvironment() {
+		return v, false
+	}
+	return s.Environment, true
+}
+
+// NewEnvironmentComponentsIncludesItem returns new ComponentsIncludesItem from Environment.
+func NewEnvironmentComponentsIncludesItem(v Environment) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetEnvironment(v)
+	return s
+}
+
+// SetImage sets ComponentsIncludesItem to Image.
+func (s *ComponentsIncludesItem) SetImage(v Image) {
+	s.Type = ImageComponentsIncludesItem
+	s.Image = v
+}
+
+// GetImage returns Image and true boolean if ComponentsIncludesItem is Image.
+func (s ComponentsIncludesItem) GetImage() (v Image, ok bool) {
+	if !s.IsImage() {
+		return v, false
+	}
+	return s.Image, true
+}
+
+// NewImageComponentsIncludesItem returns new ComponentsIncludesItem from Image.
+func NewImageComponentsIncludesItem(v Image) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetImage(v)
+	return s
+}
+
+// SetInfraServer sets ComponentsIncludesItem to InfraServer.
+func (s *ComponentsIncludesItem) SetInfraServer(v InfraServer) {
+	s.Type = InfraServerComponentsIncludesItem
+	s.InfraServer = v
+}
+
+// GetInfraServer returns InfraServer and true boolean if ComponentsIncludesItem is InfraServer.
+func (s ComponentsIncludesItem) GetInfraServer() (v InfraServer, ok bool) {
+	if !s.IsInfraServer() {
+		return v, false
+	}
+	return s.InfraServer, true
+}
+
+// NewInfraServerComponentsIncludesItem returns new ComponentsIncludesItem from InfraServer.
+func NewInfraServerComponentsIncludesItem(v InfraServer) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetInfraServer(v)
+	return s
+}
+
+// SetPool sets ComponentsIncludesItem to Pool.
+func (s *ComponentsIncludesItem) SetPool(v Pool) {
+	s.Type = PoolComponentsIncludesItem
+	s.Pool = v
+}
+
+// GetPool returns Pool and true boolean if ComponentsIncludesItem is Pool.
+func (s ComponentsIncludesItem) GetPool() (v Pool, ok bool) {
+	if !s.IsPool() {
+		return v, false
+	}
+	return s.Pool, true
+}
+
+// NewPoolComponentsIncludesItem returns new ComponentsIncludesItem from Pool.
+func NewPoolComponentsIncludesItem(v Pool) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetPool(v)
+	return s
+}
+
+// SetStack sets ComponentsIncludesItem to Stack.
+func (s *ComponentsIncludesItem) SetStack(v Stack) {
+	s.Type = StackComponentsIncludesItem
+	s.Stack = v
+}
+
+// GetStack returns Stack and true boolean if ComponentsIncludesItem is Stack.
+func (s ComponentsIncludesItem) GetStack() (v Stack, ok bool) {
+	if !s.IsStack() {
+		return v, false
+	}
+	return s.Stack, true
+}
+
+// NewStackComponentsIncludesItem returns new ComponentsIncludesItem from Stack.
+func NewStackComponentsIncludesItem(v Stack) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetStack(v)
+	return s
+}
+
+// SetStackBuild sets ComponentsIncludesItem to StackBuild.
+func (s *ComponentsIncludesItem) SetStackBuild(v StackBuild) {
+	s.Type = StackBuildComponentsIncludesItem
+	s.StackBuild = v
+}
+
+// GetStackBuild returns StackBuild and true boolean if ComponentsIncludesItem is StackBuild.
+func (s ComponentsIncludesItem) GetStackBuild() (v StackBuild, ok bool) {
+	if !s.IsStackBuild() {
+		return v, false
+	}
+	return s.StackBuild, true
+}
+
+// NewStackBuildComponentsIncludesItem returns new ComponentsIncludesItem from StackBuild.
+func NewStackBuildComponentsIncludesItem(v StackBuild) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetStackBuild(v)
+	return s
+}
+
+// SetZone sets ComponentsIncludesItem to Zone.
+func (s *ComponentsIncludesItem) SetZone(v Zone) {
+	s.Type = ZoneComponentsIncludesItem
+	s.Zone = v
+}
+
+// GetZone returns Zone and true boolean if ComponentsIncludesItem is Zone.
+func (s ComponentsIncludesItem) GetZone() (v Zone, ok bool) {
+	if !s.IsZone() {
+		return v, false
+	}
+	return s.Zone, true
+}
+
+// NewZoneComponentsIncludesItem returns new ComponentsIncludesItem from Zone.
+func NewZoneComponentsIncludesItem(v Zone) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetZone(v)
+	return s
+}
+
+// SetRecord sets ComponentsIncludesItem to Record.
+func (s *ComponentsIncludesItem) SetRecord(v Record) {
+	s.Type = RecordComponentsIncludesItem
+	s.Record = v
+}
+
+// GetRecord returns Record and true boolean if ComponentsIncludesItem is Record.
+func (s ComponentsIncludesItem) GetRecord() (v Record, ok bool) {
+	if !s.IsRecord() {
+		return v, false
+	}
+	return s.Record, true
+}
+
+// NewRecordComponentsIncludesItem returns new ComponentsIncludesItem from Record.
+func NewRecordComponentsIncludesItem(v Record) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetRecord(v)
+	return s
+}
+
+// SetApiKey sets ComponentsIncludesItem to ApiKey.
+func (s *ComponentsIncludesItem) SetApiKey(v ApiKey) {
+	s.Type = ApiKeyComponentsIncludesItem
+	s.ApiKey = v
+}
+
+// GetApiKey returns ApiKey and true boolean if ComponentsIncludesItem is ApiKey.
+func (s ComponentsIncludesItem) GetApiKey() (v ApiKey, ok bool) {
+	if !s.IsApiKey() {
+		return v, false
+	}
+	return s.ApiKey, true
+}
+
+// NewApiKeyComponentsIncludesItem returns new ComponentsIncludesItem from ApiKey.
+func NewApiKeyComponentsIncludesItem(v ApiKey) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetApiKey(v)
+	return s
+}
+
+// SetProvider sets ComponentsIncludesItem to Provider.
+func (s *ComponentsIncludesItem) SetProvider(v Provider) {
+	s.Type = ProviderComponentsIncludesItem
+	s.Provider = v
+}
+
+// GetProvider returns Provider and true boolean if ComponentsIncludesItem is Provider.
+func (s ComponentsIncludesItem) GetProvider() (v Provider, ok bool) {
+	if !s.IsProvider() {
+		return v, false
+	}
+	return s.Provider, true
+}
+
+// NewProviderComponentsIncludesItem returns new ComponentsIncludesItem from Provider.
+func NewProviderComponentsIncludesItem(v Provider) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetProvider(v)
+	return s
+}
+
+// SetSDNNetwork sets ComponentsIncludesItem to SDNNetwork.
+func (s *ComponentsIncludesItem) SetSDNNetwork(v SDNNetwork) {
+	s.Type = SDNNetworkComponentsIncludesItem
+	s.SDNNetwork = v
+}
+
+// GetSDNNetwork returns SDNNetwork and true boolean if ComponentsIncludesItem is SDNNetwork.
+func (s ComponentsIncludesItem) GetSDNNetwork() (v SDNNetwork, ok bool) {
+	if !s.IsSDNNetwork() {
+		return v, false
+	}
+	return s.SDNNetwork, true
+}
+
+// NewSDNNetworkComponentsIncludesItem returns new ComponentsIncludesItem from SDNNetwork.
+func NewSDNNetworkComponentsIncludesItem(v SDNNetwork) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetSDNNetwork(v)
+	return s
+}
+
+// SetHubMembership sets ComponentsIncludesItem to HubMembership.
+func (s *ComponentsIncludesItem) SetHubMembership(v HubMembership) {
+	s.Type = HubMembershipComponentsIncludesItem
+	s.HubMembership = v
+}
+
+// GetHubMembership returns HubMembership and true boolean if ComponentsIncludesItem is HubMembership.
+func (s ComponentsIncludesItem) GetHubMembership() (v HubMembership, ok bool) {
+	if !s.IsHubMembership() {
+		return v, false
+	}
+	return s.HubMembership, true
+}
+
+// NewHubMembershipComponentsIncludesItem returns new ComponentsIncludesItem from HubMembership.
+func NewHubMembershipComponentsIncludesItem(v HubMembership) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetHubMembership(v)
+	return s
+}
+
+// SetPipeline sets ComponentsIncludesItem to Pipeline.
+func (s *ComponentsIncludesItem) SetPipeline(v Pipeline) {
+	s.Type = PipelineComponentsIncludesItem
+	s.Pipeline = v
+}
+
+// GetPipeline returns Pipeline and true boolean if ComponentsIncludesItem is Pipeline.
+func (s ComponentsIncludesItem) GetPipeline() (v Pipeline, ok bool) {
+	if !s.IsPipeline() {
+		return v, false
+	}
+	return s.Pipeline, true
+}
+
+// NewPipelineComponentsIncludesItem returns new ComponentsIncludesItem from Pipeline.
+func NewPipelineComponentsIncludesItem(v Pipeline) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetPipeline(v)
+	return s
+}
+
+// SetTriggerKey sets ComponentsIncludesItem to TriggerKey.
+func (s *ComponentsIncludesItem) SetTriggerKey(v TriggerKey) {
+	s.Type = TriggerKeyComponentsIncludesItem
+	s.TriggerKey = v
+}
+
+// GetTriggerKey returns TriggerKey and true boolean if ComponentsIncludesItem is TriggerKey.
+func (s ComponentsIncludesItem) GetTriggerKey() (v TriggerKey, ok bool) {
+	if !s.IsTriggerKey() {
+		return v, false
+	}
+	return s.TriggerKey, true
+}
+
+// NewTriggerKeyComponentsIncludesItem returns new ComponentsIncludesItem from TriggerKey.
+func NewTriggerKeyComponentsIncludesItem(v TriggerKey) ComponentsIncludesItem {
+	var s ComponentsIncludesItem
+	s.SetTriggerKey(v)
+	return s
 }
 
 // A container configuration.
@@ -4018,6 +5762,251 @@ func (s *ContainerAnnotations) init() ContainerAnnotations {
 		*s = m
 	}
 	return m
+}
+
+// Settings for the create container step for a pipeline.
+// Ref: #/components/schemas/ContainerCreateStep
+type ContainerCreateStep struct {
+	// An identifier for the step.
+	Identifier OptString                     `json:"identifier"`
+	Options    OptContainerCreateStepOptions `json:"options"`
+	Details    ContainerCreateStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ContainerCreateStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ContainerCreateStep) GetOptions() OptContainerCreateStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ContainerCreateStep) GetDetails() ContainerCreateStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ContainerCreateStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ContainerCreateStep) SetOptions(val OptContainerCreateStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ContainerCreateStep) SetDetails(val ContainerCreateStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ContainerCreateStepAction string
+
+const (
+	ContainerCreateStepActionContainerCreate ContainerCreateStepAction = "container.create"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerCreateStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerCreateStepActionContainerCreate:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerCreateStepAction) UnmarshalText(data []byte) error {
+	switch ContainerCreateStepAction(data) {
+	case ContainerCreateStepActionContainerCreate:
+		*s = ContainerCreateStepActionContainerCreate
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Merged schema.
+type ContainerCreateStepDetails struct {
+	Name        string                                `json:"name"`
+	Environment ResourceLocation                      `json:"environment"`
+	Image       ResourceLocation                      `json:"image"`
+	Stateful    bool                                  `json:"stateful"`
+	Annotations ContainerCreateStepDetailsAnnotations `json:"annotations"`
+	Config      Config                                `json:"config"`
+	Volumes     []ContainerVolume                     `json:"volumes"`
+}
+
+// GetName returns the value of Name.
+func (s *ContainerCreateStepDetails) GetName() string {
+	return s.Name
+}
+
+// GetEnvironment returns the value of Environment.
+func (s *ContainerCreateStepDetails) GetEnvironment() ResourceLocation {
+	return s.Environment
+}
+
+// GetImage returns the value of Image.
+func (s *ContainerCreateStepDetails) GetImage() ResourceLocation {
+	return s.Image
+}
+
+// GetStateful returns the value of Stateful.
+func (s *ContainerCreateStepDetails) GetStateful() bool {
+	return s.Stateful
+}
+
+// GetAnnotations returns the value of Annotations.
+func (s *ContainerCreateStepDetails) GetAnnotations() ContainerCreateStepDetailsAnnotations {
+	return s.Annotations
+}
+
+// GetConfig returns the value of Config.
+func (s *ContainerCreateStepDetails) GetConfig() Config {
+	return s.Config
+}
+
+// GetVolumes returns the value of Volumes.
+func (s *ContainerCreateStepDetails) GetVolumes() []ContainerVolume {
+	return s.Volumes
+}
+
+// SetName sets the value of Name.
+func (s *ContainerCreateStepDetails) SetName(val string) {
+	s.Name = val
+}
+
+// SetEnvironment sets the value of Environment.
+func (s *ContainerCreateStepDetails) SetEnvironment(val ResourceLocation) {
+	s.Environment = val
+}
+
+// SetImage sets the value of Image.
+func (s *ContainerCreateStepDetails) SetImage(val ResourceLocation) {
+	s.Image = val
+}
+
+// SetStateful sets the value of Stateful.
+func (s *ContainerCreateStepDetails) SetStateful(val bool) {
+	s.Stateful = val
+}
+
+// SetAnnotations sets the value of Annotations.
+func (s *ContainerCreateStepDetails) SetAnnotations(val ContainerCreateStepDetailsAnnotations) {
+	s.Annotations = val
+}
+
+// SetConfig sets the value of Config.
+func (s *ContainerCreateStepDetails) SetConfig(val Config) {
+	s.Config = val
+}
+
+// SetVolumes sets the value of Volumes.
+func (s *ContainerCreateStepDetails) SetVolumes(val []ContainerVolume) {
+	s.Volumes = val
+}
+
+type ContainerCreateStepDetailsAnnotations struct{}
+
+type ContainerCreateStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ContainerCreateStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ContainerCreateStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// Settings for deleting a container in a pipeline.
+// Ref: #/components/schemas/ContainerDeleteStep
+type ContainerDeleteStep struct {
+	// An identifier for the step.
+	Identifier OptString                     `json:"identifier"`
+	Options    OptContainerDeleteStepOptions `json:"options"`
+	Details    ResourceLocation              `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ContainerDeleteStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ContainerDeleteStep) GetOptions() OptContainerDeleteStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ContainerDeleteStep) GetDetails() ResourceLocation {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ContainerDeleteStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ContainerDeleteStep) SetOptions(val OptContainerDeleteStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ContainerDeleteStep) SetDetails(val ResourceLocation) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ContainerDeleteStepAction string
+
+const (
+	ContainerDeleteStepActionContainerDelete ContainerDeleteStepAction = "container.delete"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerDeleteStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerDeleteStepActionContainerDelete:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerDeleteStepAction) UnmarshalText(data []byte) error {
+	switch ContainerDeleteStepAction(data) {
+	case ContainerDeleteStepActionContainerDelete:
+		*s = ContainerDeleteStepActionContainerDelete
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ContainerDeleteStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ContainerDeleteStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ContainerDeleteStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
 }
 
 // Deployment configuration for the given container.
@@ -4752,6 +6741,66 @@ func (s *ContainerImageSummaryService) UnmarshalText(data []byte) error {
 	}
 }
 
+// All includable resources linkable to the given container.
+// Ref: #/components/schemas/ContainerIncludes
+type ContainerIncludes struct {
+	Creators     OptCreatorInclude      `json:"creators"`
+	Images       OptImagesIncludes      `json:"images"`
+	StackBuilds  OptStackBuildIncludes  `json:"stack_builds"`
+	Stacks       OptStackIncludes       `json:"stacks"`
+	Environments OptEnvironmentIncludes `json:"environments"`
+}
+
+// GetCreators returns the value of Creators.
+func (s *ContainerIncludes) GetCreators() OptCreatorInclude {
+	return s.Creators
+}
+
+// GetImages returns the value of Images.
+func (s *ContainerIncludes) GetImages() OptImagesIncludes {
+	return s.Images
+}
+
+// GetStackBuilds returns the value of StackBuilds.
+func (s *ContainerIncludes) GetStackBuilds() OptStackBuildIncludes {
+	return s.StackBuilds
+}
+
+// GetStacks returns the value of Stacks.
+func (s *ContainerIncludes) GetStacks() OptStackIncludes {
+	return s.Stacks
+}
+
+// GetEnvironments returns the value of Environments.
+func (s *ContainerIncludes) GetEnvironments() OptEnvironmentIncludes {
+	return s.Environments
+}
+
+// SetCreators sets the value of Creators.
+func (s *ContainerIncludes) SetCreators(val OptCreatorInclude) {
+	s.Creators = val
+}
+
+// SetImages sets the value of Images.
+func (s *ContainerIncludes) SetImages(val OptImagesIncludes) {
+	s.Images = val
+}
+
+// SetStackBuilds sets the value of StackBuilds.
+func (s *ContainerIncludes) SetStackBuilds(val OptStackBuildIncludes) {
+	s.StackBuilds = val
+}
+
+// SetStacks sets the value of Stacks.
+func (s *ContainerIncludes) SetStacks(val OptStackIncludes) {
+	s.Stacks = val
+}
+
+// SetEnvironments sets the value of Environments.
+func (s *ContainerIncludes) SetEnvironments(val OptEnvironmentIncludes) {
+	s.Environments = val
+}
+
 // Configuration settings for integrations with a given container.
 // Ref: #/components/schemas/ContainerIntegrations
 type ContainerIntegrations struct {
@@ -5197,6 +7246,127 @@ func (s *ContainerNetworkPublic) UnmarshalText(data []byte) error {
 	}
 }
 
+// Settings for reimaging a container in a pipeline.
+// Ref: #/components/schemas/ContainerReimageStep
+type ContainerReimageStep struct {
+	// An identifier for the step.
+	Identifier OptString                      `json:"identifier"`
+	Options    OptContainerReimageStepOptions `json:"options"`
+	Details    ContainerReimageStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ContainerReimageStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ContainerReimageStep) GetOptions() OptContainerReimageStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ContainerReimageStep) GetDetails() ContainerReimageStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ContainerReimageStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ContainerReimageStep) SetOptions(val OptContainerReimageStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ContainerReimageStep) SetDetails(val ContainerReimageStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ContainerReimageStepAction string
+
+const (
+	ContainerReimageStepActionContainerReimage ContainerReimageStepAction = "container.reimage"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerReimageStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerReimageStepActionContainerReimage:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerReimageStepAction) UnmarshalText(data []byte) error {
+	switch ContainerReimageStepAction(data) {
+	case ContainerReimageStepActionContainerReimage:
+		*s = ContainerReimageStepActionContainerReimage
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Merged schema.
+type ContainerReimageStepDetails struct {
+	Image   ResourceLocation                      `json:"image"`
+	Options OptContainerReimageStepDetailsOptions `json:"options"`
+}
+
+// GetImage returns the value of Image.
+func (s *ContainerReimageStepDetails) GetImage() ResourceLocation {
+	return s.Image
+}
+
+// GetOptions returns the value of Options.
+func (s *ContainerReimageStepDetails) GetOptions() OptContainerReimageStepDetailsOptions {
+	return s.Options
+}
+
+// SetImage sets the value of Image.
+func (s *ContainerReimageStepDetails) SetImage(val ResourceLocation) {
+	s.Image = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ContainerReimageStepDetails) SetOptions(val OptContainerReimageStepDetailsOptions) {
+	s.Options = val
+}
+
+type ContainerReimageStepDetailsOptions struct {
+	AllowIncompatible bool `json:"allow_incompatible"`
+}
+
+// GetAllowIncompatible returns the value of AllowIncompatible.
+func (s *ContainerReimageStepDetailsOptions) GetAllowIncompatible() bool {
+	return s.AllowIncompatible
+}
+
+// SetAllowIncompatible sets the value of AllowIncompatible.
+func (s *ContainerReimageStepDetailsOptions) SetAllowIncompatible(val bool) {
+	s.AllowIncompatible = val
+}
+
+type ContainerReimageStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ContainerReimageStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ContainerReimageStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
 // Configuration settings for the resource allocations and limits of a given container.
 // Ref: #/components/schemas/ContainerResources
 type ContainerResources struct {
@@ -5307,6 +7477,87 @@ func (s *ContainerResourcesRAM) SetLimit(val OptString) {
 // SetReserve sets the value of Reserve.
 func (s *ContainerResourcesRAM) SetReserve(val OptString) {
 	s.Reserve = val
+}
+
+// Settings for restarting a container in a pipeline.
+// Ref: #/components/schemas/ContainerRestartStep
+type ContainerRestartStep struct {
+	// An identifier for the step.
+	Identifier OptString                      `json:"identifier"`
+	Options    OptContainerRestartStepOptions `json:"options"`
+	Details    ResourceLocation               `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ContainerRestartStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ContainerRestartStep) GetOptions() OptContainerRestartStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ContainerRestartStep) GetDetails() ResourceLocation {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ContainerRestartStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ContainerRestartStep) SetOptions(val OptContainerRestartStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ContainerRestartStep) SetDetails(val ResourceLocation) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ContainerRestartStepAction string
+
+const (
+	ContainerRestartStepActionContainerRestart ContainerRestartStepAction = "container.restart"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerRestartStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerRestartStepActionContainerRestart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerRestartStepAction) UnmarshalText(data []byte) error {
+	switch ContainerRestartStepAction(data) {
+	case ContainerRestartStepActionContainerRestart:
+		*s = ContainerRestartStepActionContainerRestart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ContainerRestartStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ContainerRestartStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ContainerRestartStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
 }
 
 // The role of a given container if it has one.
@@ -5899,6 +8150,118 @@ func (s *ContainerRuntimeSysctl) init() ContainerRuntimeSysctl {
 	return m
 }
 
+// Ref: #/components/schemas/ContainerStartAction
+type ContainerStartAction struct{}
+
+// The name of the action to perform.
+type ContainerStartActionAction string
+
+const (
+	ContainerStartActionActionStart ContainerStartActionAction = "start"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerStartActionAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerStartActionActionStart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerStartActionAction) UnmarshalText(data []byte) error {
+	switch ContainerStartActionAction(data) {
+	case ContainerStartActionActionStart:
+		*s = ContainerStartActionActionStart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Settings for starting a container in a pipeline.
+// Ref: #/components/schemas/ContainerStartStep
+type ContainerStartStep struct {
+	// An identifier for the step.
+	Identifier OptString                    `json:"identifier"`
+	Options    OptContainerStartStepOptions `json:"options"`
+	Details    ResourceLocation             `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ContainerStartStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ContainerStartStep) GetOptions() OptContainerStartStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ContainerStartStep) GetDetails() ResourceLocation {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ContainerStartStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ContainerStartStep) SetOptions(val OptContainerStartStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ContainerStartStep) SetDetails(val ResourceLocation) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ContainerStartStepAction string
+
+const (
+	ContainerStartStepActionContainerStart ContainerStartStepAction = "container.start"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerStartStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerStartStepActionContainerStart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerStartStepAction) UnmarshalText(data []byte) error {
+	switch ContainerStartStepAction(data) {
+	case ContainerStartStepActionContainerStart:
+		*s = ContainerStartStepActionContainerStart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ContainerStartStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ContainerStartStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ContainerStartStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
 // Merged schema.
 // Ref: #/components/schemas/ContainerState
 type ContainerState struct {
@@ -6105,6 +8468,118 @@ func (s *ContainerStateError) SetMessage(val OptString) {
 // SetTime sets the value of Time.
 func (s *ContainerStateError) SetTime(val OptDateTime) {
 	s.Time = val
+}
+
+// Ref: #/components/schemas/ContainerStopAction
+type ContainerStopAction struct{}
+
+// The name of the action to perform.
+type ContainerStopActionAction string
+
+const (
+	ContainerStopActionActionStop ContainerStopActionAction = "stop"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerStopActionAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerStopActionActionStop:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerStopActionAction) UnmarshalText(data []byte) error {
+	switch ContainerStopActionAction(data) {
+	case ContainerStopActionActionStop:
+		*s = ContainerStopActionActionStop
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Settings for stopping a container in a pipeline.
+// Ref: #/components/schemas/ContainerStopStep
+type ContainerStopStep struct {
+	// An identifier for the step.
+	Identifier OptString                   `json:"identifier"`
+	Options    OptContainerStopStepOptions `json:"options"`
+	Details    ResourceLocation            `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ContainerStopStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ContainerStopStep) GetOptions() OptContainerStopStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ContainerStopStep) GetDetails() ResourceLocation {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ContainerStopStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ContainerStopStep) SetOptions(val OptContainerStopStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ContainerStopStep) SetDetails(val ResourceLocation) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ContainerStopStepAction string
+
+const (
+	ContainerStopStepActionContainerStop ContainerStopStepAction = "container.stop"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerStopStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerStopStepActionContainerStop:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerStopStepAction) UnmarshalText(data []byte) error {
+	switch ContainerStopStepAction(data) {
+	case ContainerStopStepActionContainerStop:
+		*s = ContainerStopStepActionContainerStop
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ContainerStopStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ContainerStopStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ContainerStopStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
 }
 
 // Contains useful and relevant data/statistics for a container that would otherwise be several
@@ -6530,6 +9005,83 @@ func (s *ContainersMetaDomainsItem) SetRecord(val Record) {
 	s.Record = val
 }
 
+// ID context for resources associated with an activity.
+// Ref: #/components/schemas/Context
+type Context struct {
+	// An ID for the given resource.
+	EnvironmentID OptString `json:"environment_id"`
+	// An ID for the given resource.
+	ContainerID OptString `json:"container_id"`
+	// An ID for the given resource.
+	InstanceID OptString `json:"instance_id"`
+	// An ID for the given resource.
+	ServerID OptString `json:"server_id"`
+	// An ID for the given resource.
+	StackID OptString `json:"stack_id"`
+	// An ID for the given resource.
+	DNSZoneID OptString `json:"dns_zone_id"`
+}
+
+// GetEnvironmentID returns the value of EnvironmentID.
+func (s *Context) GetEnvironmentID() OptString {
+	return s.EnvironmentID
+}
+
+// GetContainerID returns the value of ContainerID.
+func (s *Context) GetContainerID() OptString {
+	return s.ContainerID
+}
+
+// GetInstanceID returns the value of InstanceID.
+func (s *Context) GetInstanceID() OptString {
+	return s.InstanceID
+}
+
+// GetServerID returns the value of ServerID.
+func (s *Context) GetServerID() OptString {
+	return s.ServerID
+}
+
+// GetStackID returns the value of StackID.
+func (s *Context) GetStackID() OptString {
+	return s.StackID
+}
+
+// GetDNSZoneID returns the value of DNSZoneID.
+func (s *Context) GetDNSZoneID() OptString {
+	return s.DNSZoneID
+}
+
+// SetEnvironmentID sets the value of EnvironmentID.
+func (s *Context) SetEnvironmentID(val OptString) {
+	s.EnvironmentID = val
+}
+
+// SetContainerID sets the value of ContainerID.
+func (s *Context) SetContainerID(val OptString) {
+	s.ContainerID = val
+}
+
+// SetInstanceID sets the value of InstanceID.
+func (s *Context) SetInstanceID(val OptString) {
+	s.InstanceID = val
+}
+
+// SetServerID sets the value of ServerID.
+func (s *Context) SetServerID(val OptString) {
+	s.ServerID = val
+}
+
+// SetStackID sets the value of StackID.
+func (s *Context) SetStackID(val OptString) {
+	s.StackID = val
+}
+
+// SetDNSZoneID sets the value of DNSZoneID.
+func (s *Context) SetDNSZoneID(val OptString) {
+	s.DNSZoneID = val
+}
+
 type CreateApiKeyCreated struct {
 	Data OptApiKey `json:"data"`
 }
@@ -6892,6 +9444,196 @@ func (s *CreateContainerInstanceReqItem) SetServerID(val string) {
 // SetNewInstances sets the value of NewInstances.
 func (s *CreateContainerInstanceReqItem) SetNewInstances(val int) {
 	s.NewInstances = val
+}
+
+type CreateContainerJobAccepted struct {
+	Data OptTaskDescriptor `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CreateContainerJobAccepted) GetData() OptTaskDescriptor {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CreateContainerJobAccepted) SetData(val OptTaskDescriptor) {
+	s.Data = val
+}
+
+// CreateContainerJobReq represents sum type.
+type CreateContainerJobReq struct {
+	Type                 CreateContainerJobReqType // switch on this field
+	ContainerStartAction ContainerStartAction
+	ContainerStopAction  ContainerStopAction
+	ReconfigureContainer ReconfigureContainer
+	ReconfigureVolumes   ReconfigureVolumes
+	Reimage              Reimage
+	Scale                Scale
+}
+
+// CreateContainerJobReqType is oneOf type of CreateContainerJobReq.
+type CreateContainerJobReqType string
+
+// Possible values for CreateContainerJobReqType.
+const (
+	ContainerStartActionCreateContainerJobReq CreateContainerJobReqType = "ContainerStartAction"
+	ContainerStopActionCreateContainerJobReq  CreateContainerJobReqType = "ContainerStopAction"
+	ReconfigureContainerCreateContainerJobReq CreateContainerJobReqType = "ReconfigureContainer"
+	ReconfigureVolumesCreateContainerJobReq   CreateContainerJobReqType = "ReconfigureVolumes"
+	ReimageCreateContainerJobReq              CreateContainerJobReqType = "Reimage"
+	ScaleCreateContainerJobReq                CreateContainerJobReqType = "Scale"
+)
+
+// IsContainerStartAction reports whether CreateContainerJobReq is ContainerStartAction.
+func (s CreateContainerJobReq) IsContainerStartAction() bool {
+	return s.Type == ContainerStartActionCreateContainerJobReq
+}
+
+// IsContainerStopAction reports whether CreateContainerJobReq is ContainerStopAction.
+func (s CreateContainerJobReq) IsContainerStopAction() bool {
+	return s.Type == ContainerStopActionCreateContainerJobReq
+}
+
+// IsReconfigureContainer reports whether CreateContainerJobReq is ReconfigureContainer.
+func (s CreateContainerJobReq) IsReconfigureContainer() bool {
+	return s.Type == ReconfigureContainerCreateContainerJobReq
+}
+
+// IsReconfigureVolumes reports whether CreateContainerJobReq is ReconfigureVolumes.
+func (s CreateContainerJobReq) IsReconfigureVolumes() bool {
+	return s.Type == ReconfigureVolumesCreateContainerJobReq
+}
+
+// IsReimage reports whether CreateContainerJobReq is Reimage.
+func (s CreateContainerJobReq) IsReimage() bool { return s.Type == ReimageCreateContainerJobReq }
+
+// IsScale reports whether CreateContainerJobReq is Scale.
+func (s CreateContainerJobReq) IsScale() bool { return s.Type == ScaleCreateContainerJobReq }
+
+// SetContainerStartAction sets CreateContainerJobReq to ContainerStartAction.
+func (s *CreateContainerJobReq) SetContainerStartAction(v ContainerStartAction) {
+	s.Type = ContainerStartActionCreateContainerJobReq
+	s.ContainerStartAction = v
+}
+
+// GetContainerStartAction returns ContainerStartAction and true boolean if CreateContainerJobReq is ContainerStartAction.
+func (s CreateContainerJobReq) GetContainerStartAction() (v ContainerStartAction, ok bool) {
+	if !s.IsContainerStartAction() {
+		return v, false
+	}
+	return s.ContainerStartAction, true
+}
+
+// NewContainerStartActionCreateContainerJobReq returns new CreateContainerJobReq from ContainerStartAction.
+func NewContainerStartActionCreateContainerJobReq(v ContainerStartAction) CreateContainerJobReq {
+	var s CreateContainerJobReq
+	s.SetContainerStartAction(v)
+	return s
+}
+
+// SetContainerStopAction sets CreateContainerJobReq to ContainerStopAction.
+func (s *CreateContainerJobReq) SetContainerStopAction(v ContainerStopAction) {
+	s.Type = ContainerStopActionCreateContainerJobReq
+	s.ContainerStopAction = v
+}
+
+// GetContainerStopAction returns ContainerStopAction and true boolean if CreateContainerJobReq is ContainerStopAction.
+func (s CreateContainerJobReq) GetContainerStopAction() (v ContainerStopAction, ok bool) {
+	if !s.IsContainerStopAction() {
+		return v, false
+	}
+	return s.ContainerStopAction, true
+}
+
+// NewContainerStopActionCreateContainerJobReq returns new CreateContainerJobReq from ContainerStopAction.
+func NewContainerStopActionCreateContainerJobReq(v ContainerStopAction) CreateContainerJobReq {
+	var s CreateContainerJobReq
+	s.SetContainerStopAction(v)
+	return s
+}
+
+// SetReconfigureContainer sets CreateContainerJobReq to ReconfigureContainer.
+func (s *CreateContainerJobReq) SetReconfigureContainer(v ReconfigureContainer) {
+	s.Type = ReconfigureContainerCreateContainerJobReq
+	s.ReconfigureContainer = v
+}
+
+// GetReconfigureContainer returns ReconfigureContainer and true boolean if CreateContainerJobReq is ReconfigureContainer.
+func (s CreateContainerJobReq) GetReconfigureContainer() (v ReconfigureContainer, ok bool) {
+	if !s.IsReconfigureContainer() {
+		return v, false
+	}
+	return s.ReconfigureContainer, true
+}
+
+// NewReconfigureContainerCreateContainerJobReq returns new CreateContainerJobReq from ReconfigureContainer.
+func NewReconfigureContainerCreateContainerJobReq(v ReconfigureContainer) CreateContainerJobReq {
+	var s CreateContainerJobReq
+	s.SetReconfigureContainer(v)
+	return s
+}
+
+// SetReconfigureVolumes sets CreateContainerJobReq to ReconfigureVolumes.
+func (s *CreateContainerJobReq) SetReconfigureVolumes(v ReconfigureVolumes) {
+	s.Type = ReconfigureVolumesCreateContainerJobReq
+	s.ReconfigureVolumes = v
+}
+
+// GetReconfigureVolumes returns ReconfigureVolumes and true boolean if CreateContainerJobReq is ReconfigureVolumes.
+func (s CreateContainerJobReq) GetReconfigureVolumes() (v ReconfigureVolumes, ok bool) {
+	if !s.IsReconfigureVolumes() {
+		return v, false
+	}
+	return s.ReconfigureVolumes, true
+}
+
+// NewReconfigureVolumesCreateContainerJobReq returns new CreateContainerJobReq from ReconfigureVolumes.
+func NewReconfigureVolumesCreateContainerJobReq(v ReconfigureVolumes) CreateContainerJobReq {
+	var s CreateContainerJobReq
+	s.SetReconfigureVolumes(v)
+	return s
+}
+
+// SetReimage sets CreateContainerJobReq to Reimage.
+func (s *CreateContainerJobReq) SetReimage(v Reimage) {
+	s.Type = ReimageCreateContainerJobReq
+	s.Reimage = v
+}
+
+// GetReimage returns Reimage and true boolean if CreateContainerJobReq is Reimage.
+func (s CreateContainerJobReq) GetReimage() (v Reimage, ok bool) {
+	if !s.IsReimage() {
+		return v, false
+	}
+	return s.Reimage, true
+}
+
+// NewReimageCreateContainerJobReq returns new CreateContainerJobReq from Reimage.
+func NewReimageCreateContainerJobReq(v Reimage) CreateContainerJobReq {
+	var s CreateContainerJobReq
+	s.SetReimage(v)
+	return s
+}
+
+// SetScale sets CreateContainerJobReq to Scale.
+func (s *CreateContainerJobReq) SetScale(v Scale) {
+	s.Type = ScaleCreateContainerJobReq
+	s.Scale = v
+}
+
+// GetScale returns Scale and true boolean if CreateContainerJobReq is Scale.
+func (s CreateContainerJobReq) GetScale() (v Scale, ok bool) {
+	if !s.IsScale() {
+		return v, false
+	}
+	return s.Scale, true
+}
+
+// NewScaleCreateContainerJobReq returns new CreateContainerJobReq from Scale.
+func NewScaleCreateContainerJobReq(v Scale) CreateContainerJobReq {
+	var s CreateContainerJobReq
+	s.SetScale(v)
+	return s
 }
 
 type CreateContainerReq struct {
@@ -7599,6 +10341,20 @@ func (s *CreateImageCollectionJobReqContents) SetSourceIds(val []string) {
 	s.SourceIds = val
 }
 
+type CreateImageCreated struct {
+	Data OptImage `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CreateImageCreated) GetData() OptImage {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CreateImageCreated) SetData(val OptImage) {
+	s.Data = val
+}
+
 type CreateImageJobOK struct {
 	Data OptTaskDescriptor `json:"data"`
 }
@@ -7648,6 +10404,226 @@ func (s *CreateImageJobReqAction) UnmarshalText(data []byte) error {
 	switch CreateImageJobReqAction(data) {
 	case CreateImageJobReqActionImport:
 		*s = CreateImageJobReqActionImport
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type CreateImageReq struct {
+	// A name for the image.
+	Name OptString `json:"name"`
+	// The ID for the image source to be used.
+	SourceID string `json:"source_id"`
+	// A build object, holding information important to the image build.
+	Build OptCreateImageReqBuild `json:"build"`
+	// An override object to be used for a single image create request.
+	Override OptCreateImageReqOverride `json:"override"`
+}
+
+// GetName returns the value of Name.
+func (s *CreateImageReq) GetName() OptString {
+	return s.Name
+}
+
+// GetSourceID returns the value of SourceID.
+func (s *CreateImageReq) GetSourceID() string {
+	return s.SourceID
+}
+
+// GetBuild returns the value of Build.
+func (s *CreateImageReq) GetBuild() OptCreateImageReqBuild {
+	return s.Build
+}
+
+// GetOverride returns the value of Override.
+func (s *CreateImageReq) GetOverride() OptCreateImageReqOverride {
+	return s.Override
+}
+
+// SetName sets the value of Name.
+func (s *CreateImageReq) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetSourceID sets the value of SourceID.
+func (s *CreateImageReq) SetSourceID(val string) {
+	s.SourceID = val
+}
+
+// SetBuild sets the value of Build.
+func (s *CreateImageReq) SetBuild(val OptCreateImageReqBuild) {
+	s.Build = val
+}
+
+// SetOverride sets the value of Override.
+func (s *CreateImageReq) SetOverride(val OptCreateImageReqOverride) {
+	s.Override = val
+}
+
+// A build object, holding information important to the image build.
+type CreateImageReqBuild struct {
+	// An object holding key value build time arguments needed for the image during build time.
+	Args OptCreateImageReqBuildArgs `json:"args"`
+}
+
+// GetArgs returns the value of Args.
+func (s *CreateImageReqBuild) GetArgs() OptCreateImageReqBuildArgs {
+	return s.Args
+}
+
+// SetArgs sets the value of Args.
+func (s *CreateImageReqBuild) SetArgs(val OptCreateImageReqBuildArgs) {
+	s.Args = val
+}
+
+// An object holding key value build time arguments needed for the image during build time.
+type CreateImageReqBuildArgs map[string]string
+
+func (s *CreateImageReqBuildArgs) init() CreateImageReqBuildArgs {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+// An override object to be used for a single image create request.
+type CreateImageReqOverride struct {
+	// A target to be used for overridding the default target.
+	Target string `json:"target"`
+}
+
+// GetTarget returns the value of Target.
+func (s *CreateImageReqOverride) GetTarget() string {
+	return s.Target
+}
+
+// SetTarget sets the value of Target.
+func (s *CreateImageReqOverride) SetTarget(val string) {
+	s.Target = val
+}
+
+type CreateImageSourceCreated struct {
+	Data OptImageSource `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CreateImageSourceCreated) GetData() OptImageSource {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CreateImageSourceCreated) SetData(val OptImageSource) {
+	s.Data = val
+}
+
+type CreateImageSourceReq struct {
+	// A name for the image source.
+	Name       OptString     `json:"name"`
+	Identifier OptIdentifier `json:"identifier"`
+	// A value identifiying the type of image.
+	Type   CreateImageSourceReqType `json:"type"`
+	Origin ImageSourceOrigin        `json:"origin"`
+	// User defined information about the image source.
+	About OptCreateImageSourceReqAbout `json:"about"`
+}
+
+// GetName returns the value of Name.
+func (s *CreateImageSourceReq) GetName() OptString {
+	return s.Name
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *CreateImageSourceReq) GetIdentifier() OptIdentifier {
+	return s.Identifier
+}
+
+// GetType returns the value of Type.
+func (s *CreateImageSourceReq) GetType() CreateImageSourceReqType {
+	return s.Type
+}
+
+// GetOrigin returns the value of Origin.
+func (s *CreateImageSourceReq) GetOrigin() ImageSourceOrigin {
+	return s.Origin
+}
+
+// GetAbout returns the value of About.
+func (s *CreateImageSourceReq) GetAbout() OptCreateImageSourceReqAbout {
+	return s.About
+}
+
+// SetName sets the value of Name.
+func (s *CreateImageSourceReq) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *CreateImageSourceReq) SetIdentifier(val OptIdentifier) {
+	s.Identifier = val
+}
+
+// SetType sets the value of Type.
+func (s *CreateImageSourceReq) SetType(val CreateImageSourceReqType) {
+	s.Type = val
+}
+
+// SetOrigin sets the value of Origin.
+func (s *CreateImageSourceReq) SetOrigin(val ImageSourceOrigin) {
+	s.Origin = val
+}
+
+// SetAbout sets the value of About.
+func (s *CreateImageSourceReq) SetAbout(val OptCreateImageSourceReqAbout) {
+	s.About = val
+}
+
+// User defined information about the image source.
+type CreateImageSourceReqAbout struct {
+	// A description of the image source.
+	Description NilString `json:"description"`
+}
+
+// GetDescription returns the value of Description.
+func (s *CreateImageSourceReqAbout) GetDescription() NilString {
+	return s.Description
+}
+
+// SetDescription sets the value of Description.
+func (s *CreateImageSourceReqAbout) SetDescription(val NilString) {
+	s.Description = val
+}
+
+// A value identifiying the type of image.
+type CreateImageSourceReqType string
+
+const (
+	CreateImageSourceReqTypeStackBuild CreateImageSourceReqType = "stack_build"
+	CreateImageSourceReqTypeDirect     CreateImageSourceReqType = "direct"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateImageSourceReqType) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateImageSourceReqTypeStackBuild:
+		return []byte(s), nil
+	case CreateImageSourceReqTypeDirect:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateImageSourceReqType) UnmarshalText(data []byte) error {
+	switch CreateImageSourceReqType(data) {
+	case CreateImageSourceReqTypeStackBuild:
+		*s = CreateImageSourceReqTypeStackBuild
+		return nil
+	case CreateImageSourceReqTypeDirect:
+		*s = CreateImageSourceReqTypeDirect
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -7958,6 +10934,20 @@ func (s *CreateOrderReqTermLength) UnmarshalText(data []byte) error {
 	}
 }
 
+type CreatePipelineCreated struct {
+	Data OptPipeline `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CreatePipelineCreated) GetData() OptPipeline {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CreatePipelineCreated) SetData(val OptPipeline) {
+	s.Data = val
+}
+
 type CreatePipelineJobOK struct {
 	Data OptTaskDescriptor `json:"data"`
 }
@@ -8013,6 +11003,56 @@ func (s *CreatePipelineJobReqAction) UnmarshalText(data []byte) error {
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
+}
+
+type CreatePipelineReq struct {
+	// A name for the pipeline.
+	Name       string        `json:"name"`
+	Identifier OptIdentifier `json:"identifier"`
+	// An array of stages.
+	Stages []PipelineStage `json:"stages"`
+	// A boolean where true signifies the pipeline is disabled.
+	Disable OptBool `json:"disable"`
+}
+
+// GetName returns the value of Name.
+func (s *CreatePipelineReq) GetName() string {
+	return s.Name
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *CreatePipelineReq) GetIdentifier() OptIdentifier {
+	return s.Identifier
+}
+
+// GetStages returns the value of Stages.
+func (s *CreatePipelineReq) GetStages() []PipelineStage {
+	return s.Stages
+}
+
+// GetDisable returns the value of Disable.
+func (s *CreatePipelineReq) GetDisable() OptBool {
+	return s.Disable
+}
+
+// SetName sets the value of Name.
+func (s *CreatePipelineReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *CreatePipelineReq) SetIdentifier(val OptIdentifier) {
+	s.Identifier = val
+}
+
+// SetStages sets the value of Stages.
+func (s *CreatePipelineReq) SetStages(val []PipelineStage) {
+	s.Stages = val
+}
+
+// SetDisable sets the value of Disable.
+func (s *CreatePipelineReq) SetDisable(val OptBool) {
+	s.Disable = val
 }
 
 type CreatePipelineTriggerKeyCreated struct {
@@ -8301,6 +11341,168 @@ func (s *CreateSDNNetworkReq) SetEnvironments(val []string) {
 	s.Environments = val
 }
 
+type CreateScopedVariableCreated struct {
+	Data OptScopedVariable `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CreateScopedVariableCreated) GetData() OptScopedVariable {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CreateScopedVariableCreated) SetData(val OptScopedVariable) {
+	s.Data = val
+}
+
+type CreateScopedVariableReq struct {
+	// An identifier, similar to a key in an environment variable.  Its used when envoking the scoped
+	// variable.
+	Identifier string `json:"identifier"`
+	// An object with information about the encryption of the scoped variable.
+	Secret OptNilCreateScopedVariableReqSecret `json:"secret"`
+	Scope  ScopedVariableScope                 `json:"scope"`
+	// The source or value of the scoped variable.
+	Source CreateScopedVariableReqSource `json:"source"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *CreateScopedVariableReq) GetIdentifier() string {
+	return s.Identifier
+}
+
+// GetSecret returns the value of Secret.
+func (s *CreateScopedVariableReq) GetSecret() OptNilCreateScopedVariableReqSecret {
+	return s.Secret
+}
+
+// GetScope returns the value of Scope.
+func (s *CreateScopedVariableReq) GetScope() ScopedVariableScope {
+	return s.Scope
+}
+
+// GetSource returns the value of Source.
+func (s *CreateScopedVariableReq) GetSource() CreateScopedVariableReqSource {
+	return s.Source
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *CreateScopedVariableReq) SetIdentifier(val string) {
+	s.Identifier = val
+}
+
+// SetSecret sets the value of Secret.
+func (s *CreateScopedVariableReq) SetSecret(val OptNilCreateScopedVariableReqSecret) {
+	s.Secret = val
+}
+
+// SetScope sets the value of Scope.
+func (s *CreateScopedVariableReq) SetScope(val ScopedVariableScope) {
+	s.Scope = val
+}
+
+// SetSource sets the value of Source.
+func (s *CreateScopedVariableReq) SetSource(val CreateScopedVariableReqSource) {
+	s.Source = val
+}
+
+// An object with information about the encryption of the scoped variable.
+type CreateScopedVariableReqSecret struct {
+	// A boolean where true means the scoped variables value is encrypted.
+	Encrypted bool `json:"encrypted"`
+	// A hint for the decryption password.
+	Hint OptString `json:"hint"`
+}
+
+// GetEncrypted returns the value of Encrypted.
+func (s *CreateScopedVariableReqSecret) GetEncrypted() bool {
+	return s.Encrypted
+}
+
+// GetHint returns the value of Hint.
+func (s *CreateScopedVariableReqSecret) GetHint() OptString {
+	return s.Hint
+}
+
+// SetEncrypted sets the value of Encrypted.
+func (s *CreateScopedVariableReqSecret) SetEncrypted(val bool) {
+	s.Encrypted = val
+}
+
+// SetHint sets the value of Hint.
+func (s *CreateScopedVariableReqSecret) SetHint(val OptString) {
+	s.Hint = val
+}
+
+// The source or value of the scoped variable.
+// CreateScopedVariableReqSource represents sum type.
+type CreateScopedVariableReqSource struct {
+	Type      CreateScopedVariableReqSourceType // switch on this field
+	RawSource RawSource
+	URLSource URLSource
+}
+
+// CreateScopedVariableReqSourceType is oneOf type of CreateScopedVariableReqSource.
+type CreateScopedVariableReqSourceType string
+
+// Possible values for CreateScopedVariableReqSourceType.
+const (
+	RawSourceCreateScopedVariableReqSource CreateScopedVariableReqSourceType = "RawSource"
+	URLSourceCreateScopedVariableReqSource CreateScopedVariableReqSourceType = "URLSource"
+)
+
+// IsRawSource reports whether CreateScopedVariableReqSource is RawSource.
+func (s CreateScopedVariableReqSource) IsRawSource() bool {
+	return s.Type == RawSourceCreateScopedVariableReqSource
+}
+
+// IsURLSource reports whether CreateScopedVariableReqSource is URLSource.
+func (s CreateScopedVariableReqSource) IsURLSource() bool {
+	return s.Type == URLSourceCreateScopedVariableReqSource
+}
+
+// SetRawSource sets CreateScopedVariableReqSource to RawSource.
+func (s *CreateScopedVariableReqSource) SetRawSource(v RawSource) {
+	s.Type = RawSourceCreateScopedVariableReqSource
+	s.RawSource = v
+}
+
+// GetRawSource returns RawSource and true boolean if CreateScopedVariableReqSource is RawSource.
+func (s CreateScopedVariableReqSource) GetRawSource() (v RawSource, ok bool) {
+	if !s.IsRawSource() {
+		return v, false
+	}
+	return s.RawSource, true
+}
+
+// NewRawSourceCreateScopedVariableReqSource returns new CreateScopedVariableReqSource from RawSource.
+func NewRawSourceCreateScopedVariableReqSource(v RawSource) CreateScopedVariableReqSource {
+	var s CreateScopedVariableReqSource
+	s.SetRawSource(v)
+	return s
+}
+
+// SetURLSource sets CreateScopedVariableReqSource to URLSource.
+func (s *CreateScopedVariableReqSource) SetURLSource(v URLSource) {
+	s.Type = URLSourceCreateScopedVariableReqSource
+	s.URLSource = v
+}
+
+// GetURLSource returns URLSource and true boolean if CreateScopedVariableReqSource is URLSource.
+func (s CreateScopedVariableReqSource) GetURLSource() (v URLSource, ok bool) {
+	if !s.IsURLSource() {
+		return v, false
+	}
+	return s.URLSource, true
+}
+
+// NewURLSourceCreateScopedVariableReqSource returns new CreateScopedVariableReqSource from URLSource.
+func NewURLSourceCreateScopedVariableReqSource(v URLSource) CreateScopedVariableReqSource {
+	var s CreateScopedVariableReqSource
+	s.SetURLSource(v)
+	return s
+}
+
 type CreateServerCreated struct {
 	Data OptInfraServer `json:"data"`
 }
@@ -8313,6 +11515,114 @@ func (s *CreateServerCreated) GetData() OptInfraServer {
 // SetData sets the value of Data.
 func (s *CreateServerCreated) SetData(val OptInfraServer) {
 	s.Data = val
+}
+
+type CreateServerJobOK struct {
+	Data OptTaskDescriptor `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CreateServerJobOK) GetData() OptTaskDescriptor {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CreateServerJobOK) SetData(val OptTaskDescriptor) {
+	s.Data = val
+}
+
+// CreateServerJobReq represents sum type.
+type CreateServerJobReq struct {
+	Type              CreateServerJobReqType // switch on this field
+	ReconfigureServer ReconfigureServer
+	RestartServer     RestartServer
+	RestartCompute    RestartCompute
+}
+
+// CreateServerJobReqType is oneOf type of CreateServerJobReq.
+type CreateServerJobReqType string
+
+// Possible values for CreateServerJobReqType.
+const (
+	ReconfigureServerCreateServerJobReq CreateServerJobReqType = "ReconfigureServer"
+	RestartServerCreateServerJobReq     CreateServerJobReqType = "RestartServer"
+	RestartComputeCreateServerJobReq    CreateServerJobReqType = "RestartCompute"
+)
+
+// IsReconfigureServer reports whether CreateServerJobReq is ReconfigureServer.
+func (s CreateServerJobReq) IsReconfigureServer() bool {
+	return s.Type == ReconfigureServerCreateServerJobReq
+}
+
+// IsRestartServer reports whether CreateServerJobReq is RestartServer.
+func (s CreateServerJobReq) IsRestartServer() bool { return s.Type == RestartServerCreateServerJobReq }
+
+// IsRestartCompute reports whether CreateServerJobReq is RestartCompute.
+func (s CreateServerJobReq) IsRestartCompute() bool {
+	return s.Type == RestartComputeCreateServerJobReq
+}
+
+// SetReconfigureServer sets CreateServerJobReq to ReconfigureServer.
+func (s *CreateServerJobReq) SetReconfigureServer(v ReconfigureServer) {
+	s.Type = ReconfigureServerCreateServerJobReq
+	s.ReconfigureServer = v
+}
+
+// GetReconfigureServer returns ReconfigureServer and true boolean if CreateServerJobReq is ReconfigureServer.
+func (s CreateServerJobReq) GetReconfigureServer() (v ReconfigureServer, ok bool) {
+	if !s.IsReconfigureServer() {
+		return v, false
+	}
+	return s.ReconfigureServer, true
+}
+
+// NewReconfigureServerCreateServerJobReq returns new CreateServerJobReq from ReconfigureServer.
+func NewReconfigureServerCreateServerJobReq(v ReconfigureServer) CreateServerJobReq {
+	var s CreateServerJobReq
+	s.SetReconfigureServer(v)
+	return s
+}
+
+// SetRestartServer sets CreateServerJobReq to RestartServer.
+func (s *CreateServerJobReq) SetRestartServer(v RestartServer) {
+	s.Type = RestartServerCreateServerJobReq
+	s.RestartServer = v
+}
+
+// GetRestartServer returns RestartServer and true boolean if CreateServerJobReq is RestartServer.
+func (s CreateServerJobReq) GetRestartServer() (v RestartServer, ok bool) {
+	if !s.IsRestartServer() {
+		return v, false
+	}
+	return s.RestartServer, true
+}
+
+// NewRestartServerCreateServerJobReq returns new CreateServerJobReq from RestartServer.
+func NewRestartServerCreateServerJobReq(v RestartServer) CreateServerJobReq {
+	var s CreateServerJobReq
+	s.SetRestartServer(v)
+	return s
+}
+
+// SetRestartCompute sets CreateServerJobReq to RestartCompute.
+func (s *CreateServerJobReq) SetRestartCompute(v RestartCompute) {
+	s.Type = RestartComputeCreateServerJobReq
+	s.RestartCompute = v
+}
+
+// GetRestartCompute returns RestartCompute and true boolean if CreateServerJobReq is RestartCompute.
+func (s CreateServerJobReq) GetRestartCompute() (v RestartCompute, ok bool) {
+	if !s.IsRestartCompute() {
+		return v, false
+	}
+	return s.RestartCompute, true
+}
+
+// NewRestartComputeCreateServerJobReq returns new CreateServerJobReq from RestartCompute.
+func NewRestartComputeCreateServerJobReq(v RestartCompute) CreateServerJobReq {
+	var s CreateServerJobReq
+	s.SetRestartCompute(v)
+	return s
 }
 
 type CreateServerReq struct {
@@ -8466,6 +11776,20 @@ func (s *CreateServerReqServersItemAdvancedItemProvisionOptions) SetReservationI
 	s.ReservationID = val
 }
 
+type CreateStackBuildCreated struct {
+	Data OptStackBuild `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CreateStackBuildCreated) GetData() OptStackBuild {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CreateStackBuildCreated) SetData(val OptStackBuild) {
+	s.Data = val
+}
+
 type CreateStackBuildJobOK struct {
 	Data OptTaskDescriptor `json:"data"`
 }
@@ -8548,6 +11872,45 @@ func NewDeployStackBuildActionCreateStackBuildJobReq(v DeployStackBuildAction) C
 	return s
 }
 
+type CreateStackBuildReq struct {
+	About        OptStackBuildAbout        `json:"about"`
+	Instructions OptStackBuildInstructions `json:"instructions"`
+}
+
+// GetAbout returns the value of About.
+func (s *CreateStackBuildReq) GetAbout() OptStackBuildAbout {
+	return s.About
+}
+
+// GetInstructions returns the value of Instructions.
+func (s *CreateStackBuildReq) GetInstructions() OptStackBuildInstructions {
+	return s.Instructions
+}
+
+// SetAbout sets the value of About.
+func (s *CreateStackBuildReq) SetAbout(val OptStackBuildAbout) {
+	s.About = val
+}
+
+// SetInstructions sets the value of Instructions.
+func (s *CreateStackBuildReq) SetInstructions(val OptStackBuildInstructions) {
+	s.Instructions = val
+}
+
+type CreateStackCreated struct {
+	Data OptStack `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CreateStackCreated) GetData() OptStack {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CreateStackCreated) SetData(val OptStack) {
+	s.Data = val
+}
+
 type CreateStackJobOK struct {
 	Data OptTaskDescriptor `json:"data"`
 }
@@ -8603,6 +11966,43 @@ func (s *CreateStackJobReqAction) UnmarshalText(data []byte) error {
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
+}
+
+type CreateStackReq struct {
+	// A name for the stack.
+	Name       string        `json:"name"`
+	Identifier OptIdentifier `json:"identifier"`
+	Source     StackSource   `json:"source"`
+}
+
+// GetName returns the value of Name.
+func (s *CreateStackReq) GetName() string {
+	return s.Name
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *CreateStackReq) GetIdentifier() OptIdentifier {
+	return s.Identifier
+}
+
+// GetSource returns the value of Source.
+func (s *CreateStackReq) GetSource() StackSource {
+	return s.Source
+}
+
+// SetName sets the value of Name.
+func (s *CreateStackReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *CreateStackReq) SetIdentifier(val OptIdentifier) {
+	s.Identifier = val
+}
+
+// SetSource sets the value of Source.
+func (s *CreateStackReq) SetSource(val StackSource) {
+	s.Source = val
 }
 
 type CreateVPNUserCreated struct {
@@ -8861,6 +12261,160 @@ func (s *CreatorScopeType) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/CredentialsHTTP
+type CredentialsHTTP struct {
+	// Authentication credentails for the Dockerfile image source type when authenticating over HTTP.
+	Credentials CredentialsHTTPCredentials `json:"credentials"`
+}
+
+// GetCredentials returns the value of Credentials.
+func (s *CredentialsHTTP) GetCredentials() CredentialsHTTPCredentials {
+	return s.Credentials
+}
+
+// SetCredentials sets the value of Credentials.
+func (s *CredentialsHTTP) SetCredentials(val CredentialsHTTPCredentials) {
+	s.Credentials = val
+}
+
+// Authentication credentails for the Dockerfile image source type when authenticating over HTTP.
+type CredentialsHTTPCredentials struct {
+	// For authentication, the username.
+	Username string `json:"username"`
+	// For authentication, the password.
+	Password string `json:"password"`
+}
+
+// GetUsername returns the value of Username.
+func (s *CredentialsHTTPCredentials) GetUsername() string {
+	return s.Username
+}
+
+// GetPassword returns the value of Password.
+func (s *CredentialsHTTPCredentials) GetPassword() string {
+	return s.Password
+}
+
+// SetUsername sets the value of Username.
+func (s *CredentialsHTTPCredentials) SetUsername(val string) {
+	s.Username = val
+}
+
+// SetPassword sets the value of Password.
+func (s *CredentialsHTTPCredentials) SetPassword(val string) {
+	s.Password = val
+}
+
+type CredentialsHTTPType string
+
+const (
+	CredentialsHTTPTypeHTTP CredentialsHTTPType = "http"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CredentialsHTTPType) MarshalText() ([]byte, error) {
+	switch s {
+	case CredentialsHTTPTypeHTTP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CredentialsHTTPType) UnmarshalText(data []byte) error {
+	switch CredentialsHTTPType(data) {
+	case CredentialsHTTPTypeHTTP:
+		*s = CredentialsHTTPTypeHTTP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/CredentialsSSH
+type CredentialsSSH struct {
+	// Authentication credentials for the Dockerfile image source type when authenticating with SSH.
+	Credentials CredentialsSSHCredentials `json:"credentials"`
+}
+
+// GetCredentials returns the value of Credentials.
+func (s *CredentialsSSH) GetCredentials() CredentialsSSHCredentials {
+	return s.Credentials
+}
+
+// SetCredentials sets the value of Credentials.
+func (s *CredentialsSSH) SetCredentials(val CredentialsSSHCredentials) {
+	s.Credentials = val
+}
+
+// Authentication credentials for the Dockerfile image source type when authenticating with SSH.
+type CredentialsSSHCredentials struct {
+	// The username for the repo service, that is used to authenticate an ssh key.
+	Username string `json:"username"`
+	// The passphrase used for the key.
+	Passphrase string `json:"passphrase"`
+	// A pem encoded private key.
+	PrivateKey string `json:"private_key"`
+}
+
+// GetUsername returns the value of Username.
+func (s *CredentialsSSHCredentials) GetUsername() string {
+	return s.Username
+}
+
+// GetPassphrase returns the value of Passphrase.
+func (s *CredentialsSSHCredentials) GetPassphrase() string {
+	return s.Passphrase
+}
+
+// GetPrivateKey returns the value of PrivateKey.
+func (s *CredentialsSSHCredentials) GetPrivateKey() string {
+	return s.PrivateKey
+}
+
+// SetUsername sets the value of Username.
+func (s *CredentialsSSHCredentials) SetUsername(val string) {
+	s.Username = val
+}
+
+// SetPassphrase sets the value of Passphrase.
+func (s *CredentialsSSHCredentials) SetPassphrase(val string) {
+	s.Passphrase = val
+}
+
+// SetPrivateKey sets the value of PrivateKey.
+func (s *CredentialsSSHCredentials) SetPrivateKey(val string) {
+	s.PrivateKey = val
+}
+
+type CredentialsSSHType string
+
+const (
+	CredentialsSSHTypeSSH CredentialsSSHType = "ssh"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CredentialsSSHType) MarshalText() ([]byte, error) {
+	switch s {
+	case CredentialsSSHTypeSSH:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CredentialsSSHType) UnmarshalText(data []byte) error {
+	switch CredentialsSSHType(data) {
+	case CredentialsSSHTypeSSH:
+		*s = CredentialsSSHTypeSSH
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Information about a billing credit.
 // Ref: #/components/schemas/Credit
 type Credit struct {
@@ -8971,7 +12525,57 @@ func (s *Credit) SetState(val CreditState) {
 	s.State = val
 }
 
-type CreditCard jx.Raw
+// Information about a credit card.
+// Ref: #/components/schemas/CreditCard
+type CreditCard struct {
+	// A name associated with the credit cards usage.
+	Name string `json:"name"`
+	// The brand of card - ex VISA.
+	Brand      string                  `json:"brand"`
+	Expiration BillingMethodExpiration `json:"expiration"`
+	// The last 4 digits of the card.
+	Last4 string `json:"last_4"`
+}
+
+// GetName returns the value of Name.
+func (s *CreditCard) GetName() string {
+	return s.Name
+}
+
+// GetBrand returns the value of Brand.
+func (s *CreditCard) GetBrand() string {
+	return s.Brand
+}
+
+// GetExpiration returns the value of Expiration.
+func (s *CreditCard) GetExpiration() BillingMethodExpiration {
+	return s.Expiration
+}
+
+// GetLast4 returns the value of Last4.
+func (s *CreditCard) GetLast4() string {
+	return s.Last4
+}
+
+// SetName sets the value of Name.
+func (s *CreditCard) SetName(val string) {
+	s.Name = val
+}
+
+// SetBrand sets the value of Brand.
+func (s *CreditCard) SetBrand(val string) {
+	s.Brand = val
+}
+
+// SetExpiration sets the value of Expiration.
+func (s *CreditCard) SetExpiration(val BillingMethodExpiration) {
+	s.Expiration = val
+}
+
+// SetLast4 sets the value of Last4.
+func (s *CreditCard) SetLast4(val string) {
+	s.Last4 = val
+}
 
 // A collection of timestamps for each event in the billing order's lifetime.
 type CreditEvents struct {
@@ -9372,25 +12976,13 @@ type DateTime time.Time
 
 // Ref: #/components/schemas/DeployStackBuildAction
 type DeployStackBuildAction struct {
-	// The action the job takes.
-	Action DeployStackBuildActionAction `json:"action"`
 	// Additional information needed for the job.
 	Contents DeployStackBuildActionContents `json:"contents"`
-}
-
-// GetAction returns the value of Action.
-func (s *DeployStackBuildAction) GetAction() DeployStackBuildActionAction {
-	return s.Action
 }
 
 // GetContents returns the value of Contents.
 func (s *DeployStackBuildAction) GetContents() DeployStackBuildActionContents {
 	return s.Contents
-}
-
-// SetAction sets the value of Action.
-func (s *DeployStackBuildAction) SetAction(val DeployStackBuildActionAction) {
-	s.Action = val
 }
 
 // SetContents sets the value of Contents.
@@ -9669,6 +13261,46 @@ func (s *DeploymentStrategyName) UnmarshalText(data []byte) error {
 	}
 }
 
+// Details about a given event that is part of an activity.
+// Ref: #/components/schemas/Detail
+type Detail struct {
+	ID OptID `json:"id"`
+	// A number describing the amount of the resource that exists.
+	Number OptInt `json:"number"`
+	// Additional information.
+	String OptString `json:"string"`
+}
+
+// GetID returns the value of ID.
+func (s *Detail) GetID() OptID {
+	return s.ID
+}
+
+// GetNumber returns the value of Number.
+func (s *Detail) GetNumber() OptInt {
+	return s.Number
+}
+
+// GetString returns the value of String.
+func (s *Detail) GetString() OptString {
+	return s.String
+}
+
+// SetID sets the value of ID.
+func (s *Detail) SetID(val OptID) {
+	s.ID = val
+}
+
+// SetNumber sets the value of Number.
+func (s *Detail) SetNumber(val OptInt) {
+	s.Number = val
+}
+
+// SetString sets the value of String.
+func (s *Detail) SetString(val OptString) {
+	s.String = val
+}
+
 type DisableTwoFaOK struct {
 	Data OptTwoFaDisableResponse `json:"data"`
 }
@@ -9915,6 +13547,343 @@ func (s *DnsTlsCertificateEvents) SetDeleted(val OptDateTime) {
 // SetGenerated sets the value of Generated.
 func (s *DnsTlsCertificateEvents) SetGenerated(val OptDateTime) {
 	s.Generated = val
+}
+
+// Ref: #/components/schemas/DockerHubSource
+type DockerHubSource struct {
+	// An image source origin that pulls from DockerHub.
+	Details OptDockerHubSourceDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *DockerHubSource) GetDetails() OptDockerHubSourceDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *DockerHubSource) SetDetails(val OptDockerHubSourceDetails) {
+	s.Details = val
+}
+
+// An image source origin that pulls from DockerHub.
+type DockerHubSourceDetails struct {
+	// The DockerHub target string. ex - `mysql:5.7`.
+	Target string `json:"target"`
+	// For authentication, a username.
+	Username OptString `json:"username"`
+	// For authentication, a token.
+	Token OptString `json:"token"`
+}
+
+// GetTarget returns the value of Target.
+func (s *DockerHubSourceDetails) GetTarget() string {
+	return s.Target
+}
+
+// GetUsername returns the value of Username.
+func (s *DockerHubSourceDetails) GetUsername() OptString {
+	return s.Username
+}
+
+// GetToken returns the value of Token.
+func (s *DockerHubSourceDetails) GetToken() OptString {
+	return s.Token
+}
+
+// SetTarget sets the value of Target.
+func (s *DockerHubSourceDetails) SetTarget(val string) {
+	s.Target = val
+}
+
+// SetUsername sets the value of Username.
+func (s *DockerHubSourceDetails) SetUsername(val OptString) {
+	s.Username = val
+}
+
+// SetToken sets the value of Token.
+func (s *DockerHubSourceDetails) SetToken(val OptString) {
+	s.Token = val
+}
+
+type DockerHubSourceType string
+
+const (
+	DockerHubSourceTypeDockerHub DockerHubSourceType = "docker-hub"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DockerHubSourceType) MarshalText() ([]byte, error) {
+	switch s {
+	case DockerHubSourceTypeDockerHub:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DockerHubSourceType) UnmarshalText(data []byte) error {
+	switch DockerHubSourceType(data) {
+	case DockerHubSourceTypeDockerHub:
+		*s = DockerHubSourceTypeDockerHub
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/DockerRegistrySource
+type DockerRegistrySource struct {
+	// An image source origin that pulls from a private Docker registry.
+	Details OptDockerRegistrySourceDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *DockerRegistrySource) GetDetails() OptDockerRegistrySourceDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *DockerRegistrySource) SetDetails(val OptDockerRegistrySourceDetails) {
+	s.Details = val
+}
+
+// An image source origin that pulls from a private Docker registry.
+type DockerRegistrySourceDetails struct {
+	// The image name on the registry.
+	Target string `json:"target"`
+	// The url of the remote registry.
+	URL string `json:"url"`
+	// For authentication, a username.
+	Username OptString `json:"username"`
+	// For authentication, a token.
+	Token OptString `json:"token"`
+	// For authentication, a password.
+	Password OptString `json:"password"`
+}
+
+// GetTarget returns the value of Target.
+func (s *DockerRegistrySourceDetails) GetTarget() string {
+	return s.Target
+}
+
+// GetURL returns the value of URL.
+func (s *DockerRegistrySourceDetails) GetURL() string {
+	return s.URL
+}
+
+// GetUsername returns the value of Username.
+func (s *DockerRegistrySourceDetails) GetUsername() OptString {
+	return s.Username
+}
+
+// GetToken returns the value of Token.
+func (s *DockerRegistrySourceDetails) GetToken() OptString {
+	return s.Token
+}
+
+// GetPassword returns the value of Password.
+func (s *DockerRegistrySourceDetails) GetPassword() OptString {
+	return s.Password
+}
+
+// SetTarget sets the value of Target.
+func (s *DockerRegistrySourceDetails) SetTarget(val string) {
+	s.Target = val
+}
+
+// SetURL sets the value of URL.
+func (s *DockerRegistrySourceDetails) SetURL(val string) {
+	s.URL = val
+}
+
+// SetUsername sets the value of Username.
+func (s *DockerRegistrySourceDetails) SetUsername(val OptString) {
+	s.Username = val
+}
+
+// SetToken sets the value of Token.
+func (s *DockerRegistrySourceDetails) SetToken(val OptString) {
+	s.Token = val
+}
+
+// SetPassword sets the value of Password.
+func (s *DockerRegistrySourceDetails) SetPassword(val OptString) {
+	s.Password = val
+}
+
+type DockerRegistrySourceType string
+
+const (
+	DockerRegistrySourceTypeDockerRegistry DockerRegistrySourceType = "docker-registry"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DockerRegistrySourceType) MarshalText() ([]byte, error) {
+	switch s {
+	case DockerRegistrySourceTypeDockerRegistry:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DockerRegistrySourceType) UnmarshalText(data []byte) error {
+	switch DockerRegistrySourceType(data) {
+	case DockerRegistrySourceTypeDockerRegistry:
+		*s = DockerRegistrySourceTypeDockerRegistry
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type DockerfileCredentials []DockerfileCredentialsItem
+
+// Credentials object used for authentication of indirect resources such as private parent images.
+type DockerfileCredentialsItem struct {
+	// The url the resource is located at.
+	URL OptString `json:"url"`
+	// A username for authentication.
+	Username OptString `json:"username"`
+	// A token for authentication.
+	Token OptString `json:"token"`
+}
+
+// GetURL returns the value of URL.
+func (s *DockerfileCredentialsItem) GetURL() OptString {
+	return s.URL
+}
+
+// GetUsername returns the value of Username.
+func (s *DockerfileCredentialsItem) GetUsername() OptString {
+	return s.Username
+}
+
+// GetToken returns the value of Token.
+func (s *DockerfileCredentialsItem) GetToken() OptString {
+	return s.Token
+}
+
+// SetURL sets the value of URL.
+func (s *DockerfileCredentialsItem) SetURL(val OptString) {
+	s.URL = val
+}
+
+// SetUsername sets the value of Username.
+func (s *DockerfileCredentialsItem) SetUsername(val OptString) {
+	s.Username = val
+}
+
+// SetToken sets the value of Token.
+func (s *DockerfileCredentialsItem) SetToken(val OptString) {
+	s.Token = val
+}
+
+// Ref: #/components/schemas/DockerfileFileSource
+type DockerfileFileSource struct {
+	// An image source origin that creates an image from a Dockerfile that's listed in a repository.
+	Details OptDockerfileFileSourceDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *DockerfileFileSource) GetDetails() OptDockerfileFileSourceDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *DockerfileFileSource) SetDetails(val OptDockerfileFileSourceDetails) {
+	s.Details = val
+}
+
+// An image source origin that creates an image from a Dockerfile that's listed in a repository.
+type DockerfileFileSourceDetails struct {
+	Repo OptRepoType `json:"repo"`
+	// An endpoint that serves the tar file.
+	TargzURL OptString `json:"targz_url"`
+	// The path to the directory to use as the context when building the image.
+	ContextDir OptString `json:"context_dir"`
+	// The path to the Dockerfile to be used for buiding the image.
+	BuildFile   OptString              `json:"build_file"`
+	Credentials *DockerfileCredentials `json:"credentials"`
+}
+
+// GetRepo returns the value of Repo.
+func (s *DockerfileFileSourceDetails) GetRepo() OptRepoType {
+	return s.Repo
+}
+
+// GetTargzURL returns the value of TargzURL.
+func (s *DockerfileFileSourceDetails) GetTargzURL() OptString {
+	return s.TargzURL
+}
+
+// GetContextDir returns the value of ContextDir.
+func (s *DockerfileFileSourceDetails) GetContextDir() OptString {
+	return s.ContextDir
+}
+
+// GetBuildFile returns the value of BuildFile.
+func (s *DockerfileFileSourceDetails) GetBuildFile() OptString {
+	return s.BuildFile
+}
+
+// GetCredentials returns the value of Credentials.
+func (s *DockerfileFileSourceDetails) GetCredentials() *DockerfileCredentials {
+	return s.Credentials
+}
+
+// SetRepo sets the value of Repo.
+func (s *DockerfileFileSourceDetails) SetRepo(val OptRepoType) {
+	s.Repo = val
+}
+
+// SetTargzURL sets the value of TargzURL.
+func (s *DockerfileFileSourceDetails) SetTargzURL(val OptString) {
+	s.TargzURL = val
+}
+
+// SetContextDir sets the value of ContextDir.
+func (s *DockerfileFileSourceDetails) SetContextDir(val OptString) {
+	s.ContextDir = val
+}
+
+// SetBuildFile sets the value of BuildFile.
+func (s *DockerfileFileSourceDetails) SetBuildFile(val OptString) {
+	s.BuildFile = val
+}
+
+// SetCredentials sets the value of Credentials.
+func (s *DockerfileFileSourceDetails) SetCredentials(val *DockerfileCredentials) {
+	s.Credentials = val
+}
+
+type DockerfileFileSourceType string
+
+const (
+	DockerfileFileSourceTypeDockerFile DockerfileFileSourceType = "docker-file"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DockerfileFileSourceType) MarshalText() ([]byte, error) {
+	switch s {
+	case DockerfileFileSourceTypeDockerFile:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DockerfileFileSourceType) UnmarshalText(data []byte) error {
+	switch DockerfileFileSourceType(data) {
+	case DockerfileFileSourceTypeDockerFile:
+		*s = DockerfileFileSourceTypeDockerFile
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Merged schema.
@@ -10405,6 +14374,227 @@ func (s *EnvironmentAbout) SetFavorite(val bool) {
 	s.Favorite = val
 }
 
+// Settings for creating an environment in a pipeline.
+// Ref: #/components/schemas/EnvironmentCreateStep
+type EnvironmentCreateStep struct {
+	// An identifier for the step.
+	Identifier OptString                       `json:"identifier"`
+	Options    OptEnvironmentCreateStepOptions `json:"options"`
+	Details    EnvironmentCreateStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *EnvironmentCreateStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *EnvironmentCreateStep) GetOptions() OptEnvironmentCreateStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *EnvironmentCreateStep) GetDetails() EnvironmentCreateStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *EnvironmentCreateStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *EnvironmentCreateStep) SetOptions(val OptEnvironmentCreateStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *EnvironmentCreateStep) SetDetails(val EnvironmentCreateStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type EnvironmentCreateStepAction string
+
+const (
+	EnvironmentCreateStepActionEnvironmentCreate EnvironmentCreateStepAction = "environment.create"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentCreateStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentCreateStepActionEnvironmentCreate:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentCreateStepAction) UnmarshalText(data []byte) error {
+	switch EnvironmentCreateStepAction(data) {
+	case EnvironmentCreateStepActionEnvironmentCreate:
+		*s = EnvironmentCreateStepActionEnvironmentCreate
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Merged schema.
+type EnvironmentCreateStepDetails struct {
+	Name       string              `json:"name"`
+	About      OptEnvironmentAbout `json:"about"`
+	Cluster    string              `json:"cluster"`
+	StackBuild OptResourceLocation `json:"stack_build"`
+	Features   Features            `json:"features"`
+}
+
+// GetName returns the value of Name.
+func (s *EnvironmentCreateStepDetails) GetName() string {
+	return s.Name
+}
+
+// GetAbout returns the value of About.
+func (s *EnvironmentCreateStepDetails) GetAbout() OptEnvironmentAbout {
+	return s.About
+}
+
+// GetCluster returns the value of Cluster.
+func (s *EnvironmentCreateStepDetails) GetCluster() string {
+	return s.Cluster
+}
+
+// GetStackBuild returns the value of StackBuild.
+func (s *EnvironmentCreateStepDetails) GetStackBuild() OptResourceLocation {
+	return s.StackBuild
+}
+
+// GetFeatures returns the value of Features.
+func (s *EnvironmentCreateStepDetails) GetFeatures() Features {
+	return s.Features
+}
+
+// SetName sets the value of Name.
+func (s *EnvironmentCreateStepDetails) SetName(val string) {
+	s.Name = val
+}
+
+// SetAbout sets the value of About.
+func (s *EnvironmentCreateStepDetails) SetAbout(val OptEnvironmentAbout) {
+	s.About = val
+}
+
+// SetCluster sets the value of Cluster.
+func (s *EnvironmentCreateStepDetails) SetCluster(val string) {
+	s.Cluster = val
+}
+
+// SetStackBuild sets the value of StackBuild.
+func (s *EnvironmentCreateStepDetails) SetStackBuild(val OptResourceLocation) {
+	s.StackBuild = val
+}
+
+// SetFeatures sets the value of Features.
+func (s *EnvironmentCreateStepDetails) SetFeatures(val Features) {
+	s.Features = val
+}
+
+type EnvironmentCreateStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *EnvironmentCreateStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *EnvironmentCreateStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// Settings for deleting an environment in a pipeline.
+// Ref: #/components/schemas/EnvironmentDeleteStep
+type EnvironmentDeleteStep struct {
+	// An identifier for the step.
+	Identifier OptString                       `json:"identifier"`
+	Options    OptEnvironmentDeleteStepOptions `json:"options"`
+	Details    ResourceLocation                `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *EnvironmentDeleteStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *EnvironmentDeleteStep) GetOptions() OptEnvironmentDeleteStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *EnvironmentDeleteStep) GetDetails() ResourceLocation {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *EnvironmentDeleteStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *EnvironmentDeleteStep) SetOptions(val OptEnvironmentDeleteStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *EnvironmentDeleteStep) SetDetails(val ResourceLocation) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type EnvironmentDeleteStepAction string
+
+const (
+	EnvironmentDeleteStepActionEnvironmentDelete EnvironmentDeleteStepAction = "environment.delete"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentDeleteStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentDeleteStepActionEnvironmentDelete:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentDeleteStepAction) UnmarshalText(data []byte) error {
+	switch EnvironmentDeleteStepAction(data) {
+	case EnvironmentDeleteStepActionEnvironmentDelete:
+		*s = EnvironmentDeleteStepActionEnvironmentDelete
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type EnvironmentDeleteStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *EnvironmentDeleteStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *EnvironmentDeleteStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
 // A collection of timestamps for each event in the environment's lifetime.
 type EnvironmentEvents struct {
 	// The timestamp of when the environment was created.
@@ -10585,6 +14775,87 @@ func (s *EnvironmentServices) SetVpn(val OptNilVpnEnvironmentService) {
 	s.Vpn = val
 }
 
+// Settings for starting an environment in a pipeline.
+// Ref: #/components/schemas/EnvironmentStartStep
+type EnvironmentStartStep struct {
+	// An identifier for the step.
+	Identifier OptString                      `json:"identifier"`
+	Options    OptEnvironmentStartStepOptions `json:"options"`
+	Details    ResourceLocation               `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *EnvironmentStartStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *EnvironmentStartStep) GetOptions() OptEnvironmentStartStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *EnvironmentStartStep) GetDetails() ResourceLocation {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *EnvironmentStartStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *EnvironmentStartStep) SetOptions(val OptEnvironmentStartStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *EnvironmentStartStep) SetDetails(val ResourceLocation) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type EnvironmentStartStepAction string
+
+const (
+	EnvironmentStartStepActionEnvironmentStart EnvironmentStartStepAction = "environment.start"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentStartStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentStartStepActionEnvironmentStart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentStartStepAction) UnmarshalText(data []byte) error {
+	switch EnvironmentStartStepAction(data) {
+	case EnvironmentStartStepActionEnvironmentStart:
+		*s = EnvironmentStartStepActionEnvironmentStart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type EnvironmentStartStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *EnvironmentStartStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *EnvironmentStartStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
 // Merged schema.
 // Ref: #/components/schemas/EnvironmentState
 type EnvironmentState struct {
@@ -10703,6 +14974,87 @@ func (s *EnvironmentStateError) SetMessage(val OptString) {
 // SetTime sets the value of Time.
 func (s *EnvironmentStateError) SetTime(val OptDateTime) {
 	s.Time = val
+}
+
+// Settings for stopping an environment in a pipeline.
+// Ref: #/components/schemas/EnvironmentStopStep
+type EnvironmentStopStep struct {
+	// An identifier for the step.
+	Identifier OptString                     `json:"identifier"`
+	Options    OptEnvironmentStopStepOptions `json:"options"`
+	Details    ResourceLocation              `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *EnvironmentStopStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *EnvironmentStopStep) GetOptions() OptEnvironmentStopStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *EnvironmentStopStep) GetDetails() ResourceLocation {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *EnvironmentStopStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *EnvironmentStopStep) SetOptions(val OptEnvironmentStopStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *EnvironmentStopStep) SetDetails(val ResourceLocation) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type EnvironmentStopStepAction string
+
+const (
+	EnvironmentStopStepActionEnvironmentStop EnvironmentStopStepAction = "environment.stop"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentStopStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentStopStepActionEnvironmentStop:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentStopStepAction) UnmarshalText(data []byte) error {
+	switch EnvironmentStopStepAction(data) {
+	case EnvironmentStopStepActionEnvironmentStop:
+		*s = EnvironmentStopStepActionEnvironmentStop
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type EnvironmentStopStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *EnvironmentStopStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *EnvironmentStopStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
 }
 
 // Contains useful and relevant data/statistics for an environment that would otherwise be several
@@ -11654,6 +16006,20 @@ func (s *FeaturesSpecAWS) SetEbsOptimized(val bool) {
 	s.EbsOptimized = val
 }
 
+type FetchScopedVariableOK struct {
+	Data OptScopedVariable `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *FetchScopedVariableOK) GetData() OptScopedVariable {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *FetchScopedVariableOK) SetData(val OptScopedVariable) {
+	s.Data = val
+}
+
 // Information about a given servers GPU resources.
 // Ref: #/components/schemas/GPUSpec
 type GPUSpec struct {
@@ -11744,20 +16110,7 @@ func (s *GPUSpecExtra) init() GPUSpecExtra {
 }
 
 // Ref: #/components/schemas/GenerateStackBuildAction
-type GenerateStackBuildAction struct {
-	// The job to do.
-	Action GenerateStackBuildActionAction `json:"action"`
-}
-
-// GetAction returns the value of Action.
-func (s *GenerateStackBuildAction) GetAction() GenerateStackBuildActionAction {
-	return s.Action
-}
-
-// SetAction sets the value of Action.
-func (s *GenerateStackBuildAction) SetAction(val GenerateStackBuildActionAction) {
-	s.Action = val
-}
+type GenerateStackBuildAction struct{}
 
 // The job to do.
 type GenerateStackBuildActionAction string
@@ -13430,6 +17783,47 @@ func (s *GetBillingSupportPlansPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
+type GetCompatibleImagesOK struct {
+	Data []Image `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *GetCompatibleImagesOK) GetData() []Image {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *GetCompatibleImagesOK) SetData(val []Image) {
+	s.Data = val
+}
+
+type GetCompatibleImagesPage struct {
+	// The page to jump to.
+	Number OptFloat64 `json:"number"`
+	// The number of resources returned per page.
+	Size OptFloat64 `json:"size"`
+}
+
+// GetNumber returns the value of Number.
+func (s *GetCompatibleImagesPage) GetNumber() OptFloat64 {
+	return s.Number
+}
+
+// GetSize returns the value of Size.
+func (s *GetCompatibleImagesPage) GetSize() OptFloat64 {
+	return s.Size
+}
+
+// SetNumber sets the value of Number.
+func (s *GetCompatibleImagesPage) SetNumber(val OptFloat64) {
+	s.Number = val
+}
+
+// SetSize sets the value of Size.
+func (s *GetCompatibleImagesPage) SetSize(val OptFloat64) {
+	s.Size = val
+}
+
 type GetContainerByIdIncludeItem string
 
 const (
@@ -13779,6 +18173,231 @@ func (s *GetContainerSummaryOK) GetData() OptContainerSummary {
 // SetData sets the value of Data.
 func (s *GetContainerSummaryOK) SetData(val OptContainerSummary) {
 	s.Data = val
+}
+
+type GetContainersFilter map[string]GetContainersFilterItem
+
+func (s *GetContainersFilter) init() GetContainersFilter {
+	m := *s
+	if m == nil {
+		m = map[string]GetContainersFilterItem{}
+		*s = m
+	}
+	return m
+}
+
+// GetContainersFilterItem represents sum type.
+type GetContainersFilterItem struct {
+	Type        GetContainersFilterItemType // switch on this field
+	String      string
+	StringArray []string
+}
+
+// GetContainersFilterItemType is oneOf type of GetContainersFilterItem.
+type GetContainersFilterItemType string
+
+// Possible values for GetContainersFilterItemType.
+const (
+	StringGetContainersFilterItem      GetContainersFilterItemType = "string"
+	StringArrayGetContainersFilterItem GetContainersFilterItemType = "[]string"
+)
+
+// IsString reports whether GetContainersFilterItem is string.
+func (s GetContainersFilterItem) IsString() bool { return s.Type == StringGetContainersFilterItem }
+
+// IsStringArray reports whether GetContainersFilterItem is []string.
+func (s GetContainersFilterItem) IsStringArray() bool {
+	return s.Type == StringArrayGetContainersFilterItem
+}
+
+// SetString sets GetContainersFilterItem to string.
+func (s *GetContainersFilterItem) SetString(v string) {
+	s.Type = StringGetContainersFilterItem
+	s.String = v
+}
+
+// GetString returns string and true boolean if GetContainersFilterItem is string.
+func (s GetContainersFilterItem) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringGetContainersFilterItem returns new GetContainersFilterItem from string.
+func NewStringGetContainersFilterItem(v string) GetContainersFilterItem {
+	var s GetContainersFilterItem
+	s.SetString(v)
+	return s
+}
+
+// SetStringArray sets GetContainersFilterItem to []string.
+func (s *GetContainersFilterItem) SetStringArray(v []string) {
+	s.Type = StringArrayGetContainersFilterItem
+	s.StringArray = v
+}
+
+// GetStringArray returns []string and true boolean if GetContainersFilterItem is []string.
+func (s GetContainersFilterItem) GetStringArray() (v []string, ok bool) {
+	if !s.IsStringArray() {
+		return v, false
+	}
+	return s.StringArray, true
+}
+
+// NewStringArrayGetContainersFilterItem returns new GetContainersFilterItem from []string.
+func NewStringArrayGetContainersFilterItem(v []string) GetContainersFilterItem {
+	var s GetContainersFilterItem
+	s.SetStringArray(v)
+	return s
+}
+
+type GetContainersIncludeItem string
+
+const (
+	GetContainersIncludeItemCreators     GetContainersIncludeItem = "creators"
+	GetContainersIncludeItemImages       GetContainersIncludeItem = "images"
+	GetContainersIncludeItemStackBuilds  GetContainersIncludeItem = "stack_builds"
+	GetContainersIncludeItemStacks       GetContainersIncludeItem = "stacks"
+	GetContainersIncludeItemEnvironments GetContainersIncludeItem = "environments"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetContainersIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetContainersIncludeItemCreators:
+		return []byte(s), nil
+	case GetContainersIncludeItemImages:
+		return []byte(s), nil
+	case GetContainersIncludeItemStackBuilds:
+		return []byte(s), nil
+	case GetContainersIncludeItemStacks:
+		return []byte(s), nil
+	case GetContainersIncludeItemEnvironments:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetContainersIncludeItem) UnmarshalText(data []byte) error {
+	switch GetContainersIncludeItem(data) {
+	case GetContainersIncludeItemCreators:
+		*s = GetContainersIncludeItemCreators
+		return nil
+	case GetContainersIncludeItemImages:
+		*s = GetContainersIncludeItemImages
+		return nil
+	case GetContainersIncludeItemStackBuilds:
+		*s = GetContainersIncludeItemStackBuilds
+		return nil
+	case GetContainersIncludeItemStacks:
+		*s = GetContainersIncludeItemStacks
+		return nil
+	case GetContainersIncludeItemEnvironments:
+		*s = GetContainersIncludeItemEnvironments
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetContainersMetaItem string
+
+const (
+	GetContainersMetaItemInstancesCount GetContainersMetaItem = "instances_count"
+	GetContainersMetaItemDomain         GetContainersMetaItem = "domain"
+	GetContainersMetaItemDomains        GetContainersMetaItem = "domains"
+	GetContainersMetaItemIps            GetContainersMetaItem = "ips"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetContainersMetaItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetContainersMetaItemInstancesCount:
+		return []byte(s), nil
+	case GetContainersMetaItemDomain:
+		return []byte(s), nil
+	case GetContainersMetaItemDomains:
+		return []byte(s), nil
+	case GetContainersMetaItemIps:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetContainersMetaItem) UnmarshalText(data []byte) error {
+	switch GetContainersMetaItem(data) {
+	case GetContainersMetaItemInstancesCount:
+		*s = GetContainersMetaItemInstancesCount
+		return nil
+	case GetContainersMetaItemDomain:
+		*s = GetContainersMetaItemDomain
+		return nil
+	case GetContainersMetaItemDomains:
+		*s = GetContainersMetaItemDomains
+		return nil
+	case GetContainersMetaItemIps:
+		*s = GetContainersMetaItemIps
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetContainersOK struct {
+	Data     []Container          `json:"data"`
+	Includes OptContainerIncludes `json:"includes"`
+}
+
+// GetData returns the value of Data.
+func (s *GetContainersOK) GetData() []Container {
+	return s.Data
+}
+
+// GetIncludes returns the value of Includes.
+func (s *GetContainersOK) GetIncludes() OptContainerIncludes {
+	return s.Includes
+}
+
+// SetData sets the value of Data.
+func (s *GetContainersOK) SetData(val []Container) {
+	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *GetContainersOK) SetIncludes(val OptContainerIncludes) {
+	s.Includes = val
+}
+
+type GetContainersPage struct {
+	// The page to jump to.
+	Number OptFloat64 `json:"number"`
+	// The number of resources returned per page.
+	Size OptFloat64 `json:"size"`
+}
+
+// GetNumber returns the value of Number.
+func (s *GetContainersPage) GetNumber() OptFloat64 {
+	return s.Number
+}
+
+// GetSize returns the value of Size.
+func (s *GetContainersPage) GetSize() OptFloat64 {
+	return s.Size
+}
+
+// SetNumber sets the value of Number.
+func (s *GetContainersPage) SetNumber(val OptFloat64) {
+	s.Number = val
+}
+
+// SetSize sets the value of Size.
+func (s *GetContainersPage) SetSize(val OptFloat64) {
+	s.Size = val
 }
 
 type GetCreditOK struct {
@@ -14477,6 +19096,198 @@ func (s *GetEnvironmentsPage) SetNumber(val OptFloat64) {
 
 // SetSize sets the value of Size.
 func (s *GetEnvironmentsPage) SetSize(val OptFloat64) {
+	s.Size = val
+}
+
+type GetHubActivityFilter map[string]GetHubActivityFilterItem
+
+func (s *GetHubActivityFilter) init() GetHubActivityFilter {
+	m := *s
+	if m == nil {
+		m = map[string]GetHubActivityFilterItem{}
+		*s = m
+	}
+	return m
+}
+
+// GetHubActivityFilterItem represents sum type.
+type GetHubActivityFilterItem struct {
+	Type        GetHubActivityFilterItemType // switch on this field
+	String      string
+	StringArray []string
+}
+
+// GetHubActivityFilterItemType is oneOf type of GetHubActivityFilterItem.
+type GetHubActivityFilterItemType string
+
+// Possible values for GetHubActivityFilterItemType.
+const (
+	StringGetHubActivityFilterItem      GetHubActivityFilterItemType = "string"
+	StringArrayGetHubActivityFilterItem GetHubActivityFilterItemType = "[]string"
+)
+
+// IsString reports whether GetHubActivityFilterItem is string.
+func (s GetHubActivityFilterItem) IsString() bool { return s.Type == StringGetHubActivityFilterItem }
+
+// IsStringArray reports whether GetHubActivityFilterItem is []string.
+func (s GetHubActivityFilterItem) IsStringArray() bool {
+	return s.Type == StringArrayGetHubActivityFilterItem
+}
+
+// SetString sets GetHubActivityFilterItem to string.
+func (s *GetHubActivityFilterItem) SetString(v string) {
+	s.Type = StringGetHubActivityFilterItem
+	s.String = v
+}
+
+// GetString returns string and true boolean if GetHubActivityFilterItem is string.
+func (s GetHubActivityFilterItem) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringGetHubActivityFilterItem returns new GetHubActivityFilterItem from string.
+func NewStringGetHubActivityFilterItem(v string) GetHubActivityFilterItem {
+	var s GetHubActivityFilterItem
+	s.SetString(v)
+	return s
+}
+
+// SetStringArray sets GetHubActivityFilterItem to []string.
+func (s *GetHubActivityFilterItem) SetStringArray(v []string) {
+	s.Type = StringArrayGetHubActivityFilterItem
+	s.StringArray = v
+}
+
+// GetStringArray returns []string and true boolean if GetHubActivityFilterItem is []string.
+func (s GetHubActivityFilterItem) GetStringArray() (v []string, ok bool) {
+	if !s.IsStringArray() {
+		return v, false
+	}
+	return s.StringArray, true
+}
+
+// NewStringArrayGetHubActivityFilterItem returns new GetHubActivityFilterItem from []string.
+func NewStringArrayGetHubActivityFilterItem(v []string) GetHubActivityFilterItem {
+	var s GetHubActivityFilterItem
+	s.SetStringArray(v)
+	return s
+}
+
+type GetHubActivityIncludeItem string
+
+const (
+	GetHubActivityIncludeItemUsers        GetHubActivityIncludeItem = "users"
+	GetHubActivityIncludeItemComponents   GetHubActivityIncludeItem = "components"
+	GetHubActivityIncludeItemCreators     GetHubActivityIncludeItem = "creators"
+	GetHubActivityIncludeItemImages       GetHubActivityIncludeItem = "images"
+	GetHubActivityIncludeItemStackBuilds  GetHubActivityIncludeItem = "stack_builds"
+	GetHubActivityIncludeItemStacks       GetHubActivityIncludeItem = "stacks"
+	GetHubActivityIncludeItemEnvironments GetHubActivityIncludeItem = "environments"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetHubActivityIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetHubActivityIncludeItemUsers:
+		return []byte(s), nil
+	case GetHubActivityIncludeItemComponents:
+		return []byte(s), nil
+	case GetHubActivityIncludeItemCreators:
+		return []byte(s), nil
+	case GetHubActivityIncludeItemImages:
+		return []byte(s), nil
+	case GetHubActivityIncludeItemStackBuilds:
+		return []byte(s), nil
+	case GetHubActivityIncludeItemStacks:
+		return []byte(s), nil
+	case GetHubActivityIncludeItemEnvironments:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetHubActivityIncludeItem) UnmarshalText(data []byte) error {
+	switch GetHubActivityIncludeItem(data) {
+	case GetHubActivityIncludeItemUsers:
+		*s = GetHubActivityIncludeItemUsers
+		return nil
+	case GetHubActivityIncludeItemComponents:
+		*s = GetHubActivityIncludeItemComponents
+		return nil
+	case GetHubActivityIncludeItemCreators:
+		*s = GetHubActivityIncludeItemCreators
+		return nil
+	case GetHubActivityIncludeItemImages:
+		*s = GetHubActivityIncludeItemImages
+		return nil
+	case GetHubActivityIncludeItemStackBuilds:
+		*s = GetHubActivityIncludeItemStackBuilds
+		return nil
+	case GetHubActivityIncludeItemStacks:
+		*s = GetHubActivityIncludeItemStacks
+		return nil
+	case GetHubActivityIncludeItemEnvironments:
+		*s = GetHubActivityIncludeItemEnvironments
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetHubActivityOK struct {
+	Data     []Activity          `json:"data"`
+	Includes OptActivityIncludes `json:"includes"`
+}
+
+// GetData returns the value of Data.
+func (s *GetHubActivityOK) GetData() []Activity {
+	return s.Data
+}
+
+// GetIncludes returns the value of Includes.
+func (s *GetHubActivityOK) GetIncludes() OptActivityIncludes {
+	return s.Includes
+}
+
+// SetData sets the value of Data.
+func (s *GetHubActivityOK) SetData(val []Activity) {
+	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *GetHubActivityOK) SetIncludes(val OptActivityIncludes) {
+	s.Includes = val
+}
+
+type GetHubActivityPage struct {
+	// The page to jump to.
+	Number OptFloat64 `json:"number"`
+	// The number of resources returned per page.
+	Size OptFloat64 `json:"size"`
+}
+
+// GetNumber returns the value of Number.
+func (s *GetHubActivityPage) GetNumber() OptFloat64 {
+	return s.Number
+}
+
+// GetSize returns the value of Size.
+func (s *GetHubActivityPage) GetSize() OptFloat64 {
+	return s.Size
+}
+
+// SetNumber sets the value of Number.
+func (s *GetHubActivityPage) SetNumber(val OptFloat64) {
+	s.Number = val
+}
+
+// SetSize sets the value of Size.
+func (s *GetHubActivityPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
@@ -15389,6 +20200,329 @@ func (s *GetImageBuildLogOK) GetData() OptBuildLog {
 // SetData sets the value of Data.
 func (s *GetImageBuildLogOK) SetData(val OptBuildLog) {
 	s.Data = val
+}
+
+type GetImageIncludeItem string
+
+const (
+	GetImageIncludeItemCreators    GetImageIncludeItem = "creators"
+	GetImageIncludeItemStackBuilds GetImageIncludeItem = "stack_builds"
+	GetImageIncludeItemStacks      GetImageIncludeItem = "stacks"
+	GetImageIncludeItemSources     GetImageIncludeItem = "sources"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetImageIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetImageIncludeItemCreators:
+		return []byte(s), nil
+	case GetImageIncludeItemStackBuilds:
+		return []byte(s), nil
+	case GetImageIncludeItemStacks:
+		return []byte(s), nil
+	case GetImageIncludeItemSources:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetImageIncludeItem) UnmarshalText(data []byte) error {
+	switch GetImageIncludeItem(data) {
+	case GetImageIncludeItemCreators:
+		*s = GetImageIncludeItemCreators
+		return nil
+	case GetImageIncludeItemStackBuilds:
+		*s = GetImageIncludeItemStackBuilds
+		return nil
+	case GetImageIncludeItemStacks:
+		*s = GetImageIncludeItemStacks
+		return nil
+	case GetImageIncludeItemSources:
+		*s = GetImageIncludeItemSources
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetImageMetaItem string
+
+const (
+	GetImageMetaItemContainersCount GetImageMetaItem = "containers_count"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetImageMetaItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetImageMetaItemContainersCount:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetImageMetaItem) UnmarshalText(data []byte) error {
+	switch GetImageMetaItem(data) {
+	case GetImageMetaItemContainersCount:
+		*s = GetImageMetaItemContainersCount
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetImageOK struct {
+	Data     OptImage         `json:"data"`
+	Includes OptImageIncludes `json:"includes"`
+}
+
+// GetData returns the value of Data.
+func (s *GetImageOK) GetData() OptImage {
+	return s.Data
+}
+
+// GetIncludes returns the value of Includes.
+func (s *GetImageOK) GetIncludes() OptImageIncludes {
+	return s.Includes
+}
+
+// SetData sets the value of Data.
+func (s *GetImageOK) SetData(val OptImage) {
+	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *GetImageOK) SetIncludes(val OptImageIncludes) {
+	s.Includes = val
+}
+
+type GetImagePage struct {
+	// The page to jump to.
+	Number OptFloat64 `json:"number"`
+	// The number of resources returned per page.
+	Size OptFloat64 `json:"size"`
+}
+
+// GetNumber returns the value of Number.
+func (s *GetImagePage) GetNumber() OptFloat64 {
+	return s.Number
+}
+
+// GetSize returns the value of Size.
+func (s *GetImagePage) GetSize() OptFloat64 {
+	return s.Size
+}
+
+// SetNumber sets the value of Number.
+func (s *GetImagePage) SetNumber(val OptFloat64) {
+	s.Number = val
+}
+
+// SetSize sets the value of Size.
+func (s *GetImagePage) SetSize(val OptFloat64) {
+	s.Size = val
+}
+
+type GetImagesFilter map[string]GetImagesFilterItem
+
+func (s *GetImagesFilter) init() GetImagesFilter {
+	m := *s
+	if m == nil {
+		m = map[string]GetImagesFilterItem{}
+		*s = m
+	}
+	return m
+}
+
+// GetImagesFilterItem represents sum type.
+type GetImagesFilterItem struct {
+	Type        GetImagesFilterItemType // switch on this field
+	String      string
+	StringArray []string
+}
+
+// GetImagesFilterItemType is oneOf type of GetImagesFilterItem.
+type GetImagesFilterItemType string
+
+// Possible values for GetImagesFilterItemType.
+const (
+	StringGetImagesFilterItem      GetImagesFilterItemType = "string"
+	StringArrayGetImagesFilterItem GetImagesFilterItemType = "[]string"
+)
+
+// IsString reports whether GetImagesFilterItem is string.
+func (s GetImagesFilterItem) IsString() bool { return s.Type == StringGetImagesFilterItem }
+
+// IsStringArray reports whether GetImagesFilterItem is []string.
+func (s GetImagesFilterItem) IsStringArray() bool { return s.Type == StringArrayGetImagesFilterItem }
+
+// SetString sets GetImagesFilterItem to string.
+func (s *GetImagesFilterItem) SetString(v string) {
+	s.Type = StringGetImagesFilterItem
+	s.String = v
+}
+
+// GetString returns string and true boolean if GetImagesFilterItem is string.
+func (s GetImagesFilterItem) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringGetImagesFilterItem returns new GetImagesFilterItem from string.
+func NewStringGetImagesFilterItem(v string) GetImagesFilterItem {
+	var s GetImagesFilterItem
+	s.SetString(v)
+	return s
+}
+
+// SetStringArray sets GetImagesFilterItem to []string.
+func (s *GetImagesFilterItem) SetStringArray(v []string) {
+	s.Type = StringArrayGetImagesFilterItem
+	s.StringArray = v
+}
+
+// GetStringArray returns []string and true boolean if GetImagesFilterItem is []string.
+func (s GetImagesFilterItem) GetStringArray() (v []string, ok bool) {
+	if !s.IsStringArray() {
+		return v, false
+	}
+	return s.StringArray, true
+}
+
+// NewStringArrayGetImagesFilterItem returns new GetImagesFilterItem from []string.
+func NewStringArrayGetImagesFilterItem(v []string) GetImagesFilterItem {
+	var s GetImagesFilterItem
+	s.SetStringArray(v)
+	return s
+}
+
+type GetImagesIncludeItem string
+
+const (
+	GetImagesIncludeItemCreators    GetImagesIncludeItem = "creators"
+	GetImagesIncludeItemStackBuilds GetImagesIncludeItem = "stack_builds"
+	GetImagesIncludeItemStacks      GetImagesIncludeItem = "stacks"
+	GetImagesIncludeItemSources     GetImagesIncludeItem = "sources"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetImagesIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetImagesIncludeItemCreators:
+		return []byte(s), nil
+	case GetImagesIncludeItemStackBuilds:
+		return []byte(s), nil
+	case GetImagesIncludeItemStacks:
+		return []byte(s), nil
+	case GetImagesIncludeItemSources:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetImagesIncludeItem) UnmarshalText(data []byte) error {
+	switch GetImagesIncludeItem(data) {
+	case GetImagesIncludeItemCreators:
+		*s = GetImagesIncludeItemCreators
+		return nil
+	case GetImagesIncludeItemStackBuilds:
+		*s = GetImagesIncludeItemStackBuilds
+		return nil
+	case GetImagesIncludeItemStacks:
+		*s = GetImagesIncludeItemStacks
+		return nil
+	case GetImagesIncludeItemSources:
+		*s = GetImagesIncludeItemSources
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetImagesMetaItem string
+
+const (
+	GetImagesMetaItemContainersCount GetImagesMetaItem = "containers_count"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetImagesMetaItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetImagesMetaItemContainersCount:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetImagesMetaItem) UnmarshalText(data []byte) error {
+	switch GetImagesMetaItem(data) {
+	case GetImagesMetaItemContainersCount:
+		*s = GetImagesMetaItemContainersCount
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetImagesOK struct {
+	Data     []Image          `json:"data"`
+	Includes OptImageIncludes `json:"includes"`
+}
+
+// GetData returns the value of Data.
+func (s *GetImagesOK) GetData() []Image {
+	return s.Data
+}
+
+// GetIncludes returns the value of Includes.
+func (s *GetImagesOK) GetIncludes() OptImageIncludes {
+	return s.Includes
+}
+
+// SetData sets the value of Data.
+func (s *GetImagesOK) SetData(val []Image) {
+	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *GetImagesOK) SetIncludes(val OptImageIncludes) {
+	s.Includes = val
+}
+
+type GetImagesPage struct {
+	// The page to jump to.
+	Number OptFloat64 `json:"number"`
+	// The number of resources returned per page.
+	Size OptFloat64 `json:"size"`
+}
+
+// GetNumber returns the value of Number.
+func (s *GetImagesPage) GetNumber() OptFloat64 {
+	return s.Number
+}
+
+// GetSize returns the value of Size.
+func (s *GetImagesPage) GetSize() OptFloat64 {
+	return s.Size
+}
+
+// SetNumber sets the value of Number.
+func (s *GetImagesPage) SetNumber(val OptFloat64) {
+	s.Number = val
+}
+
+// SetSize sets the value of Size.
+func (s *GetImagesPage) SetSize(val OptFloat64) {
+	s.Size = val
 }
 
 type GetInfrastructureIPPoolIncludeItem string
@@ -16899,6 +22033,70 @@ func (s *GetOrdersPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
+type GetPipelineIncludeItem string
+
+const (
+	GetPipelineIncludeItemCreators   GetPipelineIncludeItem = "creators"
+	GetPipelineIncludeItemName       GetPipelineIncludeItem = "name"
+	GetPipelineIncludeItemComponents GetPipelineIncludeItem = "components"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetPipelineIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetPipelineIncludeItemCreators:
+		return []byte(s), nil
+	case GetPipelineIncludeItemName:
+		return []byte(s), nil
+	case GetPipelineIncludeItemComponents:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetPipelineIncludeItem) UnmarshalText(data []byte) error {
+	switch GetPipelineIncludeItem(data) {
+	case GetPipelineIncludeItemCreators:
+		*s = GetPipelineIncludeItemCreators
+		return nil
+	case GetPipelineIncludeItemName:
+		*s = GetPipelineIncludeItemName
+		return nil
+	case GetPipelineIncludeItemComponents:
+		*s = GetPipelineIncludeItemComponents
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetPipelineOK struct {
+	Data     OptPipeline         `json:"data"`
+	Includes OptPipelineIncludes `json:"includes"`
+}
+
+// GetData returns the value of Data.
+func (s *GetPipelineOK) GetData() OptPipeline {
+	return s.Data
+}
+
+// GetIncludes returns the value of Includes.
+func (s *GetPipelineOK) GetIncludes() OptPipelineIncludes {
+	return s.Includes
+}
+
+// SetData sets the value of Data.
+func (s *GetPipelineOK) SetData(val OptPipeline) {
+	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *GetPipelineOK) SetIncludes(val OptPipelineIncludes) {
+	s.Includes = val
+}
+
 type GetPipelineRunsIncludeItem string
 
 const (
@@ -17096,6 +22294,174 @@ func (s *GetPipelineTriggerKeysPage) SetNumber(val OptFloat64) {
 
 // SetSize sets the value of Size.
 func (s *GetPipelineTriggerKeysPage) SetSize(val OptFloat64) {
+	s.Size = val
+}
+
+type GetPipelinesFilter map[string]GetPipelinesFilterItem
+
+func (s *GetPipelinesFilter) init() GetPipelinesFilter {
+	m := *s
+	if m == nil {
+		m = map[string]GetPipelinesFilterItem{}
+		*s = m
+	}
+	return m
+}
+
+// GetPipelinesFilterItem represents sum type.
+type GetPipelinesFilterItem struct {
+	Type        GetPipelinesFilterItemType // switch on this field
+	String      string
+	StringArray []string
+}
+
+// GetPipelinesFilterItemType is oneOf type of GetPipelinesFilterItem.
+type GetPipelinesFilterItemType string
+
+// Possible values for GetPipelinesFilterItemType.
+const (
+	StringGetPipelinesFilterItem      GetPipelinesFilterItemType = "string"
+	StringArrayGetPipelinesFilterItem GetPipelinesFilterItemType = "[]string"
+)
+
+// IsString reports whether GetPipelinesFilterItem is string.
+func (s GetPipelinesFilterItem) IsString() bool { return s.Type == StringGetPipelinesFilterItem }
+
+// IsStringArray reports whether GetPipelinesFilterItem is []string.
+func (s GetPipelinesFilterItem) IsStringArray() bool {
+	return s.Type == StringArrayGetPipelinesFilterItem
+}
+
+// SetString sets GetPipelinesFilterItem to string.
+func (s *GetPipelinesFilterItem) SetString(v string) {
+	s.Type = StringGetPipelinesFilterItem
+	s.String = v
+}
+
+// GetString returns string and true boolean if GetPipelinesFilterItem is string.
+func (s GetPipelinesFilterItem) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringGetPipelinesFilterItem returns new GetPipelinesFilterItem from string.
+func NewStringGetPipelinesFilterItem(v string) GetPipelinesFilterItem {
+	var s GetPipelinesFilterItem
+	s.SetString(v)
+	return s
+}
+
+// SetStringArray sets GetPipelinesFilterItem to []string.
+func (s *GetPipelinesFilterItem) SetStringArray(v []string) {
+	s.Type = StringArrayGetPipelinesFilterItem
+	s.StringArray = v
+}
+
+// GetStringArray returns []string and true boolean if GetPipelinesFilterItem is []string.
+func (s GetPipelinesFilterItem) GetStringArray() (v []string, ok bool) {
+	if !s.IsStringArray() {
+		return v, false
+	}
+	return s.StringArray, true
+}
+
+// NewStringArrayGetPipelinesFilterItem returns new GetPipelinesFilterItem from []string.
+func NewStringArrayGetPipelinesFilterItem(v []string) GetPipelinesFilterItem {
+	var s GetPipelinesFilterItem
+	s.SetStringArray(v)
+	return s
+}
+
+type GetPipelinesIncludeItem string
+
+const (
+	GetPipelinesIncludeItemCreators   GetPipelinesIncludeItem = "creators"
+	GetPipelinesIncludeItemName       GetPipelinesIncludeItem = "name"
+	GetPipelinesIncludeItemComponents GetPipelinesIncludeItem = "components"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetPipelinesIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetPipelinesIncludeItemCreators:
+		return []byte(s), nil
+	case GetPipelinesIncludeItemName:
+		return []byte(s), nil
+	case GetPipelinesIncludeItemComponents:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetPipelinesIncludeItem) UnmarshalText(data []byte) error {
+	switch GetPipelinesIncludeItem(data) {
+	case GetPipelinesIncludeItemCreators:
+		*s = GetPipelinesIncludeItemCreators
+		return nil
+	case GetPipelinesIncludeItemName:
+		*s = GetPipelinesIncludeItemName
+		return nil
+	case GetPipelinesIncludeItemComponents:
+		*s = GetPipelinesIncludeItemComponents
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetPipelinesOK struct {
+	Data     []Pipeline          `json:"data"`
+	Includes OptPipelineIncludes `json:"includes"`
+}
+
+// GetData returns the value of Data.
+func (s *GetPipelinesOK) GetData() []Pipeline {
+	return s.Data
+}
+
+// GetIncludes returns the value of Includes.
+func (s *GetPipelinesOK) GetIncludes() OptPipelineIncludes {
+	return s.Includes
+}
+
+// SetData sets the value of Data.
+func (s *GetPipelinesOK) SetData(val []Pipeline) {
+	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *GetPipelinesOK) SetIncludes(val OptPipelineIncludes) {
+	s.Includes = val
+}
+
+type GetPipelinesPage struct {
+	// The page to jump to.
+	Number OptFloat64 `json:"number"`
+	// The number of resources returned per page.
+	Size OptFloat64 `json:"size"`
+}
+
+// GetNumber returns the value of Number.
+func (s *GetPipelinesPage) GetNumber() OptFloat64 {
+	return s.Number
+}
+
+// GetSize returns the value of Size.
+func (s *GetPipelinesPage) GetSize() OptFloat64 {
+	return s.Size
+}
+
+// SetNumber sets the value of Number.
+func (s *GetPipelinesPage) SetNumber(val OptFloat64) {
+	s.Number = val
+}
+
+// SetSize sets the value of Size.
+func (s *GetPipelinesPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
@@ -18283,6 +23649,712 @@ func (s *GetSingleServerOK) SetData(val OptInfraServer) {
 // SetIncludes sets the value of Includes.
 func (s *GetSingleServerOK) SetIncludes(val OptServerIncludes) {
 	s.Includes = val
+}
+
+type GetSourceIncludeItem string
+
+const (
+	GetSourceIncludeItemCreators GetSourceIncludeItem = "creators"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetSourceIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetSourceIncludeItemCreators:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetSourceIncludeItem) UnmarshalText(data []byte) error {
+	switch GetSourceIncludeItem(data) {
+	case GetSourceIncludeItemCreators:
+		*s = GetSourceIncludeItemCreators
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetSourceMetaItem string
+
+const (
+	GetSourceMetaItemImagesCount GetSourceMetaItem = "images_count"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetSourceMetaItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetSourceMetaItemImagesCount:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetSourceMetaItem) UnmarshalText(data []byte) error {
+	switch GetSourceMetaItem(data) {
+	case GetSourceMetaItemImagesCount:
+		*s = GetSourceMetaItemImagesCount
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetSourceOK struct {
+	Data     OptImageSource    `json:"data"`
+	Includes OptSourceIncludes `json:"includes"`
+}
+
+// GetData returns the value of Data.
+func (s *GetSourceOK) GetData() OptImageSource {
+	return s.Data
+}
+
+// GetIncludes returns the value of Includes.
+func (s *GetSourceOK) GetIncludes() OptSourceIncludes {
+	return s.Includes
+}
+
+// SetData sets the value of Data.
+func (s *GetSourceOK) SetData(val OptImageSource) {
+	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *GetSourceOK) SetIncludes(val OptSourceIncludes) {
+	s.Includes = val
+}
+
+type GetSourcesCollectionFilter map[string]GetSourcesCollectionFilterItem
+
+func (s *GetSourcesCollectionFilter) init() GetSourcesCollectionFilter {
+	m := *s
+	if m == nil {
+		m = map[string]GetSourcesCollectionFilterItem{}
+		*s = m
+	}
+	return m
+}
+
+// GetSourcesCollectionFilterItem represents sum type.
+type GetSourcesCollectionFilterItem struct {
+	Type        GetSourcesCollectionFilterItemType // switch on this field
+	String      string
+	StringArray []string
+}
+
+// GetSourcesCollectionFilterItemType is oneOf type of GetSourcesCollectionFilterItem.
+type GetSourcesCollectionFilterItemType string
+
+// Possible values for GetSourcesCollectionFilterItemType.
+const (
+	StringGetSourcesCollectionFilterItem      GetSourcesCollectionFilterItemType = "string"
+	StringArrayGetSourcesCollectionFilterItem GetSourcesCollectionFilterItemType = "[]string"
+)
+
+// IsString reports whether GetSourcesCollectionFilterItem is string.
+func (s GetSourcesCollectionFilterItem) IsString() bool {
+	return s.Type == StringGetSourcesCollectionFilterItem
+}
+
+// IsStringArray reports whether GetSourcesCollectionFilterItem is []string.
+func (s GetSourcesCollectionFilterItem) IsStringArray() bool {
+	return s.Type == StringArrayGetSourcesCollectionFilterItem
+}
+
+// SetString sets GetSourcesCollectionFilterItem to string.
+func (s *GetSourcesCollectionFilterItem) SetString(v string) {
+	s.Type = StringGetSourcesCollectionFilterItem
+	s.String = v
+}
+
+// GetString returns string and true boolean if GetSourcesCollectionFilterItem is string.
+func (s GetSourcesCollectionFilterItem) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringGetSourcesCollectionFilterItem returns new GetSourcesCollectionFilterItem from string.
+func NewStringGetSourcesCollectionFilterItem(v string) GetSourcesCollectionFilterItem {
+	var s GetSourcesCollectionFilterItem
+	s.SetString(v)
+	return s
+}
+
+// SetStringArray sets GetSourcesCollectionFilterItem to []string.
+func (s *GetSourcesCollectionFilterItem) SetStringArray(v []string) {
+	s.Type = StringArrayGetSourcesCollectionFilterItem
+	s.StringArray = v
+}
+
+// GetStringArray returns []string and true boolean if GetSourcesCollectionFilterItem is []string.
+func (s GetSourcesCollectionFilterItem) GetStringArray() (v []string, ok bool) {
+	if !s.IsStringArray() {
+		return v, false
+	}
+	return s.StringArray, true
+}
+
+// NewStringArrayGetSourcesCollectionFilterItem returns new GetSourcesCollectionFilterItem from []string.
+func NewStringArrayGetSourcesCollectionFilterItem(v []string) GetSourcesCollectionFilterItem {
+	var s GetSourcesCollectionFilterItem
+	s.SetStringArray(v)
+	return s
+}
+
+type GetSourcesCollectionIncludeItem string
+
+const (
+	GetSourcesCollectionIncludeItemCreators GetSourcesCollectionIncludeItem = "creators"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetSourcesCollectionIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetSourcesCollectionIncludeItemCreators:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetSourcesCollectionIncludeItem) UnmarshalText(data []byte) error {
+	switch GetSourcesCollectionIncludeItem(data) {
+	case GetSourcesCollectionIncludeItemCreators:
+		*s = GetSourcesCollectionIncludeItemCreators
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetSourcesCollectionMetaItem string
+
+const (
+	GetSourcesCollectionMetaItemImagesCount GetSourcesCollectionMetaItem = "images_count"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetSourcesCollectionMetaItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetSourcesCollectionMetaItemImagesCount:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetSourcesCollectionMetaItem) UnmarshalText(data []byte) error {
+	switch GetSourcesCollectionMetaItem(data) {
+	case GetSourcesCollectionMetaItemImagesCount:
+		*s = GetSourcesCollectionMetaItemImagesCount
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetSourcesCollectionOK struct {
+	Data     []ImageSource     `json:"data"`
+	Includes OptSourceIncludes `json:"includes"`
+}
+
+// GetData returns the value of Data.
+func (s *GetSourcesCollectionOK) GetData() []ImageSource {
+	return s.Data
+}
+
+// GetIncludes returns the value of Includes.
+func (s *GetSourcesCollectionOK) GetIncludes() OptSourceIncludes {
+	return s.Includes
+}
+
+// SetData sets the value of Data.
+func (s *GetSourcesCollectionOK) SetData(val []ImageSource) {
+	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *GetSourcesCollectionOK) SetIncludes(val OptSourceIncludes) {
+	s.Includes = val
+}
+
+type GetSourcesCollectionPage struct {
+	// The page to jump to.
+	Number OptFloat64 `json:"number"`
+	// The number of resources returned per page.
+	Size OptFloat64 `json:"size"`
+}
+
+// GetNumber returns the value of Number.
+func (s *GetSourcesCollectionPage) GetNumber() OptFloat64 {
+	return s.Number
+}
+
+// GetSize returns the value of Size.
+func (s *GetSourcesCollectionPage) GetSize() OptFloat64 {
+	return s.Size
+}
+
+// SetNumber sets the value of Number.
+func (s *GetSourcesCollectionPage) SetNumber(val OptFloat64) {
+	s.Number = val
+}
+
+// SetSize sets the value of Size.
+func (s *GetSourcesCollectionPage) SetSize(val OptFloat64) {
+	s.Size = val
+}
+
+type GetStackBuildLookupOK struct {
+	Data OptStackBuild `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *GetStackBuildLookupOK) GetData() OptStackBuild {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *GetStackBuildLookupOK) SetData(val OptStackBuild) {
+	s.Data = val
+}
+
+type GetStackBuildOK struct {
+	Data OptStackBuild `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *GetStackBuildOK) GetData() OptStackBuild {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *GetStackBuildOK) SetData(val OptStackBuild) {
+	s.Data = val
+}
+
+type GetStackBuildsFilter map[string]GetStackBuildsFilterItem
+
+func (s *GetStackBuildsFilter) init() GetStackBuildsFilter {
+	m := *s
+	if m == nil {
+		m = map[string]GetStackBuildsFilterItem{}
+		*s = m
+	}
+	return m
+}
+
+// GetStackBuildsFilterItem represents sum type.
+type GetStackBuildsFilterItem struct {
+	Type        GetStackBuildsFilterItemType // switch on this field
+	String      string
+	StringArray []string
+}
+
+// GetStackBuildsFilterItemType is oneOf type of GetStackBuildsFilterItem.
+type GetStackBuildsFilterItemType string
+
+// Possible values for GetStackBuildsFilterItemType.
+const (
+	StringGetStackBuildsFilterItem      GetStackBuildsFilterItemType = "string"
+	StringArrayGetStackBuildsFilterItem GetStackBuildsFilterItemType = "[]string"
+)
+
+// IsString reports whether GetStackBuildsFilterItem is string.
+func (s GetStackBuildsFilterItem) IsString() bool { return s.Type == StringGetStackBuildsFilterItem }
+
+// IsStringArray reports whether GetStackBuildsFilterItem is []string.
+func (s GetStackBuildsFilterItem) IsStringArray() bool {
+	return s.Type == StringArrayGetStackBuildsFilterItem
+}
+
+// SetString sets GetStackBuildsFilterItem to string.
+func (s *GetStackBuildsFilterItem) SetString(v string) {
+	s.Type = StringGetStackBuildsFilterItem
+	s.String = v
+}
+
+// GetString returns string and true boolean if GetStackBuildsFilterItem is string.
+func (s GetStackBuildsFilterItem) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringGetStackBuildsFilterItem returns new GetStackBuildsFilterItem from string.
+func NewStringGetStackBuildsFilterItem(v string) GetStackBuildsFilterItem {
+	var s GetStackBuildsFilterItem
+	s.SetString(v)
+	return s
+}
+
+// SetStringArray sets GetStackBuildsFilterItem to []string.
+func (s *GetStackBuildsFilterItem) SetStringArray(v []string) {
+	s.Type = StringArrayGetStackBuildsFilterItem
+	s.StringArray = v
+}
+
+// GetStringArray returns []string and true boolean if GetStackBuildsFilterItem is []string.
+func (s GetStackBuildsFilterItem) GetStringArray() (v []string, ok bool) {
+	if !s.IsStringArray() {
+		return v, false
+	}
+	return s.StringArray, true
+}
+
+// NewStringArrayGetStackBuildsFilterItem returns new GetStackBuildsFilterItem from []string.
+func NewStringArrayGetStackBuildsFilterItem(v []string) GetStackBuildsFilterItem {
+	var s GetStackBuildsFilterItem
+	s.SetStringArray(v)
+	return s
+}
+
+type GetStackBuildsIncludeItem string
+
+const (
+	GetStackBuildsIncludeItemStackID      GetStackBuildsIncludeItem = "stack_id"
+	GetStackBuildsIncludeItemHubID        GetStackBuildsIncludeItem = "hub_id"
+	GetStackBuildsIncludeItemAbout        GetStackBuildsIncludeItem = "about"
+	GetStackBuildsIncludeItemInstructions GetStackBuildsIncludeItem = "instructions"
+	GetStackBuildsIncludeItemEvents       GetStackBuildsIncludeItem = "events"
+	GetStackBuildsIncludeItemState        GetStackBuildsIncludeItem = "state"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetStackBuildsIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetStackBuildsIncludeItemStackID:
+		return []byte(s), nil
+	case GetStackBuildsIncludeItemHubID:
+		return []byte(s), nil
+	case GetStackBuildsIncludeItemAbout:
+		return []byte(s), nil
+	case GetStackBuildsIncludeItemInstructions:
+		return []byte(s), nil
+	case GetStackBuildsIncludeItemEvents:
+		return []byte(s), nil
+	case GetStackBuildsIncludeItemState:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetStackBuildsIncludeItem) UnmarshalText(data []byte) error {
+	switch GetStackBuildsIncludeItem(data) {
+	case GetStackBuildsIncludeItemStackID:
+		*s = GetStackBuildsIncludeItemStackID
+		return nil
+	case GetStackBuildsIncludeItemHubID:
+		*s = GetStackBuildsIncludeItemHubID
+		return nil
+	case GetStackBuildsIncludeItemAbout:
+		*s = GetStackBuildsIncludeItemAbout
+		return nil
+	case GetStackBuildsIncludeItemInstructions:
+		*s = GetStackBuildsIncludeItemInstructions
+		return nil
+	case GetStackBuildsIncludeItemEvents:
+		*s = GetStackBuildsIncludeItemEvents
+		return nil
+	case GetStackBuildsIncludeItemState:
+		*s = GetStackBuildsIncludeItemState
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetStackBuildsMetaItem string
+
+const (
+	GetStackBuildsMetaItemContainersCount GetStackBuildsMetaItem = "containers_count"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetStackBuildsMetaItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetStackBuildsMetaItemContainersCount:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetStackBuildsMetaItem) UnmarshalText(data []byte) error {
+	switch GetStackBuildsMetaItem(data) {
+	case GetStackBuildsMetaItemContainersCount:
+		*s = GetStackBuildsMetaItemContainersCount
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetStackBuildsOK struct {
+	Data     []StackBuild         `json:"data"`
+	Includes OptStackBuildInclude `json:"includes"`
+}
+
+// GetData returns the value of Data.
+func (s *GetStackBuildsOK) GetData() []StackBuild {
+	return s.Data
+}
+
+// GetIncludes returns the value of Includes.
+func (s *GetStackBuildsOK) GetIncludes() OptStackBuildInclude {
+	return s.Includes
+}
+
+// SetData sets the value of Data.
+func (s *GetStackBuildsOK) SetData(val []StackBuild) {
+	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *GetStackBuildsOK) SetIncludes(val OptStackBuildInclude) {
+	s.Includes = val
+}
+
+type GetStackBuildsPage struct {
+	// The page to jump to.
+	Number OptFloat64 `json:"number"`
+	// The number of resources returned per page.
+	Size OptFloat64 `json:"size"`
+}
+
+// GetNumber returns the value of Number.
+func (s *GetStackBuildsPage) GetNumber() OptFloat64 {
+	return s.Number
+}
+
+// GetSize returns the value of Size.
+func (s *GetStackBuildsPage) GetSize() OptFloat64 {
+	return s.Size
+}
+
+// SetNumber sets the value of Number.
+func (s *GetStackBuildsPage) SetNumber(val OptFloat64) {
+	s.Number = val
+}
+
+// SetSize sets the value of Size.
+func (s *GetStackBuildsPage) SetSize(val OptFloat64) {
+	s.Size = val
+}
+
+type GetStackOK struct {
+	Data OptStack `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *GetStackOK) GetData() OptStack {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *GetStackOK) SetData(val OptStack) {
+	s.Data = val
+}
+
+type GetStacksFilter map[string]GetStacksFilterItem
+
+func (s *GetStacksFilter) init() GetStacksFilter {
+	m := *s
+	if m == nil {
+		m = map[string]GetStacksFilterItem{}
+		*s = m
+	}
+	return m
+}
+
+// GetStacksFilterItem represents sum type.
+type GetStacksFilterItem struct {
+	Type        GetStacksFilterItemType // switch on this field
+	String      string
+	StringArray []string
+}
+
+// GetStacksFilterItemType is oneOf type of GetStacksFilterItem.
+type GetStacksFilterItemType string
+
+// Possible values for GetStacksFilterItemType.
+const (
+	StringGetStacksFilterItem      GetStacksFilterItemType = "string"
+	StringArrayGetStacksFilterItem GetStacksFilterItemType = "[]string"
+)
+
+// IsString reports whether GetStacksFilterItem is string.
+func (s GetStacksFilterItem) IsString() bool { return s.Type == StringGetStacksFilterItem }
+
+// IsStringArray reports whether GetStacksFilterItem is []string.
+func (s GetStacksFilterItem) IsStringArray() bool { return s.Type == StringArrayGetStacksFilterItem }
+
+// SetString sets GetStacksFilterItem to string.
+func (s *GetStacksFilterItem) SetString(v string) {
+	s.Type = StringGetStacksFilterItem
+	s.String = v
+}
+
+// GetString returns string and true boolean if GetStacksFilterItem is string.
+func (s GetStacksFilterItem) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringGetStacksFilterItem returns new GetStacksFilterItem from string.
+func NewStringGetStacksFilterItem(v string) GetStacksFilterItem {
+	var s GetStacksFilterItem
+	s.SetString(v)
+	return s
+}
+
+// SetStringArray sets GetStacksFilterItem to []string.
+func (s *GetStacksFilterItem) SetStringArray(v []string) {
+	s.Type = StringArrayGetStacksFilterItem
+	s.StringArray = v
+}
+
+// GetStringArray returns []string and true boolean if GetStacksFilterItem is []string.
+func (s GetStacksFilterItem) GetStringArray() (v []string, ok bool) {
+	if !s.IsStringArray() {
+		return v, false
+	}
+	return s.StringArray, true
+}
+
+// NewStringArrayGetStacksFilterItem returns new GetStacksFilterItem from []string.
+func NewStringArrayGetStacksFilterItem(v []string) GetStacksFilterItem {
+	var s GetStacksFilterItem
+	s.SetStringArray(v)
+	return s
+}
+
+type GetStacksIncludeItem string
+
+const (
+	GetStacksIncludeItemCreators GetStacksIncludeItem = "creators"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetStacksIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetStacksIncludeItemCreators:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetStacksIncludeItem) UnmarshalText(data []byte) error {
+	switch GetStacksIncludeItem(data) {
+	case GetStacksIncludeItemCreators:
+		*s = GetStacksIncludeItemCreators
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetStacksMetaItem string
+
+const (
+	GetStacksMetaItemContainersCount GetStacksMetaItem = "containers_count"
+	GetStacksMetaItemBuildsCount     GetStacksMetaItem = "builds_count"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetStacksMetaItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetStacksMetaItemContainersCount:
+		return []byte(s), nil
+	case GetStacksMetaItemBuildsCount:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetStacksMetaItem) UnmarshalText(data []byte) error {
+	switch GetStacksMetaItem(data) {
+	case GetStacksMetaItemContainersCount:
+		*s = GetStacksMetaItemContainersCount
+		return nil
+	case GetStacksMetaItemBuildsCount:
+		*s = GetStacksMetaItemBuildsCount
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetStacksOK struct {
+	Data     []Stack         `json:"data"`
+	Includes OptStackInclude `json:"includes"`
+}
+
+// GetData returns the value of Data.
+func (s *GetStacksOK) GetData() []Stack {
+	return s.Data
+}
+
+// GetIncludes returns the value of Includes.
+func (s *GetStacksOK) GetIncludes() OptStackInclude {
+	return s.Includes
+}
+
+// SetData sets the value of Data.
+func (s *GetStacksOK) SetData(val []Stack) {
+	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *GetStacksOK) SetIncludes(val OptStackInclude) {
+	s.Includes = val
+}
+
+type GetStacksPage struct {
+	// The page to jump to.
+	Number OptFloat64 `json:"number"`
+	// The number of resources returned per page.
+	Size OptFloat64 `json:"size"`
+}
+
+// GetNumber returns the value of Number.
+func (s *GetStacksPage) GetNumber() OptFloat64 {
+	return s.Number
+}
+
+// GetSize returns the value of Size.
+func (s *GetStacksPage) GetSize() OptFloat64 {
+	return s.Size
+}
+
+// SetNumber sets the value of Number.
+func (s *GetStacksPage) SetNumber(val OptFloat64) {
+	s.Number = val
+}
+
+// SetSize sets the value of Size.
+func (s *GetStacksPage) SetSize(val OptFloat64) {
+	s.Size = val
 }
 
 type GetTiersOK struct {
@@ -20563,6 +26635,1725 @@ func (s *IPNet) SetCidr(val string) {
 
 type Identifier string
 
+// An Image Resource, which is a point in time build on a given image source.
+// Ref: #/components/schemas/Image
+type Image struct {
+	ID    ID    `json:"id"`
+	HubID HubID `json:"hub_id"`
+	// A user defined name for the image.
+	Name string `json:"name"`
+	// If the image is part of a stack, that information will be available here.
+	Stack ImageStack `json:"stack"`
+	// The image size in bytes.
+	Size int `json:"size"`
+	// An object that holds information about the image.
+	About OptImageAbout `json:"about"`
+	// Describes where the image is hosted.
+	Backend ImageBackend `json:"backend"`
+	// Tags that describe the version, package, or data about the image.
+	Tags []string `json:"tags"`
+	// Configuration settings for the image.
+	Config  ImageConfig           `json:"config"`
+	Source  OptImageSourceDetails `json:"source"`
+	Creator OptCreatorScope       `json:"creator"`
+	// Identifies which factory the image was built on and when.
+	Factory OptImageFactory `json:"factory"`
+	State   ImageState      `json:"state"`
+	// A collection of timestamps for each event in the image's lifetime.
+	Events ImageEvents  `json:"events"`
+	Meta   OptImageMeta `json:"meta"`
+}
+
+// GetID returns the value of ID.
+func (s *Image) GetID() ID {
+	return s.ID
+}
+
+// GetHubID returns the value of HubID.
+func (s *Image) GetHubID() HubID {
+	return s.HubID
+}
+
+// GetName returns the value of Name.
+func (s *Image) GetName() string {
+	return s.Name
+}
+
+// GetStack returns the value of Stack.
+func (s *Image) GetStack() ImageStack {
+	return s.Stack
+}
+
+// GetSize returns the value of Size.
+func (s *Image) GetSize() int {
+	return s.Size
+}
+
+// GetAbout returns the value of About.
+func (s *Image) GetAbout() OptImageAbout {
+	return s.About
+}
+
+// GetBackend returns the value of Backend.
+func (s *Image) GetBackend() ImageBackend {
+	return s.Backend
+}
+
+// GetTags returns the value of Tags.
+func (s *Image) GetTags() []string {
+	return s.Tags
+}
+
+// GetConfig returns the value of Config.
+func (s *Image) GetConfig() ImageConfig {
+	return s.Config
+}
+
+// GetSource returns the value of Source.
+func (s *Image) GetSource() OptImageSourceDetails {
+	return s.Source
+}
+
+// GetCreator returns the value of Creator.
+func (s *Image) GetCreator() OptCreatorScope {
+	return s.Creator
+}
+
+// GetFactory returns the value of Factory.
+func (s *Image) GetFactory() OptImageFactory {
+	return s.Factory
+}
+
+// GetState returns the value of State.
+func (s *Image) GetState() ImageState {
+	return s.State
+}
+
+// GetEvents returns the value of Events.
+func (s *Image) GetEvents() ImageEvents {
+	return s.Events
+}
+
+// GetMeta returns the value of Meta.
+func (s *Image) GetMeta() OptImageMeta {
+	return s.Meta
+}
+
+// SetID sets the value of ID.
+func (s *Image) SetID(val ID) {
+	s.ID = val
+}
+
+// SetHubID sets the value of HubID.
+func (s *Image) SetHubID(val HubID) {
+	s.HubID = val
+}
+
+// SetName sets the value of Name.
+func (s *Image) SetName(val string) {
+	s.Name = val
+}
+
+// SetStack sets the value of Stack.
+func (s *Image) SetStack(val ImageStack) {
+	s.Stack = val
+}
+
+// SetSize sets the value of Size.
+func (s *Image) SetSize(val int) {
+	s.Size = val
+}
+
+// SetAbout sets the value of About.
+func (s *Image) SetAbout(val OptImageAbout) {
+	s.About = val
+}
+
+// SetBackend sets the value of Backend.
+func (s *Image) SetBackend(val ImageBackend) {
+	s.Backend = val
+}
+
+// SetTags sets the value of Tags.
+func (s *Image) SetTags(val []string) {
+	s.Tags = val
+}
+
+// SetConfig sets the value of Config.
+func (s *Image) SetConfig(val ImageConfig) {
+	s.Config = val
+}
+
+// SetSource sets the value of Source.
+func (s *Image) SetSource(val OptImageSourceDetails) {
+	s.Source = val
+}
+
+// SetCreator sets the value of Creator.
+func (s *Image) SetCreator(val OptCreatorScope) {
+	s.Creator = val
+}
+
+// SetFactory sets the value of Factory.
+func (s *Image) SetFactory(val OptImageFactory) {
+	s.Factory = val
+}
+
+// SetState sets the value of State.
+func (s *Image) SetState(val ImageState) {
+	s.State = val
+}
+
+// SetEvents sets the value of Events.
+func (s *Image) SetEvents(val ImageEvents) {
+	s.Events = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *Image) SetMeta(val OptImageMeta) {
+	s.Meta = val
+}
+
+// An object that holds information about the image.
+type ImageAbout struct {
+	// A description of the image.
+	Description NilString `json:"description"`
+}
+
+// GetDescription returns the value of Description.
+func (s *ImageAbout) GetDescription() NilString {
+	return s.Description
+}
+
+// SetDescription sets the value of Description.
+func (s *ImageAbout) SetDescription(val NilString) {
+	s.Description = val
+}
+
+// Describes where the image is hosted.
+type ImageBackend struct {
+	// The provider where this image is hosted.
+	Provider string `json:"provider"`
+	// The size of the image in bytes.
+	Size string `json:"size"`
+	// A file name for the image, used by the platform.
+	FileName string `json:"file_name"`
+	// A file id for the image, used by the platform.
+	FileID string `json:"file_id"`
+}
+
+// GetProvider returns the value of Provider.
+func (s *ImageBackend) GetProvider() string {
+	return s.Provider
+}
+
+// GetSize returns the value of Size.
+func (s *ImageBackend) GetSize() string {
+	return s.Size
+}
+
+// GetFileName returns the value of FileName.
+func (s *ImageBackend) GetFileName() string {
+	return s.FileName
+}
+
+// GetFileID returns the value of FileID.
+func (s *ImageBackend) GetFileID() string {
+	return s.FileID
+}
+
+// SetProvider sets the value of Provider.
+func (s *ImageBackend) SetProvider(val string) {
+	s.Provider = val
+}
+
+// SetSize sets the value of Size.
+func (s *ImageBackend) SetSize(val string) {
+	s.Size = val
+}
+
+// SetFileName sets the value of FileName.
+func (s *ImageBackend) SetFileName(val string) {
+	s.FileName = val
+}
+
+// SetFileID sets the value of FileID.
+func (s *ImageBackend) SetFileID(val string) {
+	s.FileID = val
+}
+
+// Configuration settings for the image.
+type ImageConfig struct {
+	// The linux user this image runs its processes as.
+	User string `json:"user"`
+	// The port settings for the image.
+	Ports []ImageConfigPortsItem `json:"ports"`
+	// Image defined environment variables for the image.
+	Env ImageConfigEnv `json:"env"`
+	// Image labels.
+	Labels string `json:"labels"`
+	// The CMD array used to start the container.
+	Command []string `json:"command"`
+	// Additional commands to run at build time.
+	Onbuild []string `json:"onbuild"`
+	// An entrypoint command.
+	Entrypoint []string `json:"entrypoint"`
+	// Volumes information for the given image.
+	Volumes []ImageConfigVolumesItem `json:"volumes"`
+	// The working directory for the image.
+	Workdir string `json:"workdir"`
+	// A set command to be run if a signal is called.
+	SignalStop string `json:"signal_stop"`
+}
+
+// GetUser returns the value of User.
+func (s *ImageConfig) GetUser() string {
+	return s.User
+}
+
+// GetPorts returns the value of Ports.
+func (s *ImageConfig) GetPorts() []ImageConfigPortsItem {
+	return s.Ports
+}
+
+// GetEnv returns the value of Env.
+func (s *ImageConfig) GetEnv() ImageConfigEnv {
+	return s.Env
+}
+
+// GetLabels returns the value of Labels.
+func (s *ImageConfig) GetLabels() string {
+	return s.Labels
+}
+
+// GetCommand returns the value of Command.
+func (s *ImageConfig) GetCommand() []string {
+	return s.Command
+}
+
+// GetOnbuild returns the value of Onbuild.
+func (s *ImageConfig) GetOnbuild() []string {
+	return s.Onbuild
+}
+
+// GetEntrypoint returns the value of Entrypoint.
+func (s *ImageConfig) GetEntrypoint() []string {
+	return s.Entrypoint
+}
+
+// GetVolumes returns the value of Volumes.
+func (s *ImageConfig) GetVolumes() []ImageConfigVolumesItem {
+	return s.Volumes
+}
+
+// GetWorkdir returns the value of Workdir.
+func (s *ImageConfig) GetWorkdir() string {
+	return s.Workdir
+}
+
+// GetSignalStop returns the value of SignalStop.
+func (s *ImageConfig) GetSignalStop() string {
+	return s.SignalStop
+}
+
+// SetUser sets the value of User.
+func (s *ImageConfig) SetUser(val string) {
+	s.User = val
+}
+
+// SetPorts sets the value of Ports.
+func (s *ImageConfig) SetPorts(val []ImageConfigPortsItem) {
+	s.Ports = val
+}
+
+// SetEnv sets the value of Env.
+func (s *ImageConfig) SetEnv(val ImageConfigEnv) {
+	s.Env = val
+}
+
+// SetLabels sets the value of Labels.
+func (s *ImageConfig) SetLabels(val string) {
+	s.Labels = val
+}
+
+// SetCommand sets the value of Command.
+func (s *ImageConfig) SetCommand(val []string) {
+	s.Command = val
+}
+
+// SetOnbuild sets the value of Onbuild.
+func (s *ImageConfig) SetOnbuild(val []string) {
+	s.Onbuild = val
+}
+
+// SetEntrypoint sets the value of Entrypoint.
+func (s *ImageConfig) SetEntrypoint(val []string) {
+	s.Entrypoint = val
+}
+
+// SetVolumes sets the value of Volumes.
+func (s *ImageConfig) SetVolumes(val []ImageConfigVolumesItem) {
+	s.Volumes = val
+}
+
+// SetWorkdir sets the value of Workdir.
+func (s *ImageConfig) SetWorkdir(val string) {
+	s.Workdir = val
+}
+
+// SetSignalStop sets the value of SignalStop.
+func (s *ImageConfig) SetSignalStop(val string) {
+	s.SignalStop = val
+}
+
+// Image defined environment variables for the image.
+type ImageConfigEnv map[string]string
+
+func (s *ImageConfigEnv) init() ImageConfigEnv {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+type ImageConfigPortsItem struct {
+	// Host Port.
+	Host      float64 `json:"host"`
+	Container float64 `json:"container"`
+	Type      string  `json:"type"`
+}
+
+// GetHost returns the value of Host.
+func (s *ImageConfigPortsItem) GetHost() float64 {
+	return s.Host
+}
+
+// GetContainer returns the value of Container.
+func (s *ImageConfigPortsItem) GetContainer() float64 {
+	return s.Container
+}
+
+// GetType returns the value of Type.
+func (s *ImageConfigPortsItem) GetType() string {
+	return s.Type
+}
+
+// SetHost sets the value of Host.
+func (s *ImageConfigPortsItem) SetHost(val float64) {
+	s.Host = val
+}
+
+// SetContainer sets the value of Container.
+func (s *ImageConfigPortsItem) SetContainer(val float64) {
+	s.Container = val
+}
+
+// SetType sets the value of Type.
+func (s *ImageConfigPortsItem) SetType(val string) {
+	s.Type = val
+}
+
+type ImageConfigVolumesItem struct {
+	// The path where the volume is mounted.
+	Path OptString `json:"path"`
+	// Permission settings for the volume.
+	Mode OptImageConfigVolumesItemMode `json:"mode"`
+}
+
+// GetPath returns the value of Path.
+func (s *ImageConfigVolumesItem) GetPath() OptString {
+	return s.Path
+}
+
+// GetMode returns the value of Mode.
+func (s *ImageConfigVolumesItem) GetMode() OptImageConfigVolumesItemMode {
+	return s.Mode
+}
+
+// SetPath sets the value of Path.
+func (s *ImageConfigVolumesItem) SetPath(val OptString) {
+	s.Path = val
+}
+
+// SetMode sets the value of Mode.
+func (s *ImageConfigVolumesItem) SetMode(val OptImageConfigVolumesItemMode) {
+	s.Mode = val
+}
+
+// Permission settings for the volume.
+type ImageConfigVolumesItemMode string
+
+const (
+	ImageConfigVolumesItemModeRo ImageConfigVolumesItemMode = "ro"
+	ImageConfigVolumesItemModeRw ImageConfigVolumesItemMode = "rw"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ImageConfigVolumesItemMode) MarshalText() ([]byte, error) {
+	switch s {
+	case ImageConfigVolumesItemModeRo:
+		return []byte(s), nil
+	case ImageConfigVolumesItemModeRw:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ImageConfigVolumesItemMode) UnmarshalText(data []byte) error {
+	switch ImageConfigVolumesItemMode(data) {
+	case ImageConfigVolumesItemModeRo:
+		*s = ImageConfigVolumesItemModeRo
+		return nil
+	case ImageConfigVolumesItemModeRw:
+		*s = ImageConfigVolumesItemModeRw
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Settings for the image create step for a pipeline.
+// Ref: #/components/schemas/ImageCreateStep
+type ImageCreateStep struct {
+	// An identifier for the step.
+	Identifier OptString                 `json:"identifier"`
+	Options    OptImageCreateStepOptions `json:"options"`
+	Details    ImageCreateStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ImageCreateStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ImageCreateStep) GetOptions() OptImageCreateStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ImageCreateStep) GetDetails() ImageCreateStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ImageCreateStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ImageCreateStep) SetOptions(val OptImageCreateStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ImageCreateStep) SetDetails(val ImageCreateStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ImageCreateStepAction string
+
+const (
+	ImageCreateStepActionImageCreate ImageCreateStepAction = "image.create"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ImageCreateStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ImageCreateStepActionImageCreate:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ImageCreateStepAction) UnmarshalText(data []byte) error {
+	switch ImageCreateStepAction(data) {
+	case ImageCreateStepActionImageCreate:
+		*s = ImageCreateStepActionImageCreate
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ImageCreateStepDetails struct {
+	Name   OptString        `json:"name"`
+	Source ResourceLocation `json:"source"`
+}
+
+// GetName returns the value of Name.
+func (s *ImageCreateStepDetails) GetName() OptString {
+	return s.Name
+}
+
+// GetSource returns the value of Source.
+func (s *ImageCreateStepDetails) GetSource() ResourceLocation {
+	return s.Source
+}
+
+// SetName sets the value of Name.
+func (s *ImageCreateStepDetails) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetSource sets the value of Source.
+func (s *ImageCreateStepDetails) SetSource(val ResourceLocation) {
+	s.Source = val
+}
+
+type ImageCreateStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ImageCreateStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ImageCreateStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// A collection of timestamps for each event in the image's lifetime.
+type ImageEvents struct {
+	// The timestamp of when the image was created.
+	Created DateTime `json:"created"`
+	// The timestamp of when the image was updated.
+	Updated DateTime `json:"updated"`
+	// The timestamp of when the image was deleted.
+	Deleted DateTime `json:"deleted"`
+}
+
+// GetCreated returns the value of Created.
+func (s *ImageEvents) GetCreated() DateTime {
+	return s.Created
+}
+
+// GetUpdated returns the value of Updated.
+func (s *ImageEvents) GetUpdated() DateTime {
+	return s.Updated
+}
+
+// GetDeleted returns the value of Deleted.
+func (s *ImageEvents) GetDeleted() DateTime {
+	return s.Deleted
+}
+
+// SetCreated sets the value of Created.
+func (s *ImageEvents) SetCreated(val DateTime) {
+	s.Created = val
+}
+
+// SetUpdated sets the value of Updated.
+func (s *ImageEvents) SetUpdated(val DateTime) {
+	s.Updated = val
+}
+
+// SetDeleted sets the value of Deleted.
+func (s *ImageEvents) SetDeleted(val DateTime) {
+	s.Deleted = val
+}
+
+// Identifies which factory the image was built on and when.
+type ImageFactory struct {
+	// The node holding the factory service that was responsible for building the image.
+	NodeID string `json:"node_id"`
+	// A date timestamp for when the node acknowledged the image import job.
+	Acknowledged DateTime `json:"acknowledged"`
+}
+
+// GetNodeID returns the value of NodeID.
+func (s *ImageFactory) GetNodeID() string {
+	return s.NodeID
+}
+
+// GetAcknowledged returns the value of Acknowledged.
+func (s *ImageFactory) GetAcknowledged() DateTime {
+	return s.Acknowledged
+}
+
+// SetNodeID sets the value of NodeID.
+func (s *ImageFactory) SetNodeID(val string) {
+	s.NodeID = val
+}
+
+// SetAcknowledged sets the value of Acknowledged.
+func (s *ImageFactory) SetAcknowledged(val DateTime) {
+	s.Acknowledged = val
+}
+
+// Settings for the image import step for a pipeline.
+// Ref: #/components/schemas/ImageImportStep
+type ImageImportStep struct {
+	// An identifier for the step.
+	Identifier OptString                 `json:"identifier"`
+	Options    OptImageImportStepOptions `json:"options"`
+	Details    ResourceLocation          `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ImageImportStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ImageImportStep) GetOptions() OptImageImportStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ImageImportStep) GetDetails() ResourceLocation {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ImageImportStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ImageImportStep) SetOptions(val OptImageImportStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ImageImportStep) SetDetails(val ResourceLocation) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ImageImportStepAction string
+
+const (
+	ImageImportStepActionImageImport ImageImportStepAction = "image.import"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ImageImportStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ImageImportStepActionImageImport:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ImageImportStepAction) UnmarshalText(data []byte) error {
+	switch ImageImportStepAction(data) {
+	case ImageImportStepActionImageImport:
+		*s = ImageImportStepActionImageImport
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ImageImportStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ImageImportStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ImageImportStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// All includable resources linkable to the given image.
+// Ref: #/components/schemas/ImageIncludes
+type ImageIncludes struct {
+	Creators    OptCreatorInclude      `json:"creators"`
+	StackBuilds OptStackBuildIncludes  `json:"stack_builds"`
+	Stacks      OptStackIncludes       `json:"stacks"`
+	Sources     OptImageSourceIncludes `json:"sources"`
+}
+
+// GetCreators returns the value of Creators.
+func (s *ImageIncludes) GetCreators() OptCreatorInclude {
+	return s.Creators
+}
+
+// GetStackBuilds returns the value of StackBuilds.
+func (s *ImageIncludes) GetStackBuilds() OptStackBuildIncludes {
+	return s.StackBuilds
+}
+
+// GetStacks returns the value of Stacks.
+func (s *ImageIncludes) GetStacks() OptStackIncludes {
+	return s.Stacks
+}
+
+// GetSources returns the value of Sources.
+func (s *ImageIncludes) GetSources() OptImageSourceIncludes {
+	return s.Sources
+}
+
+// SetCreators sets the value of Creators.
+func (s *ImageIncludes) SetCreators(val OptCreatorInclude) {
+	s.Creators = val
+}
+
+// SetStackBuilds sets the value of StackBuilds.
+func (s *ImageIncludes) SetStackBuilds(val OptStackBuildIncludes) {
+	s.StackBuilds = val
+}
+
+// SetStacks sets the value of Stacks.
+func (s *ImageIncludes) SetStacks(val OptStackIncludes) {
+	s.Stacks = val
+}
+
+// SetSources sets the value of Sources.
+func (s *ImageIncludes) SetSources(val OptImageSourceIncludes) {
+	s.Sources = val
+}
+
+// A list of meta fields that can be applied to the image.
+// Ref: #/components/schemas/ImageMeta
+type ImageMeta struct {
+	ContainersCount OptStateCountSummary `json:"containers_count"`
+}
+
+// GetContainersCount returns the value of ContainersCount.
+func (s *ImageMeta) GetContainersCount() OptStateCountSummary {
+	return s.ContainersCount
+}
+
+// SetContainersCount sets the value of ContainersCount.
+func (s *ImageMeta) SetContainersCount(val OptStateCountSummary) {
+	s.ContainersCount = val
+}
+
+// An image source is a set of resources that direct the platform on where it can find the resources
+// needed to build an image resource.
+// Ref: #/components/schemas/ImageSource
+type ImageSource struct {
+	ID ID `json:"id"`
+	// A human readable slugged identifier for this image source.
+	Identifier Identifier `json:"identifier"`
+	HubID      HubID      `json:"hub_id"`
+	// A name for the image source resource.
+	Name    string              `json:"name"`
+	About   OptImageSourceAbout `json:"about"`
+	Origin  ImageSourceOrigin   `json:"origin"`
+	Creator CreatorScope        `json:"creator"`
+	State   ImageSourceState    `json:"state"`
+	// A collection of timestamps for each event in the iamge source's lifetime.
+	Events ImageSourceEvents `json:"events"`
+	// Information about a server resource this image requires to function properly.
+	Requires ImageSourceRequires `json:"requires"`
+	Meta     OptImageSourceMeta  `json:"meta"`
+}
+
+// GetID returns the value of ID.
+func (s *ImageSource) GetID() ID {
+	return s.ID
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ImageSource) GetIdentifier() Identifier {
+	return s.Identifier
+}
+
+// GetHubID returns the value of HubID.
+func (s *ImageSource) GetHubID() HubID {
+	return s.HubID
+}
+
+// GetName returns the value of Name.
+func (s *ImageSource) GetName() string {
+	return s.Name
+}
+
+// GetAbout returns the value of About.
+func (s *ImageSource) GetAbout() OptImageSourceAbout {
+	return s.About
+}
+
+// GetOrigin returns the value of Origin.
+func (s *ImageSource) GetOrigin() ImageSourceOrigin {
+	return s.Origin
+}
+
+// GetCreator returns the value of Creator.
+func (s *ImageSource) GetCreator() CreatorScope {
+	return s.Creator
+}
+
+// GetState returns the value of State.
+func (s *ImageSource) GetState() ImageSourceState {
+	return s.State
+}
+
+// GetEvents returns the value of Events.
+func (s *ImageSource) GetEvents() ImageSourceEvents {
+	return s.Events
+}
+
+// GetRequires returns the value of Requires.
+func (s *ImageSource) GetRequires() ImageSourceRequires {
+	return s.Requires
+}
+
+// GetMeta returns the value of Meta.
+func (s *ImageSource) GetMeta() OptImageSourceMeta {
+	return s.Meta
+}
+
+// SetID sets the value of ID.
+func (s *ImageSource) SetID(val ID) {
+	s.ID = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ImageSource) SetIdentifier(val Identifier) {
+	s.Identifier = val
+}
+
+// SetHubID sets the value of HubID.
+func (s *ImageSource) SetHubID(val HubID) {
+	s.HubID = val
+}
+
+// SetName sets the value of Name.
+func (s *ImageSource) SetName(val string) {
+	s.Name = val
+}
+
+// SetAbout sets the value of About.
+func (s *ImageSource) SetAbout(val OptImageSourceAbout) {
+	s.About = val
+}
+
+// SetOrigin sets the value of Origin.
+func (s *ImageSource) SetOrigin(val ImageSourceOrigin) {
+	s.Origin = val
+}
+
+// SetCreator sets the value of Creator.
+func (s *ImageSource) SetCreator(val CreatorScope) {
+	s.Creator = val
+}
+
+// SetState sets the value of State.
+func (s *ImageSource) SetState(val ImageSourceState) {
+	s.State = val
+}
+
+// SetEvents sets the value of Events.
+func (s *ImageSource) SetEvents(val ImageSourceEvents) {
+	s.Events = val
+}
+
+// SetRequires sets the value of Requires.
+func (s *ImageSource) SetRequires(val ImageSourceRequires) {
+	s.Requires = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *ImageSource) SetMeta(val OptImageSourceMeta) {
+	s.Meta = val
+}
+
+// Information about the image source resource.
+// Ref: #/components/schemas/ImageSourceAbout
+type ImageSourceAbout struct {
+	// Some information about the image source resource.
+	Description string `json:"description"`
+}
+
+// GetDescription returns the value of Description.
+func (s *ImageSourceAbout) GetDescription() string {
+	return s.Description
+}
+
+// SetDescription sets the value of Description.
+func (s *ImageSourceAbout) SetDescription(val string) {
+	s.Description = val
+}
+
+// Settings for the image source create step for a pipeline.
+// Ref: #/components/schemas/ImageSourceCreateStep
+type ImageSourceCreateStep struct {
+	// An identifier for the step.
+	Identifier OptString                       `json:"identifier"`
+	Options    OptImageSourceCreateStepOptions `json:"options"`
+	Details    ImageSourceCreateStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ImageSourceCreateStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ImageSourceCreateStep) GetOptions() OptImageSourceCreateStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ImageSourceCreateStep) GetDetails() ImageSourceCreateStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ImageSourceCreateStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ImageSourceCreateStep) SetOptions(val OptImageSourceCreateStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ImageSourceCreateStep) SetDetails(val ImageSourceCreateStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ImageSourceCreateStepAction string
+
+const (
+	ImageSourceCreateStepActionImageSourceCreate ImageSourceCreateStepAction = "image.source.create"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ImageSourceCreateStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ImageSourceCreateStepActionImageSourceCreate:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ImageSourceCreateStepAction) UnmarshalText(data []byte) error {
+	switch ImageSourceCreateStepAction(data) {
+	case ImageSourceCreateStepActionImageSourceCreate:
+		*s = ImageSourceCreateStepActionImageSourceCreate
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ImageSourceCreateStepDetails struct {
+	Name   string              `json:"name"`
+	Type   string              `json:"type"`
+	About  OptImageSourceAbout `json:"about"`
+	Origin ImageSourceOrigin   `json:"origin"`
+}
+
+// GetName returns the value of Name.
+func (s *ImageSourceCreateStepDetails) GetName() string {
+	return s.Name
+}
+
+// GetType returns the value of Type.
+func (s *ImageSourceCreateStepDetails) GetType() string {
+	return s.Type
+}
+
+// GetAbout returns the value of About.
+func (s *ImageSourceCreateStepDetails) GetAbout() OptImageSourceAbout {
+	return s.About
+}
+
+// GetOrigin returns the value of Origin.
+func (s *ImageSourceCreateStepDetails) GetOrigin() ImageSourceOrigin {
+	return s.Origin
+}
+
+// SetName sets the value of Name.
+func (s *ImageSourceCreateStepDetails) SetName(val string) {
+	s.Name = val
+}
+
+// SetType sets the value of Type.
+func (s *ImageSourceCreateStepDetails) SetType(val string) {
+	s.Type = val
+}
+
+// SetAbout sets the value of About.
+func (s *ImageSourceCreateStepDetails) SetAbout(val OptImageSourceAbout) {
+	s.About = val
+}
+
+// SetOrigin sets the value of Origin.
+func (s *ImageSourceCreateStepDetails) SetOrigin(val ImageSourceOrigin) {
+	s.Origin = val
+}
+
+type ImageSourceCreateStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ImageSourceCreateStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ImageSourceCreateStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+type ImageSourceDetails struct {
+	Type    string                    `json:"type"`
+	Details ImageSourceDetailsDetails `json:"details"`
+}
+
+// GetType returns the value of Type.
+func (s *ImageSourceDetails) GetType() string {
+	return s.Type
+}
+
+// GetDetails returns the value of Details.
+func (s *ImageSourceDetails) GetDetails() ImageSourceDetailsDetails {
+	return s.Details
+}
+
+// SetType sets the value of Type.
+func (s *ImageSourceDetails) SetType(val string) {
+	s.Type = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ImageSourceDetails) SetDetails(val ImageSourceDetailsDetails) {
+	s.Details = val
+}
+
+type ImageSourceDetailsDetails struct {
+	ID      string            `json:"id"`
+	StackID string            `json:"stack_id"`
+	Origin  ImageSourceOrigin `json:"origin"`
+}
+
+// GetID returns the value of ID.
+func (s *ImageSourceDetailsDetails) GetID() string {
+	return s.ID
+}
+
+// GetStackID returns the value of StackID.
+func (s *ImageSourceDetailsDetails) GetStackID() string {
+	return s.StackID
+}
+
+// GetOrigin returns the value of Origin.
+func (s *ImageSourceDetailsDetails) GetOrigin() ImageSourceOrigin {
+	return s.Origin
+}
+
+// SetID sets the value of ID.
+func (s *ImageSourceDetailsDetails) SetID(val string) {
+	s.ID = val
+}
+
+// SetStackID sets the value of StackID.
+func (s *ImageSourceDetailsDetails) SetStackID(val string) {
+	s.StackID = val
+}
+
+// SetOrigin sets the value of Origin.
+func (s *ImageSourceDetailsDetails) SetOrigin(val ImageSourceOrigin) {
+	s.Origin = val
+}
+
+// A collection of timestamps for each event in the iamge source's lifetime.
+type ImageSourceEvents struct {
+	// The timestamp of when the iamge source was created.
+	Created DateTime `json:"created"`
+	// The timestamp of when the iamge source was updated.
+	Updated DateTime `json:"updated"`
+	// The timestamp of when the iamge source was deleted.
+	Deleted DateTime `json:"deleted"`
+}
+
+// GetCreated returns the value of Created.
+func (s *ImageSourceEvents) GetCreated() DateTime {
+	return s.Created
+}
+
+// GetUpdated returns the value of Updated.
+func (s *ImageSourceEvents) GetUpdated() DateTime {
+	return s.Updated
+}
+
+// GetDeleted returns the value of Deleted.
+func (s *ImageSourceEvents) GetDeleted() DateTime {
+	return s.Deleted
+}
+
+// SetCreated sets the value of Created.
+func (s *ImageSourceEvents) SetCreated(val DateTime) {
+	s.Created = val
+}
+
+// SetUpdated sets the value of Updated.
+func (s *ImageSourceEvents) SetUpdated(val DateTime) {
+	s.Updated = val
+}
+
+// SetDeleted sets the value of Deleted.
+func (s *ImageSourceEvents) SetDeleted(val DateTime) {
+	s.Deleted = val
+}
+
+// A resource associated with an image source.
+// Ref: #/components/schemas/ImageSourceIncludes
+type ImageSourceIncludes map[string]ImageSource
+
+func (s *ImageSourceIncludes) init() ImageSourceIncludes {
+	m := *s
+	if m == nil {
+		m = map[string]ImageSource{}
+		*s = m
+	}
+	return m
+}
+
+// A list of meta fields that can be applied to this environment.
+// Ref: #/components/schemas/ImageSourceMeta
+type ImageSourceMeta struct {
+	ImagesCount OptImageSourceMetaImagesCount `json:"images_count"`
+}
+
+// GetImagesCount returns the value of ImagesCount.
+func (s *ImageSourceMeta) GetImagesCount() OptImageSourceMetaImagesCount {
+	return s.ImagesCount
+}
+
+// SetImagesCount sets the value of ImagesCount.
+func (s *ImageSourceMeta) SetImagesCount(val OptImageSourceMetaImagesCount) {
+	s.ImagesCount = val
+}
+
+type ImageSourceMetaImagesCount struct {
+	// Number of image sources.
+	Total float64                         `json:"total"`
+	State ImageSourceMetaImagesCountState `json:"state"`
+}
+
+// GetTotal returns the value of Total.
+func (s *ImageSourceMetaImagesCount) GetTotal() float64 {
+	return s.Total
+}
+
+// GetState returns the value of State.
+func (s *ImageSourceMetaImagesCount) GetState() ImageSourceMetaImagesCountState {
+	return s.State
+}
+
+// SetTotal sets the value of Total.
+func (s *ImageSourceMetaImagesCount) SetTotal(val float64) {
+	s.Total = val
+}
+
+// SetState sets the value of State.
+func (s *ImageSourceMetaImagesCount) SetState(val ImageSourceMetaImagesCountState) {
+	s.State = val
+}
+
+type ImageSourceMetaImagesCountState struct {
+	// Number of images in this source with state new.
+	New float64 `json:"new"`
+	// Number of images in this source with state downloading.
+	Downloading float64 `json:"downloading"`
+	// Number of images in this source with state building.
+	Building float64 `json:"building"`
+	// Number of images in this source with state verifying.
+	Verifying float64 `json:"verifying"`
+	// Number of images in this source with state saving.
+	Saving float64 `json:"saving"`
+	// Number of images in this source with state live.
+	Live float64 `json:"live"`
+	// Number of images in this source with state deleting.
+	Deleting float64 `json:"deleting"`
+}
+
+// GetNew returns the value of New.
+func (s *ImageSourceMetaImagesCountState) GetNew() float64 {
+	return s.New
+}
+
+// GetDownloading returns the value of Downloading.
+func (s *ImageSourceMetaImagesCountState) GetDownloading() float64 {
+	return s.Downloading
+}
+
+// GetBuilding returns the value of Building.
+func (s *ImageSourceMetaImagesCountState) GetBuilding() float64 {
+	return s.Building
+}
+
+// GetVerifying returns the value of Verifying.
+func (s *ImageSourceMetaImagesCountState) GetVerifying() float64 {
+	return s.Verifying
+}
+
+// GetSaving returns the value of Saving.
+func (s *ImageSourceMetaImagesCountState) GetSaving() float64 {
+	return s.Saving
+}
+
+// GetLive returns the value of Live.
+func (s *ImageSourceMetaImagesCountState) GetLive() float64 {
+	return s.Live
+}
+
+// GetDeleting returns the value of Deleting.
+func (s *ImageSourceMetaImagesCountState) GetDeleting() float64 {
+	return s.Deleting
+}
+
+// SetNew sets the value of New.
+func (s *ImageSourceMetaImagesCountState) SetNew(val float64) {
+	s.New = val
+}
+
+// SetDownloading sets the value of Downloading.
+func (s *ImageSourceMetaImagesCountState) SetDownloading(val float64) {
+	s.Downloading = val
+}
+
+// SetBuilding sets the value of Building.
+func (s *ImageSourceMetaImagesCountState) SetBuilding(val float64) {
+	s.Building = val
+}
+
+// SetVerifying sets the value of Verifying.
+func (s *ImageSourceMetaImagesCountState) SetVerifying(val float64) {
+	s.Verifying = val
+}
+
+// SetSaving sets the value of Saving.
+func (s *ImageSourceMetaImagesCountState) SetSaving(val float64) {
+	s.Saving = val
+}
+
+// SetLive sets the value of Live.
+func (s *ImageSourceMetaImagesCountState) SetLive(val float64) {
+	s.Live = val
+}
+
+// SetDeleting sets the value of Deleting.
+func (s *ImageSourceMetaImagesCountState) SetDeleting(val float64) {
+	s.Deleting = val
+}
+
+// The origin of the given image source.
+// Ref: #/components/schemas/ImageSourceOrigin
+// ImageSourceOrigin represents sum type.
+type ImageSourceOrigin struct {
+	Type                 ImageSourceOriginType // switch on this field
+	DockerHubSource      DockerHubSource
+	DockerfileFileSource DockerfileFileSource
+	DockerRegistrySource DockerRegistrySource
+}
+
+// ImageSourceOriginType is oneOf type of ImageSourceOrigin.
+type ImageSourceOriginType string
+
+// Possible values for ImageSourceOriginType.
+const (
+	DockerHubSourceImageSourceOrigin      ImageSourceOriginType = "DockerHubSource"
+	DockerfileFileSourceImageSourceOrigin ImageSourceOriginType = "DockerfileFileSource"
+	DockerRegistrySourceImageSourceOrigin ImageSourceOriginType = "DockerRegistrySource"
+)
+
+// IsDockerHubSource reports whether ImageSourceOrigin is DockerHubSource.
+func (s ImageSourceOrigin) IsDockerHubSource() bool {
+	return s.Type == DockerHubSourceImageSourceOrigin
+}
+
+// IsDockerfileFileSource reports whether ImageSourceOrigin is DockerfileFileSource.
+func (s ImageSourceOrigin) IsDockerfileFileSource() bool {
+	return s.Type == DockerfileFileSourceImageSourceOrigin
+}
+
+// IsDockerRegistrySource reports whether ImageSourceOrigin is DockerRegistrySource.
+func (s ImageSourceOrigin) IsDockerRegistrySource() bool {
+	return s.Type == DockerRegistrySourceImageSourceOrigin
+}
+
+// SetDockerHubSource sets ImageSourceOrigin to DockerHubSource.
+func (s *ImageSourceOrigin) SetDockerHubSource(v DockerHubSource) {
+	s.Type = DockerHubSourceImageSourceOrigin
+	s.DockerHubSource = v
+}
+
+// GetDockerHubSource returns DockerHubSource and true boolean if ImageSourceOrigin is DockerHubSource.
+func (s ImageSourceOrigin) GetDockerHubSource() (v DockerHubSource, ok bool) {
+	if !s.IsDockerHubSource() {
+		return v, false
+	}
+	return s.DockerHubSource, true
+}
+
+// NewDockerHubSourceImageSourceOrigin returns new ImageSourceOrigin from DockerHubSource.
+func NewDockerHubSourceImageSourceOrigin(v DockerHubSource) ImageSourceOrigin {
+	var s ImageSourceOrigin
+	s.SetDockerHubSource(v)
+	return s
+}
+
+// SetDockerfileFileSource sets ImageSourceOrigin to DockerfileFileSource.
+func (s *ImageSourceOrigin) SetDockerfileFileSource(v DockerfileFileSource) {
+	s.Type = DockerfileFileSourceImageSourceOrigin
+	s.DockerfileFileSource = v
+}
+
+// GetDockerfileFileSource returns DockerfileFileSource and true boolean if ImageSourceOrigin is DockerfileFileSource.
+func (s ImageSourceOrigin) GetDockerfileFileSource() (v DockerfileFileSource, ok bool) {
+	if !s.IsDockerfileFileSource() {
+		return v, false
+	}
+	return s.DockerfileFileSource, true
+}
+
+// NewDockerfileFileSourceImageSourceOrigin returns new ImageSourceOrigin from DockerfileFileSource.
+func NewDockerfileFileSourceImageSourceOrigin(v DockerfileFileSource) ImageSourceOrigin {
+	var s ImageSourceOrigin
+	s.SetDockerfileFileSource(v)
+	return s
+}
+
+// SetDockerRegistrySource sets ImageSourceOrigin to DockerRegistrySource.
+func (s *ImageSourceOrigin) SetDockerRegistrySource(v DockerRegistrySource) {
+	s.Type = DockerRegistrySourceImageSourceOrigin
+	s.DockerRegistrySource = v
+}
+
+// GetDockerRegistrySource returns DockerRegistrySource and true boolean if ImageSourceOrigin is DockerRegistrySource.
+func (s ImageSourceOrigin) GetDockerRegistrySource() (v DockerRegistrySource, ok bool) {
+	if !s.IsDockerRegistrySource() {
+		return v, false
+	}
+	return s.DockerRegistrySource, true
+}
+
+// NewDockerRegistrySourceImageSourceOrigin returns new ImageSourceOrigin from DockerRegistrySource.
+func NewDockerRegistrySourceImageSourceOrigin(v DockerRegistrySource) ImageSourceOrigin {
+	var s ImageSourceOrigin
+	s.SetDockerRegistrySource(v)
+	return s
+}
+
+// Information about a server resource this image requires to function properly.
+type ImageSourceRequires struct {
+	// A boolean where true represents this image requies an Nvidia GPU to run properly.
+	NvidiaGpu NilBool `json:"nvidia_gpu"`
+}
+
+// GetNvidiaGpu returns the value of NvidiaGpu.
+func (s *ImageSourceRequires) GetNvidiaGpu() NilBool {
+	return s.NvidiaGpu
+}
+
+// SetNvidiaGpu sets the value of NvidiaGpu.
+func (s *ImageSourceRequires) SetNvidiaGpu(val NilBool) {
+	s.NvidiaGpu = val
+}
+
+// Merged schema.
+// Ref: #/components/schemas/ImageSourceState
+type ImageSourceState struct {
+	// The current state of the image source.
+	Current ImageSourceStateCurrent `json:"current"`
+	Changed DateTime                `json:"changed"`
+	// An error, if any, that has occurred for this resource.
+	Error OptImageSourceStateError `json:"error"`
+}
+
+// GetCurrent returns the value of Current.
+func (s *ImageSourceState) GetCurrent() ImageSourceStateCurrent {
+	return s.Current
+}
+
+// GetChanged returns the value of Changed.
+func (s *ImageSourceState) GetChanged() DateTime {
+	return s.Changed
+}
+
+// GetError returns the value of Error.
+func (s *ImageSourceState) GetError() OptImageSourceStateError {
+	return s.Error
+}
+
+// SetCurrent sets the value of Current.
+func (s *ImageSourceState) SetCurrent(val ImageSourceStateCurrent) {
+	s.Current = val
+}
+
+// SetChanged sets the value of Changed.
+func (s *ImageSourceState) SetChanged(val DateTime) {
+	s.Changed = val
+}
+
+// SetError sets the value of Error.
+func (s *ImageSourceState) SetError(val OptImageSourceStateError) {
+	s.Error = val
+}
+
+// The current state of the image source.
+type ImageSourceStateCurrent string
+
+const (
+	ImageSourceStateCurrentLive     ImageSourceStateCurrent = "live"
+	ImageSourceStateCurrentDeleting ImageSourceStateCurrent = "deleting"
+	ImageSourceStateCurrentDeleted  ImageSourceStateCurrent = "deleted"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ImageSourceStateCurrent) MarshalText() ([]byte, error) {
+	switch s {
+	case ImageSourceStateCurrentLive:
+		return []byte(s), nil
+	case ImageSourceStateCurrentDeleting:
+		return []byte(s), nil
+	case ImageSourceStateCurrentDeleted:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ImageSourceStateCurrent) UnmarshalText(data []byte) error {
+	switch ImageSourceStateCurrent(data) {
+	case ImageSourceStateCurrentLive:
+		*s = ImageSourceStateCurrentLive
+		return nil
+	case ImageSourceStateCurrentDeleting:
+		*s = ImageSourceStateCurrentDeleting
+		return nil
+	case ImageSourceStateCurrentDeleted:
+		*s = ImageSourceStateCurrentDeleted
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// An error, if any, that has occurred for this resource.
+type ImageSourceStateError struct {
+	// Details about the error that has occurred.
+	Message OptString `json:"message"`
+	// The timestamp of when the error was encountered.
+	Time OptDateTime `json:"time"`
+}
+
+// GetMessage returns the value of Message.
+func (s *ImageSourceStateError) GetMessage() OptString {
+	return s.Message
+}
+
+// GetTime returns the value of Time.
+func (s *ImageSourceStateError) GetTime() OptDateTime {
+	return s.Time
+}
+
+// SetMessage sets the value of Message.
+func (s *ImageSourceStateError) SetMessage(val OptString) {
+	s.Message = val
+}
+
+// SetTime sets the value of Time.
+func (s *ImageSourceStateError) SetTime(val OptDateTime) {
+	s.Time = val
+}
+
+// If the image is part of a stack, that information will be available here.
+type ImageStack struct {
+	ID ID `json:"id"`
+	// A unique identifier for the build the image is assocaited with.
+	BuildID string `json:"build_id"`
+	// If this image is being used for any containers their identifiers are listed here.
+	Containers []string `json:"containers"`
+}
+
+// GetID returns the value of ID.
+func (s *ImageStack) GetID() ID {
+	return s.ID
+}
+
+// GetBuildID returns the value of BuildID.
+func (s *ImageStack) GetBuildID() string {
+	return s.BuildID
+}
+
+// GetContainers returns the value of Containers.
+func (s *ImageStack) GetContainers() []string {
+	return s.Containers
+}
+
+// SetID sets the value of ID.
+func (s *ImageStack) SetID(val ID) {
+	s.ID = val
+}
+
+// SetBuildID sets the value of BuildID.
+func (s *ImageStack) SetBuildID(val string) {
+	s.BuildID = val
+}
+
+// SetContainers sets the value of Containers.
+func (s *ImageStack) SetContainers(val []string) {
+	s.Containers = val
+}
+
+// Merged schema.
+// Ref: #/components/schemas/ImageState
+type ImageState struct {
+	// The current state of the image.
+	Current ImageStateCurrent `json:"current"`
+	Changed DateTime          `json:"changed"`
+	// An error, if any, that has occurred for this resource.
+	Error OptImageStateError `json:"error"`
+}
+
+// GetCurrent returns the value of Current.
+func (s *ImageState) GetCurrent() ImageStateCurrent {
+	return s.Current
+}
+
+// GetChanged returns the value of Changed.
+func (s *ImageState) GetChanged() DateTime {
+	return s.Changed
+}
+
+// GetError returns the value of Error.
+func (s *ImageState) GetError() OptImageStateError {
+	return s.Error
+}
+
+// SetCurrent sets the value of Current.
+func (s *ImageState) SetCurrent(val ImageStateCurrent) {
+	s.Current = val
+}
+
+// SetChanged sets the value of Changed.
+func (s *ImageState) SetChanged(val DateTime) {
+	s.Changed = val
+}
+
+// SetError sets the value of Error.
+func (s *ImageState) SetError(val OptImageStateError) {
+	s.Error = val
+}
+
+// The current state of the image.
+type ImageStateCurrent string
+
+const (
+	ImageStateCurrentNew         ImageStateCurrent = "new"
+	ImageStateCurrentDownloading ImageStateCurrent = "downloading"
+	ImageStateCurrentBuilding    ImageStateCurrent = "building"
+	ImageStateCurrentVerifying   ImageStateCurrent = "verifying"
+	ImageStateCurrentSaving      ImageStateCurrent = "saving"
+	ImageStateCurrentLive        ImageStateCurrent = "live"
+	ImageStateCurrentDeleting    ImageStateCurrent = "deleting"
+	ImageStateCurrentDeleted     ImageStateCurrent = "deleted"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ImageStateCurrent) MarshalText() ([]byte, error) {
+	switch s {
+	case ImageStateCurrentNew:
+		return []byte(s), nil
+	case ImageStateCurrentDownloading:
+		return []byte(s), nil
+	case ImageStateCurrentBuilding:
+		return []byte(s), nil
+	case ImageStateCurrentVerifying:
+		return []byte(s), nil
+	case ImageStateCurrentSaving:
+		return []byte(s), nil
+	case ImageStateCurrentLive:
+		return []byte(s), nil
+	case ImageStateCurrentDeleting:
+		return []byte(s), nil
+	case ImageStateCurrentDeleted:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ImageStateCurrent) UnmarshalText(data []byte) error {
+	switch ImageStateCurrent(data) {
+	case ImageStateCurrentNew:
+		*s = ImageStateCurrentNew
+		return nil
+	case ImageStateCurrentDownloading:
+		*s = ImageStateCurrentDownloading
+		return nil
+	case ImageStateCurrentBuilding:
+		*s = ImageStateCurrentBuilding
+		return nil
+	case ImageStateCurrentVerifying:
+		*s = ImageStateCurrentVerifying
+		return nil
+	case ImageStateCurrentSaving:
+		*s = ImageStateCurrentSaving
+		return nil
+	case ImageStateCurrentLive:
+		*s = ImageStateCurrentLive
+		return nil
+	case ImageStateCurrentDeleting:
+		*s = ImageStateCurrentDeleting
+		return nil
+	case ImageStateCurrentDeleted:
+		*s = ImageStateCurrentDeleted
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// An error, if any, that has occurred for this resource.
+type ImageStateError struct {
+	// Details about the error that has occurred.
+	Message OptString `json:"message"`
+	// The timestamp of when the error was encountered.
+	Time OptDateTime `json:"time"`
+}
+
+// GetMessage returns the value of Message.
+func (s *ImageStateError) GetMessage() OptString {
+	return s.Message
+}
+
+// GetTime returns the value of Time.
+func (s *ImageStateError) GetTime() OptDateTime {
+	return s.Time
+}
+
+// SetMessage sets the value of Message.
+func (s *ImageStateError) SetMessage(val OptString) {
+	s.Message = val
+}
+
+// SetTime sets the value of Time.
+func (s *ImageStateError) SetTime(val OptDateTime) {
+	s.Time = val
+}
+
 // A summary of the image this container was created from.
 // Ref: #/components/schemas/ImageSummary
 type ImageSummary struct {
@@ -20629,6 +28420,114 @@ func (s *ImageSummaryService) UnmarshalText(data []byte) error {
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
+}
+
+// A resource associated with an image.
+// Ref: #/components/schemas/ImagesIncludes
+type ImagesIncludes map[string]Image
+
+func (s *ImagesIncludes) init() ImagesIncludes {
+	m := *s
+	if m == nil {
+		m = map[string]Image{}
+		*s = m
+	}
+	return m
+}
+
+// Settings for the images prune step for a pipeline.
+// Ref: #/components/schemas/ImagesPruneStep
+type ImagesPruneStep struct {
+	// An identifier for the step.
+	Identifier OptString                 `json:"identifier"`
+	Options    OptImagesPruneStepOptions `json:"options"`
+	Details    ImagesPruneStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ImagesPruneStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ImagesPruneStep) GetOptions() OptImagesPruneStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ImagesPruneStep) GetDetails() ImagesPruneStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ImagesPruneStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ImagesPruneStep) SetOptions(val OptImagesPruneStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ImagesPruneStep) SetDetails(val ImagesPruneStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ImagesPruneStepAction string
+
+const (
+	ImagesPruneStepActionImagesPrune ImagesPruneStepAction = "images.prune"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ImagesPruneStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ImagesPruneStepActionImagesPrune:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ImagesPruneStepAction) UnmarshalText(data []byte) error {
+	switch ImagesPruneStepAction(data) {
+	case ImagesPruneStepActionImagesPrune:
+		*s = ImagesPruneStepActionImagesPrune
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ImagesPruneStepDetails struct {
+	SourceIds []ID `json:"source_ids"`
+}
+
+// GetSourceIds returns the value of SourceIds.
+func (s *ImagesPruneStepDetails) GetSourceIds() []ID {
+	return s.SourceIds
+}
+
+// SetSourceIds sets the value of SourceIds.
+func (s *ImagesPruneStepDetails) SetSourceIds(val []ID) {
+	s.SourceIds = val
+}
+
+type ImagesPruneStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ImagesPruneStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ImagesPruneStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
 }
 
 // An index that enables search in the portal.
@@ -23123,7 +31022,119 @@ func (s *InvoiceStateError) SetTime(val OptDateTime) {
 	s.Time = val
 }
 
-type IpState jx.Raw
+// Merged schema.
+// Ref: #/components/schemas/IpState
+type IpState struct {
+	// The current state of the IP.
+	Current IpStateCurrent `json:"current"`
+	Changed DateTime       `json:"changed"`
+	// An error, if any, that has occurred for this resource.
+	Error OptIpStateError `json:"error"`
+}
+
+// GetCurrent returns the value of Current.
+func (s *IpState) GetCurrent() IpStateCurrent {
+	return s.Current
+}
+
+// GetChanged returns the value of Changed.
+func (s *IpState) GetChanged() DateTime {
+	return s.Changed
+}
+
+// GetError returns the value of Error.
+func (s *IpState) GetError() OptIpStateError {
+	return s.Error
+}
+
+// SetCurrent sets the value of Current.
+func (s *IpState) SetCurrent(val IpStateCurrent) {
+	s.Current = val
+}
+
+// SetChanged sets the value of Changed.
+func (s *IpState) SetChanged(val DateTime) {
+	s.Changed = val
+}
+
+// SetError sets the value of Error.
+func (s *IpState) SetError(val OptIpStateError) {
+	s.Error = val
+}
+
+// The current state of the IP.
+type IpStateCurrent string
+
+const (
+	IpStateCurrentAssigning IpStateCurrent = "assigning"
+	IpStateCurrentAssigned  IpStateCurrent = "assigned"
+	IpStateCurrentReleasing IpStateCurrent = "releasing"
+	IpStateCurrentAvailable IpStateCurrent = "available"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s IpStateCurrent) MarshalText() ([]byte, error) {
+	switch s {
+	case IpStateCurrentAssigning:
+		return []byte(s), nil
+	case IpStateCurrentAssigned:
+		return []byte(s), nil
+	case IpStateCurrentReleasing:
+		return []byte(s), nil
+	case IpStateCurrentAvailable:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *IpStateCurrent) UnmarshalText(data []byte) error {
+	switch IpStateCurrent(data) {
+	case IpStateCurrentAssigning:
+		*s = IpStateCurrentAssigning
+		return nil
+	case IpStateCurrentAssigned:
+		*s = IpStateCurrentAssigned
+		return nil
+	case IpStateCurrentReleasing:
+		*s = IpStateCurrentReleasing
+		return nil
+	case IpStateCurrentAvailable:
+		*s = IpStateCurrentAvailable
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// An error, if any, that has occurred for this resource.
+type IpStateError struct {
+	// Details about the error that has occurred.
+	Message OptString `json:"message"`
+	// The timestamp of when the error was encountered.
+	Time OptDateTime `json:"time"`
+}
+
+// GetMessage returns the value of Message.
+func (s *IpStateError) GetMessage() OptString {
+	return s.Message
+}
+
+// GetTime returns the value of Time.
+func (s *IpStateError) GetTime() OptDateTime {
+	return s.Time
+}
+
+// SetMessage sets the value of Message.
+func (s *IpStateError) SetMessage(val OptString) {
+	s.Message = val
+}
+
+// SetTime sets the value of Time.
+func (s *IpStateError) SetTime(val OptDateTime) {
+	s.Time = val
+}
 
 // A job resource.
 // Ref: #/components/schemas/Job
@@ -23538,6 +31549,126 @@ func (s *LegacyNetwork) SetSubnet(val int) {
 // SetIpv4 sets the value of Ipv4.
 func (s *LegacyNetwork) SetIpv4(val IPNet) {
 	s.Ipv4 = val
+}
+
+type ListScopedVariablesFilter map[string]ListScopedVariablesFilterItem
+
+func (s *ListScopedVariablesFilter) init() ListScopedVariablesFilter {
+	m := *s
+	if m == nil {
+		m = map[string]ListScopedVariablesFilterItem{}
+		*s = m
+	}
+	return m
+}
+
+// ListScopedVariablesFilterItem represents sum type.
+type ListScopedVariablesFilterItem struct {
+	Type        ListScopedVariablesFilterItemType // switch on this field
+	String      string
+	StringArray []string
+}
+
+// ListScopedVariablesFilterItemType is oneOf type of ListScopedVariablesFilterItem.
+type ListScopedVariablesFilterItemType string
+
+// Possible values for ListScopedVariablesFilterItemType.
+const (
+	StringListScopedVariablesFilterItem      ListScopedVariablesFilterItemType = "string"
+	StringArrayListScopedVariablesFilterItem ListScopedVariablesFilterItemType = "[]string"
+)
+
+// IsString reports whether ListScopedVariablesFilterItem is string.
+func (s ListScopedVariablesFilterItem) IsString() bool {
+	return s.Type == StringListScopedVariablesFilterItem
+}
+
+// IsStringArray reports whether ListScopedVariablesFilterItem is []string.
+func (s ListScopedVariablesFilterItem) IsStringArray() bool {
+	return s.Type == StringArrayListScopedVariablesFilterItem
+}
+
+// SetString sets ListScopedVariablesFilterItem to string.
+func (s *ListScopedVariablesFilterItem) SetString(v string) {
+	s.Type = StringListScopedVariablesFilterItem
+	s.String = v
+}
+
+// GetString returns string and true boolean if ListScopedVariablesFilterItem is string.
+func (s ListScopedVariablesFilterItem) GetString() (v string, ok bool) {
+	if !s.IsString() {
+		return v, false
+	}
+	return s.String, true
+}
+
+// NewStringListScopedVariablesFilterItem returns new ListScopedVariablesFilterItem from string.
+func NewStringListScopedVariablesFilterItem(v string) ListScopedVariablesFilterItem {
+	var s ListScopedVariablesFilterItem
+	s.SetString(v)
+	return s
+}
+
+// SetStringArray sets ListScopedVariablesFilterItem to []string.
+func (s *ListScopedVariablesFilterItem) SetStringArray(v []string) {
+	s.Type = StringArrayListScopedVariablesFilterItem
+	s.StringArray = v
+}
+
+// GetStringArray returns []string and true boolean if ListScopedVariablesFilterItem is []string.
+func (s ListScopedVariablesFilterItem) GetStringArray() (v []string, ok bool) {
+	if !s.IsStringArray() {
+		return v, false
+	}
+	return s.StringArray, true
+}
+
+// NewStringArrayListScopedVariablesFilterItem returns new ListScopedVariablesFilterItem from []string.
+func NewStringArrayListScopedVariablesFilterItem(v []string) ListScopedVariablesFilterItem {
+	var s ListScopedVariablesFilterItem
+	s.SetStringArray(v)
+	return s
+}
+
+type ListScopedVariablesOK struct {
+	Data []ScopedVariable `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *ListScopedVariablesOK) GetData() []ScopedVariable {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *ListScopedVariablesOK) SetData(val []ScopedVariable) {
+	s.Data = val
+}
+
+type ListScopedVariablesPage struct {
+	// The page to jump to.
+	Number OptFloat64 `json:"number"`
+	// The number of resources returned per page.
+	Size OptFloat64 `json:"size"`
+}
+
+// GetNumber returns the value of Number.
+func (s *ListScopedVariablesPage) GetNumber() OptFloat64 {
+	return s.Number
+}
+
+// GetSize returns the value of Size.
+func (s *ListScopedVariablesPage) GetSize() OptFloat64 {
+	return s.Size
+}
+
+// SetNumber sets the value of Number.
+func (s *ListScopedVariablesPage) SetNumber(val OptFloat64) {
+	s.Number = val
+}
+
+// SetSize sets the value of Size.
+func (s *ListScopedVariablesPage) SetSize(val OptFloat64) {
+	s.Size = val
 }
 
 // Information about the environments loadbalancer service(s).
@@ -24637,24 +32768,12 @@ func (s *MethodStateError) SetTime(val OptDateTime) {
 
 // Ref: #/components/schemas/Migrate
 type Migrate struct {
-	// The name of the action to perform.
-	Action   MigrateAction   `json:"action"`
 	Contents MigrateContents `json:"contents"`
-}
-
-// GetAction returns the value of Action.
-func (s *Migrate) GetAction() MigrateAction {
-	return s.Action
 }
 
 // GetContents returns the value of Contents.
 func (s *Migrate) GetContents() MigrateContents {
 	return s.Contents
-}
-
-// SetAction sets the value of Action.
-func (s *Migrate) SetAction(val MigrateAction) {
-	s.Action = val
 }
 
 // SetContents sets the value of Contents.
@@ -25215,6 +33334,96 @@ func (s *NetworkStateError) SetMessage(val OptString) {
 // SetTime sets the value of Time.
 func (s *NetworkStateError) SetTime(val OptDateTime) {
 	s.Time = val
+}
+
+// NewNilActivityComponent returns new NilActivityComponent with value set to v.
+func NewNilActivityComponent(v ActivityComponent) NilActivityComponent {
+	return NilActivityComponent{
+		Value: v,
+	}
+}
+
+// NilActivityComponent is nullable ActivityComponent.
+type NilActivityComponent struct {
+	Value ActivityComponent
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilActivityComponent) SetTo(v ActivityComponent) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilActivityComponent) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilActivityComponent) SetToNull() {
+	o.Null = true
+	var v ActivityComponent
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilActivityComponent) Get() (v ActivityComponent, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilActivityComponent) Or(d ActivityComponent) ActivityComponent {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilActivityError returns new NilActivityError with value set to v.
+func NewNilActivityError(v ActivityError) NilActivityError {
+	return NilActivityError{
+		Value: v,
+	}
+}
+
+// NilActivityError is nullable ActivityError.
+type NilActivityError struct {
+	Value ActivityError
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilActivityError) SetTo(v ActivityError) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilActivityError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilActivityError) SetToNull() {
+	o.Null = true
+	var v ActivityError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilActivityError) Get() (v ActivityError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilActivityError) Or(d ActivityError) ActivityError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
 }
 
 // NewNilBool returns new NilBool with value set to v.
@@ -26567,6 +34776,141 @@ func (o NilRecordFeatures) Or(d RecordFeatures) RecordFeatures {
 	return d
 }
 
+// NewNilScopedVariableSecret returns new NilScopedVariableSecret with value set to v.
+func NewNilScopedVariableSecret(v ScopedVariableSecret) NilScopedVariableSecret {
+	return NilScopedVariableSecret{
+		Value: v,
+	}
+}
+
+// NilScopedVariableSecret is nullable ScopedVariableSecret.
+type NilScopedVariableSecret struct {
+	Value ScopedVariableSecret
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilScopedVariableSecret) SetTo(v ScopedVariableSecret) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilScopedVariableSecret) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilScopedVariableSecret) SetToNull() {
+	o.Null = true
+	var v ScopedVariableSecret
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilScopedVariableSecret) Get() (v ScopedVariableSecret, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilScopedVariableSecret) Or(d ScopedVariableSecret) ScopedVariableSecret {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilStackContainerConfigIntegrationsBackupsRestore returns new NilStackContainerConfigIntegrationsBackupsRestore with value set to v.
+func NewNilStackContainerConfigIntegrationsBackupsRestore(v StackContainerConfigIntegrationsBackupsRestore) NilStackContainerConfigIntegrationsBackupsRestore {
+	return NilStackContainerConfigIntegrationsBackupsRestore{
+		Value: v,
+	}
+}
+
+// NilStackContainerConfigIntegrationsBackupsRestore is nullable StackContainerConfigIntegrationsBackupsRestore.
+type NilStackContainerConfigIntegrationsBackupsRestore struct {
+	Value StackContainerConfigIntegrationsBackupsRestore
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilStackContainerConfigIntegrationsBackupsRestore) SetTo(v StackContainerConfigIntegrationsBackupsRestore) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilStackContainerConfigIntegrationsBackupsRestore) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilStackContainerConfigIntegrationsBackupsRestore) SetToNull() {
+	o.Null = true
+	var v StackContainerConfigIntegrationsBackupsRestore
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilStackContainerConfigIntegrationsBackupsRestore) Get() (v StackContainerConfigIntegrationsBackupsRestore, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilStackContainerConfigIntegrationsBackupsRestore) Or(d StackContainerConfigIntegrationsBackupsRestore) StackContainerConfigIntegrationsBackupsRestore {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilStackContainerVolumeRemoteAccessIpsItemPassword returns new NilStackContainerVolumeRemoteAccessIpsItemPassword with value set to v.
+func NewNilStackContainerVolumeRemoteAccessIpsItemPassword(v StackContainerVolumeRemoteAccessIpsItemPassword) NilStackContainerVolumeRemoteAccessIpsItemPassword {
+	return NilStackContainerVolumeRemoteAccessIpsItemPassword{
+		Value: v,
+	}
+}
+
+// NilStackContainerVolumeRemoteAccessIpsItemPassword is nullable StackContainerVolumeRemoteAccessIpsItemPassword.
+type NilStackContainerVolumeRemoteAccessIpsItemPassword struct {
+	Value StackContainerVolumeRemoteAccessIpsItemPassword
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilStackContainerVolumeRemoteAccessIpsItemPassword) SetTo(v StackContainerVolumeRemoteAccessIpsItemPassword) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilStackContainerVolumeRemoteAccessIpsItemPassword) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilStackContainerVolumeRemoteAccessIpsItemPassword) SetToNull() {
+	o.Null = true
+	var v StackContainerVolumeRemoteAccessIpsItemPassword
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilStackContainerVolumeRemoteAccessIpsItemPassword) Get() (v StackContainerVolumeRemoteAccessIpsItemPassword, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilStackContainerVolumeRemoteAccessIpsItemPassword) Or(d StackContainerVolumeRemoteAccessIpsItemPassword) StackContainerVolumeRemoteAccessIpsItemPassword {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewNilString returns new NilString with value set to v.
 func NewNilString(v string) NilString {
 	return NilString{
@@ -27092,6 +35436,52 @@ func (o OptAccountStateError) Get() (v AccountStateError, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptAccountStateError) Or(d AccountStateError) AccountStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptActivityIncludes returns new OptActivityIncludes with value set to v.
+func NewOptActivityIncludes(v ActivityIncludes) OptActivityIncludes {
+	return OptActivityIncludes{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptActivityIncludes is optional ActivityIncludes.
+type OptActivityIncludes struct {
+	Value ActivityIncludes
+	Set   bool
+}
+
+// IsSet returns true if OptActivityIncludes was set.
+func (o OptActivityIncludes) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptActivityIncludes) Reset() {
+	var v ActivityIncludes
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptActivityIncludes) SetTo(v ActivityIncludes) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptActivityIncludes) Get() (v ActivityIncludes, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptActivityIncludes) Or(d ActivityIncludes) ActivityIncludes {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -27742,6 +36132,52 @@ func (o OptCPUSpecExtra) Or(d CPUSpecExtra) CPUSpecExtra {
 	return d
 }
 
+// NewOptComponentsIncludes returns new OptComponentsIncludes with value set to v.
+func NewOptComponentsIncludes(v ComponentsIncludes) OptComponentsIncludes {
+	return OptComponentsIncludes{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptComponentsIncludes is optional ComponentsIncludes.
+type OptComponentsIncludes struct {
+	Value ComponentsIncludes
+	Set   bool
+}
+
+// IsSet returns true if OptComponentsIncludes was set.
+func (o OptComponentsIncludes) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptComponentsIncludes) Reset() {
+	var v ComponentsIncludes
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptComponentsIncludes) SetTo(v ComponentsIncludes) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptComponentsIncludes) Get() (v ComponentsIncludes, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptComponentsIncludes) Or(d ComponentsIncludes) ComponentsIncludes {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptContainer returns new OptContainer with value set to v.
 func NewOptContainer(v Container) OptContainer {
 	return OptContainer{
@@ -27782,6 +36218,98 @@ func (o OptContainer) Get() (v Container, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptContainer) Or(d Container) Container {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptContainerCreateStepOptions returns new OptContainerCreateStepOptions with value set to v.
+func NewOptContainerCreateStepOptions(v ContainerCreateStepOptions) OptContainerCreateStepOptions {
+	return OptContainerCreateStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerCreateStepOptions is optional ContainerCreateStepOptions.
+type OptContainerCreateStepOptions struct {
+	Value ContainerCreateStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptContainerCreateStepOptions was set.
+func (o OptContainerCreateStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerCreateStepOptions) Reset() {
+	var v ContainerCreateStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerCreateStepOptions) SetTo(v ContainerCreateStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerCreateStepOptions) Get() (v ContainerCreateStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerCreateStepOptions) Or(d ContainerCreateStepOptions) ContainerCreateStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptContainerDeleteStepOptions returns new OptContainerDeleteStepOptions with value set to v.
+func NewOptContainerDeleteStepOptions(v ContainerDeleteStepOptions) OptContainerDeleteStepOptions {
+	return OptContainerDeleteStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerDeleteStepOptions is optional ContainerDeleteStepOptions.
+type OptContainerDeleteStepOptions struct {
+	Value ContainerDeleteStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptContainerDeleteStepOptions was set.
+func (o OptContainerDeleteStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerDeleteStepOptions) Reset() {
+	var v ContainerDeleteStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerDeleteStepOptions) SetTo(v ContainerDeleteStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerDeleteStepOptions) Get() (v ContainerDeleteStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerDeleteStepOptions) Or(d ContainerDeleteStepOptions) ContainerDeleteStepOptions {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -28202,6 +36730,52 @@ func (o OptContainerDeployUpdate) Or(d ContainerDeployUpdate) ContainerDeployUpd
 	return d
 }
 
+// NewOptContainerIncludes returns new OptContainerIncludes with value set to v.
+func NewOptContainerIncludes(v ContainerIncludes) OptContainerIncludes {
+	return OptContainerIncludes{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerIncludes is optional ContainerIncludes.
+type OptContainerIncludes struct {
+	Value ContainerIncludes
+	Set   bool
+}
+
+// IsSet returns true if OptContainerIncludes was set.
+func (o OptContainerIncludes) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerIncludes) Reset() {
+	var v ContainerIncludes
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerIncludes) SetTo(v ContainerIncludes) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerIncludes) Get() (v ContainerIncludes, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerIncludes) Or(d ContainerIncludes) ContainerIncludes {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptContainerIntegrations returns new OptContainerIntegrations with value set to v.
 func NewOptContainerIntegrations(v ContainerIntegrations) OptContainerIntegrations {
 	return OptContainerIntegrations{
@@ -28432,6 +37006,98 @@ func (o OptContainerIntegrationsWebhooksEvents) Or(d ContainerIntegrationsWebhoo
 	return d
 }
 
+// NewOptContainerReimageStepDetailsOptions returns new OptContainerReimageStepDetailsOptions with value set to v.
+func NewOptContainerReimageStepDetailsOptions(v ContainerReimageStepDetailsOptions) OptContainerReimageStepDetailsOptions {
+	return OptContainerReimageStepDetailsOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerReimageStepDetailsOptions is optional ContainerReimageStepDetailsOptions.
+type OptContainerReimageStepDetailsOptions struct {
+	Value ContainerReimageStepDetailsOptions
+	Set   bool
+}
+
+// IsSet returns true if OptContainerReimageStepDetailsOptions was set.
+func (o OptContainerReimageStepDetailsOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerReimageStepDetailsOptions) Reset() {
+	var v ContainerReimageStepDetailsOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerReimageStepDetailsOptions) SetTo(v ContainerReimageStepDetailsOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerReimageStepDetailsOptions) Get() (v ContainerReimageStepDetailsOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerReimageStepDetailsOptions) Or(d ContainerReimageStepDetailsOptions) ContainerReimageStepDetailsOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptContainerReimageStepOptions returns new OptContainerReimageStepOptions with value set to v.
+func NewOptContainerReimageStepOptions(v ContainerReimageStepOptions) OptContainerReimageStepOptions {
+	return OptContainerReimageStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerReimageStepOptions is optional ContainerReimageStepOptions.
+type OptContainerReimageStepOptions struct {
+	Value ContainerReimageStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptContainerReimageStepOptions was set.
+func (o OptContainerReimageStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerReimageStepOptions) Reset() {
+	var v ContainerReimageStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerReimageStepOptions) SetTo(v ContainerReimageStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerReimageStepOptions) Get() (v ContainerReimageStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerReimageStepOptions) Or(d ContainerReimageStepOptions) ContainerReimageStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptContainerResources returns new OptContainerResources with value set to v.
 func NewOptContainerResources(v ContainerResources) OptContainerResources {
 	return OptContainerResources{
@@ -28518,6 +37184,52 @@ func (o OptContainerResourcesCPUShares) Get() (v ContainerResourcesCPUShares, ok
 
 // Or returns value if set, or given parameter if does not.
 func (o OptContainerResourcesCPUShares) Or(d ContainerResourcesCPUShares) ContainerResourcesCPUShares {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptContainerRestartStepOptions returns new OptContainerRestartStepOptions with value set to v.
+func NewOptContainerRestartStepOptions(v ContainerRestartStepOptions) OptContainerRestartStepOptions {
+	return OptContainerRestartStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerRestartStepOptions is optional ContainerRestartStepOptions.
+type OptContainerRestartStepOptions struct {
+	Value ContainerRestartStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptContainerRestartStepOptions was set.
+func (o OptContainerRestartStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerRestartStepOptions) Reset() {
+	var v ContainerRestartStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerRestartStepOptions) SetTo(v ContainerRestartStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerRestartStepOptions) Get() (v ContainerRestartStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerRestartStepOptions) Or(d ContainerRestartStepOptions) ContainerRestartStepOptions {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -28800,6 +37512,52 @@ func (o OptContainerRuntimeSysctl) Or(d ContainerRuntimeSysctl) ContainerRuntime
 	return d
 }
 
+// NewOptContainerStartStepOptions returns new OptContainerStartStepOptions with value set to v.
+func NewOptContainerStartStepOptions(v ContainerStartStepOptions) OptContainerStartStepOptions {
+	return OptContainerStartStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerStartStepOptions is optional ContainerStartStepOptions.
+type OptContainerStartStepOptions struct {
+	Value ContainerStartStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptContainerStartStepOptions was set.
+func (o OptContainerStartStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerStartStepOptions) Reset() {
+	var v ContainerStartStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerStartStepOptions) SetTo(v ContainerStartStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerStartStepOptions) Get() (v ContainerStartStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerStartStepOptions) Or(d ContainerStartStepOptions) ContainerStartStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptContainerStateDesired returns new OptContainerStateDesired with value set to v.
 func NewOptContainerStateDesired(v ContainerStateDesired) OptContainerStateDesired {
 	return OptContainerStateDesired{
@@ -28886,6 +37644,52 @@ func (o OptContainerStateError) Get() (v ContainerStateError, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptContainerStateError) Or(d ContainerStateError) ContainerStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptContainerStopStepOptions returns new OptContainerStopStepOptions with value set to v.
+func NewOptContainerStopStepOptions(v ContainerStopStepOptions) OptContainerStopStepOptions {
+	return OptContainerStopStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerStopStepOptions is optional ContainerStopStepOptions.
+type OptContainerStopStepOptions struct {
+	Value ContainerStopStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptContainerStopStepOptions was set.
+func (o OptContainerStopStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerStopStepOptions) Reset() {
+	var v ContainerStopStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerStopStepOptions) SetTo(v ContainerStopStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerStopStepOptions) Get() (v ContainerStopStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerStopStepOptions) Or(d ContainerStopStepOptions) ContainerStopStepOptions {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -29346,6 +38150,52 @@ func (o OptCreateContainerInstanceJobReq) Get() (v CreateContainerInstanceJobReq
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCreateContainerInstanceJobReq) Or(d CreateContainerInstanceJobReq) CreateContainerInstanceJobReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateContainerJobReq returns new OptCreateContainerJobReq with value set to v.
+func NewOptCreateContainerJobReq(v CreateContainerJobReq) OptCreateContainerJobReq {
+	return OptCreateContainerJobReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateContainerJobReq is optional CreateContainerJobReq.
+type OptCreateContainerJobReq struct {
+	Value CreateContainerJobReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateContainerJobReq was set.
+func (o OptCreateContainerJobReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateContainerJobReq) Reset() {
+	var v CreateContainerJobReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateContainerJobReq) SetTo(v CreateContainerJobReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateContainerJobReq) Get() (v CreateContainerJobReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateContainerJobReq) Or(d CreateContainerJobReq) CreateContainerJobReq {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -29950,6 +38800,282 @@ func (o OptCreateImageJobReq) Or(d CreateImageJobReq) CreateImageJobReq {
 	return d
 }
 
+// NewOptCreateImageReq returns new OptCreateImageReq with value set to v.
+func NewOptCreateImageReq(v CreateImageReq) OptCreateImageReq {
+	return OptCreateImageReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateImageReq is optional CreateImageReq.
+type OptCreateImageReq struct {
+	Value CreateImageReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateImageReq was set.
+func (o OptCreateImageReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateImageReq) Reset() {
+	var v CreateImageReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateImageReq) SetTo(v CreateImageReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateImageReq) Get() (v CreateImageReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateImageReq) Or(d CreateImageReq) CreateImageReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateImageReqBuild returns new OptCreateImageReqBuild with value set to v.
+func NewOptCreateImageReqBuild(v CreateImageReqBuild) OptCreateImageReqBuild {
+	return OptCreateImageReqBuild{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateImageReqBuild is optional CreateImageReqBuild.
+type OptCreateImageReqBuild struct {
+	Value CreateImageReqBuild
+	Set   bool
+}
+
+// IsSet returns true if OptCreateImageReqBuild was set.
+func (o OptCreateImageReqBuild) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateImageReqBuild) Reset() {
+	var v CreateImageReqBuild
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateImageReqBuild) SetTo(v CreateImageReqBuild) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateImageReqBuild) Get() (v CreateImageReqBuild, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateImageReqBuild) Or(d CreateImageReqBuild) CreateImageReqBuild {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateImageReqBuildArgs returns new OptCreateImageReqBuildArgs with value set to v.
+func NewOptCreateImageReqBuildArgs(v CreateImageReqBuildArgs) OptCreateImageReqBuildArgs {
+	return OptCreateImageReqBuildArgs{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateImageReqBuildArgs is optional CreateImageReqBuildArgs.
+type OptCreateImageReqBuildArgs struct {
+	Value CreateImageReqBuildArgs
+	Set   bool
+}
+
+// IsSet returns true if OptCreateImageReqBuildArgs was set.
+func (o OptCreateImageReqBuildArgs) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateImageReqBuildArgs) Reset() {
+	var v CreateImageReqBuildArgs
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateImageReqBuildArgs) SetTo(v CreateImageReqBuildArgs) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateImageReqBuildArgs) Get() (v CreateImageReqBuildArgs, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateImageReqBuildArgs) Or(d CreateImageReqBuildArgs) CreateImageReqBuildArgs {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateImageReqOverride returns new OptCreateImageReqOverride with value set to v.
+func NewOptCreateImageReqOverride(v CreateImageReqOverride) OptCreateImageReqOverride {
+	return OptCreateImageReqOverride{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateImageReqOverride is optional CreateImageReqOverride.
+type OptCreateImageReqOverride struct {
+	Value CreateImageReqOverride
+	Set   bool
+}
+
+// IsSet returns true if OptCreateImageReqOverride was set.
+func (o OptCreateImageReqOverride) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateImageReqOverride) Reset() {
+	var v CreateImageReqOverride
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateImageReqOverride) SetTo(v CreateImageReqOverride) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateImageReqOverride) Get() (v CreateImageReqOverride, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateImageReqOverride) Or(d CreateImageReqOverride) CreateImageReqOverride {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateImageSourceReq returns new OptCreateImageSourceReq with value set to v.
+func NewOptCreateImageSourceReq(v CreateImageSourceReq) OptCreateImageSourceReq {
+	return OptCreateImageSourceReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateImageSourceReq is optional CreateImageSourceReq.
+type OptCreateImageSourceReq struct {
+	Value CreateImageSourceReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateImageSourceReq was set.
+func (o OptCreateImageSourceReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateImageSourceReq) Reset() {
+	var v CreateImageSourceReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateImageSourceReq) SetTo(v CreateImageSourceReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateImageSourceReq) Get() (v CreateImageSourceReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateImageSourceReq) Or(d CreateImageSourceReq) CreateImageSourceReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateImageSourceReqAbout returns new OptCreateImageSourceReqAbout with value set to v.
+func NewOptCreateImageSourceReqAbout(v CreateImageSourceReqAbout) OptCreateImageSourceReqAbout {
+	return OptCreateImageSourceReqAbout{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateImageSourceReqAbout is optional CreateImageSourceReqAbout.
+type OptCreateImageSourceReqAbout struct {
+	Value CreateImageSourceReqAbout
+	Set   bool
+}
+
+// IsSet returns true if OptCreateImageSourceReqAbout was set.
+func (o OptCreateImageSourceReqAbout) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateImageSourceReqAbout) Reset() {
+	var v CreateImageSourceReqAbout
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateImageSourceReqAbout) SetTo(v CreateImageSourceReqAbout) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateImageSourceReqAbout) Get() (v CreateImageSourceReqAbout, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateImageSourceReqAbout) Or(d CreateImageSourceReqAbout) CreateImageSourceReqAbout {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCreateInvoiceJobReq returns new OptCreateInvoiceJobReq with value set to v.
 func NewOptCreateInvoiceJobReq(v CreateInvoiceJobReq) OptCreateInvoiceJobReq {
 	return OptCreateInvoiceJobReq{
@@ -30220,6 +39346,52 @@ func (o OptCreatePipelineJobReq) Get() (v CreatePipelineJobReq, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCreatePipelineJobReq) Or(d CreatePipelineJobReq) CreatePipelineJobReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreatePipelineReq returns new OptCreatePipelineReq with value set to v.
+func NewOptCreatePipelineReq(v CreatePipelineReq) OptCreatePipelineReq {
+	return OptCreatePipelineReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreatePipelineReq is optional CreatePipelineReq.
+type OptCreatePipelineReq struct {
+	Value CreatePipelineReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreatePipelineReq was set.
+func (o OptCreatePipelineReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreatePipelineReq) Reset() {
+	var v CreatePipelineReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreatePipelineReq) SetTo(v CreatePipelineReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreatePipelineReq) Get() (v CreatePipelineReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreatePipelineReq) Or(d CreatePipelineReq) CreatePipelineReq {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -30502,6 +39674,98 @@ func (o OptCreateSDNNetworkReq) Or(d CreateSDNNetworkReq) CreateSDNNetworkReq {
 	return d
 }
 
+// NewOptCreateScopedVariableReq returns new OptCreateScopedVariableReq with value set to v.
+func NewOptCreateScopedVariableReq(v CreateScopedVariableReq) OptCreateScopedVariableReq {
+	return OptCreateScopedVariableReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateScopedVariableReq is optional CreateScopedVariableReq.
+type OptCreateScopedVariableReq struct {
+	Value CreateScopedVariableReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateScopedVariableReq was set.
+func (o OptCreateScopedVariableReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateScopedVariableReq) Reset() {
+	var v CreateScopedVariableReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateScopedVariableReq) SetTo(v CreateScopedVariableReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateScopedVariableReq) Get() (v CreateScopedVariableReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateScopedVariableReq) Or(d CreateScopedVariableReq) CreateScopedVariableReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateServerJobReq returns new OptCreateServerJobReq with value set to v.
+func NewOptCreateServerJobReq(v CreateServerJobReq) OptCreateServerJobReq {
+	return OptCreateServerJobReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateServerJobReq is optional CreateServerJobReq.
+type OptCreateServerJobReq struct {
+	Value CreateServerJobReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateServerJobReq was set.
+func (o OptCreateServerJobReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateServerJobReq) Reset() {
+	var v CreateServerJobReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateServerJobReq) SetTo(v CreateServerJobReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateServerJobReq) Get() (v CreateServerJobReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateServerJobReq) Or(d CreateServerJobReq) CreateServerJobReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCreateServerReq returns new OptCreateServerReq with value set to v.
 func NewOptCreateServerReq(v CreateServerReq) OptCreateServerReq {
 	return OptCreateServerReq{
@@ -30640,6 +39904,52 @@ func (o OptCreateStackBuildJobReq) Or(d CreateStackBuildJobReq) CreateStackBuild
 	return d
 }
 
+// NewOptCreateStackBuildReq returns new OptCreateStackBuildReq with value set to v.
+func NewOptCreateStackBuildReq(v CreateStackBuildReq) OptCreateStackBuildReq {
+	return OptCreateStackBuildReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateStackBuildReq is optional CreateStackBuildReq.
+type OptCreateStackBuildReq struct {
+	Value CreateStackBuildReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateStackBuildReq was set.
+func (o OptCreateStackBuildReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateStackBuildReq) Reset() {
+	var v CreateStackBuildReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateStackBuildReq) SetTo(v CreateStackBuildReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateStackBuildReq) Get() (v CreateStackBuildReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateStackBuildReq) Or(d CreateStackBuildReq) CreateStackBuildReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCreateStackJobReq returns new OptCreateStackJobReq with value set to v.
 func NewOptCreateStackJobReq(v CreateStackJobReq) OptCreateStackJobReq {
 	return OptCreateStackJobReq{
@@ -30680,6 +39990,52 @@ func (o OptCreateStackJobReq) Get() (v CreateStackJobReq, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCreateStackJobReq) Or(d CreateStackJobReq) CreateStackJobReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateStackReq returns new OptCreateStackReq with value set to v.
+func NewOptCreateStackReq(v CreateStackReq) OptCreateStackReq {
+	return OptCreateStackReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateStackReq is optional CreateStackReq.
+type OptCreateStackReq struct {
+	Value CreateStackReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateStackReq was set.
+func (o OptCreateStackReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateStackReq) Reset() {
+	var v CreateStackReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateStackReq) SetTo(v CreateStackReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateStackReq) Get() (v CreateStackReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateStackReq) Or(d CreateStackReq) CreateStackReq {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -31008,6 +40364,52 @@ func (o OptCreatorIncludeVisitors) Or(d CreatorIncludeVisitors) CreatorIncludeVi
 	return d
 }
 
+// NewOptCreatorScope returns new OptCreatorScope with value set to v.
+func NewOptCreatorScope(v CreatorScope) OptCreatorScope {
+	return OptCreatorScope{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreatorScope is optional CreatorScope.
+type OptCreatorScope struct {
+	Value CreatorScope
+	Set   bool
+}
+
+// IsSet returns true if OptCreatorScope was set.
+func (o OptCreatorScope) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreatorScope) Reset() {
+	var v CreatorScope
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreatorScope) SetTo(v CreatorScope) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreatorScope) Get() (v CreatorScope, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreatorScope) Or(d CreatorScope) CreatorScope {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCredit returns new OptCredit with value set to v.
 func NewOptCredit(v Credit) OptCredit {
 	return OptCredit{
@@ -31048,6 +40450,52 @@ func (o OptCredit) Get() (v Credit, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCredit) Or(d Credit) Credit {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreditCard returns new OptCreditCard with value set to v.
+func NewOptCreditCard(v CreditCard) OptCreditCard {
+	return OptCreditCard{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreditCard is optional CreditCard.
+type OptCreditCard struct {
+	Value CreditCard
+	Set   bool
+}
+
+// IsSet returns true if OptCreditCard was set.
+func (o OptCreditCard) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreditCard) Reset() {
+	var v CreditCard
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreditCard) SetTo(v CreditCard) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreditCard) Get() (v CreditCard, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreditCard) Or(d CreditCard) CreditCard {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -31422,6 +40870,52 @@ func (o OptDeploymentStrategyName) Or(d DeploymentStrategyName) DeploymentStrate
 	return d
 }
 
+// NewOptDetail returns new OptDetail with value set to v.
+func NewOptDetail(v Detail) OptDetail {
+	return OptDetail{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDetail is optional Detail.
+type OptDetail struct {
+	Value Detail
+	Set   bool
+}
+
+// IsSet returns true if OptDetail was set.
+func (o OptDetail) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDetail) Reset() {
+	var v Detail
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDetail) SetTo(v Detail) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDetail) Get() (v Detail, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDetail) Or(d Detail) Detail {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptDisableTwoFaReq returns new OptDisableTwoFaReq with value set to v.
 func NewOptDisableTwoFaReq(v DisableTwoFaReq) OptDisableTwoFaReq {
 	return OptDisableTwoFaReq{
@@ -31508,6 +41002,282 @@ func (o OptDnsTlsCertificate) Get() (v DnsTlsCertificate, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptDnsTlsCertificate) Or(d DnsTlsCertificate) DnsTlsCertificate {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDockerHubSourceDetails returns new OptDockerHubSourceDetails with value set to v.
+func NewOptDockerHubSourceDetails(v DockerHubSourceDetails) OptDockerHubSourceDetails {
+	return OptDockerHubSourceDetails{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDockerHubSourceDetails is optional DockerHubSourceDetails.
+type OptDockerHubSourceDetails struct {
+	Value DockerHubSourceDetails
+	Set   bool
+}
+
+// IsSet returns true if OptDockerHubSourceDetails was set.
+func (o OptDockerHubSourceDetails) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDockerHubSourceDetails) Reset() {
+	var v DockerHubSourceDetails
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDockerHubSourceDetails) SetTo(v DockerHubSourceDetails) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDockerHubSourceDetails) Get() (v DockerHubSourceDetails, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDockerHubSourceDetails) Or(d DockerHubSourceDetails) DockerHubSourceDetails {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDockerHubSourceType returns new OptDockerHubSourceType with value set to v.
+func NewOptDockerHubSourceType(v DockerHubSourceType) OptDockerHubSourceType {
+	return OptDockerHubSourceType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDockerHubSourceType is optional DockerHubSourceType.
+type OptDockerHubSourceType struct {
+	Value DockerHubSourceType
+	Set   bool
+}
+
+// IsSet returns true if OptDockerHubSourceType was set.
+func (o OptDockerHubSourceType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDockerHubSourceType) Reset() {
+	var v DockerHubSourceType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDockerHubSourceType) SetTo(v DockerHubSourceType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDockerHubSourceType) Get() (v DockerHubSourceType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDockerHubSourceType) Or(d DockerHubSourceType) DockerHubSourceType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDockerRegistrySourceDetails returns new OptDockerRegistrySourceDetails with value set to v.
+func NewOptDockerRegistrySourceDetails(v DockerRegistrySourceDetails) OptDockerRegistrySourceDetails {
+	return OptDockerRegistrySourceDetails{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDockerRegistrySourceDetails is optional DockerRegistrySourceDetails.
+type OptDockerRegistrySourceDetails struct {
+	Value DockerRegistrySourceDetails
+	Set   bool
+}
+
+// IsSet returns true if OptDockerRegistrySourceDetails was set.
+func (o OptDockerRegistrySourceDetails) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDockerRegistrySourceDetails) Reset() {
+	var v DockerRegistrySourceDetails
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDockerRegistrySourceDetails) SetTo(v DockerRegistrySourceDetails) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDockerRegistrySourceDetails) Get() (v DockerRegistrySourceDetails, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDockerRegistrySourceDetails) Or(d DockerRegistrySourceDetails) DockerRegistrySourceDetails {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDockerRegistrySourceType returns new OptDockerRegistrySourceType with value set to v.
+func NewOptDockerRegistrySourceType(v DockerRegistrySourceType) OptDockerRegistrySourceType {
+	return OptDockerRegistrySourceType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDockerRegistrySourceType is optional DockerRegistrySourceType.
+type OptDockerRegistrySourceType struct {
+	Value DockerRegistrySourceType
+	Set   bool
+}
+
+// IsSet returns true if OptDockerRegistrySourceType was set.
+func (o OptDockerRegistrySourceType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDockerRegistrySourceType) Reset() {
+	var v DockerRegistrySourceType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDockerRegistrySourceType) SetTo(v DockerRegistrySourceType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDockerRegistrySourceType) Get() (v DockerRegistrySourceType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDockerRegistrySourceType) Or(d DockerRegistrySourceType) DockerRegistrySourceType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDockerfileFileSourceDetails returns new OptDockerfileFileSourceDetails with value set to v.
+func NewOptDockerfileFileSourceDetails(v DockerfileFileSourceDetails) OptDockerfileFileSourceDetails {
+	return OptDockerfileFileSourceDetails{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDockerfileFileSourceDetails is optional DockerfileFileSourceDetails.
+type OptDockerfileFileSourceDetails struct {
+	Value DockerfileFileSourceDetails
+	Set   bool
+}
+
+// IsSet returns true if OptDockerfileFileSourceDetails was set.
+func (o OptDockerfileFileSourceDetails) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDockerfileFileSourceDetails) Reset() {
+	var v DockerfileFileSourceDetails
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDockerfileFileSourceDetails) SetTo(v DockerfileFileSourceDetails) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDockerfileFileSourceDetails) Get() (v DockerfileFileSourceDetails, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDockerfileFileSourceDetails) Or(d DockerfileFileSourceDetails) DockerfileFileSourceDetails {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDockerfileFileSourceType returns new OptDockerfileFileSourceType with value set to v.
+func NewOptDockerfileFileSourceType(v DockerfileFileSourceType) OptDockerfileFileSourceType {
+	return OptDockerfileFileSourceType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDockerfileFileSourceType is optional DockerfileFileSourceType.
+type OptDockerfileFileSourceType struct {
+	Value DockerfileFileSourceType
+	Set   bool
+}
+
+// IsSet returns true if OptDockerfileFileSourceType was set.
+func (o OptDockerfileFileSourceType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDockerfileFileSourceType) Reset() {
+	var v DockerfileFileSourceType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDockerfileFileSourceType) SetTo(v DockerfileFileSourceType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDockerfileFileSourceType) Get() (v DockerfileFileSourceType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDockerfileFileSourceType) Or(d DockerfileFileSourceType) DockerfileFileSourceType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -31606,6 +41376,98 @@ func (o OptEnvironmentAbout) Or(d EnvironmentAbout) EnvironmentAbout {
 	return d
 }
 
+// NewOptEnvironmentCreateStepOptions returns new OptEnvironmentCreateStepOptions with value set to v.
+func NewOptEnvironmentCreateStepOptions(v EnvironmentCreateStepOptions) OptEnvironmentCreateStepOptions {
+	return OptEnvironmentCreateStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptEnvironmentCreateStepOptions is optional EnvironmentCreateStepOptions.
+type OptEnvironmentCreateStepOptions struct {
+	Value EnvironmentCreateStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptEnvironmentCreateStepOptions was set.
+func (o OptEnvironmentCreateStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptEnvironmentCreateStepOptions) Reset() {
+	var v EnvironmentCreateStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptEnvironmentCreateStepOptions) SetTo(v EnvironmentCreateStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptEnvironmentCreateStepOptions) Get() (v EnvironmentCreateStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptEnvironmentCreateStepOptions) Or(d EnvironmentCreateStepOptions) EnvironmentCreateStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptEnvironmentDeleteStepOptions returns new OptEnvironmentDeleteStepOptions with value set to v.
+func NewOptEnvironmentDeleteStepOptions(v EnvironmentDeleteStepOptions) OptEnvironmentDeleteStepOptions {
+	return OptEnvironmentDeleteStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptEnvironmentDeleteStepOptions is optional EnvironmentDeleteStepOptions.
+type OptEnvironmentDeleteStepOptions struct {
+	Value EnvironmentDeleteStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptEnvironmentDeleteStepOptions was set.
+func (o OptEnvironmentDeleteStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptEnvironmentDeleteStepOptions) Reset() {
+	var v EnvironmentDeleteStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptEnvironmentDeleteStepOptions) SetTo(v EnvironmentDeleteStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptEnvironmentDeleteStepOptions) Get() (v EnvironmentDeleteStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptEnvironmentDeleteStepOptions) Or(d EnvironmentDeleteStepOptions) EnvironmentDeleteStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptEnvironmentIncludes returns new OptEnvironmentIncludes with value set to v.
 func NewOptEnvironmentIncludes(v EnvironmentIncludes) OptEnvironmentIncludes {
 	return OptEnvironmentIncludes{
@@ -31698,6 +41560,52 @@ func (o OptEnvironmentMeta) Or(d EnvironmentMeta) EnvironmentMeta {
 	return d
 }
 
+// NewOptEnvironmentStartStepOptions returns new OptEnvironmentStartStepOptions with value set to v.
+func NewOptEnvironmentStartStepOptions(v EnvironmentStartStepOptions) OptEnvironmentStartStepOptions {
+	return OptEnvironmentStartStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptEnvironmentStartStepOptions is optional EnvironmentStartStepOptions.
+type OptEnvironmentStartStepOptions struct {
+	Value EnvironmentStartStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptEnvironmentStartStepOptions was set.
+func (o OptEnvironmentStartStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptEnvironmentStartStepOptions) Reset() {
+	var v EnvironmentStartStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptEnvironmentStartStepOptions) SetTo(v EnvironmentStartStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptEnvironmentStartStepOptions) Get() (v EnvironmentStartStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptEnvironmentStartStepOptions) Or(d EnvironmentStartStepOptions) EnvironmentStartStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptEnvironmentStateError returns new OptEnvironmentStateError with value set to v.
 func NewOptEnvironmentStateError(v EnvironmentStateError) OptEnvironmentStateError {
 	return OptEnvironmentStateError{
@@ -31738,6 +41646,52 @@ func (o OptEnvironmentStateError) Get() (v EnvironmentStateError, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptEnvironmentStateError) Or(d EnvironmentStateError) EnvironmentStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptEnvironmentStopStepOptions returns new OptEnvironmentStopStepOptions with value set to v.
+func NewOptEnvironmentStopStepOptions(v EnvironmentStopStepOptions) OptEnvironmentStopStepOptions {
+	return OptEnvironmentStopStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptEnvironmentStopStepOptions is optional EnvironmentStopStepOptions.
+type OptEnvironmentStopStepOptions struct {
+	Value EnvironmentStopStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptEnvironmentStopStepOptions was set.
+func (o OptEnvironmentStopStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptEnvironmentStopStepOptions) Reset() {
+	var v EnvironmentStopStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptEnvironmentStopStepOptions) SetTo(v EnvironmentStopStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptEnvironmentStopStepOptions) Get() (v EnvironmentStopStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptEnvironmentStopStepOptions) Or(d EnvironmentStopStepOptions) EnvironmentStopStepOptions {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -32848,6 +42802,52 @@ func (o OptGetBillingSupportPlansPage) Or(d GetBillingSupportPlansPage) GetBilli
 	return d
 }
 
+// NewOptGetCompatibleImagesPage returns new OptGetCompatibleImagesPage with value set to v.
+func NewOptGetCompatibleImagesPage(v GetCompatibleImagesPage) OptGetCompatibleImagesPage {
+	return OptGetCompatibleImagesPage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetCompatibleImagesPage is optional GetCompatibleImagesPage.
+type OptGetCompatibleImagesPage struct {
+	Value GetCompatibleImagesPage
+	Set   bool
+}
+
+// IsSet returns true if OptGetCompatibleImagesPage was set.
+func (o OptGetCompatibleImagesPage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetCompatibleImagesPage) Reset() {
+	var v GetCompatibleImagesPage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetCompatibleImagesPage) SetTo(v GetCompatibleImagesPage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetCompatibleImagesPage) Get() (v GetCompatibleImagesPage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetCompatibleImagesPage) Or(d GetCompatibleImagesPage) GetCompatibleImagesPage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptGetContainerInstanceVolumesPage returns new OptGetContainerInstanceVolumesPage with value set to v.
 func NewOptGetContainerInstanceVolumesPage(v GetContainerInstanceVolumesPage) OptGetContainerInstanceVolumesPage {
 	return OptGetContainerInstanceVolumesPage{
@@ -32934,6 +42934,98 @@ func (o OptGetContainerInstancesTelemetryFilter) Get() (v GetContainerInstancesT
 
 // Or returns value if set, or given parameter if does not.
 func (o OptGetContainerInstancesTelemetryFilter) Or(d GetContainerInstancesTelemetryFilter) GetContainerInstancesTelemetryFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetContainersFilter returns new OptGetContainersFilter with value set to v.
+func NewOptGetContainersFilter(v GetContainersFilter) OptGetContainersFilter {
+	return OptGetContainersFilter{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetContainersFilter is optional GetContainersFilter.
+type OptGetContainersFilter struct {
+	Value GetContainersFilter
+	Set   bool
+}
+
+// IsSet returns true if OptGetContainersFilter was set.
+func (o OptGetContainersFilter) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetContainersFilter) Reset() {
+	var v GetContainersFilter
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetContainersFilter) SetTo(v GetContainersFilter) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetContainersFilter) Get() (v GetContainersFilter, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetContainersFilter) Or(d GetContainersFilter) GetContainersFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetContainersPage returns new OptGetContainersPage with value set to v.
+func NewOptGetContainersPage(v GetContainersPage) OptGetContainersPage {
+	return OptGetContainersPage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetContainersPage is optional GetContainersPage.
+type OptGetContainersPage struct {
+	Value GetContainersPage
+	Set   bool
+}
+
+// IsSet returns true if OptGetContainersPage was set.
+func (o OptGetContainersPage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetContainersPage) Reset() {
+	var v GetContainersPage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetContainersPage) SetTo(v GetContainersPage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetContainersPage) Get() (v GetContainersPage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetContainersPage) Or(d GetContainersPage) GetContainersPage {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -33308,6 +43400,98 @@ func (o OptGetEnvironmentsPage) Or(d GetEnvironmentsPage) GetEnvironmentsPage {
 	return d
 }
 
+// NewOptGetHubActivityFilter returns new OptGetHubActivityFilter with value set to v.
+func NewOptGetHubActivityFilter(v GetHubActivityFilter) OptGetHubActivityFilter {
+	return OptGetHubActivityFilter{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetHubActivityFilter is optional GetHubActivityFilter.
+type OptGetHubActivityFilter struct {
+	Value GetHubActivityFilter
+	Set   bool
+}
+
+// IsSet returns true if OptGetHubActivityFilter was set.
+func (o OptGetHubActivityFilter) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetHubActivityFilter) Reset() {
+	var v GetHubActivityFilter
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetHubActivityFilter) SetTo(v GetHubActivityFilter) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetHubActivityFilter) Get() (v GetHubActivityFilter, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetHubActivityFilter) Or(d GetHubActivityFilter) GetHubActivityFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetHubActivityPage returns new OptGetHubActivityPage with value set to v.
+func NewOptGetHubActivityPage(v GetHubActivityPage) OptGetHubActivityPage {
+	return OptGetHubActivityPage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetHubActivityPage is optional GetHubActivityPage.
+type OptGetHubActivityPage struct {
+	Value GetHubActivityPage
+	Set   bool
+}
+
+// IsSet returns true if OptGetHubActivityPage was set.
+func (o OptGetHubActivityPage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetHubActivityPage) Reset() {
+	var v GetHubActivityPage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetHubActivityPage) SetTo(v GetHubActivityPage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetHubActivityPage) Get() (v GetHubActivityPage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetHubActivityPage) Or(d GetHubActivityPage) GetHubActivityPage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptGetHubInvitesFilter returns new OptGetHubInvitesFilter with value set to v.
 func NewOptGetHubInvitesFilter(v GetHubInvitesFilter) OptGetHubInvitesFilter {
 	return OptGetHubInvitesFilter{
@@ -33578,6 +43762,144 @@ func (o OptGetHubsFilter) Get() (v GetHubsFilter, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptGetHubsFilter) Or(d GetHubsFilter) GetHubsFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetImagePage returns new OptGetImagePage with value set to v.
+func NewOptGetImagePage(v GetImagePage) OptGetImagePage {
+	return OptGetImagePage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetImagePage is optional GetImagePage.
+type OptGetImagePage struct {
+	Value GetImagePage
+	Set   bool
+}
+
+// IsSet returns true if OptGetImagePage was set.
+func (o OptGetImagePage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetImagePage) Reset() {
+	var v GetImagePage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetImagePage) SetTo(v GetImagePage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetImagePage) Get() (v GetImagePage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetImagePage) Or(d GetImagePage) GetImagePage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetImagesFilter returns new OptGetImagesFilter with value set to v.
+func NewOptGetImagesFilter(v GetImagesFilter) OptGetImagesFilter {
+	return OptGetImagesFilter{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetImagesFilter is optional GetImagesFilter.
+type OptGetImagesFilter struct {
+	Value GetImagesFilter
+	Set   bool
+}
+
+// IsSet returns true if OptGetImagesFilter was set.
+func (o OptGetImagesFilter) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetImagesFilter) Reset() {
+	var v GetImagesFilter
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetImagesFilter) SetTo(v GetImagesFilter) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetImagesFilter) Get() (v GetImagesFilter, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetImagesFilter) Or(d GetImagesFilter) GetImagesFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetImagesPage returns new OptGetImagesPage with value set to v.
+func NewOptGetImagesPage(v GetImagesPage) OptGetImagesPage {
+	return OptGetImagesPage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetImagesPage is optional GetImagesPage.
+type OptGetImagesPage struct {
+	Value GetImagesPage
+	Set   bool
+}
+
+// IsSet returns true if OptGetImagesPage was set.
+func (o OptGetImagesPage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetImagesPage) Reset() {
+	var v GetImagesPage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetImagesPage) SetTo(v GetImagesPage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetImagesPage) Get() (v GetImagesPage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetImagesPage) Or(d GetImagesPage) GetImagesPage {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -34458,6 +44780,98 @@ func (o OptGetPipelineTriggerKeysPage) Or(d GetPipelineTriggerKeysPage) GetPipel
 	return d
 }
 
+// NewOptGetPipelinesFilter returns new OptGetPipelinesFilter with value set to v.
+func NewOptGetPipelinesFilter(v GetPipelinesFilter) OptGetPipelinesFilter {
+	return OptGetPipelinesFilter{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetPipelinesFilter is optional GetPipelinesFilter.
+type OptGetPipelinesFilter struct {
+	Value GetPipelinesFilter
+	Set   bool
+}
+
+// IsSet returns true if OptGetPipelinesFilter was set.
+func (o OptGetPipelinesFilter) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetPipelinesFilter) Reset() {
+	var v GetPipelinesFilter
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetPipelinesFilter) SetTo(v GetPipelinesFilter) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetPipelinesFilter) Get() (v GetPipelinesFilter, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetPipelinesFilter) Or(d GetPipelinesFilter) GetPipelinesFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetPipelinesPage returns new OptGetPipelinesPage with value set to v.
+func NewOptGetPipelinesPage(v GetPipelinesPage) OptGetPipelinesPage {
+	return OptGetPipelinesPage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetPipelinesPage is optional GetPipelinesPage.
+type OptGetPipelinesPage struct {
+	Value GetPipelinesPage
+	Set   bool
+}
+
+// IsSet returns true if OptGetPipelinesPage was set.
+func (o OptGetPipelinesPage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetPipelinesPage) Reset() {
+	var v GetPipelinesPage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetPipelinesPage) SetTo(v GetPipelinesPage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetPipelinesPage) Get() (v GetPipelinesPage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetPipelinesPage) Or(d GetPipelinesPage) GetPipelinesPage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptGetProviderLocationsPage returns new OptGetProviderLocationsPage with value set to v.
 func NewOptGetProviderLocationsPage(v GetProviderLocationsPage) OptGetProviderLocationsPage {
 	return OptGetProviderLocationsPage{
@@ -35050,6 +45464,282 @@ func (o OptGetServersCollectionPage) Get() (v GetServersCollectionPage, ok bool)
 
 // Or returns value if set, or given parameter if does not.
 func (o OptGetServersCollectionPage) Or(d GetServersCollectionPage) GetServersCollectionPage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetSourcesCollectionFilter returns new OptGetSourcesCollectionFilter with value set to v.
+func NewOptGetSourcesCollectionFilter(v GetSourcesCollectionFilter) OptGetSourcesCollectionFilter {
+	return OptGetSourcesCollectionFilter{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetSourcesCollectionFilter is optional GetSourcesCollectionFilter.
+type OptGetSourcesCollectionFilter struct {
+	Value GetSourcesCollectionFilter
+	Set   bool
+}
+
+// IsSet returns true if OptGetSourcesCollectionFilter was set.
+func (o OptGetSourcesCollectionFilter) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetSourcesCollectionFilter) Reset() {
+	var v GetSourcesCollectionFilter
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetSourcesCollectionFilter) SetTo(v GetSourcesCollectionFilter) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetSourcesCollectionFilter) Get() (v GetSourcesCollectionFilter, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetSourcesCollectionFilter) Or(d GetSourcesCollectionFilter) GetSourcesCollectionFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetSourcesCollectionPage returns new OptGetSourcesCollectionPage with value set to v.
+func NewOptGetSourcesCollectionPage(v GetSourcesCollectionPage) OptGetSourcesCollectionPage {
+	return OptGetSourcesCollectionPage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetSourcesCollectionPage is optional GetSourcesCollectionPage.
+type OptGetSourcesCollectionPage struct {
+	Value GetSourcesCollectionPage
+	Set   bool
+}
+
+// IsSet returns true if OptGetSourcesCollectionPage was set.
+func (o OptGetSourcesCollectionPage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetSourcesCollectionPage) Reset() {
+	var v GetSourcesCollectionPage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetSourcesCollectionPage) SetTo(v GetSourcesCollectionPage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetSourcesCollectionPage) Get() (v GetSourcesCollectionPage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetSourcesCollectionPage) Or(d GetSourcesCollectionPage) GetSourcesCollectionPage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetStackBuildsFilter returns new OptGetStackBuildsFilter with value set to v.
+func NewOptGetStackBuildsFilter(v GetStackBuildsFilter) OptGetStackBuildsFilter {
+	return OptGetStackBuildsFilter{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetStackBuildsFilter is optional GetStackBuildsFilter.
+type OptGetStackBuildsFilter struct {
+	Value GetStackBuildsFilter
+	Set   bool
+}
+
+// IsSet returns true if OptGetStackBuildsFilter was set.
+func (o OptGetStackBuildsFilter) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetStackBuildsFilter) Reset() {
+	var v GetStackBuildsFilter
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetStackBuildsFilter) SetTo(v GetStackBuildsFilter) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetStackBuildsFilter) Get() (v GetStackBuildsFilter, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetStackBuildsFilter) Or(d GetStackBuildsFilter) GetStackBuildsFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetStackBuildsPage returns new OptGetStackBuildsPage with value set to v.
+func NewOptGetStackBuildsPage(v GetStackBuildsPage) OptGetStackBuildsPage {
+	return OptGetStackBuildsPage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetStackBuildsPage is optional GetStackBuildsPage.
+type OptGetStackBuildsPage struct {
+	Value GetStackBuildsPage
+	Set   bool
+}
+
+// IsSet returns true if OptGetStackBuildsPage was set.
+func (o OptGetStackBuildsPage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetStackBuildsPage) Reset() {
+	var v GetStackBuildsPage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetStackBuildsPage) SetTo(v GetStackBuildsPage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetStackBuildsPage) Get() (v GetStackBuildsPage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetStackBuildsPage) Or(d GetStackBuildsPage) GetStackBuildsPage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetStacksFilter returns new OptGetStacksFilter with value set to v.
+func NewOptGetStacksFilter(v GetStacksFilter) OptGetStacksFilter {
+	return OptGetStacksFilter{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetStacksFilter is optional GetStacksFilter.
+type OptGetStacksFilter struct {
+	Value GetStacksFilter
+	Set   bool
+}
+
+// IsSet returns true if OptGetStacksFilter was set.
+func (o OptGetStacksFilter) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetStacksFilter) Reset() {
+	var v GetStacksFilter
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetStacksFilter) SetTo(v GetStacksFilter) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetStacksFilter) Get() (v GetStacksFilter, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetStacksFilter) Or(d GetStacksFilter) GetStacksFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetStacksPage returns new OptGetStacksPage with value set to v.
+func NewOptGetStacksPage(v GetStacksPage) OptGetStacksPage {
+	return OptGetStacksPage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetStacksPage is optional GetStacksPage.
+type OptGetStacksPage struct {
+	Value GetStacksPage
+	Set   bool
+}
+
+// IsSet returns true if OptGetStacksPage was set.
+func (o OptGetStacksPage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetStacksPage) Reset() {
+	var v GetStacksPage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetStacksPage) SetTo(v GetStacksPage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetStacksPage) Get() (v GetStacksPage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetStacksPage) Or(d GetStacksPage) GetStacksPage {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -36160,6 +46850,926 @@ func (o OptIdentifier) Or(d Identifier) Identifier {
 	return d
 }
 
+// NewOptImage returns new OptImage with value set to v.
+func NewOptImage(v Image) OptImage {
+	return OptImage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImage is optional Image.
+type OptImage struct {
+	Value Image
+	Set   bool
+}
+
+// IsSet returns true if OptImage was set.
+func (o OptImage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImage) Reset() {
+	var v Image
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImage) SetTo(v Image) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImage) Get() (v Image, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImage) Or(d Image) Image {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageAbout returns new OptImageAbout with value set to v.
+func NewOptImageAbout(v ImageAbout) OptImageAbout {
+	return OptImageAbout{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageAbout is optional ImageAbout.
+type OptImageAbout struct {
+	Value ImageAbout
+	Set   bool
+}
+
+// IsSet returns true if OptImageAbout was set.
+func (o OptImageAbout) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageAbout) Reset() {
+	var v ImageAbout
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageAbout) SetTo(v ImageAbout) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageAbout) Get() (v ImageAbout, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageAbout) Or(d ImageAbout) ImageAbout {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageConfigVolumesItemMode returns new OptImageConfigVolumesItemMode with value set to v.
+func NewOptImageConfigVolumesItemMode(v ImageConfigVolumesItemMode) OptImageConfigVolumesItemMode {
+	return OptImageConfigVolumesItemMode{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageConfigVolumesItemMode is optional ImageConfigVolumesItemMode.
+type OptImageConfigVolumesItemMode struct {
+	Value ImageConfigVolumesItemMode
+	Set   bool
+}
+
+// IsSet returns true if OptImageConfigVolumesItemMode was set.
+func (o OptImageConfigVolumesItemMode) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageConfigVolumesItemMode) Reset() {
+	var v ImageConfigVolumesItemMode
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageConfigVolumesItemMode) SetTo(v ImageConfigVolumesItemMode) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageConfigVolumesItemMode) Get() (v ImageConfigVolumesItemMode, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageConfigVolumesItemMode) Or(d ImageConfigVolumesItemMode) ImageConfigVolumesItemMode {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageCreateStepOptions returns new OptImageCreateStepOptions with value set to v.
+func NewOptImageCreateStepOptions(v ImageCreateStepOptions) OptImageCreateStepOptions {
+	return OptImageCreateStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageCreateStepOptions is optional ImageCreateStepOptions.
+type OptImageCreateStepOptions struct {
+	Value ImageCreateStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptImageCreateStepOptions was set.
+func (o OptImageCreateStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageCreateStepOptions) Reset() {
+	var v ImageCreateStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageCreateStepOptions) SetTo(v ImageCreateStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageCreateStepOptions) Get() (v ImageCreateStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageCreateStepOptions) Or(d ImageCreateStepOptions) ImageCreateStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageFactory returns new OptImageFactory with value set to v.
+func NewOptImageFactory(v ImageFactory) OptImageFactory {
+	return OptImageFactory{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageFactory is optional ImageFactory.
+type OptImageFactory struct {
+	Value ImageFactory
+	Set   bool
+}
+
+// IsSet returns true if OptImageFactory was set.
+func (o OptImageFactory) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageFactory) Reset() {
+	var v ImageFactory
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageFactory) SetTo(v ImageFactory) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageFactory) Get() (v ImageFactory, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageFactory) Or(d ImageFactory) ImageFactory {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageImportStepOptions returns new OptImageImportStepOptions with value set to v.
+func NewOptImageImportStepOptions(v ImageImportStepOptions) OptImageImportStepOptions {
+	return OptImageImportStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageImportStepOptions is optional ImageImportStepOptions.
+type OptImageImportStepOptions struct {
+	Value ImageImportStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptImageImportStepOptions was set.
+func (o OptImageImportStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageImportStepOptions) Reset() {
+	var v ImageImportStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageImportStepOptions) SetTo(v ImageImportStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageImportStepOptions) Get() (v ImageImportStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageImportStepOptions) Or(d ImageImportStepOptions) ImageImportStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageIncludes returns new OptImageIncludes with value set to v.
+func NewOptImageIncludes(v ImageIncludes) OptImageIncludes {
+	return OptImageIncludes{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageIncludes is optional ImageIncludes.
+type OptImageIncludes struct {
+	Value ImageIncludes
+	Set   bool
+}
+
+// IsSet returns true if OptImageIncludes was set.
+func (o OptImageIncludes) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageIncludes) Reset() {
+	var v ImageIncludes
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageIncludes) SetTo(v ImageIncludes) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageIncludes) Get() (v ImageIncludes, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageIncludes) Or(d ImageIncludes) ImageIncludes {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageMeta returns new OptImageMeta with value set to v.
+func NewOptImageMeta(v ImageMeta) OptImageMeta {
+	return OptImageMeta{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageMeta is optional ImageMeta.
+type OptImageMeta struct {
+	Value ImageMeta
+	Set   bool
+}
+
+// IsSet returns true if OptImageMeta was set.
+func (o OptImageMeta) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageMeta) Reset() {
+	var v ImageMeta
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageMeta) SetTo(v ImageMeta) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageMeta) Get() (v ImageMeta, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageMeta) Or(d ImageMeta) ImageMeta {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageSource returns new OptImageSource with value set to v.
+func NewOptImageSource(v ImageSource) OptImageSource {
+	return OptImageSource{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageSource is optional ImageSource.
+type OptImageSource struct {
+	Value ImageSource
+	Set   bool
+}
+
+// IsSet returns true if OptImageSource was set.
+func (o OptImageSource) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageSource) Reset() {
+	var v ImageSource
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageSource) SetTo(v ImageSource) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageSource) Get() (v ImageSource, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageSource) Or(d ImageSource) ImageSource {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageSourceAbout returns new OptImageSourceAbout with value set to v.
+func NewOptImageSourceAbout(v ImageSourceAbout) OptImageSourceAbout {
+	return OptImageSourceAbout{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageSourceAbout is optional ImageSourceAbout.
+type OptImageSourceAbout struct {
+	Value ImageSourceAbout
+	Set   bool
+}
+
+// IsSet returns true if OptImageSourceAbout was set.
+func (o OptImageSourceAbout) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageSourceAbout) Reset() {
+	var v ImageSourceAbout
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageSourceAbout) SetTo(v ImageSourceAbout) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageSourceAbout) Get() (v ImageSourceAbout, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageSourceAbout) Or(d ImageSourceAbout) ImageSourceAbout {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageSourceCreateStepOptions returns new OptImageSourceCreateStepOptions with value set to v.
+func NewOptImageSourceCreateStepOptions(v ImageSourceCreateStepOptions) OptImageSourceCreateStepOptions {
+	return OptImageSourceCreateStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageSourceCreateStepOptions is optional ImageSourceCreateStepOptions.
+type OptImageSourceCreateStepOptions struct {
+	Value ImageSourceCreateStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptImageSourceCreateStepOptions was set.
+func (o OptImageSourceCreateStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageSourceCreateStepOptions) Reset() {
+	var v ImageSourceCreateStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageSourceCreateStepOptions) SetTo(v ImageSourceCreateStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageSourceCreateStepOptions) Get() (v ImageSourceCreateStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageSourceCreateStepOptions) Or(d ImageSourceCreateStepOptions) ImageSourceCreateStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageSourceDetails returns new OptImageSourceDetails with value set to v.
+func NewOptImageSourceDetails(v ImageSourceDetails) OptImageSourceDetails {
+	return OptImageSourceDetails{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageSourceDetails is optional ImageSourceDetails.
+type OptImageSourceDetails struct {
+	Value ImageSourceDetails
+	Set   bool
+}
+
+// IsSet returns true if OptImageSourceDetails was set.
+func (o OptImageSourceDetails) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageSourceDetails) Reset() {
+	var v ImageSourceDetails
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageSourceDetails) SetTo(v ImageSourceDetails) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageSourceDetails) Get() (v ImageSourceDetails, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageSourceDetails) Or(d ImageSourceDetails) ImageSourceDetails {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageSourceIncludes returns new OptImageSourceIncludes with value set to v.
+func NewOptImageSourceIncludes(v ImageSourceIncludes) OptImageSourceIncludes {
+	return OptImageSourceIncludes{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageSourceIncludes is optional ImageSourceIncludes.
+type OptImageSourceIncludes struct {
+	Value ImageSourceIncludes
+	Set   bool
+}
+
+// IsSet returns true if OptImageSourceIncludes was set.
+func (o OptImageSourceIncludes) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageSourceIncludes) Reset() {
+	var v ImageSourceIncludes
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageSourceIncludes) SetTo(v ImageSourceIncludes) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageSourceIncludes) Get() (v ImageSourceIncludes, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageSourceIncludes) Or(d ImageSourceIncludes) ImageSourceIncludes {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageSourceMeta returns new OptImageSourceMeta with value set to v.
+func NewOptImageSourceMeta(v ImageSourceMeta) OptImageSourceMeta {
+	return OptImageSourceMeta{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageSourceMeta is optional ImageSourceMeta.
+type OptImageSourceMeta struct {
+	Value ImageSourceMeta
+	Set   bool
+}
+
+// IsSet returns true if OptImageSourceMeta was set.
+func (o OptImageSourceMeta) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageSourceMeta) Reset() {
+	var v ImageSourceMeta
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageSourceMeta) SetTo(v ImageSourceMeta) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageSourceMeta) Get() (v ImageSourceMeta, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageSourceMeta) Or(d ImageSourceMeta) ImageSourceMeta {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageSourceMetaImagesCount returns new OptImageSourceMetaImagesCount with value set to v.
+func NewOptImageSourceMetaImagesCount(v ImageSourceMetaImagesCount) OptImageSourceMetaImagesCount {
+	return OptImageSourceMetaImagesCount{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageSourceMetaImagesCount is optional ImageSourceMetaImagesCount.
+type OptImageSourceMetaImagesCount struct {
+	Value ImageSourceMetaImagesCount
+	Set   bool
+}
+
+// IsSet returns true if OptImageSourceMetaImagesCount was set.
+func (o OptImageSourceMetaImagesCount) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageSourceMetaImagesCount) Reset() {
+	var v ImageSourceMetaImagesCount
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageSourceMetaImagesCount) SetTo(v ImageSourceMetaImagesCount) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageSourceMetaImagesCount) Get() (v ImageSourceMetaImagesCount, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageSourceMetaImagesCount) Or(d ImageSourceMetaImagesCount) ImageSourceMetaImagesCount {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageSourceOrigin returns new OptImageSourceOrigin with value set to v.
+func NewOptImageSourceOrigin(v ImageSourceOrigin) OptImageSourceOrigin {
+	return OptImageSourceOrigin{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageSourceOrigin is optional ImageSourceOrigin.
+type OptImageSourceOrigin struct {
+	Value ImageSourceOrigin
+	Set   bool
+}
+
+// IsSet returns true if OptImageSourceOrigin was set.
+func (o OptImageSourceOrigin) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageSourceOrigin) Reset() {
+	var v ImageSourceOrigin
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageSourceOrigin) SetTo(v ImageSourceOrigin) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageSourceOrigin) Get() (v ImageSourceOrigin, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageSourceOrigin) Or(d ImageSourceOrigin) ImageSourceOrigin {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageSourceStateError returns new OptImageSourceStateError with value set to v.
+func NewOptImageSourceStateError(v ImageSourceStateError) OptImageSourceStateError {
+	return OptImageSourceStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageSourceStateError is optional ImageSourceStateError.
+type OptImageSourceStateError struct {
+	Value ImageSourceStateError
+	Set   bool
+}
+
+// IsSet returns true if OptImageSourceStateError was set.
+func (o OptImageSourceStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageSourceStateError) Reset() {
+	var v ImageSourceStateError
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageSourceStateError) SetTo(v ImageSourceStateError) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageSourceStateError) Get() (v ImageSourceStateError, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageSourceStateError) Or(d ImageSourceStateError) ImageSourceStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageStateError returns new OptImageStateError with value set to v.
+func NewOptImageStateError(v ImageStateError) OptImageStateError {
+	return OptImageStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageStateError is optional ImageStateError.
+type OptImageStateError struct {
+	Value ImageStateError
+	Set   bool
+}
+
+// IsSet returns true if OptImageStateError was set.
+func (o OptImageStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageStateError) Reset() {
+	var v ImageStateError
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageStateError) SetTo(v ImageStateError) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageStateError) Get() (v ImageStateError, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageStateError) Or(d ImageStateError) ImageStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImagesIncludes returns new OptImagesIncludes with value set to v.
+func NewOptImagesIncludes(v ImagesIncludes) OptImagesIncludes {
+	return OptImagesIncludes{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImagesIncludes is optional ImagesIncludes.
+type OptImagesIncludes struct {
+	Value ImagesIncludes
+	Set   bool
+}
+
+// IsSet returns true if OptImagesIncludes was set.
+func (o OptImagesIncludes) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImagesIncludes) Reset() {
+	var v ImagesIncludes
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImagesIncludes) SetTo(v ImagesIncludes) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImagesIncludes) Get() (v ImagesIncludes, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImagesIncludes) Or(d ImagesIncludes) ImagesIncludes {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImagesPruneStepOptions returns new OptImagesPruneStepOptions with value set to v.
+func NewOptImagesPruneStepOptions(v ImagesPruneStepOptions) OptImagesPruneStepOptions {
+	return OptImagesPruneStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImagesPruneStepOptions is optional ImagesPruneStepOptions.
+type OptImagesPruneStepOptions struct {
+	Value ImagesPruneStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptImagesPruneStepOptions was set.
+func (o OptImagesPruneStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImagesPruneStepOptions) Reset() {
+	var v ImagesPruneStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImagesPruneStepOptions) SetTo(v ImagesPruneStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImagesPruneStepOptions) Get() (v ImagesPruneStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImagesPruneStepOptions) Or(d ImagesPruneStepOptions) ImagesPruneStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptIndex returns new OptIndex with value set to v.
 func NewOptIndex(v Index) OptIndex {
 	return OptIndex{
@@ -36758,6 +48368,52 @@ func (o OptInvoiceStateError) Or(d InvoiceStateError) InvoiceStateError {
 	return d
 }
 
+// NewOptIpStateError returns new OptIpStateError with value set to v.
+func NewOptIpStateError(v IpStateError) OptIpStateError {
+	return OptIpStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptIpStateError is optional IpStateError.
+type OptIpStateError struct {
+	Value IpStateError
+	Set   bool
+}
+
+// IsSet returns true if OptIpStateError was set.
+func (o OptIpStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptIpStateError) Reset() {
+	var v IpStateError
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptIpStateError) SetTo(v IpStateError) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptIpStateError) Get() (v IpStateError, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptIpStateError) Or(d IpStateError) IpStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptJob returns new OptJob with value set to v.
 func NewOptJob(v Job) OptJob {
 	return OptJob{
@@ -36890,6 +48546,98 @@ func (o OptJobStateError) Get() (v JobStateError, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptJobStateError) Or(d JobStateError) JobStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListScopedVariablesFilter returns new OptListScopedVariablesFilter with value set to v.
+func NewOptListScopedVariablesFilter(v ListScopedVariablesFilter) OptListScopedVariablesFilter {
+	return OptListScopedVariablesFilter{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListScopedVariablesFilter is optional ListScopedVariablesFilter.
+type OptListScopedVariablesFilter struct {
+	Value ListScopedVariablesFilter
+	Set   bool
+}
+
+// IsSet returns true if OptListScopedVariablesFilter was set.
+func (o OptListScopedVariablesFilter) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListScopedVariablesFilter) Reset() {
+	var v ListScopedVariablesFilter
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListScopedVariablesFilter) SetTo(v ListScopedVariablesFilter) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListScopedVariablesFilter) Get() (v ListScopedVariablesFilter, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListScopedVariablesFilter) Or(d ListScopedVariablesFilter) ListScopedVariablesFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptListScopedVariablesPage returns new OptListScopedVariablesPage with value set to v.
+func NewOptListScopedVariablesPage(v ListScopedVariablesPage) OptListScopedVariablesPage {
+	return OptListScopedVariablesPage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptListScopedVariablesPage is optional ListScopedVariablesPage.
+type OptListScopedVariablesPage struct {
+	Value ListScopedVariablesPage
+	Set   bool
+}
+
+// IsSet returns true if OptListScopedVariablesPage was set.
+func (o OptListScopedVariablesPage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptListScopedVariablesPage) Reset() {
+	var v ListScopedVariablesPage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptListScopedVariablesPage) SetTo(v ListScopedVariablesPage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptListScopedVariablesPage) Get() (v ListScopedVariablesPage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptListScopedVariablesPage) Or(d ListScopedVariablesPage) ListScopedVariablesPage {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -37654,6 +49402,69 @@ func (o OptNilContainerRole) Or(d ContainerRole) ContainerRole {
 	return d
 }
 
+// NewOptNilCreateScopedVariableReqSecret returns new OptNilCreateScopedVariableReqSecret with value set to v.
+func NewOptNilCreateScopedVariableReqSecret(v CreateScopedVariableReqSecret) OptNilCreateScopedVariableReqSecret {
+	return OptNilCreateScopedVariableReqSecret{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilCreateScopedVariableReqSecret is optional nullable CreateScopedVariableReqSecret.
+type OptNilCreateScopedVariableReqSecret struct {
+	Value CreateScopedVariableReqSecret
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilCreateScopedVariableReqSecret was set.
+func (o OptNilCreateScopedVariableReqSecret) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilCreateScopedVariableReqSecret) Reset() {
+	var v CreateScopedVariableReqSecret
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilCreateScopedVariableReqSecret) SetTo(v CreateScopedVariableReqSecret) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilCreateScopedVariableReqSecret) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilCreateScopedVariableReqSecret) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v CreateScopedVariableReqSecret
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilCreateScopedVariableReqSecret) Get() (v CreateScopedVariableReqSecret, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilCreateScopedVariableReqSecret) Or(d CreateScopedVariableReqSecret) CreateScopedVariableReqSecret {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilDiscoveryEnvironmentService returns new OptNilDiscoveryEnvironmentService with value set to v.
 func NewOptNilDiscoveryEnvironmentService(v DiscoveryEnvironmentService) OptNilDiscoveryEnvironmentService {
 	return OptNilDiscoveryEnvironmentService{
@@ -38221,6 +50032,69 @@ func (o OptNilReconfigureVPNReqContentsConfig) Or(d ReconfigureVPNReqContentsCon
 	return d
 }
 
+// NewOptNilSession returns new OptNilSession with value set to v.
+func NewOptNilSession(v Session) OptNilSession {
+	return OptNilSession{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilSession is optional nullable Session.
+type OptNilSession struct {
+	Value Session
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilSession was set.
+func (o OptNilSession) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilSession) Reset() {
+	var v Session
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilSession) SetTo(v Session) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilSession) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilSession) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v Session
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilSession) Get() (v Session, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilSession) Or(d Session) Session {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilStringArray returns new OptNilStringArray with value set to v.
 func NewOptNilStringArray(v []string) OptNilStringArray {
 	return OptNilStringArray{
@@ -38278,6 +50152,69 @@ func (o OptNilStringArray) Get() (v []string, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilStringArray) Or(d []string) []string {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilUpdateScopedVariableReqSecret returns new OptNilUpdateScopedVariableReqSecret with value set to v.
+func NewOptNilUpdateScopedVariableReqSecret(v UpdateScopedVariableReqSecret) OptNilUpdateScopedVariableReqSecret {
+	return OptNilUpdateScopedVariableReqSecret{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilUpdateScopedVariableReqSecret is optional nullable UpdateScopedVariableReqSecret.
+type OptNilUpdateScopedVariableReqSecret struct {
+	Value UpdateScopedVariableReqSecret
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilUpdateScopedVariableReqSecret was set.
+func (o OptNilUpdateScopedVariableReqSecret) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilUpdateScopedVariableReqSecret) Reset() {
+	var v UpdateScopedVariableReqSecret
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilUpdateScopedVariableReqSecret) SetTo(v UpdateScopedVariableReqSecret) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilUpdateScopedVariableReqSecret) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilUpdateScopedVariableReqSecret) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v UpdateScopedVariableReqSecret
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilUpdateScopedVariableReqSecret) Get() (v UpdateScopedVariableReqSecret, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilUpdateScopedVariableReqSecret) Or(d UpdateScopedVariableReqSecret) UpdateScopedVariableReqSecret {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -38617,6 +50554,236 @@ func (o OptPermissions) Get() (v Permissions, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptPermissions) Or(d Permissions) Permissions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPipeline returns new OptPipeline with value set to v.
+func NewOptPipeline(v Pipeline) OptPipeline {
+	return OptPipeline{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPipeline is optional Pipeline.
+type OptPipeline struct {
+	Value Pipeline
+	Set   bool
+}
+
+// IsSet returns true if OptPipeline was set.
+func (o OptPipeline) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPipeline) Reset() {
+	var v Pipeline
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPipeline) SetTo(v Pipeline) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPipeline) Get() (v Pipeline, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPipeline) Or(d Pipeline) Pipeline {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPipelineIncludes returns new OptPipelineIncludes with value set to v.
+func NewOptPipelineIncludes(v PipelineIncludes) OptPipelineIncludes {
+	return OptPipelineIncludes{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPipelineIncludes is optional PipelineIncludes.
+type OptPipelineIncludes struct {
+	Value PipelineIncludes
+	Set   bool
+}
+
+// IsSet returns true if OptPipelineIncludes was set.
+func (o OptPipelineIncludes) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPipelineIncludes) Reset() {
+	var v PipelineIncludes
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPipelineIncludes) SetTo(v PipelineIncludes) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPipelineIncludes) Get() (v PipelineIncludes, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPipelineIncludes) Or(d PipelineIncludes) PipelineIncludes {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPipelineIncludesComponents returns new OptPipelineIncludesComponents with value set to v.
+func NewOptPipelineIncludesComponents(v PipelineIncludesComponents) OptPipelineIncludesComponents {
+	return OptPipelineIncludesComponents{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPipelineIncludesComponents is optional PipelineIncludesComponents.
+type OptPipelineIncludesComponents struct {
+	Value PipelineIncludesComponents
+	Set   bool
+}
+
+// IsSet returns true if OptPipelineIncludesComponents was set.
+func (o OptPipelineIncludesComponents) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPipelineIncludesComponents) Reset() {
+	var v PipelineIncludesComponents
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPipelineIncludesComponents) SetTo(v PipelineIncludesComponents) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPipelineIncludesComponents) Get() (v PipelineIncludesComponents, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPipelineIncludesComponents) Or(d PipelineIncludesComponents) PipelineIncludesComponents {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPipelineStageOptions returns new OptPipelineStageOptions with value set to v.
+func NewOptPipelineStageOptions(v PipelineStageOptions) OptPipelineStageOptions {
+	return OptPipelineStageOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPipelineStageOptions is optional PipelineStageOptions.
+type OptPipelineStageOptions struct {
+	Value PipelineStageOptions
+	Set   bool
+}
+
+// IsSet returns true if OptPipelineStageOptions was set.
+func (o OptPipelineStageOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPipelineStageOptions) Reset() {
+	var v PipelineStageOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPipelineStageOptions) SetTo(v PipelineStageOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPipelineStageOptions) Get() (v PipelineStageOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPipelineStageOptions) Or(d PipelineStageOptions) PipelineStageOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptPipelineStateError returns new OptPipelineStateError with value set to v.
+func NewOptPipelineStateError(v PipelineStateError) OptPipelineStateError {
+	return OptPipelineStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptPipelineStateError is optional PipelineStateError.
+type OptPipelineStateError struct {
+	Value PipelineStateError
+	Set   bool
+}
+
+// IsSet returns true if OptPipelineStateError was set.
+func (o OptPipelineStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptPipelineStateError) Reset() {
+	var v PipelineStateError
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptPipelineStateError) SetTo(v PipelineStateError) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptPipelineStateError) Get() (v PipelineStateError, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptPipelineStateError) Or(d PipelineStateError) PipelineStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -39911,6 +52078,236 @@ func (o OptRemoveServerOptions) Or(d RemoveServerOptions) RemoveServerOptions {
 	return d
 }
 
+// NewOptRepoSpecDetailsAuth returns new OptRepoSpecDetailsAuth with value set to v.
+func NewOptRepoSpecDetailsAuth(v RepoSpecDetailsAuth) OptRepoSpecDetailsAuth {
+	return OptRepoSpecDetailsAuth{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRepoSpecDetailsAuth is optional RepoSpecDetailsAuth.
+type OptRepoSpecDetailsAuth struct {
+	Value RepoSpecDetailsAuth
+	Set   bool
+}
+
+// IsSet returns true if OptRepoSpecDetailsAuth was set.
+func (o OptRepoSpecDetailsAuth) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRepoSpecDetailsAuth) Reset() {
+	var v RepoSpecDetailsAuth
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRepoSpecDetailsAuth) SetTo(v RepoSpecDetailsAuth) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRepoSpecDetailsAuth) Get() (v RepoSpecDetailsAuth, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRepoSpecDetailsAuth) Or(d RepoSpecDetailsAuth) RepoSpecDetailsAuth {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRepoSpecDetailsRef returns new OptRepoSpecDetailsRef with value set to v.
+func NewOptRepoSpecDetailsRef(v RepoSpecDetailsRef) OptRepoSpecDetailsRef {
+	return OptRepoSpecDetailsRef{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRepoSpecDetailsRef is optional RepoSpecDetailsRef.
+type OptRepoSpecDetailsRef struct {
+	Value RepoSpecDetailsRef
+	Set   bool
+}
+
+// IsSet returns true if OptRepoSpecDetailsRef was set.
+func (o OptRepoSpecDetailsRef) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRepoSpecDetailsRef) Reset() {
+	var v RepoSpecDetailsRef
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRepoSpecDetailsRef) SetTo(v RepoSpecDetailsRef) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRepoSpecDetailsRef) Get() (v RepoSpecDetailsRef, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRepoSpecDetailsRef) Or(d RepoSpecDetailsRef) RepoSpecDetailsRef {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRepoType returns new OptRepoType with value set to v.
+func NewOptRepoType(v RepoType) OptRepoType {
+	return OptRepoType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRepoType is optional RepoType.
+type OptRepoType struct {
+	Value RepoType
+	Set   bool
+}
+
+// IsSet returns true if OptRepoType was set.
+func (o OptRepoType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRepoType) Reset() {
+	var v RepoType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRepoType) SetTo(v RepoType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRepoType) Get() (v RepoType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRepoType) Or(d RepoType) RepoType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRepoTypeAuth returns new OptRepoTypeAuth with value set to v.
+func NewOptRepoTypeAuth(v RepoTypeAuth) OptRepoTypeAuth {
+	return OptRepoTypeAuth{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRepoTypeAuth is optional RepoTypeAuth.
+type OptRepoTypeAuth struct {
+	Value RepoTypeAuth
+	Set   bool
+}
+
+// IsSet returns true if OptRepoTypeAuth was set.
+func (o OptRepoTypeAuth) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRepoTypeAuth) Reset() {
+	var v RepoTypeAuth
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRepoTypeAuth) SetTo(v RepoTypeAuth) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRepoTypeAuth) Get() (v RepoTypeAuth, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRepoTypeAuth) Or(d RepoTypeAuth) RepoTypeAuth {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRepoTypeRef returns new OptRepoTypeRef with value set to v.
+func NewOptRepoTypeRef(v RepoTypeRef) OptRepoTypeRef {
+	return OptRepoTypeRef{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRepoTypeRef is optional RepoTypeRef.
+type OptRepoTypeRef struct {
+	Value RepoTypeRef
+	Set   bool
+}
+
+// IsSet returns true if OptRepoTypeRef was set.
+func (o OptRepoTypeRef) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRepoTypeRef) Reset() {
+	var v RepoTypeRef
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRepoTypeRef) SetTo(v RepoTypeRef) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRepoTypeRef) Get() (v RepoTypeRef, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRepoTypeRef) Or(d RepoTypeRef) RepoTypeRef {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptResetPasswordReq returns new OptResetPasswordReq with value set to v.
 func NewOptResetPasswordReq(v ResetPasswordReq) OptResetPasswordReq {
 	return OptResetPasswordReq{
@@ -39951,6 +52348,98 @@ func (o OptResetPasswordReq) Get() (v ResetPasswordReq, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptResetPasswordReq) Or(d ResetPasswordReq) ResetPasswordReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptResourceLocation returns new OptResourceLocation with value set to v.
+func NewOptResourceLocation(v ResourceLocation) OptResourceLocation {
+	return OptResourceLocation{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptResourceLocation is optional ResourceLocation.
+type OptResourceLocation struct {
+	Value ResourceLocation
+	Set   bool
+}
+
+// IsSet returns true if OptResourceLocation was set.
+func (o OptResourceLocation) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptResourceLocation) Reset() {
+	var v ResourceLocation
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptResourceLocation) SetTo(v ResourceLocation) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptResourceLocation) Get() (v ResourceLocation, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptResourceLocation) Or(d ResourceLocation) ResourceLocation {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptResourceLocation1From returns new OptResourceLocation1From with value set to v.
+func NewOptResourceLocation1From(v ResourceLocation1From) OptResourceLocation1From {
+	return OptResourceLocation1From{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptResourceLocation1From is optional ResourceLocation1From.
+type OptResourceLocation1From struct {
+	Value ResourceLocation1From
+	Set   bool
+}
+
+// IsSet returns true if OptResourceLocation1From was set.
+func (o OptResourceLocation1From) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptResourceLocation1From) Reset() {
+	var v ResourceLocation1From
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptResourceLocation1From) SetTo(v ResourceLocation1From) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptResourceLocation1From) Get() (v ResourceLocation1From, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptResourceLocation1From) Or(d ResourceLocation1From) ResourceLocation1From {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -40135,6 +52624,144 @@ func (o OptSSHResponse) Get() (v SSHResponse, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptSSHResponse) Or(d SSHResponse) SSHResponse {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptScopedVariable returns new OptScopedVariable with value set to v.
+func NewOptScopedVariable(v ScopedVariable) OptScopedVariable {
+	return OptScopedVariable{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptScopedVariable is optional ScopedVariable.
+type OptScopedVariable struct {
+	Value ScopedVariable
+	Set   bool
+}
+
+// IsSet returns true if OptScopedVariable was set.
+func (o OptScopedVariable) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptScopedVariable) Reset() {
+	var v ScopedVariable
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptScopedVariable) SetTo(v ScopedVariable) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptScopedVariable) Get() (v ScopedVariable, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptScopedVariable) Or(d ScopedVariable) ScopedVariable {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptScopedVariableScope returns new OptScopedVariableScope with value set to v.
+func NewOptScopedVariableScope(v ScopedVariableScope) OptScopedVariableScope {
+	return OptScopedVariableScope{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptScopedVariableScope is optional ScopedVariableScope.
+type OptScopedVariableScope struct {
+	Value ScopedVariableScope
+	Set   bool
+}
+
+// IsSet returns true if OptScopedVariableScope was set.
+func (o OptScopedVariableScope) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptScopedVariableScope) Reset() {
+	var v ScopedVariableScope
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptScopedVariableScope) SetTo(v ScopedVariableScope) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptScopedVariableScope) Get() (v ScopedVariableScope, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptScopedVariableScope) Or(d ScopedVariableScope) ScopedVariableScope {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptScopedVariableStateError returns new OptScopedVariableStateError with value set to v.
+func NewOptScopedVariableStateError(v ScopedVariableStateError) OptScopedVariableStateError {
+	return OptScopedVariableStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptScopedVariableStateError is optional ScopedVariableStateError.
+type OptScopedVariableStateError struct {
+	Value ScopedVariableStateError
+	Set   bool
+}
+
+// IsSet returns true if OptScopedVariableStateError was set.
+func (o OptScopedVariableStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptScopedVariableStateError) Reset() {
+	var v ScopedVariableStateError
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptScopedVariableStateError) SetTo(v ScopedVariableStateError) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptScopedVariableStateError) Get() (v ScopedVariableStateError, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptScopedVariableStateError) Or(d ScopedVariableStateError) ScopedVariableStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -40877,6 +53504,236 @@ func (o OptSetupTwoFaReq) Or(d SetupTwoFaReq) SetupTwoFaReq {
 	return d
 }
 
+// NewOptSleepStepOptions returns new OptSleepStepOptions with value set to v.
+func NewOptSleepStepOptions(v SleepStepOptions) OptSleepStepOptions {
+	return OptSleepStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptSleepStepOptions is optional SleepStepOptions.
+type OptSleepStepOptions struct {
+	Value SleepStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptSleepStepOptions was set.
+func (o OptSleepStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptSleepStepOptions) Reset() {
+	var v SleepStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptSleepStepOptions) SetTo(v SleepStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptSleepStepOptions) Get() (v SleepStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptSleepStepOptions) Or(d SleepStepOptions) SleepStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptSourceIncludes returns new OptSourceIncludes with value set to v.
+func NewOptSourceIncludes(v SourceIncludes) OptSourceIncludes {
+	return OptSourceIncludes{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptSourceIncludes is optional SourceIncludes.
+type OptSourceIncludes struct {
+	Value SourceIncludes
+	Set   bool
+}
+
+// IsSet returns true if OptSourceIncludes was set.
+func (o OptSourceIncludes) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptSourceIncludes) Reset() {
+	var v SourceIncludes
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptSourceIncludes) SetTo(v SourceIncludes) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptSourceIncludes) Get() (v SourceIncludes, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptSourceIncludes) Or(d SourceIncludes) SourceIncludes {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStack returns new OptStack with value set to v.
+func NewOptStack(v Stack) OptStack {
+	return OptStack{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStack is optional Stack.
+type OptStack struct {
+	Value Stack
+	Set   bool
+}
+
+// IsSet returns true if OptStack was set.
+func (o OptStack) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStack) Reset() {
+	var v Stack
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStack) SetTo(v Stack) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStack) Get() (v Stack, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStack) Or(d Stack) Stack {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuild returns new OptStackBuild with value set to v.
+func NewOptStackBuild(v StackBuild) OptStackBuild {
+	return OptStackBuild{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuild is optional StackBuild.
+type OptStackBuild struct {
+	Value StackBuild
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuild was set.
+func (o OptStackBuild) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuild) Reset() {
+	var v StackBuild
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuild) SetTo(v StackBuild) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuild) Get() (v StackBuild, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuild) Or(d StackBuild) StackBuild {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildAbout returns new OptStackBuildAbout with value set to v.
+func NewOptStackBuildAbout(v StackBuildAbout) OptStackBuildAbout {
+	return OptStackBuildAbout{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildAbout is optional StackBuildAbout.
+type OptStackBuildAbout struct {
+	Value StackBuildAbout
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildAbout was set.
+func (o OptStackBuildAbout) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildAbout) Reset() {
+	var v StackBuildAbout
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildAbout) SetTo(v StackBuildAbout) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildAbout) Get() (v StackBuildAbout, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildAbout) Or(d StackBuildAbout) StackBuildAbout {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptStackBuildContainerUpdate returns new OptStackBuildContainerUpdate with value set to v.
 func NewOptStackBuildContainerUpdate(v StackBuildContainerUpdate) OptStackBuildContainerUpdate {
 	return OptStackBuildContainerUpdate{
@@ -40917,6 +53774,2818 @@ func (o OptStackBuildContainerUpdate) Get() (v StackBuildContainerUpdate, ok boo
 
 // Or returns value if set, or given parameter if does not.
 func (o OptStackBuildContainerUpdate) Or(d StackBuildContainerUpdate) StackBuildContainerUpdate {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildCreateStepOptions returns new OptStackBuildCreateStepOptions with value set to v.
+func NewOptStackBuildCreateStepOptions(v StackBuildCreateStepOptions) OptStackBuildCreateStepOptions {
+	return OptStackBuildCreateStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildCreateStepOptions is optional StackBuildCreateStepOptions.
+type OptStackBuildCreateStepOptions struct {
+	Value StackBuildCreateStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildCreateStepOptions was set.
+func (o OptStackBuildCreateStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildCreateStepOptions) Reset() {
+	var v StackBuildCreateStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildCreateStepOptions) SetTo(v StackBuildCreateStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildCreateStepOptions) Get() (v StackBuildCreateStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildCreateStepOptions) Or(d StackBuildCreateStepOptions) StackBuildCreateStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildDeployStepOptions returns new OptStackBuildDeployStepOptions with value set to v.
+func NewOptStackBuildDeployStepOptions(v StackBuildDeployStepOptions) OptStackBuildDeployStepOptions {
+	return OptStackBuildDeployStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildDeployStepOptions is optional StackBuildDeployStepOptions.
+type OptStackBuildDeployStepOptions struct {
+	Value StackBuildDeployStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildDeployStepOptions was set.
+func (o OptStackBuildDeployStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildDeployStepOptions) Reset() {
+	var v StackBuildDeployStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildDeployStepOptions) SetTo(v StackBuildDeployStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildDeployStepOptions) Get() (v StackBuildDeployStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildDeployStepOptions) Or(d StackBuildDeployStepOptions) StackBuildDeployStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildGenerateStepOptions returns new OptStackBuildGenerateStepOptions with value set to v.
+func NewOptStackBuildGenerateStepOptions(v StackBuildGenerateStepOptions) OptStackBuildGenerateStepOptions {
+	return OptStackBuildGenerateStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildGenerateStepOptions is optional StackBuildGenerateStepOptions.
+type OptStackBuildGenerateStepOptions struct {
+	Value StackBuildGenerateStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildGenerateStepOptions was set.
+func (o OptStackBuildGenerateStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildGenerateStepOptions) Reset() {
+	var v StackBuildGenerateStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildGenerateStepOptions) SetTo(v StackBuildGenerateStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildGenerateStepOptions) Get() (v StackBuildGenerateStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildGenerateStepOptions) Or(d StackBuildGenerateStepOptions) StackBuildGenerateStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildInclude returns new OptStackBuildInclude with value set to v.
+func NewOptStackBuildInclude(v StackBuildInclude) OptStackBuildInclude {
+	return OptStackBuildInclude{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildInclude is optional StackBuildInclude.
+type OptStackBuildInclude struct {
+	Value StackBuildInclude
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildInclude was set.
+func (o OptStackBuildInclude) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildInclude) Reset() {
+	var v StackBuildInclude
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildInclude) SetTo(v StackBuildInclude) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildInclude) Get() (v StackBuildInclude, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildInclude) Or(d StackBuildInclude) StackBuildInclude {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildIncludeAbout returns new OptStackBuildIncludeAbout with value set to v.
+func NewOptStackBuildIncludeAbout(v StackBuildIncludeAbout) OptStackBuildIncludeAbout {
+	return OptStackBuildIncludeAbout{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildIncludeAbout is optional StackBuildIncludeAbout.
+type OptStackBuildIncludeAbout struct {
+	Value StackBuildIncludeAbout
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildIncludeAbout was set.
+func (o OptStackBuildIncludeAbout) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildIncludeAbout) Reset() {
+	var v StackBuildIncludeAbout
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildIncludeAbout) SetTo(v StackBuildIncludeAbout) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildIncludeAbout) Get() (v StackBuildIncludeAbout, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildIncludeAbout) Or(d StackBuildIncludeAbout) StackBuildIncludeAbout {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildIncludeEvents returns new OptStackBuildIncludeEvents with value set to v.
+func NewOptStackBuildIncludeEvents(v StackBuildIncludeEvents) OptStackBuildIncludeEvents {
+	return OptStackBuildIncludeEvents{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildIncludeEvents is optional StackBuildIncludeEvents.
+type OptStackBuildIncludeEvents struct {
+	Value StackBuildIncludeEvents
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildIncludeEvents was set.
+func (o OptStackBuildIncludeEvents) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildIncludeEvents) Reset() {
+	var v StackBuildIncludeEvents
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildIncludeEvents) SetTo(v StackBuildIncludeEvents) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildIncludeEvents) Get() (v StackBuildIncludeEvents, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildIncludeEvents) Or(d StackBuildIncludeEvents) StackBuildIncludeEvents {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildIncludeInstructions returns new OptStackBuildIncludeInstructions with value set to v.
+func NewOptStackBuildIncludeInstructions(v StackBuildIncludeInstructions) OptStackBuildIncludeInstructions {
+	return OptStackBuildIncludeInstructions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildIncludeInstructions is optional StackBuildIncludeInstructions.
+type OptStackBuildIncludeInstructions struct {
+	Value StackBuildIncludeInstructions
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildIncludeInstructions was set.
+func (o OptStackBuildIncludeInstructions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildIncludeInstructions) Reset() {
+	var v StackBuildIncludeInstructions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildIncludeInstructions) SetTo(v StackBuildIncludeInstructions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildIncludeInstructions) Get() (v StackBuildIncludeInstructions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildIncludeInstructions) Or(d StackBuildIncludeInstructions) StackBuildIncludeInstructions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildIncludeInstructionsGit returns new OptStackBuildIncludeInstructionsGit with value set to v.
+func NewOptStackBuildIncludeInstructionsGit(v StackBuildIncludeInstructionsGit) OptStackBuildIncludeInstructionsGit {
+	return OptStackBuildIncludeInstructionsGit{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildIncludeInstructionsGit is optional StackBuildIncludeInstructionsGit.
+type OptStackBuildIncludeInstructionsGit struct {
+	Value StackBuildIncludeInstructionsGit
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildIncludeInstructionsGit was set.
+func (o OptStackBuildIncludeInstructionsGit) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildIncludeInstructionsGit) Reset() {
+	var v StackBuildIncludeInstructionsGit
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildIncludeInstructionsGit) SetTo(v StackBuildIncludeInstructionsGit) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildIncludeInstructionsGit) Get() (v StackBuildIncludeInstructionsGit, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildIncludeInstructionsGit) Or(d StackBuildIncludeInstructionsGit) StackBuildIncludeInstructionsGit {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildIncludes returns new OptStackBuildIncludes with value set to v.
+func NewOptStackBuildIncludes(v StackBuildIncludes) OptStackBuildIncludes {
+	return OptStackBuildIncludes{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildIncludes is optional StackBuildIncludes.
+type OptStackBuildIncludes struct {
+	Value StackBuildIncludes
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildIncludes was set.
+func (o OptStackBuildIncludes) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildIncludes) Reset() {
+	var v StackBuildIncludes
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildIncludes) SetTo(v StackBuildIncludes) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildIncludes) Get() (v StackBuildIncludes, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildIncludes) Or(d StackBuildIncludes) StackBuildIncludes {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildInstructions returns new OptStackBuildInstructions with value set to v.
+func NewOptStackBuildInstructions(v StackBuildInstructions) OptStackBuildInstructions {
+	return OptStackBuildInstructions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildInstructions is optional StackBuildInstructions.
+type OptStackBuildInstructions struct {
+	Value StackBuildInstructions
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildInstructions was set.
+func (o OptStackBuildInstructions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildInstructions) Reset() {
+	var v StackBuildInstructions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildInstructions) SetTo(v StackBuildInstructions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildInstructions) Get() (v StackBuildInstructions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildInstructions) Or(d StackBuildInstructions) StackBuildInstructions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildInstructionsDetailsGit returns new OptStackBuildInstructionsDetailsGit with value set to v.
+func NewOptStackBuildInstructionsDetailsGit(v StackBuildInstructionsDetailsGit) OptStackBuildInstructionsDetailsGit {
+	return OptStackBuildInstructionsDetailsGit{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildInstructionsDetailsGit is optional StackBuildInstructionsDetailsGit.
+type OptStackBuildInstructionsDetailsGit struct {
+	Value StackBuildInstructionsDetailsGit
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildInstructionsDetailsGit was set.
+func (o OptStackBuildInstructionsDetailsGit) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildInstructionsDetailsGit) Reset() {
+	var v StackBuildInstructionsDetailsGit
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildInstructionsDetailsGit) SetTo(v StackBuildInstructionsDetailsGit) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildInstructionsDetailsGit) Get() (v StackBuildInstructionsDetailsGit, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildInstructionsDetailsGit) Or(d StackBuildInstructionsDetailsGit) StackBuildInstructionsDetailsGit {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildInstructionsGit returns new OptStackBuildInstructionsGit with value set to v.
+func NewOptStackBuildInstructionsGit(v StackBuildInstructionsGit) OptStackBuildInstructionsGit {
+	return OptStackBuildInstructionsGit{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildInstructionsGit is optional StackBuildInstructionsGit.
+type OptStackBuildInstructionsGit struct {
+	Value StackBuildInstructionsGit
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildInstructionsGit was set.
+func (o OptStackBuildInstructionsGit) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildInstructionsGit) Reset() {
+	var v StackBuildInstructionsGit
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildInstructionsGit) SetTo(v StackBuildInstructionsGit) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildInstructionsGit) Get() (v StackBuildInstructionsGit, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildInstructionsGit) Or(d StackBuildInstructionsGit) StackBuildInstructionsGit {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildMeta returns new OptStackBuildMeta with value set to v.
+func NewOptStackBuildMeta(v StackBuildMeta) OptStackBuildMeta {
+	return OptStackBuildMeta{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildMeta is optional StackBuildMeta.
+type OptStackBuildMeta struct {
+	Value StackBuildMeta
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildMeta was set.
+func (o OptStackBuildMeta) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildMeta) Reset() {
+	var v StackBuildMeta
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildMeta) SetTo(v StackBuildMeta) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildMeta) Get() (v StackBuildMeta, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildMeta) Or(d StackBuildMeta) StackBuildMeta {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildState returns new OptStackBuildState with value set to v.
+func NewOptStackBuildState(v StackBuildState) OptStackBuildState {
+	return OptStackBuildState{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildState is optional StackBuildState.
+type OptStackBuildState struct {
+	Value StackBuildState
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildState was set.
+func (o OptStackBuildState) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildState) Reset() {
+	var v StackBuildState
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildState) SetTo(v StackBuildState) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildState) Get() (v StackBuildState, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildState) Or(d StackBuildState) StackBuildState {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildStateError returns new OptStackBuildStateError with value set to v.
+func NewOptStackBuildStateError(v StackBuildStateError) OptStackBuildStateError {
+	return OptStackBuildStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildStateError is optional StackBuildStateError.
+type OptStackBuildStateError struct {
+	Value StackBuildStateError
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildStateError was set.
+func (o OptStackBuildStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildStateError) Reset() {
+	var v StackBuildStateError
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildStateError) SetTo(v StackBuildStateError) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildStateError) Get() (v StackBuildStateError, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildStateError) Or(d StackBuildStateError) StackBuildStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployConstraints returns new OptStackContainerConfigDeployConstraints with value set to v.
+func NewOptStackContainerConfigDeployConstraints(v StackContainerConfigDeployConstraints) OptStackContainerConfigDeployConstraints {
+	return OptStackContainerConfigDeployConstraints{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployConstraints is optional StackContainerConfigDeployConstraints.
+type OptStackContainerConfigDeployConstraints struct {
+	Value StackContainerConfigDeployConstraints
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployConstraints was set.
+func (o OptStackContainerConfigDeployConstraints) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployConstraints) Reset() {
+	var v StackContainerConfigDeployConstraints
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployConstraints) SetTo(v StackContainerConfigDeployConstraints) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployConstraints) Get() (v StackContainerConfigDeployConstraints, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployConstraints) Or(d StackContainerConfigDeployConstraints) StackContainerConfigDeployConstraints {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployConstraintsNode returns new OptStackContainerConfigDeployConstraintsNode with value set to v.
+func NewOptStackContainerConfigDeployConstraintsNode(v StackContainerConfigDeployConstraintsNode) OptStackContainerConfigDeployConstraintsNode {
+	return OptStackContainerConfigDeployConstraintsNode{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployConstraintsNode is optional StackContainerConfigDeployConstraintsNode.
+type OptStackContainerConfigDeployConstraintsNode struct {
+	Value StackContainerConfigDeployConstraintsNode
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployConstraintsNode was set.
+func (o OptStackContainerConfigDeployConstraintsNode) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployConstraintsNode) Reset() {
+	var v StackContainerConfigDeployConstraintsNode
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployConstraintsNode) SetTo(v StackContainerConfigDeployConstraintsNode) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployConstraintsNode) Get() (v StackContainerConfigDeployConstraintsNode, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployConstraintsNode) Or(d StackContainerConfigDeployConstraintsNode) StackContainerConfigDeployConstraintsNode {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployHealthCheck returns new OptStackContainerConfigDeployHealthCheck with value set to v.
+func NewOptStackContainerConfigDeployHealthCheck(v StackContainerConfigDeployHealthCheck) OptStackContainerConfigDeployHealthCheck {
+	return OptStackContainerConfigDeployHealthCheck{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployHealthCheck is optional StackContainerConfigDeployHealthCheck.
+type OptStackContainerConfigDeployHealthCheck struct {
+	Value StackContainerConfigDeployHealthCheck
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployHealthCheck was set.
+func (o OptStackContainerConfigDeployHealthCheck) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployHealthCheck) Reset() {
+	var v StackContainerConfigDeployHealthCheck
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployHealthCheck) SetTo(v StackContainerConfigDeployHealthCheck) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployHealthCheck) Get() (v StackContainerConfigDeployHealthCheck, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployHealthCheck) Or(d StackContainerConfigDeployHealthCheck) StackContainerConfigDeployHealthCheck {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployRestart returns new OptStackContainerConfigDeployRestart with value set to v.
+func NewOptStackContainerConfigDeployRestart(v StackContainerConfigDeployRestart) OptStackContainerConfigDeployRestart {
+	return OptStackContainerConfigDeployRestart{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployRestart is optional StackContainerConfigDeployRestart.
+type OptStackContainerConfigDeployRestart struct {
+	Value StackContainerConfigDeployRestart
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployRestart was set.
+func (o OptStackContainerConfigDeployRestart) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployRestart) Reset() {
+	var v StackContainerConfigDeployRestart
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployRestart) SetTo(v StackContainerConfigDeployRestart) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployRestart) Get() (v StackContainerConfigDeployRestart, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployRestart) Or(d StackContainerConfigDeployRestart) StackContainerConfigDeployRestart {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployRestartNotify returns new OptStackContainerConfigDeployRestartNotify with value set to v.
+func NewOptStackContainerConfigDeployRestartNotify(v StackContainerConfigDeployRestartNotify) OptStackContainerConfigDeployRestartNotify {
+	return OptStackContainerConfigDeployRestartNotify{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployRestartNotify is optional StackContainerConfigDeployRestartNotify.
+type OptStackContainerConfigDeployRestartNotify struct {
+	Value StackContainerConfigDeployRestartNotify
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployRestartNotify was set.
+func (o OptStackContainerConfigDeployRestartNotify) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployRestartNotify) Reset() {
+	var v StackContainerConfigDeployRestartNotify
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployRestartNotify) SetTo(v StackContainerConfigDeployRestartNotify) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployRestartNotify) Get() (v StackContainerConfigDeployRestartNotify, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployRestartNotify) Or(d StackContainerConfigDeployRestartNotify) StackContainerConfigDeployRestartNotify {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployShutdown returns new OptStackContainerConfigDeployShutdown with value set to v.
+func NewOptStackContainerConfigDeployShutdown(v StackContainerConfigDeployShutdown) OptStackContainerConfigDeployShutdown {
+	return OptStackContainerConfigDeployShutdown{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployShutdown is optional StackContainerConfigDeployShutdown.
+type OptStackContainerConfigDeployShutdown struct {
+	Value StackContainerConfigDeployShutdown
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployShutdown was set.
+func (o OptStackContainerConfigDeployShutdown) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployShutdown) Reset() {
+	var v StackContainerConfigDeployShutdown
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployShutdown) SetTo(v StackContainerConfigDeployShutdown) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployShutdown) Get() (v StackContainerConfigDeployShutdown, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployShutdown) Or(d StackContainerConfigDeployShutdown) StackContainerConfigDeployShutdown {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployStartup returns new OptStackContainerConfigDeployStartup with value set to v.
+func NewOptStackContainerConfigDeployStartup(v StackContainerConfigDeployStartup) OptStackContainerConfigDeployStartup {
+	return OptStackContainerConfigDeployStartup{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployStartup is optional StackContainerConfigDeployStartup.
+type OptStackContainerConfigDeployStartup struct {
+	Value StackContainerConfigDeployStartup
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployStartup was set.
+func (o OptStackContainerConfigDeployStartup) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployStartup) Reset() {
+	var v StackContainerConfigDeployStartup
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployStartup) SetTo(v StackContainerConfigDeployStartup) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployStartup) Get() (v StackContainerConfigDeployStartup, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployStartup) Or(d StackContainerConfigDeployStartup) StackContainerConfigDeployStartup {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployStateful returns new OptStackContainerConfigDeployStateful with value set to v.
+func NewOptStackContainerConfigDeployStateful(v StackContainerConfigDeployStateful) OptStackContainerConfigDeployStateful {
+	return OptStackContainerConfigDeployStateful{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployStateful is optional StackContainerConfigDeployStateful.
+type OptStackContainerConfigDeployStateful struct {
+	Value StackContainerConfigDeployStateful
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployStateful was set.
+func (o OptStackContainerConfigDeployStateful) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployStateful) Reset() {
+	var v StackContainerConfigDeployStateful
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployStateful) SetTo(v StackContainerConfigDeployStateful) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployStateful) Get() (v StackContainerConfigDeployStateful, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployStateful) Or(d StackContainerConfigDeployStateful) StackContainerConfigDeployStateful {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployStatefulInstancesItemFirstStart returns new OptStackContainerConfigDeployStatefulInstancesItemFirstStart with value set to v.
+func NewOptStackContainerConfigDeployStatefulInstancesItemFirstStart(v StackContainerConfigDeployStatefulInstancesItemFirstStart) OptStackContainerConfigDeployStatefulInstancesItemFirstStart {
+	return OptStackContainerConfigDeployStatefulInstancesItemFirstStart{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployStatefulInstancesItemFirstStart is optional StackContainerConfigDeployStatefulInstancesItemFirstStart.
+type OptStackContainerConfigDeployStatefulInstancesItemFirstStart struct {
+	Value StackContainerConfigDeployStatefulInstancesItemFirstStart
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployStatefulInstancesItemFirstStart was set.
+func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStart) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployStatefulInstancesItemFirstStart) Reset() {
+	var v StackContainerConfigDeployStatefulInstancesItemFirstStart
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployStatefulInstancesItemFirstStart) SetTo(v StackContainerConfigDeployStatefulInstancesItemFirstStart) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStart) Get() (v StackContainerConfigDeployStatefulInstancesItemFirstStart, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStart) Or(d StackContainerConfigDeployStatefulInstancesItemFirstStart) StackContainerConfigDeployStatefulInstancesItemFirstStart {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand returns new OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand with value set to v.
+func NewOptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand(v StackContainerConfigDeployStatefulInstancesItemFirstStartCommand) OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand {
+	return OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand is optional StackContainerConfigDeployStatefulInstancesItemFirstStartCommand.
+type OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand struct {
+	Value StackContainerConfigDeployStatefulInstancesItemFirstStartCommand
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand was set.
+func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand) IsSet() bool {
+	return o.Set
+}
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand) Reset() {
+	var v StackContainerConfigDeployStatefulInstancesItemFirstStartCommand
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand) SetTo(v StackContainerConfigDeployStatefulInstancesItemFirstStartCommand) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand) Get() (v StackContainerConfigDeployStatefulInstancesItemFirstStartCommand, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand) Or(d StackContainerConfigDeployStatefulInstancesItemFirstStartCommand) StackContainerConfigDeployStatefulInstancesItemFirstStartCommand {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars returns new OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars with value set to v.
+func NewOptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars(v StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars {
+	return OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars is optional StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars.
+type OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars struct {
+	Value StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars was set.
+func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) IsSet() bool {
+	return o.Set
+}
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) Reset() {
+	var v StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) SetTo(v StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) Get() (v StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) Or(d StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployStatefulInstancesItemStart returns new OptStackContainerConfigDeployStatefulInstancesItemStart with value set to v.
+func NewOptStackContainerConfigDeployStatefulInstancesItemStart(v StackContainerConfigDeployStatefulInstancesItemStart) OptStackContainerConfigDeployStatefulInstancesItemStart {
+	return OptStackContainerConfigDeployStatefulInstancesItemStart{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployStatefulInstancesItemStart is optional StackContainerConfigDeployStatefulInstancesItemStart.
+type OptStackContainerConfigDeployStatefulInstancesItemStart struct {
+	Value StackContainerConfigDeployStatefulInstancesItemStart
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployStatefulInstancesItemStart was set.
+func (o OptStackContainerConfigDeployStatefulInstancesItemStart) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployStatefulInstancesItemStart) Reset() {
+	var v StackContainerConfigDeployStatefulInstancesItemStart
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployStatefulInstancesItemStart) SetTo(v StackContainerConfigDeployStatefulInstancesItemStart) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployStatefulInstancesItemStart) Get() (v StackContainerConfigDeployStatefulInstancesItemStart, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployStatefulInstancesItemStart) Or(d StackContainerConfigDeployStatefulInstancesItemStart) StackContainerConfigDeployStatefulInstancesItemStart {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployStatefulInstancesItemStartCommand returns new OptStackContainerConfigDeployStatefulInstancesItemStartCommand with value set to v.
+func NewOptStackContainerConfigDeployStatefulInstancesItemStartCommand(v StackContainerConfigDeployStatefulInstancesItemStartCommand) OptStackContainerConfigDeployStatefulInstancesItemStartCommand {
+	return OptStackContainerConfigDeployStatefulInstancesItemStartCommand{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployStatefulInstancesItemStartCommand is optional StackContainerConfigDeployStatefulInstancesItemStartCommand.
+type OptStackContainerConfigDeployStatefulInstancesItemStartCommand struct {
+	Value StackContainerConfigDeployStatefulInstancesItemStartCommand
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployStatefulInstancesItemStartCommand was set.
+func (o OptStackContainerConfigDeployStatefulInstancesItemStartCommand) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployStatefulInstancesItemStartCommand) Reset() {
+	var v StackContainerConfigDeployStatefulInstancesItemStartCommand
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployStatefulInstancesItemStartCommand) SetTo(v StackContainerConfigDeployStatefulInstancesItemStartCommand) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployStatefulInstancesItemStartCommand) Get() (v StackContainerConfigDeployStatefulInstancesItemStartCommand, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployStatefulInstancesItemStartCommand) Or(d StackContainerConfigDeployStatefulInstancesItemStartCommand) StackContainerConfigDeployStatefulInstancesItemStartCommand {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars returns new OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars with value set to v.
+func NewOptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars(v StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars {
+	return OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars is optional StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars.
+type OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars struct {
+	Value StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars was set.
+func (o OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) IsSet() bool {
+	return o.Set
+}
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) Reset() {
+	var v StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) SetTo(v StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) Get() (v StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) Or(d StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployStrategy returns new OptStackContainerConfigDeployStrategy with value set to v.
+func NewOptStackContainerConfigDeployStrategy(v StackContainerConfigDeployStrategy) OptStackContainerConfigDeployStrategy {
+	return OptStackContainerConfigDeployStrategy{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployStrategy is optional StackContainerConfigDeployStrategy.
+type OptStackContainerConfigDeployStrategy struct {
+	Value StackContainerConfigDeployStrategy
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployStrategy was set.
+func (o OptStackContainerConfigDeployStrategy) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployStrategy) Reset() {
+	var v StackContainerConfigDeployStrategy
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployStrategy) SetTo(v StackContainerConfigDeployStrategy) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployStrategy) Get() (v StackContainerConfigDeployStrategy, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployStrategy) Or(d StackContainerConfigDeployStrategy) StackContainerConfigDeployStrategy {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployTelemetry returns new OptStackContainerConfigDeployTelemetry with value set to v.
+func NewOptStackContainerConfigDeployTelemetry(v StackContainerConfigDeployTelemetry) OptStackContainerConfigDeployTelemetry {
+	return OptStackContainerConfigDeployTelemetry{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployTelemetry is optional StackContainerConfigDeployTelemetry.
+type OptStackContainerConfigDeployTelemetry struct {
+	Value StackContainerConfigDeployTelemetry
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployTelemetry was set.
+func (o OptStackContainerConfigDeployTelemetry) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployTelemetry) Reset() {
+	var v StackContainerConfigDeployTelemetry
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployTelemetry) SetTo(v StackContainerConfigDeployTelemetry) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployTelemetry) Get() (v StackContainerConfigDeployTelemetry, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployTelemetry) Or(d StackContainerConfigDeployTelemetry) StackContainerConfigDeployTelemetry {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigDeployUpdate returns new OptStackContainerConfigDeployUpdate with value set to v.
+func NewOptStackContainerConfigDeployUpdate(v StackContainerConfigDeployUpdate) OptStackContainerConfigDeployUpdate {
+	return OptStackContainerConfigDeployUpdate{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigDeployUpdate is optional StackContainerConfigDeployUpdate.
+type OptStackContainerConfigDeployUpdate struct {
+	Value StackContainerConfigDeployUpdate
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigDeployUpdate was set.
+func (o OptStackContainerConfigDeployUpdate) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigDeployUpdate) Reset() {
+	var v StackContainerConfigDeployUpdate
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigDeployUpdate) SetTo(v StackContainerConfigDeployUpdate) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigDeployUpdate) Get() (v StackContainerConfigDeployUpdate, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigDeployUpdate) Or(d StackContainerConfigDeployUpdate) StackContainerConfigDeployUpdate {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigIntegrations returns new OptStackContainerConfigIntegrations with value set to v.
+func NewOptStackContainerConfigIntegrations(v StackContainerConfigIntegrations) OptStackContainerConfigIntegrations {
+	return OptStackContainerConfigIntegrations{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigIntegrations is optional StackContainerConfigIntegrations.
+type OptStackContainerConfigIntegrations struct {
+	Value StackContainerConfigIntegrations
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigIntegrations was set.
+func (o OptStackContainerConfigIntegrations) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigIntegrations) Reset() {
+	var v StackContainerConfigIntegrations
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigIntegrations) SetTo(v StackContainerConfigIntegrations) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigIntegrations) Get() (v StackContainerConfigIntegrations, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigIntegrations) Or(d StackContainerConfigIntegrations) StackContainerConfigIntegrations {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigIntegrationsBackups returns new OptStackContainerConfigIntegrationsBackups with value set to v.
+func NewOptStackContainerConfigIntegrationsBackups(v StackContainerConfigIntegrationsBackups) OptStackContainerConfigIntegrationsBackups {
+	return OptStackContainerConfigIntegrationsBackups{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigIntegrationsBackups is optional StackContainerConfigIntegrationsBackups.
+type OptStackContainerConfigIntegrationsBackups struct {
+	Value StackContainerConfigIntegrationsBackups
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigIntegrationsBackups was set.
+func (o OptStackContainerConfigIntegrationsBackups) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigIntegrationsBackups) Reset() {
+	var v StackContainerConfigIntegrationsBackups
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigIntegrationsBackups) SetTo(v StackContainerConfigIntegrationsBackups) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigIntegrationsBackups) Get() (v StackContainerConfigIntegrationsBackups, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigIntegrationsBackups) Or(d StackContainerConfigIntegrationsBackups) StackContainerConfigIntegrationsBackups {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigIntegrationsLetsEncrypt returns new OptStackContainerConfigIntegrationsLetsEncrypt with value set to v.
+func NewOptStackContainerConfigIntegrationsLetsEncrypt(v StackContainerConfigIntegrationsLetsEncrypt) OptStackContainerConfigIntegrationsLetsEncrypt {
+	return OptStackContainerConfigIntegrationsLetsEncrypt{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigIntegrationsLetsEncrypt is optional StackContainerConfigIntegrationsLetsEncrypt.
+type OptStackContainerConfigIntegrationsLetsEncrypt struct {
+	Value StackContainerConfigIntegrationsLetsEncrypt
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigIntegrationsLetsEncrypt was set.
+func (o OptStackContainerConfigIntegrationsLetsEncrypt) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigIntegrationsLetsEncrypt) Reset() {
+	var v StackContainerConfigIntegrationsLetsEncrypt
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigIntegrationsLetsEncrypt) SetTo(v StackContainerConfigIntegrationsLetsEncrypt) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigIntegrationsLetsEncrypt) Get() (v StackContainerConfigIntegrationsLetsEncrypt, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigIntegrationsLetsEncrypt) Or(d StackContainerConfigIntegrationsLetsEncrypt) StackContainerConfigIntegrationsLetsEncrypt {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigIntegrationsWebhooks returns new OptStackContainerConfigIntegrationsWebhooks with value set to v.
+func NewOptStackContainerConfigIntegrationsWebhooks(v StackContainerConfigIntegrationsWebhooks) OptStackContainerConfigIntegrationsWebhooks {
+	return OptStackContainerConfigIntegrationsWebhooks{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigIntegrationsWebhooks is optional StackContainerConfigIntegrationsWebhooks.
+type OptStackContainerConfigIntegrationsWebhooks struct {
+	Value StackContainerConfigIntegrationsWebhooks
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigIntegrationsWebhooks was set.
+func (o OptStackContainerConfigIntegrationsWebhooks) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigIntegrationsWebhooks) Reset() {
+	var v StackContainerConfigIntegrationsWebhooks
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigIntegrationsWebhooks) SetTo(v StackContainerConfigIntegrationsWebhooks) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigIntegrationsWebhooks) Get() (v StackContainerConfigIntegrationsWebhooks, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigIntegrationsWebhooks) Or(d StackContainerConfigIntegrationsWebhooks) StackContainerConfigIntegrationsWebhooks {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigIntegrationsWebhooksEvents returns new OptStackContainerConfigIntegrationsWebhooksEvents with value set to v.
+func NewOptStackContainerConfigIntegrationsWebhooksEvents(v StackContainerConfigIntegrationsWebhooksEvents) OptStackContainerConfigIntegrationsWebhooksEvents {
+	return OptStackContainerConfigIntegrationsWebhooksEvents{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigIntegrationsWebhooksEvents is optional StackContainerConfigIntegrationsWebhooksEvents.
+type OptStackContainerConfigIntegrationsWebhooksEvents struct {
+	Value StackContainerConfigIntegrationsWebhooksEvents
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigIntegrationsWebhooksEvents was set.
+func (o OptStackContainerConfigIntegrationsWebhooksEvents) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigIntegrationsWebhooksEvents) Reset() {
+	var v StackContainerConfigIntegrationsWebhooksEvents
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigIntegrationsWebhooksEvents) SetTo(v StackContainerConfigIntegrationsWebhooksEvents) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigIntegrationsWebhooksEvents) Get() (v StackContainerConfigIntegrationsWebhooksEvents, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigIntegrationsWebhooksEvents) Or(d StackContainerConfigIntegrationsWebhooksEvents) StackContainerConfigIntegrationsWebhooksEvents {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigResources returns new OptStackContainerConfigResources with value set to v.
+func NewOptStackContainerConfigResources(v StackContainerConfigResources) OptStackContainerConfigResources {
+	return OptStackContainerConfigResources{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigResources is optional StackContainerConfigResources.
+type OptStackContainerConfigResources struct {
+	Value StackContainerConfigResources
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigResources was set.
+func (o OptStackContainerConfigResources) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigResources) Reset() {
+	var v StackContainerConfigResources
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigResources) SetTo(v StackContainerConfigResources) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigResources) Get() (v StackContainerConfigResources, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigResources) Or(d StackContainerConfigResources) StackContainerConfigResources {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigResourcesCPUShares returns new OptStackContainerConfigResourcesCPUShares with value set to v.
+func NewOptStackContainerConfigResourcesCPUShares(v StackContainerConfigResourcesCPUShares) OptStackContainerConfigResourcesCPUShares {
+	return OptStackContainerConfigResourcesCPUShares{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigResourcesCPUShares is optional StackContainerConfigResourcesCPUShares.
+type OptStackContainerConfigResourcesCPUShares struct {
+	Value StackContainerConfigResourcesCPUShares
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigResourcesCPUShares was set.
+func (o OptStackContainerConfigResourcesCPUShares) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigResourcesCPUShares) Reset() {
+	var v StackContainerConfigResourcesCPUShares
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigResourcesCPUShares) SetTo(v StackContainerConfigResourcesCPUShares) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigResourcesCPUShares) Get() (v StackContainerConfigResourcesCPUShares, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigResourcesCPUShares) Or(d StackContainerConfigResourcesCPUShares) StackContainerConfigResourcesCPUShares {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigRuntime returns new OptStackContainerConfigRuntime with value set to v.
+func NewOptStackContainerConfigRuntime(v StackContainerConfigRuntime) OptStackContainerConfigRuntime {
+	return OptStackContainerConfigRuntime{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigRuntime is optional StackContainerConfigRuntime.
+type OptStackContainerConfigRuntime struct {
+	Value StackContainerConfigRuntime
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigRuntime was set.
+func (o OptStackContainerConfigRuntime) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigRuntime) Reset() {
+	var v StackContainerConfigRuntime
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigRuntime) SetTo(v StackContainerConfigRuntime) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigRuntime) Get() (v StackContainerConfigRuntime, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigRuntime) Or(d StackContainerConfigRuntime) StackContainerConfigRuntime {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigRuntimeCommand returns new OptStackContainerConfigRuntimeCommand with value set to v.
+func NewOptStackContainerConfigRuntimeCommand(v StackContainerConfigRuntimeCommand) OptStackContainerConfigRuntimeCommand {
+	return OptStackContainerConfigRuntimeCommand{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigRuntimeCommand is optional StackContainerConfigRuntimeCommand.
+type OptStackContainerConfigRuntimeCommand struct {
+	Value StackContainerConfigRuntimeCommand
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigRuntimeCommand was set.
+func (o OptStackContainerConfigRuntimeCommand) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigRuntimeCommand) Reset() {
+	var v StackContainerConfigRuntimeCommand
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigRuntimeCommand) SetTo(v StackContainerConfigRuntimeCommand) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigRuntimeCommand) Get() (v StackContainerConfigRuntimeCommand, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigRuntimeCommand) Or(d StackContainerConfigRuntimeCommand) StackContainerConfigRuntimeCommand {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigRuntimeEnvironmentVars returns new OptStackContainerConfigRuntimeEnvironmentVars with value set to v.
+func NewOptStackContainerConfigRuntimeEnvironmentVars(v StackContainerConfigRuntimeEnvironmentVars) OptStackContainerConfigRuntimeEnvironmentVars {
+	return OptStackContainerConfigRuntimeEnvironmentVars{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigRuntimeEnvironmentVars is optional StackContainerConfigRuntimeEnvironmentVars.
+type OptStackContainerConfigRuntimeEnvironmentVars struct {
+	Value StackContainerConfigRuntimeEnvironmentVars
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigRuntimeEnvironmentVars was set.
+func (o OptStackContainerConfigRuntimeEnvironmentVars) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigRuntimeEnvironmentVars) Reset() {
+	var v StackContainerConfigRuntimeEnvironmentVars
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigRuntimeEnvironmentVars) SetTo(v StackContainerConfigRuntimeEnvironmentVars) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigRuntimeEnvironmentVars) Get() (v StackContainerConfigRuntimeEnvironmentVars, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigRuntimeEnvironmentVars) Or(d StackContainerConfigRuntimeEnvironmentVars) StackContainerConfigRuntimeEnvironmentVars {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigRuntimeRlimits returns new OptStackContainerConfigRuntimeRlimits with value set to v.
+func NewOptStackContainerConfigRuntimeRlimits(v StackContainerConfigRuntimeRlimits) OptStackContainerConfigRuntimeRlimits {
+	return OptStackContainerConfigRuntimeRlimits{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigRuntimeRlimits is optional StackContainerConfigRuntimeRlimits.
+type OptStackContainerConfigRuntimeRlimits struct {
+	Value StackContainerConfigRuntimeRlimits
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigRuntimeRlimits was set.
+func (o OptStackContainerConfigRuntimeRlimits) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigRuntimeRlimits) Reset() {
+	var v StackContainerConfigRuntimeRlimits
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigRuntimeRlimits) SetTo(v StackContainerConfigRuntimeRlimits) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigRuntimeRlimits) Get() (v StackContainerConfigRuntimeRlimits, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigRuntimeRlimits) Or(d StackContainerConfigRuntimeRlimits) StackContainerConfigRuntimeRlimits {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigRuntimeRootfs returns new OptStackContainerConfigRuntimeRootfs with value set to v.
+func NewOptStackContainerConfigRuntimeRootfs(v StackContainerConfigRuntimeRootfs) OptStackContainerConfigRuntimeRootfs {
+	return OptStackContainerConfigRuntimeRootfs{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigRuntimeRootfs is optional StackContainerConfigRuntimeRootfs.
+type OptStackContainerConfigRuntimeRootfs struct {
+	Value StackContainerConfigRuntimeRootfs
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigRuntimeRootfs was set.
+func (o OptStackContainerConfigRuntimeRootfs) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigRuntimeRootfs) Reset() {
+	var v StackContainerConfigRuntimeRootfs
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigRuntimeRootfs) SetTo(v StackContainerConfigRuntimeRootfs) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigRuntimeRootfs) Get() (v StackContainerConfigRuntimeRootfs, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigRuntimeRootfs) Or(d StackContainerConfigRuntimeRootfs) StackContainerConfigRuntimeRootfs {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigRuntimeSeccomp returns new OptStackContainerConfigRuntimeSeccomp with value set to v.
+func NewOptStackContainerConfigRuntimeSeccomp(v StackContainerConfigRuntimeSeccomp) OptStackContainerConfigRuntimeSeccomp {
+	return OptStackContainerConfigRuntimeSeccomp{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigRuntimeSeccomp is optional StackContainerConfigRuntimeSeccomp.
+type OptStackContainerConfigRuntimeSeccomp struct {
+	Value StackContainerConfigRuntimeSeccomp
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigRuntimeSeccomp was set.
+func (o OptStackContainerConfigRuntimeSeccomp) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigRuntimeSeccomp) Reset() {
+	var v StackContainerConfigRuntimeSeccomp
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigRuntimeSeccomp) SetTo(v StackContainerConfigRuntimeSeccomp) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigRuntimeSeccomp) Get() (v StackContainerConfigRuntimeSeccomp, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigRuntimeSeccomp) Or(d StackContainerConfigRuntimeSeccomp) StackContainerConfigRuntimeSeccomp {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigRuntimeSysctl returns new OptStackContainerConfigRuntimeSysctl with value set to v.
+func NewOptStackContainerConfigRuntimeSysctl(v StackContainerConfigRuntimeSysctl) OptStackContainerConfigRuntimeSysctl {
+	return OptStackContainerConfigRuntimeSysctl{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigRuntimeSysctl is optional StackContainerConfigRuntimeSysctl.
+type OptStackContainerConfigRuntimeSysctl struct {
+	Value StackContainerConfigRuntimeSysctl
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigRuntimeSysctl was set.
+func (o OptStackContainerConfigRuntimeSysctl) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigRuntimeSysctl) Reset() {
+	var v StackContainerConfigRuntimeSysctl
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigRuntimeSysctl) SetTo(v StackContainerConfigRuntimeSysctl) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigRuntimeSysctl) Get() (v StackContainerConfigRuntimeSysctl, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigRuntimeSysctl) Or(d StackContainerConfigRuntimeSysctl) StackContainerConfigRuntimeSysctl {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigScaling returns new OptStackContainerConfigScaling with value set to v.
+func NewOptStackContainerConfigScaling(v StackContainerConfigScaling) OptStackContainerConfigScaling {
+	return OptStackContainerConfigScaling{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigScaling is optional StackContainerConfigScaling.
+type OptStackContainerConfigScaling struct {
+	Value StackContainerConfigScaling
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigScaling was set.
+func (o OptStackContainerConfigScaling) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigScaling) Reset() {
+	var v StackContainerConfigScaling
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigScaling) SetTo(v StackContainerConfigScaling) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigScaling) Get() (v StackContainerConfigScaling, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigScaling) Or(d StackContainerConfigScaling) StackContainerConfigScaling {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigScalingAuto returns new OptStackContainerConfigScalingAuto with value set to v.
+func NewOptStackContainerConfigScalingAuto(v StackContainerConfigScalingAuto) OptStackContainerConfigScalingAuto {
+	return OptStackContainerConfigScalingAuto{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigScalingAuto is optional StackContainerConfigScalingAuto.
+type OptStackContainerConfigScalingAuto struct {
+	Value StackContainerConfigScalingAuto
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigScalingAuto was set.
+func (o OptStackContainerConfigScalingAuto) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigScalingAuto) Reset() {
+	var v StackContainerConfigScalingAuto
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigScalingAuto) SetTo(v StackContainerConfigScalingAuto) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigScalingAuto) Get() (v StackContainerConfigScalingAuto, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigScalingAuto) Or(d StackContainerConfigScalingAuto) StackContainerConfigScalingAuto {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerConfigScalingAutoRules returns new OptStackContainerConfigScalingAutoRules with value set to v.
+func NewOptStackContainerConfigScalingAutoRules(v StackContainerConfigScalingAutoRules) OptStackContainerConfigScalingAutoRules {
+	return OptStackContainerConfigScalingAutoRules{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerConfigScalingAutoRules is optional StackContainerConfigScalingAutoRules.
+type OptStackContainerConfigScalingAutoRules struct {
+	Value StackContainerConfigScalingAutoRules
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerConfigScalingAutoRules was set.
+func (o OptStackContainerConfigScalingAutoRules) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerConfigScalingAutoRules) Reset() {
+	var v StackContainerConfigScalingAutoRules
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerConfigScalingAutoRules) SetTo(v StackContainerConfigScalingAutoRules) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerConfigScalingAutoRules) Get() (v StackContainerConfigScalingAutoRules, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerConfigScalingAutoRules) Or(d StackContainerConfigScalingAutoRules) StackContainerConfigScalingAutoRules {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerItemImageConfig returns new OptStackContainerItemImageConfig with value set to v.
+func NewOptStackContainerItemImageConfig(v StackContainerItemImageConfig) OptStackContainerItemImageConfig {
+	return OptStackContainerItemImageConfig{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerItemImageConfig is optional StackContainerItemImageConfig.
+type OptStackContainerItemImageConfig struct {
+	Value StackContainerItemImageConfig
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerItemImageConfig was set.
+func (o OptStackContainerItemImageConfig) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerItemImageConfig) Reset() {
+	var v StackContainerItemImageConfig
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerItemImageConfig) SetTo(v StackContainerItemImageConfig) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerItemImageConfig) Get() (v StackContainerItemImageConfig, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerItemImageConfig) Or(d StackContainerItemImageConfig) StackContainerItemImageConfig {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerItemImageRole returns new OptStackContainerItemImageRole with value set to v.
+func NewOptStackContainerItemImageRole(v StackContainerItemImageRole) OptStackContainerItemImageRole {
+	return OptStackContainerItemImageRole{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerItemImageRole is optional StackContainerItemImageRole.
+type OptStackContainerItemImageRole struct {
+	Value StackContainerItemImageRole
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerItemImageRole was set.
+func (o OptStackContainerItemImageRole) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerItemImageRole) Reset() {
+	var v StackContainerItemImageRole
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerItemImageRole) SetTo(v StackContainerItemImageRole) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerItemImageRole) Get() (v StackContainerItemImageRole, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerItemImageRole) Or(d StackContainerItemImageRole) StackContainerItemImageRole {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerVolumeLocal returns new OptStackContainerVolumeLocal with value set to v.
+func NewOptStackContainerVolumeLocal(v StackContainerVolumeLocal) OptStackContainerVolumeLocal {
+	return OptStackContainerVolumeLocal{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerVolumeLocal is optional StackContainerVolumeLocal.
+type OptStackContainerVolumeLocal struct {
+	Value StackContainerVolumeLocal
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerVolumeLocal was set.
+func (o OptStackContainerVolumeLocal) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerVolumeLocal) Reset() {
+	var v StackContainerVolumeLocal
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerVolumeLocal) SetTo(v StackContainerVolumeLocal) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerVolumeLocal) Get() (v StackContainerVolumeLocal, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerVolumeLocal) Or(d StackContainerVolumeLocal) StackContainerVolumeLocal {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerVolumeRemoteAccess returns new OptStackContainerVolumeRemoteAccess with value set to v.
+func NewOptStackContainerVolumeRemoteAccess(v StackContainerVolumeRemoteAccess) OptStackContainerVolumeRemoteAccess {
+	return OptStackContainerVolumeRemoteAccess{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerVolumeRemoteAccess is optional StackContainerVolumeRemoteAccess.
+type OptStackContainerVolumeRemoteAccess struct {
+	Value StackContainerVolumeRemoteAccess
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerVolumeRemoteAccess was set.
+func (o OptStackContainerVolumeRemoteAccess) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerVolumeRemoteAccess) Reset() {
+	var v StackContainerVolumeRemoteAccess
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerVolumeRemoteAccess) SetTo(v StackContainerVolumeRemoteAccess) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerVolumeRemoteAccess) Get() (v StackContainerVolumeRemoteAccess, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerVolumeRemoteAccess) Or(d StackContainerVolumeRemoteAccess) StackContainerVolumeRemoteAccess {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackGitCommit returns new OptStackGitCommit with value set to v.
+func NewOptStackGitCommit(v StackGitCommit) OptStackGitCommit {
+	return OptStackGitCommit{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackGitCommit is optional StackGitCommit.
+type OptStackGitCommit struct {
+	Value StackGitCommit
+	Set   bool
+}
+
+// IsSet returns true if OptStackGitCommit was set.
+func (o OptStackGitCommit) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackGitCommit) Reset() {
+	var v StackGitCommit
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackGitCommit) SetTo(v StackGitCommit) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackGitCommit) Get() (v StackGitCommit, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackGitCommit) Or(d StackGitCommit) StackGitCommit {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackInclude returns new OptStackInclude with value set to v.
+func NewOptStackInclude(v StackInclude) OptStackInclude {
+	return OptStackInclude{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackInclude is optional StackInclude.
+type OptStackInclude struct {
+	Value StackInclude
+	Set   bool
+}
+
+// IsSet returns true if OptStackInclude was set.
+func (o OptStackInclude) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackInclude) Reset() {
+	var v StackInclude
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackInclude) SetTo(v StackInclude) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackInclude) Get() (v StackInclude, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackInclude) Or(d StackInclude) StackInclude {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackIncludes returns new OptStackIncludes with value set to v.
+func NewOptStackIncludes(v StackIncludes) OptStackIncludes {
+	return OptStackIncludes{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackIncludes is optional StackIncludes.
+type OptStackIncludes struct {
+	Value StackIncludes
+	Set   bool
+}
+
+// IsSet returns true if OptStackIncludes was set.
+func (o OptStackIncludes) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackIncludes) Reset() {
+	var v StackIncludes
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackIncludes) SetTo(v StackIncludes) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackIncludes) Get() (v StackIncludes, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackIncludes) Or(d StackIncludes) StackIncludes {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackMeta returns new OptStackMeta with value set to v.
+func NewOptStackMeta(v StackMeta) OptStackMeta {
+	return OptStackMeta{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackMeta is optional StackMeta.
+type OptStackMeta struct {
+	Value StackMeta
+	Set   bool
+}
+
+// IsSet returns true if OptStackMeta was set.
+func (o OptStackMeta) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackMeta) Reset() {
+	var v StackMeta
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackMeta) SetTo(v StackMeta) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackMeta) Get() (v StackMeta, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackMeta) Or(d StackMeta) StackMeta {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackSource returns new OptStackSource with value set to v.
+func NewOptStackSource(v StackSource) OptStackSource {
+	return OptStackSource{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackSource is optional StackSource.
+type OptStackSource struct {
+	Value StackSource
+	Set   bool
+}
+
+// IsSet returns true if OptStackSource was set.
+func (o OptStackSource) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackSource) Reset() {
+	var v StackSource
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackSource) SetTo(v StackSource) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackSource) Get() (v StackSource, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackSource) Or(d StackSource) StackSource {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackSpecDetailsAbout returns new OptStackSpecDetailsAbout with value set to v.
+func NewOptStackSpecDetailsAbout(v StackSpecDetailsAbout) OptStackSpecDetailsAbout {
+	return OptStackSpecDetailsAbout{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackSpecDetailsAbout is optional StackSpecDetailsAbout.
+type OptStackSpecDetailsAbout struct {
+	Value StackSpecDetailsAbout
+	Set   bool
+}
+
+// IsSet returns true if OptStackSpecDetailsAbout was set.
+func (o OptStackSpecDetailsAbout) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackSpecDetailsAbout) Reset() {
+	var v StackSpecDetailsAbout
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackSpecDetailsAbout) SetTo(v StackSpecDetailsAbout) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackSpecDetailsAbout) Get() (v StackSpecDetailsAbout, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackSpecDetailsAbout) Or(d StackSpecDetailsAbout) StackSpecDetailsAbout {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackSpecDetailsAnnotations returns new OptStackSpecDetailsAnnotations with value set to v.
+func NewOptStackSpecDetailsAnnotations(v StackSpecDetailsAnnotations) OptStackSpecDetailsAnnotations {
+	return OptStackSpecDetailsAnnotations{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackSpecDetailsAnnotations is optional StackSpecDetailsAnnotations.
+type OptStackSpecDetailsAnnotations struct {
+	Value StackSpecDetailsAnnotations
+	Set   bool
+}
+
+// IsSet returns true if OptStackSpecDetailsAnnotations was set.
+func (o OptStackSpecDetailsAnnotations) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackSpecDetailsAnnotations) Reset() {
+	var v StackSpecDetailsAnnotations
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackSpecDetailsAnnotations) SetTo(v StackSpecDetailsAnnotations) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackSpecDetailsAnnotations) Get() (v StackSpecDetailsAnnotations, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackSpecDetailsAnnotations) Or(d StackSpecDetailsAnnotations) StackSpecDetailsAnnotations {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackStateError returns new OptStackStateError with value set to v.
+func NewOptStackStateError(v StackStateError) OptStackStateError {
+	return OptStackStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackStateError is optional StackStateError.
+type OptStackStateError struct {
+	Value StackStateError
+	Set   bool
+}
+
+// IsSet returns true if OptStackStateError was set.
+func (o OptStackStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackStateError) Reset() {
+	var v StackStateError
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackStateError) SetTo(v StackStateError) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackStateError) Get() (v StackStateError, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackStateError) Or(d StackStateError) StackStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -42119,6 +57788,190 @@ func (o OptUpdateHubReqWebhooks) Or(d UpdateHubReqWebhooks) UpdateHubReqWebhooks
 	return d
 }
 
+// NewOptUpdateImageReq returns new OptUpdateImageReq with value set to v.
+func NewOptUpdateImageReq(v UpdateImageReq) OptUpdateImageReq {
+	return OptUpdateImageReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateImageReq is optional UpdateImageReq.
+type OptUpdateImageReq struct {
+	Value UpdateImageReq
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateImageReq was set.
+func (o OptUpdateImageReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateImageReq) Reset() {
+	var v UpdateImageReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateImageReq) SetTo(v UpdateImageReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateImageReq) Get() (v UpdateImageReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateImageReq) Or(d UpdateImageReq) UpdateImageReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUpdateImageSourceReq returns new OptUpdateImageSourceReq with value set to v.
+func NewOptUpdateImageSourceReq(v UpdateImageSourceReq) OptUpdateImageSourceReq {
+	return OptUpdateImageSourceReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateImageSourceReq is optional UpdateImageSourceReq.
+type OptUpdateImageSourceReq struct {
+	Value UpdateImageSourceReq
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateImageSourceReq was set.
+func (o OptUpdateImageSourceReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateImageSourceReq) Reset() {
+	var v UpdateImageSourceReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateImageSourceReq) SetTo(v UpdateImageSourceReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateImageSourceReq) Get() (v UpdateImageSourceReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateImageSourceReq) Or(d UpdateImageSourceReq) UpdateImageSourceReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUpdateImageSourceReqAbout returns new OptUpdateImageSourceReqAbout with value set to v.
+func NewOptUpdateImageSourceReqAbout(v UpdateImageSourceReqAbout) OptUpdateImageSourceReqAbout {
+	return OptUpdateImageSourceReqAbout{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateImageSourceReqAbout is optional UpdateImageSourceReqAbout.
+type OptUpdateImageSourceReqAbout struct {
+	Value UpdateImageSourceReqAbout
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateImageSourceReqAbout was set.
+func (o OptUpdateImageSourceReqAbout) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateImageSourceReqAbout) Reset() {
+	var v UpdateImageSourceReqAbout
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateImageSourceReqAbout) SetTo(v UpdateImageSourceReqAbout) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateImageSourceReqAbout) Get() (v UpdateImageSourceReqAbout, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateImageSourceReqAbout) Or(d UpdateImageSourceReqAbout) UpdateImageSourceReqAbout {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUpdatePipelineReq returns new OptUpdatePipelineReq with value set to v.
+func NewOptUpdatePipelineReq(v UpdatePipelineReq) OptUpdatePipelineReq {
+	return OptUpdatePipelineReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdatePipelineReq is optional UpdatePipelineReq.
+type OptUpdatePipelineReq struct {
+	Value UpdatePipelineReq
+	Set   bool
+}
+
+// IsSet returns true if OptUpdatePipelineReq was set.
+func (o OptUpdatePipelineReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdatePipelineReq) Reset() {
+	var v UpdatePipelineReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdatePipelineReq) SetTo(v UpdatePipelineReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdatePipelineReq) Get() (v UpdatePipelineReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdatePipelineReq) Or(d UpdatePipelineReq) UpdatePipelineReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptUpdatePipelineTriggerKeyReq returns new OptUpdatePipelineTriggerKeyReq with value set to v.
 func NewOptUpdatePipelineTriggerKeyReq(v UpdatePipelineTriggerKeyReq) OptUpdatePipelineTriggerKeyReq {
 	return OptUpdatePipelineTriggerKeyReq{
@@ -42349,6 +58202,98 @@ func (o OptUpdateSDNNetworkReq) Or(d UpdateSDNNetworkReq) UpdateSDNNetworkReq {
 	return d
 }
 
+// NewOptUpdateScopedVariableReq returns new OptUpdateScopedVariableReq with value set to v.
+func NewOptUpdateScopedVariableReq(v UpdateScopedVariableReq) OptUpdateScopedVariableReq {
+	return OptUpdateScopedVariableReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateScopedVariableReq is optional UpdateScopedVariableReq.
+type OptUpdateScopedVariableReq struct {
+	Value UpdateScopedVariableReq
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateScopedVariableReq was set.
+func (o OptUpdateScopedVariableReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateScopedVariableReq) Reset() {
+	var v UpdateScopedVariableReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateScopedVariableReq) SetTo(v UpdateScopedVariableReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateScopedVariableReq) Get() (v UpdateScopedVariableReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateScopedVariableReq) Or(d UpdateScopedVariableReq) UpdateScopedVariableReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUpdateScopedVariableReqSource returns new OptUpdateScopedVariableReqSource with value set to v.
+func NewOptUpdateScopedVariableReqSource(v UpdateScopedVariableReqSource) OptUpdateScopedVariableReqSource {
+	return OptUpdateScopedVariableReqSource{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateScopedVariableReqSource is optional UpdateScopedVariableReqSource.
+type OptUpdateScopedVariableReqSource struct {
+	Value UpdateScopedVariableReqSource
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateScopedVariableReqSource was set.
+func (o OptUpdateScopedVariableReqSource) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateScopedVariableReqSource) Reset() {
+	var v UpdateScopedVariableReqSource
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateScopedVariableReqSource) SetTo(v UpdateScopedVariableReqSource) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateScopedVariableReqSource) Get() (v UpdateScopedVariableReqSource, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateScopedVariableReqSource) Or(d UpdateScopedVariableReqSource) UpdateScopedVariableReqSource {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptUpdateServerReq returns new OptUpdateServerReq with value set to v.
 func NewOptUpdateServerReq(v UpdateServerReq) OptUpdateServerReq {
 	return OptUpdateServerReq{
@@ -42435,6 +58380,52 @@ func (o OptUpdateServerReqConstraintsAllow) Get() (v UpdateServerReqConstraintsA
 
 // Or returns value if set, or given parameter if does not.
 func (o OptUpdateServerReqConstraintsAllow) Or(d UpdateServerReqConstraintsAllow) UpdateServerReqConstraintsAllow {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptUpdateStackReq returns new OptUpdateStackReq with value set to v.
+func NewOptUpdateStackReq(v UpdateStackReq) OptUpdateStackReq {
+	return OptUpdateStackReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateStackReq is optional UpdateStackReq.
+type OptUpdateStackReq struct {
+	Value UpdateStackReq
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateStackReq was set.
+func (o OptUpdateStackReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateStackReq) Reset() {
+	var v UpdateStackReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateStackReq) SetTo(v UpdateStackReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateStackReq) Get() (v UpdateStackReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateStackReq) Or(d UpdateStackReq) UpdateStackReq {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -42573,6 +58564,52 @@ func (o OptVPNUsers) Get() (v VPNUsers, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptVPNUsers) Or(d VPNUsers) VPNUsers {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptWebhookPostStepOptions returns new OptWebhookPostStepOptions with value set to v.
+func NewOptWebhookPostStepOptions(v WebhookPostStepOptions) OptWebhookPostStepOptions {
+	return OptWebhookPostStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptWebhookPostStepOptions is optional WebhookPostStepOptions.
+type OptWebhookPostStepOptions struct {
+	Value WebhookPostStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptWebhookPostStepOptions was set.
+func (o OptWebhookPostStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptWebhookPostStepOptions) Reset() {
+	var v WebhookPostStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptWebhookPostStepOptions) SetTo(v WebhookPostStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptWebhookPostStepOptions) Get() (v WebhookPostStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptWebhookPostStepOptions) Or(d WebhookPostStepOptions) WebhookPostStepOptions {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -43445,6 +59482,114 @@ func (s *PermissionsEnvironmentsItem) SetManage(val bool) {
 	s.Manage = val
 }
 
+// A pipeline resource.
+// Ref: #/components/schemas/Pipeline
+type Pipeline struct {
+	ID         ID            `json:"id"`
+	Identifier OptIdentifier `json:"identifier"`
+	// A name for the pipeline.
+	Name    string       `json:"name"`
+	Creator CreatorScope `json:"creator"`
+	HubID   HubID        `json:"hub_id"`
+	// A boolean where true signifies the pipeline is disabled.
+	Disable bool `json:"disable"`
+	// An array of stages.
+	Stages []PipelineStage `json:"stages"`
+	// A collection of timestamps for each event in the pipeline's lifetime.
+	Events PipelineEvents `json:"events"`
+	State  PipelineState  `json:"state"`
+}
+
+// GetID returns the value of ID.
+func (s *Pipeline) GetID() ID {
+	return s.ID
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *Pipeline) GetIdentifier() OptIdentifier {
+	return s.Identifier
+}
+
+// GetName returns the value of Name.
+func (s *Pipeline) GetName() string {
+	return s.Name
+}
+
+// GetCreator returns the value of Creator.
+func (s *Pipeline) GetCreator() CreatorScope {
+	return s.Creator
+}
+
+// GetHubID returns the value of HubID.
+func (s *Pipeline) GetHubID() HubID {
+	return s.HubID
+}
+
+// GetDisable returns the value of Disable.
+func (s *Pipeline) GetDisable() bool {
+	return s.Disable
+}
+
+// GetStages returns the value of Stages.
+func (s *Pipeline) GetStages() []PipelineStage {
+	return s.Stages
+}
+
+// GetEvents returns the value of Events.
+func (s *Pipeline) GetEvents() PipelineEvents {
+	return s.Events
+}
+
+// GetState returns the value of State.
+func (s *Pipeline) GetState() PipelineState {
+	return s.State
+}
+
+// SetID sets the value of ID.
+func (s *Pipeline) SetID(val ID) {
+	s.ID = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *Pipeline) SetIdentifier(val OptIdentifier) {
+	s.Identifier = val
+}
+
+// SetName sets the value of Name.
+func (s *Pipeline) SetName(val string) {
+	s.Name = val
+}
+
+// SetCreator sets the value of Creator.
+func (s *Pipeline) SetCreator(val CreatorScope) {
+	s.Creator = val
+}
+
+// SetHubID sets the value of HubID.
+func (s *Pipeline) SetHubID(val HubID) {
+	s.HubID = val
+}
+
+// SetDisable sets the value of Disable.
+func (s *Pipeline) SetDisable(val bool) {
+	s.Disable = val
+}
+
+// SetStages sets the value of Stages.
+func (s *Pipeline) SetStages(val []PipelineStage) {
+	s.Stages = val
+}
+
+// SetEvents sets the value of Events.
+func (s *Pipeline) SetEvents(val PipelineEvents) {
+	s.Events = val
+}
+
+// SetState sets the value of State.
+func (s *Pipeline) SetState(val PipelineState) {
+	s.State = val
+}
+
 type PipelineAuthOK struct {
 	Data OptHubNotificationToken `json:"data"`
 }
@@ -43457,6 +59602,290 @@ func (s *PipelineAuthOK) GetData() OptHubNotificationToken {
 // SetData sets the value of Data.
 func (s *PipelineAuthOK) SetData(val OptHubNotificationToken) {
 	s.Data = val
+}
+
+// A collection of timestamps for each event in the pipeline's lifetime.
+type PipelineEvents struct {
+	// The timestamp of when the pipeline was created.
+	Created DateTime `json:"created"`
+	// The timestamp of when the pipeline was updated.
+	Updated DateTime `json:"updated"`
+	// The timestamp of when the pipeline was deleted.
+	Deleted DateTime `json:"deleted"`
+	// The timestamp of when the pipeline was last run.
+	LastRun DateTime `json:"last_run"`
+}
+
+// GetCreated returns the value of Created.
+func (s *PipelineEvents) GetCreated() DateTime {
+	return s.Created
+}
+
+// GetUpdated returns the value of Updated.
+func (s *PipelineEvents) GetUpdated() DateTime {
+	return s.Updated
+}
+
+// GetDeleted returns the value of Deleted.
+func (s *PipelineEvents) GetDeleted() DateTime {
+	return s.Deleted
+}
+
+// GetLastRun returns the value of LastRun.
+func (s *PipelineEvents) GetLastRun() DateTime {
+	return s.LastRun
+}
+
+// SetCreated sets the value of Created.
+func (s *PipelineEvents) SetCreated(val DateTime) {
+	s.Created = val
+}
+
+// SetUpdated sets the value of Updated.
+func (s *PipelineEvents) SetUpdated(val DateTime) {
+	s.Updated = val
+}
+
+// SetDeleted sets the value of Deleted.
+func (s *PipelineEvents) SetDeleted(val DateTime) {
+	s.Deleted = val
+}
+
+// SetLastRun sets the value of LastRun.
+func (s *PipelineEvents) SetLastRun(val DateTime) {
+	s.LastRun = val
+}
+
+// All includable resources linkable to the given pipeline.
+// Ref: #/components/schemas/PipelineIncludes
+type PipelineIncludes struct {
+	Creators OptCreatorInclude `json:"creators"`
+	// A name value.
+	Name OptString `json:"name"`
+	// A record of resources that can be associated with the pipeline.
+	Components OptPipelineIncludesComponents `json:"components"`
+}
+
+// GetCreators returns the value of Creators.
+func (s *PipelineIncludes) GetCreators() OptCreatorInclude {
+	return s.Creators
+}
+
+// GetName returns the value of Name.
+func (s *PipelineIncludes) GetName() OptString {
+	return s.Name
+}
+
+// GetComponents returns the value of Components.
+func (s *PipelineIncludes) GetComponents() OptPipelineIncludesComponents {
+	return s.Components
+}
+
+// SetCreators sets the value of Creators.
+func (s *PipelineIncludes) SetCreators(val OptCreatorInclude) {
+	s.Creators = val
+}
+
+// SetName sets the value of Name.
+func (s *PipelineIncludes) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetComponents sets the value of Components.
+func (s *PipelineIncludes) SetComponents(val OptPipelineIncludesComponents) {
+	s.Components = val
+}
+
+// A record of resources that can be associated with the pipeline.
+type PipelineIncludesComponents map[string]PipelineIncludesComponentsItem
+
+func (s *PipelineIncludesComponents) init() PipelineIncludesComponents {
+	m := *s
+	if m == nil {
+		m = map[string]PipelineIncludesComponentsItem{}
+		*s = m
+	}
+	return m
+}
+
+// PipelineIncludesComponentsItem represents sum type.
+type PipelineIncludesComponentsItem struct {
+	Type        PipelineIncludesComponentsItemType // switch on this field
+	Container   Container
+	Environment Environment
+	Stack       Stack
+	StackBuild  StackBuild
+	Image       Image
+	ImageSource ImageSource
+}
+
+// PipelineIncludesComponentsItemType is oneOf type of PipelineIncludesComponentsItem.
+type PipelineIncludesComponentsItemType string
+
+// Possible values for PipelineIncludesComponentsItemType.
+const (
+	ContainerPipelineIncludesComponentsItem   PipelineIncludesComponentsItemType = "Container"
+	EnvironmentPipelineIncludesComponentsItem PipelineIncludesComponentsItemType = "Environment"
+	StackPipelineIncludesComponentsItem       PipelineIncludesComponentsItemType = "Stack"
+	StackBuildPipelineIncludesComponentsItem  PipelineIncludesComponentsItemType = "StackBuild"
+	ImagePipelineIncludesComponentsItem       PipelineIncludesComponentsItemType = "Image"
+	ImageSourcePipelineIncludesComponentsItem PipelineIncludesComponentsItemType = "ImageSource"
+)
+
+// IsContainer reports whether PipelineIncludesComponentsItem is Container.
+func (s PipelineIncludesComponentsItem) IsContainer() bool {
+	return s.Type == ContainerPipelineIncludesComponentsItem
+}
+
+// IsEnvironment reports whether PipelineIncludesComponentsItem is Environment.
+func (s PipelineIncludesComponentsItem) IsEnvironment() bool {
+	return s.Type == EnvironmentPipelineIncludesComponentsItem
+}
+
+// IsStack reports whether PipelineIncludesComponentsItem is Stack.
+func (s PipelineIncludesComponentsItem) IsStack() bool {
+	return s.Type == StackPipelineIncludesComponentsItem
+}
+
+// IsStackBuild reports whether PipelineIncludesComponentsItem is StackBuild.
+func (s PipelineIncludesComponentsItem) IsStackBuild() bool {
+	return s.Type == StackBuildPipelineIncludesComponentsItem
+}
+
+// IsImage reports whether PipelineIncludesComponentsItem is Image.
+func (s PipelineIncludesComponentsItem) IsImage() bool {
+	return s.Type == ImagePipelineIncludesComponentsItem
+}
+
+// IsImageSource reports whether PipelineIncludesComponentsItem is ImageSource.
+func (s PipelineIncludesComponentsItem) IsImageSource() bool {
+	return s.Type == ImageSourcePipelineIncludesComponentsItem
+}
+
+// SetContainer sets PipelineIncludesComponentsItem to Container.
+func (s *PipelineIncludesComponentsItem) SetContainer(v Container) {
+	s.Type = ContainerPipelineIncludesComponentsItem
+	s.Container = v
+}
+
+// GetContainer returns Container and true boolean if PipelineIncludesComponentsItem is Container.
+func (s PipelineIncludesComponentsItem) GetContainer() (v Container, ok bool) {
+	if !s.IsContainer() {
+		return v, false
+	}
+	return s.Container, true
+}
+
+// NewContainerPipelineIncludesComponentsItem returns new PipelineIncludesComponentsItem from Container.
+func NewContainerPipelineIncludesComponentsItem(v Container) PipelineIncludesComponentsItem {
+	var s PipelineIncludesComponentsItem
+	s.SetContainer(v)
+	return s
+}
+
+// SetEnvironment sets PipelineIncludesComponentsItem to Environment.
+func (s *PipelineIncludesComponentsItem) SetEnvironment(v Environment) {
+	s.Type = EnvironmentPipelineIncludesComponentsItem
+	s.Environment = v
+}
+
+// GetEnvironment returns Environment and true boolean if PipelineIncludesComponentsItem is Environment.
+func (s PipelineIncludesComponentsItem) GetEnvironment() (v Environment, ok bool) {
+	if !s.IsEnvironment() {
+		return v, false
+	}
+	return s.Environment, true
+}
+
+// NewEnvironmentPipelineIncludesComponentsItem returns new PipelineIncludesComponentsItem from Environment.
+func NewEnvironmentPipelineIncludesComponentsItem(v Environment) PipelineIncludesComponentsItem {
+	var s PipelineIncludesComponentsItem
+	s.SetEnvironment(v)
+	return s
+}
+
+// SetStack sets PipelineIncludesComponentsItem to Stack.
+func (s *PipelineIncludesComponentsItem) SetStack(v Stack) {
+	s.Type = StackPipelineIncludesComponentsItem
+	s.Stack = v
+}
+
+// GetStack returns Stack and true boolean if PipelineIncludesComponentsItem is Stack.
+func (s PipelineIncludesComponentsItem) GetStack() (v Stack, ok bool) {
+	if !s.IsStack() {
+		return v, false
+	}
+	return s.Stack, true
+}
+
+// NewStackPipelineIncludesComponentsItem returns new PipelineIncludesComponentsItem from Stack.
+func NewStackPipelineIncludesComponentsItem(v Stack) PipelineIncludesComponentsItem {
+	var s PipelineIncludesComponentsItem
+	s.SetStack(v)
+	return s
+}
+
+// SetStackBuild sets PipelineIncludesComponentsItem to StackBuild.
+func (s *PipelineIncludesComponentsItem) SetStackBuild(v StackBuild) {
+	s.Type = StackBuildPipelineIncludesComponentsItem
+	s.StackBuild = v
+}
+
+// GetStackBuild returns StackBuild and true boolean if PipelineIncludesComponentsItem is StackBuild.
+func (s PipelineIncludesComponentsItem) GetStackBuild() (v StackBuild, ok bool) {
+	if !s.IsStackBuild() {
+		return v, false
+	}
+	return s.StackBuild, true
+}
+
+// NewStackBuildPipelineIncludesComponentsItem returns new PipelineIncludesComponentsItem from StackBuild.
+func NewStackBuildPipelineIncludesComponentsItem(v StackBuild) PipelineIncludesComponentsItem {
+	var s PipelineIncludesComponentsItem
+	s.SetStackBuild(v)
+	return s
+}
+
+// SetImage sets PipelineIncludesComponentsItem to Image.
+func (s *PipelineIncludesComponentsItem) SetImage(v Image) {
+	s.Type = ImagePipelineIncludesComponentsItem
+	s.Image = v
+}
+
+// GetImage returns Image and true boolean if PipelineIncludesComponentsItem is Image.
+func (s PipelineIncludesComponentsItem) GetImage() (v Image, ok bool) {
+	if !s.IsImage() {
+		return v, false
+	}
+	return s.Image, true
+}
+
+// NewImagePipelineIncludesComponentsItem returns new PipelineIncludesComponentsItem from Image.
+func NewImagePipelineIncludesComponentsItem(v Image) PipelineIncludesComponentsItem {
+	var s PipelineIncludesComponentsItem
+	s.SetImage(v)
+	return s
+}
+
+// SetImageSource sets PipelineIncludesComponentsItem to ImageSource.
+func (s *PipelineIncludesComponentsItem) SetImageSource(v ImageSource) {
+	s.Type = ImageSourcePipelineIncludesComponentsItem
+	s.ImageSource = v
+}
+
+// GetImageSource returns ImageSource and true boolean if PipelineIncludesComponentsItem is ImageSource.
+func (s PipelineIncludesComponentsItem) GetImageSource() (v ImageSource, ok bool) {
+	if !s.IsImageSource() {
+		return v, false
+	}
+	return s.ImageSource, true
+}
+
+// NewImageSourcePipelineIncludesComponentsItem returns new PipelineIncludesComponentsItem from ImageSource.
+func NewImageSourcePipelineIncludesComponentsItem(v ImageSource) PipelineIncludesComponentsItem {
+	var s PipelineIncludesComponentsItem
+	s.SetImageSource(v)
+	return s
 }
 
 // A collection of timestamps for each event in the pipeline run's lifetime.
@@ -43498,6 +59927,703 @@ func (s *PipelineRunEvents) SetQueued(val DateTime) {
 // SetFinished sets the value of Finished.
 func (s *PipelineRunEvents) SetFinished(val DateTime) {
 	s.Finished = val
+}
+
+// A stage for a given pipeline.
+// Ref: #/components/schemas/PipelineStage
+type PipelineStage struct {
+	// A stage identifier.
+	Identifier string `json:"identifier"`
+	// An array of steps for the stage.
+	Steps []PipelineSteps `json:"steps"`
+	// Additonal options for the stage.
+	Options OptPipelineStageOptions `json:"options"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *PipelineStage) GetIdentifier() string {
+	return s.Identifier
+}
+
+// GetSteps returns the value of Steps.
+func (s *PipelineStage) GetSteps() []PipelineSteps {
+	return s.Steps
+}
+
+// GetOptions returns the value of Options.
+func (s *PipelineStage) GetOptions() OptPipelineStageOptions {
+	return s.Options
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *PipelineStage) SetIdentifier(val string) {
+	s.Identifier = val
+}
+
+// SetSteps sets the value of Steps.
+func (s *PipelineStage) SetSteps(val []PipelineSteps) {
+	s.Steps = val
+}
+
+// SetOptions sets the value of Options.
+func (s *PipelineStage) SetOptions(val OptPipelineStageOptions) {
+	s.Options = val
+}
+
+// Additonal options for the stage.
+type PipelineStageOptions struct {
+	// A boolean where true indicates the given stage should be skipped when the pipeline is run.
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *PipelineStageOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *PipelineStageOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// Merged schema.
+// Ref: #/components/schemas/PipelineState
+type PipelineState struct {
+	// The current state of the pipeline.
+	Current PipelineStateCurrent `json:"current"`
+	Changed DateTime             `json:"changed"`
+	// An error, if any, that has occurred for this resource.
+	Error OptPipelineStateError `json:"error"`
+}
+
+// GetCurrent returns the value of Current.
+func (s *PipelineState) GetCurrent() PipelineStateCurrent {
+	return s.Current
+}
+
+// GetChanged returns the value of Changed.
+func (s *PipelineState) GetChanged() DateTime {
+	return s.Changed
+}
+
+// GetError returns the value of Error.
+func (s *PipelineState) GetError() OptPipelineStateError {
+	return s.Error
+}
+
+// SetCurrent sets the value of Current.
+func (s *PipelineState) SetCurrent(val PipelineStateCurrent) {
+	s.Current = val
+}
+
+// SetChanged sets the value of Changed.
+func (s *PipelineState) SetChanged(val DateTime) {
+	s.Changed = val
+}
+
+// SetError sets the value of Error.
+func (s *PipelineState) SetError(val OptPipelineStateError) {
+	s.Error = val
+}
+
+// The current state of the pipeline.
+type PipelineStateCurrent string
+
+const (
+	PipelineStateCurrentLive     PipelineStateCurrent = "live"
+	PipelineStateCurrentDeleting PipelineStateCurrent = "deleting"
+	PipelineStateCurrentDeleted  PipelineStateCurrent = "deleted"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s PipelineStateCurrent) MarshalText() ([]byte, error) {
+	switch s {
+	case PipelineStateCurrentLive:
+		return []byte(s), nil
+	case PipelineStateCurrentDeleting:
+		return []byte(s), nil
+	case PipelineStateCurrentDeleted:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *PipelineStateCurrent) UnmarshalText(data []byte) error {
+	switch PipelineStateCurrent(data) {
+	case PipelineStateCurrentLive:
+		*s = PipelineStateCurrentLive
+		return nil
+	case PipelineStateCurrentDeleting:
+		*s = PipelineStateCurrentDeleting
+		return nil
+	case PipelineStateCurrentDeleted:
+		*s = PipelineStateCurrentDeleted
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// An error, if any, that has occurred for this resource.
+type PipelineStateError struct {
+	// Details about the error that has occurred.
+	Message OptString `json:"message"`
+	// The timestamp of when the error was encountered.
+	Time OptDateTime `json:"time"`
+}
+
+// GetMessage returns the value of Message.
+func (s *PipelineStateError) GetMessage() OptString {
+	return s.Message
+}
+
+// GetTime returns the value of Time.
+func (s *PipelineStateError) GetTime() OptDateTime {
+	return s.Time
+}
+
+// SetMessage sets the value of Message.
+func (s *PipelineStateError) SetMessage(val OptString) {
+	s.Message = val
+}
+
+// SetTime sets the value of Time.
+func (s *PipelineStateError) SetTime(val OptDateTime) {
+	s.Time = val
+}
+
+// A step for a pipeline stage.
+// Ref: #/components/schemas/PipelineSteps
+// PipelineSteps represents sum type.
+type PipelineSteps struct {
+	Type                   PipelineStepsType // switch on this field
+	ImageSourceCreateStep  ImageSourceCreateStep
+	ImageCreateStep        ImageCreateStep
+	ImageImportStep        ImageImportStep
+	ImagesPruneStep        ImagesPruneStep
+	ContainerCreateStep    ContainerCreateStep
+	ContainerStartStep     ContainerStartStep
+	ContainerStopStep      ContainerStopStep
+	ContainerDeleteStep    ContainerDeleteStep
+	ContainerReimageStep   ContainerReimageStep
+	ContainerRestartStep   ContainerRestartStep
+	EnvironmentCreateStep  EnvironmentCreateStep
+	EnvironmentStartStep   EnvironmentStartStep
+	EnvironmentStopStep    EnvironmentStopStep
+	EnvironmentDeleteStep  EnvironmentDeleteStep
+	StackBuildCreateStep   StackBuildCreateStep
+	StackBuildGenerateStep StackBuildGenerateStep
+	StackBuildDeployStep   StackBuildDeployStep
+	SleepStep              SleepStep
+	WebhookPostStep        WebhookPostStep
+}
+
+// PipelineStepsType is oneOf type of PipelineSteps.
+type PipelineStepsType string
+
+// Possible values for PipelineStepsType.
+const (
+	ImageSourceCreateStepPipelineSteps  PipelineStepsType = "ImageSourceCreateStep"
+	ImageCreateStepPipelineSteps        PipelineStepsType = "ImageCreateStep"
+	ImageImportStepPipelineSteps        PipelineStepsType = "ImageImportStep"
+	ImagesPruneStepPipelineSteps        PipelineStepsType = "ImagesPruneStep"
+	ContainerCreateStepPipelineSteps    PipelineStepsType = "ContainerCreateStep"
+	ContainerStartStepPipelineSteps     PipelineStepsType = "ContainerStartStep"
+	ContainerStopStepPipelineSteps      PipelineStepsType = "ContainerStopStep"
+	ContainerDeleteStepPipelineSteps    PipelineStepsType = "ContainerDeleteStep"
+	ContainerReimageStepPipelineSteps   PipelineStepsType = "ContainerReimageStep"
+	ContainerRestartStepPipelineSteps   PipelineStepsType = "ContainerRestartStep"
+	EnvironmentCreateStepPipelineSteps  PipelineStepsType = "EnvironmentCreateStep"
+	EnvironmentStartStepPipelineSteps   PipelineStepsType = "EnvironmentStartStep"
+	EnvironmentStopStepPipelineSteps    PipelineStepsType = "EnvironmentStopStep"
+	EnvironmentDeleteStepPipelineSteps  PipelineStepsType = "EnvironmentDeleteStep"
+	StackBuildCreateStepPipelineSteps   PipelineStepsType = "StackBuildCreateStep"
+	StackBuildGenerateStepPipelineSteps PipelineStepsType = "StackBuildGenerateStep"
+	StackBuildDeployStepPipelineSteps   PipelineStepsType = "StackBuildDeployStep"
+	SleepStepPipelineSteps              PipelineStepsType = "SleepStep"
+	WebhookPostStepPipelineSteps        PipelineStepsType = "WebhookPostStep"
+)
+
+// IsImageSourceCreateStep reports whether PipelineSteps is ImageSourceCreateStep.
+func (s PipelineSteps) IsImageSourceCreateStep() bool {
+	return s.Type == ImageSourceCreateStepPipelineSteps
+}
+
+// IsImageCreateStep reports whether PipelineSteps is ImageCreateStep.
+func (s PipelineSteps) IsImageCreateStep() bool { return s.Type == ImageCreateStepPipelineSteps }
+
+// IsImageImportStep reports whether PipelineSteps is ImageImportStep.
+func (s PipelineSteps) IsImageImportStep() bool { return s.Type == ImageImportStepPipelineSteps }
+
+// IsImagesPruneStep reports whether PipelineSteps is ImagesPruneStep.
+func (s PipelineSteps) IsImagesPruneStep() bool { return s.Type == ImagesPruneStepPipelineSteps }
+
+// IsContainerCreateStep reports whether PipelineSteps is ContainerCreateStep.
+func (s PipelineSteps) IsContainerCreateStep() bool {
+	return s.Type == ContainerCreateStepPipelineSteps
+}
+
+// IsContainerStartStep reports whether PipelineSteps is ContainerStartStep.
+func (s PipelineSteps) IsContainerStartStep() bool { return s.Type == ContainerStartStepPipelineSteps }
+
+// IsContainerStopStep reports whether PipelineSteps is ContainerStopStep.
+func (s PipelineSteps) IsContainerStopStep() bool { return s.Type == ContainerStopStepPipelineSteps }
+
+// IsContainerDeleteStep reports whether PipelineSteps is ContainerDeleteStep.
+func (s PipelineSteps) IsContainerDeleteStep() bool {
+	return s.Type == ContainerDeleteStepPipelineSteps
+}
+
+// IsContainerReimageStep reports whether PipelineSteps is ContainerReimageStep.
+func (s PipelineSteps) IsContainerReimageStep() bool {
+	return s.Type == ContainerReimageStepPipelineSteps
+}
+
+// IsContainerRestartStep reports whether PipelineSteps is ContainerRestartStep.
+func (s PipelineSteps) IsContainerRestartStep() bool {
+	return s.Type == ContainerRestartStepPipelineSteps
+}
+
+// IsEnvironmentCreateStep reports whether PipelineSteps is EnvironmentCreateStep.
+func (s PipelineSteps) IsEnvironmentCreateStep() bool {
+	return s.Type == EnvironmentCreateStepPipelineSteps
+}
+
+// IsEnvironmentStartStep reports whether PipelineSteps is EnvironmentStartStep.
+func (s PipelineSteps) IsEnvironmentStartStep() bool {
+	return s.Type == EnvironmentStartStepPipelineSteps
+}
+
+// IsEnvironmentStopStep reports whether PipelineSteps is EnvironmentStopStep.
+func (s PipelineSteps) IsEnvironmentStopStep() bool {
+	return s.Type == EnvironmentStopStepPipelineSteps
+}
+
+// IsEnvironmentDeleteStep reports whether PipelineSteps is EnvironmentDeleteStep.
+func (s PipelineSteps) IsEnvironmentDeleteStep() bool {
+	return s.Type == EnvironmentDeleteStepPipelineSteps
+}
+
+// IsStackBuildCreateStep reports whether PipelineSteps is StackBuildCreateStep.
+func (s PipelineSteps) IsStackBuildCreateStep() bool {
+	return s.Type == StackBuildCreateStepPipelineSteps
+}
+
+// IsStackBuildGenerateStep reports whether PipelineSteps is StackBuildGenerateStep.
+func (s PipelineSteps) IsStackBuildGenerateStep() bool {
+	return s.Type == StackBuildGenerateStepPipelineSteps
+}
+
+// IsStackBuildDeployStep reports whether PipelineSteps is StackBuildDeployStep.
+func (s PipelineSteps) IsStackBuildDeployStep() bool {
+	return s.Type == StackBuildDeployStepPipelineSteps
+}
+
+// IsSleepStep reports whether PipelineSteps is SleepStep.
+func (s PipelineSteps) IsSleepStep() bool { return s.Type == SleepStepPipelineSteps }
+
+// IsWebhookPostStep reports whether PipelineSteps is WebhookPostStep.
+func (s PipelineSteps) IsWebhookPostStep() bool { return s.Type == WebhookPostStepPipelineSteps }
+
+// SetImageSourceCreateStep sets PipelineSteps to ImageSourceCreateStep.
+func (s *PipelineSteps) SetImageSourceCreateStep(v ImageSourceCreateStep) {
+	s.Type = ImageSourceCreateStepPipelineSteps
+	s.ImageSourceCreateStep = v
+}
+
+// GetImageSourceCreateStep returns ImageSourceCreateStep and true boolean if PipelineSteps is ImageSourceCreateStep.
+func (s PipelineSteps) GetImageSourceCreateStep() (v ImageSourceCreateStep, ok bool) {
+	if !s.IsImageSourceCreateStep() {
+		return v, false
+	}
+	return s.ImageSourceCreateStep, true
+}
+
+// NewImageSourceCreateStepPipelineSteps returns new PipelineSteps from ImageSourceCreateStep.
+func NewImageSourceCreateStepPipelineSteps(v ImageSourceCreateStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetImageSourceCreateStep(v)
+	return s
+}
+
+// SetImageCreateStep sets PipelineSteps to ImageCreateStep.
+func (s *PipelineSteps) SetImageCreateStep(v ImageCreateStep) {
+	s.Type = ImageCreateStepPipelineSteps
+	s.ImageCreateStep = v
+}
+
+// GetImageCreateStep returns ImageCreateStep and true boolean if PipelineSteps is ImageCreateStep.
+func (s PipelineSteps) GetImageCreateStep() (v ImageCreateStep, ok bool) {
+	if !s.IsImageCreateStep() {
+		return v, false
+	}
+	return s.ImageCreateStep, true
+}
+
+// NewImageCreateStepPipelineSteps returns new PipelineSteps from ImageCreateStep.
+func NewImageCreateStepPipelineSteps(v ImageCreateStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetImageCreateStep(v)
+	return s
+}
+
+// SetImageImportStep sets PipelineSteps to ImageImportStep.
+func (s *PipelineSteps) SetImageImportStep(v ImageImportStep) {
+	s.Type = ImageImportStepPipelineSteps
+	s.ImageImportStep = v
+}
+
+// GetImageImportStep returns ImageImportStep and true boolean if PipelineSteps is ImageImportStep.
+func (s PipelineSteps) GetImageImportStep() (v ImageImportStep, ok bool) {
+	if !s.IsImageImportStep() {
+		return v, false
+	}
+	return s.ImageImportStep, true
+}
+
+// NewImageImportStepPipelineSteps returns new PipelineSteps from ImageImportStep.
+func NewImageImportStepPipelineSteps(v ImageImportStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetImageImportStep(v)
+	return s
+}
+
+// SetImagesPruneStep sets PipelineSteps to ImagesPruneStep.
+func (s *PipelineSteps) SetImagesPruneStep(v ImagesPruneStep) {
+	s.Type = ImagesPruneStepPipelineSteps
+	s.ImagesPruneStep = v
+}
+
+// GetImagesPruneStep returns ImagesPruneStep and true boolean if PipelineSteps is ImagesPruneStep.
+func (s PipelineSteps) GetImagesPruneStep() (v ImagesPruneStep, ok bool) {
+	if !s.IsImagesPruneStep() {
+		return v, false
+	}
+	return s.ImagesPruneStep, true
+}
+
+// NewImagesPruneStepPipelineSteps returns new PipelineSteps from ImagesPruneStep.
+func NewImagesPruneStepPipelineSteps(v ImagesPruneStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetImagesPruneStep(v)
+	return s
+}
+
+// SetContainerCreateStep sets PipelineSteps to ContainerCreateStep.
+func (s *PipelineSteps) SetContainerCreateStep(v ContainerCreateStep) {
+	s.Type = ContainerCreateStepPipelineSteps
+	s.ContainerCreateStep = v
+}
+
+// GetContainerCreateStep returns ContainerCreateStep and true boolean if PipelineSteps is ContainerCreateStep.
+func (s PipelineSteps) GetContainerCreateStep() (v ContainerCreateStep, ok bool) {
+	if !s.IsContainerCreateStep() {
+		return v, false
+	}
+	return s.ContainerCreateStep, true
+}
+
+// NewContainerCreateStepPipelineSteps returns new PipelineSteps from ContainerCreateStep.
+func NewContainerCreateStepPipelineSteps(v ContainerCreateStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetContainerCreateStep(v)
+	return s
+}
+
+// SetContainerStartStep sets PipelineSteps to ContainerStartStep.
+func (s *PipelineSteps) SetContainerStartStep(v ContainerStartStep) {
+	s.Type = ContainerStartStepPipelineSteps
+	s.ContainerStartStep = v
+}
+
+// GetContainerStartStep returns ContainerStartStep and true boolean if PipelineSteps is ContainerStartStep.
+func (s PipelineSteps) GetContainerStartStep() (v ContainerStartStep, ok bool) {
+	if !s.IsContainerStartStep() {
+		return v, false
+	}
+	return s.ContainerStartStep, true
+}
+
+// NewContainerStartStepPipelineSteps returns new PipelineSteps from ContainerStartStep.
+func NewContainerStartStepPipelineSteps(v ContainerStartStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetContainerStartStep(v)
+	return s
+}
+
+// SetContainerStopStep sets PipelineSteps to ContainerStopStep.
+func (s *PipelineSteps) SetContainerStopStep(v ContainerStopStep) {
+	s.Type = ContainerStopStepPipelineSteps
+	s.ContainerStopStep = v
+}
+
+// GetContainerStopStep returns ContainerStopStep and true boolean if PipelineSteps is ContainerStopStep.
+func (s PipelineSteps) GetContainerStopStep() (v ContainerStopStep, ok bool) {
+	if !s.IsContainerStopStep() {
+		return v, false
+	}
+	return s.ContainerStopStep, true
+}
+
+// NewContainerStopStepPipelineSteps returns new PipelineSteps from ContainerStopStep.
+func NewContainerStopStepPipelineSteps(v ContainerStopStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetContainerStopStep(v)
+	return s
+}
+
+// SetContainerDeleteStep sets PipelineSteps to ContainerDeleteStep.
+func (s *PipelineSteps) SetContainerDeleteStep(v ContainerDeleteStep) {
+	s.Type = ContainerDeleteStepPipelineSteps
+	s.ContainerDeleteStep = v
+}
+
+// GetContainerDeleteStep returns ContainerDeleteStep and true boolean if PipelineSteps is ContainerDeleteStep.
+func (s PipelineSteps) GetContainerDeleteStep() (v ContainerDeleteStep, ok bool) {
+	if !s.IsContainerDeleteStep() {
+		return v, false
+	}
+	return s.ContainerDeleteStep, true
+}
+
+// NewContainerDeleteStepPipelineSteps returns new PipelineSteps from ContainerDeleteStep.
+func NewContainerDeleteStepPipelineSteps(v ContainerDeleteStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetContainerDeleteStep(v)
+	return s
+}
+
+// SetContainerReimageStep sets PipelineSteps to ContainerReimageStep.
+func (s *PipelineSteps) SetContainerReimageStep(v ContainerReimageStep) {
+	s.Type = ContainerReimageStepPipelineSteps
+	s.ContainerReimageStep = v
+}
+
+// GetContainerReimageStep returns ContainerReimageStep and true boolean if PipelineSteps is ContainerReimageStep.
+func (s PipelineSteps) GetContainerReimageStep() (v ContainerReimageStep, ok bool) {
+	if !s.IsContainerReimageStep() {
+		return v, false
+	}
+	return s.ContainerReimageStep, true
+}
+
+// NewContainerReimageStepPipelineSteps returns new PipelineSteps from ContainerReimageStep.
+func NewContainerReimageStepPipelineSteps(v ContainerReimageStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetContainerReimageStep(v)
+	return s
+}
+
+// SetContainerRestartStep sets PipelineSteps to ContainerRestartStep.
+func (s *PipelineSteps) SetContainerRestartStep(v ContainerRestartStep) {
+	s.Type = ContainerRestartStepPipelineSteps
+	s.ContainerRestartStep = v
+}
+
+// GetContainerRestartStep returns ContainerRestartStep and true boolean if PipelineSteps is ContainerRestartStep.
+func (s PipelineSteps) GetContainerRestartStep() (v ContainerRestartStep, ok bool) {
+	if !s.IsContainerRestartStep() {
+		return v, false
+	}
+	return s.ContainerRestartStep, true
+}
+
+// NewContainerRestartStepPipelineSteps returns new PipelineSteps from ContainerRestartStep.
+func NewContainerRestartStepPipelineSteps(v ContainerRestartStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetContainerRestartStep(v)
+	return s
+}
+
+// SetEnvironmentCreateStep sets PipelineSteps to EnvironmentCreateStep.
+func (s *PipelineSteps) SetEnvironmentCreateStep(v EnvironmentCreateStep) {
+	s.Type = EnvironmentCreateStepPipelineSteps
+	s.EnvironmentCreateStep = v
+}
+
+// GetEnvironmentCreateStep returns EnvironmentCreateStep and true boolean if PipelineSteps is EnvironmentCreateStep.
+func (s PipelineSteps) GetEnvironmentCreateStep() (v EnvironmentCreateStep, ok bool) {
+	if !s.IsEnvironmentCreateStep() {
+		return v, false
+	}
+	return s.EnvironmentCreateStep, true
+}
+
+// NewEnvironmentCreateStepPipelineSteps returns new PipelineSteps from EnvironmentCreateStep.
+func NewEnvironmentCreateStepPipelineSteps(v EnvironmentCreateStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetEnvironmentCreateStep(v)
+	return s
+}
+
+// SetEnvironmentStartStep sets PipelineSteps to EnvironmentStartStep.
+func (s *PipelineSteps) SetEnvironmentStartStep(v EnvironmentStartStep) {
+	s.Type = EnvironmentStartStepPipelineSteps
+	s.EnvironmentStartStep = v
+}
+
+// GetEnvironmentStartStep returns EnvironmentStartStep and true boolean if PipelineSteps is EnvironmentStartStep.
+func (s PipelineSteps) GetEnvironmentStartStep() (v EnvironmentStartStep, ok bool) {
+	if !s.IsEnvironmentStartStep() {
+		return v, false
+	}
+	return s.EnvironmentStartStep, true
+}
+
+// NewEnvironmentStartStepPipelineSteps returns new PipelineSteps from EnvironmentStartStep.
+func NewEnvironmentStartStepPipelineSteps(v EnvironmentStartStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetEnvironmentStartStep(v)
+	return s
+}
+
+// SetEnvironmentStopStep sets PipelineSteps to EnvironmentStopStep.
+func (s *PipelineSteps) SetEnvironmentStopStep(v EnvironmentStopStep) {
+	s.Type = EnvironmentStopStepPipelineSteps
+	s.EnvironmentStopStep = v
+}
+
+// GetEnvironmentStopStep returns EnvironmentStopStep and true boolean if PipelineSteps is EnvironmentStopStep.
+func (s PipelineSteps) GetEnvironmentStopStep() (v EnvironmentStopStep, ok bool) {
+	if !s.IsEnvironmentStopStep() {
+		return v, false
+	}
+	return s.EnvironmentStopStep, true
+}
+
+// NewEnvironmentStopStepPipelineSteps returns new PipelineSteps from EnvironmentStopStep.
+func NewEnvironmentStopStepPipelineSteps(v EnvironmentStopStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetEnvironmentStopStep(v)
+	return s
+}
+
+// SetEnvironmentDeleteStep sets PipelineSteps to EnvironmentDeleteStep.
+func (s *PipelineSteps) SetEnvironmentDeleteStep(v EnvironmentDeleteStep) {
+	s.Type = EnvironmentDeleteStepPipelineSteps
+	s.EnvironmentDeleteStep = v
+}
+
+// GetEnvironmentDeleteStep returns EnvironmentDeleteStep and true boolean if PipelineSteps is EnvironmentDeleteStep.
+func (s PipelineSteps) GetEnvironmentDeleteStep() (v EnvironmentDeleteStep, ok bool) {
+	if !s.IsEnvironmentDeleteStep() {
+		return v, false
+	}
+	return s.EnvironmentDeleteStep, true
+}
+
+// NewEnvironmentDeleteStepPipelineSteps returns new PipelineSteps from EnvironmentDeleteStep.
+func NewEnvironmentDeleteStepPipelineSteps(v EnvironmentDeleteStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetEnvironmentDeleteStep(v)
+	return s
+}
+
+// SetStackBuildCreateStep sets PipelineSteps to StackBuildCreateStep.
+func (s *PipelineSteps) SetStackBuildCreateStep(v StackBuildCreateStep) {
+	s.Type = StackBuildCreateStepPipelineSteps
+	s.StackBuildCreateStep = v
+}
+
+// GetStackBuildCreateStep returns StackBuildCreateStep and true boolean if PipelineSteps is StackBuildCreateStep.
+func (s PipelineSteps) GetStackBuildCreateStep() (v StackBuildCreateStep, ok bool) {
+	if !s.IsStackBuildCreateStep() {
+		return v, false
+	}
+	return s.StackBuildCreateStep, true
+}
+
+// NewStackBuildCreateStepPipelineSteps returns new PipelineSteps from StackBuildCreateStep.
+func NewStackBuildCreateStepPipelineSteps(v StackBuildCreateStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetStackBuildCreateStep(v)
+	return s
+}
+
+// SetStackBuildGenerateStep sets PipelineSteps to StackBuildGenerateStep.
+func (s *PipelineSteps) SetStackBuildGenerateStep(v StackBuildGenerateStep) {
+	s.Type = StackBuildGenerateStepPipelineSteps
+	s.StackBuildGenerateStep = v
+}
+
+// GetStackBuildGenerateStep returns StackBuildGenerateStep and true boolean if PipelineSteps is StackBuildGenerateStep.
+func (s PipelineSteps) GetStackBuildGenerateStep() (v StackBuildGenerateStep, ok bool) {
+	if !s.IsStackBuildGenerateStep() {
+		return v, false
+	}
+	return s.StackBuildGenerateStep, true
+}
+
+// NewStackBuildGenerateStepPipelineSteps returns new PipelineSteps from StackBuildGenerateStep.
+func NewStackBuildGenerateStepPipelineSteps(v StackBuildGenerateStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetStackBuildGenerateStep(v)
+	return s
+}
+
+// SetStackBuildDeployStep sets PipelineSteps to StackBuildDeployStep.
+func (s *PipelineSteps) SetStackBuildDeployStep(v StackBuildDeployStep) {
+	s.Type = StackBuildDeployStepPipelineSteps
+	s.StackBuildDeployStep = v
+}
+
+// GetStackBuildDeployStep returns StackBuildDeployStep and true boolean if PipelineSteps is StackBuildDeployStep.
+func (s PipelineSteps) GetStackBuildDeployStep() (v StackBuildDeployStep, ok bool) {
+	if !s.IsStackBuildDeployStep() {
+		return v, false
+	}
+	return s.StackBuildDeployStep, true
+}
+
+// NewStackBuildDeployStepPipelineSteps returns new PipelineSteps from StackBuildDeployStep.
+func NewStackBuildDeployStepPipelineSteps(v StackBuildDeployStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetStackBuildDeployStep(v)
+	return s
+}
+
+// SetSleepStep sets PipelineSteps to SleepStep.
+func (s *PipelineSteps) SetSleepStep(v SleepStep) {
+	s.Type = SleepStepPipelineSteps
+	s.SleepStep = v
+}
+
+// GetSleepStep returns SleepStep and true boolean if PipelineSteps is SleepStep.
+func (s PipelineSteps) GetSleepStep() (v SleepStep, ok bool) {
+	if !s.IsSleepStep() {
+		return v, false
+	}
+	return s.SleepStep, true
+}
+
+// NewSleepStepPipelineSteps returns new PipelineSteps from SleepStep.
+func NewSleepStepPipelineSteps(v SleepStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetSleepStep(v)
+	return s
+}
+
+// SetWebhookPostStep sets PipelineSteps to WebhookPostStep.
+func (s *PipelineSteps) SetWebhookPostStep(v WebhookPostStep) {
+	s.Type = WebhookPostStepPipelineSteps
+	s.WebhookPostStep = v
+}
+
+// GetWebhookPostStep returns WebhookPostStep and true boolean if PipelineSteps is WebhookPostStep.
+func (s PipelineSteps) GetWebhookPostStep() (v WebhookPostStep, ok bool) {
+	if !s.IsWebhookPostStep() {
+		return v, false
+	}
+	return s.WebhookPostStep, true
+}
+
+// NewWebhookPostStepPipelineSteps returns new PipelineSteps from WebhookPostStep.
+func NewWebhookPostStepPipelineSteps(v WebhookPostStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetWebhookPostStep(v)
+	return s
 }
 
 // An IP Pool resource.
@@ -45045,6 +62171,121 @@ func (s *Range) SetEnd(val DateTime) {
 	s.End = val
 }
 
+// The `raw` type of scoped variable `value`, referred to as a source.  This means that the value is
+// static, not the result of a call to an external or internal URL.
+// Ref: #/components/schemas/RawSource
+type RawSource struct {
+	Details RawSourceDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *RawSource) GetDetails() RawSourceDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *RawSource) SetDetails(val RawSourceDetails) {
+	s.Details = val
+}
+
+type RawSourceDetails struct {
+	// The value of the source.
+	String string `json:"string"`
+	// A boolean where true represents the text the user is entering will be multi line.
+	Blob bool `json:"blob"`
+}
+
+// GetString returns the value of String.
+func (s *RawSourceDetails) GetString() string {
+	return s.String
+}
+
+// GetBlob returns the value of Blob.
+func (s *RawSourceDetails) GetBlob() bool {
+	return s.Blob
+}
+
+// SetString sets the value of String.
+func (s *RawSourceDetails) SetString(val string) {
+	s.String = val
+}
+
+// SetBlob sets the value of Blob.
+func (s *RawSourceDetails) SetBlob(val bool) {
+	s.Blob = val
+}
+
+// The type of source value, can be either `raw` or `url`.
+type RawSourceType string
+
+const (
+	RawSourceTypeRaw RawSourceType = "raw"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RawSourceType) MarshalText() ([]byte, error) {
+	switch s {
+	case RawSourceTypeRaw:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RawSourceType) UnmarshalText(data []byte) error {
+	switch RawSourceType(data) {
+	case RawSourceTypeRaw:
+		*s = RawSourceTypeRaw
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/ReconfigureContainer
+type ReconfigureContainer struct {
+	Contents Config `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *ReconfigureContainer) GetContents() Config {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *ReconfigureContainer) SetContents(val Config) {
+	s.Contents = val
+}
+
+// The action to take.
+type ReconfigureContainerAction string
+
+const (
+	ReconfigureContainerActionReconfigure ReconfigureContainerAction = "reconfigure"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReconfigureContainerAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ReconfigureContainerActionReconfigure:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReconfigureContainerAction) UnmarshalText(data []byte) error {
+	switch ReconfigureContainerAction(data) {
+	case ReconfigureContainerActionReconfigure:
+		*s = ReconfigureContainerActionReconfigure
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type ReconfigureDiscoveryAccepted struct {
 	Data OptTaskDescriptor `json:"data"`
 }
@@ -45314,55 +62555,89 @@ func (s *ReconfigureLoadBalancerReqContentsConfigHaproxy) SetPorts(val Reconfigu
 	s.Ports = val
 }
 
-type ReconfigureLoadBalancerReqContentsConfigHaproxyPorts map[string]ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem
+type ReconfigureLoadBalancerReqContentsConfigHaproxyPorts map[string]HAProxyConfig
 
 func (s *ReconfigureLoadBalancerReqContentsConfigHaproxyPorts) init() ReconfigureLoadBalancerReqContentsConfigHaproxyPorts {
 	m := *s
 	if m == nil {
-		m = map[string]ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem{}
+		m = map[string]HAProxyConfig{}
 		*s = m
 	}
 	return m
 }
 
-// ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem represents sum type.
-type ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem struct {
-	Type          ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItemType // switch on this field
-	HAProxyConfig HAProxyConfig
+// Ref: #/components/schemas/ReconfigureServer
+type ReconfigureServer struct {
+	// Supplemental information needed to perform the action.
+	Contents ReconfigureServerContents `json:"contents"`
 }
 
-// ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItemType is oneOf type of ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem.
-type ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItemType string
+// GetContents returns the value of Contents.
+func (s *ReconfigureServer) GetContents() ReconfigureServerContents {
+	return s.Contents
+}
 
-// Possible values for ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItemType.
+// SetContents sets the value of Contents.
+func (s *ReconfigureServer) SetContents(val ReconfigureServerContents) {
+	s.Contents = val
+}
+
+// The action to take.
+type ReconfigureServerAction string
+
 const (
-	HAProxyConfigReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItemType = "HAProxyConfig"
+	ReconfigureServerActionReconfigureFeatures ReconfigureServerAction = "reconfigure.features"
 )
 
-// IsHAProxyConfig reports whether ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem is HAProxyConfig.
-func (s ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem) IsHAProxyConfig() bool {
-	return s.Type == HAProxyConfigReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem
-}
-
-// SetHAProxyConfig sets ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem to HAProxyConfig.
-func (s *ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem) SetHAProxyConfig(v HAProxyConfig) {
-	s.Type = HAProxyConfigReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem
-	s.HAProxyConfig = v
-}
-
-// GetHAProxyConfig returns HAProxyConfig and true boolean if ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem is HAProxyConfig.
-func (s ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem) GetHAProxyConfig() (v HAProxyConfig, ok bool) {
-	if !s.IsHAProxyConfig() {
-		return v, false
+// MarshalText implements encoding.TextMarshaler.
+func (s ReconfigureServerAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ReconfigureServerActionReconfigureFeatures:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
 	}
-	return s.HAProxyConfig, true
 }
 
-// NewHAProxyConfigReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem returns new ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem from HAProxyConfig.
-func NewHAProxyConfigReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem(v HAProxyConfig) ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem {
-	var s ReconfigureLoadBalancerReqContentsConfigHaproxyPortsItem
-	s.SetHAProxyConfig(v)
-	return s
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReconfigureServerAction) UnmarshalText(data []byte) error {
+	switch ReconfigureServerAction(data) {
+	case ReconfigureServerActionReconfigureFeatures:
+		*s = ReconfigureServerActionReconfigureFeatures
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Supplemental information needed to perform the action.
+type ReconfigureServerContents struct {
+	// A boolean where true represents the desire for the server to accept incoming SFTP requests for
+	// container volumes.
+	Sftp bool `json:"sftp"`
+	// A number in GB for how big the base volume should be.  This cannot be lower than the currently set
+	// value for the server.
+	BaseVolumeGB NilInt `json:"base_volume_gb"`
+}
+
+// GetSftp returns the value of Sftp.
+func (s *ReconfigureServerContents) GetSftp() bool {
+	return s.Sftp
+}
+
+// GetBaseVolumeGB returns the value of BaseVolumeGB.
+func (s *ReconfigureServerContents) GetBaseVolumeGB() NilInt {
+	return s.BaseVolumeGB
+}
+
+// SetSftp sets the value of Sftp.
+func (s *ReconfigureServerContents) SetSftp(val bool) {
+	s.Sftp = val
+}
+
+// SetBaseVolumeGB sets the value of BaseVolumeGB.
+func (s *ReconfigureServerContents) SetBaseVolumeGB(val NilInt) {
+	s.BaseVolumeGB = val
 }
 
 type ReconfigureVPNAccepted struct {
@@ -45532,6 +62807,50 @@ func (s *ReconfigureVPNReqContentsConfigAuth) SetCycleAccounts(val bool) {
 // SetVpnAccounts sets the value of VpnAccounts.
 func (s *ReconfigureVPNReqContentsConfigAuth) SetVpnAccounts(val OptBool) {
 	s.VpnAccounts = val
+}
+
+// Ref: #/components/schemas/ReconfigureVolumes
+type ReconfigureVolumes struct {
+	// An array of volume objects to be reconfigured.
+	Contents []VolumeSummary `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *ReconfigureVolumes) GetContents() []VolumeSummary {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *ReconfigureVolumes) SetContents(val []VolumeSummary) {
+	s.Contents = val
+}
+
+// The action to take.
+type ReconfigureVolumesAction string
+
+const (
+	ReconfigureVolumesActionReconfigureVolumes ReconfigureVolumesAction = "reconfigure.volumes"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReconfigureVolumesAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ReconfigureVolumesActionReconfigureVolumes:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReconfigureVolumesAction) UnmarshalText(data []byte) error {
+	switch ReconfigureVolumesAction(data) {
+	case ReconfigureVolumesActionReconfigureVolumes:
+		*s = ReconfigureVolumesActionReconfigureVolumes
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // A DNS record.
@@ -46264,6 +63583,92 @@ func (s *Refund) SetGateway(val PaymentGateway) {
 	s.Gateway = val
 }
 
+// Ref: #/components/schemas/Reimage
+type Reimage struct {
+	// Additional information needed to complete the job.
+	Contents ReimageContents `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *Reimage) GetContents() ReimageContents {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *Reimage) SetContents(val ReimageContents) {
+	s.Contents = val
+}
+
+// The action to take.
+type ReimageAction string
+
+const (
+	ReimageActionReimage ReimageAction = "reimage"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReimageAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ReimageActionReimage:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReimageAction) UnmarshalText(data []byte) error {
+	switch ReimageAction(data) {
+	case ReimageActionReimage:
+		*s = ReimageActionReimage
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Additional information needed to complete the job.
+type ReimageContents struct {
+	// The ID of the image to use when reimaging.
+	ImageID string `json:"image_id"`
+	// A boolean where true signifies the image being used to reimage does not have to have compatibility
+	// with the image being replaced.
+	AllowIncompatible OptBool `json:"allow_incompatible"`
+	// A boolean where true signifies the user wishes to overwrite the current runtime configuration for
+	// the given container during the reimage process.
+	OverwriteRuntimeConfig OptBool `json:"overwrite_runtime_config"`
+}
+
+// GetImageID returns the value of ImageID.
+func (s *ReimageContents) GetImageID() string {
+	return s.ImageID
+}
+
+// GetAllowIncompatible returns the value of AllowIncompatible.
+func (s *ReimageContents) GetAllowIncompatible() OptBool {
+	return s.AllowIncompatible
+}
+
+// GetOverwriteRuntimeConfig returns the value of OverwriteRuntimeConfig.
+func (s *ReimageContents) GetOverwriteRuntimeConfig() OptBool {
+	return s.OverwriteRuntimeConfig
+}
+
+// SetImageID sets the value of ImageID.
+func (s *ReimageContents) SetImageID(val string) {
+	s.ImageID = val
+}
+
+// SetAllowIncompatible sets the value of AllowIncompatible.
+func (s *ReimageContents) SetAllowIncompatible(val OptBool) {
+	s.AllowIncompatible = val
+}
+
+// SetOverwriteRuntimeConfig sets the value of OverwriteRuntimeConfig.
+func (s *ReimageContents) SetOverwriteRuntimeConfig(val OptBool) {
+	s.OverwriteRuntimeConfig = val
+}
+
 type RemoveAccountOK struct {
 	Data OptAccount `json:"data"`
 }
@@ -46572,53 +63977,15 @@ func (s *RemoveServerOK) SetData(val OptTaskDescriptor) {
 	s.Data = val
 }
 
-type RemoveServerOptions map[string]RemoveServerOptionsItem
+type RemoveServerOptions map[string]string
 
 func (s *RemoveServerOptions) init() RemoveServerOptions {
 	m := *s
 	if m == nil {
-		m = map[string]RemoveServerOptionsItem{}
+		m = map[string]string{}
 		*s = m
 	}
 	return m
-}
-
-// RemoveServerOptionsItem represents sum type.
-type RemoveServerOptionsItem struct {
-	Type   RemoveServerOptionsItemType // switch on this field
-	String string
-}
-
-// RemoveServerOptionsItemType is oneOf type of RemoveServerOptionsItem.
-type RemoveServerOptionsItemType string
-
-// Possible values for RemoveServerOptionsItemType.
-const (
-	StringRemoveServerOptionsItem RemoveServerOptionsItemType = "string"
-)
-
-// IsString reports whether RemoveServerOptionsItem is string.
-func (s RemoveServerOptionsItem) IsString() bool { return s.Type == StringRemoveServerOptionsItem }
-
-// SetString sets RemoveServerOptionsItem to string.
-func (s *RemoveServerOptionsItem) SetString(v string) {
-	s.Type = StringRemoveServerOptionsItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if RemoveServerOptionsItem is string.
-func (s RemoveServerOptionsItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringRemoveServerOptionsItem returns new RemoveServerOptionsItem from string.
-func NewStringRemoveServerOptionsItem(v string) RemoveServerOptionsItem {
-	var s RemoveServerOptionsItem
-	s.SetString(v)
-	return s
 }
 
 type RemoveStackBuildOK struct {
@@ -46663,6 +64030,411 @@ func (s *RemoveVPNUserOK) SetData(val OptString) {
 	s.Data = val
 }
 
+// A repo source type for a stack.
+// Ref: #/components/schemas/RepoSpec
+type RepoSpec struct {
+	Details RepoSpecDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *RepoSpec) GetDetails() RepoSpecDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *RepoSpec) SetDetails(val RepoSpecDetails) {
+	s.Details = val
+}
+
+type RepoSpecDetails struct {
+	// The URL of the repository.
+	URL string `json:"url"`
+	// An optional branch arguement.  Default value is `master`.
+	Branch OptString `json:"branch"`
+	// Authentication information for the repository.
+	Auth OptRepoSpecDetailsAuth `json:"auth"`
+	// Repository reference information.
+	Ref OptRepoSpecDetailsRef `json:"ref"`
+}
+
+// GetURL returns the value of URL.
+func (s *RepoSpecDetails) GetURL() string {
+	return s.URL
+}
+
+// GetBranch returns the value of Branch.
+func (s *RepoSpecDetails) GetBranch() OptString {
+	return s.Branch
+}
+
+// GetAuth returns the value of Auth.
+func (s *RepoSpecDetails) GetAuth() OptRepoSpecDetailsAuth {
+	return s.Auth
+}
+
+// GetRef returns the value of Ref.
+func (s *RepoSpecDetails) GetRef() OptRepoSpecDetailsRef {
+	return s.Ref
+}
+
+// SetURL sets the value of URL.
+func (s *RepoSpecDetails) SetURL(val string) {
+	s.URL = val
+}
+
+// SetBranch sets the value of Branch.
+func (s *RepoSpecDetails) SetBranch(val OptString) {
+	s.Branch = val
+}
+
+// SetAuth sets the value of Auth.
+func (s *RepoSpecDetails) SetAuth(val OptRepoSpecDetailsAuth) {
+	s.Auth = val
+}
+
+// SetRef sets the value of Ref.
+func (s *RepoSpecDetails) SetRef(val OptRepoSpecDetailsRef) {
+	s.Ref = val
+}
+
+// Authentication information for the repository.
+// RepoSpecDetailsAuth represents sum type.
+type RepoSpecDetailsAuth struct {
+	Type            RepoSpecDetailsAuthType // switch on this field
+	CredentialsHTTP CredentialsHTTP
+	CredentialsSSH  CredentialsSSH
+}
+
+// RepoSpecDetailsAuthType is oneOf type of RepoSpecDetailsAuth.
+type RepoSpecDetailsAuthType string
+
+// Possible values for RepoSpecDetailsAuthType.
+const (
+	CredentialsHTTPRepoSpecDetailsAuth RepoSpecDetailsAuthType = "CredentialsHTTP"
+	CredentialsSSHRepoSpecDetailsAuth  RepoSpecDetailsAuthType = "CredentialsSSH"
+)
+
+// IsCredentialsHTTP reports whether RepoSpecDetailsAuth is CredentialsHTTP.
+func (s RepoSpecDetailsAuth) IsCredentialsHTTP() bool {
+	return s.Type == CredentialsHTTPRepoSpecDetailsAuth
+}
+
+// IsCredentialsSSH reports whether RepoSpecDetailsAuth is CredentialsSSH.
+func (s RepoSpecDetailsAuth) IsCredentialsSSH() bool {
+	return s.Type == CredentialsSSHRepoSpecDetailsAuth
+}
+
+// SetCredentialsHTTP sets RepoSpecDetailsAuth to CredentialsHTTP.
+func (s *RepoSpecDetailsAuth) SetCredentialsHTTP(v CredentialsHTTP) {
+	s.Type = CredentialsHTTPRepoSpecDetailsAuth
+	s.CredentialsHTTP = v
+}
+
+// GetCredentialsHTTP returns CredentialsHTTP and true boolean if RepoSpecDetailsAuth is CredentialsHTTP.
+func (s RepoSpecDetailsAuth) GetCredentialsHTTP() (v CredentialsHTTP, ok bool) {
+	if !s.IsCredentialsHTTP() {
+		return v, false
+	}
+	return s.CredentialsHTTP, true
+}
+
+// NewCredentialsHTTPRepoSpecDetailsAuth returns new RepoSpecDetailsAuth from CredentialsHTTP.
+func NewCredentialsHTTPRepoSpecDetailsAuth(v CredentialsHTTP) RepoSpecDetailsAuth {
+	var s RepoSpecDetailsAuth
+	s.SetCredentialsHTTP(v)
+	return s
+}
+
+// SetCredentialsSSH sets RepoSpecDetailsAuth to CredentialsSSH.
+func (s *RepoSpecDetailsAuth) SetCredentialsSSH(v CredentialsSSH) {
+	s.Type = CredentialsSSHRepoSpecDetailsAuth
+	s.CredentialsSSH = v
+}
+
+// GetCredentialsSSH returns CredentialsSSH and true boolean if RepoSpecDetailsAuth is CredentialsSSH.
+func (s RepoSpecDetailsAuth) GetCredentialsSSH() (v CredentialsSSH, ok bool) {
+	if !s.IsCredentialsSSH() {
+		return v, false
+	}
+	return s.CredentialsSSH, true
+}
+
+// NewCredentialsSSHRepoSpecDetailsAuth returns new RepoSpecDetailsAuth from CredentialsSSH.
+func NewCredentialsSSHRepoSpecDetailsAuth(v CredentialsSSH) RepoSpecDetailsAuth {
+	var s RepoSpecDetailsAuth
+	s.SetCredentialsSSH(v)
+	return s
+}
+
+// Repository reference information.
+type RepoSpecDetailsRef struct {
+	// The type of reference being used.
+	Type RepoSpecDetailsRefType `json:"type"`
+	// The value for the given reference type.
+	Value string `json:"value"`
+}
+
+// GetType returns the value of Type.
+func (s *RepoSpecDetailsRef) GetType() RepoSpecDetailsRefType {
+	return s.Type
+}
+
+// GetValue returns the value of Value.
+func (s *RepoSpecDetailsRef) GetValue() string {
+	return s.Value
+}
+
+// SetType sets the value of Type.
+func (s *RepoSpecDetailsRef) SetType(val RepoSpecDetailsRefType) {
+	s.Type = val
+}
+
+// SetValue sets the value of Value.
+func (s *RepoSpecDetailsRef) SetValue(val string) {
+	s.Value = val
+}
+
+// The type of reference being used.
+type RepoSpecDetailsRefType string
+
+const (
+	RepoSpecDetailsRefTypeHash RepoSpecDetailsRefType = "hash"
+	RepoSpecDetailsRefTypeTag  RepoSpecDetailsRefType = "tag"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RepoSpecDetailsRefType) MarshalText() ([]byte, error) {
+	switch s {
+	case RepoSpecDetailsRefTypeHash:
+		return []byte(s), nil
+	case RepoSpecDetailsRefTypeTag:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RepoSpecDetailsRefType) UnmarshalText(data []byte) error {
+	switch RepoSpecDetailsRefType(data) {
+	case RepoSpecDetailsRefTypeHash:
+		*s = RepoSpecDetailsRefTypeHash
+		return nil
+	case RepoSpecDetailsRefTypeTag:
+		*s = RepoSpecDetailsRefTypeTag
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type RepoSpecType string
+
+const (
+	RepoSpecTypeGitRepo RepoSpecType = "git-repo"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RepoSpecType) MarshalText() ([]byte, error) {
+	switch s {
+	case RepoSpecTypeGitRepo:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RepoSpecType) UnmarshalText(data []byte) error {
+	switch RepoSpecType(data) {
+	case RepoSpecTypeGitRepo:
+		*s = RepoSpecTypeGitRepo
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Information about the repostiory.
+// Ref: #/components/schemas/RepoType
+type RepoType struct {
+	// The URL of the repository.
+	URL string `json:"url"`
+	// An optional branch arguement.  Default value is `master`.
+	Branch OptString `json:"branch"`
+	// Authentication information for the repository.
+	Auth OptRepoTypeAuth `json:"auth"`
+	// Repository reference information.
+	Ref OptRepoTypeRef `json:"ref"`
+}
+
+// GetURL returns the value of URL.
+func (s *RepoType) GetURL() string {
+	return s.URL
+}
+
+// GetBranch returns the value of Branch.
+func (s *RepoType) GetBranch() OptString {
+	return s.Branch
+}
+
+// GetAuth returns the value of Auth.
+func (s *RepoType) GetAuth() OptRepoTypeAuth {
+	return s.Auth
+}
+
+// GetRef returns the value of Ref.
+func (s *RepoType) GetRef() OptRepoTypeRef {
+	return s.Ref
+}
+
+// SetURL sets the value of URL.
+func (s *RepoType) SetURL(val string) {
+	s.URL = val
+}
+
+// SetBranch sets the value of Branch.
+func (s *RepoType) SetBranch(val OptString) {
+	s.Branch = val
+}
+
+// SetAuth sets the value of Auth.
+func (s *RepoType) SetAuth(val OptRepoTypeAuth) {
+	s.Auth = val
+}
+
+// SetRef sets the value of Ref.
+func (s *RepoType) SetRef(val OptRepoTypeRef) {
+	s.Ref = val
+}
+
+// Authentication information for the repository.
+// RepoTypeAuth represents sum type.
+type RepoTypeAuth struct {
+	Type            RepoTypeAuthType // switch on this field
+	CredentialsHTTP CredentialsHTTP
+	CredentialsSSH  CredentialsSSH
+}
+
+// RepoTypeAuthType is oneOf type of RepoTypeAuth.
+type RepoTypeAuthType string
+
+// Possible values for RepoTypeAuthType.
+const (
+	CredentialsHTTPRepoTypeAuth RepoTypeAuthType = "CredentialsHTTP"
+	CredentialsSSHRepoTypeAuth  RepoTypeAuthType = "CredentialsSSH"
+)
+
+// IsCredentialsHTTP reports whether RepoTypeAuth is CredentialsHTTP.
+func (s RepoTypeAuth) IsCredentialsHTTP() bool { return s.Type == CredentialsHTTPRepoTypeAuth }
+
+// IsCredentialsSSH reports whether RepoTypeAuth is CredentialsSSH.
+func (s RepoTypeAuth) IsCredentialsSSH() bool { return s.Type == CredentialsSSHRepoTypeAuth }
+
+// SetCredentialsHTTP sets RepoTypeAuth to CredentialsHTTP.
+func (s *RepoTypeAuth) SetCredentialsHTTP(v CredentialsHTTP) {
+	s.Type = CredentialsHTTPRepoTypeAuth
+	s.CredentialsHTTP = v
+}
+
+// GetCredentialsHTTP returns CredentialsHTTP and true boolean if RepoTypeAuth is CredentialsHTTP.
+func (s RepoTypeAuth) GetCredentialsHTTP() (v CredentialsHTTP, ok bool) {
+	if !s.IsCredentialsHTTP() {
+		return v, false
+	}
+	return s.CredentialsHTTP, true
+}
+
+// NewCredentialsHTTPRepoTypeAuth returns new RepoTypeAuth from CredentialsHTTP.
+func NewCredentialsHTTPRepoTypeAuth(v CredentialsHTTP) RepoTypeAuth {
+	var s RepoTypeAuth
+	s.SetCredentialsHTTP(v)
+	return s
+}
+
+// SetCredentialsSSH sets RepoTypeAuth to CredentialsSSH.
+func (s *RepoTypeAuth) SetCredentialsSSH(v CredentialsSSH) {
+	s.Type = CredentialsSSHRepoTypeAuth
+	s.CredentialsSSH = v
+}
+
+// GetCredentialsSSH returns CredentialsSSH and true boolean if RepoTypeAuth is CredentialsSSH.
+func (s RepoTypeAuth) GetCredentialsSSH() (v CredentialsSSH, ok bool) {
+	if !s.IsCredentialsSSH() {
+		return v, false
+	}
+	return s.CredentialsSSH, true
+}
+
+// NewCredentialsSSHRepoTypeAuth returns new RepoTypeAuth from CredentialsSSH.
+func NewCredentialsSSHRepoTypeAuth(v CredentialsSSH) RepoTypeAuth {
+	var s RepoTypeAuth
+	s.SetCredentialsSSH(v)
+	return s
+}
+
+// Repository reference information.
+type RepoTypeRef struct {
+	// The type of reference being used.
+	Type RepoTypeRefType `json:"type"`
+	// The value for the given reference type.
+	Value string `json:"value"`
+}
+
+// GetType returns the value of Type.
+func (s *RepoTypeRef) GetType() RepoTypeRefType {
+	return s.Type
+}
+
+// GetValue returns the value of Value.
+func (s *RepoTypeRef) GetValue() string {
+	return s.Value
+}
+
+// SetType sets the value of Type.
+func (s *RepoTypeRef) SetType(val RepoTypeRefType) {
+	s.Type = val
+}
+
+// SetValue sets the value of Value.
+func (s *RepoTypeRef) SetValue(val string) {
+	s.Value = val
+}
+
+// The type of reference being used.
+type RepoTypeRefType string
+
+const (
+	RepoTypeRefTypeHash RepoTypeRefType = "hash"
+	RepoTypeRefTypeTag  RepoTypeRefType = "tag"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RepoTypeRefType) MarshalText() ([]byte, error) {
+	switch s {
+	case RepoTypeRefTypeHash:
+		return []byte(s), nil
+	case RepoTypeRefTypeTag:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RepoTypeRefType) UnmarshalText(data []byte) error {
+	switch RepoTypeRefType(data) {
+	case RepoTypeRefTypeHash:
+		*s = RepoTypeRefTypeHash
+		return nil
+	case RepoTypeRefTypeTag:
+		*s = RepoTypeRefTypeTag
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type ResetPasswordOK struct {
 	Data OptAccount `json:"data"`
 }
@@ -46702,6 +64474,135 @@ func (s *ResetPasswordReq) SetCurrent(val OptString) {
 // SetNew sets the value of New.
 func (s *ResetPasswordReq) SetNew(val OptString) {
 	s.New = val
+}
+
+// Either a details ID or details from where the ID is an identifier for an existing resource and a
+// from is an identifier from a previous step in this pipeline.
+// Ref: #/components/schemas/ResourceLocation
+// ResourceLocation represents sum type.
+type ResourceLocation struct {
+	Type              ResourceLocationType // switch on this field
+	ResourceLocation0 ResourceLocation0
+	ResourceLocation1 ResourceLocation1
+}
+
+// ResourceLocationType is oneOf type of ResourceLocation.
+type ResourceLocationType string
+
+// Possible values for ResourceLocationType.
+const (
+	ResourceLocation0ResourceLocation ResourceLocationType = "ResourceLocation0"
+	ResourceLocation1ResourceLocation ResourceLocationType = "ResourceLocation1"
+)
+
+// IsResourceLocation0 reports whether ResourceLocation is ResourceLocation0.
+func (s ResourceLocation) IsResourceLocation0() bool {
+	return s.Type == ResourceLocation0ResourceLocation
+}
+
+// IsResourceLocation1 reports whether ResourceLocation is ResourceLocation1.
+func (s ResourceLocation) IsResourceLocation1() bool {
+	return s.Type == ResourceLocation1ResourceLocation
+}
+
+// SetResourceLocation0 sets ResourceLocation to ResourceLocation0.
+func (s *ResourceLocation) SetResourceLocation0(v ResourceLocation0) {
+	s.Type = ResourceLocation0ResourceLocation
+	s.ResourceLocation0 = v
+}
+
+// GetResourceLocation0 returns ResourceLocation0 and true boolean if ResourceLocation is ResourceLocation0.
+func (s ResourceLocation) GetResourceLocation0() (v ResourceLocation0, ok bool) {
+	if !s.IsResourceLocation0() {
+		return v, false
+	}
+	return s.ResourceLocation0, true
+}
+
+// NewResourceLocation0ResourceLocation returns new ResourceLocation from ResourceLocation0.
+func NewResourceLocation0ResourceLocation(v ResourceLocation0) ResourceLocation {
+	var s ResourceLocation
+	s.SetResourceLocation0(v)
+	return s
+}
+
+// SetResourceLocation1 sets ResourceLocation to ResourceLocation1.
+func (s *ResourceLocation) SetResourceLocation1(v ResourceLocation1) {
+	s.Type = ResourceLocation1ResourceLocation
+	s.ResourceLocation1 = v
+}
+
+// GetResourceLocation1 returns ResourceLocation1 and true boolean if ResourceLocation is ResourceLocation1.
+func (s ResourceLocation) GetResourceLocation1() (v ResourceLocation1, ok bool) {
+	if !s.IsResourceLocation1() {
+		return v, false
+	}
+	return s.ResourceLocation1, true
+}
+
+// NewResourceLocation1ResourceLocation returns new ResourceLocation from ResourceLocation1.
+func NewResourceLocation1ResourceLocation(v ResourceLocation1) ResourceLocation {
+	var s ResourceLocation
+	s.SetResourceLocation1(v)
+	return s
+}
+
+type ResourceLocation0 struct {
+	// The ID of an existing resource that exists before the pipeline is run.
+	ID OptString `json:"id"`
+}
+
+// GetID returns the value of ID.
+func (s *ResourceLocation0) GetID() OptString {
+	return s.ID
+}
+
+// SetID sets the value of ID.
+func (s *ResourceLocation0) SetID(val OptString) {
+	s.ID = val
+}
+
+type ResourceLocation1 struct {
+	// The stage and step to report on.
+	From OptResourceLocation1From `json:"from"`
+}
+
+// GetFrom returns the value of From.
+func (s *ResourceLocation1) GetFrom() OptResourceLocation1From {
+	return s.From
+}
+
+// SetFrom sets the value of From.
+func (s *ResourceLocation1) SetFrom(val OptResourceLocation1From) {
+	s.From = val
+}
+
+// The stage and step to report on.
+type ResourceLocation1From struct {
+	// An identifier for the stage the step being reported on resides in.
+	Stage OptString `json:"stage"`
+	// An identifier for the step to be reported on.
+	Step string `json:"step"`
+}
+
+// GetStage returns the value of Stage.
+func (s *ResourceLocation1From) GetStage() OptString {
+	return s.Stage
+}
+
+// GetStep returns the value of Step.
+func (s *ResourceLocation1From) GetStep() string {
+	return s.Step
+}
+
+// SetStage sets the value of Stage.
+func (s *ResourceLocation1From) SetStage(val OptString) {
+	s.Stage = val
+}
+
+// SetStep sets the value of Step.
+func (s *ResourceLocation1From) SetStep(val string) {
+	s.Step = val
 }
 
 // A resource snapshot that shows instance telemetry.
@@ -46812,6 +64713,70 @@ func (s *ResourceSnapshot) SetHugetlb(val OptHugeTLB) {
 	s.Hugetlb = val
 }
 
+// A job that restarts compute service on a given server.
+// Ref: #/components/schemas/RestartCompute
+type RestartCompute struct{}
+
+// The action to take.
+type RestartComputeAction string
+
+const (
+	RestartComputeActionComputeRestart RestartComputeAction = "compute.restart"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RestartComputeAction) MarshalText() ([]byte, error) {
+	switch s {
+	case RestartComputeActionComputeRestart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RestartComputeAction) UnmarshalText(data []byte) error {
+	switch RestartComputeAction(data) {
+	case RestartComputeActionComputeRestart:
+		*s = RestartComputeActionComputeRestart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A job that restarts the server.
+// Ref: #/components/schemas/RestartServer
+type RestartServer struct{}
+
+// The action to take.
+type RestartServerAction string
+
+const (
+	RestartServerActionRestart RestartServerAction = "restart"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RestartServerAction) MarshalText() ([]byte, error) {
+	switch s {
+	case RestartServerActionRestart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RestartServerAction) UnmarshalText(data []byte) error {
+	switch RestartServerAction(data) {
+	case RestartServerActionRestart:
+		*s = RestartServerActionRestart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type RestoreBackupJobAccepted struct {
 	Data OptTaskDescriptor `json:"data"`
 }
@@ -46898,20 +64863,7 @@ func (s *RestoreBackupJobReqContents) SetInstanceID(val string) {
 }
 
 // Ref: #/components/schemas/RevertMigration
-type RevertMigration struct {
-	// The name of the action to perform.
-	Action RevertMigrationAction `json:"action"`
-}
-
-// GetAction returns the value of Action.
-func (s *RevertMigration) GetAction() RevertMigrationAction {
-	return s.Action
-}
-
-// SetAction sets the value of Action.
-func (s *RevertMigration) SetAction(val RevertMigrationAction) {
-	s.Action = val
-}
+type RevertMigration struct{}
 
 // The name of the action to perform.
 type RevertMigrationAction string
@@ -47916,6 +65868,542 @@ func (s *SSHTokenEvents) SetUsed(val DateTime) {
 // SetExpires sets the value of Expires.
 func (s *SSHTokenEvents) SetExpires(val DateTime) {
 	s.Expires = val
+}
+
+// Ref: #/components/schemas/Scale
+type Scale struct {
+	// Additional information needed to complete the job.
+	Contents ScaleContents `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *Scale) GetContents() ScaleContents {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *Scale) SetContents(val ScaleContents) {
+	s.Contents = val
+}
+
+// The action to take.
+type ScaleAction string
+
+const (
+	ScaleActionScale ScaleAction = "scale"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ScaleAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ScaleActionScale:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ScaleAction) UnmarshalText(data []byte) error {
+	switch ScaleAction(data) {
+	case ScaleActionScale:
+		*s = ScaleActionScale
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Additional information needed to complete the job.
+type ScaleContents struct {
+	// The number of desired instances to scale to.
+	Instances int `json:"instances"`
+}
+
+// GetInstances returns the value of Instances.
+func (s *ScaleContents) GetInstances() int {
+	return s.Instances
+}
+
+// SetInstances sets the value of Instances.
+func (s *ScaleContents) SetInstances(val int) {
+	s.Instances = val
+}
+
+// Scoped variables are a way for users to dynamically allocate runtime specific environment
+// variables across any number of containers in an environment.
+// Ref: #/components/schemas/ScopedVariable
+type ScopedVariable struct {
+	ID      ID           `json:"id"`
+	Creator CreatorScope `json:"creator"`
+	HubID   HubID        `json:"hub_id"`
+	// An identifier used to reference the environment this resource is scoped to.
+	EnvironmentID string `json:"environment_id"`
+	// An identifier, similar to a key in an environment variable.  Its used when envoking the scoped
+	// variable.
+	Identifier string `json:"identifier"`
+	// An object with information about the encryption of the scoped variable.
+	Secret NilScopedVariableSecret `json:"secret"`
+	Scope  ScopedVariableScope     `json:"scope"`
+	// The source or value of the scoped variable.
+	Source ScopedVariableSource `json:"source"`
+	State  ScopedVariableState  `json:"state"`
+	// A collection of timestamps for each event in the Scoped Variable's lifetime.
+	Events ScopedVariableEvents `json:"events"`
+}
+
+// GetID returns the value of ID.
+func (s *ScopedVariable) GetID() ID {
+	return s.ID
+}
+
+// GetCreator returns the value of Creator.
+func (s *ScopedVariable) GetCreator() CreatorScope {
+	return s.Creator
+}
+
+// GetHubID returns the value of HubID.
+func (s *ScopedVariable) GetHubID() HubID {
+	return s.HubID
+}
+
+// GetEnvironmentID returns the value of EnvironmentID.
+func (s *ScopedVariable) GetEnvironmentID() string {
+	return s.EnvironmentID
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ScopedVariable) GetIdentifier() string {
+	return s.Identifier
+}
+
+// GetSecret returns the value of Secret.
+func (s *ScopedVariable) GetSecret() NilScopedVariableSecret {
+	return s.Secret
+}
+
+// GetScope returns the value of Scope.
+func (s *ScopedVariable) GetScope() ScopedVariableScope {
+	return s.Scope
+}
+
+// GetSource returns the value of Source.
+func (s *ScopedVariable) GetSource() ScopedVariableSource {
+	return s.Source
+}
+
+// GetState returns the value of State.
+func (s *ScopedVariable) GetState() ScopedVariableState {
+	return s.State
+}
+
+// GetEvents returns the value of Events.
+func (s *ScopedVariable) GetEvents() ScopedVariableEvents {
+	return s.Events
+}
+
+// SetID sets the value of ID.
+func (s *ScopedVariable) SetID(val ID) {
+	s.ID = val
+}
+
+// SetCreator sets the value of Creator.
+func (s *ScopedVariable) SetCreator(val CreatorScope) {
+	s.Creator = val
+}
+
+// SetHubID sets the value of HubID.
+func (s *ScopedVariable) SetHubID(val HubID) {
+	s.HubID = val
+}
+
+// SetEnvironmentID sets the value of EnvironmentID.
+func (s *ScopedVariable) SetEnvironmentID(val string) {
+	s.EnvironmentID = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ScopedVariable) SetIdentifier(val string) {
+	s.Identifier = val
+}
+
+// SetSecret sets the value of Secret.
+func (s *ScopedVariable) SetSecret(val NilScopedVariableSecret) {
+	s.Secret = val
+}
+
+// SetScope sets the value of Scope.
+func (s *ScopedVariable) SetScope(val ScopedVariableScope) {
+	s.Scope = val
+}
+
+// SetSource sets the value of Source.
+func (s *ScopedVariable) SetSource(val ScopedVariableSource) {
+	s.Source = val
+}
+
+// SetState sets the value of State.
+func (s *ScopedVariable) SetState(val ScopedVariableState) {
+	s.State = val
+}
+
+// SetEvents sets the value of Events.
+func (s *ScopedVariable) SetEvents(val ScopedVariableEvents) {
+	s.Events = val
+}
+
+// A collection of timestamps for each event in the Scoped Variable's lifetime.
+type ScopedVariableEvents struct {
+	// The timestamp of when the scoped variable was created.
+	Created DateTime `json:"created"`
+	// The timestamp of when the scoped variable was updated.
+	Updated DateTime `json:"updated"`
+	// The timestamp of when the scoped variable was deleted.
+	Deleted DateTime `json:"deleted"`
+}
+
+// GetCreated returns the value of Created.
+func (s *ScopedVariableEvents) GetCreated() DateTime {
+	return s.Created
+}
+
+// GetUpdated returns the value of Updated.
+func (s *ScopedVariableEvents) GetUpdated() DateTime {
+	return s.Updated
+}
+
+// GetDeleted returns the value of Deleted.
+func (s *ScopedVariableEvents) GetDeleted() DateTime {
+	return s.Deleted
+}
+
+// SetCreated sets the value of Created.
+func (s *ScopedVariableEvents) SetCreated(val DateTime) {
+	s.Created = val
+}
+
+// SetUpdated sets the value of Updated.
+func (s *ScopedVariableEvents) SetUpdated(val DateTime) {
+	s.Updated = val
+}
+
+// SetDeleted sets the value of Deleted.
+func (s *ScopedVariableEvents) SetDeleted(val DateTime) {
+	s.Deleted = val
+}
+
+// Information about the assignment of the scoped variable and how it is invoked.
+// Ref: #/components/schemas/ScopedVariableScope
+type ScopedVariableScope struct {
+	// The type or way the scoped variable is accessed.
+	Access ScopedVariableScopeAccess `json:"access"`
+	// Information about the assignment of the scoped variable to different containers in the environment.
+	Containers ScopedVariableScopeContainers `json:"containers"`
+}
+
+// GetAccess returns the value of Access.
+func (s *ScopedVariableScope) GetAccess() ScopedVariableScopeAccess {
+	return s.Access
+}
+
+// GetContainers returns the value of Containers.
+func (s *ScopedVariableScope) GetContainers() ScopedVariableScopeContainers {
+	return s.Containers
+}
+
+// SetAccess sets the value of Access.
+func (s *ScopedVariableScope) SetAccess(val ScopedVariableScopeAccess) {
+	s.Access = val
+}
+
+// SetContainers sets the value of Containers.
+func (s *ScopedVariableScope) SetContainers(val ScopedVariableScopeContainers) {
+	s.Containers = val
+}
+
+// The type or way the scoped variable is accessed.
+type ScopedVariableScopeAccess struct {
+	// A boolean, where true represents this scoped variable is accessed like a normal environment
+	// variable.
+	EnvVariable bool `json:"env_variable"`
+	// A boolean, where true represents this scoped variable is accessed through Cycle's internal API.
+	InternalAPI bool `json:"internal_api"`
+	// A boolean, where true represents this scoped variables is accessed as a file located at
+	// `/var/run/cycle/variables/<identifier>`.
+	File OptBool `json:"file"`
+}
+
+// GetEnvVariable returns the value of EnvVariable.
+func (s *ScopedVariableScopeAccess) GetEnvVariable() bool {
+	return s.EnvVariable
+}
+
+// GetInternalAPI returns the value of InternalAPI.
+func (s *ScopedVariableScopeAccess) GetInternalAPI() bool {
+	return s.InternalAPI
+}
+
+// GetFile returns the value of File.
+func (s *ScopedVariableScopeAccess) GetFile() OptBool {
+	return s.File
+}
+
+// SetEnvVariable sets the value of EnvVariable.
+func (s *ScopedVariableScopeAccess) SetEnvVariable(val bool) {
+	s.EnvVariable = val
+}
+
+// SetInternalAPI sets the value of InternalAPI.
+func (s *ScopedVariableScopeAccess) SetInternalAPI(val bool) {
+	s.InternalAPI = val
+}
+
+// SetFile sets the value of File.
+func (s *ScopedVariableScopeAccess) SetFile(val OptBool) {
+	s.File = val
+}
+
+// Information about the assignment of the scoped variable to different containers in the environment.
+type ScopedVariableScopeContainers struct {
+	// A boolean where true represents the scoped variables is globally assigned to all current and
+	// future containers in the environment.
+	Global bool `json:"global"`
+	// An array of container IDs, where each container identified will have access to the scoped variable.
+	Ids []string `json:"ids"`
+	// An array of container identifiers, where each container identfied will have access to the scoped
+	// variable.
+	Identifiers []string `json:"identifiers"`
+}
+
+// GetGlobal returns the value of Global.
+func (s *ScopedVariableScopeContainers) GetGlobal() bool {
+	return s.Global
+}
+
+// GetIds returns the value of Ids.
+func (s *ScopedVariableScopeContainers) GetIds() []string {
+	return s.Ids
+}
+
+// GetIdentifiers returns the value of Identifiers.
+func (s *ScopedVariableScopeContainers) GetIdentifiers() []string {
+	return s.Identifiers
+}
+
+// SetGlobal sets the value of Global.
+func (s *ScopedVariableScopeContainers) SetGlobal(val bool) {
+	s.Global = val
+}
+
+// SetIds sets the value of Ids.
+func (s *ScopedVariableScopeContainers) SetIds(val []string) {
+	s.Ids = val
+}
+
+// SetIdentifiers sets the value of Identifiers.
+func (s *ScopedVariableScopeContainers) SetIdentifiers(val []string) {
+	s.Identifiers = val
+}
+
+// An object with information about the encryption of the scoped variable.
+type ScopedVariableSecret struct {
+	// A boolean where true means the scoped variables value is encrypted.
+	Encrypted bool `json:"encrypted"`
+	// A hint for the decryption password.
+	Hint OptString `json:"hint"`
+}
+
+// GetEncrypted returns the value of Encrypted.
+func (s *ScopedVariableSecret) GetEncrypted() bool {
+	return s.Encrypted
+}
+
+// GetHint returns the value of Hint.
+func (s *ScopedVariableSecret) GetHint() OptString {
+	return s.Hint
+}
+
+// SetEncrypted sets the value of Encrypted.
+func (s *ScopedVariableSecret) SetEncrypted(val bool) {
+	s.Encrypted = val
+}
+
+// SetHint sets the value of Hint.
+func (s *ScopedVariableSecret) SetHint(val OptString) {
+	s.Hint = val
+}
+
+// The source or value of the scoped variable.
+// ScopedVariableSource represents sum type.
+type ScopedVariableSource struct {
+	Type      ScopedVariableSourceType // switch on this field
+	URLSource URLSource
+	RawSource RawSource
+}
+
+// ScopedVariableSourceType is oneOf type of ScopedVariableSource.
+type ScopedVariableSourceType string
+
+// Possible values for ScopedVariableSourceType.
+const (
+	URLSourceScopedVariableSource ScopedVariableSourceType = "URLSource"
+	RawSourceScopedVariableSource ScopedVariableSourceType = "RawSource"
+)
+
+// IsURLSource reports whether ScopedVariableSource is URLSource.
+func (s ScopedVariableSource) IsURLSource() bool { return s.Type == URLSourceScopedVariableSource }
+
+// IsRawSource reports whether ScopedVariableSource is RawSource.
+func (s ScopedVariableSource) IsRawSource() bool { return s.Type == RawSourceScopedVariableSource }
+
+// SetURLSource sets ScopedVariableSource to URLSource.
+func (s *ScopedVariableSource) SetURLSource(v URLSource) {
+	s.Type = URLSourceScopedVariableSource
+	s.URLSource = v
+}
+
+// GetURLSource returns URLSource and true boolean if ScopedVariableSource is URLSource.
+func (s ScopedVariableSource) GetURLSource() (v URLSource, ok bool) {
+	if !s.IsURLSource() {
+		return v, false
+	}
+	return s.URLSource, true
+}
+
+// NewURLSourceScopedVariableSource returns new ScopedVariableSource from URLSource.
+func NewURLSourceScopedVariableSource(v URLSource) ScopedVariableSource {
+	var s ScopedVariableSource
+	s.SetURLSource(v)
+	return s
+}
+
+// SetRawSource sets ScopedVariableSource to RawSource.
+func (s *ScopedVariableSource) SetRawSource(v RawSource) {
+	s.Type = RawSourceScopedVariableSource
+	s.RawSource = v
+}
+
+// GetRawSource returns RawSource and true boolean if ScopedVariableSource is RawSource.
+func (s ScopedVariableSource) GetRawSource() (v RawSource, ok bool) {
+	if !s.IsRawSource() {
+		return v, false
+	}
+	return s.RawSource, true
+}
+
+// NewRawSourceScopedVariableSource returns new ScopedVariableSource from RawSource.
+func NewRawSourceScopedVariableSource(v RawSource) ScopedVariableSource {
+	var s ScopedVariableSource
+	s.SetRawSource(v)
+	return s
+}
+
+// Merged schema.
+// Ref: #/components/schemas/ScopedVariableState
+type ScopedVariableState struct {
+	// The current state of the scoped variable.
+	Current ScopedVariableStateCurrent `json:"current"`
+	Changed DateTime                   `json:"changed"`
+	// An error, if any, that has occurred for this resource.
+	Error OptScopedVariableStateError `json:"error"`
+}
+
+// GetCurrent returns the value of Current.
+func (s *ScopedVariableState) GetCurrent() ScopedVariableStateCurrent {
+	return s.Current
+}
+
+// GetChanged returns the value of Changed.
+func (s *ScopedVariableState) GetChanged() DateTime {
+	return s.Changed
+}
+
+// GetError returns the value of Error.
+func (s *ScopedVariableState) GetError() OptScopedVariableStateError {
+	return s.Error
+}
+
+// SetCurrent sets the value of Current.
+func (s *ScopedVariableState) SetCurrent(val ScopedVariableStateCurrent) {
+	s.Current = val
+}
+
+// SetChanged sets the value of Changed.
+func (s *ScopedVariableState) SetChanged(val DateTime) {
+	s.Changed = val
+}
+
+// SetError sets the value of Error.
+func (s *ScopedVariableState) SetError(val OptScopedVariableStateError) {
+	s.Error = val
+}
+
+// The current state of the scoped variable.
+type ScopedVariableStateCurrent string
+
+const (
+	ScopedVariableStateCurrentLive     ScopedVariableStateCurrent = "live"
+	ScopedVariableStateCurrentDeleting ScopedVariableStateCurrent = "deleting"
+	ScopedVariableStateCurrentDeleted  ScopedVariableStateCurrent = "deleted"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ScopedVariableStateCurrent) MarshalText() ([]byte, error) {
+	switch s {
+	case ScopedVariableStateCurrentLive:
+		return []byte(s), nil
+	case ScopedVariableStateCurrentDeleting:
+		return []byte(s), nil
+	case ScopedVariableStateCurrentDeleted:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ScopedVariableStateCurrent) UnmarshalText(data []byte) error {
+	switch ScopedVariableStateCurrent(data) {
+	case ScopedVariableStateCurrentLive:
+		*s = ScopedVariableStateCurrentLive
+		return nil
+	case ScopedVariableStateCurrentDeleting:
+		*s = ScopedVariableStateCurrentDeleting
+		return nil
+	case ScopedVariableStateCurrentDeleted:
+		*s = ScopedVariableStateCurrentDeleted
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// An error, if any, that has occurred for this resource.
+type ScopedVariableStateError struct {
+	// Details about the error that has occurred.
+	Message OptString `json:"message"`
+	// The timestamp of when the error was encountered.
+	Time OptDateTime `json:"time"`
+}
+
+// GetMessage returns the value of Message.
+func (s *ScopedVariableStateError) GetMessage() OptString {
+	return s.Message
+}
+
+// GetTime returns the value of Time.
+func (s *ScopedVariableStateError) GetTime() OptDateTime {
+	return s.Time
+}
+
+// SetMessage sets the value of Message.
+func (s *ScopedVariableStateError) SetMessage(val OptString) {
+	s.Message = val
+}
+
+// SetTime sets the value of Time.
+func (s *ScopedVariableStateError) SetTime(val OptDateTime) {
+	s.Time = val
 }
 
 // Rules for controlling Linux seccomp inside a container.
@@ -50694,6 +69182,47 @@ func (s *ServiceItemTier) SetPrice(val BillingAmount) {
 	s.Price = val
 }
 
+// Session info about the activity entry.
+// Ref: #/components/schemas/Session
+type Session struct {
+	// URL endpoint assocaited with the activity context - does not include domain.
+	URL string `json:"url"`
+	// The IP of the account associated with the session.
+	IP string `json:"ip"`
+	// The API key ID.
+	APIKey NilString `json:"api_key"`
+}
+
+// GetURL returns the value of URL.
+func (s *Session) GetURL() string {
+	return s.URL
+}
+
+// GetIP returns the value of IP.
+func (s *Session) GetIP() string {
+	return s.IP
+}
+
+// GetAPIKey returns the value of APIKey.
+func (s *Session) GetAPIKey() NilString {
+	return s.APIKey
+}
+
+// SetURL sets the value of URL.
+func (s *Session) SetURL(val string) {
+	s.URL = val
+}
+
+// SetIP sets the value of IP.
+func (s *Session) SetIP(val string) {
+	s.IP = val
+}
+
+// SetAPIKey sets the value of APIKey.
+func (s *Session) SetAPIKey(val NilString) {
+	s.APIKey = val
+}
+
 type SetupTwoFaOK struct {
 	Data OptTwoFaSetupResponse `json:"data"`
 }
@@ -50721,6 +69250,412 @@ func (s *SetupTwoFaReq) GetToken() string {
 // SetToken sets the value of Token.
 func (s *SetupTwoFaReq) SetToken(val string) {
 	s.Token = val
+}
+
+// Settings for the sleep step for a pipeline.
+// Ref: #/components/schemas/SleepStep
+type SleepStep struct {
+	// An identifier for the step.
+	Identifier OptString           `json:"identifier"`
+	Options    OptSleepStepOptions `json:"options"`
+	Details    SleepStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *SleepStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *SleepStep) GetOptions() OptSleepStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *SleepStep) GetDetails() SleepStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *SleepStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *SleepStep) SetOptions(val OptSleepStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *SleepStep) SetDetails(val SleepStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type SleepStepAction string
+
+const (
+	SleepStepActionSleep SleepStepAction = "sleep"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s SleepStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case SleepStepActionSleep:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *SleepStepAction) UnmarshalText(data []byte) error {
+	switch SleepStepAction(data) {
+	case SleepStepActionSleep:
+		*s = SleepStepActionSleep
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type SleepStepDetails struct {
+	// Total duration (seconds) to run this step for, before moving on to the next step.
+	Seconds OptInt `json:"seconds"`
+}
+
+// GetSeconds returns the value of Seconds.
+func (s *SleepStepDetails) GetSeconds() OptInt {
+	return s.Seconds
+}
+
+// SetSeconds sets the value of Seconds.
+func (s *SleepStepDetails) SetSeconds(val OptInt) {
+	s.Seconds = val
+}
+
+type SleepStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *SleepStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *SleepStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// A resource associate with an image source.
+// Ref: #/components/schemas/SourceIncludes
+type SourceIncludes struct {
+	Creators OptCreatorInclude `json:"creators"`
+}
+
+// GetCreators returns the value of Creators.
+func (s *SourceIncludes) GetCreators() OptCreatorInclude {
+	return s.Creators
+}
+
+// SetCreators sets the value of Creators.
+func (s *SourceIncludes) SetCreators(val OptCreatorInclude) {
+	s.Creators = val
+}
+
+// Stacks are a way to orchestrate multiple containers atomically and automatically.
+// Ref: #/components/schemas/Stack
+type Stack struct {
+	ID ID `json:"id"`
+	// A human readable slugged identifier for this stack.
+	Identifier Identifier `json:"identifier"`
+	// A user defined name for the stack resource.
+	Name    string      `json:"name"`
+	HubID   HubID       `json:"hub_id"`
+	Creator UserScope   `json:"creator"`
+	Source  StackSource `json:"source"`
+	State   StackState  `json:"state"`
+	// A collection of timestamps for each event in the Stacks lifetime.
+	Events StackEvents  `json:"events"`
+	Meta   OptStackMeta `json:"meta"`
+}
+
+// GetID returns the value of ID.
+func (s *Stack) GetID() ID {
+	return s.ID
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *Stack) GetIdentifier() Identifier {
+	return s.Identifier
+}
+
+// GetName returns the value of Name.
+func (s *Stack) GetName() string {
+	return s.Name
+}
+
+// GetHubID returns the value of HubID.
+func (s *Stack) GetHubID() HubID {
+	return s.HubID
+}
+
+// GetCreator returns the value of Creator.
+func (s *Stack) GetCreator() UserScope {
+	return s.Creator
+}
+
+// GetSource returns the value of Source.
+func (s *Stack) GetSource() StackSource {
+	return s.Source
+}
+
+// GetState returns the value of State.
+func (s *Stack) GetState() StackState {
+	return s.State
+}
+
+// GetEvents returns the value of Events.
+func (s *Stack) GetEvents() StackEvents {
+	return s.Events
+}
+
+// GetMeta returns the value of Meta.
+func (s *Stack) GetMeta() OptStackMeta {
+	return s.Meta
+}
+
+// SetID sets the value of ID.
+func (s *Stack) SetID(val ID) {
+	s.ID = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *Stack) SetIdentifier(val Identifier) {
+	s.Identifier = val
+}
+
+// SetName sets the value of Name.
+func (s *Stack) SetName(val string) {
+	s.Name = val
+}
+
+// SetHubID sets the value of HubID.
+func (s *Stack) SetHubID(val HubID) {
+	s.HubID = val
+}
+
+// SetCreator sets the value of Creator.
+func (s *Stack) SetCreator(val UserScope) {
+	s.Creator = val
+}
+
+// SetSource sets the value of Source.
+func (s *Stack) SetSource(val StackSource) {
+	s.Source = val
+}
+
+// SetState sets the value of State.
+func (s *Stack) SetState(val StackState) {
+	s.State = val
+}
+
+// SetEvents sets the value of Events.
+func (s *Stack) SetEvents(val StackEvents) {
+	s.Events = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *Stack) SetMeta(val OptStackMeta) {
+	s.Meta = val
+}
+
+// A stack build resource.
+// Ref: #/components/schemas/StackBuild
+type StackBuild struct {
+	ID    ID    `json:"id"`
+	HubID HubID `json:"hub_id"`
+	// An identifier for the stack related to this build.
+	StackID string    `json:"stack_id"`
+	Spec    StackSpec `json:"spec"`
+	// Information about the stack build.
+	About StackBuildAboutDetails `json:"about"`
+	// Git information on where to pull stack resources from.
+	Instructions StackBuildInstructionsDetails `json:"instructions"`
+	// A collection of timestamps for each event in the stack build's lifetime.
+	Events StackBuildEvents  `json:"events"`
+	State  StackBuildState   `json:"state"`
+	Meta   OptStackBuildMeta `json:"meta"`
+}
+
+// GetID returns the value of ID.
+func (s *StackBuild) GetID() ID {
+	return s.ID
+}
+
+// GetHubID returns the value of HubID.
+func (s *StackBuild) GetHubID() HubID {
+	return s.HubID
+}
+
+// GetStackID returns the value of StackID.
+func (s *StackBuild) GetStackID() string {
+	return s.StackID
+}
+
+// GetSpec returns the value of Spec.
+func (s *StackBuild) GetSpec() StackSpec {
+	return s.Spec
+}
+
+// GetAbout returns the value of About.
+func (s *StackBuild) GetAbout() StackBuildAboutDetails {
+	return s.About
+}
+
+// GetInstructions returns the value of Instructions.
+func (s *StackBuild) GetInstructions() StackBuildInstructionsDetails {
+	return s.Instructions
+}
+
+// GetEvents returns the value of Events.
+func (s *StackBuild) GetEvents() StackBuildEvents {
+	return s.Events
+}
+
+// GetState returns the value of State.
+func (s *StackBuild) GetState() StackBuildState {
+	return s.State
+}
+
+// GetMeta returns the value of Meta.
+func (s *StackBuild) GetMeta() OptStackBuildMeta {
+	return s.Meta
+}
+
+// SetID sets the value of ID.
+func (s *StackBuild) SetID(val ID) {
+	s.ID = val
+}
+
+// SetHubID sets the value of HubID.
+func (s *StackBuild) SetHubID(val HubID) {
+	s.HubID = val
+}
+
+// SetStackID sets the value of StackID.
+func (s *StackBuild) SetStackID(val string) {
+	s.StackID = val
+}
+
+// SetSpec sets the value of Spec.
+func (s *StackBuild) SetSpec(val StackSpec) {
+	s.Spec = val
+}
+
+// SetAbout sets the value of About.
+func (s *StackBuild) SetAbout(val StackBuildAboutDetails) {
+	s.About = val
+}
+
+// SetInstructions sets the value of Instructions.
+func (s *StackBuild) SetInstructions(val StackBuildInstructionsDetails) {
+	s.Instructions = val
+}
+
+// SetEvents sets the value of Events.
+func (s *StackBuild) SetEvents(val StackBuildEvents) {
+	s.Events = val
+}
+
+// SetState sets the value of State.
+func (s *StackBuild) SetState(val StackBuildState) {
+	s.State = val
+}
+
+// SetMeta sets the value of Meta.
+func (s *StackBuild) SetMeta(val OptStackBuildMeta) {
+	s.Meta = val
+}
+
+// Information about the stack build.
+// Ref: #/components/schemas/StackBuildAbout
+type StackBuildAbout struct {
+	// A user defined version of the build.
+	Version string `json:"version"`
+	// A user defined description for the build.
+	Description string            `json:"description"`
+	GitCommit   OptStackGitCommit `json:"git_commit"`
+}
+
+// GetVersion returns the value of Version.
+func (s *StackBuildAbout) GetVersion() string {
+	return s.Version
+}
+
+// GetDescription returns the value of Description.
+func (s *StackBuildAbout) GetDescription() string {
+	return s.Description
+}
+
+// GetGitCommit returns the value of GitCommit.
+func (s *StackBuildAbout) GetGitCommit() OptStackGitCommit {
+	return s.GitCommit
+}
+
+// SetVersion sets the value of Version.
+func (s *StackBuildAbout) SetVersion(val string) {
+	s.Version = val
+}
+
+// SetDescription sets the value of Description.
+func (s *StackBuildAbout) SetDescription(val string) {
+	s.Description = val
+}
+
+// SetGitCommit sets the value of GitCommit.
+func (s *StackBuildAbout) SetGitCommit(val OptStackGitCommit) {
+	s.GitCommit = val
+}
+
+// Information about the stack build.
+type StackBuildAboutDetails struct {
+	// Information about the version of the stack.
+	Version string `json:"version"`
+	// Information describing the stack.
+	Description string            `json:"description"`
+	GitCommit   OptStackGitCommit `json:"git_commit"`
+}
+
+// GetVersion returns the value of Version.
+func (s *StackBuildAboutDetails) GetVersion() string {
+	return s.Version
+}
+
+// GetDescription returns the value of Description.
+func (s *StackBuildAboutDetails) GetDescription() string {
+	return s.Description
+}
+
+// GetGitCommit returns the value of GitCommit.
+func (s *StackBuildAboutDetails) GetGitCommit() OptStackGitCommit {
+	return s.GitCommit
+}
+
+// SetVersion sets the value of Version.
+func (s *StackBuildAboutDetails) SetVersion(val string) {
+	s.Version = val
+}
+
+// SetDescription sets the value of Description.
+func (s *StackBuildAboutDetails) SetDescription(val string) {
+	s.Description = val
+}
+
+// SetGitCommit sets the value of GitCommit.
+func (s *StackBuildAboutDetails) SetGitCommit(val OptStackGitCommit) {
+	s.GitCommit = val
 }
 
 // Optional update object used to specify specific params to update from the stack build.
@@ -50752,6 +69687,3476 @@ func (s *StackBuildContainerUpdateContainers) init() StackBuildContainerUpdateCo
 	return m
 }
 
+// Settings for creating a stack build in a pipeline.
+// Ref: #/components/schemas/StackBuildCreateStep
+type StackBuildCreateStep struct {
+	// An identifier for the step.
+	Identifier OptString                      `json:"identifier"`
+	Options    OptStackBuildCreateStepOptions `json:"options"`
+	Details    StackBuildCreateStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *StackBuildCreateStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *StackBuildCreateStep) GetOptions() OptStackBuildCreateStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *StackBuildCreateStep) GetDetails() StackBuildCreateStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *StackBuildCreateStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *StackBuildCreateStep) SetOptions(val OptStackBuildCreateStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *StackBuildCreateStep) SetDetails(val StackBuildCreateStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type StackBuildCreateStepAction string
+
+const (
+	StackBuildCreateStepActionStackBuildCreate StackBuildCreateStepAction = "stack.build.create"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackBuildCreateStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case StackBuildCreateStepActionStackBuildCreate:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackBuildCreateStepAction) UnmarshalText(data []byte) error {
+	switch StackBuildCreateStepAction(data) {
+	case StackBuildCreateStepActionStackBuildCreate:
+		*s = StackBuildCreateStepActionStackBuildCreate
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Merged schema.
+type StackBuildCreateStepDetails struct {
+	Stack        ResourceLocation          `json:"stack"`
+	Instructions OptStackBuildInstructions `json:"instructions"`
+	About        OptStackBuildAbout        `json:"about"`
+}
+
+// GetStack returns the value of Stack.
+func (s *StackBuildCreateStepDetails) GetStack() ResourceLocation {
+	return s.Stack
+}
+
+// GetInstructions returns the value of Instructions.
+func (s *StackBuildCreateStepDetails) GetInstructions() OptStackBuildInstructions {
+	return s.Instructions
+}
+
+// GetAbout returns the value of About.
+func (s *StackBuildCreateStepDetails) GetAbout() OptStackBuildAbout {
+	return s.About
+}
+
+// SetStack sets the value of Stack.
+func (s *StackBuildCreateStepDetails) SetStack(val ResourceLocation) {
+	s.Stack = val
+}
+
+// SetInstructions sets the value of Instructions.
+func (s *StackBuildCreateStepDetails) SetInstructions(val OptStackBuildInstructions) {
+	s.Instructions = val
+}
+
+// SetAbout sets the value of About.
+func (s *StackBuildCreateStepDetails) SetAbout(val OptStackBuildAbout) {
+	s.About = val
+}
+
+type StackBuildCreateStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *StackBuildCreateStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *StackBuildCreateStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// Settings for deploying a stack build in a pipeline.
+// Ref: #/components/schemas/StackBuildDeployStep
+type StackBuildDeployStep struct {
+	// An identifier for the step.
+	Identifier OptString                      `json:"identifier"`
+	Options    OptStackBuildDeployStepOptions `json:"options"`
+	Details    StackBuildDeployStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *StackBuildDeployStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *StackBuildDeployStep) GetOptions() OptStackBuildDeployStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *StackBuildDeployStep) GetDetails() StackBuildDeployStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *StackBuildDeployStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *StackBuildDeployStep) SetOptions(val OptStackBuildDeployStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *StackBuildDeployStep) SetDetails(val StackBuildDeployStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type StackBuildDeployStepAction string
+
+const (
+	StackBuildDeployStepActionStackBuildDeploy StackBuildDeployStepAction = "stack.build.deploy"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackBuildDeployStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case StackBuildDeployStepActionStackBuildDeploy:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackBuildDeployStepAction) UnmarshalText(data []byte) error {
+	switch StackBuildDeployStepAction(data) {
+	case StackBuildDeployStepActionStackBuildDeploy:
+		*s = StackBuildDeployStepActionStackBuildDeploy
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Merged schema.
+type StackBuildDeployStepDetails struct {
+	// Id of stack build.
+	ID          string                       `json:"id"`
+	Environment ResourceLocation             `json:"environment"`
+	Update      OptStackBuildContainerUpdate `json:"update"`
+}
+
+// GetID returns the value of ID.
+func (s *StackBuildDeployStepDetails) GetID() string {
+	return s.ID
+}
+
+// GetEnvironment returns the value of Environment.
+func (s *StackBuildDeployStepDetails) GetEnvironment() ResourceLocation {
+	return s.Environment
+}
+
+// GetUpdate returns the value of Update.
+func (s *StackBuildDeployStepDetails) GetUpdate() OptStackBuildContainerUpdate {
+	return s.Update
+}
+
+// SetID sets the value of ID.
+func (s *StackBuildDeployStepDetails) SetID(val string) {
+	s.ID = val
+}
+
+// SetEnvironment sets the value of Environment.
+func (s *StackBuildDeployStepDetails) SetEnvironment(val ResourceLocation) {
+	s.Environment = val
+}
+
+// SetUpdate sets the value of Update.
+func (s *StackBuildDeployStepDetails) SetUpdate(val OptStackBuildContainerUpdate) {
+	s.Update = val
+}
+
+type StackBuildDeployStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *StackBuildDeployStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *StackBuildDeployStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// A collection of timestamps for each event in the stack build's lifetime.
+type StackBuildEvents struct {
+	// The timestamp of when the stack build was created.
+	Created DateTime `json:"created"`
+	// The timestamp of when the stack build was updated.
+	Updated DateTime `json:"updated"`
+	// The timestamp of when the stack build was deleted.
+	Deleted DateTime `json:"deleted"`
+}
+
+// GetCreated returns the value of Created.
+func (s *StackBuildEvents) GetCreated() DateTime {
+	return s.Created
+}
+
+// GetUpdated returns the value of Updated.
+func (s *StackBuildEvents) GetUpdated() DateTime {
+	return s.Updated
+}
+
+// GetDeleted returns the value of Deleted.
+func (s *StackBuildEvents) GetDeleted() DateTime {
+	return s.Deleted
+}
+
+// SetCreated sets the value of Created.
+func (s *StackBuildEvents) SetCreated(val DateTime) {
+	s.Created = val
+}
+
+// SetUpdated sets the value of Updated.
+func (s *StackBuildEvents) SetUpdated(val DateTime) {
+	s.Updated = val
+}
+
+// SetDeleted sets the value of Deleted.
+func (s *StackBuildEvents) SetDeleted(val DateTime) {
+	s.Deleted = val
+}
+
+// Settings for the stack build generate step for a pipeline.
+// Ref: #/components/schemas/StackBuildGenerateStep
+type StackBuildGenerateStep struct {
+	// An identifier for the step.
+	Identifier OptString                        `json:"identifier"`
+	Options    OptStackBuildGenerateStepOptions `json:"options"`
+	Details    ResourceLocation                 `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *StackBuildGenerateStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *StackBuildGenerateStep) GetOptions() OptStackBuildGenerateStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *StackBuildGenerateStep) GetDetails() ResourceLocation {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *StackBuildGenerateStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *StackBuildGenerateStep) SetOptions(val OptStackBuildGenerateStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *StackBuildGenerateStep) SetDetails(val ResourceLocation) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type StackBuildGenerateStepAction string
+
+const (
+	StackBuildGenerateStepActionStackBuildGenerate StackBuildGenerateStepAction = "stack.build.generate"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackBuildGenerateStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case StackBuildGenerateStepActionStackBuildGenerate:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackBuildGenerateStepAction) UnmarshalText(data []byte) error {
+	switch StackBuildGenerateStepAction(data) {
+	case StackBuildGenerateStepActionStackBuildGenerate:
+		*s = StackBuildGenerateStepActionStackBuildGenerate
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type StackBuildGenerateStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *StackBuildGenerateStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *StackBuildGenerateStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// All includable resources linkable to a given stack build.
+// Ref: #/components/schemas/StackBuildInclude
+type StackBuildInclude struct {
+	// The ID for the stack this build is associated with.
+	StackID OptString `json:"stack_id"`
+	HubID   OptHubID  `json:"hub_id"`
+	// Information about the stack build.
+	About OptStackBuildIncludeAbout `json:"about"`
+	// Git information on where to pull stack resources from.
+	Instructions OptStackBuildIncludeInstructions `json:"instructions"`
+	// A collection of timestamps for each event in the stack build's lifetime.
+	Events OptStackBuildIncludeEvents `json:"events"`
+	State  OptStackBuildState         `json:"state"`
+}
+
+// GetStackID returns the value of StackID.
+func (s *StackBuildInclude) GetStackID() OptString {
+	return s.StackID
+}
+
+// GetHubID returns the value of HubID.
+func (s *StackBuildInclude) GetHubID() OptHubID {
+	return s.HubID
+}
+
+// GetAbout returns the value of About.
+func (s *StackBuildInclude) GetAbout() OptStackBuildIncludeAbout {
+	return s.About
+}
+
+// GetInstructions returns the value of Instructions.
+func (s *StackBuildInclude) GetInstructions() OptStackBuildIncludeInstructions {
+	return s.Instructions
+}
+
+// GetEvents returns the value of Events.
+func (s *StackBuildInclude) GetEvents() OptStackBuildIncludeEvents {
+	return s.Events
+}
+
+// GetState returns the value of State.
+func (s *StackBuildInclude) GetState() OptStackBuildState {
+	return s.State
+}
+
+// SetStackID sets the value of StackID.
+func (s *StackBuildInclude) SetStackID(val OptString) {
+	s.StackID = val
+}
+
+// SetHubID sets the value of HubID.
+func (s *StackBuildInclude) SetHubID(val OptHubID) {
+	s.HubID = val
+}
+
+// SetAbout sets the value of About.
+func (s *StackBuildInclude) SetAbout(val OptStackBuildIncludeAbout) {
+	s.About = val
+}
+
+// SetInstructions sets the value of Instructions.
+func (s *StackBuildInclude) SetInstructions(val OptStackBuildIncludeInstructions) {
+	s.Instructions = val
+}
+
+// SetEvents sets the value of Events.
+func (s *StackBuildInclude) SetEvents(val OptStackBuildIncludeEvents) {
+	s.Events = val
+}
+
+// SetState sets the value of State.
+func (s *StackBuildInclude) SetState(val OptStackBuildState) {
+	s.State = val
+}
+
+// Information about the stack build.
+type StackBuildIncludeAbout struct {
+	// A user defined version of the build.
+	Version string `json:"version"`
+	// A user defined description for the build.
+	Description string            `json:"description"`
+	GitCommit   OptStackGitCommit `json:"git_commit"`
+}
+
+// GetVersion returns the value of Version.
+func (s *StackBuildIncludeAbout) GetVersion() string {
+	return s.Version
+}
+
+// GetDescription returns the value of Description.
+func (s *StackBuildIncludeAbout) GetDescription() string {
+	return s.Description
+}
+
+// GetGitCommit returns the value of GitCommit.
+func (s *StackBuildIncludeAbout) GetGitCommit() OptStackGitCommit {
+	return s.GitCommit
+}
+
+// SetVersion sets the value of Version.
+func (s *StackBuildIncludeAbout) SetVersion(val string) {
+	s.Version = val
+}
+
+// SetDescription sets the value of Description.
+func (s *StackBuildIncludeAbout) SetDescription(val string) {
+	s.Description = val
+}
+
+// SetGitCommit sets the value of GitCommit.
+func (s *StackBuildIncludeAbout) SetGitCommit(val OptStackGitCommit) {
+	s.GitCommit = val
+}
+
+// A collection of timestamps for each event in the stack build's lifetime.
+type StackBuildIncludeEvents struct {
+	// The timestamp of when the stack build was created.
+	Created DateTime `json:"created"`
+	// The timestamp of when the stack build was updated.
+	Updated DateTime `json:"updated"`
+	// The timestamp of when the stack build was deleted.
+	Deleted DateTime `json:"deleted"`
+}
+
+// GetCreated returns the value of Created.
+func (s *StackBuildIncludeEvents) GetCreated() DateTime {
+	return s.Created
+}
+
+// GetUpdated returns the value of Updated.
+func (s *StackBuildIncludeEvents) GetUpdated() DateTime {
+	return s.Updated
+}
+
+// GetDeleted returns the value of Deleted.
+func (s *StackBuildIncludeEvents) GetDeleted() DateTime {
+	return s.Deleted
+}
+
+// SetCreated sets the value of Created.
+func (s *StackBuildIncludeEvents) SetCreated(val DateTime) {
+	s.Created = val
+}
+
+// SetUpdated sets the value of Updated.
+func (s *StackBuildIncludeEvents) SetUpdated(val DateTime) {
+	s.Updated = val
+}
+
+// SetDeleted sets the value of Deleted.
+func (s *StackBuildIncludeEvents) SetDeleted(val DateTime) {
+	s.Deleted = val
+}
+
+// Git information on where to pull stack resources from.
+type StackBuildIncludeInstructions struct {
+	// Git information specifics.
+	Git OptStackBuildIncludeInstructionsGit `json:"git"`
+}
+
+// GetGit returns the value of Git.
+func (s *StackBuildIncludeInstructions) GetGit() OptStackBuildIncludeInstructionsGit {
+	return s.Git
+}
+
+// SetGit sets the value of Git.
+func (s *StackBuildIncludeInstructions) SetGit(val OptStackBuildIncludeInstructionsGit) {
+	s.Git = val
+}
+
+// Git information specifics.
+type StackBuildIncludeInstructionsGit struct {
+	// The type of information the user is passing.
+	Type StackBuildIncludeInstructionsGitType `json:"type"`
+	// The actual value to be passed.
+	Value string `json:"value"`
+}
+
+// GetType returns the value of Type.
+func (s *StackBuildIncludeInstructionsGit) GetType() StackBuildIncludeInstructionsGitType {
+	return s.Type
+}
+
+// GetValue returns the value of Value.
+func (s *StackBuildIncludeInstructionsGit) GetValue() string {
+	return s.Value
+}
+
+// SetType sets the value of Type.
+func (s *StackBuildIncludeInstructionsGit) SetType(val StackBuildIncludeInstructionsGitType) {
+	s.Type = val
+}
+
+// SetValue sets the value of Value.
+func (s *StackBuildIncludeInstructionsGit) SetValue(val string) {
+	s.Value = val
+}
+
+// The type of information the user is passing.
+type StackBuildIncludeInstructionsGitType string
+
+const (
+	StackBuildIncludeInstructionsGitTypeHash StackBuildIncludeInstructionsGitType = "hash"
+	StackBuildIncludeInstructionsGitTypeTag  StackBuildIncludeInstructionsGitType = "tag"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackBuildIncludeInstructionsGitType) MarshalText() ([]byte, error) {
+	switch s {
+	case StackBuildIncludeInstructionsGitTypeHash:
+		return []byte(s), nil
+	case StackBuildIncludeInstructionsGitTypeTag:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackBuildIncludeInstructionsGitType) UnmarshalText(data []byte) error {
+	switch StackBuildIncludeInstructionsGitType(data) {
+	case StackBuildIncludeInstructionsGitTypeHash:
+		*s = StackBuildIncludeInstructionsGitTypeHash
+		return nil
+	case StackBuildIncludeInstructionsGitTypeTag:
+		*s = StackBuildIncludeInstructionsGitTypeTag
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A resource thats associated with a stack build.
+// Ref: #/components/schemas/StackBuildIncludes
+type StackBuildIncludes map[string]StackBuild
+
+func (s *StackBuildIncludes) init() StackBuildIncludes {
+	m := *s
+	if m == nil {
+		m = map[string]StackBuild{}
+		*s = m
+	}
+	return m
+}
+
+// Git information on where to pull stack resources from.
+// Ref: #/components/schemas/StackBuildInstructions
+type StackBuildInstructions struct {
+	// Git information specifics.
+	Git OptStackBuildInstructionsGit `json:"git"`
+}
+
+// GetGit returns the value of Git.
+func (s *StackBuildInstructions) GetGit() OptStackBuildInstructionsGit {
+	return s.Git
+}
+
+// SetGit sets the value of Git.
+func (s *StackBuildInstructions) SetGit(val OptStackBuildInstructionsGit) {
+	s.Git = val
+}
+
+// Git information on where to pull stack resources from.
+type StackBuildInstructionsDetails struct {
+	// Git information specifics.
+	Git OptStackBuildInstructionsDetailsGit `json:"git"`
+}
+
+// GetGit returns the value of Git.
+func (s *StackBuildInstructionsDetails) GetGit() OptStackBuildInstructionsDetailsGit {
+	return s.Git
+}
+
+// SetGit sets the value of Git.
+func (s *StackBuildInstructionsDetails) SetGit(val OptStackBuildInstructionsDetailsGit) {
+	s.Git = val
+}
+
+// Git information specifics.
+type StackBuildInstructionsDetailsGit struct {
+	// The type of information the user is passing.
+	Type StackBuildInstructionsDetailsGitType `json:"type"`
+	// The actual value to be passed.
+	Value string `json:"value"`
+}
+
+// GetType returns the value of Type.
+func (s *StackBuildInstructionsDetailsGit) GetType() StackBuildInstructionsDetailsGitType {
+	return s.Type
+}
+
+// GetValue returns the value of Value.
+func (s *StackBuildInstructionsDetailsGit) GetValue() string {
+	return s.Value
+}
+
+// SetType sets the value of Type.
+func (s *StackBuildInstructionsDetailsGit) SetType(val StackBuildInstructionsDetailsGitType) {
+	s.Type = val
+}
+
+// SetValue sets the value of Value.
+func (s *StackBuildInstructionsDetailsGit) SetValue(val string) {
+	s.Value = val
+}
+
+// The type of information the user is passing.
+type StackBuildInstructionsDetailsGitType string
+
+const (
+	StackBuildInstructionsDetailsGitTypeHash StackBuildInstructionsDetailsGitType = "hash"
+	StackBuildInstructionsDetailsGitTypeTag  StackBuildInstructionsDetailsGitType = "tag"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackBuildInstructionsDetailsGitType) MarshalText() ([]byte, error) {
+	switch s {
+	case StackBuildInstructionsDetailsGitTypeHash:
+		return []byte(s), nil
+	case StackBuildInstructionsDetailsGitTypeTag:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackBuildInstructionsDetailsGitType) UnmarshalText(data []byte) error {
+	switch StackBuildInstructionsDetailsGitType(data) {
+	case StackBuildInstructionsDetailsGitTypeHash:
+		*s = StackBuildInstructionsDetailsGitTypeHash
+		return nil
+	case StackBuildInstructionsDetailsGitTypeTag:
+		*s = StackBuildInstructionsDetailsGitTypeTag
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Git information specifics.
+type StackBuildInstructionsGit struct {
+	// The type of information the user is passing.
+	Type StackBuildInstructionsGitType `json:"type"`
+	// The actual value to be passed.
+	Value string `json:"value"`
+}
+
+// GetType returns the value of Type.
+func (s *StackBuildInstructionsGit) GetType() StackBuildInstructionsGitType {
+	return s.Type
+}
+
+// GetValue returns the value of Value.
+func (s *StackBuildInstructionsGit) GetValue() string {
+	return s.Value
+}
+
+// SetType sets the value of Type.
+func (s *StackBuildInstructionsGit) SetType(val StackBuildInstructionsGitType) {
+	s.Type = val
+}
+
+// SetValue sets the value of Value.
+func (s *StackBuildInstructionsGit) SetValue(val string) {
+	s.Value = val
+}
+
+// The type of information the user is passing.
+type StackBuildInstructionsGitType string
+
+const (
+	StackBuildInstructionsGitTypeHash StackBuildInstructionsGitType = "hash"
+	StackBuildInstructionsGitTypeTag  StackBuildInstructionsGitType = "tag"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackBuildInstructionsGitType) MarshalText() ([]byte, error) {
+	switch s {
+	case StackBuildInstructionsGitTypeHash:
+		return []byte(s), nil
+	case StackBuildInstructionsGitTypeTag:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackBuildInstructionsGitType) UnmarshalText(data []byte) error {
+	switch StackBuildInstructionsGitType(data) {
+	case StackBuildInstructionsGitTypeHash:
+		*s = StackBuildInstructionsGitTypeHash
+		return nil
+	case StackBuildInstructionsGitTypeTag:
+		*s = StackBuildInstructionsGitTypeTag
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A list of meta fields that can be applied to a stack build.
+// Ref: #/components/schemas/StackBuildMeta
+type StackBuildMeta struct {
+	ContainersCount OptStateCountSummary `json:"containers_count"`
+}
+
+// GetContainersCount returns the value of ContainersCount.
+func (s *StackBuildMeta) GetContainersCount() OptStateCountSummary {
+	return s.ContainersCount
+}
+
+// SetContainersCount sets the value of ContainersCount.
+func (s *StackBuildMeta) SetContainersCount(val OptStateCountSummary) {
+	s.ContainersCount = val
+}
+
+// Merged schema.
+// Ref: #/components/schemas/StackBuildState
+type StackBuildState struct {
+	// The current state of the stack build.
+	Current StackBuildStateCurrent `json:"current"`
+	Changed DateTime               `json:"changed"`
+	// An error, if any, that has occurred for this resource.
+	Error OptStackBuildStateError `json:"error"`
+}
+
+// GetCurrent returns the value of Current.
+func (s *StackBuildState) GetCurrent() StackBuildStateCurrent {
+	return s.Current
+}
+
+// GetChanged returns the value of Changed.
+func (s *StackBuildState) GetChanged() DateTime {
+	return s.Changed
+}
+
+// GetError returns the value of Error.
+func (s *StackBuildState) GetError() OptStackBuildStateError {
+	return s.Error
+}
+
+// SetCurrent sets the value of Current.
+func (s *StackBuildState) SetCurrent(val StackBuildStateCurrent) {
+	s.Current = val
+}
+
+// SetChanged sets the value of Changed.
+func (s *StackBuildState) SetChanged(val DateTime) {
+	s.Changed = val
+}
+
+// SetError sets the value of Error.
+func (s *StackBuildState) SetError(val OptStackBuildStateError) {
+	s.Error = val
+}
+
+// The current state of the stack build.
+type StackBuildStateCurrent string
+
+const (
+	StackBuildStateCurrentNew       StackBuildStateCurrent = "new"
+	StackBuildStateCurrentImporting StackBuildStateCurrent = "importing"
+	StackBuildStateCurrentBuilding  StackBuildStateCurrent = "building"
+	StackBuildStateCurrentVerifying StackBuildStateCurrent = "verifying"
+	StackBuildStateCurrentSaving    StackBuildStateCurrent = "saving"
+	StackBuildStateCurrentLive      StackBuildStateCurrent = "live"
+	StackBuildStateCurrentDeploying StackBuildStateCurrent = "deploying"
+	StackBuildStateCurrentDeleting  StackBuildStateCurrent = "deleting"
+	StackBuildStateCurrentDeleted   StackBuildStateCurrent = "deleted"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackBuildStateCurrent) MarshalText() ([]byte, error) {
+	switch s {
+	case StackBuildStateCurrentNew:
+		return []byte(s), nil
+	case StackBuildStateCurrentImporting:
+		return []byte(s), nil
+	case StackBuildStateCurrentBuilding:
+		return []byte(s), nil
+	case StackBuildStateCurrentVerifying:
+		return []byte(s), nil
+	case StackBuildStateCurrentSaving:
+		return []byte(s), nil
+	case StackBuildStateCurrentLive:
+		return []byte(s), nil
+	case StackBuildStateCurrentDeploying:
+		return []byte(s), nil
+	case StackBuildStateCurrentDeleting:
+		return []byte(s), nil
+	case StackBuildStateCurrentDeleted:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackBuildStateCurrent) UnmarshalText(data []byte) error {
+	switch StackBuildStateCurrent(data) {
+	case StackBuildStateCurrentNew:
+		*s = StackBuildStateCurrentNew
+		return nil
+	case StackBuildStateCurrentImporting:
+		*s = StackBuildStateCurrentImporting
+		return nil
+	case StackBuildStateCurrentBuilding:
+		*s = StackBuildStateCurrentBuilding
+		return nil
+	case StackBuildStateCurrentVerifying:
+		*s = StackBuildStateCurrentVerifying
+		return nil
+	case StackBuildStateCurrentSaving:
+		*s = StackBuildStateCurrentSaving
+		return nil
+	case StackBuildStateCurrentLive:
+		*s = StackBuildStateCurrentLive
+		return nil
+	case StackBuildStateCurrentDeploying:
+		*s = StackBuildStateCurrentDeploying
+		return nil
+	case StackBuildStateCurrentDeleting:
+		*s = StackBuildStateCurrentDeleting
+		return nil
+	case StackBuildStateCurrentDeleted:
+		*s = StackBuildStateCurrentDeleted
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// An error, if any, that has occurred for this resource.
+type StackBuildStateError struct {
+	// Details about the error that has occurred.
+	Message OptString `json:"message"`
+	// The timestamp of when the error was encountered.
+	Time OptDateTime `json:"time"`
+}
+
+// GetMessage returns the value of Message.
+func (s *StackBuildStateError) GetMessage() OptString {
+	return s.Message
+}
+
+// GetTime returns the value of Time.
+func (s *StackBuildStateError) GetTime() OptDateTime {
+	return s.Time
+}
+
+// SetMessage sets the value of Message.
+func (s *StackBuildStateError) SetMessage(val OptString) {
+	s.Message = val
+}
+
+// SetTime sets the value of Time.
+func (s *StackBuildStateError) SetTime(val OptDateTime) {
+	s.Time = val
+}
+
+// A list of records defining the stacks containers.
+// Ref: #/components/schemas/StackContainer
+type StackContainer map[string]StackContainerItem
+
+func (s *StackContainer) init() StackContainer {
+	m := *s
+	if m == nil {
+		m = map[string]StackContainerItem{}
+		*s = m
+	}
+	return m
+}
+
+// Ref: #/components/schemas/StackContainerConfigDeploy
+type StackContainerConfigDeploy struct {
+	Instances   float64                                  `json:"instances"`
+	Strategy    OptStackContainerConfigDeployStrategy    `json:"strategy"`
+	Stateful    OptStackContainerConfigDeployStateful    `json:"stateful"`
+	Constraints OptStackContainerConfigDeployConstraints `json:"constraints"`
+	Shutdown    OptStackContainerConfigDeployShutdown    `json:"shutdown"`
+	Startup     OptStackContainerConfigDeployStartup     `json:"startup"`
+	Restart     OptStackContainerConfigDeployRestart     `json:"restart"`
+	HealthCheck OptStackContainerConfigDeployHealthCheck `json:"health_check"`
+	Telemetry   OptStackContainerConfigDeployTelemetry   `json:"telemetry"`
+	Update      OptStackContainerConfigDeployUpdate      `json:"update"`
+}
+
+// GetInstances returns the value of Instances.
+func (s *StackContainerConfigDeploy) GetInstances() float64 {
+	return s.Instances
+}
+
+// GetStrategy returns the value of Strategy.
+func (s *StackContainerConfigDeploy) GetStrategy() OptStackContainerConfigDeployStrategy {
+	return s.Strategy
+}
+
+// GetStateful returns the value of Stateful.
+func (s *StackContainerConfigDeploy) GetStateful() OptStackContainerConfigDeployStateful {
+	return s.Stateful
+}
+
+// GetConstraints returns the value of Constraints.
+func (s *StackContainerConfigDeploy) GetConstraints() OptStackContainerConfigDeployConstraints {
+	return s.Constraints
+}
+
+// GetShutdown returns the value of Shutdown.
+func (s *StackContainerConfigDeploy) GetShutdown() OptStackContainerConfigDeployShutdown {
+	return s.Shutdown
+}
+
+// GetStartup returns the value of Startup.
+func (s *StackContainerConfigDeploy) GetStartup() OptStackContainerConfigDeployStartup {
+	return s.Startup
+}
+
+// GetRestart returns the value of Restart.
+func (s *StackContainerConfigDeploy) GetRestart() OptStackContainerConfigDeployRestart {
+	return s.Restart
+}
+
+// GetHealthCheck returns the value of HealthCheck.
+func (s *StackContainerConfigDeploy) GetHealthCheck() OptStackContainerConfigDeployHealthCheck {
+	return s.HealthCheck
+}
+
+// GetTelemetry returns the value of Telemetry.
+func (s *StackContainerConfigDeploy) GetTelemetry() OptStackContainerConfigDeployTelemetry {
+	return s.Telemetry
+}
+
+// GetUpdate returns the value of Update.
+func (s *StackContainerConfigDeploy) GetUpdate() OptStackContainerConfigDeployUpdate {
+	return s.Update
+}
+
+// SetInstances sets the value of Instances.
+func (s *StackContainerConfigDeploy) SetInstances(val float64) {
+	s.Instances = val
+}
+
+// SetStrategy sets the value of Strategy.
+func (s *StackContainerConfigDeploy) SetStrategy(val OptStackContainerConfigDeployStrategy) {
+	s.Strategy = val
+}
+
+// SetStateful sets the value of Stateful.
+func (s *StackContainerConfigDeploy) SetStateful(val OptStackContainerConfigDeployStateful) {
+	s.Stateful = val
+}
+
+// SetConstraints sets the value of Constraints.
+func (s *StackContainerConfigDeploy) SetConstraints(val OptStackContainerConfigDeployConstraints) {
+	s.Constraints = val
+}
+
+// SetShutdown sets the value of Shutdown.
+func (s *StackContainerConfigDeploy) SetShutdown(val OptStackContainerConfigDeployShutdown) {
+	s.Shutdown = val
+}
+
+// SetStartup sets the value of Startup.
+func (s *StackContainerConfigDeploy) SetStartup(val OptStackContainerConfigDeployStartup) {
+	s.Startup = val
+}
+
+// SetRestart sets the value of Restart.
+func (s *StackContainerConfigDeploy) SetRestart(val OptStackContainerConfigDeployRestart) {
+	s.Restart = val
+}
+
+// SetHealthCheck sets the value of HealthCheck.
+func (s *StackContainerConfigDeploy) SetHealthCheck(val OptStackContainerConfigDeployHealthCheck) {
+	s.HealthCheck = val
+}
+
+// SetTelemetry sets the value of Telemetry.
+func (s *StackContainerConfigDeploy) SetTelemetry(val OptStackContainerConfigDeployTelemetry) {
+	s.Telemetry = val
+}
+
+// SetUpdate sets the value of Update.
+func (s *StackContainerConfigDeploy) SetUpdate(val OptStackContainerConfigDeployUpdate) {
+	s.Update = val
+}
+
+type StackContainerConfigDeployConstraints struct {
+	Node       OptStackContainerConfigDeployConstraintsNode `json:"node"`
+	Secrets    []string                                     `json:"secrets"`
+	Containers []string                                     `json:"containers"`
+}
+
+// GetNode returns the value of Node.
+func (s *StackContainerConfigDeployConstraints) GetNode() OptStackContainerConfigDeployConstraintsNode {
+	return s.Node
+}
+
+// GetSecrets returns the value of Secrets.
+func (s *StackContainerConfigDeployConstraints) GetSecrets() []string {
+	return s.Secrets
+}
+
+// GetContainers returns the value of Containers.
+func (s *StackContainerConfigDeployConstraints) GetContainers() []string {
+	return s.Containers
+}
+
+// SetNode sets the value of Node.
+func (s *StackContainerConfigDeployConstraints) SetNode(val OptStackContainerConfigDeployConstraintsNode) {
+	s.Node = val
+}
+
+// SetSecrets sets the value of Secrets.
+func (s *StackContainerConfigDeployConstraints) SetSecrets(val []string) {
+	s.Secrets = val
+}
+
+// SetContainers sets the value of Containers.
+func (s *StackContainerConfigDeployConstraints) SetContainers(val []string) {
+	s.Containers = val
+}
+
+type StackContainerConfigDeployConstraintsNode struct {
+	Tags StackContainerConfigDeployConstraintsNodeTags `json:"tags"`
+}
+
+// GetTags returns the value of Tags.
+func (s *StackContainerConfigDeployConstraintsNode) GetTags() StackContainerConfigDeployConstraintsNodeTags {
+	return s.Tags
+}
+
+// SetTags sets the value of Tags.
+func (s *StackContainerConfigDeployConstraintsNode) SetTags(val StackContainerConfigDeployConstraintsNodeTags) {
+	s.Tags = val
+}
+
+type StackContainerConfigDeployConstraintsNodeTags struct {
+	Any []string `json:"any"`
+	All []string `json:"all"`
+}
+
+// GetAny returns the value of Any.
+func (s *StackContainerConfigDeployConstraintsNodeTags) GetAny() []string {
+	return s.Any
+}
+
+// GetAll returns the value of All.
+func (s *StackContainerConfigDeployConstraintsNodeTags) GetAll() []string {
+	return s.All
+}
+
+// SetAny sets the value of Any.
+func (s *StackContainerConfigDeployConstraintsNodeTags) SetAny(val []string) {
+	s.Any = val
+}
+
+// SetAll sets the value of All.
+func (s *StackContainerConfigDeployConstraintsNodeTags) SetAll(val []string) {
+	s.All = val
+}
+
+type StackContainerConfigDeployHealthCheck struct {
+	Command  string  `json:"command"`
+	Retries  float64 `json:"retries"`
+	Interval float64 `json:"interval"`
+	Timeout  float64 `json:"timeout"`
+	Restart  bool    `json:"restart"`
+}
+
+// GetCommand returns the value of Command.
+func (s *StackContainerConfigDeployHealthCheck) GetCommand() string {
+	return s.Command
+}
+
+// GetRetries returns the value of Retries.
+func (s *StackContainerConfigDeployHealthCheck) GetRetries() float64 {
+	return s.Retries
+}
+
+// GetInterval returns the value of Interval.
+func (s *StackContainerConfigDeployHealthCheck) GetInterval() float64 {
+	return s.Interval
+}
+
+// GetTimeout returns the value of Timeout.
+func (s *StackContainerConfigDeployHealthCheck) GetTimeout() float64 {
+	return s.Timeout
+}
+
+// GetRestart returns the value of Restart.
+func (s *StackContainerConfigDeployHealthCheck) GetRestart() bool {
+	return s.Restart
+}
+
+// SetCommand sets the value of Command.
+func (s *StackContainerConfigDeployHealthCheck) SetCommand(val string) {
+	s.Command = val
+}
+
+// SetRetries sets the value of Retries.
+func (s *StackContainerConfigDeployHealthCheck) SetRetries(val float64) {
+	s.Retries = val
+}
+
+// SetInterval sets the value of Interval.
+func (s *StackContainerConfigDeployHealthCheck) SetInterval(val float64) {
+	s.Interval = val
+}
+
+// SetTimeout sets the value of Timeout.
+func (s *StackContainerConfigDeployHealthCheck) SetTimeout(val float64) {
+	s.Timeout = val
+}
+
+// SetRestart sets the value of Restart.
+func (s *StackContainerConfigDeployHealthCheck) SetRestart(val bool) {
+	s.Restart = val
+}
+
+type StackContainerConfigDeployRestart struct {
+	Condition   StackContainerConfigDeployRestartCondition `json:"condition"`
+	Delay       float64                                    `json:"delay"`
+	MaxAttempts float64                                    `json:"max_attempts"`
+	Notify      OptStackContainerConfigDeployRestartNotify `json:"notify"`
+}
+
+// GetCondition returns the value of Condition.
+func (s *StackContainerConfigDeployRestart) GetCondition() StackContainerConfigDeployRestartCondition {
+	return s.Condition
+}
+
+// GetDelay returns the value of Delay.
+func (s *StackContainerConfigDeployRestart) GetDelay() float64 {
+	return s.Delay
+}
+
+// GetMaxAttempts returns the value of MaxAttempts.
+func (s *StackContainerConfigDeployRestart) GetMaxAttempts() float64 {
+	return s.MaxAttempts
+}
+
+// GetNotify returns the value of Notify.
+func (s *StackContainerConfigDeployRestart) GetNotify() OptStackContainerConfigDeployRestartNotify {
+	return s.Notify
+}
+
+// SetCondition sets the value of Condition.
+func (s *StackContainerConfigDeployRestart) SetCondition(val StackContainerConfigDeployRestartCondition) {
+	s.Condition = val
+}
+
+// SetDelay sets the value of Delay.
+func (s *StackContainerConfigDeployRestart) SetDelay(val float64) {
+	s.Delay = val
+}
+
+// SetMaxAttempts sets the value of MaxAttempts.
+func (s *StackContainerConfigDeployRestart) SetMaxAttempts(val float64) {
+	s.MaxAttempts = val
+}
+
+// SetNotify sets the value of Notify.
+func (s *StackContainerConfigDeployRestart) SetNotify(val OptStackContainerConfigDeployRestartNotify) {
+	s.Notify = val
+}
+
+type StackContainerConfigDeployRestartCondition string
+
+const (
+	StackContainerConfigDeployRestartConditionAlways  StackContainerConfigDeployRestartCondition = "always"
+	StackContainerConfigDeployRestartConditionNever   StackContainerConfigDeployRestartCondition = "never"
+	StackContainerConfigDeployRestartConditionFailure StackContainerConfigDeployRestartCondition = "failure"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackContainerConfigDeployRestartCondition) MarshalText() ([]byte, error) {
+	switch s {
+	case StackContainerConfigDeployRestartConditionAlways:
+		return []byte(s), nil
+	case StackContainerConfigDeployRestartConditionNever:
+		return []byte(s), nil
+	case StackContainerConfigDeployRestartConditionFailure:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackContainerConfigDeployRestartCondition) UnmarshalText(data []byte) error {
+	switch StackContainerConfigDeployRestartCondition(data) {
+	case StackContainerConfigDeployRestartConditionAlways:
+		*s = StackContainerConfigDeployRestartConditionAlways
+		return nil
+	case StackContainerConfigDeployRestartConditionNever:
+		*s = StackContainerConfigDeployRestartConditionNever
+		return nil
+	case StackContainerConfigDeployRestartConditionFailure:
+		*s = StackContainerConfigDeployRestartConditionFailure
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type StackContainerConfigDeployRestartNotify struct {
+	Emails  []string  `json:"emails"`
+	WebHook OptString `json:"web_hook"`
+}
+
+// GetEmails returns the value of Emails.
+func (s *StackContainerConfigDeployRestartNotify) GetEmails() []string {
+	return s.Emails
+}
+
+// GetWebHook returns the value of WebHook.
+func (s *StackContainerConfigDeployRestartNotify) GetWebHook() OptString {
+	return s.WebHook
+}
+
+// SetEmails sets the value of Emails.
+func (s *StackContainerConfigDeployRestartNotify) SetEmails(val []string) {
+	s.Emails = val
+}
+
+// SetWebHook sets the value of WebHook.
+func (s *StackContainerConfigDeployRestartNotify) SetWebHook(val OptString) {
+	s.WebHook = val
+}
+
+type StackContainerConfigDeployShutdown struct {
+	GracefulTimeout float64                                         `json:"graceful_timeout"`
+	Signals         []StackContainerConfigDeployShutdownSignalsItem `json:"signals"`
+}
+
+// GetGracefulTimeout returns the value of GracefulTimeout.
+func (s *StackContainerConfigDeployShutdown) GetGracefulTimeout() float64 {
+	return s.GracefulTimeout
+}
+
+// GetSignals returns the value of Signals.
+func (s *StackContainerConfigDeployShutdown) GetSignals() []StackContainerConfigDeployShutdownSignalsItem {
+	return s.Signals
+}
+
+// SetGracefulTimeout sets the value of GracefulTimeout.
+func (s *StackContainerConfigDeployShutdown) SetGracefulTimeout(val float64) {
+	s.GracefulTimeout = val
+}
+
+// SetSignals sets the value of Signals.
+func (s *StackContainerConfigDeployShutdown) SetSignals(val []StackContainerConfigDeployShutdownSignalsItem) {
+	s.Signals = val
+}
+
+type StackContainerConfigDeployShutdownSignalsItem string
+
+const (
+	StackContainerConfigDeployShutdownSignalsItemSIGTERM StackContainerConfigDeployShutdownSignalsItem = "SIGTERM"
+	StackContainerConfigDeployShutdownSignalsItemSIGINT  StackContainerConfigDeployShutdownSignalsItem = "SIGINT"
+	StackContainerConfigDeployShutdownSignalsItemSIGUSR1 StackContainerConfigDeployShutdownSignalsItem = "SIGUSR1"
+	StackContainerConfigDeployShutdownSignalsItemSIGUSR2 StackContainerConfigDeployShutdownSignalsItem = "SIGUSR2"
+	StackContainerConfigDeployShutdownSignalsItemSIGHUP  StackContainerConfigDeployShutdownSignalsItem = "SIGHUP"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackContainerConfigDeployShutdownSignalsItem) MarshalText() ([]byte, error) {
+	switch s {
+	case StackContainerConfigDeployShutdownSignalsItemSIGTERM:
+		return []byte(s), nil
+	case StackContainerConfigDeployShutdownSignalsItemSIGINT:
+		return []byte(s), nil
+	case StackContainerConfigDeployShutdownSignalsItemSIGUSR1:
+		return []byte(s), nil
+	case StackContainerConfigDeployShutdownSignalsItemSIGUSR2:
+		return []byte(s), nil
+	case StackContainerConfigDeployShutdownSignalsItemSIGHUP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackContainerConfigDeployShutdownSignalsItem) UnmarshalText(data []byte) error {
+	switch StackContainerConfigDeployShutdownSignalsItem(data) {
+	case StackContainerConfigDeployShutdownSignalsItemSIGTERM:
+		*s = StackContainerConfigDeployShutdownSignalsItemSIGTERM
+		return nil
+	case StackContainerConfigDeployShutdownSignalsItemSIGINT:
+		*s = StackContainerConfigDeployShutdownSignalsItemSIGINT
+		return nil
+	case StackContainerConfigDeployShutdownSignalsItemSIGUSR1:
+		*s = StackContainerConfigDeployShutdownSignalsItemSIGUSR1
+		return nil
+	case StackContainerConfigDeployShutdownSignalsItemSIGUSR2:
+		*s = StackContainerConfigDeployShutdownSignalsItemSIGUSR2
+		return nil
+	case StackContainerConfigDeployShutdownSignalsItemSIGHUP:
+		*s = StackContainerConfigDeployShutdownSignalsItemSIGHUP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type StackContainerConfigDeployStartup struct {
+	Delay OptFloat64 `json:"delay"`
+}
+
+// GetDelay returns the value of Delay.
+func (s *StackContainerConfigDeployStartup) GetDelay() OptFloat64 {
+	return s.Delay
+}
+
+// SetDelay sets the value of Delay.
+func (s *StackContainerConfigDeployStartup) SetDelay(val OptFloat64) {
+	s.Delay = val
+}
+
+type StackContainerConfigDeployStateful struct {
+	Instances []StackContainerConfigDeployStatefulInstancesItem `json:"instances"`
+}
+
+// GetInstances returns the value of Instances.
+func (s *StackContainerConfigDeployStateful) GetInstances() []StackContainerConfigDeployStatefulInstancesItem {
+	return s.Instances
+}
+
+// SetInstances sets the value of Instances.
+func (s *StackContainerConfigDeployStateful) SetInstances(val []StackContainerConfigDeployStatefulInstancesItem) {
+	s.Instances = val
+}
+
+type StackContainerConfigDeployStatefulInstancesItem struct {
+	Match      StackContainerConfigDeployStatefulInstancesItemMatch         `json:"match"`
+	FirstStart OptStackContainerConfigDeployStatefulInstancesItemFirstStart `json:"first_start"`
+	Start      OptStackContainerConfigDeployStatefulInstancesItemStart      `json:"start"`
+}
+
+// GetMatch returns the value of Match.
+func (s *StackContainerConfigDeployStatefulInstancesItem) GetMatch() StackContainerConfigDeployStatefulInstancesItemMatch {
+	return s.Match
+}
+
+// GetFirstStart returns the value of FirstStart.
+func (s *StackContainerConfigDeployStatefulInstancesItem) GetFirstStart() OptStackContainerConfigDeployStatefulInstancesItemFirstStart {
+	return s.FirstStart
+}
+
+// GetStart returns the value of Start.
+func (s *StackContainerConfigDeployStatefulInstancesItem) GetStart() OptStackContainerConfigDeployStatefulInstancesItemStart {
+	return s.Start
+}
+
+// SetMatch sets the value of Match.
+func (s *StackContainerConfigDeployStatefulInstancesItem) SetMatch(val StackContainerConfigDeployStatefulInstancesItemMatch) {
+	s.Match = val
+}
+
+// SetFirstStart sets the value of FirstStart.
+func (s *StackContainerConfigDeployStatefulInstancesItem) SetFirstStart(val OptStackContainerConfigDeployStatefulInstancesItemFirstStart) {
+	s.FirstStart = val
+}
+
+// SetStart sets the value of Start.
+func (s *StackContainerConfigDeployStatefulInstancesItem) SetStart(val OptStackContainerConfigDeployStatefulInstancesItemStart) {
+	s.Start = val
+}
+
+type StackContainerConfigDeployStatefulInstancesItemFirstStart struct {
+	Command         OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand         `json:"command"`
+	EnvironmentVars OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars `json:"environment_vars"`
+}
+
+// GetCommand returns the value of Command.
+func (s *StackContainerConfigDeployStatefulInstancesItemFirstStart) GetCommand() OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand {
+	return s.Command
+}
+
+// GetEnvironmentVars returns the value of EnvironmentVars.
+func (s *StackContainerConfigDeployStatefulInstancesItemFirstStart) GetEnvironmentVars() OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars {
+	return s.EnvironmentVars
+}
+
+// SetCommand sets the value of Command.
+func (s *StackContainerConfigDeployStatefulInstancesItemFirstStart) SetCommand(val OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand) {
+	s.Command = val
+}
+
+// SetEnvironmentVars sets the value of EnvironmentVars.
+func (s *StackContainerConfigDeployStatefulInstancesItemFirstStart) SetEnvironmentVars(val OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) {
+	s.EnvironmentVars = val
+}
+
+type StackContainerConfigDeployStatefulInstancesItemFirstStartCommand struct {
+	Path OptString `json:"path"`
+	Args OptString `json:"args"`
+}
+
+// GetPath returns the value of Path.
+func (s *StackContainerConfigDeployStatefulInstancesItemFirstStartCommand) GetPath() OptString {
+	return s.Path
+}
+
+// GetArgs returns the value of Args.
+func (s *StackContainerConfigDeployStatefulInstancesItemFirstStartCommand) GetArgs() OptString {
+	return s.Args
+}
+
+// SetPath sets the value of Path.
+func (s *StackContainerConfigDeployStatefulInstancesItemFirstStartCommand) SetPath(val OptString) {
+	s.Path = val
+}
+
+// SetArgs sets the value of Args.
+func (s *StackContainerConfigDeployStatefulInstancesItemFirstStartCommand) SetArgs(val OptString) {
+	s.Args = val
+}
+
+type StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars map[string]string
+
+func (s *StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) init() StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+type StackContainerConfigDeployStatefulInstancesItemMatch struct {
+	Hostname OptString `json:"hostname"`
+}
+
+// GetHostname returns the value of Hostname.
+func (s *StackContainerConfigDeployStatefulInstancesItemMatch) GetHostname() OptString {
+	return s.Hostname
+}
+
+// SetHostname sets the value of Hostname.
+func (s *StackContainerConfigDeployStatefulInstancesItemMatch) SetHostname(val OptString) {
+	s.Hostname = val
+}
+
+type StackContainerConfigDeployStatefulInstancesItemStart struct {
+	Command         OptStackContainerConfigDeployStatefulInstancesItemStartCommand         `json:"command"`
+	EnvironmentVars OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars `json:"environment_vars"`
+}
+
+// GetCommand returns the value of Command.
+func (s *StackContainerConfigDeployStatefulInstancesItemStart) GetCommand() OptStackContainerConfigDeployStatefulInstancesItemStartCommand {
+	return s.Command
+}
+
+// GetEnvironmentVars returns the value of EnvironmentVars.
+func (s *StackContainerConfigDeployStatefulInstancesItemStart) GetEnvironmentVars() OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars {
+	return s.EnvironmentVars
+}
+
+// SetCommand sets the value of Command.
+func (s *StackContainerConfigDeployStatefulInstancesItemStart) SetCommand(val OptStackContainerConfigDeployStatefulInstancesItemStartCommand) {
+	s.Command = val
+}
+
+// SetEnvironmentVars sets the value of EnvironmentVars.
+func (s *StackContainerConfigDeployStatefulInstancesItemStart) SetEnvironmentVars(val OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) {
+	s.EnvironmentVars = val
+}
+
+type StackContainerConfigDeployStatefulInstancesItemStartCommand struct {
+	Path OptString `json:"path"`
+	Args OptString `json:"args"`
+}
+
+// GetPath returns the value of Path.
+func (s *StackContainerConfigDeployStatefulInstancesItemStartCommand) GetPath() OptString {
+	return s.Path
+}
+
+// GetArgs returns the value of Args.
+func (s *StackContainerConfigDeployStatefulInstancesItemStartCommand) GetArgs() OptString {
+	return s.Args
+}
+
+// SetPath sets the value of Path.
+func (s *StackContainerConfigDeployStatefulInstancesItemStartCommand) SetPath(val OptString) {
+	s.Path = val
+}
+
+// SetArgs sets the value of Args.
+func (s *StackContainerConfigDeployStatefulInstancesItemStartCommand) SetArgs(val OptString) {
+	s.Args = val
+}
+
+type StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars map[string]string
+
+func (s *StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) init() StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+type StackContainerConfigDeployStrategy string
+
+const (
+	StackContainerConfigDeployStrategyResourceDensity  StackContainerConfigDeployStrategy = "resource-density"
+	StackContainerConfigDeployStrategyManual           StackContainerConfigDeployStrategy = "manual"
+	StackContainerConfigDeployStrategyHighAvailability StackContainerConfigDeployStrategy = "high-availability"
+	StackContainerConfigDeployStrategyFirstAvailable   StackContainerConfigDeployStrategy = "first-available"
+	StackContainerConfigDeployStrategyEphemeral        StackContainerConfigDeployStrategy = "ephemeral"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackContainerConfigDeployStrategy) MarshalText() ([]byte, error) {
+	switch s {
+	case StackContainerConfigDeployStrategyResourceDensity:
+		return []byte(s), nil
+	case StackContainerConfigDeployStrategyManual:
+		return []byte(s), nil
+	case StackContainerConfigDeployStrategyHighAvailability:
+		return []byte(s), nil
+	case StackContainerConfigDeployStrategyFirstAvailable:
+		return []byte(s), nil
+	case StackContainerConfigDeployStrategyEphemeral:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackContainerConfigDeployStrategy) UnmarshalText(data []byte) error {
+	switch StackContainerConfigDeployStrategy(data) {
+	case StackContainerConfigDeployStrategyResourceDensity:
+		*s = StackContainerConfigDeployStrategyResourceDensity
+		return nil
+	case StackContainerConfigDeployStrategyManual:
+		*s = StackContainerConfigDeployStrategyManual
+		return nil
+	case StackContainerConfigDeployStrategyHighAvailability:
+		*s = StackContainerConfigDeployStrategyHighAvailability
+		return nil
+	case StackContainerConfigDeployStrategyFirstAvailable:
+		*s = StackContainerConfigDeployStrategyFirstAvailable
+		return nil
+	case StackContainerConfigDeployStrategyEphemeral:
+		*s = StackContainerConfigDeployStrategyEphemeral
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type StackContainerConfigDeployTelemetry struct {
+	Retention float64 `json:"retention"`
+	Interval  float64 `json:"interval"`
+	Disable   bool    `json:"disable"`
+}
+
+// GetRetention returns the value of Retention.
+func (s *StackContainerConfigDeployTelemetry) GetRetention() float64 {
+	return s.Retention
+}
+
+// GetInterval returns the value of Interval.
+func (s *StackContainerConfigDeployTelemetry) GetInterval() float64 {
+	return s.Interval
+}
+
+// GetDisable returns the value of Disable.
+func (s *StackContainerConfigDeployTelemetry) GetDisable() bool {
+	return s.Disable
+}
+
+// SetRetention sets the value of Retention.
+func (s *StackContainerConfigDeployTelemetry) SetRetention(val float64) {
+	s.Retention = val
+}
+
+// SetInterval sets the value of Interval.
+func (s *StackContainerConfigDeployTelemetry) SetInterval(val float64) {
+	s.Interval = val
+}
+
+// SetDisable sets the value of Disable.
+func (s *StackContainerConfigDeployTelemetry) SetDisable(val bool) {
+	s.Disable = val
+}
+
+type StackContainerConfigDeployUpdate struct {
+	Parallelism float64 `json:"parallelism"`
+	Delay       float64 `json:"delay"`
+}
+
+// GetParallelism returns the value of Parallelism.
+func (s *StackContainerConfigDeployUpdate) GetParallelism() float64 {
+	return s.Parallelism
+}
+
+// GetDelay returns the value of Delay.
+func (s *StackContainerConfigDeployUpdate) GetDelay() float64 {
+	return s.Delay
+}
+
+// SetParallelism sets the value of Parallelism.
+func (s *StackContainerConfigDeployUpdate) SetParallelism(val float64) {
+	s.Parallelism = val
+}
+
+// SetDelay sets the value of Delay.
+func (s *StackContainerConfigDeployUpdate) SetDelay(val float64) {
+	s.Delay = val
+}
+
+// Ref: #/components/schemas/StackContainerConfigIntegrations
+type StackContainerConfigIntegrations struct {
+	Webhooks    OptStackContainerConfigIntegrationsWebhooks    `json:"webhooks"`
+	LetsEncrypt OptStackContainerConfigIntegrationsLetsEncrypt `json:"lets_encrypt"`
+	Files       []StackContainerConfigIntegrationsFilesItem    `json:"files"`
+	Backups     OptStackContainerConfigIntegrationsBackups     `json:"backups"`
+}
+
+// GetWebhooks returns the value of Webhooks.
+func (s *StackContainerConfigIntegrations) GetWebhooks() OptStackContainerConfigIntegrationsWebhooks {
+	return s.Webhooks
+}
+
+// GetLetsEncrypt returns the value of LetsEncrypt.
+func (s *StackContainerConfigIntegrations) GetLetsEncrypt() OptStackContainerConfigIntegrationsLetsEncrypt {
+	return s.LetsEncrypt
+}
+
+// GetFiles returns the value of Files.
+func (s *StackContainerConfigIntegrations) GetFiles() []StackContainerConfigIntegrationsFilesItem {
+	return s.Files
+}
+
+// GetBackups returns the value of Backups.
+func (s *StackContainerConfigIntegrations) GetBackups() OptStackContainerConfigIntegrationsBackups {
+	return s.Backups
+}
+
+// SetWebhooks sets the value of Webhooks.
+func (s *StackContainerConfigIntegrations) SetWebhooks(val OptStackContainerConfigIntegrationsWebhooks) {
+	s.Webhooks = val
+}
+
+// SetLetsEncrypt sets the value of LetsEncrypt.
+func (s *StackContainerConfigIntegrations) SetLetsEncrypt(val OptStackContainerConfigIntegrationsLetsEncrypt) {
+	s.LetsEncrypt = val
+}
+
+// SetFiles sets the value of Files.
+func (s *StackContainerConfigIntegrations) SetFiles(val []StackContainerConfigIntegrationsFilesItem) {
+	s.Files = val
+}
+
+// SetBackups sets the value of Backups.
+func (s *StackContainerConfigIntegrations) SetBackups(val OptStackContainerConfigIntegrationsBackups) {
+	s.Backups = val
+}
+
+type StackContainerConfigIntegrationsBackups struct {
+	Destination StackContainerConfigIntegrationsBackupsDestination `json:"destination"`
+	Backup      StackContainerConfigIntegrationsBackupsBackup      `json:"backup"`
+	Restore     NilStackContainerConfigIntegrationsBackupsRestore  `json:"restore"`
+}
+
+// GetDestination returns the value of Destination.
+func (s *StackContainerConfigIntegrationsBackups) GetDestination() StackContainerConfigIntegrationsBackupsDestination {
+	return s.Destination
+}
+
+// GetBackup returns the value of Backup.
+func (s *StackContainerConfigIntegrationsBackups) GetBackup() StackContainerConfigIntegrationsBackupsBackup {
+	return s.Backup
+}
+
+// GetRestore returns the value of Restore.
+func (s *StackContainerConfigIntegrationsBackups) GetRestore() NilStackContainerConfigIntegrationsBackupsRestore {
+	return s.Restore
+}
+
+// SetDestination sets the value of Destination.
+func (s *StackContainerConfigIntegrationsBackups) SetDestination(val StackContainerConfigIntegrationsBackupsDestination) {
+	s.Destination = val
+}
+
+// SetBackup sets the value of Backup.
+func (s *StackContainerConfigIntegrationsBackups) SetBackup(val StackContainerConfigIntegrationsBackupsBackup) {
+	s.Backup = val
+}
+
+// SetRestore sets the value of Restore.
+func (s *StackContainerConfigIntegrationsBackups) SetRestore(val NilStackContainerConfigIntegrationsBackupsRestore) {
+	s.Restore = val
+}
+
+type StackContainerConfigIntegrationsBackupsBackup struct {
+	Command    NilFloat64 `json:"command"`
+	Timeout    NilFloat64 `json:"timeout"`
+	CronString NilString  `json:"cron_string"`
+}
+
+// GetCommand returns the value of Command.
+func (s *StackContainerConfigIntegrationsBackupsBackup) GetCommand() NilFloat64 {
+	return s.Command
+}
+
+// GetTimeout returns the value of Timeout.
+func (s *StackContainerConfigIntegrationsBackupsBackup) GetTimeout() NilFloat64 {
+	return s.Timeout
+}
+
+// GetCronString returns the value of CronString.
+func (s *StackContainerConfigIntegrationsBackupsBackup) GetCronString() NilString {
+	return s.CronString
+}
+
+// SetCommand sets the value of Command.
+func (s *StackContainerConfigIntegrationsBackupsBackup) SetCommand(val NilFloat64) {
+	s.Command = val
+}
+
+// SetTimeout sets the value of Timeout.
+func (s *StackContainerConfigIntegrationsBackupsBackup) SetTimeout(val NilFloat64) {
+	s.Timeout = val
+}
+
+// SetCronString sets the value of CronString.
+func (s *StackContainerConfigIntegrationsBackupsBackup) SetCronString(val NilString) {
+	s.CronString = val
+}
+
+type StackContainerConfigIntegrationsBackupsDestination string
+
+const (
+	StackContainerConfigIntegrationsBackupsDestinationBackblazeB2 StackContainerConfigIntegrationsBackupsDestination = "backblaze-b2"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackContainerConfigIntegrationsBackupsDestination) MarshalText() ([]byte, error) {
+	switch s {
+	case StackContainerConfigIntegrationsBackupsDestinationBackblazeB2:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackContainerConfigIntegrationsBackupsDestination) UnmarshalText(data []byte) error {
+	switch StackContainerConfigIntegrationsBackupsDestination(data) {
+	case StackContainerConfigIntegrationsBackupsDestinationBackblazeB2:
+		*s = StackContainerConfigIntegrationsBackupsDestinationBackblazeB2
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type StackContainerConfigIntegrationsBackupsRestore struct {
+	Command string     `json:"command"`
+	Timeout NilFloat64 `json:"timeout"`
+}
+
+// GetCommand returns the value of Command.
+func (s *StackContainerConfigIntegrationsBackupsRestore) GetCommand() string {
+	return s.Command
+}
+
+// GetTimeout returns the value of Timeout.
+func (s *StackContainerConfigIntegrationsBackupsRestore) GetTimeout() NilFloat64 {
+	return s.Timeout
+}
+
+// SetCommand sets the value of Command.
+func (s *StackContainerConfigIntegrationsBackupsRestore) SetCommand(val string) {
+	s.Command = val
+}
+
+// SetTimeout sets the value of Timeout.
+func (s *StackContainerConfigIntegrationsBackupsRestore) SetTimeout(val NilFloat64) {
+	s.Timeout = val
+}
+
+type StackContainerConfigIntegrationsFilesItem struct {
+	Source      string `json:"source"`
+	Destination string `json:"destination"`
+}
+
+// GetSource returns the value of Source.
+func (s *StackContainerConfigIntegrationsFilesItem) GetSource() string {
+	return s.Source
+}
+
+// GetDestination returns the value of Destination.
+func (s *StackContainerConfigIntegrationsFilesItem) GetDestination() string {
+	return s.Destination
+}
+
+// SetSource sets the value of Source.
+func (s *StackContainerConfigIntegrationsFilesItem) SetSource(val string) {
+	s.Source = val
+}
+
+// SetDestination sets the value of Destination.
+func (s *StackContainerConfigIntegrationsFilesItem) SetDestination(val string) {
+	s.Destination = val
+}
+
+type StackContainerConfigIntegrationsLetsEncrypt struct {
+	Enable              bool      `json:"enable"`
+	CertificatePath     OptString `json:"certificate_path"`
+	ChainPath           OptString `json:"chain_path"`
+	KeyPath             OptString `json:"key_path"`
+	BundlePath          OptString `json:"bundle_path"`
+	AdditionalCertsPath OptString `json:"additional_certs_path"`
+}
+
+// GetEnable returns the value of Enable.
+func (s *StackContainerConfigIntegrationsLetsEncrypt) GetEnable() bool {
+	return s.Enable
+}
+
+// GetCertificatePath returns the value of CertificatePath.
+func (s *StackContainerConfigIntegrationsLetsEncrypt) GetCertificatePath() OptString {
+	return s.CertificatePath
+}
+
+// GetChainPath returns the value of ChainPath.
+func (s *StackContainerConfigIntegrationsLetsEncrypt) GetChainPath() OptString {
+	return s.ChainPath
+}
+
+// GetKeyPath returns the value of KeyPath.
+func (s *StackContainerConfigIntegrationsLetsEncrypt) GetKeyPath() OptString {
+	return s.KeyPath
+}
+
+// GetBundlePath returns the value of BundlePath.
+func (s *StackContainerConfigIntegrationsLetsEncrypt) GetBundlePath() OptString {
+	return s.BundlePath
+}
+
+// GetAdditionalCertsPath returns the value of AdditionalCertsPath.
+func (s *StackContainerConfigIntegrationsLetsEncrypt) GetAdditionalCertsPath() OptString {
+	return s.AdditionalCertsPath
+}
+
+// SetEnable sets the value of Enable.
+func (s *StackContainerConfigIntegrationsLetsEncrypt) SetEnable(val bool) {
+	s.Enable = val
+}
+
+// SetCertificatePath sets the value of CertificatePath.
+func (s *StackContainerConfigIntegrationsLetsEncrypt) SetCertificatePath(val OptString) {
+	s.CertificatePath = val
+}
+
+// SetChainPath sets the value of ChainPath.
+func (s *StackContainerConfigIntegrationsLetsEncrypt) SetChainPath(val OptString) {
+	s.ChainPath = val
+}
+
+// SetKeyPath sets the value of KeyPath.
+func (s *StackContainerConfigIntegrationsLetsEncrypt) SetKeyPath(val OptString) {
+	s.KeyPath = val
+}
+
+// SetBundlePath sets the value of BundlePath.
+func (s *StackContainerConfigIntegrationsLetsEncrypt) SetBundlePath(val OptString) {
+	s.BundlePath = val
+}
+
+// SetAdditionalCertsPath sets the value of AdditionalCertsPath.
+func (s *StackContainerConfigIntegrationsLetsEncrypt) SetAdditionalCertsPath(val OptString) {
+	s.AdditionalCertsPath = val
+}
+
+type StackContainerConfigIntegrationsWebhooks struct {
+	Events OptStackContainerConfigIntegrationsWebhooksEvents `json:"events"`
+	Config OptString                                         `json:"config"`
+}
+
+// GetEvents returns the value of Events.
+func (s *StackContainerConfigIntegrationsWebhooks) GetEvents() OptStackContainerConfigIntegrationsWebhooksEvents {
+	return s.Events
+}
+
+// GetConfig returns the value of Config.
+func (s *StackContainerConfigIntegrationsWebhooks) GetConfig() OptString {
+	return s.Config
+}
+
+// SetEvents sets the value of Events.
+func (s *StackContainerConfigIntegrationsWebhooks) SetEvents(val OptStackContainerConfigIntegrationsWebhooksEvents) {
+	s.Events = val
+}
+
+// SetConfig sets the value of Config.
+func (s *StackContainerConfigIntegrationsWebhooks) SetConfig(val OptString) {
+	s.Config = val
+}
+
+type StackContainerConfigIntegrationsWebhooksEvents struct {
+	Deploy OptString `json:"deploy"`
+	Start  OptString `json:"start"`
+	Stop   OptString `json:"stop"`
+}
+
+// GetDeploy returns the value of Deploy.
+func (s *StackContainerConfigIntegrationsWebhooksEvents) GetDeploy() OptString {
+	return s.Deploy
+}
+
+// GetStart returns the value of Start.
+func (s *StackContainerConfigIntegrationsWebhooksEvents) GetStart() OptString {
+	return s.Start
+}
+
+// GetStop returns the value of Stop.
+func (s *StackContainerConfigIntegrationsWebhooksEvents) GetStop() OptString {
+	return s.Stop
+}
+
+// SetDeploy sets the value of Deploy.
+func (s *StackContainerConfigIntegrationsWebhooksEvents) SetDeploy(val OptString) {
+	s.Deploy = val
+}
+
+// SetStart sets the value of Start.
+func (s *StackContainerConfigIntegrationsWebhooksEvents) SetStart(val OptString) {
+	s.Start = val
+}
+
+// SetStop sets the value of Stop.
+func (s *StackContainerConfigIntegrationsWebhooksEvents) SetStop(val OptString) {
+	s.Stop = val
+}
+
+// Ref: #/components/schemas/StackContainerConfigNetwork
+type StackContainerConfigNetwork struct {
+	Public   StackContainerConfigNetworkPublic `json:"public"`
+	Hostname string                            `json:"hostname"`
+	Ports    []string                          `json:"ports"`
+}
+
+// GetPublic returns the value of Public.
+func (s *StackContainerConfigNetwork) GetPublic() StackContainerConfigNetworkPublic {
+	return s.Public
+}
+
+// GetHostname returns the value of Hostname.
+func (s *StackContainerConfigNetwork) GetHostname() string {
+	return s.Hostname
+}
+
+// GetPorts returns the value of Ports.
+func (s *StackContainerConfigNetwork) GetPorts() []string {
+	return s.Ports
+}
+
+// SetPublic sets the value of Public.
+func (s *StackContainerConfigNetwork) SetPublic(val StackContainerConfigNetworkPublic) {
+	s.Public = val
+}
+
+// SetHostname sets the value of Hostname.
+func (s *StackContainerConfigNetwork) SetHostname(val string) {
+	s.Hostname = val
+}
+
+// SetPorts sets the value of Ports.
+func (s *StackContainerConfigNetwork) SetPorts(val []string) {
+	s.Ports = val
+}
+
+type StackContainerConfigNetworkPublic string
+
+const (
+	StackContainerConfigNetworkPublicEnable     StackContainerConfigNetworkPublic = "enable"
+	StackContainerConfigNetworkPublicDisable    StackContainerConfigNetworkPublic = "disable"
+	StackContainerConfigNetworkPublicEgressOnly StackContainerConfigNetworkPublic = "egress-only"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackContainerConfigNetworkPublic) MarshalText() ([]byte, error) {
+	switch s {
+	case StackContainerConfigNetworkPublicEnable:
+		return []byte(s), nil
+	case StackContainerConfigNetworkPublicDisable:
+		return []byte(s), nil
+	case StackContainerConfigNetworkPublicEgressOnly:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackContainerConfigNetworkPublic) UnmarshalText(data []byte) error {
+	switch StackContainerConfigNetworkPublic(data) {
+	case StackContainerConfigNetworkPublicEnable:
+		*s = StackContainerConfigNetworkPublicEnable
+		return nil
+	case StackContainerConfigNetworkPublicDisable:
+		*s = StackContainerConfigNetworkPublicDisable
+		return nil
+	case StackContainerConfigNetworkPublicEgressOnly:
+		*s = StackContainerConfigNetworkPublicEgressOnly
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/StackContainerConfigResources
+type StackContainerConfigResources struct {
+	CPU StackContainerConfigResourcesCPU `json:"cpu"`
+	RAM StackContainerConfigResourcesRAM `json:"ram"`
+}
+
+// GetCPU returns the value of CPU.
+func (s *StackContainerConfigResources) GetCPU() StackContainerConfigResourcesCPU {
+	return s.CPU
+}
+
+// GetRAM returns the value of RAM.
+func (s *StackContainerConfigResources) GetRAM() StackContainerConfigResourcesRAM {
+	return s.RAM
+}
+
+// SetCPU sets the value of CPU.
+func (s *StackContainerConfigResources) SetCPU(val StackContainerConfigResourcesCPU) {
+	s.CPU = val
+}
+
+// SetRAM sets the value of RAM.
+func (s *StackContainerConfigResources) SetRAM(val StackContainerConfigResourcesRAM) {
+	s.RAM = val
+}
+
+type StackContainerConfigResourcesCPU struct {
+	Shares OptStackContainerConfigResourcesCPUShares `json:"shares"`
+	Cpus   OptString                                 `json:"cpus"`
+}
+
+// GetShares returns the value of Shares.
+func (s *StackContainerConfigResourcesCPU) GetShares() OptStackContainerConfigResourcesCPUShares {
+	return s.Shares
+}
+
+// GetCpus returns the value of Cpus.
+func (s *StackContainerConfigResourcesCPU) GetCpus() OptString {
+	return s.Cpus
+}
+
+// SetShares sets the value of Shares.
+func (s *StackContainerConfigResourcesCPU) SetShares(val OptStackContainerConfigResourcesCPUShares) {
+	s.Shares = val
+}
+
+// SetCpus sets the value of Cpus.
+func (s *StackContainerConfigResourcesCPU) SetCpus(val OptString) {
+	s.Cpus = val
+}
+
+type StackContainerConfigResourcesCPUShares struct {
+	Limit   float64 `json:"limit"`
+	Reserve float64 `json:"reserve"`
+}
+
+// GetLimit returns the value of Limit.
+func (s *StackContainerConfigResourcesCPUShares) GetLimit() float64 {
+	return s.Limit
+}
+
+// GetReserve returns the value of Reserve.
+func (s *StackContainerConfigResourcesCPUShares) GetReserve() float64 {
+	return s.Reserve
+}
+
+// SetLimit sets the value of Limit.
+func (s *StackContainerConfigResourcesCPUShares) SetLimit(val float64) {
+	s.Limit = val
+}
+
+// SetReserve sets the value of Reserve.
+func (s *StackContainerConfigResourcesCPUShares) SetReserve(val float64) {
+	s.Reserve = val
+}
+
+type StackContainerConfigResourcesRAM struct {
+	Limit      OptString  `json:"limit"`
+	Reserve    OptString  `json:"reserve"`
+	Swappiness OptFloat64 `json:"swappiness"`
+	Kernel     OptString  `json:"kernel"`
+	KernelTCP  OptString  `json:"kernel_tcp"`
+}
+
+// GetLimit returns the value of Limit.
+func (s *StackContainerConfigResourcesRAM) GetLimit() OptString {
+	return s.Limit
+}
+
+// GetReserve returns the value of Reserve.
+func (s *StackContainerConfigResourcesRAM) GetReserve() OptString {
+	return s.Reserve
+}
+
+// GetSwappiness returns the value of Swappiness.
+func (s *StackContainerConfigResourcesRAM) GetSwappiness() OptFloat64 {
+	return s.Swappiness
+}
+
+// GetKernel returns the value of Kernel.
+func (s *StackContainerConfigResourcesRAM) GetKernel() OptString {
+	return s.Kernel
+}
+
+// GetKernelTCP returns the value of KernelTCP.
+func (s *StackContainerConfigResourcesRAM) GetKernelTCP() OptString {
+	return s.KernelTCP
+}
+
+// SetLimit sets the value of Limit.
+func (s *StackContainerConfigResourcesRAM) SetLimit(val OptString) {
+	s.Limit = val
+}
+
+// SetReserve sets the value of Reserve.
+func (s *StackContainerConfigResourcesRAM) SetReserve(val OptString) {
+	s.Reserve = val
+}
+
+// SetSwappiness sets the value of Swappiness.
+func (s *StackContainerConfigResourcesRAM) SetSwappiness(val OptFloat64) {
+	s.Swappiness = val
+}
+
+// SetKernel sets the value of Kernel.
+func (s *StackContainerConfigResourcesRAM) SetKernel(val OptString) {
+	s.Kernel = val
+}
+
+// SetKernelTCP sets the value of KernelTCP.
+func (s *StackContainerConfigResourcesRAM) SetKernelTCP(val OptString) {
+	s.KernelTCP = val
+}
+
+// Ref: #/components/schemas/StackContainerConfigRuntime
+type StackContainerConfigRuntime struct {
+	Workdir         OptString                                     `json:"workdir"`
+	Command         OptStackContainerConfigRuntimeCommand         `json:"command"`
+	EnvironmentVars OptStackContainerConfigRuntimeEnvironmentVars `json:"environment_vars"`
+	Namespaces      []StackContainerConfigRuntimeNamespacesItem   `json:"namespaces"`
+	Sysctl          OptStackContainerConfigRuntimeSysctl          `json:"sysctl"`
+	Rlimits         OptStackContainerConfigRuntimeRlimits         `json:"rlimits"`
+	Seccomp         OptStackContainerConfigRuntimeSeccomp         `json:"seccomp"`
+	Privileged      OptBool                                       `json:"privileged"`
+	Capabilities    []StackContainerConfigRuntimeCapabilitiesItem `json:"capabilities"`
+	Rootfs          OptStackContainerConfigRuntimeRootfs          `json:"rootfs"`
+}
+
+// GetWorkdir returns the value of Workdir.
+func (s *StackContainerConfigRuntime) GetWorkdir() OptString {
+	return s.Workdir
+}
+
+// GetCommand returns the value of Command.
+func (s *StackContainerConfigRuntime) GetCommand() OptStackContainerConfigRuntimeCommand {
+	return s.Command
+}
+
+// GetEnvironmentVars returns the value of EnvironmentVars.
+func (s *StackContainerConfigRuntime) GetEnvironmentVars() OptStackContainerConfigRuntimeEnvironmentVars {
+	return s.EnvironmentVars
+}
+
+// GetNamespaces returns the value of Namespaces.
+func (s *StackContainerConfigRuntime) GetNamespaces() []StackContainerConfigRuntimeNamespacesItem {
+	return s.Namespaces
+}
+
+// GetSysctl returns the value of Sysctl.
+func (s *StackContainerConfigRuntime) GetSysctl() OptStackContainerConfigRuntimeSysctl {
+	return s.Sysctl
+}
+
+// GetRlimits returns the value of Rlimits.
+func (s *StackContainerConfigRuntime) GetRlimits() OptStackContainerConfigRuntimeRlimits {
+	return s.Rlimits
+}
+
+// GetSeccomp returns the value of Seccomp.
+func (s *StackContainerConfigRuntime) GetSeccomp() OptStackContainerConfigRuntimeSeccomp {
+	return s.Seccomp
+}
+
+// GetPrivileged returns the value of Privileged.
+func (s *StackContainerConfigRuntime) GetPrivileged() OptBool {
+	return s.Privileged
+}
+
+// GetCapabilities returns the value of Capabilities.
+func (s *StackContainerConfigRuntime) GetCapabilities() []StackContainerConfigRuntimeCapabilitiesItem {
+	return s.Capabilities
+}
+
+// GetRootfs returns the value of Rootfs.
+func (s *StackContainerConfigRuntime) GetRootfs() OptStackContainerConfigRuntimeRootfs {
+	return s.Rootfs
+}
+
+// SetWorkdir sets the value of Workdir.
+func (s *StackContainerConfigRuntime) SetWorkdir(val OptString) {
+	s.Workdir = val
+}
+
+// SetCommand sets the value of Command.
+func (s *StackContainerConfigRuntime) SetCommand(val OptStackContainerConfigRuntimeCommand) {
+	s.Command = val
+}
+
+// SetEnvironmentVars sets the value of EnvironmentVars.
+func (s *StackContainerConfigRuntime) SetEnvironmentVars(val OptStackContainerConfigRuntimeEnvironmentVars) {
+	s.EnvironmentVars = val
+}
+
+// SetNamespaces sets the value of Namespaces.
+func (s *StackContainerConfigRuntime) SetNamespaces(val []StackContainerConfigRuntimeNamespacesItem) {
+	s.Namespaces = val
+}
+
+// SetSysctl sets the value of Sysctl.
+func (s *StackContainerConfigRuntime) SetSysctl(val OptStackContainerConfigRuntimeSysctl) {
+	s.Sysctl = val
+}
+
+// SetRlimits sets the value of Rlimits.
+func (s *StackContainerConfigRuntime) SetRlimits(val OptStackContainerConfigRuntimeRlimits) {
+	s.Rlimits = val
+}
+
+// SetSeccomp sets the value of Seccomp.
+func (s *StackContainerConfigRuntime) SetSeccomp(val OptStackContainerConfigRuntimeSeccomp) {
+	s.Seccomp = val
+}
+
+// SetPrivileged sets the value of Privileged.
+func (s *StackContainerConfigRuntime) SetPrivileged(val OptBool) {
+	s.Privileged = val
+}
+
+// SetCapabilities sets the value of Capabilities.
+func (s *StackContainerConfigRuntime) SetCapabilities(val []StackContainerConfigRuntimeCapabilitiesItem) {
+	s.Capabilities = val
+}
+
+// SetRootfs sets the value of Rootfs.
+func (s *StackContainerConfigRuntime) SetRootfs(val OptStackContainerConfigRuntimeRootfs) {
+	s.Rootfs = val
+}
+
+type StackContainerConfigRuntimeCapabilitiesItem string
+
+const (
+	StackContainerConfigRuntimeCapabilitiesItemCAPCHOWN          StackContainerConfigRuntimeCapabilitiesItem = "CAP_CHOWN"
+	StackContainerConfigRuntimeCapabilitiesItemCAPFSETID         StackContainerConfigRuntimeCapabilitiesItem = "CAP_FSETID"
+	StackContainerConfigRuntimeCapabilitiesItemCAPDACOVERRIDE    StackContainerConfigRuntimeCapabilitiesItem = "CAP_DAC_OVERRIDE"
+	StackContainerConfigRuntimeCapabilitiesItemCAPFOWNER         StackContainerConfigRuntimeCapabilitiesItem = "CAP_FOWNER"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSETFCAP        StackContainerConfigRuntimeCapabilitiesItem = "CAP_SETFCAP"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSETGID         StackContainerConfigRuntimeCapabilitiesItem = "CAP_SETGID"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSETUID         StackContainerConfigRuntimeCapabilitiesItem = "CAP_SETUID"
+	StackContainerConfigRuntimeCapabilitiesItemCAPKILL           StackContainerConfigRuntimeCapabilitiesItem = "CAP_KILL"
+	StackContainerConfigRuntimeCapabilitiesItemCAPMKNOD          StackContainerConfigRuntimeCapabilitiesItem = "CAP_MKNOD"
+	StackContainerConfigRuntimeCapabilitiesItemCAPNETBINDSERVICE StackContainerConfigRuntimeCapabilitiesItem = "CAP_NET_BIND_SERVICE"
+	StackContainerConfigRuntimeCapabilitiesItemCAPNETRAW         StackContainerConfigRuntimeCapabilitiesItem = "CAP_NET_RAW"
+	StackContainerConfigRuntimeCapabilitiesItemCAPAUDITWRITE     StackContainerConfigRuntimeCapabilitiesItem = "CAP_AUDIT_WRITE"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSYSCHROOT      StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYS_CHROOT"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSETPCAP        StackContainerConfigRuntimeCapabilitiesItem = "CAP_SETPCAP"
+	StackContainerConfigRuntimeCapabilitiesItemCAPDACREADSEARCH  StackContainerConfigRuntimeCapabilitiesItem = "CAP_DAC_READ_SEARCH"
+	StackContainerConfigRuntimeCapabilitiesItemCAPNETADMIN       StackContainerConfigRuntimeCapabilitiesItem = "CAP_NET_ADMIN"
+	StackContainerConfigRuntimeCapabilitiesItemCAPNETBROADCAST   StackContainerConfigRuntimeCapabilitiesItem = "CAP_NET_BROADCAST"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSYSADMIN       StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYS_ADMIN"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSYSMODULE      StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYS_MODULE"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSYSNICE        StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYS_NICE"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSYSPACCT       StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYS_PACCT"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSYSPTRACE      StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYS_PTRACE"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSYSRAWIO       StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYS_RAWIO"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSYSRESOURCE    StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYS_RESOURCE"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSYSTTYCONFIG   StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYS_TTY_CONFIG"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSYSLOG         StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYSLOG"
+	StackContainerConfigRuntimeCapabilitiesItemCAPAUDITCONTROL   StackContainerConfigRuntimeCapabilitiesItem = "CAP_AUDIT_CONTROL"
+	StackContainerConfigRuntimeCapabilitiesItemCAPAUDITREAD      StackContainerConfigRuntimeCapabilitiesItem = "CAP_AUDIT_READ"
+	StackContainerConfigRuntimeCapabilitiesItemCAPIPCLOCK        StackContainerConfigRuntimeCapabilitiesItem = "CAP_IPC_LOCK"
+	StackContainerConfigRuntimeCapabilitiesItemCAPIPCOWNER       StackContainerConfigRuntimeCapabilitiesItem = "CAP_IPC_OWNER"
+	StackContainerConfigRuntimeCapabilitiesItemCAPLINUXIMMUTABLE StackContainerConfigRuntimeCapabilitiesItem = "CAP_LINUX_IMMUTABLE"
+	StackContainerConfigRuntimeCapabilitiesItemCAPMACADMIN       StackContainerConfigRuntimeCapabilitiesItem = "CAP_MAC_ADMIN"
+	StackContainerConfigRuntimeCapabilitiesItemCAPMACOVERRIDE    StackContainerConfigRuntimeCapabilitiesItem = "CAP_MAC_OVERRIDE"
+	StackContainerConfigRuntimeCapabilitiesItemCAPBLOCKSUSPEND   StackContainerConfigRuntimeCapabilitiesItem = "CAP_BLOCK_SUSPEND"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackContainerConfigRuntimeCapabilitiesItem) MarshalText() ([]byte, error) {
+	switch s {
+	case StackContainerConfigRuntimeCapabilitiesItemCAPCHOWN:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPFSETID:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPDACOVERRIDE:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPFOWNER:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSETFCAP:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSETGID:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSETUID:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPKILL:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPMKNOD:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPNETBINDSERVICE:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPNETRAW:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPAUDITWRITE:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSCHROOT:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSETPCAP:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPDACREADSEARCH:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPNETADMIN:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPNETBROADCAST:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSADMIN:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSMODULE:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSNICE:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSPACCT:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSPTRACE:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSRAWIO:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSRESOURCE:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSTTYCONFIG:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSLOG:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPAUDITCONTROL:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPAUDITREAD:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPIPCLOCK:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPIPCOWNER:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPLINUXIMMUTABLE:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPMACADMIN:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPMACOVERRIDE:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPBLOCKSUSPEND:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackContainerConfigRuntimeCapabilitiesItem) UnmarshalText(data []byte) error {
+	switch StackContainerConfigRuntimeCapabilitiesItem(data) {
+	case StackContainerConfigRuntimeCapabilitiesItemCAPCHOWN:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPCHOWN
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPFSETID:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPFSETID
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPDACOVERRIDE:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPDACOVERRIDE
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPFOWNER:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPFOWNER
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSETFCAP:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSETFCAP
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSETGID:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSETGID
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSETUID:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSETUID
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPKILL:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPKILL
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPMKNOD:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPMKNOD
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPNETBINDSERVICE:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPNETBINDSERVICE
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPNETRAW:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPNETRAW
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPAUDITWRITE:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPAUDITWRITE
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSCHROOT:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSYSCHROOT
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSETPCAP:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSETPCAP
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPDACREADSEARCH:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPDACREADSEARCH
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPNETADMIN:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPNETADMIN
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPNETBROADCAST:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPNETBROADCAST
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSADMIN:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSYSADMIN
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSMODULE:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSYSMODULE
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSNICE:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSYSNICE
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSPACCT:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSYSPACCT
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSPTRACE:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSYSPTRACE
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSRAWIO:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSYSRAWIO
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSRESOURCE:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSYSRESOURCE
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSTTYCONFIG:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSYSTTYCONFIG
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSLOG:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSYSLOG
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPAUDITCONTROL:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPAUDITCONTROL
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPAUDITREAD:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPAUDITREAD
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPIPCLOCK:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPIPCLOCK
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPIPCOWNER:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPIPCOWNER
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPLINUXIMMUTABLE:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPLINUXIMMUTABLE
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPMACADMIN:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPMACADMIN
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPMACOVERRIDE:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPMACOVERRIDE
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPBLOCKSUSPEND:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPBLOCKSUSPEND
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type StackContainerConfigRuntimeCommand struct {
+	Path string `json:"path"`
+	Args string `json:"args"`
+}
+
+// GetPath returns the value of Path.
+func (s *StackContainerConfigRuntimeCommand) GetPath() string {
+	return s.Path
+}
+
+// GetArgs returns the value of Args.
+func (s *StackContainerConfigRuntimeCommand) GetArgs() string {
+	return s.Args
+}
+
+// SetPath sets the value of Path.
+func (s *StackContainerConfigRuntimeCommand) SetPath(val string) {
+	s.Path = val
+}
+
+// SetArgs sets the value of Args.
+func (s *StackContainerConfigRuntimeCommand) SetArgs(val string) {
+	s.Args = val
+}
+
+type StackContainerConfigRuntimeEnvironmentVars map[string]string
+
+func (s *StackContainerConfigRuntimeEnvironmentVars) init() StackContainerConfigRuntimeEnvironmentVars {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+type StackContainerConfigRuntimeNamespacesItem string
+
+const (
+	StackContainerConfigRuntimeNamespacesItemIpc     StackContainerConfigRuntimeNamespacesItem = "ipc"
+	StackContainerConfigRuntimeNamespacesItemPid     StackContainerConfigRuntimeNamespacesItem = "pid"
+	StackContainerConfigRuntimeNamespacesItemUts     StackContainerConfigRuntimeNamespacesItem = "uts"
+	StackContainerConfigRuntimeNamespacesItemNetwork StackContainerConfigRuntimeNamespacesItem = "network"
+	StackContainerConfigRuntimeNamespacesItemMount   StackContainerConfigRuntimeNamespacesItem = "mount"
+	StackContainerConfigRuntimeNamespacesItemUser    StackContainerConfigRuntimeNamespacesItem = "user"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackContainerConfigRuntimeNamespacesItem) MarshalText() ([]byte, error) {
+	switch s {
+	case StackContainerConfigRuntimeNamespacesItemIpc:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeNamespacesItemPid:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeNamespacesItemUts:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeNamespacesItemNetwork:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeNamespacesItemMount:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeNamespacesItemUser:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackContainerConfigRuntimeNamespacesItem) UnmarshalText(data []byte) error {
+	switch StackContainerConfigRuntimeNamespacesItem(data) {
+	case StackContainerConfigRuntimeNamespacesItemIpc:
+		*s = StackContainerConfigRuntimeNamespacesItemIpc
+		return nil
+	case StackContainerConfigRuntimeNamespacesItemPid:
+		*s = StackContainerConfigRuntimeNamespacesItemPid
+		return nil
+	case StackContainerConfigRuntimeNamespacesItemUts:
+		*s = StackContainerConfigRuntimeNamespacesItemUts
+		return nil
+	case StackContainerConfigRuntimeNamespacesItemNetwork:
+		*s = StackContainerConfigRuntimeNamespacesItemNetwork
+		return nil
+	case StackContainerConfigRuntimeNamespacesItemMount:
+		*s = StackContainerConfigRuntimeNamespacesItemMount
+		return nil
+	case StackContainerConfigRuntimeNamespacesItemUser:
+		*s = StackContainerConfigRuntimeNamespacesItemUser
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type StackContainerConfigRuntimeRlimits map[string]StackContainerConfigRuntimeRlimitsItem
+
+func (s *StackContainerConfigRuntimeRlimits) init() StackContainerConfigRuntimeRlimits {
+	m := *s
+	if m == nil {
+		m = map[string]StackContainerConfigRuntimeRlimitsItem{}
+		*s = m
+	}
+	return m
+}
+
+type StackContainerConfigRuntimeRlimitsItem struct {
+	Hard float64 `json:"hard"`
+	Soft float64 `json:"soft"`
+}
+
+// GetHard returns the value of Hard.
+func (s *StackContainerConfigRuntimeRlimitsItem) GetHard() float64 {
+	return s.Hard
+}
+
+// GetSoft returns the value of Soft.
+func (s *StackContainerConfigRuntimeRlimitsItem) GetSoft() float64 {
+	return s.Soft
+}
+
+// SetHard sets the value of Hard.
+func (s *StackContainerConfigRuntimeRlimitsItem) SetHard(val float64) {
+	s.Hard = val
+}
+
+// SetSoft sets the value of Soft.
+func (s *StackContainerConfigRuntimeRlimitsItem) SetSoft(val float64) {
+	s.Soft = val
+}
+
+type StackContainerConfigRuntimeRootfs struct {
+	Readonly bool `json:"readonly"`
+}
+
+// GetReadonly returns the value of Readonly.
+func (s *StackContainerConfigRuntimeRootfs) GetReadonly() bool {
+	return s.Readonly
+}
+
+// SetReadonly sets the value of Readonly.
+func (s *StackContainerConfigRuntimeRootfs) SetReadonly(val bool) {
+	s.Readonly = val
+}
+
+type StackContainerConfigRuntimeSeccomp struct {
+	Disable bool                                          `json:"disable"`
+	Rules   []StackContainerConfigRuntimeSeccompRulesItem `json:"rules"`
+}
+
+// GetDisable returns the value of Disable.
+func (s *StackContainerConfigRuntimeSeccomp) GetDisable() bool {
+	return s.Disable
+}
+
+// GetRules returns the value of Rules.
+func (s *StackContainerConfigRuntimeSeccomp) GetRules() []StackContainerConfigRuntimeSeccompRulesItem {
+	return s.Rules
+}
+
+// SetDisable sets the value of Disable.
+func (s *StackContainerConfigRuntimeSeccomp) SetDisable(val bool) {
+	s.Disable = val
+}
+
+// SetRules sets the value of Rules.
+func (s *StackContainerConfigRuntimeSeccomp) SetRules(val []StackContainerConfigRuntimeSeccompRulesItem) {
+	s.Rules = val
+}
+
+type StackContainerConfigRuntimeSeccompRulesItem struct {
+	Capabilities StackContainerConfigRuntimeSeccompRulesItemCapabilities `json:"capabilities"`
+	Specs        StackContainerConfigRuntimeSeccompRulesItemSpecs        `json:"specs"`
+}
+
+// GetCapabilities returns the value of Capabilities.
+func (s *StackContainerConfigRuntimeSeccompRulesItem) GetCapabilities() StackContainerConfigRuntimeSeccompRulesItemCapabilities {
+	return s.Capabilities
+}
+
+// GetSpecs returns the value of Specs.
+func (s *StackContainerConfigRuntimeSeccompRulesItem) GetSpecs() StackContainerConfigRuntimeSeccompRulesItemSpecs {
+	return s.Specs
+}
+
+// SetCapabilities sets the value of Capabilities.
+func (s *StackContainerConfigRuntimeSeccompRulesItem) SetCapabilities(val StackContainerConfigRuntimeSeccompRulesItemCapabilities) {
+	s.Capabilities = val
+}
+
+// SetSpecs sets the value of Specs.
+func (s *StackContainerConfigRuntimeSeccompRulesItem) SetSpecs(val StackContainerConfigRuntimeSeccompRulesItemSpecs) {
+	s.Specs = val
+}
+
+type StackContainerConfigRuntimeSeccompRulesItemCapabilities struct {
+	Includes string `json:"includes"`
+	Excludes string `json:"excludes"`
+}
+
+// GetIncludes returns the value of Includes.
+func (s *StackContainerConfigRuntimeSeccompRulesItemCapabilities) GetIncludes() string {
+	return s.Includes
+}
+
+// GetExcludes returns the value of Excludes.
+func (s *StackContainerConfigRuntimeSeccompRulesItemCapabilities) GetExcludes() string {
+	return s.Excludes
+}
+
+// SetIncludes sets the value of Includes.
+func (s *StackContainerConfigRuntimeSeccompRulesItemCapabilities) SetIncludes(val string) {
+	s.Includes = val
+}
+
+// SetExcludes sets the value of Excludes.
+func (s *StackContainerConfigRuntimeSeccompRulesItemCapabilities) SetExcludes(val string) {
+	s.Excludes = val
+}
+
+type StackContainerConfigRuntimeSeccompRulesItemSpecs struct {
+	Names    []string                                                   `json:"names"`
+	Action   string                                                     `json:"action"`
+	ArrnoRet OptFloat64                                                 `json:"arrnoRet"`
+	Args     []StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem `json:"args"`
+}
+
+// GetNames returns the value of Names.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) GetNames() []string {
+	return s.Names
+}
+
+// GetAction returns the value of Action.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) GetAction() string {
+	return s.Action
+}
+
+// GetArrnoRet returns the value of ArrnoRet.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) GetArrnoRet() OptFloat64 {
+	return s.ArrnoRet
+}
+
+// GetArgs returns the value of Args.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) GetArgs() []StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem {
+	return s.Args
+}
+
+// SetNames sets the value of Names.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) SetNames(val []string) {
+	s.Names = val
+}
+
+// SetAction sets the value of Action.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) SetAction(val string) {
+	s.Action = val
+}
+
+// SetArrnoRet sets the value of ArrnoRet.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) SetArrnoRet(val OptFloat64) {
+	s.ArrnoRet = val
+}
+
+// SetArgs sets the value of Args.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) SetArgs(val []StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) {
+	s.Args = val
+}
+
+type StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem struct {
+	Index    float64    `json:"index"`
+	Value    float64    `json:"value"`
+	Valuetwo OptFloat64 `json:"valuetwo"`
+	Op       string     `json:"op"`
+}
+
+// GetIndex returns the value of Index.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) GetIndex() float64 {
+	return s.Index
+}
+
+// GetValue returns the value of Value.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) GetValue() float64 {
+	return s.Value
+}
+
+// GetValuetwo returns the value of Valuetwo.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) GetValuetwo() OptFloat64 {
+	return s.Valuetwo
+}
+
+// GetOp returns the value of Op.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) GetOp() string {
+	return s.Op
+}
+
+// SetIndex sets the value of Index.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) SetIndex(val float64) {
+	s.Index = val
+}
+
+// SetValue sets the value of Value.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) SetValue(val float64) {
+	s.Value = val
+}
+
+// SetValuetwo sets the value of Valuetwo.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) SetValuetwo(val OptFloat64) {
+	s.Valuetwo = val
+}
+
+// SetOp sets the value of Op.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) SetOp(val string) {
+	s.Op = val
+}
+
+type StackContainerConfigRuntimeSysctl map[string]string
+
+func (s *StackContainerConfigRuntimeSysctl) init() StackContainerConfigRuntimeSysctl {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+// Ref: #/components/schemas/StackContainerConfigScaling
+type StackContainerConfigScaling struct {
+	Auto OptStackContainerConfigScalingAuto `json:"auto"`
+}
+
+// GetAuto returns the value of Auto.
+func (s *StackContainerConfigScaling) GetAuto() OptStackContainerConfigScalingAuto {
+	return s.Auto
+}
+
+// SetAuto sets the value of Auto.
+func (s *StackContainerConfigScaling) SetAuto(val OptStackContainerConfigScalingAuto) {
+	s.Auto = val
+}
+
+type StackContainerConfigScalingAuto struct {
+	Instances StackContainerConfigScalingAutoInstances `json:"instances"`
+	Rules     OptStackContainerConfigScalingAutoRules  `json:"rules"`
+}
+
+// GetInstances returns the value of Instances.
+func (s *StackContainerConfigScalingAuto) GetInstances() StackContainerConfigScalingAutoInstances {
+	return s.Instances
+}
+
+// GetRules returns the value of Rules.
+func (s *StackContainerConfigScalingAuto) GetRules() OptStackContainerConfigScalingAutoRules {
+	return s.Rules
+}
+
+// SetInstances sets the value of Instances.
+func (s *StackContainerConfigScalingAuto) SetInstances(val StackContainerConfigScalingAutoInstances) {
+	s.Instances = val
+}
+
+// SetRules sets the value of Rules.
+func (s *StackContainerConfigScalingAuto) SetRules(val OptStackContainerConfigScalingAutoRules) {
+	s.Rules = val
+}
+
+type StackContainerConfigScalingAutoInstances struct {
+	Min float64 `json:"min"`
+	Max float64 `json:"max"`
+}
+
+// GetMin returns the value of Min.
+func (s *StackContainerConfigScalingAutoInstances) GetMin() float64 {
+	return s.Min
+}
+
+// GetMax returns the value of Max.
+func (s *StackContainerConfigScalingAutoInstances) GetMax() float64 {
+	return s.Max
+}
+
+// SetMin sets the value of Min.
+func (s *StackContainerConfigScalingAutoInstances) SetMin(val float64) {
+	s.Min = val
+}
+
+// SetMax sets the value of Max.
+func (s *StackContainerConfigScalingAutoInstances) SetMax(val float64) {
+	s.Max = val
+}
+
+type StackContainerConfigScalingAutoRules struct {
+	Metric    StackContainerConfigScalingAutoRulesMetric `json:"metric"`
+	Threshold string                                     `json:"threshold"`
+}
+
+// GetMetric returns the value of Metric.
+func (s *StackContainerConfigScalingAutoRules) GetMetric() StackContainerConfigScalingAutoRulesMetric {
+	return s.Metric
+}
+
+// GetThreshold returns the value of Threshold.
+func (s *StackContainerConfigScalingAutoRules) GetThreshold() string {
+	return s.Threshold
+}
+
+// SetMetric sets the value of Metric.
+func (s *StackContainerConfigScalingAutoRules) SetMetric(val StackContainerConfigScalingAutoRulesMetric) {
+	s.Metric = val
+}
+
+// SetThreshold sets the value of Threshold.
+func (s *StackContainerConfigScalingAutoRules) SetThreshold(val string) {
+	s.Threshold = val
+}
+
+type StackContainerConfigScalingAutoRulesMetric string
+
+const (
+	StackContainerConfigScalingAutoRulesMetricRAM StackContainerConfigScalingAutoRulesMetric = "ram"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackContainerConfigScalingAutoRulesMetric) MarshalText() ([]byte, error) {
+	switch s {
+	case StackContainerConfigScalingAutoRulesMetricRAM:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackContainerConfigScalingAutoRulesMetric) UnmarshalText(data []byte) error {
+	switch StackContainerConfigScalingAutoRulesMetric(data) {
+	case StackContainerConfigScalingAutoRulesMetricRAM:
+		*s = StackContainerConfigScalingAutoRulesMetricRAM
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Stacks container object.
+type StackContainerItem struct {
+	Name  string                  `json:"name"`
+	Image StackContainerItemImage `json:"image"`
+}
+
+// GetName returns the value of Name.
+func (s *StackContainerItem) GetName() string {
+	return s.Name
+}
+
+// GetImage returns the value of Image.
+func (s *StackContainerItem) GetImage() StackContainerItemImage {
+	return s.Image
+}
+
+// SetName sets the value of Name.
+func (s *StackContainerItem) SetName(val string) {
+	s.Name = val
+}
+
+// SetImage sets the value of Image.
+func (s *StackContainerItem) SetImage(val StackContainerItemImage) {
+	s.Image = val
+}
+
+type StackContainerItemImage struct {
+	Name     string                           `json:"name"`
+	Origin   ImageSourceOrigin                `json:"origin"`
+	Stateful OptBool                          `json:"stateful"`
+	Config   OptStackContainerItemImageConfig `json:"config"`
+	Role     OptStackContainerItemImageRole   `json:"role"`
+	Volumes  []StackContainerVolume           `json:"volumes"`
+}
+
+// GetName returns the value of Name.
+func (s *StackContainerItemImage) GetName() string {
+	return s.Name
+}
+
+// GetOrigin returns the value of Origin.
+func (s *StackContainerItemImage) GetOrigin() ImageSourceOrigin {
+	return s.Origin
+}
+
+// GetStateful returns the value of Stateful.
+func (s *StackContainerItemImage) GetStateful() OptBool {
+	return s.Stateful
+}
+
+// GetConfig returns the value of Config.
+func (s *StackContainerItemImage) GetConfig() OptStackContainerItemImageConfig {
+	return s.Config
+}
+
+// GetRole returns the value of Role.
+func (s *StackContainerItemImage) GetRole() OptStackContainerItemImageRole {
+	return s.Role
+}
+
+// GetVolumes returns the value of Volumes.
+func (s *StackContainerItemImage) GetVolumes() []StackContainerVolume {
+	return s.Volumes
+}
+
+// SetName sets the value of Name.
+func (s *StackContainerItemImage) SetName(val string) {
+	s.Name = val
+}
+
+// SetOrigin sets the value of Origin.
+func (s *StackContainerItemImage) SetOrigin(val ImageSourceOrigin) {
+	s.Origin = val
+}
+
+// SetStateful sets the value of Stateful.
+func (s *StackContainerItemImage) SetStateful(val OptBool) {
+	s.Stateful = val
+}
+
+// SetConfig sets the value of Config.
+func (s *StackContainerItemImage) SetConfig(val OptStackContainerItemImageConfig) {
+	s.Config = val
+}
+
+// SetRole sets the value of Role.
+func (s *StackContainerItemImage) SetRole(val OptStackContainerItemImageRole) {
+	s.Role = val
+}
+
+// SetVolumes sets the value of Volumes.
+func (s *StackContainerItemImage) SetVolumes(val []StackContainerVolume) {
+	s.Volumes = val
+}
+
+type StackContainerItemImageConfig struct {
+	Network      StackContainerConfigNetwork         `json:"network"`
+	Deploy       StackContainerConfigDeploy          `json:"deploy"`
+	Scaling      OptStackContainerConfigScaling      `json:"scaling"`
+	Runtime      OptStackContainerConfigRuntime      `json:"runtime"`
+	Resources    OptStackContainerConfigResources    `json:"resources"`
+	Integrations OptStackContainerConfigIntegrations `json:"integrations"`
+}
+
+// GetNetwork returns the value of Network.
+func (s *StackContainerItemImageConfig) GetNetwork() StackContainerConfigNetwork {
+	return s.Network
+}
+
+// GetDeploy returns the value of Deploy.
+func (s *StackContainerItemImageConfig) GetDeploy() StackContainerConfigDeploy {
+	return s.Deploy
+}
+
+// GetScaling returns the value of Scaling.
+func (s *StackContainerItemImageConfig) GetScaling() OptStackContainerConfigScaling {
+	return s.Scaling
+}
+
+// GetRuntime returns the value of Runtime.
+func (s *StackContainerItemImageConfig) GetRuntime() OptStackContainerConfigRuntime {
+	return s.Runtime
+}
+
+// GetResources returns the value of Resources.
+func (s *StackContainerItemImageConfig) GetResources() OptStackContainerConfigResources {
+	return s.Resources
+}
+
+// GetIntegrations returns the value of Integrations.
+func (s *StackContainerItemImageConfig) GetIntegrations() OptStackContainerConfigIntegrations {
+	return s.Integrations
+}
+
+// SetNetwork sets the value of Network.
+func (s *StackContainerItemImageConfig) SetNetwork(val StackContainerConfigNetwork) {
+	s.Network = val
+}
+
+// SetDeploy sets the value of Deploy.
+func (s *StackContainerItemImageConfig) SetDeploy(val StackContainerConfigDeploy) {
+	s.Deploy = val
+}
+
+// SetScaling sets the value of Scaling.
+func (s *StackContainerItemImageConfig) SetScaling(val OptStackContainerConfigScaling) {
+	s.Scaling = val
+}
+
+// SetRuntime sets the value of Runtime.
+func (s *StackContainerItemImageConfig) SetRuntime(val OptStackContainerConfigRuntime) {
+	s.Runtime = val
+}
+
+// SetResources sets the value of Resources.
+func (s *StackContainerItemImageConfig) SetResources(val OptStackContainerConfigResources) {
+	s.Resources = val
+}
+
+// SetIntegrations sets the value of Integrations.
+func (s *StackContainerItemImageConfig) SetIntegrations(val OptStackContainerConfigIntegrations) {
+	s.Integrations = val
+}
+
+type StackContainerItemImageRole string
+
+const (
+	StackContainerItemImageRoleOrchestrator StackContainerItemImageRole = "orchestrator"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackContainerItemImageRole) MarshalText() ([]byte, error) {
+	switch s {
+	case StackContainerItemImageRoleOrchestrator:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackContainerItemImageRole) UnmarshalText(data []byte) error {
+	switch StackContainerItemImageRole(data) {
+	case StackContainerItemImageRoleOrchestrator:
+		*s = StackContainerItemImageRoleOrchestrator
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/StackContainerVolume
+type StackContainerVolume struct {
+	ReadOnly     bool                                `json:"read_only"`
+	Local        OptStackContainerVolumeLocal        `json:"local"`
+	Destination  string                              `json:"destination"`
+	RemoteAccess OptStackContainerVolumeRemoteAccess `json:"remote_access"`
+}
+
+// GetReadOnly returns the value of ReadOnly.
+func (s *StackContainerVolume) GetReadOnly() bool {
+	return s.ReadOnly
+}
+
+// GetLocal returns the value of Local.
+func (s *StackContainerVolume) GetLocal() OptStackContainerVolumeLocal {
+	return s.Local
+}
+
+// GetDestination returns the value of Destination.
+func (s *StackContainerVolume) GetDestination() string {
+	return s.Destination
+}
+
+// GetRemoteAccess returns the value of RemoteAccess.
+func (s *StackContainerVolume) GetRemoteAccess() OptStackContainerVolumeRemoteAccess {
+	return s.RemoteAccess
+}
+
+// SetReadOnly sets the value of ReadOnly.
+func (s *StackContainerVolume) SetReadOnly(val bool) {
+	s.ReadOnly = val
+}
+
+// SetLocal sets the value of Local.
+func (s *StackContainerVolume) SetLocal(val OptStackContainerVolumeLocal) {
+	s.Local = val
+}
+
+// SetDestination sets the value of Destination.
+func (s *StackContainerVolume) SetDestination(val string) {
+	s.Destination = val
+}
+
+// SetRemoteAccess sets the value of RemoteAccess.
+func (s *StackContainerVolume) SetRemoteAccess(val OptStackContainerVolumeRemoteAccess) {
+	s.RemoteAccess = val
+}
+
+type StackContainerVolumeLocal struct {
+	MaxSize     string `json:"max_size"`
+	StoragePool bool   `json:"storage_pool"`
+}
+
+// GetMaxSize returns the value of MaxSize.
+func (s *StackContainerVolumeLocal) GetMaxSize() string {
+	return s.MaxSize
+}
+
+// GetStoragePool returns the value of StoragePool.
+func (s *StackContainerVolumeLocal) GetStoragePool() bool {
+	return s.StoragePool
+}
+
+// SetMaxSize sets the value of MaxSize.
+func (s *StackContainerVolumeLocal) SetMaxSize(val string) {
+	s.MaxSize = val
+}
+
+// SetStoragePool sets the value of StoragePool.
+func (s *StackContainerVolumeLocal) SetStoragePool(val bool) {
+	s.StoragePool = val
+}
+
+type StackContainerVolumeRemoteAccess struct {
+	Enable   bool                                      `json:"enable"`
+	Ips      []StackContainerVolumeRemoteAccessIpsItem `json:"ips"`
+	WebHook  OptString                                 `json:"web_hook"`
+	Password StackContainerVolumeRemoteAccessPassword  `json:"password"`
+}
+
+// GetEnable returns the value of Enable.
+func (s *StackContainerVolumeRemoteAccess) GetEnable() bool {
+	return s.Enable
+}
+
+// GetIps returns the value of Ips.
+func (s *StackContainerVolumeRemoteAccess) GetIps() []StackContainerVolumeRemoteAccessIpsItem {
+	return s.Ips
+}
+
+// GetWebHook returns the value of WebHook.
+func (s *StackContainerVolumeRemoteAccess) GetWebHook() OptString {
+	return s.WebHook
+}
+
+// GetPassword returns the value of Password.
+func (s *StackContainerVolumeRemoteAccess) GetPassword() StackContainerVolumeRemoteAccessPassword {
+	return s.Password
+}
+
+// SetEnable sets the value of Enable.
+func (s *StackContainerVolumeRemoteAccess) SetEnable(val bool) {
+	s.Enable = val
+}
+
+// SetIps sets the value of Ips.
+func (s *StackContainerVolumeRemoteAccess) SetIps(val []StackContainerVolumeRemoteAccessIpsItem) {
+	s.Ips = val
+}
+
+// SetWebHook sets the value of WebHook.
+func (s *StackContainerVolumeRemoteAccess) SetWebHook(val OptString) {
+	s.WebHook = val
+}
+
+// SetPassword sets the value of Password.
+func (s *StackContainerVolumeRemoteAccess) SetPassword(val StackContainerVolumeRemoteAccessPassword) {
+	s.Password = val
+}
+
+type StackContainerVolumeRemoteAccessIpsItem struct {
+	IP       string                                             `json:"ip"`
+	ReadOnly bool                                               `json:"read_only"`
+	Password NilStackContainerVolumeRemoteAccessIpsItemPassword `json:"password"`
+}
+
+// GetIP returns the value of IP.
+func (s *StackContainerVolumeRemoteAccessIpsItem) GetIP() string {
+	return s.IP
+}
+
+// GetReadOnly returns the value of ReadOnly.
+func (s *StackContainerVolumeRemoteAccessIpsItem) GetReadOnly() bool {
+	return s.ReadOnly
+}
+
+// GetPassword returns the value of Password.
+func (s *StackContainerVolumeRemoteAccessIpsItem) GetPassword() NilStackContainerVolumeRemoteAccessIpsItemPassword {
+	return s.Password
+}
+
+// SetIP sets the value of IP.
+func (s *StackContainerVolumeRemoteAccessIpsItem) SetIP(val string) {
+	s.IP = val
+}
+
+// SetReadOnly sets the value of ReadOnly.
+func (s *StackContainerVolumeRemoteAccessIpsItem) SetReadOnly(val bool) {
+	s.ReadOnly = val
+}
+
+// SetPassword sets the value of Password.
+func (s *StackContainerVolumeRemoteAccessIpsItem) SetPassword(val NilStackContainerVolumeRemoteAccessIpsItemPassword) {
+	s.Password = val
+}
+
+type StackContainerVolumeRemoteAccessIpsItemPassword struct {
+	Algorithm StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm `json:"algorithm"`
+	Data      string                                                   `json:"data"`
+}
+
+// GetAlgorithm returns the value of Algorithm.
+func (s *StackContainerVolumeRemoteAccessIpsItemPassword) GetAlgorithm() StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm {
+	return s.Algorithm
+}
+
+// GetData returns the value of Data.
+func (s *StackContainerVolumeRemoteAccessIpsItemPassword) GetData() string {
+	return s.Data
+}
+
+// SetAlgorithm sets the value of Algorithm.
+func (s *StackContainerVolumeRemoteAccessIpsItemPassword) SetAlgorithm(val StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm) {
+	s.Algorithm = val
+}
+
+// SetData sets the value of Data.
+func (s *StackContainerVolumeRemoteAccessIpsItemPassword) SetData(val string) {
+	s.Data = val
+}
+
+type StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm string
+
+const (
+	StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmRaw    StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm = "raw"
+	StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmSha512 StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm = "sha512"
+	StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmMD5    StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm = "md5"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm) MarshalText() ([]byte, error) {
+	switch s {
+	case StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmRaw:
+		return []byte(s), nil
+	case StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmSha512:
+		return []byte(s), nil
+	case StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmMD5:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm) UnmarshalText(data []byte) error {
+	switch StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm(data) {
+	case StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmRaw:
+		*s = StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmRaw
+		return nil
+	case StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmSha512:
+		*s = StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmSha512
+		return nil
+	case StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmMD5:
+		*s = StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmMD5
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type StackContainerVolumeRemoteAccessPassword struct {
+	Algorithm StackContainerVolumeRemoteAccessPasswordAlgorithm `json:"algorithm"`
+	Data      string                                            `json:"data"`
+}
+
+// GetAlgorithm returns the value of Algorithm.
+func (s *StackContainerVolumeRemoteAccessPassword) GetAlgorithm() StackContainerVolumeRemoteAccessPasswordAlgorithm {
+	return s.Algorithm
+}
+
+// GetData returns the value of Data.
+func (s *StackContainerVolumeRemoteAccessPassword) GetData() string {
+	return s.Data
+}
+
+// SetAlgorithm sets the value of Algorithm.
+func (s *StackContainerVolumeRemoteAccessPassword) SetAlgorithm(val StackContainerVolumeRemoteAccessPasswordAlgorithm) {
+	s.Algorithm = val
+}
+
+// SetData sets the value of Data.
+func (s *StackContainerVolumeRemoteAccessPassword) SetData(val string) {
+	s.Data = val
+}
+
+type StackContainerVolumeRemoteAccessPasswordAlgorithm string
+
+const (
+	StackContainerVolumeRemoteAccessPasswordAlgorithmRaw    StackContainerVolumeRemoteAccessPasswordAlgorithm = "raw"
+	StackContainerVolumeRemoteAccessPasswordAlgorithmSha512 StackContainerVolumeRemoteAccessPasswordAlgorithm = "sha512"
+	StackContainerVolumeRemoteAccessPasswordAlgorithmMD5    StackContainerVolumeRemoteAccessPasswordAlgorithm = "md5"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackContainerVolumeRemoteAccessPasswordAlgorithm) MarshalText() ([]byte, error) {
+	switch s {
+	case StackContainerVolumeRemoteAccessPasswordAlgorithmRaw:
+		return []byte(s), nil
+	case StackContainerVolumeRemoteAccessPasswordAlgorithmSha512:
+		return []byte(s), nil
+	case StackContainerVolumeRemoteAccessPasswordAlgorithmMD5:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackContainerVolumeRemoteAccessPasswordAlgorithm) UnmarshalText(data []byte) error {
+	switch StackContainerVolumeRemoteAccessPasswordAlgorithm(data) {
+	case StackContainerVolumeRemoteAccessPasswordAlgorithmRaw:
+		*s = StackContainerVolumeRemoteAccessPasswordAlgorithmRaw
+		return nil
+	case StackContainerVolumeRemoteAccessPasswordAlgorithmSha512:
+		*s = StackContainerVolumeRemoteAccessPasswordAlgorithmSha512
+		return nil
+	case StackContainerVolumeRemoteAccessPasswordAlgorithmMD5:
+		*s = StackContainerVolumeRemoteAccessPasswordAlgorithmMD5
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Options to control how a container behaves when a stack build is deployed.
 // Ref: #/components/schemas/StackDeployContainersObject
 type StackDeployContainersObject struct {
@@ -50779,6 +73184,502 @@ func (s *StackDeployContainersObject) SetReimage(val bool) {
 // SetReconfigure sets the value of Reconfigure.
 func (s *StackDeployContainersObject) SetReconfigure(val bool) {
 	s.Reconfigure = val
+}
+
+// A collection of timestamps for each event in the Stacks lifetime.
+type StackEvents struct {
+	// The timestamp of when the stack was created.
+	Created DateTime `json:"created"`
+	// The timestamp of when the stack was updated.
+	Updated DateTime `json:"updated"`
+	// The timestamp of when the stack was deleted.
+	Deleted DateTime `json:"deleted"`
+	// The timestamp for the last build of the stack.
+	LastBuild DateTime `json:"last_build"`
+}
+
+// GetCreated returns the value of Created.
+func (s *StackEvents) GetCreated() DateTime {
+	return s.Created
+}
+
+// GetUpdated returns the value of Updated.
+func (s *StackEvents) GetUpdated() DateTime {
+	return s.Updated
+}
+
+// GetDeleted returns the value of Deleted.
+func (s *StackEvents) GetDeleted() DateTime {
+	return s.Deleted
+}
+
+// GetLastBuild returns the value of LastBuild.
+func (s *StackEvents) GetLastBuild() DateTime {
+	return s.LastBuild
+}
+
+// SetCreated sets the value of Created.
+func (s *StackEvents) SetCreated(val DateTime) {
+	s.Created = val
+}
+
+// SetUpdated sets the value of Updated.
+func (s *StackEvents) SetUpdated(val DateTime) {
+	s.Updated = val
+}
+
+// SetDeleted sets the value of Deleted.
+func (s *StackEvents) SetDeleted(val DateTime) {
+	s.Deleted = val
+}
+
+// SetLastBuild sets the value of LastBuild.
+func (s *StackEvents) SetLastBuild(val DateTime) {
+	s.LastBuild = val
+}
+
+// Information about the git commit this stack build was created from.
+// Ref: #/components/schemas/StackGitCommit
+type StackGitCommit struct {
+	// The commit hash for the given stack build.
+	Hash string `json:"hash"`
+	// The commit message for the given stack build hash.
+	Message string `json:"message"`
+	// The time the commit was made.
+	Time DateTime `json:"time"`
+	// Inforamtion about the author of the commit.
+	Author StackGitCommitAuthor `json:"author"`
+}
+
+// GetHash returns the value of Hash.
+func (s *StackGitCommit) GetHash() string {
+	return s.Hash
+}
+
+// GetMessage returns the value of Message.
+func (s *StackGitCommit) GetMessage() string {
+	return s.Message
+}
+
+// GetTime returns the value of Time.
+func (s *StackGitCommit) GetTime() DateTime {
+	return s.Time
+}
+
+// GetAuthor returns the value of Author.
+func (s *StackGitCommit) GetAuthor() StackGitCommitAuthor {
+	return s.Author
+}
+
+// SetHash sets the value of Hash.
+func (s *StackGitCommit) SetHash(val string) {
+	s.Hash = val
+}
+
+// SetMessage sets the value of Message.
+func (s *StackGitCommit) SetMessage(val string) {
+	s.Message = val
+}
+
+// SetTime sets the value of Time.
+func (s *StackGitCommit) SetTime(val DateTime) {
+	s.Time = val
+}
+
+// SetAuthor sets the value of Author.
+func (s *StackGitCommit) SetAuthor(val StackGitCommitAuthor) {
+	s.Author = val
+}
+
+// Inforamtion about the author of the commit.
+type StackGitCommitAuthor struct {
+	// The commit authors name.
+	Name string `json:"name"`
+	// The commit authors email address.
+	Email string `json:"email"`
+}
+
+// GetName returns the value of Name.
+func (s *StackGitCommitAuthor) GetName() string {
+	return s.Name
+}
+
+// GetEmail returns the value of Email.
+func (s *StackGitCommitAuthor) GetEmail() string {
+	return s.Email
+}
+
+// SetName sets the value of Name.
+func (s *StackGitCommitAuthor) SetName(val string) {
+	s.Name = val
+}
+
+// SetEmail sets the value of Email.
+func (s *StackGitCommitAuthor) SetEmail(val string) {
+	s.Email = val
+}
+
+// All includable resources linkable to the given stack.
+// Ref: #/components/schemas/StackInclude
+type StackInclude struct {
+	Creators OptCreatorInclude `json:"creators"`
+}
+
+// GetCreators returns the value of Creators.
+func (s *StackInclude) GetCreators() OptCreatorInclude {
+	return s.Creators
+}
+
+// SetCreators sets the value of Creators.
+func (s *StackInclude) SetCreators(val OptCreatorInclude) {
+	s.Creators = val
+}
+
+// A resource associated with a stack.
+// Ref: #/components/schemas/StackIncludes
+type StackIncludes map[string]Stack
+
+func (s *StackIncludes) init() StackIncludes {
+	m := *s
+	if m == nil {
+		m = map[string]Stack{}
+		*s = m
+	}
+	return m
+}
+
+// A list of meta fields that can be applied to this stack.
+// Ref: #/components/schemas/StackMeta
+type StackMeta struct {
+	ContainersCount OptStateCountSummary `json:"containers_count"`
+	BuildsCount     OptStateCountSummary `json:"builds_count"`
+}
+
+// GetContainersCount returns the value of ContainersCount.
+func (s *StackMeta) GetContainersCount() OptStateCountSummary {
+	return s.ContainersCount
+}
+
+// GetBuildsCount returns the value of BuildsCount.
+func (s *StackMeta) GetBuildsCount() OptStateCountSummary {
+	return s.BuildsCount
+}
+
+// SetContainersCount sets the value of ContainersCount.
+func (s *StackMeta) SetContainersCount(val OptStateCountSummary) {
+	s.ContainersCount = val
+}
+
+// SetBuildsCount sets the value of BuildsCount.
+func (s *StackMeta) SetBuildsCount(val OptStateCountSummary) {
+	s.BuildsCount = val
+}
+
+// A source for a stack to be created from.
+// Ref: #/components/schemas/StackSource
+// StackSource represents sum type.
+type StackSource struct {
+	Type      StackSourceType // switch on this field
+	RepoSpec  RepoSpec
+	StackSpec StackSpec
+}
+
+// StackSourceType is oneOf type of StackSource.
+type StackSourceType string
+
+// Possible values for StackSourceType.
+const (
+	RepoSpecStackSource  StackSourceType = "RepoSpec"
+	StackSpecStackSource StackSourceType = "StackSpec"
+)
+
+// IsRepoSpec reports whether StackSource is RepoSpec.
+func (s StackSource) IsRepoSpec() bool { return s.Type == RepoSpecStackSource }
+
+// IsStackSpec reports whether StackSource is StackSpec.
+func (s StackSource) IsStackSpec() bool { return s.Type == StackSpecStackSource }
+
+// SetRepoSpec sets StackSource to RepoSpec.
+func (s *StackSource) SetRepoSpec(v RepoSpec) {
+	s.Type = RepoSpecStackSource
+	s.RepoSpec = v
+}
+
+// GetRepoSpec returns RepoSpec and true boolean if StackSource is RepoSpec.
+func (s StackSource) GetRepoSpec() (v RepoSpec, ok bool) {
+	if !s.IsRepoSpec() {
+		return v, false
+	}
+	return s.RepoSpec, true
+}
+
+// NewRepoSpecStackSource returns new StackSource from RepoSpec.
+func NewRepoSpecStackSource(v RepoSpec) StackSource {
+	var s StackSource
+	s.SetRepoSpec(v)
+	return s
+}
+
+// SetStackSpec sets StackSource to StackSpec.
+func (s *StackSource) SetStackSpec(v StackSpec) {
+	s.Type = StackSpecStackSource
+	s.StackSpec = v
+}
+
+// GetStackSpec returns StackSpec and true boolean if StackSource is StackSpec.
+func (s StackSource) GetStackSpec() (v StackSpec, ok bool) {
+	if !s.IsStackSpec() {
+		return v, false
+	}
+	return s.StackSpec, true
+}
+
+// NewStackSpecStackSource returns new StackSource from StackSpec.
+func NewStackSpecStackSource(v StackSpec) StackSource {
+	var s StackSource
+	s.SetStackSpec(v)
+	return s
+}
+
+// A stack spec resource.
+// Ref: #/components/schemas/StackSpec
+type StackSpec struct {
+	Details StackSpecDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *StackSpec) GetDetails() StackSpecDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *StackSpec) SetDetails(val StackSpecDetails) {
+	s.Details = val
+}
+
+type StackSpecDetails struct {
+	// A string defining the version of the stack spec.
+	Version string `json:"version"`
+	// Information about the stack.
+	About      OptStackSpecDetailsAbout `json:"about"`
+	Containers []StackContainer         `json:"containers"`
+	// Additional meta info about the stack.
+	Annotations OptStackSpecDetailsAnnotations `json:"annotations"`
+}
+
+// GetVersion returns the value of Version.
+func (s *StackSpecDetails) GetVersion() string {
+	return s.Version
+}
+
+// GetAbout returns the value of About.
+func (s *StackSpecDetails) GetAbout() OptStackSpecDetailsAbout {
+	return s.About
+}
+
+// GetContainers returns the value of Containers.
+func (s *StackSpecDetails) GetContainers() []StackContainer {
+	return s.Containers
+}
+
+// GetAnnotations returns the value of Annotations.
+func (s *StackSpecDetails) GetAnnotations() OptStackSpecDetailsAnnotations {
+	return s.Annotations
+}
+
+// SetVersion sets the value of Version.
+func (s *StackSpecDetails) SetVersion(val string) {
+	s.Version = val
+}
+
+// SetAbout sets the value of About.
+func (s *StackSpecDetails) SetAbout(val OptStackSpecDetailsAbout) {
+	s.About = val
+}
+
+// SetContainers sets the value of Containers.
+func (s *StackSpecDetails) SetContainers(val []StackContainer) {
+	s.Containers = val
+}
+
+// SetAnnotations sets the value of Annotations.
+func (s *StackSpecDetails) SetAnnotations(val OptStackSpecDetailsAnnotations) {
+	s.Annotations = val
+}
+
+// Information about the stack.
+type StackSpecDetailsAbout struct {
+	// Internal version information set by the user.
+	Version string `json:"version"`
+	// Information describing the stack.
+	Description string `json:"description"`
+}
+
+// GetVersion returns the value of Version.
+func (s *StackSpecDetailsAbout) GetVersion() string {
+	return s.Version
+}
+
+// GetDescription returns the value of Description.
+func (s *StackSpecDetailsAbout) GetDescription() string {
+	return s.Description
+}
+
+// SetVersion sets the value of Version.
+func (s *StackSpecDetailsAbout) SetVersion(val string) {
+	s.Version = val
+}
+
+// SetDescription sets the value of Description.
+func (s *StackSpecDetailsAbout) SetDescription(val string) {
+	s.Description = val
+}
+
+// Additional meta info about the stack.
+type StackSpecDetailsAnnotations map[string]string
+
+func (s *StackSpecDetailsAnnotations) init() StackSpecDetailsAnnotations {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+type StackSpecType string
+
+const (
+	StackSpecTypeRaw StackSpecType = "raw"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackSpecType) MarshalText() ([]byte, error) {
+	switch s {
+	case StackSpecTypeRaw:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackSpecType) UnmarshalText(data []byte) error {
+	switch StackSpecType(data) {
+	case StackSpecTypeRaw:
+		*s = StackSpecTypeRaw
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Merged schema.
+// Ref: #/components/schemas/StackState
+type StackState struct {
+	// The current state of the stack.
+	Current StackStateCurrent `json:"current"`
+	Changed DateTime          `json:"changed"`
+	// An error, if any, that has occurred for this resource.
+	Error OptStackStateError `json:"error"`
+}
+
+// GetCurrent returns the value of Current.
+func (s *StackState) GetCurrent() StackStateCurrent {
+	return s.Current
+}
+
+// GetChanged returns the value of Changed.
+func (s *StackState) GetChanged() DateTime {
+	return s.Changed
+}
+
+// GetError returns the value of Error.
+func (s *StackState) GetError() OptStackStateError {
+	return s.Error
+}
+
+// SetCurrent sets the value of Current.
+func (s *StackState) SetCurrent(val StackStateCurrent) {
+	s.Current = val
+}
+
+// SetChanged sets the value of Changed.
+func (s *StackState) SetChanged(val DateTime) {
+	s.Changed = val
+}
+
+// SetError sets the value of Error.
+func (s *StackState) SetError(val OptStackStateError) {
+	s.Error = val
+}
+
+// The current state of the stack.
+type StackStateCurrent string
+
+const (
+	StackStateCurrentLive     StackStateCurrent = "live"
+	StackStateCurrentDeleting StackStateCurrent = "deleting"
+	StackStateCurrentDeleted  StackStateCurrent = "deleted"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackStateCurrent) MarshalText() ([]byte, error) {
+	switch s {
+	case StackStateCurrentLive:
+		return []byte(s), nil
+	case StackStateCurrentDeleting:
+		return []byte(s), nil
+	case StackStateCurrentDeleted:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackStateCurrent) UnmarshalText(data []byte) error {
+	switch StackStateCurrent(data) {
+	case StackStateCurrentLive:
+		*s = StackStateCurrentLive
+		return nil
+	case StackStateCurrentDeleting:
+		*s = StackStateCurrentDeleting
+		return nil
+	case StackStateCurrentDeleted:
+		*s = StackStateCurrentDeleted
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// An error, if any, that has occurred for this resource.
+type StackStateError struct {
+	// Details about the error that has occurred.
+	Message OptString `json:"message"`
+	// The timestamp of when the error was encountered.
+	Time OptDateTime `json:"time"`
+}
+
+// GetMessage returns the value of Message.
+func (s *StackStateError) GetMessage() OptString {
+	return s.Message
+}
+
+// GetTime returns the value of Time.
+func (s *StackStateError) GetTime() OptDateTime {
+	return s.Time
+}
+
+// SetMessage sets the value of Message.
+func (s *StackStateError) SetMessage(val OptString) {
+	s.Message = val
+}
+
+// SetTime sets the value of Time.
+func (s *StackStateError) SetTime(val OptDateTime) {
+	s.Time = val
 }
 
 // A summary of the stack this container was created format.
@@ -51880,6 +74781,67 @@ func (s *TwoFaSetupResponse) SetTotpPasscode(val string) {
 	s.TotpPasscode = val
 }
 
+// The `URL` type of scoped variable `value`, referred to as a source. This means the value of this
+// variable is the result of calling the given URL. It is dynamic, in that Cycle will refetch the
+// contents on every start.
+// Ref: #/components/schemas/URLSource
+type URLSource struct {
+	Details URLSourceDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *URLSource) GetDetails() URLSourceDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *URLSource) SetDetails(val URLSourceDetails) {
+	s.Details = val
+}
+
+type URLSourceDetails struct {
+	// The URL to call to produce the value.
+	URL string `json:"url"`
+}
+
+// GetURL returns the value of URL.
+func (s *URLSourceDetails) GetURL() string {
+	return s.URL
+}
+
+// SetURL sets the value of URL.
+func (s *URLSourceDetails) SetURL(val string) {
+	s.URL = val
+}
+
+// The type of source value, can be either `raw` or `url`.
+type URLSourceType string
+
+const (
+	URLSourceTypeURL URLSourceType = "url"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s URLSourceType) MarshalText() ([]byte, error) {
+	switch s {
+	case URLSourceTypeURL:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *URLSourceType) UnmarshalText(data []byte) error {
+	switch URLSourceType(data) {
+	case URLSourceTypeURL:
+		*s = URLSourceTypeURL
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // An update to an existing announcement.
 // Ref: #/components/schemas/Update
 type Update struct {
@@ -52120,9 +75082,9 @@ type UpdateBillingMethodReq struct {
 	// A name for the billing method.
 	Name OptString `json:"name"`
 	// A boolean where true represents a billing method being primary.
-	Primary    OptBool     `json:"primary"`
-	Address    OptAddress  `json:"address"`
-	CreditCard *CreditCard `json:"credit_card"`
+	Primary    OptBool       `json:"primary"`
+	Address    OptAddress    `json:"address"`
+	CreditCard OptCreditCard `json:"credit_card"`
 }
 
 // GetName returns the value of Name.
@@ -52141,7 +75103,7 @@ func (s *UpdateBillingMethodReq) GetAddress() OptAddress {
 }
 
 // GetCreditCard returns the value of CreditCard.
-func (s *UpdateBillingMethodReq) GetCreditCard() *CreditCard {
+func (s *UpdateBillingMethodReq) GetCreditCard() OptCreditCard {
 	return s.CreditCard
 }
 
@@ -52161,7 +75123,7 @@ func (s *UpdateBillingMethodReq) SetAddress(val OptAddress) {
 }
 
 // SetCreditCard sets the value of CreditCard.
-func (s *UpdateBillingMethodReq) SetCreditCard(val *CreditCard) {
+func (s *UpdateBillingMethodReq) SetCreditCard(val OptCreditCard) {
 	s.CreditCard = val
 }
 
@@ -52636,6 +75598,156 @@ func (s *UpdateHubReqWebhooks) SetServerDeployed(val NilString) {
 	s.ServerDeployed = val
 }
 
+type UpdateImageOK struct {
+	Data OptImage `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *UpdateImageOK) GetData() OptImage {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *UpdateImageOK) SetData(val OptImage) {
+	s.Data = val
+}
+
+type UpdateImageReq struct {
+	// A name for the image.
+	Name OptString `json:"name"`
+}
+
+// GetName returns the value of Name.
+func (s *UpdateImageReq) GetName() OptString {
+	return s.Name
+}
+
+// SetName sets the value of Name.
+func (s *UpdateImageReq) SetName(val OptString) {
+	s.Name = val
+}
+
+type UpdateImageSourceOK struct {
+	Data OptImageSource `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *UpdateImageSourceOK) GetData() OptImageSource {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *UpdateImageSourceOK) SetData(val OptImageSource) {
+	s.Data = val
+}
+
+type UpdateImageSourceReq struct {
+	// A name for the image source.
+	Name   OptString            `json:"name"`
+	Origin OptImageSourceOrigin `json:"origin"`
+	// User defined information about the image source.
+	About OptUpdateImageSourceReqAbout `json:"about"`
+}
+
+// GetName returns the value of Name.
+func (s *UpdateImageSourceReq) GetName() OptString {
+	return s.Name
+}
+
+// GetOrigin returns the value of Origin.
+func (s *UpdateImageSourceReq) GetOrigin() OptImageSourceOrigin {
+	return s.Origin
+}
+
+// GetAbout returns the value of About.
+func (s *UpdateImageSourceReq) GetAbout() OptUpdateImageSourceReqAbout {
+	return s.About
+}
+
+// SetName sets the value of Name.
+func (s *UpdateImageSourceReq) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetOrigin sets the value of Origin.
+func (s *UpdateImageSourceReq) SetOrigin(val OptImageSourceOrigin) {
+	s.Origin = val
+}
+
+// SetAbout sets the value of About.
+func (s *UpdateImageSourceReq) SetAbout(val OptUpdateImageSourceReqAbout) {
+	s.About = val
+}
+
+// User defined information about the image source.
+type UpdateImageSourceReqAbout struct {
+	// A description of the image source.
+	Description NilString `json:"description"`
+}
+
+// GetDescription returns the value of Description.
+func (s *UpdateImageSourceReqAbout) GetDescription() NilString {
+	return s.Description
+}
+
+// SetDescription sets the value of Description.
+func (s *UpdateImageSourceReqAbout) SetDescription(val NilString) {
+	s.Description = val
+}
+
+type UpdatePipelineOK struct {
+	Data OptPipeline `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *UpdatePipelineOK) GetData() OptPipeline {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *UpdatePipelineOK) SetData(val OptPipeline) {
+	s.Data = val
+}
+
+type UpdatePipelineReq struct {
+	// A name for the pipeline.
+	Name OptString `json:"name"`
+	// An array of stages.
+	Stages []PipelineStage `json:"stages"`
+	// A boolean where true signifies the pipeline is disabled.
+	Disable OptBool `json:"disable"`
+}
+
+// GetName returns the value of Name.
+func (s *UpdatePipelineReq) GetName() OptString {
+	return s.Name
+}
+
+// GetStages returns the value of Stages.
+func (s *UpdatePipelineReq) GetStages() []PipelineStage {
+	return s.Stages
+}
+
+// GetDisable returns the value of Disable.
+func (s *UpdatePipelineReq) GetDisable() OptBool {
+	return s.Disable
+}
+
+// SetName sets the value of Name.
+func (s *UpdatePipelineReq) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetStages sets the value of Stages.
+func (s *UpdatePipelineReq) SetStages(val []PipelineStage) {
+	s.Stages = val
+}
+
+// SetDisable sets the value of Disable.
+func (s *UpdatePipelineReq) SetDisable(val OptBool) {
+	s.Disable = val
+}
+
 type UpdatePipelineTriggerKeyOK struct {
 	Data OptTaskDescriptor `json:"data"`
 }
@@ -52841,6 +75953,168 @@ func (s *UpdateSDNNetworkReq) SetIdentifier(val OptString) {
 	s.Identifier = val
 }
 
+type UpdateScopedVariableOK struct {
+	Data OptScopedVariable `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *UpdateScopedVariableOK) GetData() OptScopedVariable {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *UpdateScopedVariableOK) SetData(val OptScopedVariable) {
+	s.Data = val
+}
+
+type UpdateScopedVariableReq struct {
+	// An identifier, similar to a key in an environment variable.  Its used when envoking the scoped
+	// variable.
+	Identifier OptString `json:"identifier"`
+	// An object with information about the encryption of the scoped variable.
+	Secret OptNilUpdateScopedVariableReqSecret `json:"secret"`
+	Scope  OptScopedVariableScope              `json:"scope"`
+	// The source or value of the scoped variable.
+	Source OptUpdateScopedVariableReqSource `json:"source"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *UpdateScopedVariableReq) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetSecret returns the value of Secret.
+func (s *UpdateScopedVariableReq) GetSecret() OptNilUpdateScopedVariableReqSecret {
+	return s.Secret
+}
+
+// GetScope returns the value of Scope.
+func (s *UpdateScopedVariableReq) GetScope() OptScopedVariableScope {
+	return s.Scope
+}
+
+// GetSource returns the value of Source.
+func (s *UpdateScopedVariableReq) GetSource() OptUpdateScopedVariableReqSource {
+	return s.Source
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *UpdateScopedVariableReq) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetSecret sets the value of Secret.
+func (s *UpdateScopedVariableReq) SetSecret(val OptNilUpdateScopedVariableReqSecret) {
+	s.Secret = val
+}
+
+// SetScope sets the value of Scope.
+func (s *UpdateScopedVariableReq) SetScope(val OptScopedVariableScope) {
+	s.Scope = val
+}
+
+// SetSource sets the value of Source.
+func (s *UpdateScopedVariableReq) SetSource(val OptUpdateScopedVariableReqSource) {
+	s.Source = val
+}
+
+// An object with information about the encryption of the scoped variable.
+type UpdateScopedVariableReqSecret struct {
+	// A boolean where true means the scoped variables value is encrypted.
+	Encrypted bool `json:"encrypted"`
+	// A hint for the decryption password.
+	Hint OptString `json:"hint"`
+}
+
+// GetEncrypted returns the value of Encrypted.
+func (s *UpdateScopedVariableReqSecret) GetEncrypted() bool {
+	return s.Encrypted
+}
+
+// GetHint returns the value of Hint.
+func (s *UpdateScopedVariableReqSecret) GetHint() OptString {
+	return s.Hint
+}
+
+// SetEncrypted sets the value of Encrypted.
+func (s *UpdateScopedVariableReqSecret) SetEncrypted(val bool) {
+	s.Encrypted = val
+}
+
+// SetHint sets the value of Hint.
+func (s *UpdateScopedVariableReqSecret) SetHint(val OptString) {
+	s.Hint = val
+}
+
+// The source or value of the scoped variable.
+// UpdateScopedVariableReqSource represents sum type.
+type UpdateScopedVariableReqSource struct {
+	Type      UpdateScopedVariableReqSourceType // switch on this field
+	RawSource RawSource
+	URLSource URLSource
+}
+
+// UpdateScopedVariableReqSourceType is oneOf type of UpdateScopedVariableReqSource.
+type UpdateScopedVariableReqSourceType string
+
+// Possible values for UpdateScopedVariableReqSourceType.
+const (
+	RawSourceUpdateScopedVariableReqSource UpdateScopedVariableReqSourceType = "RawSource"
+	URLSourceUpdateScopedVariableReqSource UpdateScopedVariableReqSourceType = "URLSource"
+)
+
+// IsRawSource reports whether UpdateScopedVariableReqSource is RawSource.
+func (s UpdateScopedVariableReqSource) IsRawSource() bool {
+	return s.Type == RawSourceUpdateScopedVariableReqSource
+}
+
+// IsURLSource reports whether UpdateScopedVariableReqSource is URLSource.
+func (s UpdateScopedVariableReqSource) IsURLSource() bool {
+	return s.Type == URLSourceUpdateScopedVariableReqSource
+}
+
+// SetRawSource sets UpdateScopedVariableReqSource to RawSource.
+func (s *UpdateScopedVariableReqSource) SetRawSource(v RawSource) {
+	s.Type = RawSourceUpdateScopedVariableReqSource
+	s.RawSource = v
+}
+
+// GetRawSource returns RawSource and true boolean if UpdateScopedVariableReqSource is RawSource.
+func (s UpdateScopedVariableReqSource) GetRawSource() (v RawSource, ok bool) {
+	if !s.IsRawSource() {
+		return v, false
+	}
+	return s.RawSource, true
+}
+
+// NewRawSourceUpdateScopedVariableReqSource returns new UpdateScopedVariableReqSource from RawSource.
+func NewRawSourceUpdateScopedVariableReqSource(v RawSource) UpdateScopedVariableReqSource {
+	var s UpdateScopedVariableReqSource
+	s.SetRawSource(v)
+	return s
+}
+
+// SetURLSource sets UpdateScopedVariableReqSource to URLSource.
+func (s *UpdateScopedVariableReqSource) SetURLSource(v URLSource) {
+	s.Type = URLSourceUpdateScopedVariableReqSource
+	s.URLSource = v
+}
+
+// GetURLSource returns URLSource and true boolean if UpdateScopedVariableReqSource is URLSource.
+func (s UpdateScopedVariableReqSource) GetURLSource() (v URLSource, ok bool) {
+	if !s.IsURLSource() {
+		return v, false
+	}
+	return s.URLSource, true
+}
+
+// NewURLSourceUpdateScopedVariableReqSource returns new UpdateScopedVariableReqSource from URLSource.
+func NewURLSourceUpdateScopedVariableReqSource(v URLSource) UpdateScopedVariableReqSource {
+	var s UpdateScopedVariableReqSource
+	s.SetURLSource(v)
+	return s
+}
+
 type UpdateServerOK struct {
 	Data OptInfraServer `json:"data"`
 }
@@ -52936,6 +76210,46 @@ func (s *UpdateServerReqConstraintsAllow) SetServices(val bool) {
 // SetOvercommit sets the value of Overcommit.
 func (s *UpdateServerReqConstraintsAllow) SetOvercommit(val bool) {
 	s.Overcommit = val
+}
+
+type UpdateStackOK struct {
+	Data OptStack `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *UpdateStackOK) GetData() OptStack {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *UpdateStackOK) SetData(val OptStack) {
+	s.Data = val
+}
+
+type UpdateStackReq struct {
+	// A name for the stack.
+	Name   OptString      `json:"name"`
+	Source OptStackSource `json:"source"`
+}
+
+// GetName returns the value of Name.
+func (s *UpdateStackReq) GetName() OptString {
+	return s.Name
+}
+
+// GetSource returns the value of Source.
+func (s *UpdateStackReq) GetSource() OptStackSource {
+	return s.Source
+}
+
+// SetName sets the value of Name.
+func (s *UpdateStackReq) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetSource sets the value of Source.
+func (s *UpdateStackReq) SetSource(val OptStackSource) {
+	s.Source = val
 }
 
 // Server usage data.
@@ -53461,6 +76775,105 @@ func (s *VpnEnvironmentServiceConfigAuth) SetCycleAccounts(val bool) {
 // SetVpnAccounts sets the value of VpnAccounts.
 func (s *VpnEnvironmentServiceConfigAuth) SetVpnAccounts(val OptBool) {
 	s.VpnAccounts = val
+}
+
+// An action describing a webhook post. The webhook will post the full body of the resource
+// referenced by the step - for example if you were to reference a step creating a container, you
+// would receive that container object in the post body.
+// Ref: #/components/schemas/WebhookPostStep
+type WebhookPostStep struct {
+	// An identifier for the step.
+	Identifier OptString                 `json:"identifier"`
+	Options    OptWebhookPostStepOptions `json:"options"`
+	Details    WebhookPostStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *WebhookPostStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *WebhookPostStep) GetOptions() OptWebhookPostStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *WebhookPostStep) GetDetails() WebhookPostStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *WebhookPostStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *WebhookPostStep) SetOptions(val OptWebhookPostStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *WebhookPostStep) SetDetails(val WebhookPostStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type WebhookPostStepAction string
+
+const (
+	WebhookPostStepActionWebhookPost WebhookPostStepAction = "webhook.post"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s WebhookPostStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case WebhookPostStepActionWebhookPost:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *WebhookPostStepAction) UnmarshalText(data []byte) error {
+	switch WebhookPostStepAction(data) {
+	case WebhookPostStepActionWebhookPost:
+		*s = WebhookPostStepActionWebhookPost
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Merged schema.
+type WebhookPostStepDetails struct {
+	// The url to post to.
+	URL string `json:"url"`
+}
+
+// GetURL returns the value of URL.
+func (s *WebhookPostStepDetails) GetURL() string {
+	return s.URL
+}
+
+// SetURL sets the value of URL.
+func (s *WebhookPostStepDetails) SetURL(val string) {
+	s.URL = val
+}
+
+type WebhookPostStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *WebhookPostStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *WebhookPostStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
 }
 
 // DNS (Domain Name System), in short, is a decentralized naming system for computers, services, or

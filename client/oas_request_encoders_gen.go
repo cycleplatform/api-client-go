@@ -111,6 +111,26 @@ func encodeCreateContainerInstanceJobRequest(
 	return nil
 }
 
+func encodeCreateContainerJobRequest(
+	req OptCreateContainerJobReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeCreateDNSRecordRequest(
 	req OptCreateDNSRecordReq,
 	r *http.Request,
@@ -231,6 +251,26 @@ func encodeCreateHubInviteRequest(
 	return nil
 }
 
+func encodeCreateImageRequest(
+	req OptCreateImageReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeCreateImageCollectionJobRequest(
 	req OptCreateImageCollectionJobReq,
 	r *http.Request,
@@ -253,6 +293,26 @@ func encodeCreateImageCollectionJobRequest(
 
 func encodeCreateImageJobRequest(
 	req OptCreateImageJobReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateImageSourceRequest(
+	req OptCreateImageSourceReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -333,6 +393,26 @@ func encodeCreateOrderRequest(
 
 func encodeCreateOrderJobRequest(
 	req OptCreateOrderJobReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreatePipelineRequest(
+	req OptCreatePipelineReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -451,8 +531,88 @@ func encodeCreateSDNNetworkRequest(
 	return nil
 }
 
+func encodeCreateScopedVariableRequest(
+	req OptCreateScopedVariableReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeCreateServerRequest(
 	req OptCreateServerReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateServerJobRequest(
+	req OptCreateServerJobReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateStackRequest(
+	req OptCreateStackReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateStackBuildRequest(
+	req OptCreateStackBuildReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -931,6 +1091,66 @@ func encodeUpdateHubMemberRequest(
 	return nil
 }
 
+func encodeUpdateImageRequest(
+	req OptUpdateImageReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateImageSourceRequest(
+	req OptUpdateImageSourceReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdatePipelineRequest(
+	req OptUpdatePipelineReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeUpdatePipelineTriggerKeyRequest(
 	req OptUpdatePipelineTriggerKeyReq,
 	r *http.Request,
@@ -991,8 +1211,48 @@ func encodeUpdateSDNNetworkRequest(
 	return nil
 }
 
+func encodeUpdateScopedVariableRequest(
+	req OptUpdateScopedVariableReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeUpdateServerRequest(
 	req OptUpdateServerReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateStackRequest(
+	req OptUpdateStackReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
