@@ -26,6 +26,9 @@ jobs:
     - name: Install Ogen
       run: go install -v github.com/ogen-go/ogen/cmd/ogen@latest
       
+    - name: Go Mod Tidy
+      run: go mod tidy
+      
     - name: Build Spec
       run: (cd api-spec; npm run build:public && npm run build:internal)
 
