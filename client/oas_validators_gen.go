@@ -4702,41 +4702,6 @@ func (s DNSRecordTaskReqAction) Validate() error {
 		return errors.Errorf("invalid value: %v", s)
 	}
 }
-func (s DNSTLSAttemptsFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s DNSTLSAttemptsFilterItem) Validate() error {
-	switch s.Type {
-	case StringDNSTLSAttemptsFilterItem:
-		return nil // no validation needed
-	case StringArrayDNSTLSAttemptsFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *DNSTLSAttemptsOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -5687,43 +5652,6 @@ func (s GenerateStackBuildActionAction) Validate() error {
 		return errors.Errorf("invalid value: %v", s)
 	}
 }
-func (s GetAccountInvitesFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetAccountInvitesFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetAccountInvitesFilterItem:
-		return nil // no validation needed
-	case StringArrayGetAccountInvitesFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	case GetAccountInvitesFilterItem2GetAccountInvitesFilterItem:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetAccountInvitesIncludeItem) Validate() error {
 	switch s {
 	case "senders":
@@ -5837,43 +5765,6 @@ func (s *GetAccountInvitesPage) Validate() error {
 	}
 	return nil
 }
-func (s GetAccountLoginsFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetAccountLoginsFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetAccountLoginsFilterItem:
-		return nil // no validation needed
-	case StringArrayGetAccountLoginsFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	case GetAccountLoginsFilterItem2GetAccountLoginsFilterItem:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetAccountLoginsOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -6023,43 +5914,6 @@ func (s *GetAccountOK) Validate() error {
 	}
 	return nil
 }
-func (s GetAnnouncementsListFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetAnnouncementsListFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetAnnouncementsListFilterItem:
-		return nil // no validation needed
-	case StringArrayGetAnnouncementsListFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	case GetAnnouncementsListFilterItem2GetAnnouncementsListFilterItem:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetAnnouncementsListOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -6160,43 +6014,6 @@ func (s *GetApiKeyOK) Validate() error {
 	}
 	return nil
 }
-func (s GetApiKeysFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetApiKeysFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetApiKeysFilterItem:
-		return nil // no validation needed
-	case StringArrayGetApiKeysFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	case GetApiKeysFilterItem2GetApiKeysFilterItem:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetApiKeysOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -6429,43 +6246,6 @@ func (s *GetBillingMethodOK) Validate() error {
 	}
 	return nil
 }
-func (s GetBillingMethodsFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetBillingMethodsFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetBillingMethodsFilterItem:
-		return nil // no validation needed
-	case StringArrayGetBillingMethodsFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	case GetBillingMethodsFilterItem2GetBillingMethodsFilterItem:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetBillingMethodsOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -6566,43 +6346,6 @@ func (s *GetBillingOrderOK) Validate() error {
 	}
 	return nil
 }
-func (s GetBillingOveragesFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetBillingOveragesFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetBillingOveragesFilterItem:
-		return nil // no validation needed
-	case StringArrayGetBillingOveragesFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	case GetBillingOveragesFilterItem2GetBillingOveragesFilterItem:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetBillingOveragesOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -6703,43 +6446,6 @@ func (s *GetBillingServiceOK) Validate() error {
 	}
 	return nil
 }
-func (s GetBillingServicesFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetBillingServicesFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetBillingServicesFilterItem:
-		return nil // no validation needed
-	case StringArrayGetBillingServicesFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	case GetBillingServicesFilterItem2GetBillingServicesFilterItem:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetBillingServicesOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -6815,43 +6521,6 @@ func (s *GetBillingServicesPage) Validate() error {
 	}
 	return nil
 }
-func (s GetBillingSupportPlansFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetBillingSupportPlansFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetBillingSupportPlansFilterItem:
-		return nil // no validation needed
-	case StringArrayGetBillingSupportPlansFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	case GetBillingSupportPlansFilterItem2GetBillingSupportPlansFilterItem:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetBillingSupportPlansOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -7211,41 +6880,6 @@ func (s *GetContainerInstanceVolumesPage) Validate() error {
 	}
 	return nil
 }
-func (s GetContainerInstancesTelemetryFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetContainerInstancesTelemetryFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetContainerInstancesTelemetryFilterItem:
-		return nil // no validation needed
-	case StringArrayGetContainerInstancesTelemetryFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetContainerSummaryOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -7271,41 +6905,6 @@ func (s *GetContainerSummaryOK) Validate() error {
 	}
 	return nil
 }
-func (s GetContainersFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetContainersFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetContainersFilterItem:
-		return nil // no validation needed
-	case StringArrayGetContainersFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetContainersIncludeItem) Validate() error {
 	switch s {
 	case "creators":
@@ -7454,43 +7053,6 @@ func (s *GetCreditOK) Validate() error {
 	}
 	return nil
 }
-func (s GetCreditsFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetCreditsFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetCreditsFilterItem:
-		return nil // no validation needed
-	case StringArrayGetCreditsFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	case GetCreditsFilterItem2GetCreditsFilterItem:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetCreditsOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -7681,41 +7243,6 @@ func (s *GetEnvironmentByIdOKIncludes) Validate() error {
 	}
 	return nil
 }
-func (s GetEnvironmentInstancesTelemetryFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetEnvironmentInstancesTelemetryFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetEnvironmentInstancesTelemetryFilterItem:
-		return nil // no validation needed
-	case StringArrayGetEnvironmentInstancesTelemetryFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetEnvironmentSummaryOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -7741,41 +7268,6 @@ func (s *GetEnvironmentSummaryOK) Validate() error {
 	}
 	return nil
 }
-func (s GetEnvironmentsFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetEnvironmentsFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetEnvironmentsFilterItem:
-		return nil // no validation needed
-	case StringArrayGetEnvironmentsFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetEnvironmentsIncludeItem) Validate() error {
 	switch s {
 	case "creators":
@@ -7919,41 +7411,6 @@ func (s *GetEnvironmentsPage) Validate() error {
 	}
 	return nil
 }
-func (s GetHubActivityFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetHubActivityFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetHubActivityFilterItem:
-		return nil // no validation needed
-	case StringArrayGetHubActivityFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetHubActivityIncludeItem) Validate() error {
 	switch s {
 	case "users":
@@ -8099,43 +7556,6 @@ func (s *GetHubCapabilitiesOK) Validate() error {
 	}
 	return nil
 }
-func (s GetHubInvitesFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetHubInvitesFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetHubInvitesFilterItem:
-		return nil // no validation needed
-	case StringArrayGetHubInvitesFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	case GetHubInvitesFilterItem2GetHubInvitesFilterItem:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetHubInvitesIncludeItem) Validate() error {
 	switch s {
 	case "senders":
@@ -8367,43 +7787,6 @@ func (s *GetHubMembersAccountOK) Validate() error {
 	}
 	return nil
 }
-func (s GetHubMembersFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetHubMembersFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetHubMembersFilterItem:
-		return nil // no validation needed
-	case StringArrayGetHubMembersFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	case GetHubMembersFilterItem2GetHubMembersFilterItem:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetHubMembersIncludeItem) Validate() error {
 	switch s {
 	case "senders":
@@ -8550,43 +7933,6 @@ func (s *GetHubOK) Validate() error {
 	}
 	return nil
 }
-func (s GetHubUsageFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetHubUsageFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetHubUsageFilterItem:
-		return nil // no validation needed
-	case StringArrayGetHubUsageFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	case GetHubUsageFilterItem2GetHubUsageFilterItem:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetHubUsageOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -8619,41 +7965,6 @@ func (s *GetHubUsageOK) Validate() error {
 	}
 	return nil
 }
-func (s GetHubsFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetHubsFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetHubsFilterItem:
-		return nil // no validation needed
-	case StringArrayGetHubsFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetHubsOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -8794,41 +8105,6 @@ func (s *GetImagePage) Validate() error {
 	}
 	return nil
 }
-func (s GetImagesFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetImagesFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetImagesFilterItem:
-		return nil // no validation needed
-	case StringArrayGetImagesFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetImagesIncludeItem) Validate() error {
 	switch s {
 	case "creators":
@@ -9090,41 +8366,6 @@ func (s *GetInfrastructureIPPoolsPage) Validate() error {
 	}
 	return nil
 }
-func (s GetInfrastructureSummaryFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetInfrastructureSummaryFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetInfrastructureSummaryFilterItem:
-		return nil // no validation needed
-	case StringArrayGetInfrastructureSummaryFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetInfrastructureSummaryOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -9150,41 +8391,6 @@ func (s *GetInfrastructureSummaryOK) Validate() error {
 	}
 	return nil
 }
-func (s GetInstanceResourcesTelemetryReportFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetInstanceResourcesTelemetryReportFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetInstanceResourcesTelemetryReportFilterItem:
-		return nil // no validation needed
-	case StringArrayGetInstanceResourcesTelemetryReportFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetInstanceResourcesTelemetryReportOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -9210,41 +8416,6 @@ func (s *GetInstanceResourcesTelemetryReportOK) Validate() error {
 	}
 	return nil
 }
-func (s GetInstancesFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetInstancesFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetInstancesFilterItem:
-		return nil // no validation needed
-	case StringArrayGetInstancesFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetInstancesIncludeItem) Validate() error {
 	switch s {
 	case "creators":
@@ -9381,43 +8552,6 @@ func (s *GetInvoiceOK) Validate() error {
 	}
 	return nil
 }
-func (s GetInvoicesFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetInvoicesFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetInvoicesFilterItem:
-		return nil // no validation needed
-	case StringArrayGetInvoicesFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	case GetInvoicesFilterItem2GetInvoicesFilterItem:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetInvoicesMetaItem) Validate() error {
 	switch s {
 	case "due":
@@ -9526,41 +8660,6 @@ func (s *GetJobOK) Validate() error {
 	}
 	return nil
 }
-func (s GetJobsFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetJobsFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetJobsFilterItem:
-		return nil // no validation needed
-	case StringArrayGetJobsFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetJobsIncludeItem) Validate() error {
 	switch s {
 	case "creators":
@@ -9719,41 +8818,6 @@ func (s *GetLoadBalancerInfoOK) Validate() error {
 	}
 	return nil
 }
-func (s GetNativeProvidersFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetNativeProvidersFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetNativeProvidersFilterItem:
-		return nil // no validation needed
-	case StringArrayGetNativeProvidersFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetNativeProvidersMetaItem) Validate() error {
 	switch s {
 	case "locations":
@@ -9862,41 +8926,6 @@ func (s *GetNetworkOK) Validate() error {
 	}
 	return nil
 }
-func (s GetNetworksFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetNetworksFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetNetworksFilterItem:
-		return nil // no validation needed
-	case StringArrayGetNetworksFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetNetworksIncludeItem) Validate() error {
 	switch s {
 	case "creators":
@@ -10000,43 +9029,6 @@ func (s *GetNetworksPage) Validate() error {
 	}
 	return nil
 }
-func (s GetOrdersFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetOrdersFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetOrdersFilterItem:
-		return nil // no validation needed
-	case StringArrayGetOrdersFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	case GetOrdersFilterItem2GetOrdersFilterItem:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetOrdersIncludeItem) Validate() error {
 	switch s {
 	case "promo_codes":
@@ -10309,41 +9301,6 @@ func (s *GetPipelineTriggerKeyOK) Validate() error {
 	}
 	return nil
 }
-func (s GetPipelineTriggerKeysFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetPipelineTriggerKeysFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetPipelineTriggerKeysFilterItem:
-		return nil // no validation needed
-	case StringArrayGetPipelineTriggerKeysFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetPipelineTriggerKeysOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -10419,41 +9376,6 @@ func (s *GetPipelineTriggerKeysPage) Validate() error {
 	}
 	return nil
 }
-func (s GetPipelinesFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetPipelinesFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetPipelinesFilterItem:
-		return nil // no validation needed
-	case StringArrayGetPipelinesFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetPipelinesIncludeItem) Validate() error {
 	switch s {
 	case "creators":
@@ -10766,41 +9688,6 @@ func (s *GetProviderServersPage) Validate() error {
 	}
 	return nil
 }
-func (s GetProvidersFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetProvidersFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetProvidersFilterItem:
-		return nil // no validation needed
-	case StringArrayGetProvidersFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetProvidersMetaItem) Validate() error {
 	switch s {
 	case "node":
@@ -10888,41 +9775,6 @@ func (s *GetProvidersPage) Validate() error {
 	}
 	return nil
 }
-func (s GetRecordsCollectionFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetRecordsCollectionFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetRecordsCollectionFilterItem:
-		return nil // no validation needed
-	case StringArrayGetRecordsCollectionFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetRecordsCollectionIncludeItem) Validate() error {
 	switch s {
 	case "creators":
@@ -11076,41 +9928,6 @@ func (s *GetSearchIndexOK) Validate() error {
 	}
 	return nil
 }
-func (s GetSecurityReportFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetSecurityReportFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetSecurityReportFilterItem:
-		return nil // no validation needed
-	case StringArrayGetSecurityReportFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetSecurityReportOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -11247,76 +10064,6 @@ func (s *GetServerInstancesPage) Validate() error {
 	}
 	return nil
 }
-func (s GetServerTagsFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetServerTagsFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetServerTagsFilterItem:
-		return nil // no validation needed
-	case StringArrayGetServerTagsFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s GetServerTelemeteryFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetServerTelemeteryFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetServerTelemeteryFilterItem:
-		return nil // no validation needed
-	case StringArrayGetServerTelemeteryFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *GetServerTelemeteryOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -11392,41 +10139,6 @@ func (s *GetServerTelemeteryPage) Validate() error {
 	}
 	return nil
 }
-func (s GetServersCollectionFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetServersCollectionFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetServersCollectionFilterItem:
-		return nil // no validation needed
-	case StringArrayGetServersCollectionFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetServersCollectionIncludeItem) Validate() error {
 	switch s {
 	case "locations":
@@ -11666,41 +10378,6 @@ func (s *GetSourceOK) Validate() error {
 	}
 	return nil
 }
-func (s GetSourcesCollectionFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetSourcesCollectionFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetSourcesCollectionFilterItem:
-		return nil // no validation needed
-	case StringArrayGetSourcesCollectionFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetSourcesCollectionIncludeItem) Validate() error {
 	switch s {
 	case "creators":
@@ -11860,41 +10537,6 @@ func (s *GetStackBuildOK) Validate() error {
 	}
 	return nil
 }
-func (s GetStackBuildsFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetStackBuildsFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetStackBuildsFilterItem:
-		return nil // no validation needed
-	case StringArrayGetStackBuildsFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetStackBuildsIncludeItem) Validate() error {
 	switch s {
 	case "stack_id":
@@ -12039,41 +10681,6 @@ func (s *GetStackOK) Validate() error {
 	}
 	return nil
 }
-func (s GetStacksFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetStacksFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetStacksFilterItem:
-		return nil // no validation needed
-	case StringArrayGetStacksFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetStacksIncludeItem) Validate() error {
 	switch s {
 	case "creators":
@@ -12407,41 +11014,6 @@ func (s *GetVpnLoginsPage) Validate() error {
 	}
 	return nil
 }
-func (s GetZonesCollectionFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s GetZonesCollectionFilterItem) Validate() error {
-	switch s.Type {
-	case StringGetZonesCollectionFilterItem:
-		return nil // no validation needed
-	case StringArrayGetZonesCollectionFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s GetZonesCollectionIncludeItem) Validate() error {
 	switch s {
 	case "creators":
@@ -14945,41 +13517,6 @@ func (s JobStateCurrent) Validate() error {
 		return errors.Errorf("invalid value: %v", s)
 	}
 }
-func (s ListScopedVariablesFilter) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-func (s ListScopedVariablesFilterItem) Validate() error {
-	switch s.Type {
-	case StringListScopedVariablesFilterItem:
-		return nil // no validation needed
-	case StringArrayListScopedVariablesFilterItem:
-		if s.StringArray == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *ListScopedVariablesOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {

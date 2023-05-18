@@ -3,6 +3,8 @@
 package api
 
 import (
+	"time"
+
 	"github.com/go-faster/errors"
 
 	"github.com/ogen-go/ogen/conv"
@@ -102,6 +104,66 @@ func (s *ContainersListServersPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes DNSTLSAttemptsFilter as URI form.
+func (s *DNSTLSAttemptsFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("domain", func(e uri.Encoder) error {
+		if val, ok := s.Domain.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"domain\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfDNSTLSAttemptsFilter = [1]string{
+	0: "domain",
+}
+
+// DecodeURI decodes DNSTLSAttemptsFilter from URI form.
+func (s *DNSTLSAttemptsFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode DNSTLSAttemptsFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "domain":
+			if err := func() error {
+				var sDotDomainVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotDomainVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Domain.SetTo(sDotDomainVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"domain\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode DNSTLSAttemptsFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes DNSTLSAttemptsPage as URI form.
 func (s *DNSTLSAttemptsPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -190,6 +252,32 @@ func (s *DNSTLSAttemptsPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode DNSTLSAttemptsPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetAccountInvitesFilter as URI form.
+func (s *GetAccountInvitesFilter) EncodeURI(e uri.Encoder) error {
+	return nil
+}
+
+var uriFieldsNameOfGetAccountInvitesFilter = [0]string{}
+
+// DecodeURI decodes GetAccountInvitesFilter from URI form.
+func (s *GetAccountInvitesFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetAccountInvitesFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetAccountInvitesFilter")
 	}
 
 	return nil
@@ -288,6 +376,32 @@ func (s *GetAccountInvitesPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetAccountLoginsFilter as URI form.
+func (s *GetAccountLoginsFilter) EncodeURI(e uri.Encoder) error {
+	return nil
+}
+
+var uriFieldsNameOfGetAccountLoginsFilter = [0]string{}
+
+// DecodeURI decodes GetAccountLoginsFilter from URI form.
+func (s *GetAccountLoginsFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetAccountLoginsFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetAccountLoginsFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetAccountLoginsPage as URI form.
 func (s *GetAccountLoginsPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -381,6 +495,32 @@ func (s *GetAccountLoginsPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetAnnouncementsListFilter as URI form.
+func (s *GetAnnouncementsListFilter) EncodeURI(e uri.Encoder) error {
+	return nil
+}
+
+var uriFieldsNameOfGetAnnouncementsListFilter = [0]string{}
+
+// DecodeURI decodes GetAnnouncementsListFilter from URI form.
+func (s *GetAnnouncementsListFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetAnnouncementsListFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetAnnouncementsListFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetAnnouncementsListPage as URI form.
 func (s *GetAnnouncementsListPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -469,6 +609,32 @@ func (s *GetAnnouncementsListPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetAnnouncementsListPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetApiKeysFilter as URI form.
+func (s *GetApiKeysFilter) EncodeURI(e uri.Encoder) error {
+	return nil
+}
+
+var uriFieldsNameOfGetApiKeysFilter = [0]string{}
+
+// DecodeURI decodes GetApiKeysFilter from URI form.
+func (s *GetApiKeysFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetApiKeysFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetApiKeysFilter")
 	}
 
 	return nil
@@ -660,6 +826,32 @@ func (s *GetBackupsCollectionPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetBillingMethodsFilter as URI form.
+func (s *GetBillingMethodsFilter) EncodeURI(e uri.Encoder) error {
+	return nil
+}
+
+var uriFieldsNameOfGetBillingMethodsFilter = [0]string{}
+
+// DecodeURI decodes GetBillingMethodsFilter from URI form.
+func (s *GetBillingMethodsFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetBillingMethodsFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetBillingMethodsFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetBillingMethodsPage as URI form.
 func (s *GetBillingMethodsPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -748,6 +940,32 @@ func (s *GetBillingMethodsPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetBillingMethodsPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetBillingOveragesFilter as URI form.
+func (s *GetBillingOveragesFilter) EncodeURI(e uri.Encoder) error {
+	return nil
+}
+
+var uriFieldsNameOfGetBillingOveragesFilter = [0]string{}
+
+// DecodeURI decodes GetBillingOveragesFilter from URI form.
+func (s *GetBillingOveragesFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetBillingOveragesFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetBillingOveragesFilter")
 	}
 
 	return nil
@@ -846,6 +1064,32 @@ func (s *GetBillingOveragesPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetBillingServicesFilter as URI form.
+func (s *GetBillingServicesFilter) EncodeURI(e uri.Encoder) error {
+	return nil
+}
+
+var uriFieldsNameOfGetBillingServicesFilter = [0]string{}
+
+// DecodeURI decodes GetBillingServicesFilter from URI form.
+func (s *GetBillingServicesFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetBillingServicesFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetBillingServicesFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetBillingServicesPage as URI form.
 func (s *GetBillingServicesPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -934,6 +1178,32 @@ func (s *GetBillingServicesPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetBillingServicesPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetBillingSupportPlansFilter as URI form.
+func (s *GetBillingSupportPlansFilter) EncodeURI(e uri.Encoder) error {
+	return nil
+}
+
+var uriFieldsNameOfGetBillingSupportPlansFilter = [0]string{}
+
+// DecodeURI decodes GetBillingSupportPlansFilter from URI form.
+func (s *GetBillingSupportPlansFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetBillingSupportPlansFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetBillingSupportPlansFilter")
 	}
 
 	return nil
@@ -1218,6 +1488,443 @@ func (s *GetContainerInstanceVolumesPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetContainerInstancesTelemetryFilter as URI form.
+func (s *GetContainerInstancesTelemetryFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("range-start", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusStart.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-start\"")
+	}
+	if err := e.EncodeField("range-end", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusEnd.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-end\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetContainerInstancesTelemetryFilter = [2]string{
+	0: "range-start",
+	1: "range-end",
+}
+
+// DecodeURI decodes GetContainerInstancesTelemetryFilter from URI form.
+func (s *GetContainerInstancesTelemetryFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetContainerInstancesTelemetryFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "range-start":
+			if err := func() error {
+				var sDotRangeMinusStartVal DateTime
+				if err := func() error {
+					var sDotRangeMinusStartValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusStartValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusStartVal = DateTime(sDotRangeMinusStartValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusStart.SetTo(sDotRangeMinusStartVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-start\"")
+			}
+		case "range-end":
+			if err := func() error {
+				var sDotRangeMinusEndVal DateTime
+				if err := func() error {
+					var sDotRangeMinusEndValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusEndValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusEndVal = DateTime(sDotRangeMinusEndValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusEnd.SetTo(sDotRangeMinusEndVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-end\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetContainerInstancesTelemetryFilter")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetContainersFilter as URI form.
+func (s *GetContainersFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("identifier", func(e uri.Encoder) error {
+		if val, ok := s.Identifier.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"identifier\"")
+	}
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	if err := e.EncodeField("service", func(e uri.Encoder) error {
+		if val, ok := s.Service.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"service\"")
+	}
+	if err := e.EncodeField("public_network", func(e uri.Encoder) error {
+		if val, ok := s.PublicNetwork.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"public_network\"")
+	}
+	if err := e.EncodeField("image", func(e uri.Encoder) error {
+		if val, ok := s.Image.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"image\"")
+	}
+	if err := e.EncodeField("environment", func(e uri.Encoder) error {
+		if val, ok := s.Environment.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"environment\"")
+	}
+	if err := e.EncodeField("tags", func(e uri.Encoder) error {
+		if val, ok := s.Tags.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"tags\"")
+	}
+	if err := e.EncodeField("stack", func(e uri.Encoder) error {
+		if val, ok := s.Stack.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"stack\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetContainersFilter = [9]string{
+	0: "identifier",
+	1: "search",
+	2: "state",
+	3: "service",
+	4: "public_network",
+	5: "image",
+	6: "environment",
+	7: "tags",
+	8: "stack",
+}
+
+// DecodeURI decodes GetContainersFilter from URI form.
+func (s *GetContainersFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetContainersFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "identifier":
+			if err := func() error {
+				var sDotIdentifierVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotIdentifierVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Identifier.SetTo(sDotIdentifierVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"identifier\"")
+			}
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		case "service":
+			if err := func() error {
+				var sDotServiceVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotServiceVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Service.SetTo(sDotServiceVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"service\"")
+			}
+		case "public_network":
+			if err := func() error {
+				var sDotPublicNetworkVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotPublicNetworkVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.PublicNetwork.SetTo(sDotPublicNetworkVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"public_network\"")
+			}
+		case "image":
+			if err := func() error {
+				var sDotImageVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotImageVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Image.SetTo(sDotImageVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"image\"")
+			}
+		case "environment":
+			if err := func() error {
+				var sDotEnvironmentVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotEnvironmentVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Environment.SetTo(sDotEnvironmentVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"environment\"")
+			}
+		case "tags":
+			if err := func() error {
+				var sDotTagsVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotTagsVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Tags.SetTo(sDotTagsVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"tags\"")
+			}
+		case "stack":
+			if err := func() error {
+				var sDotStackVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStackVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Stack.SetTo(sDotStackVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"stack\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetContainersFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetContainersPage as URI form.
 func (s *GetContainersPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -1306,6 +2013,32 @@ func (s *GetContainersPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetContainersPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetCreditsFilter as URI form.
+func (s *GetCreditsFilter) EncodeURI(e uri.Encoder) error {
+	return nil
+}
+
+var uriFieldsNameOfGetCreditsFilter = [0]string{}
+
+// DecodeURI decodes GetCreditsFilter from URI form.
+func (s *GetCreditsFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetCreditsFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetCreditsFilter")
 	}
 
 	return nil
@@ -1404,6 +2137,278 @@ func (s *GetCreditsPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetEnvironmentInstancesTelemetryFilter as URI form.
+func (s *GetEnvironmentInstancesTelemetryFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("range-start", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusStart.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-start\"")
+	}
+	if err := e.EncodeField("range-end", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusEnd.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-end\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetEnvironmentInstancesTelemetryFilter = [2]string{
+	0: "range-start",
+	1: "range-end",
+}
+
+// DecodeURI decodes GetEnvironmentInstancesTelemetryFilter from URI form.
+func (s *GetEnvironmentInstancesTelemetryFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetEnvironmentInstancesTelemetryFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "range-start":
+			if err := func() error {
+				var sDotRangeMinusStartVal DateTime
+				if err := func() error {
+					var sDotRangeMinusStartValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusStartValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusStartVal = DateTime(sDotRangeMinusStartValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusStart.SetTo(sDotRangeMinusStartVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-start\"")
+			}
+		case "range-end":
+			if err := func() error {
+				var sDotRangeMinusEndVal DateTime
+				if err := func() error {
+					var sDotRangeMinusEndValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusEndValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusEndVal = DateTime(sDotRangeMinusEndValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusEnd.SetTo(sDotRangeMinusEndVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-end\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetEnvironmentInstancesTelemetryFilter")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetEnvironmentsFilter as URI form.
+func (s *GetEnvironmentsFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("identifier", func(e uri.Encoder) error {
+		if val, ok := s.Identifier.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"identifier\"")
+	}
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	if err := e.EncodeField("stack_build", func(e uri.Encoder) error {
+		if val, ok := s.StackBuild.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"stack_build\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetEnvironmentsFilter = [4]string{
+	0: "identifier",
+	1: "search",
+	2: "state",
+	3: "stack_build",
+}
+
+// DecodeURI decodes GetEnvironmentsFilter from URI form.
+func (s *GetEnvironmentsFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetEnvironmentsFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "identifier":
+			if err := func() error {
+				var sDotIdentifierVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotIdentifierVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Identifier.SetTo(sDotIdentifierVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"identifier\"")
+			}
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		case "stack_build":
+			if err := func() error {
+				var sDotStackBuildVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStackBuildVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.StackBuild.SetTo(sDotStackBuildVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"stack_build\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetEnvironmentsFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetEnvironmentsPage as URI form.
 func (s *GetEnvironmentsPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -1492,6 +2497,330 @@ func (s *GetEnvironmentsPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetEnvironmentsPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetHubActivityFilter as URI form.
+func (s *GetHubActivityFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	if err := e.EncodeField("user", func(e uri.Encoder) error {
+		if val, ok := s.User.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"user\"")
+	}
+	if err := e.EncodeField("environment", func(e uri.Encoder) error {
+		if val, ok := s.Environment.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"environment\"")
+	}
+	if err := e.EncodeField("container", func(e uri.Encoder) error {
+		if val, ok := s.Container.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"container\"")
+	}
+	if err := e.EncodeField("instance", func(e uri.Encoder) error {
+		if val, ok := s.Instance.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"instance\"")
+	}
+	if err := e.EncodeField("server", func(e uri.Encoder) error {
+		if val, ok := s.Server.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"server\"")
+	}
+	if err := e.EncodeField("event", func(e uri.Encoder) error {
+		if val, ok := s.Event.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"event\"")
+	}
+	if err := e.EncodeField("verbosity", func(e uri.Encoder) error {
+		if val, ok := s.Verbosity.Get(); ok {
+			return e.EncodeValue(conv.IntToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"verbosity\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetHubActivityFilter = [9]string{
+	0: "search",
+	1: "state",
+	2: "user",
+	3: "environment",
+	4: "container",
+	5: "instance",
+	6: "server",
+	7: "event",
+	8: "verbosity",
+}
+
+// DecodeURI decodes GetHubActivityFilter from URI form.
+func (s *GetHubActivityFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetHubActivityFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		case "user":
+			if err := func() error {
+				var sDotUserVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotUserVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.User.SetTo(sDotUserVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"user\"")
+			}
+		case "environment":
+			if err := func() error {
+				var sDotEnvironmentVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotEnvironmentVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Environment.SetTo(sDotEnvironmentVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"environment\"")
+			}
+		case "container":
+			if err := func() error {
+				var sDotContainerVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotContainerVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Container.SetTo(sDotContainerVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"container\"")
+			}
+		case "instance":
+			if err := func() error {
+				var sDotInstanceVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotInstanceVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Instance.SetTo(sDotInstanceVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"instance\"")
+			}
+		case "server":
+			if err := func() error {
+				var sDotServerVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotServerVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Server.SetTo(sDotServerVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"server\"")
+			}
+		case "event":
+			if err := func() error {
+				var sDotEventVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotEventVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Event.SetTo(sDotEventVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"event\"")
+			}
+		case "verbosity":
+			if err := func() error {
+				var sDotVerbosityVal int
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToInt(val)
+					if err != nil {
+						return err
+					}
+
+					sDotVerbosityVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Verbosity.SetTo(sDotVerbosityVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"verbosity\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetHubActivityFilter")
 	}
 
 	return nil
@@ -1590,6 +2919,32 @@ func (s *GetHubActivityPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetHubInvitesFilter as URI form.
+func (s *GetHubInvitesFilter) EncodeURI(e uri.Encoder) error {
+	return nil
+}
+
+var uriFieldsNameOfGetHubInvitesFilter = [0]string{}
+
+// DecodeURI decodes GetHubInvitesFilter from URI form.
+func (s *GetHubInvitesFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetHubInvitesFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetHubInvitesFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetHubInvitesPage as URI form.
 func (s *GetHubInvitesPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -1678,6 +3033,32 @@ func (s *GetHubInvitesPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetHubInvitesPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetHubMembersFilter as URI form.
+func (s *GetHubMembersFilter) EncodeURI(e uri.Encoder) error {
+	return nil
+}
+
+var uriFieldsNameOfGetHubMembersFilter = [0]string{}
+
+// DecodeURI decodes GetHubMembersFilter from URI form.
+func (s *GetHubMembersFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetHubMembersFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetHubMembersFilter")
 	}
 
 	return nil
@@ -1776,6 +3157,158 @@ func (s *GetHubMembersPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetHubUsageFilter as URI form.
+func (s *GetHubUsageFilter) EncodeURI(e uri.Encoder) error {
+	return nil
+}
+
+var uriFieldsNameOfGetHubUsageFilter = [0]string{}
+
+// DecodeURI decodes GetHubUsageFilter from URI form.
+func (s *GetHubUsageFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetHubUsageFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetHubUsageFilter")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetHubsFilter as URI form.
+func (s *GetHubsFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("identifier", func(e uri.Encoder) error {
+		if val, ok := s.Identifier.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"identifier\"")
+	}
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetHubsFilter = [3]string{
+	0: "identifier",
+	1: "search",
+	2: "state",
+}
+
+// DecodeURI decodes GetHubsFilter from URI form.
+func (s *GetHubsFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetHubsFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "identifier":
+			if err := func() error {
+				var sDotIdentifierVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotIdentifierVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Identifier.SetTo(sDotIdentifierVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"identifier\"")
+			}
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetHubsFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetImagePage as URI form.
 func (s *GetImagePage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -1864,6 +3397,198 @@ func (s *GetImagePage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetImagePage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetImagesFilter as URI form.
+func (s *GetImagesFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("identifier", func(e uri.Encoder) error {
+		if val, ok := s.Identifier.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"identifier\"")
+	}
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	if err := e.EncodeField("source_type", func(e uri.Encoder) error {
+		if val, ok := s.SourceType.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"source_type\"")
+	}
+	if err := e.EncodeField("source_id", func(e uri.Encoder) error {
+		if val, ok := s.SourceID.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"source_id\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetImagesFilter = [5]string{
+	0: "identifier",
+	1: "search",
+	2: "state",
+	3: "source_type",
+	4: "source_id",
+}
+
+// DecodeURI decodes GetImagesFilter from URI form.
+func (s *GetImagesFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetImagesFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "identifier":
+			if err := func() error {
+				var sDotIdentifierVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotIdentifierVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Identifier.SetTo(sDotIdentifierVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"identifier\"")
+			}
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		case "source_type":
+			if err := func() error {
+				var sDotSourceTypeVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSourceTypeVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.SourceType.SetTo(sDotSourceTypeVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"source_type\"")
+			}
+		case "source_id":
+			if err := func() error {
+				var sDotSourceIDVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSourceIDVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.SourceID.SetTo(sDotSourceIDVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"source_id\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetImagesFilter")
 	}
 
 	return nil
@@ -2055,6 +3780,305 @@ func (s *GetInfrastructureIPPoolsPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetInfrastructureSummaryFilter as URI form.
+func (s *GetInfrastructureSummaryFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("cluster", func(e uri.Encoder) error {
+		if val, ok := s.Cluster.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"cluster\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetInfrastructureSummaryFilter = [1]string{
+	0: "cluster",
+}
+
+// DecodeURI decodes GetInfrastructureSummaryFilter from URI form.
+func (s *GetInfrastructureSummaryFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetInfrastructureSummaryFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "cluster":
+			if err := func() error {
+				var sDotClusterVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotClusterVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Cluster.SetTo(sDotClusterVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"cluster\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetInfrastructureSummaryFilter")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetInstanceResourcesTelemetryReportFilter as URI form.
+func (s *GetInstanceResourcesTelemetryReportFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("range-start", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusStart.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-start\"")
+	}
+	if err := e.EncodeField("range-end", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusEnd.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-end\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetInstanceResourcesTelemetryReportFilter = [2]string{
+	0: "range-start",
+	1: "range-end",
+}
+
+// DecodeURI decodes GetInstanceResourcesTelemetryReportFilter from URI form.
+func (s *GetInstanceResourcesTelemetryReportFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetInstanceResourcesTelemetryReportFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "range-start":
+			if err := func() error {
+				var sDotRangeMinusStartVal DateTime
+				if err := func() error {
+					var sDotRangeMinusStartValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusStartValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusStartVal = DateTime(sDotRangeMinusStartValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusStart.SetTo(sDotRangeMinusStartVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-start\"")
+			}
+		case "range-end":
+			if err := func() error {
+				var sDotRangeMinusEndVal DateTime
+				if err := func() error {
+					var sDotRangeMinusEndValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusEndValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusEndVal = DateTime(sDotRangeMinusEndValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusEnd.SetTo(sDotRangeMinusEndVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-end\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetInstanceResourcesTelemetryReportFilter")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetInstancesFilter as URI form.
+func (s *GetInstancesFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	if err := e.EncodeField("server", func(e uri.Encoder) error {
+		if val, ok := s.Server.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"server\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetInstancesFilter = [3]string{
+	0: "state",
+	1: "search",
+	2: "server",
+}
+
+// DecodeURI decodes GetInstancesFilter from URI form.
+func (s *GetInstancesFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetInstancesFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		case "server":
+			if err := func() error {
+				var sDotServerVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotServerVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Server.SetTo(sDotServerVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"server\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetInstancesFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetInstancesPage as URI form.
 func (s *GetInstancesPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -2143,6 +4167,32 @@ func (s *GetInstancesPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetInstancesPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetInvoicesFilter as URI form.
+func (s *GetInvoicesFilter) EncodeURI(e uri.Encoder) error {
+	return nil
+}
+
+var uriFieldsNameOfGetInvoicesFilter = [0]string{}
+
+// DecodeURI decodes GetInvoicesFilter from URI form.
+func (s *GetInvoicesFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetInvoicesFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetInvoicesFilter")
 	}
 
 	return nil
@@ -2241,6 +4291,185 @@ func (s *GetInvoicesPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetJobsFilter as URI form.
+func (s *GetJobsFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("range-start", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusStart.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-start\"")
+	}
+	if err := e.EncodeField("range-end", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusEnd.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-end\"")
+	}
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetJobsFilter = [4]string{
+	0: "range-start",
+	1: "range-end",
+	2: "search",
+	3: "state",
+}
+
+// DecodeURI decodes GetJobsFilter from URI form.
+func (s *GetJobsFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetJobsFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "range-start":
+			if err := func() error {
+				var sDotRangeMinusStartVal DateTime
+				if err := func() error {
+					var sDotRangeMinusStartValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusStartValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusStartVal = DateTime(sDotRangeMinusStartValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusStart.SetTo(sDotRangeMinusStartVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-start\"")
+			}
+		case "range-end":
+			if err := func() error {
+				var sDotRangeMinusEndVal DateTime
+				if err := func() error {
+					var sDotRangeMinusEndValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusEndValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusEndVal = DateTime(sDotRangeMinusEndValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusEnd.SetTo(sDotRangeMinusEndVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-end\"")
+			}
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetJobsFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetJobsPage as URI form.
 func (s *GetJobsPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -2329,6 +4558,66 @@ func (s *GetJobsPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetJobsPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetNativeProvidersFilter as URI form.
+func (s *GetNativeProvidersFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetNativeProvidersFilter = [1]string{
+	0: "search",
+}
+
+// DecodeURI decodes GetNativeProvidersFilter from URI form.
+func (s *GetNativeProvidersFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetNativeProvidersFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetNativeProvidersFilter")
 	}
 
 	return nil
@@ -2427,6 +4716,99 @@ func (s *GetNativeProvidersPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetNetworksFilter as URI form.
+func (s *GetNetworksFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetNetworksFilter = [2]string{
+	0: "search",
+	1: "state",
+}
+
+// DecodeURI decodes GetNetworksFilter from URI form.
+func (s *GetNetworksFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetNetworksFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetNetworksFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetNetworksPage as URI form.
 func (s *GetNetworksPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -2515,6 +4897,32 @@ func (s *GetNetworksPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetNetworksPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetOrdersFilter as URI form.
+func (s *GetOrdersFilter) EncodeURI(e uri.Encoder) error {
+	return nil
+}
+
+var uriFieldsNameOfGetOrdersFilter = [0]string{}
+
+// DecodeURI decodes GetOrdersFilter from URI form.
+func (s *GetOrdersFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetOrdersFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetOrdersFilter")
 	}
 
 	return nil
@@ -2613,6 +5021,99 @@ func (s *GetOrdersPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetPipelineTriggerKeysFilter as URI form.
+func (s *GetPipelineTriggerKeysFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetPipelineTriggerKeysFilter = [2]string{
+	0: "search",
+	1: "state",
+}
+
+// DecodeURI decodes GetPipelineTriggerKeysFilter from URI form.
+func (s *GetPipelineTriggerKeysFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetPipelineTriggerKeysFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetPipelineTriggerKeysFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetPipelineTriggerKeysPage as URI form.
 func (s *GetPipelineTriggerKeysPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -2701,6 +5202,132 @@ func (s *GetPipelineTriggerKeysPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetPipelineTriggerKeysPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetPipelinesFilter as URI form.
+func (s *GetPipelinesFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("identifier", func(e uri.Encoder) error {
+		if val, ok := s.Identifier.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"identifier\"")
+	}
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetPipelinesFilter = [3]string{
+	0: "identifier",
+	1: "search",
+	2: "state",
+}
+
+// DecodeURI decodes GetPipelinesFilter from URI form.
+func (s *GetPipelinesFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetPipelinesFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "identifier":
+			if err := func() error {
+				var sDotIdentifierVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotIdentifierVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Identifier.SetTo(sDotIdentifierVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"identifier\"")
+			}
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetPipelinesFilter")
 	}
 
 	return nil
@@ -2985,6 +5612,99 @@ func (s *GetProviderServersPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetProvidersFilter as URI form.
+func (s *GetProvidersFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetProvidersFilter = [2]string{
+	0: "search",
+	1: "state",
+}
+
+// DecodeURI decodes GetProvidersFilter from URI form.
+func (s *GetProvidersFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetProvidersFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetProvidersFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetProvidersPage as URI form.
 func (s *GetProvidersPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -3073,6 +5793,66 @@ func (s *GetProvidersPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetProvidersPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetRecordsCollectionFilter as URI form.
+func (s *GetRecordsCollectionFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetRecordsCollectionFilter = [1]string{
+	0: "state",
+}
+
+// DecodeURI decodes GetRecordsCollectionFilter from URI form.
+func (s *GetRecordsCollectionFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetRecordsCollectionFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetRecordsCollectionFilter")
 	}
 
 	return nil
@@ -3171,6 +5951,99 @@ func (s *GetRecordsCollectionPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetSecurityReportFilter as URI form.
+func (s *GetSecurityReportFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("environment", func(e uri.Encoder) error {
+		if val, ok := s.Environment.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"environment\"")
+	}
+	if err := e.EncodeField("event", func(e uri.Encoder) error {
+		if val, ok := s.Event.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"event\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetSecurityReportFilter = [2]string{
+	0: "environment",
+	1: "event",
+}
+
+// DecodeURI decodes GetSecurityReportFilter from URI form.
+func (s *GetSecurityReportFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetSecurityReportFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "environment":
+			if err := func() error {
+				var sDotEnvironmentVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotEnvironmentVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Environment.SetTo(sDotEnvironmentVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"environment\"")
+			}
+		case "event":
+			if err := func() error {
+				var sDotEventVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotEventVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Event.SetTo(sDotEventVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"event\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetSecurityReportFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetServerInstancesPage as URI form.
 func (s *GetServerInstancesPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -3259,6 +6132,179 @@ func (s *GetServerInstancesPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetServerInstancesPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetServerTagsFilter as URI form.
+func (s *GetServerTagsFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("cluster", func(e uri.Encoder) error {
+		if val, ok := s.Cluster.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"cluster\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetServerTagsFilter = [1]string{
+	0: "cluster",
+}
+
+// DecodeURI decodes GetServerTagsFilter from URI form.
+func (s *GetServerTagsFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetServerTagsFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "cluster":
+			if err := func() error {
+				var sDotClusterVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotClusterVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Cluster.SetTo(sDotClusterVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"cluster\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetServerTagsFilter")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetServerTelemeteryFilter as URI form.
+func (s *GetServerTelemeteryFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("range-start", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusStart.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-start\"")
+	}
+	if err := e.EncodeField("range-end", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusEnd.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-end\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetServerTelemeteryFilter = [2]string{
+	0: "range-start",
+	1: "range-end",
+}
+
+// DecodeURI decodes GetServerTelemeteryFilter from URI form.
+func (s *GetServerTelemeteryFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetServerTelemeteryFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "range-start":
+			if err := func() error {
+				var sDotRangeMinusStartVal DateTime
+				if err := func() error {
+					var sDotRangeMinusStartValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusStartValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusStartVal = DateTime(sDotRangeMinusStartValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusStart.SetTo(sDotRangeMinusStartVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-start\"")
+			}
+		case "range-end":
+			if err := func() error {
+				var sDotRangeMinusEndVal DateTime
+				if err := func() error {
+					var sDotRangeMinusEndValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusEndValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusEndVal = DateTime(sDotRangeMinusEndValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusEnd.SetTo(sDotRangeMinusEndVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-end\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetServerTelemeteryFilter")
 	}
 
 	return nil
@@ -3357,6 +6403,165 @@ func (s *GetServerTelemeteryPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetServersCollectionFilter as URI form.
+func (s *GetServersCollectionFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	if err := e.EncodeField("tags", func(e uri.Encoder) error {
+		if val, ok := s.Tags.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"tags\"")
+	}
+	if err := e.EncodeField("clusters", func(e uri.Encoder) error {
+		if val, ok := s.Clusters.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"clusters\"")
+	}
+	if err := e.EncodeField("providers", func(e uri.Encoder) error {
+		if val, ok := s.Providers.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"providers\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetServersCollectionFilter = [4]string{
+	0: "state",
+	1: "tags",
+	2: "clusters",
+	3: "providers",
+}
+
+// DecodeURI decodes GetServersCollectionFilter from URI form.
+func (s *GetServersCollectionFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetServersCollectionFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		case "tags":
+			if err := func() error {
+				var sDotTagsVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotTagsVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Tags.SetTo(sDotTagsVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"tags\"")
+			}
+		case "clusters":
+			if err := func() error {
+				var sDotClustersVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotClustersVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Clusters.SetTo(sDotClustersVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"clusters\"")
+			}
+		case "providers":
+			if err := func() error {
+				var sDotProvidersVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotProvidersVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Providers.SetTo(sDotProvidersVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"providers\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetServersCollectionFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetServersCollectionPage as URI form.
 func (s *GetServersCollectionPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -3445,6 +6650,132 @@ func (s *GetServersCollectionPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetServersCollectionPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetSourcesCollectionFilter as URI form.
+func (s *GetSourcesCollectionFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("identifier", func(e uri.Encoder) error {
+		if val, ok := s.Identifier.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"identifier\"")
+	}
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetSourcesCollectionFilter = [3]string{
+	0: "identifier",
+	1: "search",
+	2: "state",
+}
+
+// DecodeURI decodes GetSourcesCollectionFilter from URI form.
+func (s *GetSourcesCollectionFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetSourcesCollectionFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "identifier":
+			if err := func() error {
+				var sDotIdentifierVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotIdentifierVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Identifier.SetTo(sDotIdentifierVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"identifier\"")
+			}
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetSourcesCollectionFilter")
 	}
 
 	return nil
@@ -3543,6 +6874,99 @@ func (s *GetSourcesCollectionPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetStackBuildsFilter as URI form.
+func (s *GetStackBuildsFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetStackBuildsFilter = [2]string{
+	0: "search",
+	1: "state",
+}
+
+// DecodeURI decodes GetStackBuildsFilter from URI form.
+func (s *GetStackBuildsFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetStackBuildsFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetStackBuildsFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetStackBuildsPage as URI form.
 func (s *GetStackBuildsPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -3631,6 +7055,132 @@ func (s *GetStackBuildsPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetStackBuildsPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetStacksFilter as URI form.
+func (s *GetStacksFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("identifier", func(e uri.Encoder) error {
+		if val, ok := s.Identifier.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"identifier\"")
+	}
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetStacksFilter = [3]string{
+	0: "identifier",
+	1: "search",
+	2: "state",
+}
+
+// DecodeURI decodes GetStacksFilter from URI form.
+func (s *GetStacksFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetStacksFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "identifier":
+			if err := func() error {
+				var sDotIdentifierVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotIdentifierVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Identifier.SetTo(sDotIdentifierVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"identifier\"")
+			}
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetStacksFilter")
 	}
 
 	return nil
@@ -3915,6 +7465,66 @@ func (s *GetVpnLoginsPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetZonesCollectionFilter as URI form.
+func (s *GetZonesCollectionFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetZonesCollectionFilter = [1]string{
+	0: "state",
+}
+
+// DecodeURI decodes GetZonesCollectionFilter from URI form.
+func (s *GetZonesCollectionFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetZonesCollectionFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetZonesCollectionFilter")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetZonesCollectionPage as URI form.
 func (s *GetZonesCollectionPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
@@ -4003,6 +7613,132 @@ func (s *GetZonesCollectionPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetZonesCollectionPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes ListScopedVariablesFilter as URI form.
+func (s *ListScopedVariablesFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("identifier", func(e uri.Encoder) error {
+		if val, ok := s.Identifier.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"identifier\"")
+	}
+	if err := e.EncodeField("search", func(e uri.Encoder) error {
+		if val, ok := s.Search.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"search\"")
+	}
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfListScopedVariablesFilter = [3]string{
+	0: "identifier",
+	1: "search",
+	2: "state",
+}
+
+// DecodeURI decodes ListScopedVariablesFilter from URI form.
+func (s *ListScopedVariablesFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ListScopedVariablesFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "identifier":
+			if err := func() error {
+				var sDotIdentifierVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotIdentifierVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Identifier.SetTo(sDotIdentifierVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"identifier\"")
+			}
+		case "search":
+			if err := func() error {
+				var sDotSearchVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSearchVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Search.SetTo(sDotSearchVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"search\"")
+			}
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ListScopedVariablesFilter")
 	}
 
 	return nil

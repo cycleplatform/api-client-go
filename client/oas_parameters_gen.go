@@ -140,6 +140,10 @@ type DNSRecordTaskParams struct {
 
 // DNSTLSAttemptsParams is parameters of DNSTLSAttempts operation.
 type DNSTLSAttemptsParams struct {
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptDNSTLSAttemptsFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -182,7 +186,8 @@ type GetAccountInvitesParams struct {
 	// only appear once in the return.
 	Include []GetAccountInvitesIncludeItem
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort []string
+	Sort   []string
+	Filter *GetAccountInvitesFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetAccountInvitesPage
@@ -191,7 +196,8 @@ type GetAccountInvitesParams struct {
 // GetAccountLoginsParams is parameters of getAccountLogins operation.
 type GetAccountLoginsParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort []string
+	Sort   []string
+	Filter *GetAccountLoginsFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetAccountLoginsPage
@@ -200,7 +206,8 @@ type GetAccountLoginsParams struct {
 // GetAnnouncementsListParams is parameters of getAnnouncementsList operation.
 type GetAnnouncementsListParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort []string
+	Sort   []string
+	Filter *GetAnnouncementsListFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetAnnouncementsListPage
@@ -215,7 +222,8 @@ type GetApiKeyParams struct {
 // GetApiKeysParams is parameters of getApiKeys operation.
 type GetApiKeysParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort []string
+	Sort   []string
+	Filter *GetApiKeysFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetApiKeysPage
@@ -257,7 +265,8 @@ type GetBillingMethodParams struct {
 // GetBillingMethodsParams is parameters of getBillingMethods operation.
 type GetBillingMethodsParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort []string
+	Sort   []string
+	Filter *GetBillingMethodsFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetBillingMethodsPage
@@ -272,7 +281,8 @@ type GetBillingOrderParams struct {
 // GetBillingOveragesParams is parameters of getBillingOverages operation.
 type GetBillingOveragesParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort []string
+	Sort   []string
+	Filter *GetBillingOveragesFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetBillingOveragesPage
@@ -287,7 +297,8 @@ type GetBillingServiceParams struct {
 // GetBillingServicesParams is parameters of getBillingServices operation.
 type GetBillingServicesParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort []string
+	Sort   []string
+	Filter *GetBillingServicesFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetBillingServicesPage
@@ -296,7 +307,8 @@ type GetBillingServicesParams struct {
 // GetBillingSupportPlansParams is parameters of getBillingSupportPlans operation.
 type GetBillingSupportPlansParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort []string
+	Sort   []string
+	Filter *GetBillingSupportPlansFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetBillingSupportPlansPage
@@ -359,6 +371,10 @@ type GetContainerInstanceVolumesParams struct {
 type GetContainerInstancesTelemetryParams struct {
 	// The ID of the desired container.
 	ContainerId string
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetContainerInstancesTelemetryFilter
 }
 
 // GetContainerSummaryParams is parameters of getContainerSummary operation.
@@ -379,6 +395,10 @@ type GetContainersParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetContainersIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetContainersFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -395,7 +415,8 @@ type GetCreditParams struct {
 // GetCreditsParams is parameters of getCredits operation.
 type GetCreditsParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort []string
+	Sort   []string
+	Filter *GetCreditsFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetCreditsPage
@@ -427,6 +448,10 @@ type GetEnvironmentByIdParams struct {
 type GetEnvironmentInstancesTelemetryParams struct {
 	// The ID of the desired environment.
 	EnvironmentId string
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetEnvironmentInstancesTelemetryFilter
 }
 
 // GetEnvironmentSummaryParams is parameters of getEnvironmentSummary operation.
@@ -447,6 +472,10 @@ type GetEnvironmentsParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetEnvironmentsIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetEnvironmentsFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -470,6 +499,10 @@ type GetHubActivityParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetHubActivityIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetHubActivityFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -490,7 +523,8 @@ type GetHubInvitesParams struct {
 	// only appear once in the return.
 	Include []GetHubInvitesIncludeItem
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort []string
+	Sort   []string
+	Filter *GetHubInvitesFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetHubInvitesPage
@@ -520,7 +554,8 @@ type GetHubMembersParams struct {
 	// only appear once in the return.
 	Include []GetHubMembersIncludeItem
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort []string
+	Sort   []string
+	Filter *GetHubMembersFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetHubMembersPage
@@ -540,6 +575,19 @@ type GetHubMembersAccountParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetHubMembersAccountIncludeItem
+}
+
+// GetHubUsageParams is parameters of getHubUsage operation.
+type GetHubUsageParams struct {
+	Filter *GetHubUsageFilter
+}
+
+// GetHubsParams is parameters of getHubs operation.
+type GetHubsParams struct {
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetHubsFilter
 }
 
 // GetImageParams is parameters of getImage operation.
@@ -581,6 +629,10 @@ type GetImagesParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetImagesIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetImagesFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -611,12 +663,24 @@ type GetInfrastructureIPPoolsParams struct {
 	Page OptGetInfrastructureIPPoolsPage
 }
 
+// GetInfrastructureSummaryParams is parameters of getInfrastructureSummary operation.
+type GetInfrastructureSummaryParams struct {
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetInfrastructureSummaryFilter
+}
+
 // GetInstanceResourcesTelemetryReportParams is parameters of getInstanceResourcesTelemetryReport operation.
 type GetInstanceResourcesTelemetryReportParams struct {
 	// The ID of the requested container.
 	ContainerId string
 	// The ID for the container instance.
 	InstanceId string
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetInstanceResourcesTelemetryReportFilter
 }
 
 // GetInstanceResourcesTelemetryStreamParams is parameters of getInstanceResourcesTelemetryStream operation.
@@ -636,6 +700,10 @@ type GetInstancesParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetInstancesIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetInstancesFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -652,7 +720,8 @@ type GetInvoiceParams struct {
 // GetInvoicesParams is parameters of getInvoices operation.
 type GetInvoicesParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort []string
+	Sort   []string
+	Filter *GetInvoicesFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetInvoicesPage
@@ -676,6 +745,10 @@ type GetJobsParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetJobsIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetJobsFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -696,6 +769,10 @@ type GetNativeProvidersParams struct {
 	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
 	// in the root document. These will be clearly labeled.
 	Meta []GetNativeProvidersMetaItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetNativeProvidersFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -716,6 +793,10 @@ type GetNetworksParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetNetworksIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetNetworksFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -726,7 +807,8 @@ type GetNetworksParams struct {
 // GetOrdersParams is parameters of getOrders operation.
 type GetOrdersParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort []string
+	Sort   []string
+	Filter *GetOrdersFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetOrdersPage
@@ -778,6 +860,10 @@ type GetPipelineTriggerKeyParams struct {
 type GetPipelineTriggerKeysParams struct {
 	// The ID of the pipeline.
 	PipelineId string
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetPipelineTriggerKeysFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -792,6 +878,10 @@ type GetPipelinesParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetPipelinesIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetPipelinesFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -840,6 +930,10 @@ type GetProvidersParams struct {
 	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
 	// in the root document. These will be clearly labeled.
 	Meta []GetProvidersMetaItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetProvidersFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -856,6 +950,10 @@ type GetRecordsCollectionParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetRecordsCollectionIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetRecordsCollectionFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -869,6 +967,14 @@ type GetSSHConnectionParams struct {
 	ContainerId string
 	// The ID for the container instance.
 	InstanceId string
+}
+
+// GetSecurityReportParams is parameters of getSecurityReport operation.
+type GetSecurityReportParams struct {
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetSecurityReportFilter
 }
 
 // GetServerInstancesParams is parameters of getServerInstances operation.
@@ -885,10 +991,22 @@ type GetServerInstancesParams struct {
 	Include []GetServerInstancesIncludeItem
 }
 
+// GetServerTagsParams is parameters of getServerTags operation.
+type GetServerTagsParams struct {
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetServerTagsFilter
+}
+
 // GetServerTelemeteryParams is parameters of getServerTelemetery operation.
 type GetServerTelemeteryParams struct {
 	// The ID for the given server.
 	ServerId string
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetServerTelemeteryFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -914,6 +1032,10 @@ type GetServersCollectionParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetServersCollectionIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetServersCollectionFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -965,6 +1087,10 @@ type GetSourcesCollectionParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetSourcesCollectionIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetSourcesCollectionFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -1006,6 +1132,10 @@ type GetStackBuildsParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetStackBuildsIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetStackBuildsFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -1025,6 +1155,10 @@ type GetStacksParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetStacksIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetStacksFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -1083,6 +1217,10 @@ type GetZonesCollectionParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetZonesCollectionIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetZonesCollectionFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -1102,6 +1240,10 @@ type InstanceConsoleAuthParams struct {
 type ListScopedVariablesParams struct {
 	// The ID of the requested environment.
 	EnvironmentId string
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptListScopedVariablesFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,

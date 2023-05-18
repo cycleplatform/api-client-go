@@ -5206,6 +5206,23 @@ func (c *Client) sendDNSTLSAttempts(ctx context.Context, params DNSTLSAttemptsPa
 	stage = "EncodeQueryParams"
 	q := uri.NewQueryEncoder()
 	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
 		// Encode "sort" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "sort",
@@ -6108,6 +6125,23 @@ func (c *Client) sendGetAccountInvites(ctx context.Context, params GetAccountInv
 		}
 	}
 	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if v := params.Filter; v != nil {
+				return (*v).EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
 		// Encode "page" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "page",
@@ -6250,6 +6284,23 @@ func (c *Client) sendGetAccountLogins(ctx context.Context, params GetAccountLogi
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if v := params.Filter; v != nil {
+				return (*v).EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -6500,6 +6551,23 @@ func (c *Client) sendGetAnnouncementsList(ctx context.Context, params GetAnnounc
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if v := params.Filter; v != nil {
+				return (*v).EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -6779,6 +6847,23 @@ func (c *Client) sendGetApiKeys(ctx context.Context, params GetApiKeysParams) (r
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if v := params.Filter; v != nil {
+				return (*v).EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -7554,6 +7639,23 @@ func (c *Client) sendGetBillingMethods(ctx context.Context, params GetBillingMet
 		}
 	}
 	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if v := params.Filter; v != nil {
+				return (*v).EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
 		// Encode "page" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "page",
@@ -7839,6 +7941,23 @@ func (c *Client) sendGetBillingOverages(ctx context.Context, params GetBillingOv
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if v := params.Filter; v != nil {
+				return (*v).EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -8134,6 +8253,23 @@ func (c *Client) sendGetBillingServices(ctx context.Context, params GetBillingSe
 		}
 	}
 	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if v := params.Filter; v != nil {
+				return (*v).EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
 		// Encode "page" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "page",
@@ -8287,6 +8423,23 @@ func (c *Client) sendGetBillingSupportPlans(ctx context.Context, params GetBilli
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if v := params.Filter; v != nil {
+				return (*v).EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -9176,6 +9329,27 @@ func (c *Client) sendGetContainerInstancesTelemetry(ctx context.Context, params 
 	pathParts[2] = "/telemetry/instances"
 	uri.AddPathParts(u, pathParts[:]...)
 
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
 	stage = "EncodeRequest"
 	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
@@ -9467,6 +9641,23 @@ func (c *Client) sendGetContainers(ctx context.Context, params GetContainersPara
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -9780,6 +9971,23 @@ func (c *Client) sendGetCredits(ctx context.Context, params GetCreditsParams) (r
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if v := params.Filter; v != nil {
+				return (*v).EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -10364,6 +10572,27 @@ func (c *Client) sendGetEnvironmentInstancesTelemetry(ctx context.Context, param
 	pathParts[2] = "/telemetry/instances"
 	uri.AddPathParts(u, pathParts[:]...)
 
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
 	stage = "EncodeRequest"
 	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
@@ -10657,6 +10886,23 @@ func (c *Client) sendGetEnvironments(ctx context.Context, params GetEnvironments
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -10973,6 +11219,23 @@ func (c *Client) sendGetHubActivity(ctx context.Context, params GetHubActivityPa
 		}
 	}
 	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
 		// Encode "sort" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "sort",
@@ -11265,6 +11528,23 @@ func (c *Client) sendGetHubInvites(ctx context.Context, params GetHubInvitesPara
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if v := params.Filter; v != nil {
+				return (*v).EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -11611,6 +11891,23 @@ func (c *Client) sendGetHubMembers(ctx context.Context, params GetHubMembersPara
 		}
 	}
 	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if v := params.Filter; v != nil {
+				return (*v).EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
 		// Encode "page" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "page",
@@ -11871,13 +12168,13 @@ func (c *Client) sendGetHubMembersAccount(ctx context.Context, params GetHubMemb
 // Requires the `hubs-view` capability.
 //
 // GET /v1/hubs/current/usage
-func (c *Client) GetHubUsage(ctx context.Context) (*GetHubUsageOK, error) {
-	res, err := c.sendGetHubUsage(ctx)
+func (c *Client) GetHubUsage(ctx context.Context, params GetHubUsageParams) (*GetHubUsageOK, error) {
+	res, err := c.sendGetHubUsage(ctx, params)
 	_ = res
 	return res, err
 }
 
-func (c *Client) sendGetHubUsage(ctx context.Context) (res *GetHubUsageOK, err error) {
+func (c *Client) sendGetHubUsage(ctx context.Context, params GetHubUsageParams) (res *GetHubUsageOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getHubUsage"),
 	}
@@ -11913,6 +12210,27 @@ func (c *Client) sendGetHubUsage(ctx context.Context) (res *GetHubUsageOK, err e
 	var pathParts [1]string
 	pathParts[0] = "/v1/hubs/current/usage"
 	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if v := params.Filter; v != nil {
+				return (*v).EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	stage = "EncodeRequest"
 	r, err := ht.NewRequest(ctx, "GET", u)
@@ -11974,13 +12292,13 @@ func (c *Client) sendGetHubUsage(ctx context.Context) (res *GetHubUsageOK, err e
 // Lists all associated hubs.
 //
 // GET /v1/hubs
-func (c *Client) GetHubs(ctx context.Context) (*GetHubsOK, error) {
-	res, err := c.sendGetHubs(ctx)
+func (c *Client) GetHubs(ctx context.Context, params GetHubsParams) (*GetHubsOK, error) {
+	res, err := c.sendGetHubs(ctx, params)
 	_ = res
 	return res, err
 }
 
-func (c *Client) sendGetHubs(ctx context.Context) (res *GetHubsOK, err error) {
+func (c *Client) sendGetHubs(ctx context.Context, params GetHubsParams) (res *GetHubsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getHubs"),
 	}
@@ -12016,6 +12334,27 @@ func (c *Client) sendGetHubs(ctx context.Context) (res *GetHubsOK, err error) {
 	var pathParts [1]string
 	pathParts[0] = "/v1/hubs"
 	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	stage = "EncodeRequest"
 	r, err := ht.NewRequest(ctx, "GET", u)
@@ -12524,6 +12863,23 @@ func (c *Client) sendGetImages(ctx context.Context, params GetImagesParams) (res
 		}
 	}
 	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
 		// Encode "sort" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "sort",
@@ -12953,13 +13309,13 @@ func (c *Client) sendGetInfrastructureIPPools(ctx context.Context, params GetInf
 // Requires the `infrastructure-servers-view` capability.
 //
 // GET /v1/infrastructure/summary
-func (c *Client) GetInfrastructureSummary(ctx context.Context) (*GetInfrastructureSummaryOK, error) {
-	res, err := c.sendGetInfrastructureSummary(ctx)
+func (c *Client) GetInfrastructureSummary(ctx context.Context, params GetInfrastructureSummaryParams) (*GetInfrastructureSummaryOK, error) {
+	res, err := c.sendGetInfrastructureSummary(ctx, params)
 	_ = res
 	return res, err
 }
 
-func (c *Client) sendGetInfrastructureSummary(ctx context.Context) (res *GetInfrastructureSummaryOK, err error) {
+func (c *Client) sendGetInfrastructureSummary(ctx context.Context, params GetInfrastructureSummaryParams) (res *GetInfrastructureSummaryOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getInfrastructureSummary"),
 	}
@@ -12995,6 +13351,27 @@ func (c *Client) sendGetInfrastructureSummary(ctx context.Context) (res *GetInfr
 	var pathParts [1]string
 	pathParts[0] = "/v1/infrastructure/summary"
 	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	stage = "EncodeRequest"
 	r, err := ht.NewRequest(ctx, "GET", u)
@@ -13147,6 +13524,27 @@ func (c *Client) sendGetInstanceResourcesTelemetryReport(ctx context.Context, pa
 	}
 	pathParts[4] = "/telemetry/resources/report"
 	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	stage = "EncodeRequest"
 	r, err := ht.NewRequest(ctx, "GET", u)
@@ -13456,6 +13854,23 @@ func (c *Client) sendGetInstances(ctx context.Context, params GetInstancesParams
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -13774,6 +14189,23 @@ func (c *Client) sendGetInvoices(ctx context.Context, params GetInvoicesParams) 
 		}
 	}
 	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if v := params.Filter; v != nil {
+				return (*v).EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
 		// Encode "page" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "page",
@@ -14082,6 +14514,23 @@ func (c *Client) sendGetJobs(ctx context.Context, params GetJobsParams) (res *Ge
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -14515,6 +14964,23 @@ func (c *Client) sendGetNativeProviders(ctx context.Context, params GetNativePro
 		}
 	}
 	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
 		// Encode "sort" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "sort",
@@ -14828,6 +15294,23 @@ func (c *Client) sendGetNetworks(ctx context.Context, params GetNetworksParams) 
 		}
 	}
 	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
 		// Encode "sort" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "sort",
@@ -15004,6 +15487,23 @@ func (c *Client) sendGetOrders(ctx context.Context, params GetOrdersParams) (res
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if v := params.Filter; v != nil {
+				return (*v).EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -15702,6 +16202,23 @@ func (c *Client) sendGetPipelineTriggerKeys(ctx context.Context, params GetPipel
 	stage = "EncodeQueryParams"
 	q := uri.NewQueryEncoder()
 	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
 		// Encode "sort" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "sort",
@@ -15878,6 +16395,23 @@ func (c *Client) sendGetPipelines(ctx context.Context, params GetPipelinesParams
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -16683,6 +17217,23 @@ func (c *Client) sendGetProviders(ctx context.Context, params GetProvidersParams
 		}
 	}
 	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
 		// Encode "sort" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "sort",
@@ -16878,6 +17429,23 @@ func (c *Client) sendGetRecordsCollection(ctx context.Context, params GetRecords
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -17250,13 +17818,13 @@ func (c *Client) sendGetSearchIndex(ctx context.Context) (res *GetSearchIndexOK,
 // Returns a report detailing incidents logged by the platform around security related events.
 //
 // GET /v1/security/report
-func (c *Client) GetSecurityReport(ctx context.Context) (*GetSecurityReportOK, error) {
-	res, err := c.sendGetSecurityReport(ctx)
+func (c *Client) GetSecurityReport(ctx context.Context, params GetSecurityReportParams) (*GetSecurityReportOK, error) {
+	res, err := c.sendGetSecurityReport(ctx, params)
 	_ = res
 	return res, err
 }
 
-func (c *Client) sendGetSecurityReport(ctx context.Context) (res *GetSecurityReportOK, err error) {
+func (c *Client) sendGetSecurityReport(ctx context.Context, params GetSecurityReportParams) (res *GetSecurityReportOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getSecurityReport"),
 	}
@@ -17292,6 +17860,27 @@ func (c *Client) sendGetSecurityReport(ctx context.Context) (res *GetSecurityRep
 	var pathParts [1]string
 	pathParts[0] = "/v1/security/report"
 	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	stage = "EncodeRequest"
 	r, err := ht.NewRequest(ctx, "GET", u)
@@ -17541,13 +18130,13 @@ func (c *Client) sendGetServerInstances(ctx context.Context, params GetServerIns
 // Requires the `servers-view` capability.
 //
 // GET /v1/infrastructure/servers/tags
-func (c *Client) GetServerTags(ctx context.Context) (*ServerTags, error) {
-	res, err := c.sendGetServerTags(ctx)
+func (c *Client) GetServerTags(ctx context.Context, params GetServerTagsParams) (*ServerTags, error) {
+	res, err := c.sendGetServerTags(ctx, params)
 	_ = res
 	return res, err
 }
 
-func (c *Client) sendGetServerTags(ctx context.Context) (res *ServerTags, err error) {
+func (c *Client) sendGetServerTags(ctx context.Context, params GetServerTagsParams) (res *ServerTags, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getServerTags"),
 	}
@@ -17583,6 +18172,27 @@ func (c *Client) sendGetServerTags(ctx context.Context) (res *ServerTags, err er
 	var pathParts [1]string
 	pathParts[0] = "/v1/infrastructure/servers/tags"
 	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	stage = "EncodeRequest"
 	r, err := ht.NewRequest(ctx, "GET", u)
@@ -17719,6 +18329,23 @@ func (c *Client) sendGetServerTelemetery(ctx context.Context, params GetServerTe
 
 	stage = "EncodeQueryParams"
 	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
 	{
 		// Encode "sort" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
@@ -18166,6 +18793,23 @@ func (c *Client) sendGetServersCollection(ctx context.Context, params GetServers
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -18734,6 +19378,23 @@ func (c *Client) sendGetSourcesCollection(ctx context.Context, params GetSources
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -19377,6 +20038,23 @@ func (c *Client) sendGetStackBuilds(ctx context.Context, params GetStackBuildsPa
 		}
 	}
 	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
 		// Encode "sort" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "sort",
@@ -19576,6 +20254,23 @@ func (c *Client) sendGetStacks(ctx context.Context, params GetStacksParams) (res
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -20656,6 +21351,23 @@ func (c *Client) sendGetZonesCollection(ctx context.Context, params GetZonesColl
 		}
 	}
 	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
 		// Encode "sort" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "sort",
@@ -20984,6 +21696,23 @@ func (c *Client) sendListScopedVariables(ctx context.Context, params ListScopedV
 
 	stage = "EncodeQueryParams"
 	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
 	{
 		// Encode "sort" parameter.
 		cfg := uri.QueryParameterEncodingConfig{

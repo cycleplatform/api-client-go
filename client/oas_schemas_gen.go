@@ -12797,81 +12797,19 @@ func (s *DNSRecordTaskReqAction) UnmarshalText(data []byte) error {
 	}
 }
 
-type DNSTLSAttemptsFilter map[string]DNSTLSAttemptsFilterItem
-
-func (s *DNSTLSAttemptsFilter) init() DNSTLSAttemptsFilter {
-	m := *s
-	if m == nil {
-		m = map[string]DNSTLSAttemptsFilterItem{}
-		*s = m
-	}
-	return m
+type DNSTLSAttemptsFilter struct {
+	// `filter[domain]=value` filter the return for TLS attempts by domain.
+	Domain OptString `json:"domain"`
 }
 
-// DNSTLSAttemptsFilterItem represents sum type.
-type DNSTLSAttemptsFilterItem struct {
-	Type        DNSTLSAttemptsFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetDomain returns the value of Domain.
+func (s *DNSTLSAttemptsFilter) GetDomain() OptString {
+	return s.Domain
 }
 
-// DNSTLSAttemptsFilterItemType is oneOf type of DNSTLSAttemptsFilterItem.
-type DNSTLSAttemptsFilterItemType string
-
-// Possible values for DNSTLSAttemptsFilterItemType.
-const (
-	StringDNSTLSAttemptsFilterItem      DNSTLSAttemptsFilterItemType = "string"
-	StringArrayDNSTLSAttemptsFilterItem DNSTLSAttemptsFilterItemType = "[]string"
-)
-
-// IsString reports whether DNSTLSAttemptsFilterItem is string.
-func (s DNSTLSAttemptsFilterItem) IsString() bool { return s.Type == StringDNSTLSAttemptsFilterItem }
-
-// IsStringArray reports whether DNSTLSAttemptsFilterItem is []string.
-func (s DNSTLSAttemptsFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayDNSTLSAttemptsFilterItem
-}
-
-// SetString sets DNSTLSAttemptsFilterItem to string.
-func (s *DNSTLSAttemptsFilterItem) SetString(v string) {
-	s.Type = StringDNSTLSAttemptsFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if DNSTLSAttemptsFilterItem is string.
-func (s DNSTLSAttemptsFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringDNSTLSAttemptsFilterItem returns new DNSTLSAttemptsFilterItem from string.
-func NewStringDNSTLSAttemptsFilterItem(v string) DNSTLSAttemptsFilterItem {
-	var s DNSTLSAttemptsFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets DNSTLSAttemptsFilterItem to []string.
-func (s *DNSTLSAttemptsFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayDNSTLSAttemptsFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if DNSTLSAttemptsFilterItem is []string.
-func (s DNSTLSAttemptsFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayDNSTLSAttemptsFilterItem returns new DNSTLSAttemptsFilterItem from []string.
-func NewStringArrayDNSTLSAttemptsFilterItem(v []string) DNSTLSAttemptsFilterItem {
-	var s DNSTLSAttemptsFilterItem
-	s.SetStringArray(v)
-	return s
+// SetDomain sets the value of Domain.
+func (s *DNSTLSAttemptsFilter) SetDomain(val OptString) {
+	s.Domain = val
 }
 
 type DNSTLSAttemptsOK struct {
@@ -16217,123 +16155,7 @@ func (s *Geographic) SetRegion(val string) {
 	s.Region = val
 }
 
-type GetAccountInvitesFilter map[string]GetAccountInvitesFilterItem
-
-func (s *GetAccountInvitesFilter) init() GetAccountInvitesFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetAccountInvitesFilterItem{}
-		*s = m
-	}
-	return m
-}
-
-// GetAccountInvitesFilterItem represents sum type.
-type GetAccountInvitesFilterItem struct {
-	Type                         GetAccountInvitesFilterItemType // switch on this field
-	String                       string
-	StringArray                  []string
-	GetAccountInvitesFilterItem2 GetAccountInvitesFilterItem2
-}
-
-// GetAccountInvitesFilterItemType is oneOf type of GetAccountInvitesFilterItem.
-type GetAccountInvitesFilterItemType string
-
-// Possible values for GetAccountInvitesFilterItemType.
-const (
-	StringGetAccountInvitesFilterItem                       GetAccountInvitesFilterItemType = "string"
-	StringArrayGetAccountInvitesFilterItem                  GetAccountInvitesFilterItemType = "[]string"
-	GetAccountInvitesFilterItem2GetAccountInvitesFilterItem GetAccountInvitesFilterItemType = "GetAccountInvitesFilterItem2"
-)
-
-// IsString reports whether GetAccountInvitesFilterItem is string.
-func (s GetAccountInvitesFilterItem) IsString() bool {
-	return s.Type == StringGetAccountInvitesFilterItem
-}
-
-// IsStringArray reports whether GetAccountInvitesFilterItem is []string.
-func (s GetAccountInvitesFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetAccountInvitesFilterItem
-}
-
-// IsGetAccountInvitesFilterItem2 reports whether GetAccountInvitesFilterItem is GetAccountInvitesFilterItem2.
-func (s GetAccountInvitesFilterItem) IsGetAccountInvitesFilterItem2() bool {
-	return s.Type == GetAccountInvitesFilterItem2GetAccountInvitesFilterItem
-}
-
-// SetString sets GetAccountInvitesFilterItem to string.
-func (s *GetAccountInvitesFilterItem) SetString(v string) {
-	s.Type = StringGetAccountInvitesFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetAccountInvitesFilterItem is string.
-func (s GetAccountInvitesFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetAccountInvitesFilterItem returns new GetAccountInvitesFilterItem from string.
-func NewStringGetAccountInvitesFilterItem(v string) GetAccountInvitesFilterItem {
-	var s GetAccountInvitesFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetAccountInvitesFilterItem to []string.
-func (s *GetAccountInvitesFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetAccountInvitesFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetAccountInvitesFilterItem is []string.
-func (s GetAccountInvitesFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetAccountInvitesFilterItem returns new GetAccountInvitesFilterItem from []string.
-func NewStringArrayGetAccountInvitesFilterItem(v []string) GetAccountInvitesFilterItem {
-	var s GetAccountInvitesFilterItem
-	s.SetStringArray(v)
-	return s
-}
-
-// SetGetAccountInvitesFilterItem2 sets GetAccountInvitesFilterItem to GetAccountInvitesFilterItem2.
-func (s *GetAccountInvitesFilterItem) SetGetAccountInvitesFilterItem2(v GetAccountInvitesFilterItem2) {
-	s.Type = GetAccountInvitesFilterItem2GetAccountInvitesFilterItem
-	s.GetAccountInvitesFilterItem2 = v
-}
-
-// GetGetAccountInvitesFilterItem2 returns GetAccountInvitesFilterItem2 and true boolean if GetAccountInvitesFilterItem is GetAccountInvitesFilterItem2.
-func (s GetAccountInvitesFilterItem) GetGetAccountInvitesFilterItem2() (v GetAccountInvitesFilterItem2, ok bool) {
-	if !s.IsGetAccountInvitesFilterItem2() {
-		return v, false
-	}
-	return s.GetAccountInvitesFilterItem2, true
-}
-
-// NewGetAccountInvitesFilterItem2GetAccountInvitesFilterItem returns new GetAccountInvitesFilterItem from GetAccountInvitesFilterItem2.
-func NewGetAccountInvitesFilterItem2GetAccountInvitesFilterItem(v GetAccountInvitesFilterItem2) GetAccountInvitesFilterItem {
-	var s GetAccountInvitesFilterItem
-	s.SetGetAccountInvitesFilterItem2(v)
-	return s
-}
-
-type GetAccountInvitesFilterItem2 map[string]string
-
-func (s *GetAccountInvitesFilterItem2) init() GetAccountInvitesFilterItem2 {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
+type GetAccountInvitesFilter struct{}
 
 type GetAccountInvitesIncludeItem string
 
@@ -16453,123 +16275,7 @@ func (s *GetAccountInvitesPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
-type GetAccountLoginsFilter map[string]GetAccountLoginsFilterItem
-
-func (s *GetAccountLoginsFilter) init() GetAccountLoginsFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetAccountLoginsFilterItem{}
-		*s = m
-	}
-	return m
-}
-
-// GetAccountLoginsFilterItem represents sum type.
-type GetAccountLoginsFilterItem struct {
-	Type                        GetAccountLoginsFilterItemType // switch on this field
-	String                      string
-	StringArray                 []string
-	GetAccountLoginsFilterItem2 GetAccountLoginsFilterItem2
-}
-
-// GetAccountLoginsFilterItemType is oneOf type of GetAccountLoginsFilterItem.
-type GetAccountLoginsFilterItemType string
-
-// Possible values for GetAccountLoginsFilterItemType.
-const (
-	StringGetAccountLoginsFilterItem                      GetAccountLoginsFilterItemType = "string"
-	StringArrayGetAccountLoginsFilterItem                 GetAccountLoginsFilterItemType = "[]string"
-	GetAccountLoginsFilterItem2GetAccountLoginsFilterItem GetAccountLoginsFilterItemType = "GetAccountLoginsFilterItem2"
-)
-
-// IsString reports whether GetAccountLoginsFilterItem is string.
-func (s GetAccountLoginsFilterItem) IsString() bool {
-	return s.Type == StringGetAccountLoginsFilterItem
-}
-
-// IsStringArray reports whether GetAccountLoginsFilterItem is []string.
-func (s GetAccountLoginsFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetAccountLoginsFilterItem
-}
-
-// IsGetAccountLoginsFilterItem2 reports whether GetAccountLoginsFilterItem is GetAccountLoginsFilterItem2.
-func (s GetAccountLoginsFilterItem) IsGetAccountLoginsFilterItem2() bool {
-	return s.Type == GetAccountLoginsFilterItem2GetAccountLoginsFilterItem
-}
-
-// SetString sets GetAccountLoginsFilterItem to string.
-func (s *GetAccountLoginsFilterItem) SetString(v string) {
-	s.Type = StringGetAccountLoginsFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetAccountLoginsFilterItem is string.
-func (s GetAccountLoginsFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetAccountLoginsFilterItem returns new GetAccountLoginsFilterItem from string.
-func NewStringGetAccountLoginsFilterItem(v string) GetAccountLoginsFilterItem {
-	var s GetAccountLoginsFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetAccountLoginsFilterItem to []string.
-func (s *GetAccountLoginsFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetAccountLoginsFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetAccountLoginsFilterItem is []string.
-func (s GetAccountLoginsFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetAccountLoginsFilterItem returns new GetAccountLoginsFilterItem from []string.
-func NewStringArrayGetAccountLoginsFilterItem(v []string) GetAccountLoginsFilterItem {
-	var s GetAccountLoginsFilterItem
-	s.SetStringArray(v)
-	return s
-}
-
-// SetGetAccountLoginsFilterItem2 sets GetAccountLoginsFilterItem to GetAccountLoginsFilterItem2.
-func (s *GetAccountLoginsFilterItem) SetGetAccountLoginsFilterItem2(v GetAccountLoginsFilterItem2) {
-	s.Type = GetAccountLoginsFilterItem2GetAccountLoginsFilterItem
-	s.GetAccountLoginsFilterItem2 = v
-}
-
-// GetGetAccountLoginsFilterItem2 returns GetAccountLoginsFilterItem2 and true boolean if GetAccountLoginsFilterItem is GetAccountLoginsFilterItem2.
-func (s GetAccountLoginsFilterItem) GetGetAccountLoginsFilterItem2() (v GetAccountLoginsFilterItem2, ok bool) {
-	if !s.IsGetAccountLoginsFilterItem2() {
-		return v, false
-	}
-	return s.GetAccountLoginsFilterItem2, true
-}
-
-// NewGetAccountLoginsFilterItem2GetAccountLoginsFilterItem returns new GetAccountLoginsFilterItem from GetAccountLoginsFilterItem2.
-func NewGetAccountLoginsFilterItem2GetAccountLoginsFilterItem(v GetAccountLoginsFilterItem2) GetAccountLoginsFilterItem {
-	var s GetAccountLoginsFilterItem
-	s.SetGetAccountLoginsFilterItem2(v)
-	return s
-}
-
-type GetAccountLoginsFilterItem2 map[string]string
-
-func (s *GetAccountLoginsFilterItem2) init() GetAccountLoginsFilterItem2 {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
+type GetAccountLoginsFilter struct{}
 
 type GetAccountLoginsOK struct {
 	Data []GetAccountLoginsOKDataItem `json:"data"`
@@ -16708,123 +16414,7 @@ func (s *GetAccountOK) SetData(val OptAccount) {
 	s.Data = val
 }
 
-type GetAnnouncementsListFilter map[string]GetAnnouncementsListFilterItem
-
-func (s *GetAnnouncementsListFilter) init() GetAnnouncementsListFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetAnnouncementsListFilterItem{}
-		*s = m
-	}
-	return m
-}
-
-// GetAnnouncementsListFilterItem represents sum type.
-type GetAnnouncementsListFilterItem struct {
-	Type                            GetAnnouncementsListFilterItemType // switch on this field
-	String                          string
-	StringArray                     []string
-	GetAnnouncementsListFilterItem2 GetAnnouncementsListFilterItem2
-}
-
-// GetAnnouncementsListFilterItemType is oneOf type of GetAnnouncementsListFilterItem.
-type GetAnnouncementsListFilterItemType string
-
-// Possible values for GetAnnouncementsListFilterItemType.
-const (
-	StringGetAnnouncementsListFilterItem                          GetAnnouncementsListFilterItemType = "string"
-	StringArrayGetAnnouncementsListFilterItem                     GetAnnouncementsListFilterItemType = "[]string"
-	GetAnnouncementsListFilterItem2GetAnnouncementsListFilterItem GetAnnouncementsListFilterItemType = "GetAnnouncementsListFilterItem2"
-)
-
-// IsString reports whether GetAnnouncementsListFilterItem is string.
-func (s GetAnnouncementsListFilterItem) IsString() bool {
-	return s.Type == StringGetAnnouncementsListFilterItem
-}
-
-// IsStringArray reports whether GetAnnouncementsListFilterItem is []string.
-func (s GetAnnouncementsListFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetAnnouncementsListFilterItem
-}
-
-// IsGetAnnouncementsListFilterItem2 reports whether GetAnnouncementsListFilterItem is GetAnnouncementsListFilterItem2.
-func (s GetAnnouncementsListFilterItem) IsGetAnnouncementsListFilterItem2() bool {
-	return s.Type == GetAnnouncementsListFilterItem2GetAnnouncementsListFilterItem
-}
-
-// SetString sets GetAnnouncementsListFilterItem to string.
-func (s *GetAnnouncementsListFilterItem) SetString(v string) {
-	s.Type = StringGetAnnouncementsListFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetAnnouncementsListFilterItem is string.
-func (s GetAnnouncementsListFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetAnnouncementsListFilterItem returns new GetAnnouncementsListFilterItem from string.
-func NewStringGetAnnouncementsListFilterItem(v string) GetAnnouncementsListFilterItem {
-	var s GetAnnouncementsListFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetAnnouncementsListFilterItem to []string.
-func (s *GetAnnouncementsListFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetAnnouncementsListFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetAnnouncementsListFilterItem is []string.
-func (s GetAnnouncementsListFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetAnnouncementsListFilterItem returns new GetAnnouncementsListFilterItem from []string.
-func NewStringArrayGetAnnouncementsListFilterItem(v []string) GetAnnouncementsListFilterItem {
-	var s GetAnnouncementsListFilterItem
-	s.SetStringArray(v)
-	return s
-}
-
-// SetGetAnnouncementsListFilterItem2 sets GetAnnouncementsListFilterItem to GetAnnouncementsListFilterItem2.
-func (s *GetAnnouncementsListFilterItem) SetGetAnnouncementsListFilterItem2(v GetAnnouncementsListFilterItem2) {
-	s.Type = GetAnnouncementsListFilterItem2GetAnnouncementsListFilterItem
-	s.GetAnnouncementsListFilterItem2 = v
-}
-
-// GetGetAnnouncementsListFilterItem2 returns GetAnnouncementsListFilterItem2 and true boolean if GetAnnouncementsListFilterItem is GetAnnouncementsListFilterItem2.
-func (s GetAnnouncementsListFilterItem) GetGetAnnouncementsListFilterItem2() (v GetAnnouncementsListFilterItem2, ok bool) {
-	if !s.IsGetAnnouncementsListFilterItem2() {
-		return v, false
-	}
-	return s.GetAnnouncementsListFilterItem2, true
-}
-
-// NewGetAnnouncementsListFilterItem2GetAnnouncementsListFilterItem returns new GetAnnouncementsListFilterItem from GetAnnouncementsListFilterItem2.
-func NewGetAnnouncementsListFilterItem2GetAnnouncementsListFilterItem(v GetAnnouncementsListFilterItem2) GetAnnouncementsListFilterItem {
-	var s GetAnnouncementsListFilterItem
-	s.SetGetAnnouncementsListFilterItem2(v)
-	return s
-}
-
-type GetAnnouncementsListFilterItem2 map[string]string
-
-func (s *GetAnnouncementsListFilterItem2) init() GetAnnouncementsListFilterItem2 {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
+type GetAnnouncementsListFilter struct{}
 
 type GetAnnouncementsListOK struct {
 	Data []Announcement `json:"data"`
@@ -16881,119 +16471,7 @@ func (s *GetApiKeyOK) SetData(val OptApiKey) {
 	s.Data = val
 }
 
-type GetApiKeysFilter map[string]GetApiKeysFilterItem
-
-func (s *GetApiKeysFilter) init() GetApiKeysFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetApiKeysFilterItem{}
-		*s = m
-	}
-	return m
-}
-
-// GetApiKeysFilterItem represents sum type.
-type GetApiKeysFilterItem struct {
-	Type                  GetApiKeysFilterItemType // switch on this field
-	String                string
-	StringArray           []string
-	GetApiKeysFilterItem2 GetApiKeysFilterItem2
-}
-
-// GetApiKeysFilterItemType is oneOf type of GetApiKeysFilterItem.
-type GetApiKeysFilterItemType string
-
-// Possible values for GetApiKeysFilterItemType.
-const (
-	StringGetApiKeysFilterItem                GetApiKeysFilterItemType = "string"
-	StringArrayGetApiKeysFilterItem           GetApiKeysFilterItemType = "[]string"
-	GetApiKeysFilterItem2GetApiKeysFilterItem GetApiKeysFilterItemType = "GetApiKeysFilterItem2"
-)
-
-// IsString reports whether GetApiKeysFilterItem is string.
-func (s GetApiKeysFilterItem) IsString() bool { return s.Type == StringGetApiKeysFilterItem }
-
-// IsStringArray reports whether GetApiKeysFilterItem is []string.
-func (s GetApiKeysFilterItem) IsStringArray() bool { return s.Type == StringArrayGetApiKeysFilterItem }
-
-// IsGetApiKeysFilterItem2 reports whether GetApiKeysFilterItem is GetApiKeysFilterItem2.
-func (s GetApiKeysFilterItem) IsGetApiKeysFilterItem2() bool {
-	return s.Type == GetApiKeysFilterItem2GetApiKeysFilterItem
-}
-
-// SetString sets GetApiKeysFilterItem to string.
-func (s *GetApiKeysFilterItem) SetString(v string) {
-	s.Type = StringGetApiKeysFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetApiKeysFilterItem is string.
-func (s GetApiKeysFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetApiKeysFilterItem returns new GetApiKeysFilterItem from string.
-func NewStringGetApiKeysFilterItem(v string) GetApiKeysFilterItem {
-	var s GetApiKeysFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetApiKeysFilterItem to []string.
-func (s *GetApiKeysFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetApiKeysFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetApiKeysFilterItem is []string.
-func (s GetApiKeysFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetApiKeysFilterItem returns new GetApiKeysFilterItem from []string.
-func NewStringArrayGetApiKeysFilterItem(v []string) GetApiKeysFilterItem {
-	var s GetApiKeysFilterItem
-	s.SetStringArray(v)
-	return s
-}
-
-// SetGetApiKeysFilterItem2 sets GetApiKeysFilterItem to GetApiKeysFilterItem2.
-func (s *GetApiKeysFilterItem) SetGetApiKeysFilterItem2(v GetApiKeysFilterItem2) {
-	s.Type = GetApiKeysFilterItem2GetApiKeysFilterItem
-	s.GetApiKeysFilterItem2 = v
-}
-
-// GetGetApiKeysFilterItem2 returns GetApiKeysFilterItem2 and true boolean if GetApiKeysFilterItem is GetApiKeysFilterItem2.
-func (s GetApiKeysFilterItem) GetGetApiKeysFilterItem2() (v GetApiKeysFilterItem2, ok bool) {
-	if !s.IsGetApiKeysFilterItem2() {
-		return v, false
-	}
-	return s.GetApiKeysFilterItem2, true
-}
-
-// NewGetApiKeysFilterItem2GetApiKeysFilterItem returns new GetApiKeysFilterItem from GetApiKeysFilterItem2.
-func NewGetApiKeysFilterItem2GetApiKeysFilterItem(v GetApiKeysFilterItem2) GetApiKeysFilterItem {
-	var s GetApiKeysFilterItem
-	s.SetGetApiKeysFilterItem2(v)
-	return s
-}
-
-type GetApiKeysFilterItem2 map[string]string
-
-func (s *GetApiKeysFilterItem2) init() GetApiKeysFilterItem2 {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
+type GetApiKeysFilter struct{}
 
 type GetApiKeysOK struct {
 	Data []ApiKey `json:"data"`
@@ -17119,123 +16597,7 @@ func (s *GetBillingMethodOK) SetData(val OptMethod) {
 	s.Data = val
 }
 
-type GetBillingMethodsFilter map[string]GetBillingMethodsFilterItem
-
-func (s *GetBillingMethodsFilter) init() GetBillingMethodsFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetBillingMethodsFilterItem{}
-		*s = m
-	}
-	return m
-}
-
-// GetBillingMethodsFilterItem represents sum type.
-type GetBillingMethodsFilterItem struct {
-	Type                         GetBillingMethodsFilterItemType // switch on this field
-	String                       string
-	StringArray                  []string
-	GetBillingMethodsFilterItem2 GetBillingMethodsFilterItem2
-}
-
-// GetBillingMethodsFilterItemType is oneOf type of GetBillingMethodsFilterItem.
-type GetBillingMethodsFilterItemType string
-
-// Possible values for GetBillingMethodsFilterItemType.
-const (
-	StringGetBillingMethodsFilterItem                       GetBillingMethodsFilterItemType = "string"
-	StringArrayGetBillingMethodsFilterItem                  GetBillingMethodsFilterItemType = "[]string"
-	GetBillingMethodsFilterItem2GetBillingMethodsFilterItem GetBillingMethodsFilterItemType = "GetBillingMethodsFilterItem2"
-)
-
-// IsString reports whether GetBillingMethodsFilterItem is string.
-func (s GetBillingMethodsFilterItem) IsString() bool {
-	return s.Type == StringGetBillingMethodsFilterItem
-}
-
-// IsStringArray reports whether GetBillingMethodsFilterItem is []string.
-func (s GetBillingMethodsFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetBillingMethodsFilterItem
-}
-
-// IsGetBillingMethodsFilterItem2 reports whether GetBillingMethodsFilterItem is GetBillingMethodsFilterItem2.
-func (s GetBillingMethodsFilterItem) IsGetBillingMethodsFilterItem2() bool {
-	return s.Type == GetBillingMethodsFilterItem2GetBillingMethodsFilterItem
-}
-
-// SetString sets GetBillingMethodsFilterItem to string.
-func (s *GetBillingMethodsFilterItem) SetString(v string) {
-	s.Type = StringGetBillingMethodsFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetBillingMethodsFilterItem is string.
-func (s GetBillingMethodsFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetBillingMethodsFilterItem returns new GetBillingMethodsFilterItem from string.
-func NewStringGetBillingMethodsFilterItem(v string) GetBillingMethodsFilterItem {
-	var s GetBillingMethodsFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetBillingMethodsFilterItem to []string.
-func (s *GetBillingMethodsFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetBillingMethodsFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetBillingMethodsFilterItem is []string.
-func (s GetBillingMethodsFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetBillingMethodsFilterItem returns new GetBillingMethodsFilterItem from []string.
-func NewStringArrayGetBillingMethodsFilterItem(v []string) GetBillingMethodsFilterItem {
-	var s GetBillingMethodsFilterItem
-	s.SetStringArray(v)
-	return s
-}
-
-// SetGetBillingMethodsFilterItem2 sets GetBillingMethodsFilterItem to GetBillingMethodsFilterItem2.
-func (s *GetBillingMethodsFilterItem) SetGetBillingMethodsFilterItem2(v GetBillingMethodsFilterItem2) {
-	s.Type = GetBillingMethodsFilterItem2GetBillingMethodsFilterItem
-	s.GetBillingMethodsFilterItem2 = v
-}
-
-// GetGetBillingMethodsFilterItem2 returns GetBillingMethodsFilterItem2 and true boolean if GetBillingMethodsFilterItem is GetBillingMethodsFilterItem2.
-func (s GetBillingMethodsFilterItem) GetGetBillingMethodsFilterItem2() (v GetBillingMethodsFilterItem2, ok bool) {
-	if !s.IsGetBillingMethodsFilterItem2() {
-		return v, false
-	}
-	return s.GetBillingMethodsFilterItem2, true
-}
-
-// NewGetBillingMethodsFilterItem2GetBillingMethodsFilterItem returns new GetBillingMethodsFilterItem from GetBillingMethodsFilterItem2.
-func NewGetBillingMethodsFilterItem2GetBillingMethodsFilterItem(v GetBillingMethodsFilterItem2) GetBillingMethodsFilterItem {
-	var s GetBillingMethodsFilterItem
-	s.SetGetBillingMethodsFilterItem2(v)
-	return s
-}
-
-type GetBillingMethodsFilterItem2 map[string]string
-
-func (s *GetBillingMethodsFilterItem2) init() GetBillingMethodsFilterItem2 {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
+type GetBillingMethodsFilter struct{}
 
 type GetBillingMethodsOK struct {
 	Data []Method `json:"data"`
@@ -17292,123 +16654,7 @@ func (s *GetBillingOrderOK) SetData(val OptOrder) {
 	s.Data = val
 }
 
-type GetBillingOveragesFilter map[string]GetBillingOveragesFilterItem
-
-func (s *GetBillingOveragesFilter) init() GetBillingOveragesFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetBillingOveragesFilterItem{}
-		*s = m
-	}
-	return m
-}
-
-// GetBillingOveragesFilterItem represents sum type.
-type GetBillingOveragesFilterItem struct {
-	Type                          GetBillingOveragesFilterItemType // switch on this field
-	String                        string
-	StringArray                   []string
-	GetBillingOveragesFilterItem2 GetBillingOveragesFilterItem2
-}
-
-// GetBillingOveragesFilterItemType is oneOf type of GetBillingOveragesFilterItem.
-type GetBillingOveragesFilterItemType string
-
-// Possible values for GetBillingOveragesFilterItemType.
-const (
-	StringGetBillingOveragesFilterItem                        GetBillingOveragesFilterItemType = "string"
-	StringArrayGetBillingOveragesFilterItem                   GetBillingOveragesFilterItemType = "[]string"
-	GetBillingOveragesFilterItem2GetBillingOveragesFilterItem GetBillingOveragesFilterItemType = "GetBillingOveragesFilterItem2"
-)
-
-// IsString reports whether GetBillingOveragesFilterItem is string.
-func (s GetBillingOveragesFilterItem) IsString() bool {
-	return s.Type == StringGetBillingOveragesFilterItem
-}
-
-// IsStringArray reports whether GetBillingOveragesFilterItem is []string.
-func (s GetBillingOveragesFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetBillingOveragesFilterItem
-}
-
-// IsGetBillingOveragesFilterItem2 reports whether GetBillingOveragesFilterItem is GetBillingOveragesFilterItem2.
-func (s GetBillingOveragesFilterItem) IsGetBillingOveragesFilterItem2() bool {
-	return s.Type == GetBillingOveragesFilterItem2GetBillingOveragesFilterItem
-}
-
-// SetString sets GetBillingOveragesFilterItem to string.
-func (s *GetBillingOveragesFilterItem) SetString(v string) {
-	s.Type = StringGetBillingOveragesFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetBillingOveragesFilterItem is string.
-func (s GetBillingOveragesFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetBillingOveragesFilterItem returns new GetBillingOveragesFilterItem from string.
-func NewStringGetBillingOveragesFilterItem(v string) GetBillingOveragesFilterItem {
-	var s GetBillingOveragesFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetBillingOveragesFilterItem to []string.
-func (s *GetBillingOveragesFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetBillingOveragesFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetBillingOveragesFilterItem is []string.
-func (s GetBillingOveragesFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetBillingOveragesFilterItem returns new GetBillingOveragesFilterItem from []string.
-func NewStringArrayGetBillingOveragesFilterItem(v []string) GetBillingOveragesFilterItem {
-	var s GetBillingOveragesFilterItem
-	s.SetStringArray(v)
-	return s
-}
-
-// SetGetBillingOveragesFilterItem2 sets GetBillingOveragesFilterItem to GetBillingOveragesFilterItem2.
-func (s *GetBillingOveragesFilterItem) SetGetBillingOveragesFilterItem2(v GetBillingOveragesFilterItem2) {
-	s.Type = GetBillingOveragesFilterItem2GetBillingOveragesFilterItem
-	s.GetBillingOveragesFilterItem2 = v
-}
-
-// GetGetBillingOveragesFilterItem2 returns GetBillingOveragesFilterItem2 and true boolean if GetBillingOveragesFilterItem is GetBillingOveragesFilterItem2.
-func (s GetBillingOveragesFilterItem) GetGetBillingOveragesFilterItem2() (v GetBillingOveragesFilterItem2, ok bool) {
-	if !s.IsGetBillingOveragesFilterItem2() {
-		return v, false
-	}
-	return s.GetBillingOveragesFilterItem2, true
-}
-
-// NewGetBillingOveragesFilterItem2GetBillingOveragesFilterItem returns new GetBillingOveragesFilterItem from GetBillingOveragesFilterItem2.
-func NewGetBillingOveragesFilterItem2GetBillingOveragesFilterItem(v GetBillingOveragesFilterItem2) GetBillingOveragesFilterItem {
-	var s GetBillingOveragesFilterItem
-	s.SetGetBillingOveragesFilterItem2(v)
-	return s
-}
-
-type GetBillingOveragesFilterItem2 map[string]string
-
-func (s *GetBillingOveragesFilterItem2) init() GetBillingOveragesFilterItem2 {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
+type GetBillingOveragesFilter struct{}
 
 type GetBillingOveragesOK struct {
 	Data []Overage `json:"data"`
@@ -17465,123 +16711,7 @@ func (s *GetBillingServiceOK) SetData(val OptService) {
 	s.Data = val
 }
 
-type GetBillingServicesFilter map[string]GetBillingServicesFilterItem
-
-func (s *GetBillingServicesFilter) init() GetBillingServicesFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetBillingServicesFilterItem{}
-		*s = m
-	}
-	return m
-}
-
-// GetBillingServicesFilterItem represents sum type.
-type GetBillingServicesFilterItem struct {
-	Type                          GetBillingServicesFilterItemType // switch on this field
-	String                        string
-	StringArray                   []string
-	GetBillingServicesFilterItem2 GetBillingServicesFilterItem2
-}
-
-// GetBillingServicesFilterItemType is oneOf type of GetBillingServicesFilterItem.
-type GetBillingServicesFilterItemType string
-
-// Possible values for GetBillingServicesFilterItemType.
-const (
-	StringGetBillingServicesFilterItem                        GetBillingServicesFilterItemType = "string"
-	StringArrayGetBillingServicesFilterItem                   GetBillingServicesFilterItemType = "[]string"
-	GetBillingServicesFilterItem2GetBillingServicesFilterItem GetBillingServicesFilterItemType = "GetBillingServicesFilterItem2"
-)
-
-// IsString reports whether GetBillingServicesFilterItem is string.
-func (s GetBillingServicesFilterItem) IsString() bool {
-	return s.Type == StringGetBillingServicesFilterItem
-}
-
-// IsStringArray reports whether GetBillingServicesFilterItem is []string.
-func (s GetBillingServicesFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetBillingServicesFilterItem
-}
-
-// IsGetBillingServicesFilterItem2 reports whether GetBillingServicesFilterItem is GetBillingServicesFilterItem2.
-func (s GetBillingServicesFilterItem) IsGetBillingServicesFilterItem2() bool {
-	return s.Type == GetBillingServicesFilterItem2GetBillingServicesFilterItem
-}
-
-// SetString sets GetBillingServicesFilterItem to string.
-func (s *GetBillingServicesFilterItem) SetString(v string) {
-	s.Type = StringGetBillingServicesFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetBillingServicesFilterItem is string.
-func (s GetBillingServicesFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetBillingServicesFilterItem returns new GetBillingServicesFilterItem from string.
-func NewStringGetBillingServicesFilterItem(v string) GetBillingServicesFilterItem {
-	var s GetBillingServicesFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetBillingServicesFilterItem to []string.
-func (s *GetBillingServicesFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetBillingServicesFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetBillingServicesFilterItem is []string.
-func (s GetBillingServicesFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetBillingServicesFilterItem returns new GetBillingServicesFilterItem from []string.
-func NewStringArrayGetBillingServicesFilterItem(v []string) GetBillingServicesFilterItem {
-	var s GetBillingServicesFilterItem
-	s.SetStringArray(v)
-	return s
-}
-
-// SetGetBillingServicesFilterItem2 sets GetBillingServicesFilterItem to GetBillingServicesFilterItem2.
-func (s *GetBillingServicesFilterItem) SetGetBillingServicesFilterItem2(v GetBillingServicesFilterItem2) {
-	s.Type = GetBillingServicesFilterItem2GetBillingServicesFilterItem
-	s.GetBillingServicesFilterItem2 = v
-}
-
-// GetGetBillingServicesFilterItem2 returns GetBillingServicesFilterItem2 and true boolean if GetBillingServicesFilterItem is GetBillingServicesFilterItem2.
-func (s GetBillingServicesFilterItem) GetGetBillingServicesFilterItem2() (v GetBillingServicesFilterItem2, ok bool) {
-	if !s.IsGetBillingServicesFilterItem2() {
-		return v, false
-	}
-	return s.GetBillingServicesFilterItem2, true
-}
-
-// NewGetBillingServicesFilterItem2GetBillingServicesFilterItem returns new GetBillingServicesFilterItem from GetBillingServicesFilterItem2.
-func NewGetBillingServicesFilterItem2GetBillingServicesFilterItem(v GetBillingServicesFilterItem2) GetBillingServicesFilterItem {
-	var s GetBillingServicesFilterItem
-	s.SetGetBillingServicesFilterItem2(v)
-	return s
-}
-
-type GetBillingServicesFilterItem2 map[string]string
-
-func (s *GetBillingServicesFilterItem2) init() GetBillingServicesFilterItem2 {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
+type GetBillingServicesFilter struct{}
 
 type GetBillingServicesOK struct {
 	Data []Service `json:"data"`
@@ -17624,123 +16754,7 @@ func (s *GetBillingServicesPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
-type GetBillingSupportPlansFilter map[string]GetBillingSupportPlansFilterItem
-
-func (s *GetBillingSupportPlansFilter) init() GetBillingSupportPlansFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetBillingSupportPlansFilterItem{}
-		*s = m
-	}
-	return m
-}
-
-// GetBillingSupportPlansFilterItem represents sum type.
-type GetBillingSupportPlansFilterItem struct {
-	Type                              GetBillingSupportPlansFilterItemType // switch on this field
-	String                            string
-	StringArray                       []string
-	GetBillingSupportPlansFilterItem2 GetBillingSupportPlansFilterItem2
-}
-
-// GetBillingSupportPlansFilterItemType is oneOf type of GetBillingSupportPlansFilterItem.
-type GetBillingSupportPlansFilterItemType string
-
-// Possible values for GetBillingSupportPlansFilterItemType.
-const (
-	StringGetBillingSupportPlansFilterItem                            GetBillingSupportPlansFilterItemType = "string"
-	StringArrayGetBillingSupportPlansFilterItem                       GetBillingSupportPlansFilterItemType = "[]string"
-	GetBillingSupportPlansFilterItem2GetBillingSupportPlansFilterItem GetBillingSupportPlansFilterItemType = "GetBillingSupportPlansFilterItem2"
-)
-
-// IsString reports whether GetBillingSupportPlansFilterItem is string.
-func (s GetBillingSupportPlansFilterItem) IsString() bool {
-	return s.Type == StringGetBillingSupportPlansFilterItem
-}
-
-// IsStringArray reports whether GetBillingSupportPlansFilterItem is []string.
-func (s GetBillingSupportPlansFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetBillingSupportPlansFilterItem
-}
-
-// IsGetBillingSupportPlansFilterItem2 reports whether GetBillingSupportPlansFilterItem is GetBillingSupportPlansFilterItem2.
-func (s GetBillingSupportPlansFilterItem) IsGetBillingSupportPlansFilterItem2() bool {
-	return s.Type == GetBillingSupportPlansFilterItem2GetBillingSupportPlansFilterItem
-}
-
-// SetString sets GetBillingSupportPlansFilterItem to string.
-func (s *GetBillingSupportPlansFilterItem) SetString(v string) {
-	s.Type = StringGetBillingSupportPlansFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetBillingSupportPlansFilterItem is string.
-func (s GetBillingSupportPlansFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetBillingSupportPlansFilterItem returns new GetBillingSupportPlansFilterItem from string.
-func NewStringGetBillingSupportPlansFilterItem(v string) GetBillingSupportPlansFilterItem {
-	var s GetBillingSupportPlansFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetBillingSupportPlansFilterItem to []string.
-func (s *GetBillingSupportPlansFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetBillingSupportPlansFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetBillingSupportPlansFilterItem is []string.
-func (s GetBillingSupportPlansFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetBillingSupportPlansFilterItem returns new GetBillingSupportPlansFilterItem from []string.
-func NewStringArrayGetBillingSupportPlansFilterItem(v []string) GetBillingSupportPlansFilterItem {
-	var s GetBillingSupportPlansFilterItem
-	s.SetStringArray(v)
-	return s
-}
-
-// SetGetBillingSupportPlansFilterItem2 sets GetBillingSupportPlansFilterItem to GetBillingSupportPlansFilterItem2.
-func (s *GetBillingSupportPlansFilterItem) SetGetBillingSupportPlansFilterItem2(v GetBillingSupportPlansFilterItem2) {
-	s.Type = GetBillingSupportPlansFilterItem2GetBillingSupportPlansFilterItem
-	s.GetBillingSupportPlansFilterItem2 = v
-}
-
-// GetGetBillingSupportPlansFilterItem2 returns GetBillingSupportPlansFilterItem2 and true boolean if GetBillingSupportPlansFilterItem is GetBillingSupportPlansFilterItem2.
-func (s GetBillingSupportPlansFilterItem) GetGetBillingSupportPlansFilterItem2() (v GetBillingSupportPlansFilterItem2, ok bool) {
-	if !s.IsGetBillingSupportPlansFilterItem2() {
-		return v, false
-	}
-	return s.GetBillingSupportPlansFilterItem2, true
-}
-
-// NewGetBillingSupportPlansFilterItem2GetBillingSupportPlansFilterItem returns new GetBillingSupportPlansFilterItem from GetBillingSupportPlansFilterItem2.
-func NewGetBillingSupportPlansFilterItem2GetBillingSupportPlansFilterItem(v GetBillingSupportPlansFilterItem2) GetBillingSupportPlansFilterItem {
-	var s GetBillingSupportPlansFilterItem
-	s.SetGetBillingSupportPlansFilterItem2(v)
-	return s
-}
-
-type GetBillingSupportPlansFilterItem2 map[string]string
-
-func (s *GetBillingSupportPlansFilterItem2) init() GetBillingSupportPlansFilterItem2 {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
+type GetBillingSupportPlansFilter struct{}
 
 type GetBillingSupportPlansOK struct {
 	Data []SupportPlan `json:"data"`
@@ -18068,83 +17082,31 @@ func (s *GetContainerInstanceVolumesPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
-type GetContainerInstancesTelemetryFilter map[string]GetContainerInstancesTelemetryFilterItem
-
-func (s *GetContainerInstancesTelemetryFilter) init() GetContainerInstancesTelemetryFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetContainerInstancesTelemetryFilterItem{}
-		*s = m
-	}
-	return m
+type GetContainerInstancesTelemetryFilter struct {
+	// The start date from when to pull instance telemetry data.
+	RangeMinusStart OptDateTime `json:"range-start"`
+	// The end date from when to pull instance telemetry data.
+	RangeMinusEnd OptDateTime `json:"range-end"`
 }
 
-// GetContainerInstancesTelemetryFilterItem represents sum type.
-type GetContainerInstancesTelemetryFilterItem struct {
-	Type        GetContainerInstancesTelemetryFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetRangeMinusStart returns the value of RangeMinusStart.
+func (s *GetContainerInstancesTelemetryFilter) GetRangeMinusStart() OptDateTime {
+	return s.RangeMinusStart
 }
 
-// GetContainerInstancesTelemetryFilterItemType is oneOf type of GetContainerInstancesTelemetryFilterItem.
-type GetContainerInstancesTelemetryFilterItemType string
-
-// Possible values for GetContainerInstancesTelemetryFilterItemType.
-const (
-	StringGetContainerInstancesTelemetryFilterItem      GetContainerInstancesTelemetryFilterItemType = "string"
-	StringArrayGetContainerInstancesTelemetryFilterItem GetContainerInstancesTelemetryFilterItemType = "[]string"
-)
-
-// IsString reports whether GetContainerInstancesTelemetryFilterItem is string.
-func (s GetContainerInstancesTelemetryFilterItem) IsString() bool {
-	return s.Type == StringGetContainerInstancesTelemetryFilterItem
+// GetRangeMinusEnd returns the value of RangeMinusEnd.
+func (s *GetContainerInstancesTelemetryFilter) GetRangeMinusEnd() OptDateTime {
+	return s.RangeMinusEnd
 }
 
-// IsStringArray reports whether GetContainerInstancesTelemetryFilterItem is []string.
-func (s GetContainerInstancesTelemetryFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetContainerInstancesTelemetryFilterItem
+// SetRangeMinusStart sets the value of RangeMinusStart.
+func (s *GetContainerInstancesTelemetryFilter) SetRangeMinusStart(val OptDateTime) {
+	s.RangeMinusStart = val
 }
 
-// SetString sets GetContainerInstancesTelemetryFilterItem to string.
-func (s *GetContainerInstancesTelemetryFilterItem) SetString(v string) {
-	s.Type = StringGetContainerInstancesTelemetryFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetContainerInstancesTelemetryFilterItem is string.
-func (s GetContainerInstancesTelemetryFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetContainerInstancesTelemetryFilterItem returns new GetContainerInstancesTelemetryFilterItem from string.
-func NewStringGetContainerInstancesTelemetryFilterItem(v string) GetContainerInstancesTelemetryFilterItem {
-	var s GetContainerInstancesTelemetryFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetContainerInstancesTelemetryFilterItem to []string.
-func (s *GetContainerInstancesTelemetryFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetContainerInstancesTelemetryFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetContainerInstancesTelemetryFilterItem is []string.
-func (s GetContainerInstancesTelemetryFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetContainerInstancesTelemetryFilterItem returns new GetContainerInstancesTelemetryFilterItem from []string.
-func NewStringArrayGetContainerInstancesTelemetryFilterItem(v []string) GetContainerInstancesTelemetryFilterItem {
-	var s GetContainerInstancesTelemetryFilterItem
-	s.SetStringArray(v)
-	return s
+// SetRangeMinusEnd sets the value of RangeMinusEnd.
+func (s *GetContainerInstancesTelemetryFilter) SetRangeMinusEnd(val OptDateTime) {
+	s.RangeMinusEnd = val
 }
 
 type GetContainerInstancesTelemetryOK struct {
@@ -18175,81 +17137,124 @@ func (s *GetContainerSummaryOK) SetData(val OptContainerSummary) {
 	s.Data = val
 }
 
-type GetContainersFilter map[string]GetContainersFilterItem
-
-func (s *GetContainersFilter) init() GetContainersFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetContainersFilterItem{}
-		*s = m
-	}
-	return m
+type GetContainersFilter struct {
+	// `filter[identifier]=value` List only those containers matching this identifier. May return
+	// multiple results.
+	Identifier OptString `json:"identifier"`
+	// `filter[search]=value` search containers for a value associated with a field on the given
+	// container(s).
+	Search OptString `json:"search"`
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the container's current
+	// state.
+	State OptString `json:"state"`
+	// `filter[service]=value` service filtering will allow you to filter by service type: `loadbalancer`,
+	//  `discovery`, `vpn`.
+	Service OptString `json:"service"`
+	// `filter[public_network]=value` public network filtering will allow you to filter by the containers
+	// network settings: `enabled`, `disabled`, `egress-only`.
+	PublicNetwork OptString `json:"public_network"`
+	// `filter[image]=ID` image filtering by ID.  Submit the ID of the image you wish to filter for and
+	// the return will be any containers currently using the image.
+	Image OptString `json:"image"`
+	// `filter[environment]=ID` environment filtering by ID.  Submit the ID of the environment you wish
+	// to filter for and the return will be any containers in that environment.
+	Environment OptString `json:"environment"`
+	// `filter[tags]=tagone,tagtwo,tagthree` container filtering using server tags. If the container has
+	// the tags you submit it will be part of the return.
+	Tags OptString `json:"tags"`
+	// `filter[stack]=ID` stack filtering by ID.  Submit the ID of the stack you wish to filter for and
+	// the return will be any containers deployed associated with 'containers' from the stack.
+	Stack OptString `json:"stack"`
 }
 
-// GetContainersFilterItem represents sum type.
-type GetContainersFilterItem struct {
-	Type        GetContainersFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetIdentifier returns the value of Identifier.
+func (s *GetContainersFilter) GetIdentifier() OptString {
+	return s.Identifier
 }
 
-// GetContainersFilterItemType is oneOf type of GetContainersFilterItem.
-type GetContainersFilterItemType string
-
-// Possible values for GetContainersFilterItemType.
-const (
-	StringGetContainersFilterItem      GetContainersFilterItemType = "string"
-	StringArrayGetContainersFilterItem GetContainersFilterItemType = "[]string"
-)
-
-// IsString reports whether GetContainersFilterItem is string.
-func (s GetContainersFilterItem) IsString() bool { return s.Type == StringGetContainersFilterItem }
-
-// IsStringArray reports whether GetContainersFilterItem is []string.
-func (s GetContainersFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetContainersFilterItem
+// GetSearch returns the value of Search.
+func (s *GetContainersFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// SetString sets GetContainersFilterItem to string.
-func (s *GetContainersFilterItem) SetString(v string) {
-	s.Type = StringGetContainersFilterItem
-	s.String = v
+// GetState returns the value of State.
+func (s *GetContainersFilter) GetState() OptString {
+	return s.State
 }
 
-// GetString returns string and true boolean if GetContainersFilterItem is string.
-func (s GetContainersFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
+// GetService returns the value of Service.
+func (s *GetContainersFilter) GetService() OptString {
+	return s.Service
 }
 
-// NewStringGetContainersFilterItem returns new GetContainersFilterItem from string.
-func NewStringGetContainersFilterItem(v string) GetContainersFilterItem {
-	var s GetContainersFilterItem
-	s.SetString(v)
-	return s
+// GetPublicNetwork returns the value of PublicNetwork.
+func (s *GetContainersFilter) GetPublicNetwork() OptString {
+	return s.PublicNetwork
 }
 
-// SetStringArray sets GetContainersFilterItem to []string.
-func (s *GetContainersFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetContainersFilterItem
-	s.StringArray = v
+// GetImage returns the value of Image.
+func (s *GetContainersFilter) GetImage() OptString {
+	return s.Image
 }
 
-// GetStringArray returns []string and true boolean if GetContainersFilterItem is []string.
-func (s GetContainersFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
+// GetEnvironment returns the value of Environment.
+func (s *GetContainersFilter) GetEnvironment() OptString {
+	return s.Environment
 }
 
-// NewStringArrayGetContainersFilterItem returns new GetContainersFilterItem from []string.
-func NewStringArrayGetContainersFilterItem(v []string) GetContainersFilterItem {
-	var s GetContainersFilterItem
-	s.SetStringArray(v)
-	return s
+// GetTags returns the value of Tags.
+func (s *GetContainersFilter) GetTags() OptString {
+	return s.Tags
+}
+
+// GetStack returns the value of Stack.
+func (s *GetContainersFilter) GetStack() OptString {
+	return s.Stack
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *GetContainersFilter) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetSearch sets the value of Search.
+func (s *GetContainersFilter) SetSearch(val OptString) {
+	s.Search = val
+}
+
+// SetState sets the value of State.
+func (s *GetContainersFilter) SetState(val OptString) {
+	s.State = val
+}
+
+// SetService sets the value of Service.
+func (s *GetContainersFilter) SetService(val OptString) {
+	s.Service = val
+}
+
+// SetPublicNetwork sets the value of PublicNetwork.
+func (s *GetContainersFilter) SetPublicNetwork(val OptString) {
+	s.PublicNetwork = val
+}
+
+// SetImage sets the value of Image.
+func (s *GetContainersFilter) SetImage(val OptString) {
+	s.Image = val
+}
+
+// SetEnvironment sets the value of Environment.
+func (s *GetContainersFilter) SetEnvironment(val OptString) {
+	s.Environment = val
+}
+
+// SetTags sets the value of Tags.
+func (s *GetContainersFilter) SetTags(val OptString) {
+	s.Tags = val
+}
+
+// SetStack sets the value of Stack.
+func (s *GetContainersFilter) SetStack(val OptString) {
+	s.Stack = val
 }
 
 type GetContainersIncludeItem string
@@ -18414,119 +17419,7 @@ func (s *GetCreditOK) SetData(val OptCredit) {
 	s.Data = val
 }
 
-type GetCreditsFilter map[string]GetCreditsFilterItem
-
-func (s *GetCreditsFilter) init() GetCreditsFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetCreditsFilterItem{}
-		*s = m
-	}
-	return m
-}
-
-// GetCreditsFilterItem represents sum type.
-type GetCreditsFilterItem struct {
-	Type                  GetCreditsFilterItemType // switch on this field
-	String                string
-	StringArray           []string
-	GetCreditsFilterItem2 GetCreditsFilterItem2
-}
-
-// GetCreditsFilterItemType is oneOf type of GetCreditsFilterItem.
-type GetCreditsFilterItemType string
-
-// Possible values for GetCreditsFilterItemType.
-const (
-	StringGetCreditsFilterItem                GetCreditsFilterItemType = "string"
-	StringArrayGetCreditsFilterItem           GetCreditsFilterItemType = "[]string"
-	GetCreditsFilterItem2GetCreditsFilterItem GetCreditsFilterItemType = "GetCreditsFilterItem2"
-)
-
-// IsString reports whether GetCreditsFilterItem is string.
-func (s GetCreditsFilterItem) IsString() bool { return s.Type == StringGetCreditsFilterItem }
-
-// IsStringArray reports whether GetCreditsFilterItem is []string.
-func (s GetCreditsFilterItem) IsStringArray() bool { return s.Type == StringArrayGetCreditsFilterItem }
-
-// IsGetCreditsFilterItem2 reports whether GetCreditsFilterItem is GetCreditsFilterItem2.
-func (s GetCreditsFilterItem) IsGetCreditsFilterItem2() bool {
-	return s.Type == GetCreditsFilterItem2GetCreditsFilterItem
-}
-
-// SetString sets GetCreditsFilterItem to string.
-func (s *GetCreditsFilterItem) SetString(v string) {
-	s.Type = StringGetCreditsFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetCreditsFilterItem is string.
-func (s GetCreditsFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetCreditsFilterItem returns new GetCreditsFilterItem from string.
-func NewStringGetCreditsFilterItem(v string) GetCreditsFilterItem {
-	var s GetCreditsFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetCreditsFilterItem to []string.
-func (s *GetCreditsFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetCreditsFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetCreditsFilterItem is []string.
-func (s GetCreditsFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetCreditsFilterItem returns new GetCreditsFilterItem from []string.
-func NewStringArrayGetCreditsFilterItem(v []string) GetCreditsFilterItem {
-	var s GetCreditsFilterItem
-	s.SetStringArray(v)
-	return s
-}
-
-// SetGetCreditsFilterItem2 sets GetCreditsFilterItem to GetCreditsFilterItem2.
-func (s *GetCreditsFilterItem) SetGetCreditsFilterItem2(v GetCreditsFilterItem2) {
-	s.Type = GetCreditsFilterItem2GetCreditsFilterItem
-	s.GetCreditsFilterItem2 = v
-}
-
-// GetGetCreditsFilterItem2 returns GetCreditsFilterItem2 and true boolean if GetCreditsFilterItem is GetCreditsFilterItem2.
-func (s GetCreditsFilterItem) GetGetCreditsFilterItem2() (v GetCreditsFilterItem2, ok bool) {
-	if !s.IsGetCreditsFilterItem2() {
-		return v, false
-	}
-	return s.GetCreditsFilterItem2, true
-}
-
-// NewGetCreditsFilterItem2GetCreditsFilterItem returns new GetCreditsFilterItem from GetCreditsFilterItem2.
-func NewGetCreditsFilterItem2GetCreditsFilterItem(v GetCreditsFilterItem2) GetCreditsFilterItem {
-	var s GetCreditsFilterItem
-	s.SetGetCreditsFilterItem2(v)
-	return s
-}
-
-type GetCreditsFilterItem2 map[string]string
-
-func (s *GetCreditsFilterItem2) init() GetCreditsFilterItem2 {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
+type GetCreditsFilter struct{}
 
 type GetCreditsOK struct {
 	Data []Credit `json:"data"`
@@ -18777,83 +17670,31 @@ func (s *GetEnvironmentByIdOKIncludes) SetCreators(val OptCreatorInclude) {
 	s.Creators = val
 }
 
-type GetEnvironmentInstancesTelemetryFilter map[string]GetEnvironmentInstancesTelemetryFilterItem
-
-func (s *GetEnvironmentInstancesTelemetryFilter) init() GetEnvironmentInstancesTelemetryFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetEnvironmentInstancesTelemetryFilterItem{}
-		*s = m
-	}
-	return m
+type GetEnvironmentInstancesTelemetryFilter struct {
+	// The start date from when to pull instance telemetry data.
+	RangeMinusStart OptDateTime `json:"range-start"`
+	// The end date from when to pull instance telemetry data.
+	RangeMinusEnd OptDateTime `json:"range-end"`
 }
 
-// GetEnvironmentInstancesTelemetryFilterItem represents sum type.
-type GetEnvironmentInstancesTelemetryFilterItem struct {
-	Type        GetEnvironmentInstancesTelemetryFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetRangeMinusStart returns the value of RangeMinusStart.
+func (s *GetEnvironmentInstancesTelemetryFilter) GetRangeMinusStart() OptDateTime {
+	return s.RangeMinusStart
 }
 
-// GetEnvironmentInstancesTelemetryFilterItemType is oneOf type of GetEnvironmentInstancesTelemetryFilterItem.
-type GetEnvironmentInstancesTelemetryFilterItemType string
-
-// Possible values for GetEnvironmentInstancesTelemetryFilterItemType.
-const (
-	StringGetEnvironmentInstancesTelemetryFilterItem      GetEnvironmentInstancesTelemetryFilterItemType = "string"
-	StringArrayGetEnvironmentInstancesTelemetryFilterItem GetEnvironmentInstancesTelemetryFilterItemType = "[]string"
-)
-
-// IsString reports whether GetEnvironmentInstancesTelemetryFilterItem is string.
-func (s GetEnvironmentInstancesTelemetryFilterItem) IsString() bool {
-	return s.Type == StringGetEnvironmentInstancesTelemetryFilterItem
+// GetRangeMinusEnd returns the value of RangeMinusEnd.
+func (s *GetEnvironmentInstancesTelemetryFilter) GetRangeMinusEnd() OptDateTime {
+	return s.RangeMinusEnd
 }
 
-// IsStringArray reports whether GetEnvironmentInstancesTelemetryFilterItem is []string.
-func (s GetEnvironmentInstancesTelemetryFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetEnvironmentInstancesTelemetryFilterItem
+// SetRangeMinusStart sets the value of RangeMinusStart.
+func (s *GetEnvironmentInstancesTelemetryFilter) SetRangeMinusStart(val OptDateTime) {
+	s.RangeMinusStart = val
 }
 
-// SetString sets GetEnvironmentInstancesTelemetryFilterItem to string.
-func (s *GetEnvironmentInstancesTelemetryFilterItem) SetString(v string) {
-	s.Type = StringGetEnvironmentInstancesTelemetryFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetEnvironmentInstancesTelemetryFilterItem is string.
-func (s GetEnvironmentInstancesTelemetryFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetEnvironmentInstancesTelemetryFilterItem returns new GetEnvironmentInstancesTelemetryFilterItem from string.
-func NewStringGetEnvironmentInstancesTelemetryFilterItem(v string) GetEnvironmentInstancesTelemetryFilterItem {
-	var s GetEnvironmentInstancesTelemetryFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetEnvironmentInstancesTelemetryFilterItem to []string.
-func (s *GetEnvironmentInstancesTelemetryFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetEnvironmentInstancesTelemetryFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetEnvironmentInstancesTelemetryFilterItem is []string.
-func (s GetEnvironmentInstancesTelemetryFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetEnvironmentInstancesTelemetryFilterItem returns new GetEnvironmentInstancesTelemetryFilterItem from []string.
-func NewStringArrayGetEnvironmentInstancesTelemetryFilterItem(v []string) GetEnvironmentInstancesTelemetryFilterItem {
-	var s GetEnvironmentInstancesTelemetryFilterItem
-	s.SetStringArray(v)
-	return s
+// SetRangeMinusEnd sets the value of RangeMinusEnd.
+func (s *GetEnvironmentInstancesTelemetryFilter) SetRangeMinusEnd(val OptDateTime) {
+	s.RangeMinusEnd = val
 }
 
 type GetEnvironmentInstancesTelemetryOK struct {
@@ -18884,81 +17725,58 @@ func (s *GetEnvironmentSummaryOK) SetData(val OptEnvironmentSummary) {
 	s.Data = val
 }
 
-type GetEnvironmentsFilter map[string]GetEnvironmentsFilterItem
-
-func (s *GetEnvironmentsFilter) init() GetEnvironmentsFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetEnvironmentsFilterItem{}
-		*s = m
-	}
-	return m
+type GetEnvironmentsFilter struct {
+	// `filter[identifier]=value` List only those environments matching this identifier. May return
+	// multiple results.
+	Identifier OptString `json:"identifier"`
+	// `filter[search]=value` search for a value associated with a field on the given environment(s).
+	Search OptString `json:"search"`
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the environment's
+	// current state.
+	State OptString `json:"state"`
+	// `filter[stack_build]=ID` stack build filtering by ID.  Submit the ID of the stack build you wish
+	// to filter for and the return sill be any environments that have the stack build deployed to them.
+	StackBuild OptString `json:"stack_build"`
 }
 
-// GetEnvironmentsFilterItem represents sum type.
-type GetEnvironmentsFilterItem struct {
-	Type        GetEnvironmentsFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetIdentifier returns the value of Identifier.
+func (s *GetEnvironmentsFilter) GetIdentifier() OptString {
+	return s.Identifier
 }
 
-// GetEnvironmentsFilterItemType is oneOf type of GetEnvironmentsFilterItem.
-type GetEnvironmentsFilterItemType string
-
-// Possible values for GetEnvironmentsFilterItemType.
-const (
-	StringGetEnvironmentsFilterItem      GetEnvironmentsFilterItemType = "string"
-	StringArrayGetEnvironmentsFilterItem GetEnvironmentsFilterItemType = "[]string"
-)
-
-// IsString reports whether GetEnvironmentsFilterItem is string.
-func (s GetEnvironmentsFilterItem) IsString() bool { return s.Type == StringGetEnvironmentsFilterItem }
-
-// IsStringArray reports whether GetEnvironmentsFilterItem is []string.
-func (s GetEnvironmentsFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetEnvironmentsFilterItem
+// GetSearch returns the value of Search.
+func (s *GetEnvironmentsFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// SetString sets GetEnvironmentsFilterItem to string.
-func (s *GetEnvironmentsFilterItem) SetString(v string) {
-	s.Type = StringGetEnvironmentsFilterItem
-	s.String = v
+// GetState returns the value of State.
+func (s *GetEnvironmentsFilter) GetState() OptString {
+	return s.State
 }
 
-// GetString returns string and true boolean if GetEnvironmentsFilterItem is string.
-func (s GetEnvironmentsFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
+// GetStackBuild returns the value of StackBuild.
+func (s *GetEnvironmentsFilter) GetStackBuild() OptString {
+	return s.StackBuild
 }
 
-// NewStringGetEnvironmentsFilterItem returns new GetEnvironmentsFilterItem from string.
-func NewStringGetEnvironmentsFilterItem(v string) GetEnvironmentsFilterItem {
-	var s GetEnvironmentsFilterItem
-	s.SetString(v)
-	return s
+// SetIdentifier sets the value of Identifier.
+func (s *GetEnvironmentsFilter) SetIdentifier(val OptString) {
+	s.Identifier = val
 }
 
-// SetStringArray sets GetEnvironmentsFilterItem to []string.
-func (s *GetEnvironmentsFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetEnvironmentsFilterItem
-	s.StringArray = v
+// SetSearch sets the value of Search.
+func (s *GetEnvironmentsFilter) SetSearch(val OptString) {
+	s.Search = val
 }
 
-// GetStringArray returns []string and true boolean if GetEnvironmentsFilterItem is []string.
-func (s GetEnvironmentsFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
+// SetState sets the value of State.
+func (s *GetEnvironmentsFilter) SetState(val OptString) {
+	s.State = val
 }
 
-// NewStringArrayGetEnvironmentsFilterItem returns new GetEnvironmentsFilterItem from []string.
-func NewStringArrayGetEnvironmentsFilterItem(v []string) GetEnvironmentsFilterItem {
-	var s GetEnvironmentsFilterItem
-	s.SetStringArray(v)
-	return s
+// SetStackBuild sets the value of StackBuild.
+func (s *GetEnvironmentsFilter) SetStackBuild(val OptString) {
+	s.StackBuild = val
 }
 
 type GetEnvironmentsIncludeItem string
@@ -19099,81 +17917,126 @@ func (s *GetEnvironmentsPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
-type GetHubActivityFilter map[string]GetHubActivityFilterItem
-
-func (s *GetHubActivityFilter) init() GetHubActivityFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetHubActivityFilterItem{}
-		*s = m
-	}
-	return m
+type GetHubActivityFilter struct {
+	// `filter[search]=value` search activities for a value associated with a field on the given
+	// activity(s).
+	Search OptString `json:"search"`
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the activity's current
+	// state.
+	State OptString `json:"state"`
+	// `filter[user]=ID` user filtering by ID. Submit the ID of the user you wish to filter for and the
+	// return will be any activity from that user.
+	User OptString `json:"user"`
+	// `filter[environment]=ID` environment filtering by ID. Submit the ID of the environment you wish to
+	// filter for and the return will be any activity from that environment.
+	Environment OptString `json:"environment"`
+	// `filter[container]=ID` container filtering by ID. Submit the ID of the container you wish to
+	// filter for and the return will be any activity from that container.
+	Container OptString `json:"container"`
+	// `filter[instance]=ID` instance filtering by ID. Submit the ID of the instance you wish to filter
+	// for and the return will be any activity from that instance.
+	Instance OptString `json:"instance"`
+	// `filter[server]=ID` server filtering by ID. Submit the ID of the server you wish to filter for and
+	// the return will be any activity from that server.
+	Server OptString `json:"server"`
+	// `filter[event]=value` filter by event occurrence. Example: `filter[event]=environment.services.vpn.
+	// login`.
+	Event OptString `json:"event"`
+	// `filter[verbosity]=integer` filter the activity return by verbosity. The verbosity can be:
+	// `0` - Activity that users would find useful.
+	// `1` - Activity that can be useful when tracking down how something happened.
+	// `2` - Full activity, can be useful in debugging problems.
+	Verbosity OptInt `json:"verbosity"`
 }
 
-// GetHubActivityFilterItem represents sum type.
-type GetHubActivityFilterItem struct {
-	Type        GetHubActivityFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetSearch returns the value of Search.
+func (s *GetHubActivityFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// GetHubActivityFilterItemType is oneOf type of GetHubActivityFilterItem.
-type GetHubActivityFilterItemType string
-
-// Possible values for GetHubActivityFilterItemType.
-const (
-	StringGetHubActivityFilterItem      GetHubActivityFilterItemType = "string"
-	StringArrayGetHubActivityFilterItem GetHubActivityFilterItemType = "[]string"
-)
-
-// IsString reports whether GetHubActivityFilterItem is string.
-func (s GetHubActivityFilterItem) IsString() bool { return s.Type == StringGetHubActivityFilterItem }
-
-// IsStringArray reports whether GetHubActivityFilterItem is []string.
-func (s GetHubActivityFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetHubActivityFilterItem
+// GetState returns the value of State.
+func (s *GetHubActivityFilter) GetState() OptString {
+	return s.State
 }
 
-// SetString sets GetHubActivityFilterItem to string.
-func (s *GetHubActivityFilterItem) SetString(v string) {
-	s.Type = StringGetHubActivityFilterItem
-	s.String = v
+// GetUser returns the value of User.
+func (s *GetHubActivityFilter) GetUser() OptString {
+	return s.User
 }
 
-// GetString returns string and true boolean if GetHubActivityFilterItem is string.
-func (s GetHubActivityFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
+// GetEnvironment returns the value of Environment.
+func (s *GetHubActivityFilter) GetEnvironment() OptString {
+	return s.Environment
 }
 
-// NewStringGetHubActivityFilterItem returns new GetHubActivityFilterItem from string.
-func NewStringGetHubActivityFilterItem(v string) GetHubActivityFilterItem {
-	var s GetHubActivityFilterItem
-	s.SetString(v)
-	return s
+// GetContainer returns the value of Container.
+func (s *GetHubActivityFilter) GetContainer() OptString {
+	return s.Container
 }
 
-// SetStringArray sets GetHubActivityFilterItem to []string.
-func (s *GetHubActivityFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetHubActivityFilterItem
-	s.StringArray = v
+// GetInstance returns the value of Instance.
+func (s *GetHubActivityFilter) GetInstance() OptString {
+	return s.Instance
 }
 
-// GetStringArray returns []string and true boolean if GetHubActivityFilterItem is []string.
-func (s GetHubActivityFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
+// GetServer returns the value of Server.
+func (s *GetHubActivityFilter) GetServer() OptString {
+	return s.Server
 }
 
-// NewStringArrayGetHubActivityFilterItem returns new GetHubActivityFilterItem from []string.
-func NewStringArrayGetHubActivityFilterItem(v []string) GetHubActivityFilterItem {
-	var s GetHubActivityFilterItem
-	s.SetStringArray(v)
-	return s
+// GetEvent returns the value of Event.
+func (s *GetHubActivityFilter) GetEvent() OptString {
+	return s.Event
+}
+
+// GetVerbosity returns the value of Verbosity.
+func (s *GetHubActivityFilter) GetVerbosity() OptInt {
+	return s.Verbosity
+}
+
+// SetSearch sets the value of Search.
+func (s *GetHubActivityFilter) SetSearch(val OptString) {
+	s.Search = val
+}
+
+// SetState sets the value of State.
+func (s *GetHubActivityFilter) SetState(val OptString) {
+	s.State = val
+}
+
+// SetUser sets the value of User.
+func (s *GetHubActivityFilter) SetUser(val OptString) {
+	s.User = val
+}
+
+// SetEnvironment sets the value of Environment.
+func (s *GetHubActivityFilter) SetEnvironment(val OptString) {
+	s.Environment = val
+}
+
+// SetContainer sets the value of Container.
+func (s *GetHubActivityFilter) SetContainer(val OptString) {
+	s.Container = val
+}
+
+// SetInstance sets the value of Instance.
+func (s *GetHubActivityFilter) SetInstance(val OptString) {
+	s.Instance = val
+}
+
+// SetServer sets the value of Server.
+func (s *GetHubActivityFilter) SetServer(val OptString) {
+	s.Server = val
+}
+
+// SetEvent sets the value of Event.
+func (s *GetHubActivityFilter) SetEvent(val OptString) {
+	s.Event = val
+}
+
+// SetVerbosity sets the value of Verbosity.
+func (s *GetHubActivityFilter) SetVerbosity(val OptInt) {
+	s.Verbosity = val
 }
 
 type GetHubActivityIncludeItem string
@@ -19305,121 +18168,7 @@ func (s *GetHubCapabilitiesOK) SetData(val []Capability) {
 	s.Data = val
 }
 
-type GetHubInvitesFilter map[string]GetHubInvitesFilterItem
-
-func (s *GetHubInvitesFilter) init() GetHubInvitesFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetHubInvitesFilterItem{}
-		*s = m
-	}
-	return m
-}
-
-// GetHubInvitesFilterItem represents sum type.
-type GetHubInvitesFilterItem struct {
-	Type                     GetHubInvitesFilterItemType // switch on this field
-	String                   string
-	StringArray              []string
-	GetHubInvitesFilterItem2 GetHubInvitesFilterItem2
-}
-
-// GetHubInvitesFilterItemType is oneOf type of GetHubInvitesFilterItem.
-type GetHubInvitesFilterItemType string
-
-// Possible values for GetHubInvitesFilterItemType.
-const (
-	StringGetHubInvitesFilterItem                   GetHubInvitesFilterItemType = "string"
-	StringArrayGetHubInvitesFilterItem              GetHubInvitesFilterItemType = "[]string"
-	GetHubInvitesFilterItem2GetHubInvitesFilterItem GetHubInvitesFilterItemType = "GetHubInvitesFilterItem2"
-)
-
-// IsString reports whether GetHubInvitesFilterItem is string.
-func (s GetHubInvitesFilterItem) IsString() bool { return s.Type == StringGetHubInvitesFilterItem }
-
-// IsStringArray reports whether GetHubInvitesFilterItem is []string.
-func (s GetHubInvitesFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetHubInvitesFilterItem
-}
-
-// IsGetHubInvitesFilterItem2 reports whether GetHubInvitesFilterItem is GetHubInvitesFilterItem2.
-func (s GetHubInvitesFilterItem) IsGetHubInvitesFilterItem2() bool {
-	return s.Type == GetHubInvitesFilterItem2GetHubInvitesFilterItem
-}
-
-// SetString sets GetHubInvitesFilterItem to string.
-func (s *GetHubInvitesFilterItem) SetString(v string) {
-	s.Type = StringGetHubInvitesFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetHubInvitesFilterItem is string.
-func (s GetHubInvitesFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetHubInvitesFilterItem returns new GetHubInvitesFilterItem from string.
-func NewStringGetHubInvitesFilterItem(v string) GetHubInvitesFilterItem {
-	var s GetHubInvitesFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetHubInvitesFilterItem to []string.
-func (s *GetHubInvitesFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetHubInvitesFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetHubInvitesFilterItem is []string.
-func (s GetHubInvitesFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetHubInvitesFilterItem returns new GetHubInvitesFilterItem from []string.
-func NewStringArrayGetHubInvitesFilterItem(v []string) GetHubInvitesFilterItem {
-	var s GetHubInvitesFilterItem
-	s.SetStringArray(v)
-	return s
-}
-
-// SetGetHubInvitesFilterItem2 sets GetHubInvitesFilterItem to GetHubInvitesFilterItem2.
-func (s *GetHubInvitesFilterItem) SetGetHubInvitesFilterItem2(v GetHubInvitesFilterItem2) {
-	s.Type = GetHubInvitesFilterItem2GetHubInvitesFilterItem
-	s.GetHubInvitesFilterItem2 = v
-}
-
-// GetGetHubInvitesFilterItem2 returns GetHubInvitesFilterItem2 and true boolean if GetHubInvitesFilterItem is GetHubInvitesFilterItem2.
-func (s GetHubInvitesFilterItem) GetGetHubInvitesFilterItem2() (v GetHubInvitesFilterItem2, ok bool) {
-	if !s.IsGetHubInvitesFilterItem2() {
-		return v, false
-	}
-	return s.GetHubInvitesFilterItem2, true
-}
-
-// NewGetHubInvitesFilterItem2GetHubInvitesFilterItem returns new GetHubInvitesFilterItem from GetHubInvitesFilterItem2.
-func NewGetHubInvitesFilterItem2GetHubInvitesFilterItem(v GetHubInvitesFilterItem2) GetHubInvitesFilterItem {
-	var s GetHubInvitesFilterItem
-	s.SetGetHubInvitesFilterItem2(v)
-	return s
-}
-
-type GetHubInvitesFilterItem2 map[string]string
-
-func (s *GetHubInvitesFilterItem2) init() GetHubInvitesFilterItem2 {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
+type GetHubInvitesFilter struct{}
 
 type GetHubInvitesIncludeItem string
 
@@ -19694,121 +18443,7 @@ func (s *GetHubMembersAccountOK) SetIncludes(val OptHubMembershipIncludes) {
 	s.Includes = val
 }
 
-type GetHubMembersFilter map[string]GetHubMembersFilterItem
-
-func (s *GetHubMembersFilter) init() GetHubMembersFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetHubMembersFilterItem{}
-		*s = m
-	}
-	return m
-}
-
-// GetHubMembersFilterItem represents sum type.
-type GetHubMembersFilterItem struct {
-	Type                     GetHubMembersFilterItemType // switch on this field
-	String                   string
-	StringArray              []string
-	GetHubMembersFilterItem2 GetHubMembersFilterItem2
-}
-
-// GetHubMembersFilterItemType is oneOf type of GetHubMembersFilterItem.
-type GetHubMembersFilterItemType string
-
-// Possible values for GetHubMembersFilterItemType.
-const (
-	StringGetHubMembersFilterItem                   GetHubMembersFilterItemType = "string"
-	StringArrayGetHubMembersFilterItem              GetHubMembersFilterItemType = "[]string"
-	GetHubMembersFilterItem2GetHubMembersFilterItem GetHubMembersFilterItemType = "GetHubMembersFilterItem2"
-)
-
-// IsString reports whether GetHubMembersFilterItem is string.
-func (s GetHubMembersFilterItem) IsString() bool { return s.Type == StringGetHubMembersFilterItem }
-
-// IsStringArray reports whether GetHubMembersFilterItem is []string.
-func (s GetHubMembersFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetHubMembersFilterItem
-}
-
-// IsGetHubMembersFilterItem2 reports whether GetHubMembersFilterItem is GetHubMembersFilterItem2.
-func (s GetHubMembersFilterItem) IsGetHubMembersFilterItem2() bool {
-	return s.Type == GetHubMembersFilterItem2GetHubMembersFilterItem
-}
-
-// SetString sets GetHubMembersFilterItem to string.
-func (s *GetHubMembersFilterItem) SetString(v string) {
-	s.Type = StringGetHubMembersFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetHubMembersFilterItem is string.
-func (s GetHubMembersFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetHubMembersFilterItem returns new GetHubMembersFilterItem from string.
-func NewStringGetHubMembersFilterItem(v string) GetHubMembersFilterItem {
-	var s GetHubMembersFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetHubMembersFilterItem to []string.
-func (s *GetHubMembersFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetHubMembersFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetHubMembersFilterItem is []string.
-func (s GetHubMembersFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetHubMembersFilterItem returns new GetHubMembersFilterItem from []string.
-func NewStringArrayGetHubMembersFilterItem(v []string) GetHubMembersFilterItem {
-	var s GetHubMembersFilterItem
-	s.SetStringArray(v)
-	return s
-}
-
-// SetGetHubMembersFilterItem2 sets GetHubMembersFilterItem to GetHubMembersFilterItem2.
-func (s *GetHubMembersFilterItem) SetGetHubMembersFilterItem2(v GetHubMembersFilterItem2) {
-	s.Type = GetHubMembersFilterItem2GetHubMembersFilterItem
-	s.GetHubMembersFilterItem2 = v
-}
-
-// GetGetHubMembersFilterItem2 returns GetHubMembersFilterItem2 and true boolean if GetHubMembersFilterItem is GetHubMembersFilterItem2.
-func (s GetHubMembersFilterItem) GetGetHubMembersFilterItem2() (v GetHubMembersFilterItem2, ok bool) {
-	if !s.IsGetHubMembersFilterItem2() {
-		return v, false
-	}
-	return s.GetHubMembersFilterItem2, true
-}
-
-// NewGetHubMembersFilterItem2GetHubMembersFilterItem returns new GetHubMembersFilterItem from GetHubMembersFilterItem2.
-func NewGetHubMembersFilterItem2GetHubMembersFilterItem(v GetHubMembersFilterItem2) GetHubMembersFilterItem {
-	var s GetHubMembersFilterItem
-	s.SetGetHubMembersFilterItem2(v)
-	return s
-}
-
-type GetHubMembersFilterItem2 map[string]string
-
-func (s *GetHubMembersFilterItem2) init() GetHubMembersFilterItem2 {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
+type GetHubMembersFilter struct{}
 
 type GetHubMembersIncludeItem string
 
@@ -19969,121 +18604,7 @@ func (s *GetHubOK) SetData(val OptHub) {
 	s.Data = val
 }
 
-type GetHubUsageFilter map[string]GetHubUsageFilterItem
-
-func (s *GetHubUsageFilter) init() GetHubUsageFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetHubUsageFilterItem{}
-		*s = m
-	}
-	return m
-}
-
-// GetHubUsageFilterItem represents sum type.
-type GetHubUsageFilterItem struct {
-	Type                   GetHubUsageFilterItemType // switch on this field
-	String                 string
-	StringArray            []string
-	GetHubUsageFilterItem2 GetHubUsageFilterItem2
-}
-
-// GetHubUsageFilterItemType is oneOf type of GetHubUsageFilterItem.
-type GetHubUsageFilterItemType string
-
-// Possible values for GetHubUsageFilterItemType.
-const (
-	StringGetHubUsageFilterItem                 GetHubUsageFilterItemType = "string"
-	StringArrayGetHubUsageFilterItem            GetHubUsageFilterItemType = "[]string"
-	GetHubUsageFilterItem2GetHubUsageFilterItem GetHubUsageFilterItemType = "GetHubUsageFilterItem2"
-)
-
-// IsString reports whether GetHubUsageFilterItem is string.
-func (s GetHubUsageFilterItem) IsString() bool { return s.Type == StringGetHubUsageFilterItem }
-
-// IsStringArray reports whether GetHubUsageFilterItem is []string.
-func (s GetHubUsageFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetHubUsageFilterItem
-}
-
-// IsGetHubUsageFilterItem2 reports whether GetHubUsageFilterItem is GetHubUsageFilterItem2.
-func (s GetHubUsageFilterItem) IsGetHubUsageFilterItem2() bool {
-	return s.Type == GetHubUsageFilterItem2GetHubUsageFilterItem
-}
-
-// SetString sets GetHubUsageFilterItem to string.
-func (s *GetHubUsageFilterItem) SetString(v string) {
-	s.Type = StringGetHubUsageFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetHubUsageFilterItem is string.
-func (s GetHubUsageFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetHubUsageFilterItem returns new GetHubUsageFilterItem from string.
-func NewStringGetHubUsageFilterItem(v string) GetHubUsageFilterItem {
-	var s GetHubUsageFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetHubUsageFilterItem to []string.
-func (s *GetHubUsageFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetHubUsageFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetHubUsageFilterItem is []string.
-func (s GetHubUsageFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetHubUsageFilterItem returns new GetHubUsageFilterItem from []string.
-func NewStringArrayGetHubUsageFilterItem(v []string) GetHubUsageFilterItem {
-	var s GetHubUsageFilterItem
-	s.SetStringArray(v)
-	return s
-}
-
-// SetGetHubUsageFilterItem2 sets GetHubUsageFilterItem to GetHubUsageFilterItem2.
-func (s *GetHubUsageFilterItem) SetGetHubUsageFilterItem2(v GetHubUsageFilterItem2) {
-	s.Type = GetHubUsageFilterItem2GetHubUsageFilterItem
-	s.GetHubUsageFilterItem2 = v
-}
-
-// GetGetHubUsageFilterItem2 returns GetHubUsageFilterItem2 and true boolean if GetHubUsageFilterItem is GetHubUsageFilterItem2.
-func (s GetHubUsageFilterItem) GetGetHubUsageFilterItem2() (v GetHubUsageFilterItem2, ok bool) {
-	if !s.IsGetHubUsageFilterItem2() {
-		return v, false
-	}
-	return s.GetHubUsageFilterItem2, true
-}
-
-// NewGetHubUsageFilterItem2GetHubUsageFilterItem returns new GetHubUsageFilterItem from GetHubUsageFilterItem2.
-func NewGetHubUsageFilterItem2GetHubUsageFilterItem(v GetHubUsageFilterItem2) GetHubUsageFilterItem {
-	var s GetHubUsageFilterItem
-	s.SetGetHubUsageFilterItem2(v)
-	return s
-}
-
-type GetHubUsageFilterItem2 map[string]string
-
-func (s *GetHubUsageFilterItem2) init() GetHubUsageFilterItem2 {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
+type GetHubUsageFilter struct{}
 
 type GetHubUsageOK struct {
 	Data []HubUsageDatum `json:"data"`
@@ -20099,79 +18620,44 @@ func (s *GetHubUsageOK) SetData(val []HubUsageDatum) {
 	s.Data = val
 }
 
-type GetHubsFilter map[string]GetHubsFilterItem
-
-func (s *GetHubsFilter) init() GetHubsFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetHubsFilterItem{}
-		*s = m
-	}
-	return m
+type GetHubsFilter struct {
+	// `filter[identifier]=value` List only those environments matching this identifier. May return
+	// multiple results.
+	Identifier OptString `json:"identifier"`
+	// `filter[search]=value` search hubs for a value associated with a field on the given hub(s).
+	Search OptString `json:"search"`
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the hub's current state.
+	State OptString `json:"state"`
 }
 
-// GetHubsFilterItem represents sum type.
-type GetHubsFilterItem struct {
-	Type        GetHubsFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetIdentifier returns the value of Identifier.
+func (s *GetHubsFilter) GetIdentifier() OptString {
+	return s.Identifier
 }
 
-// GetHubsFilterItemType is oneOf type of GetHubsFilterItem.
-type GetHubsFilterItemType string
-
-// Possible values for GetHubsFilterItemType.
-const (
-	StringGetHubsFilterItem      GetHubsFilterItemType = "string"
-	StringArrayGetHubsFilterItem GetHubsFilterItemType = "[]string"
-)
-
-// IsString reports whether GetHubsFilterItem is string.
-func (s GetHubsFilterItem) IsString() bool { return s.Type == StringGetHubsFilterItem }
-
-// IsStringArray reports whether GetHubsFilterItem is []string.
-func (s GetHubsFilterItem) IsStringArray() bool { return s.Type == StringArrayGetHubsFilterItem }
-
-// SetString sets GetHubsFilterItem to string.
-func (s *GetHubsFilterItem) SetString(v string) {
-	s.Type = StringGetHubsFilterItem
-	s.String = v
+// GetSearch returns the value of Search.
+func (s *GetHubsFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// GetString returns string and true boolean if GetHubsFilterItem is string.
-func (s GetHubsFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
+// GetState returns the value of State.
+func (s *GetHubsFilter) GetState() OptString {
+	return s.State
 }
 
-// NewStringGetHubsFilterItem returns new GetHubsFilterItem from string.
-func NewStringGetHubsFilterItem(v string) GetHubsFilterItem {
-	var s GetHubsFilterItem
-	s.SetString(v)
-	return s
+// SetIdentifier sets the value of Identifier.
+func (s *GetHubsFilter) SetIdentifier(val OptString) {
+	s.Identifier = val
 }
 
-// SetStringArray sets GetHubsFilterItem to []string.
-func (s *GetHubsFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetHubsFilterItem
-	s.StringArray = v
+// SetSearch sets the value of Search.
+func (s *GetHubsFilter) SetSearch(val OptString) {
+	s.Search = val
 }
 
-// GetStringArray returns []string and true boolean if GetHubsFilterItem is []string.
-func (s GetHubsFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetHubsFilterItem returns new GetHubsFilterItem from []string.
-func NewStringArrayGetHubsFilterItem(v []string) GetHubsFilterItem {
-	var s GetHubsFilterItem
-	s.SetStringArray(v)
-	return s
+// SetState sets the value of State.
+func (s *GetHubsFilter) SetState(val OptString) {
+	s.State = val
 }
 
 type GetHubsOK struct {
@@ -20326,79 +18812,71 @@ func (s *GetImagePage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
-type GetImagesFilter map[string]GetImagesFilterItem
-
-func (s *GetImagesFilter) init() GetImagesFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetImagesFilterItem{}
-		*s = m
-	}
-	return m
+type GetImagesFilter struct {
+	// `filter[identifier]=value` List only those images matching this identifier. May return multiple
+	// results.
+	Identifier OptString `json:"identifier"`
+	// `filter[search]=value` search for a value associated with a field on the given image(s).
+	Search OptString `json:"search"`
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the image's current
+	// state.
+	State OptString `json:"state"`
+	// `filter[source_type]=value` filter images by the image source's type.  Can be: `direct` or
+	// `stack_build`.
+	SourceType OptString `json:"source_type"`
+	// `filter[source_id]=ID` image filtering by source ID.  Submit the ID of the image source you wish
+	// to filter for and the return will be any images created from that source.
+	SourceID OptString `json:"source_id"`
 }
 
-// GetImagesFilterItem represents sum type.
-type GetImagesFilterItem struct {
-	Type        GetImagesFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetIdentifier returns the value of Identifier.
+func (s *GetImagesFilter) GetIdentifier() OptString {
+	return s.Identifier
 }
 
-// GetImagesFilterItemType is oneOf type of GetImagesFilterItem.
-type GetImagesFilterItemType string
-
-// Possible values for GetImagesFilterItemType.
-const (
-	StringGetImagesFilterItem      GetImagesFilterItemType = "string"
-	StringArrayGetImagesFilterItem GetImagesFilterItemType = "[]string"
-)
-
-// IsString reports whether GetImagesFilterItem is string.
-func (s GetImagesFilterItem) IsString() bool { return s.Type == StringGetImagesFilterItem }
-
-// IsStringArray reports whether GetImagesFilterItem is []string.
-func (s GetImagesFilterItem) IsStringArray() bool { return s.Type == StringArrayGetImagesFilterItem }
-
-// SetString sets GetImagesFilterItem to string.
-func (s *GetImagesFilterItem) SetString(v string) {
-	s.Type = StringGetImagesFilterItem
-	s.String = v
+// GetSearch returns the value of Search.
+func (s *GetImagesFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// GetString returns string and true boolean if GetImagesFilterItem is string.
-func (s GetImagesFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
+// GetState returns the value of State.
+func (s *GetImagesFilter) GetState() OptString {
+	return s.State
 }
 
-// NewStringGetImagesFilterItem returns new GetImagesFilterItem from string.
-func NewStringGetImagesFilterItem(v string) GetImagesFilterItem {
-	var s GetImagesFilterItem
-	s.SetString(v)
-	return s
+// GetSourceType returns the value of SourceType.
+func (s *GetImagesFilter) GetSourceType() OptString {
+	return s.SourceType
 }
 
-// SetStringArray sets GetImagesFilterItem to []string.
-func (s *GetImagesFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetImagesFilterItem
-	s.StringArray = v
+// GetSourceID returns the value of SourceID.
+func (s *GetImagesFilter) GetSourceID() OptString {
+	return s.SourceID
 }
 
-// GetStringArray returns []string and true boolean if GetImagesFilterItem is []string.
-func (s GetImagesFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
+// SetIdentifier sets the value of Identifier.
+func (s *GetImagesFilter) SetIdentifier(val OptString) {
+	s.Identifier = val
 }
 
-// NewStringArrayGetImagesFilterItem returns new GetImagesFilterItem from []string.
-func NewStringArrayGetImagesFilterItem(v []string) GetImagesFilterItem {
-	var s GetImagesFilterItem
-	s.SetStringArray(v)
-	return s
+// SetSearch sets the value of Search.
+func (s *GetImagesFilter) SetSearch(val OptString) {
+	s.Search = val
+}
+
+// SetState sets the value of State.
+func (s *GetImagesFilter) SetState(val OptString) {
+	s.State = val
+}
+
+// SetSourceType sets the value of SourceType.
+func (s *GetImagesFilter) SetSourceType(val OptString) {
+	s.SourceType = val
+}
+
+// SetSourceID sets the value of SourceID.
+func (s *GetImagesFilter) SetSourceID(val OptString) {
+	s.SourceID = val
 }
 
 type GetImagesIncludeItem string
@@ -20681,83 +19159,19 @@ func (s *GetInfrastructureIPPoolsPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
-type GetInfrastructureSummaryFilter map[string]GetInfrastructureSummaryFilterItem
-
-func (s *GetInfrastructureSummaryFilter) init() GetInfrastructureSummaryFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetInfrastructureSummaryFilterItem{}
-		*s = m
-	}
-	return m
+type GetInfrastructureSummaryFilter struct {
+	// `filter[cluster]=value` return an infrastructure summary only for the specified cluster.
+	Cluster OptString `json:"cluster"`
 }
 
-// GetInfrastructureSummaryFilterItem represents sum type.
-type GetInfrastructureSummaryFilterItem struct {
-	Type        GetInfrastructureSummaryFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetCluster returns the value of Cluster.
+func (s *GetInfrastructureSummaryFilter) GetCluster() OptString {
+	return s.Cluster
 }
 
-// GetInfrastructureSummaryFilterItemType is oneOf type of GetInfrastructureSummaryFilterItem.
-type GetInfrastructureSummaryFilterItemType string
-
-// Possible values for GetInfrastructureSummaryFilterItemType.
-const (
-	StringGetInfrastructureSummaryFilterItem      GetInfrastructureSummaryFilterItemType = "string"
-	StringArrayGetInfrastructureSummaryFilterItem GetInfrastructureSummaryFilterItemType = "[]string"
-)
-
-// IsString reports whether GetInfrastructureSummaryFilterItem is string.
-func (s GetInfrastructureSummaryFilterItem) IsString() bool {
-	return s.Type == StringGetInfrastructureSummaryFilterItem
-}
-
-// IsStringArray reports whether GetInfrastructureSummaryFilterItem is []string.
-func (s GetInfrastructureSummaryFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetInfrastructureSummaryFilterItem
-}
-
-// SetString sets GetInfrastructureSummaryFilterItem to string.
-func (s *GetInfrastructureSummaryFilterItem) SetString(v string) {
-	s.Type = StringGetInfrastructureSummaryFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetInfrastructureSummaryFilterItem is string.
-func (s GetInfrastructureSummaryFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetInfrastructureSummaryFilterItem returns new GetInfrastructureSummaryFilterItem from string.
-func NewStringGetInfrastructureSummaryFilterItem(v string) GetInfrastructureSummaryFilterItem {
-	var s GetInfrastructureSummaryFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetInfrastructureSummaryFilterItem to []string.
-func (s *GetInfrastructureSummaryFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetInfrastructureSummaryFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetInfrastructureSummaryFilterItem is []string.
-func (s GetInfrastructureSummaryFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetInfrastructureSummaryFilterItem returns new GetInfrastructureSummaryFilterItem from []string.
-func NewStringArrayGetInfrastructureSummaryFilterItem(v []string) GetInfrastructureSummaryFilterItem {
-	var s GetInfrastructureSummaryFilterItem
-	s.SetStringArray(v)
-	return s
+// SetCluster sets the value of Cluster.
+func (s *GetInfrastructureSummaryFilter) SetCluster(val OptString) {
+	s.Cluster = val
 }
 
 type GetInfrastructureSummaryOK struct {
@@ -20774,83 +19188,31 @@ func (s *GetInfrastructureSummaryOK) SetData(val OptInfrastructureSummary) {
 	s.Data = val
 }
 
-type GetInstanceResourcesTelemetryReportFilter map[string]GetInstanceResourcesTelemetryReportFilterItem
-
-func (s *GetInstanceResourcesTelemetryReportFilter) init() GetInstanceResourcesTelemetryReportFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetInstanceResourcesTelemetryReportFilterItem{}
-		*s = m
-	}
-	return m
+type GetInstanceResourcesTelemetryReportFilter struct {
+	// The start date from when to pull instance telemetry data.
+	RangeMinusStart OptDateTime `json:"range-start"`
+	// The end date from when to pull instance telemetry data.
+	RangeMinusEnd OptDateTime `json:"range-end"`
 }
 
-// GetInstanceResourcesTelemetryReportFilterItem represents sum type.
-type GetInstanceResourcesTelemetryReportFilterItem struct {
-	Type        GetInstanceResourcesTelemetryReportFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetRangeMinusStart returns the value of RangeMinusStart.
+func (s *GetInstanceResourcesTelemetryReportFilter) GetRangeMinusStart() OptDateTime {
+	return s.RangeMinusStart
 }
 
-// GetInstanceResourcesTelemetryReportFilterItemType is oneOf type of GetInstanceResourcesTelemetryReportFilterItem.
-type GetInstanceResourcesTelemetryReportFilterItemType string
-
-// Possible values for GetInstanceResourcesTelemetryReportFilterItemType.
-const (
-	StringGetInstanceResourcesTelemetryReportFilterItem      GetInstanceResourcesTelemetryReportFilterItemType = "string"
-	StringArrayGetInstanceResourcesTelemetryReportFilterItem GetInstanceResourcesTelemetryReportFilterItemType = "[]string"
-)
-
-// IsString reports whether GetInstanceResourcesTelemetryReportFilterItem is string.
-func (s GetInstanceResourcesTelemetryReportFilterItem) IsString() bool {
-	return s.Type == StringGetInstanceResourcesTelemetryReportFilterItem
+// GetRangeMinusEnd returns the value of RangeMinusEnd.
+func (s *GetInstanceResourcesTelemetryReportFilter) GetRangeMinusEnd() OptDateTime {
+	return s.RangeMinusEnd
 }
 
-// IsStringArray reports whether GetInstanceResourcesTelemetryReportFilterItem is []string.
-func (s GetInstanceResourcesTelemetryReportFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetInstanceResourcesTelemetryReportFilterItem
+// SetRangeMinusStart sets the value of RangeMinusStart.
+func (s *GetInstanceResourcesTelemetryReportFilter) SetRangeMinusStart(val OptDateTime) {
+	s.RangeMinusStart = val
 }
 
-// SetString sets GetInstanceResourcesTelemetryReportFilterItem to string.
-func (s *GetInstanceResourcesTelemetryReportFilterItem) SetString(v string) {
-	s.Type = StringGetInstanceResourcesTelemetryReportFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetInstanceResourcesTelemetryReportFilterItem is string.
-func (s GetInstanceResourcesTelemetryReportFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetInstanceResourcesTelemetryReportFilterItem returns new GetInstanceResourcesTelemetryReportFilterItem from string.
-func NewStringGetInstanceResourcesTelemetryReportFilterItem(v string) GetInstanceResourcesTelemetryReportFilterItem {
-	var s GetInstanceResourcesTelemetryReportFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetInstanceResourcesTelemetryReportFilterItem to []string.
-func (s *GetInstanceResourcesTelemetryReportFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetInstanceResourcesTelemetryReportFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetInstanceResourcesTelemetryReportFilterItem is []string.
-func (s GetInstanceResourcesTelemetryReportFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetInstanceResourcesTelemetryReportFilterItem returns new GetInstanceResourcesTelemetryReportFilterItem from []string.
-func NewStringArrayGetInstanceResourcesTelemetryReportFilterItem(v []string) GetInstanceResourcesTelemetryReportFilterItem {
-	var s GetInstanceResourcesTelemetryReportFilterItem
-	s.SetStringArray(v)
-	return s
+// SetRangeMinusEnd sets the value of RangeMinusEnd.
+func (s *GetInstanceResourcesTelemetryReportFilter) SetRangeMinusEnd(val OptDateTime) {
+	s.RangeMinusEnd = val
 }
 
 type GetInstanceResourcesTelemetryReportOK struct {
@@ -20910,81 +19272,46 @@ func (s *GetInstanceResourcesTelemetryStreamOKData) SetAddress(val string) {
 	s.Address = val
 }
 
-type GetInstancesFilter map[string]GetInstancesFilterItem
-
-func (s *GetInstancesFilter) init() GetInstancesFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetInstancesFilterItem{}
-		*s = m
-	}
-	return m
+type GetInstancesFilter struct {
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the instance's current
+	// state.
+	State OptString `json:"state"`
+	// `filter[search]=value` search instances for a value associated with a field on the given
+	// instance(s).
+	Search OptString `json:"search"`
+	// `filter[server]=ID` server filtering by ID. Submit the ID of the server you wish to filter for and
+	// the return will be any instances of the container currently deployed to the given server.
+	Server OptString `json:"server"`
 }
 
-// GetInstancesFilterItem represents sum type.
-type GetInstancesFilterItem struct {
-	Type        GetInstancesFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetState returns the value of State.
+func (s *GetInstancesFilter) GetState() OptString {
+	return s.State
 }
 
-// GetInstancesFilterItemType is oneOf type of GetInstancesFilterItem.
-type GetInstancesFilterItemType string
-
-// Possible values for GetInstancesFilterItemType.
-const (
-	StringGetInstancesFilterItem      GetInstancesFilterItemType = "string"
-	StringArrayGetInstancesFilterItem GetInstancesFilterItemType = "[]string"
-)
-
-// IsString reports whether GetInstancesFilterItem is string.
-func (s GetInstancesFilterItem) IsString() bool { return s.Type == StringGetInstancesFilterItem }
-
-// IsStringArray reports whether GetInstancesFilterItem is []string.
-func (s GetInstancesFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetInstancesFilterItem
+// GetSearch returns the value of Search.
+func (s *GetInstancesFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// SetString sets GetInstancesFilterItem to string.
-func (s *GetInstancesFilterItem) SetString(v string) {
-	s.Type = StringGetInstancesFilterItem
-	s.String = v
+// GetServer returns the value of Server.
+func (s *GetInstancesFilter) GetServer() OptString {
+	return s.Server
 }
 
-// GetString returns string and true boolean if GetInstancesFilterItem is string.
-func (s GetInstancesFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
+// SetState sets the value of State.
+func (s *GetInstancesFilter) SetState(val OptString) {
+	s.State = val
 }
 
-// NewStringGetInstancesFilterItem returns new GetInstancesFilterItem from string.
-func NewStringGetInstancesFilterItem(v string) GetInstancesFilterItem {
-	var s GetInstancesFilterItem
-	s.SetString(v)
-	return s
+// SetSearch sets the value of Search.
+func (s *GetInstancesFilter) SetSearch(val OptString) {
+	s.Search = val
 }
 
-// SetStringArray sets GetInstancesFilterItem to []string.
-func (s *GetInstancesFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetInstancesFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetInstancesFilterItem is []string.
-func (s GetInstancesFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetInstancesFilterItem returns new GetInstancesFilterItem from []string.
-func NewStringArrayGetInstancesFilterItem(v []string) GetInstancesFilterItem {
-	var s GetInstancesFilterItem
-	s.SetStringArray(v)
-	return s
+// SetServer sets the value of Server.
+func (s *GetInstancesFilter) SetServer(val OptString) {
+	s.Server = val
 }
 
 type GetInstancesIncludeItem string
@@ -21110,121 +19437,7 @@ func (s *GetInvoiceOK) SetData(val OptInvoice) {
 	s.Data = val
 }
 
-type GetInvoicesFilter map[string]GetInvoicesFilterItem
-
-func (s *GetInvoicesFilter) init() GetInvoicesFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetInvoicesFilterItem{}
-		*s = m
-	}
-	return m
-}
-
-// GetInvoicesFilterItem represents sum type.
-type GetInvoicesFilterItem struct {
-	Type                   GetInvoicesFilterItemType // switch on this field
-	String                 string
-	StringArray            []string
-	GetInvoicesFilterItem2 GetInvoicesFilterItem2
-}
-
-// GetInvoicesFilterItemType is oneOf type of GetInvoicesFilterItem.
-type GetInvoicesFilterItemType string
-
-// Possible values for GetInvoicesFilterItemType.
-const (
-	StringGetInvoicesFilterItem                 GetInvoicesFilterItemType = "string"
-	StringArrayGetInvoicesFilterItem            GetInvoicesFilterItemType = "[]string"
-	GetInvoicesFilterItem2GetInvoicesFilterItem GetInvoicesFilterItemType = "GetInvoicesFilterItem2"
-)
-
-// IsString reports whether GetInvoicesFilterItem is string.
-func (s GetInvoicesFilterItem) IsString() bool { return s.Type == StringGetInvoicesFilterItem }
-
-// IsStringArray reports whether GetInvoicesFilterItem is []string.
-func (s GetInvoicesFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetInvoicesFilterItem
-}
-
-// IsGetInvoicesFilterItem2 reports whether GetInvoicesFilterItem is GetInvoicesFilterItem2.
-func (s GetInvoicesFilterItem) IsGetInvoicesFilterItem2() bool {
-	return s.Type == GetInvoicesFilterItem2GetInvoicesFilterItem
-}
-
-// SetString sets GetInvoicesFilterItem to string.
-func (s *GetInvoicesFilterItem) SetString(v string) {
-	s.Type = StringGetInvoicesFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetInvoicesFilterItem is string.
-func (s GetInvoicesFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetInvoicesFilterItem returns new GetInvoicesFilterItem from string.
-func NewStringGetInvoicesFilterItem(v string) GetInvoicesFilterItem {
-	var s GetInvoicesFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetInvoicesFilterItem to []string.
-func (s *GetInvoicesFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetInvoicesFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetInvoicesFilterItem is []string.
-func (s GetInvoicesFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetInvoicesFilterItem returns new GetInvoicesFilterItem from []string.
-func NewStringArrayGetInvoicesFilterItem(v []string) GetInvoicesFilterItem {
-	var s GetInvoicesFilterItem
-	s.SetStringArray(v)
-	return s
-}
-
-// SetGetInvoicesFilterItem2 sets GetInvoicesFilterItem to GetInvoicesFilterItem2.
-func (s *GetInvoicesFilterItem) SetGetInvoicesFilterItem2(v GetInvoicesFilterItem2) {
-	s.Type = GetInvoicesFilterItem2GetInvoicesFilterItem
-	s.GetInvoicesFilterItem2 = v
-}
-
-// GetGetInvoicesFilterItem2 returns GetInvoicesFilterItem2 and true boolean if GetInvoicesFilterItem is GetInvoicesFilterItem2.
-func (s GetInvoicesFilterItem) GetGetInvoicesFilterItem2() (v GetInvoicesFilterItem2, ok bool) {
-	if !s.IsGetInvoicesFilterItem2() {
-		return v, false
-	}
-	return s.GetInvoicesFilterItem2, true
-}
-
-// NewGetInvoicesFilterItem2GetInvoicesFilterItem returns new GetInvoicesFilterItem from GetInvoicesFilterItem2.
-func NewGetInvoicesFilterItem2GetInvoicesFilterItem(v GetInvoicesFilterItem2) GetInvoicesFilterItem {
-	var s GetInvoicesFilterItem
-	s.SetGetInvoicesFilterItem2(v)
-	return s
-}
-
-type GetInvoicesFilterItem2 map[string]string
-
-func (s *GetInvoicesFilterItem2) init() GetInvoicesFilterItem2 {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
+type GetInvoicesFilter struct{}
 
 type GetInvoicesMetaItem string
 
@@ -21308,79 +19521,55 @@ func (s *GetJobOK) SetData(val OptJob) {
 	s.Data = val
 }
 
-type GetJobsFilter map[string]GetJobsFilterItem
-
-func (s *GetJobsFilter) init() GetJobsFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetJobsFilterItem{}
-		*s = m
-	}
-	return m
+type GetJobsFilter struct {
+	// The start date from when to fetch jobs.
+	RangeMinusStart OptDateTime `json:"range-start"`
+	// The end date from when to fetch jobs.
+	RangeMinusEnd OptDateTime `json:"range-end"`
+	// `filter[search]=value` search jobs for a value associated with a field on the given job(s).
+	Search OptString `json:"search"`
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the job's current state.
+	State OptString `json:"state"`
 }
 
-// GetJobsFilterItem represents sum type.
-type GetJobsFilterItem struct {
-	Type        GetJobsFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetRangeMinusStart returns the value of RangeMinusStart.
+func (s *GetJobsFilter) GetRangeMinusStart() OptDateTime {
+	return s.RangeMinusStart
 }
 
-// GetJobsFilterItemType is oneOf type of GetJobsFilterItem.
-type GetJobsFilterItemType string
-
-// Possible values for GetJobsFilterItemType.
-const (
-	StringGetJobsFilterItem      GetJobsFilterItemType = "string"
-	StringArrayGetJobsFilterItem GetJobsFilterItemType = "[]string"
-)
-
-// IsString reports whether GetJobsFilterItem is string.
-func (s GetJobsFilterItem) IsString() bool { return s.Type == StringGetJobsFilterItem }
-
-// IsStringArray reports whether GetJobsFilterItem is []string.
-func (s GetJobsFilterItem) IsStringArray() bool { return s.Type == StringArrayGetJobsFilterItem }
-
-// SetString sets GetJobsFilterItem to string.
-func (s *GetJobsFilterItem) SetString(v string) {
-	s.Type = StringGetJobsFilterItem
-	s.String = v
+// GetRangeMinusEnd returns the value of RangeMinusEnd.
+func (s *GetJobsFilter) GetRangeMinusEnd() OptDateTime {
+	return s.RangeMinusEnd
 }
 
-// GetString returns string and true boolean if GetJobsFilterItem is string.
-func (s GetJobsFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
+// GetSearch returns the value of Search.
+func (s *GetJobsFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// NewStringGetJobsFilterItem returns new GetJobsFilterItem from string.
-func NewStringGetJobsFilterItem(v string) GetJobsFilterItem {
-	var s GetJobsFilterItem
-	s.SetString(v)
-	return s
+// GetState returns the value of State.
+func (s *GetJobsFilter) GetState() OptString {
+	return s.State
 }
 
-// SetStringArray sets GetJobsFilterItem to []string.
-func (s *GetJobsFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetJobsFilterItem
-	s.StringArray = v
+// SetRangeMinusStart sets the value of RangeMinusStart.
+func (s *GetJobsFilter) SetRangeMinusStart(val OptDateTime) {
+	s.RangeMinusStart = val
 }
 
-// GetStringArray returns []string and true boolean if GetJobsFilterItem is []string.
-func (s GetJobsFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
+// SetRangeMinusEnd sets the value of RangeMinusEnd.
+func (s *GetJobsFilter) SetRangeMinusEnd(val OptDateTime) {
+	s.RangeMinusEnd = val
 }
 
-// NewStringArrayGetJobsFilterItem returns new GetJobsFilterItem from []string.
-func NewStringArrayGetJobsFilterItem(v []string) GetJobsFilterItem {
-	var s GetJobsFilterItem
-	s.SetStringArray(v)
-	return s
+// SetSearch sets the value of Search.
+func (s *GetJobsFilter) SetSearch(val OptString) {
+	s.Search = val
+}
+
+// SetState sets the value of State.
+func (s *GetJobsFilter) SetState(val OptString) {
+	s.State = val
 }
 
 type GetJobsIncludeItem string
@@ -21490,83 +19679,19 @@ func (s *GetLoadBalancerInfoOK) SetData(val OptLoadBalancerInfoReturn) {
 	s.Data = val
 }
 
-type GetNativeProvidersFilter map[string]GetNativeProvidersFilterItem
-
-func (s *GetNativeProvidersFilter) init() GetNativeProvidersFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetNativeProvidersFilterItem{}
-		*s = m
-	}
-	return m
+type GetNativeProvidersFilter struct {
+	// `filter[search]=value` search for a value associated with a field on the given native provider(s).
+	Search OptString `json:"search"`
 }
 
-// GetNativeProvidersFilterItem represents sum type.
-type GetNativeProvidersFilterItem struct {
-	Type        GetNativeProvidersFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetSearch returns the value of Search.
+func (s *GetNativeProvidersFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// GetNativeProvidersFilterItemType is oneOf type of GetNativeProvidersFilterItem.
-type GetNativeProvidersFilterItemType string
-
-// Possible values for GetNativeProvidersFilterItemType.
-const (
-	StringGetNativeProvidersFilterItem      GetNativeProvidersFilterItemType = "string"
-	StringArrayGetNativeProvidersFilterItem GetNativeProvidersFilterItemType = "[]string"
-)
-
-// IsString reports whether GetNativeProvidersFilterItem is string.
-func (s GetNativeProvidersFilterItem) IsString() bool {
-	return s.Type == StringGetNativeProvidersFilterItem
-}
-
-// IsStringArray reports whether GetNativeProvidersFilterItem is []string.
-func (s GetNativeProvidersFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetNativeProvidersFilterItem
-}
-
-// SetString sets GetNativeProvidersFilterItem to string.
-func (s *GetNativeProvidersFilterItem) SetString(v string) {
-	s.Type = StringGetNativeProvidersFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetNativeProvidersFilterItem is string.
-func (s GetNativeProvidersFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetNativeProvidersFilterItem returns new GetNativeProvidersFilterItem from string.
-func NewStringGetNativeProvidersFilterItem(v string) GetNativeProvidersFilterItem {
-	var s GetNativeProvidersFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetNativeProvidersFilterItem to []string.
-func (s *GetNativeProvidersFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetNativeProvidersFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetNativeProvidersFilterItem is []string.
-func (s GetNativeProvidersFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetNativeProvidersFilterItem returns new GetNativeProvidersFilterItem from []string.
-func NewStringArrayGetNativeProvidersFilterItem(v []string) GetNativeProvidersFilterItem {
-	var s GetNativeProvidersFilterItem
-	s.SetStringArray(v)
-	return s
+// SetSearch sets the value of Search.
+func (s *GetNativeProvidersFilter) SetSearch(val OptString) {
+	s.Search = val
 }
 
 type GetNativeProvidersMetaItem string
@@ -21651,81 +19776,32 @@ func (s *GetNetworkOK) SetData(val OptSDNNetwork) {
 	s.Data = val
 }
 
-type GetNetworksFilter map[string]GetNetworksFilterItem
-
-func (s *GetNetworksFilter) init() GetNetworksFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetNetworksFilterItem{}
-		*s = m
-	}
-	return m
+type GetNetworksFilter struct {
+	// `filter[search]=value` search for a value associated with a field on the given network(s).
+	Search OptString `json:"search"`
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the network's current
+	// state.
+	State OptString `json:"state"`
 }
 
-// GetNetworksFilterItem represents sum type.
-type GetNetworksFilterItem struct {
-	Type        GetNetworksFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetSearch returns the value of Search.
+func (s *GetNetworksFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// GetNetworksFilterItemType is oneOf type of GetNetworksFilterItem.
-type GetNetworksFilterItemType string
-
-// Possible values for GetNetworksFilterItemType.
-const (
-	StringGetNetworksFilterItem      GetNetworksFilterItemType = "string"
-	StringArrayGetNetworksFilterItem GetNetworksFilterItemType = "[]string"
-)
-
-// IsString reports whether GetNetworksFilterItem is string.
-func (s GetNetworksFilterItem) IsString() bool { return s.Type == StringGetNetworksFilterItem }
-
-// IsStringArray reports whether GetNetworksFilterItem is []string.
-func (s GetNetworksFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetNetworksFilterItem
+// GetState returns the value of State.
+func (s *GetNetworksFilter) GetState() OptString {
+	return s.State
 }
 
-// SetString sets GetNetworksFilterItem to string.
-func (s *GetNetworksFilterItem) SetString(v string) {
-	s.Type = StringGetNetworksFilterItem
-	s.String = v
+// SetSearch sets the value of Search.
+func (s *GetNetworksFilter) SetSearch(val OptString) {
+	s.Search = val
 }
 
-// GetString returns string and true boolean if GetNetworksFilterItem is string.
-func (s GetNetworksFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetNetworksFilterItem returns new GetNetworksFilterItem from string.
-func NewStringGetNetworksFilterItem(v string) GetNetworksFilterItem {
-	var s GetNetworksFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetNetworksFilterItem to []string.
-func (s *GetNetworksFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetNetworksFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetNetworksFilterItem is []string.
-func (s GetNetworksFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetNetworksFilterItem returns new GetNetworksFilterItem from []string.
-func NewStringArrayGetNetworksFilterItem(v []string) GetNetworksFilterItem {
-	var s GetNetworksFilterItem
-	s.SetStringArray(v)
-	return s
+// SetState sets the value of State.
+func (s *GetNetworksFilter) SetState(val OptString) {
+	s.State = val
 }
 
 type GetNetworksIncludeItem string
@@ -21813,119 +19889,7 @@ func (s *GetNetworksPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
-type GetOrdersFilter map[string]GetOrdersFilterItem
-
-func (s *GetOrdersFilter) init() GetOrdersFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetOrdersFilterItem{}
-		*s = m
-	}
-	return m
-}
-
-// GetOrdersFilterItem represents sum type.
-type GetOrdersFilterItem struct {
-	Type                 GetOrdersFilterItemType // switch on this field
-	String               string
-	StringArray          []string
-	GetOrdersFilterItem2 GetOrdersFilterItem2
-}
-
-// GetOrdersFilterItemType is oneOf type of GetOrdersFilterItem.
-type GetOrdersFilterItemType string
-
-// Possible values for GetOrdersFilterItemType.
-const (
-	StringGetOrdersFilterItem               GetOrdersFilterItemType = "string"
-	StringArrayGetOrdersFilterItem          GetOrdersFilterItemType = "[]string"
-	GetOrdersFilterItem2GetOrdersFilterItem GetOrdersFilterItemType = "GetOrdersFilterItem2"
-)
-
-// IsString reports whether GetOrdersFilterItem is string.
-func (s GetOrdersFilterItem) IsString() bool { return s.Type == StringGetOrdersFilterItem }
-
-// IsStringArray reports whether GetOrdersFilterItem is []string.
-func (s GetOrdersFilterItem) IsStringArray() bool { return s.Type == StringArrayGetOrdersFilterItem }
-
-// IsGetOrdersFilterItem2 reports whether GetOrdersFilterItem is GetOrdersFilterItem2.
-func (s GetOrdersFilterItem) IsGetOrdersFilterItem2() bool {
-	return s.Type == GetOrdersFilterItem2GetOrdersFilterItem
-}
-
-// SetString sets GetOrdersFilterItem to string.
-func (s *GetOrdersFilterItem) SetString(v string) {
-	s.Type = StringGetOrdersFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetOrdersFilterItem is string.
-func (s GetOrdersFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetOrdersFilterItem returns new GetOrdersFilterItem from string.
-func NewStringGetOrdersFilterItem(v string) GetOrdersFilterItem {
-	var s GetOrdersFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetOrdersFilterItem to []string.
-func (s *GetOrdersFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetOrdersFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetOrdersFilterItem is []string.
-func (s GetOrdersFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetOrdersFilterItem returns new GetOrdersFilterItem from []string.
-func NewStringArrayGetOrdersFilterItem(v []string) GetOrdersFilterItem {
-	var s GetOrdersFilterItem
-	s.SetStringArray(v)
-	return s
-}
-
-// SetGetOrdersFilterItem2 sets GetOrdersFilterItem to GetOrdersFilterItem2.
-func (s *GetOrdersFilterItem) SetGetOrdersFilterItem2(v GetOrdersFilterItem2) {
-	s.Type = GetOrdersFilterItem2GetOrdersFilterItem
-	s.GetOrdersFilterItem2 = v
-}
-
-// GetGetOrdersFilterItem2 returns GetOrdersFilterItem2 and true boolean if GetOrdersFilterItem is GetOrdersFilterItem2.
-func (s GetOrdersFilterItem) GetGetOrdersFilterItem2() (v GetOrdersFilterItem2, ok bool) {
-	if !s.IsGetOrdersFilterItem2() {
-		return v, false
-	}
-	return s.GetOrdersFilterItem2, true
-}
-
-// NewGetOrdersFilterItem2GetOrdersFilterItem returns new GetOrdersFilterItem from GetOrdersFilterItem2.
-func NewGetOrdersFilterItem2GetOrdersFilterItem(v GetOrdersFilterItem2) GetOrdersFilterItem {
-	var s GetOrdersFilterItem
-	s.SetGetOrdersFilterItem2(v)
-	return s
-}
-
-type GetOrdersFilterItem2 map[string]string
-
-func (s *GetOrdersFilterItem2) init() GetOrdersFilterItem2 {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
+type GetOrdersFilter struct{}
 
 type GetOrdersIncludeItem string
 
@@ -22177,83 +20141,32 @@ func (s *GetPipelineTriggerKeyOK) SetData(val OptTriggerKey) {
 	s.Data = val
 }
 
-type GetPipelineTriggerKeysFilter map[string]GetPipelineTriggerKeysFilterItem
-
-func (s *GetPipelineTriggerKeysFilter) init() GetPipelineTriggerKeysFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetPipelineTriggerKeysFilterItem{}
-		*s = m
-	}
-	return m
+type GetPipelineTriggerKeysFilter struct {
+	// `filter[search]=value` search for a value associated with a field on the given trigger key(s).
+	Search OptString `json:"search"`
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the trigger key's
+	// current state.
+	State OptString `json:"state"`
 }
 
-// GetPipelineTriggerKeysFilterItem represents sum type.
-type GetPipelineTriggerKeysFilterItem struct {
-	Type        GetPipelineTriggerKeysFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetSearch returns the value of Search.
+func (s *GetPipelineTriggerKeysFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// GetPipelineTriggerKeysFilterItemType is oneOf type of GetPipelineTriggerKeysFilterItem.
-type GetPipelineTriggerKeysFilterItemType string
-
-// Possible values for GetPipelineTriggerKeysFilterItemType.
-const (
-	StringGetPipelineTriggerKeysFilterItem      GetPipelineTriggerKeysFilterItemType = "string"
-	StringArrayGetPipelineTriggerKeysFilterItem GetPipelineTriggerKeysFilterItemType = "[]string"
-)
-
-// IsString reports whether GetPipelineTriggerKeysFilterItem is string.
-func (s GetPipelineTriggerKeysFilterItem) IsString() bool {
-	return s.Type == StringGetPipelineTriggerKeysFilterItem
+// GetState returns the value of State.
+func (s *GetPipelineTriggerKeysFilter) GetState() OptString {
+	return s.State
 }
 
-// IsStringArray reports whether GetPipelineTriggerKeysFilterItem is []string.
-func (s GetPipelineTriggerKeysFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetPipelineTriggerKeysFilterItem
+// SetSearch sets the value of Search.
+func (s *GetPipelineTriggerKeysFilter) SetSearch(val OptString) {
+	s.Search = val
 }
 
-// SetString sets GetPipelineTriggerKeysFilterItem to string.
-func (s *GetPipelineTriggerKeysFilterItem) SetString(v string) {
-	s.Type = StringGetPipelineTriggerKeysFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetPipelineTriggerKeysFilterItem is string.
-func (s GetPipelineTriggerKeysFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetPipelineTriggerKeysFilterItem returns new GetPipelineTriggerKeysFilterItem from string.
-func NewStringGetPipelineTriggerKeysFilterItem(v string) GetPipelineTriggerKeysFilterItem {
-	var s GetPipelineTriggerKeysFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetPipelineTriggerKeysFilterItem to []string.
-func (s *GetPipelineTriggerKeysFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetPipelineTriggerKeysFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetPipelineTriggerKeysFilterItem is []string.
-func (s GetPipelineTriggerKeysFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetPipelineTriggerKeysFilterItem returns new GetPipelineTriggerKeysFilterItem from []string.
-func NewStringArrayGetPipelineTriggerKeysFilterItem(v []string) GetPipelineTriggerKeysFilterItem {
-	var s GetPipelineTriggerKeysFilterItem
-	s.SetStringArray(v)
-	return s
+// SetState sets the value of State.
+func (s *GetPipelineTriggerKeysFilter) SetState(val OptString) {
+	s.State = val
 }
 
 type GetPipelineTriggerKeysOK struct {
@@ -22297,81 +20210,45 @@ func (s *GetPipelineTriggerKeysPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
-type GetPipelinesFilter map[string]GetPipelinesFilterItem
-
-func (s *GetPipelinesFilter) init() GetPipelinesFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetPipelinesFilterItem{}
-		*s = m
-	}
-	return m
+type GetPipelinesFilter struct {
+	// `filter[identifier]=value` List only those pipelines matching this identifier. May return multiple
+	// results.
+	Identifier OptString `json:"identifier"`
+	// `filter[search]=value` search for a value associated with a field on the given pipelines(s).
+	Search OptString `json:"search"`
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the pipeline's current
+	// state.
+	State OptString `json:"state"`
 }
 
-// GetPipelinesFilterItem represents sum type.
-type GetPipelinesFilterItem struct {
-	Type        GetPipelinesFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetIdentifier returns the value of Identifier.
+func (s *GetPipelinesFilter) GetIdentifier() OptString {
+	return s.Identifier
 }
 
-// GetPipelinesFilterItemType is oneOf type of GetPipelinesFilterItem.
-type GetPipelinesFilterItemType string
-
-// Possible values for GetPipelinesFilterItemType.
-const (
-	StringGetPipelinesFilterItem      GetPipelinesFilterItemType = "string"
-	StringArrayGetPipelinesFilterItem GetPipelinesFilterItemType = "[]string"
-)
-
-// IsString reports whether GetPipelinesFilterItem is string.
-func (s GetPipelinesFilterItem) IsString() bool { return s.Type == StringGetPipelinesFilterItem }
-
-// IsStringArray reports whether GetPipelinesFilterItem is []string.
-func (s GetPipelinesFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetPipelinesFilterItem
+// GetSearch returns the value of Search.
+func (s *GetPipelinesFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// SetString sets GetPipelinesFilterItem to string.
-func (s *GetPipelinesFilterItem) SetString(v string) {
-	s.Type = StringGetPipelinesFilterItem
-	s.String = v
+// GetState returns the value of State.
+func (s *GetPipelinesFilter) GetState() OptString {
+	return s.State
 }
 
-// GetString returns string and true boolean if GetPipelinesFilterItem is string.
-func (s GetPipelinesFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
+// SetIdentifier sets the value of Identifier.
+func (s *GetPipelinesFilter) SetIdentifier(val OptString) {
+	s.Identifier = val
 }
 
-// NewStringGetPipelinesFilterItem returns new GetPipelinesFilterItem from string.
-func NewStringGetPipelinesFilterItem(v string) GetPipelinesFilterItem {
-	var s GetPipelinesFilterItem
-	s.SetString(v)
-	return s
+// SetSearch sets the value of Search.
+func (s *GetPipelinesFilter) SetSearch(val OptString) {
+	s.Search = val
 }
 
-// SetStringArray sets GetPipelinesFilterItem to []string.
-func (s *GetPipelinesFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetPipelinesFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetPipelinesFilterItem is []string.
-func (s GetPipelinesFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetPipelinesFilterItem returns new GetPipelinesFilterItem from []string.
-func NewStringArrayGetPipelinesFilterItem(v []string) GetPipelinesFilterItem {
-	var s GetPipelinesFilterItem
-	s.SetStringArray(v)
-	return s
+// SetState sets the value of State.
+func (s *GetPipelinesFilter) SetState(val OptString) {
+	s.State = val
 }
 
 type GetPipelinesIncludeItem string
@@ -22575,81 +20452,32 @@ func (s *GetProviderServersPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
-type GetProvidersFilter map[string]GetProvidersFilterItem
-
-func (s *GetProvidersFilter) init() GetProvidersFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetProvidersFilterItem{}
-		*s = m
-	}
-	return m
+type GetProvidersFilter struct {
+	// `filter[search]=value` search for a value associated with a field on the given provider(s).
+	Search OptString `json:"search"`
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the provider's current
+	// state.
+	State OptString `json:"state"`
 }
 
-// GetProvidersFilterItem represents sum type.
-type GetProvidersFilterItem struct {
-	Type        GetProvidersFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetSearch returns the value of Search.
+func (s *GetProvidersFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// GetProvidersFilterItemType is oneOf type of GetProvidersFilterItem.
-type GetProvidersFilterItemType string
-
-// Possible values for GetProvidersFilterItemType.
-const (
-	StringGetProvidersFilterItem      GetProvidersFilterItemType = "string"
-	StringArrayGetProvidersFilterItem GetProvidersFilterItemType = "[]string"
-)
-
-// IsString reports whether GetProvidersFilterItem is string.
-func (s GetProvidersFilterItem) IsString() bool { return s.Type == StringGetProvidersFilterItem }
-
-// IsStringArray reports whether GetProvidersFilterItem is []string.
-func (s GetProvidersFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetProvidersFilterItem
+// GetState returns the value of State.
+func (s *GetProvidersFilter) GetState() OptString {
+	return s.State
 }
 
-// SetString sets GetProvidersFilterItem to string.
-func (s *GetProvidersFilterItem) SetString(v string) {
-	s.Type = StringGetProvidersFilterItem
-	s.String = v
+// SetSearch sets the value of Search.
+func (s *GetProvidersFilter) SetSearch(val OptString) {
+	s.Search = val
 }
 
-// GetString returns string and true boolean if GetProvidersFilterItem is string.
-func (s GetProvidersFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetProvidersFilterItem returns new GetProvidersFilterItem from string.
-func NewStringGetProvidersFilterItem(v string) GetProvidersFilterItem {
-	var s GetProvidersFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetProvidersFilterItem to []string.
-func (s *GetProvidersFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetProvidersFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetProvidersFilterItem is []string.
-func (s GetProvidersFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetProvidersFilterItem returns new GetProvidersFilterItem from []string.
-func NewStringArrayGetProvidersFilterItem(v []string) GetProvidersFilterItem {
-	var s GetProvidersFilterItem
-	s.SetStringArray(v)
-	return s
+// SetState sets the value of State.
+func (s *GetProvidersFilter) SetState(val OptString) {
+	s.State = val
 }
 
 type GetProvidersMetaItem string
@@ -22732,83 +20560,20 @@ func (s *GetProvidersPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
-type GetRecordsCollectionFilter map[string]GetRecordsCollectionFilterItem
-
-func (s *GetRecordsCollectionFilter) init() GetRecordsCollectionFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetRecordsCollectionFilterItem{}
-		*s = m
-	}
-	return m
+type GetRecordsCollectionFilter struct {
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the DNS record's current
+	// state.
+	State OptString `json:"state"`
 }
 
-// GetRecordsCollectionFilterItem represents sum type.
-type GetRecordsCollectionFilterItem struct {
-	Type        GetRecordsCollectionFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetState returns the value of State.
+func (s *GetRecordsCollectionFilter) GetState() OptString {
+	return s.State
 }
 
-// GetRecordsCollectionFilterItemType is oneOf type of GetRecordsCollectionFilterItem.
-type GetRecordsCollectionFilterItemType string
-
-// Possible values for GetRecordsCollectionFilterItemType.
-const (
-	StringGetRecordsCollectionFilterItem      GetRecordsCollectionFilterItemType = "string"
-	StringArrayGetRecordsCollectionFilterItem GetRecordsCollectionFilterItemType = "[]string"
-)
-
-// IsString reports whether GetRecordsCollectionFilterItem is string.
-func (s GetRecordsCollectionFilterItem) IsString() bool {
-	return s.Type == StringGetRecordsCollectionFilterItem
-}
-
-// IsStringArray reports whether GetRecordsCollectionFilterItem is []string.
-func (s GetRecordsCollectionFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetRecordsCollectionFilterItem
-}
-
-// SetString sets GetRecordsCollectionFilterItem to string.
-func (s *GetRecordsCollectionFilterItem) SetString(v string) {
-	s.Type = StringGetRecordsCollectionFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetRecordsCollectionFilterItem is string.
-func (s GetRecordsCollectionFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetRecordsCollectionFilterItem returns new GetRecordsCollectionFilterItem from string.
-func NewStringGetRecordsCollectionFilterItem(v string) GetRecordsCollectionFilterItem {
-	var s GetRecordsCollectionFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetRecordsCollectionFilterItem to []string.
-func (s *GetRecordsCollectionFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetRecordsCollectionFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetRecordsCollectionFilterItem is []string.
-func (s GetRecordsCollectionFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetRecordsCollectionFilterItem returns new GetRecordsCollectionFilterItem from []string.
-func NewStringArrayGetRecordsCollectionFilterItem(v []string) GetRecordsCollectionFilterItem {
-	var s GetRecordsCollectionFilterItem
-	s.SetStringArray(v)
-	return s
+// SetState sets the value of State.
+func (s *GetRecordsCollectionFilter) SetState(val OptString) {
+	s.State = val
 }
 
 type GetRecordsCollectionIncludeItem string
@@ -22924,83 +20689,32 @@ func (s *GetSearchIndexOK) SetData(val OptIndex) {
 	s.Data = val
 }
 
-type GetSecurityReportFilter map[string]GetSecurityReportFilterItem
-
-func (s *GetSecurityReportFilter) init() GetSecurityReportFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetSecurityReportFilterItem{}
-		*s = m
-	}
-	return m
+type GetSecurityReportFilter struct {
+	// `filter[environment]=<Environment ID>` fetch the security report for the specified environment.
+	Environment OptString `json:"environment"`
+	// `filter[event]=value` filter by event occurrence. Example: `filter[event]=environment.services.vpn.
+	// login`.
+	Event OptString `json:"event"`
 }
 
-// GetSecurityReportFilterItem represents sum type.
-type GetSecurityReportFilterItem struct {
-	Type        GetSecurityReportFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetEnvironment returns the value of Environment.
+func (s *GetSecurityReportFilter) GetEnvironment() OptString {
+	return s.Environment
 }
 
-// GetSecurityReportFilterItemType is oneOf type of GetSecurityReportFilterItem.
-type GetSecurityReportFilterItemType string
-
-// Possible values for GetSecurityReportFilterItemType.
-const (
-	StringGetSecurityReportFilterItem      GetSecurityReportFilterItemType = "string"
-	StringArrayGetSecurityReportFilterItem GetSecurityReportFilterItemType = "[]string"
-)
-
-// IsString reports whether GetSecurityReportFilterItem is string.
-func (s GetSecurityReportFilterItem) IsString() bool {
-	return s.Type == StringGetSecurityReportFilterItem
+// GetEvent returns the value of Event.
+func (s *GetSecurityReportFilter) GetEvent() OptString {
+	return s.Event
 }
 
-// IsStringArray reports whether GetSecurityReportFilterItem is []string.
-func (s GetSecurityReportFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetSecurityReportFilterItem
+// SetEnvironment sets the value of Environment.
+func (s *GetSecurityReportFilter) SetEnvironment(val OptString) {
+	s.Environment = val
 }
 
-// SetString sets GetSecurityReportFilterItem to string.
-func (s *GetSecurityReportFilterItem) SetString(v string) {
-	s.Type = StringGetSecurityReportFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetSecurityReportFilterItem is string.
-func (s GetSecurityReportFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetSecurityReportFilterItem returns new GetSecurityReportFilterItem from string.
-func NewStringGetSecurityReportFilterItem(v string) GetSecurityReportFilterItem {
-	var s GetSecurityReportFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetSecurityReportFilterItem to []string.
-func (s *GetSecurityReportFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetSecurityReportFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetSecurityReportFilterItem is []string.
-func (s GetSecurityReportFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetSecurityReportFilterItem returns new GetSecurityReportFilterItem from []string.
-func NewStringArrayGetSecurityReportFilterItem(v []string) GetSecurityReportFilterItem {
-	var s GetSecurityReportFilterItem
-	s.SetStringArray(v)
-	return s
+// SetEvent sets the value of Event.
+func (s *GetSecurityReportFilter) SetEvent(val OptString) {
+	s.Event = val
 }
 
 type GetSecurityReportOK struct {
@@ -23126,160 +20840,47 @@ func (s *GetServerInstancesPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
-type GetServerTagsFilter map[string]GetServerTagsFilterItem
-
-func (s *GetServerTagsFilter) init() GetServerTagsFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetServerTagsFilterItem{}
-		*s = m
-	}
-	return m
+type GetServerTagsFilter struct {
+	// `filter[cluster]=clusterone,clustertwo` filtering by cluster.  Enter one or more clusters (commas
+	// separated) and the return will include tags from servers that match any cluster(s) in the list.
+	Cluster OptString `json:"cluster"`
 }
 
-// GetServerTagsFilterItem represents sum type.
-type GetServerTagsFilterItem struct {
-	Type        GetServerTagsFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetCluster returns the value of Cluster.
+func (s *GetServerTagsFilter) GetCluster() OptString {
+	return s.Cluster
 }
 
-// GetServerTagsFilterItemType is oneOf type of GetServerTagsFilterItem.
-type GetServerTagsFilterItemType string
-
-// Possible values for GetServerTagsFilterItemType.
-const (
-	StringGetServerTagsFilterItem      GetServerTagsFilterItemType = "string"
-	StringArrayGetServerTagsFilterItem GetServerTagsFilterItemType = "[]string"
-)
-
-// IsString reports whether GetServerTagsFilterItem is string.
-func (s GetServerTagsFilterItem) IsString() bool { return s.Type == StringGetServerTagsFilterItem }
-
-// IsStringArray reports whether GetServerTagsFilterItem is []string.
-func (s GetServerTagsFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetServerTagsFilterItem
+// SetCluster sets the value of Cluster.
+func (s *GetServerTagsFilter) SetCluster(val OptString) {
+	s.Cluster = val
 }
 
-// SetString sets GetServerTagsFilterItem to string.
-func (s *GetServerTagsFilterItem) SetString(v string) {
-	s.Type = StringGetServerTagsFilterItem
-	s.String = v
+type GetServerTelemeteryFilter struct {
+	// The start date from when to pull server telemetry data.
+	RangeMinusStart OptDateTime `json:"range-start"`
+	// The end date from when to pull server telemetry data.
+	RangeMinusEnd OptDateTime `json:"range-end"`
 }
 
-// GetString returns string and true boolean if GetServerTagsFilterItem is string.
-func (s GetServerTagsFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
+// GetRangeMinusStart returns the value of RangeMinusStart.
+func (s *GetServerTelemeteryFilter) GetRangeMinusStart() OptDateTime {
+	return s.RangeMinusStart
 }
 
-// NewStringGetServerTagsFilterItem returns new GetServerTagsFilterItem from string.
-func NewStringGetServerTagsFilterItem(v string) GetServerTagsFilterItem {
-	var s GetServerTagsFilterItem
-	s.SetString(v)
-	return s
+// GetRangeMinusEnd returns the value of RangeMinusEnd.
+func (s *GetServerTelemeteryFilter) GetRangeMinusEnd() OptDateTime {
+	return s.RangeMinusEnd
 }
 
-// SetStringArray sets GetServerTagsFilterItem to []string.
-func (s *GetServerTagsFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetServerTagsFilterItem
-	s.StringArray = v
+// SetRangeMinusStart sets the value of RangeMinusStart.
+func (s *GetServerTelemeteryFilter) SetRangeMinusStart(val OptDateTime) {
+	s.RangeMinusStart = val
 }
 
-// GetStringArray returns []string and true boolean if GetServerTagsFilterItem is []string.
-func (s GetServerTagsFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetServerTagsFilterItem returns new GetServerTagsFilterItem from []string.
-func NewStringArrayGetServerTagsFilterItem(v []string) GetServerTagsFilterItem {
-	var s GetServerTagsFilterItem
-	s.SetStringArray(v)
-	return s
-}
-
-type GetServerTelemeteryFilter map[string]GetServerTelemeteryFilterItem
-
-func (s *GetServerTelemeteryFilter) init() GetServerTelemeteryFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetServerTelemeteryFilterItem{}
-		*s = m
-	}
-	return m
-}
-
-// GetServerTelemeteryFilterItem represents sum type.
-type GetServerTelemeteryFilterItem struct {
-	Type        GetServerTelemeteryFilterItemType // switch on this field
-	String      string
-	StringArray []string
-}
-
-// GetServerTelemeteryFilterItemType is oneOf type of GetServerTelemeteryFilterItem.
-type GetServerTelemeteryFilterItemType string
-
-// Possible values for GetServerTelemeteryFilterItemType.
-const (
-	StringGetServerTelemeteryFilterItem      GetServerTelemeteryFilterItemType = "string"
-	StringArrayGetServerTelemeteryFilterItem GetServerTelemeteryFilterItemType = "[]string"
-)
-
-// IsString reports whether GetServerTelemeteryFilterItem is string.
-func (s GetServerTelemeteryFilterItem) IsString() bool {
-	return s.Type == StringGetServerTelemeteryFilterItem
-}
-
-// IsStringArray reports whether GetServerTelemeteryFilterItem is []string.
-func (s GetServerTelemeteryFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetServerTelemeteryFilterItem
-}
-
-// SetString sets GetServerTelemeteryFilterItem to string.
-func (s *GetServerTelemeteryFilterItem) SetString(v string) {
-	s.Type = StringGetServerTelemeteryFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetServerTelemeteryFilterItem is string.
-func (s GetServerTelemeteryFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetServerTelemeteryFilterItem returns new GetServerTelemeteryFilterItem from string.
-func NewStringGetServerTelemeteryFilterItem(v string) GetServerTelemeteryFilterItem {
-	var s GetServerTelemeteryFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetServerTelemeteryFilterItem to []string.
-func (s *GetServerTelemeteryFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetServerTelemeteryFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetServerTelemeteryFilterItem is []string.
-func (s GetServerTelemeteryFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetServerTelemeteryFilterItem returns new GetServerTelemeteryFilterItem from []string.
-func NewStringArrayGetServerTelemeteryFilterItem(v []string) GetServerTelemeteryFilterItem {
-	var s GetServerTelemeteryFilterItem
-	s.SetStringArray(v)
-	return s
+// SetRangeMinusEnd sets the value of RangeMinusEnd.
+func (s *GetServerTelemeteryFilter) SetRangeMinusEnd(val OptDateTime) {
+	s.RangeMinusEnd = val
 }
 
 type GetServerTelemeteryOK struct {
@@ -23351,83 +20952,59 @@ func (s *GetServersClustersOK) SetData(val []string) {
 	s.Data = val
 }
 
-type GetServersCollectionFilter map[string]GetServersCollectionFilterItem
-
-func (s *GetServersCollectionFilter) init() GetServersCollectionFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetServersCollectionFilterItem{}
-		*s = m
-	}
-	return m
+type GetServersCollectionFilter struct {
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the provider's current
+	// state.
+	State OptString `json:"state"`
+	// `filter[tags]=tagone,tagtwo,tagthree` filtering by server tag.  Enter one or more tags (comma
+	// separated) and the return will include servers that match any tags in the list.
+	Tags OptString `json:"tags"`
+	// `filter[clusters]=clusterone,clustertwo` filtering by cluster.  Enter one or more clusters (commas
+	// separated) and the return will include servers that match any clusters in the list.
+	Clusters OptString `json:"clusters"`
+	// `filter[providers]=providerone,providertwo` filtering by provider.  Enter one or more providers
+	// (commas separated) and the return will include servers that match any providers in the list.
+	Providers OptString `json:"providers"`
 }
 
-// GetServersCollectionFilterItem represents sum type.
-type GetServersCollectionFilterItem struct {
-	Type        GetServersCollectionFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetState returns the value of State.
+func (s *GetServersCollectionFilter) GetState() OptString {
+	return s.State
 }
 
-// GetServersCollectionFilterItemType is oneOf type of GetServersCollectionFilterItem.
-type GetServersCollectionFilterItemType string
-
-// Possible values for GetServersCollectionFilterItemType.
-const (
-	StringGetServersCollectionFilterItem      GetServersCollectionFilterItemType = "string"
-	StringArrayGetServersCollectionFilterItem GetServersCollectionFilterItemType = "[]string"
-)
-
-// IsString reports whether GetServersCollectionFilterItem is string.
-func (s GetServersCollectionFilterItem) IsString() bool {
-	return s.Type == StringGetServersCollectionFilterItem
+// GetTags returns the value of Tags.
+func (s *GetServersCollectionFilter) GetTags() OptString {
+	return s.Tags
 }
 
-// IsStringArray reports whether GetServersCollectionFilterItem is []string.
-func (s GetServersCollectionFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetServersCollectionFilterItem
+// GetClusters returns the value of Clusters.
+func (s *GetServersCollectionFilter) GetClusters() OptString {
+	return s.Clusters
 }
 
-// SetString sets GetServersCollectionFilterItem to string.
-func (s *GetServersCollectionFilterItem) SetString(v string) {
-	s.Type = StringGetServersCollectionFilterItem
-	s.String = v
+// GetProviders returns the value of Providers.
+func (s *GetServersCollectionFilter) GetProviders() OptString {
+	return s.Providers
 }
 
-// GetString returns string and true boolean if GetServersCollectionFilterItem is string.
-func (s GetServersCollectionFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
+// SetState sets the value of State.
+func (s *GetServersCollectionFilter) SetState(val OptString) {
+	s.State = val
 }
 
-// NewStringGetServersCollectionFilterItem returns new GetServersCollectionFilterItem from string.
-func NewStringGetServersCollectionFilterItem(v string) GetServersCollectionFilterItem {
-	var s GetServersCollectionFilterItem
-	s.SetString(v)
-	return s
+// SetTags sets the value of Tags.
+func (s *GetServersCollectionFilter) SetTags(val OptString) {
+	s.Tags = val
 }
 
-// SetStringArray sets GetServersCollectionFilterItem to []string.
-func (s *GetServersCollectionFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetServersCollectionFilterItem
-	s.StringArray = v
+// SetClusters sets the value of Clusters.
+func (s *GetServersCollectionFilter) SetClusters(val OptString) {
+	s.Clusters = val
 }
 
-// GetStringArray returns []string and true boolean if GetServersCollectionFilterItem is []string.
-func (s GetServersCollectionFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetServersCollectionFilterItem returns new GetServersCollectionFilterItem from []string.
-func NewStringArrayGetServersCollectionFilterItem(v []string) GetServersCollectionFilterItem {
-	var s GetServersCollectionFilterItem
-	s.SetStringArray(v)
-	return s
+// SetProviders sets the value of Providers.
+func (s *GetServersCollectionFilter) SetProviders(val OptString) {
+	s.Providers = val
 }
 
 type GetServersCollectionIncludeItem string
@@ -23730,83 +21307,45 @@ func (s *GetSourceOK) SetIncludes(val OptSourceIncludes) {
 	s.Includes = val
 }
 
-type GetSourcesCollectionFilter map[string]GetSourcesCollectionFilterItem
-
-func (s *GetSourcesCollectionFilter) init() GetSourcesCollectionFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetSourcesCollectionFilterItem{}
-		*s = m
-	}
-	return m
+type GetSourcesCollectionFilter struct {
+	// `filter[identifier]=value` List only those image sources matching this identifier. May return
+	// multiple results.
+	Identifier OptString `json:"identifier"`
+	// `filter[search]=value` search for a value associated with a field on the given image source(s).
+	Search OptString `json:"search"`
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the image source's
+	// current state.
+	State OptString `json:"state"`
 }
 
-// GetSourcesCollectionFilterItem represents sum type.
-type GetSourcesCollectionFilterItem struct {
-	Type        GetSourcesCollectionFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetIdentifier returns the value of Identifier.
+func (s *GetSourcesCollectionFilter) GetIdentifier() OptString {
+	return s.Identifier
 }
 
-// GetSourcesCollectionFilterItemType is oneOf type of GetSourcesCollectionFilterItem.
-type GetSourcesCollectionFilterItemType string
-
-// Possible values for GetSourcesCollectionFilterItemType.
-const (
-	StringGetSourcesCollectionFilterItem      GetSourcesCollectionFilterItemType = "string"
-	StringArrayGetSourcesCollectionFilterItem GetSourcesCollectionFilterItemType = "[]string"
-)
-
-// IsString reports whether GetSourcesCollectionFilterItem is string.
-func (s GetSourcesCollectionFilterItem) IsString() bool {
-	return s.Type == StringGetSourcesCollectionFilterItem
+// GetSearch returns the value of Search.
+func (s *GetSourcesCollectionFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// IsStringArray reports whether GetSourcesCollectionFilterItem is []string.
-func (s GetSourcesCollectionFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetSourcesCollectionFilterItem
+// GetState returns the value of State.
+func (s *GetSourcesCollectionFilter) GetState() OptString {
+	return s.State
 }
 
-// SetString sets GetSourcesCollectionFilterItem to string.
-func (s *GetSourcesCollectionFilterItem) SetString(v string) {
-	s.Type = StringGetSourcesCollectionFilterItem
-	s.String = v
+// SetIdentifier sets the value of Identifier.
+func (s *GetSourcesCollectionFilter) SetIdentifier(val OptString) {
+	s.Identifier = val
 }
 
-// GetString returns string and true boolean if GetSourcesCollectionFilterItem is string.
-func (s GetSourcesCollectionFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
+// SetSearch sets the value of Search.
+func (s *GetSourcesCollectionFilter) SetSearch(val OptString) {
+	s.Search = val
 }
 
-// NewStringGetSourcesCollectionFilterItem returns new GetSourcesCollectionFilterItem from string.
-func NewStringGetSourcesCollectionFilterItem(v string) GetSourcesCollectionFilterItem {
-	var s GetSourcesCollectionFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetSourcesCollectionFilterItem to []string.
-func (s *GetSourcesCollectionFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetSourcesCollectionFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetSourcesCollectionFilterItem is []string.
-func (s GetSourcesCollectionFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetSourcesCollectionFilterItem returns new GetSourcesCollectionFilterItem from []string.
-func NewStringArrayGetSourcesCollectionFilterItem(v []string) GetSourcesCollectionFilterItem {
-	var s GetSourcesCollectionFilterItem
-	s.SetStringArray(v)
-	return s
+// SetState sets the value of State.
+func (s *GetSourcesCollectionFilter) SetState(val OptString) {
+	s.State = val
 }
 
 type GetSourcesCollectionIncludeItem string
@@ -23943,81 +21482,32 @@ func (s *GetStackBuildOK) SetData(val OptStackBuild) {
 	s.Data = val
 }
 
-type GetStackBuildsFilter map[string]GetStackBuildsFilterItem
-
-func (s *GetStackBuildsFilter) init() GetStackBuildsFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetStackBuildsFilterItem{}
-		*s = m
-	}
-	return m
+type GetStackBuildsFilter struct {
+	// `filter[search]=value` search for a value associated with a field on the given stack build(s).
+	Search OptString `json:"search"`
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the stack build's
+	// current state.
+	State OptString `json:"state"`
 }
 
-// GetStackBuildsFilterItem represents sum type.
-type GetStackBuildsFilterItem struct {
-	Type        GetStackBuildsFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetSearch returns the value of Search.
+func (s *GetStackBuildsFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// GetStackBuildsFilterItemType is oneOf type of GetStackBuildsFilterItem.
-type GetStackBuildsFilterItemType string
-
-// Possible values for GetStackBuildsFilterItemType.
-const (
-	StringGetStackBuildsFilterItem      GetStackBuildsFilterItemType = "string"
-	StringArrayGetStackBuildsFilterItem GetStackBuildsFilterItemType = "[]string"
-)
-
-// IsString reports whether GetStackBuildsFilterItem is string.
-func (s GetStackBuildsFilterItem) IsString() bool { return s.Type == StringGetStackBuildsFilterItem }
-
-// IsStringArray reports whether GetStackBuildsFilterItem is []string.
-func (s GetStackBuildsFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetStackBuildsFilterItem
+// GetState returns the value of State.
+func (s *GetStackBuildsFilter) GetState() OptString {
+	return s.State
 }
 
-// SetString sets GetStackBuildsFilterItem to string.
-func (s *GetStackBuildsFilterItem) SetString(v string) {
-	s.Type = StringGetStackBuildsFilterItem
-	s.String = v
+// SetSearch sets the value of Search.
+func (s *GetStackBuildsFilter) SetSearch(val OptString) {
+	s.Search = val
 }
 
-// GetString returns string and true boolean if GetStackBuildsFilterItem is string.
-func (s GetStackBuildsFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetStackBuildsFilterItem returns new GetStackBuildsFilterItem from string.
-func NewStringGetStackBuildsFilterItem(v string) GetStackBuildsFilterItem {
-	var s GetStackBuildsFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetStackBuildsFilterItem to []string.
-func (s *GetStackBuildsFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetStackBuildsFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetStackBuildsFilterItem is []string.
-func (s GetStackBuildsFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetStackBuildsFilterItem returns new GetStackBuildsFilterItem from []string.
-func NewStringArrayGetStackBuildsFilterItem(v []string) GetStackBuildsFilterItem {
-	var s GetStackBuildsFilterItem
-	s.SetStringArray(v)
-	return s
+// SetState sets the value of State.
+func (s *GetStackBuildsFilter) SetState(val OptString) {
+	s.State = val
 }
 
 type GetStackBuildsIncludeItem string
@@ -24170,79 +21660,45 @@ func (s *GetStackOK) SetData(val OptStack) {
 	s.Data = val
 }
 
-type GetStacksFilter map[string]GetStacksFilterItem
-
-func (s *GetStacksFilter) init() GetStacksFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetStacksFilterItem{}
-		*s = m
-	}
-	return m
+type GetStacksFilter struct {
+	// `filter[identifier]=value` List only those stacks matching this identifier. May return multiple
+	// results.
+	Identifier OptString `json:"identifier"`
+	// `filter[search]=value` search for a value associated with a field on the given stack(s).
+	Search OptString `json:"search"`
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the stack's current
+	// state.
+	State OptString `json:"state"`
 }
 
-// GetStacksFilterItem represents sum type.
-type GetStacksFilterItem struct {
-	Type        GetStacksFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetIdentifier returns the value of Identifier.
+func (s *GetStacksFilter) GetIdentifier() OptString {
+	return s.Identifier
 }
 
-// GetStacksFilterItemType is oneOf type of GetStacksFilterItem.
-type GetStacksFilterItemType string
-
-// Possible values for GetStacksFilterItemType.
-const (
-	StringGetStacksFilterItem      GetStacksFilterItemType = "string"
-	StringArrayGetStacksFilterItem GetStacksFilterItemType = "[]string"
-)
-
-// IsString reports whether GetStacksFilterItem is string.
-func (s GetStacksFilterItem) IsString() bool { return s.Type == StringGetStacksFilterItem }
-
-// IsStringArray reports whether GetStacksFilterItem is []string.
-func (s GetStacksFilterItem) IsStringArray() bool { return s.Type == StringArrayGetStacksFilterItem }
-
-// SetString sets GetStacksFilterItem to string.
-func (s *GetStacksFilterItem) SetString(v string) {
-	s.Type = StringGetStacksFilterItem
-	s.String = v
+// GetSearch returns the value of Search.
+func (s *GetStacksFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// GetString returns string and true boolean if GetStacksFilterItem is string.
-func (s GetStacksFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
+// GetState returns the value of State.
+func (s *GetStacksFilter) GetState() OptString {
+	return s.State
 }
 
-// NewStringGetStacksFilterItem returns new GetStacksFilterItem from string.
-func NewStringGetStacksFilterItem(v string) GetStacksFilterItem {
-	var s GetStacksFilterItem
-	s.SetString(v)
-	return s
+// SetIdentifier sets the value of Identifier.
+func (s *GetStacksFilter) SetIdentifier(val OptString) {
+	s.Identifier = val
 }
 
-// SetStringArray sets GetStacksFilterItem to []string.
-func (s *GetStacksFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetStacksFilterItem
-	s.StringArray = v
+// SetSearch sets the value of Search.
+func (s *GetStacksFilter) SetSearch(val OptString) {
+	s.Search = val
 }
 
-// GetStringArray returns []string and true boolean if GetStacksFilterItem is []string.
-func (s GetStacksFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetStacksFilterItem returns new GetStacksFilterItem from []string.
-func NewStringArrayGetStacksFilterItem(v []string) GetStacksFilterItem {
-	var s GetStacksFilterItem
-	s.SetStringArray(v)
-	return s
+// SetState sets the value of State.
+func (s *GetStacksFilter) SetState(val OptString) {
+	s.State = val
 }
 
 type GetStacksIncludeItem string
@@ -24578,83 +22034,20 @@ func (s *GetVpnLoginsPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
-type GetZonesCollectionFilter map[string]GetZonesCollectionFilterItem
-
-func (s *GetZonesCollectionFilter) init() GetZonesCollectionFilter {
-	m := *s
-	if m == nil {
-		m = map[string]GetZonesCollectionFilterItem{}
-		*s = m
-	}
-	return m
+type GetZonesCollectionFilter struct {
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the DNS zone's current
+	// state.
+	State OptString `json:"state"`
 }
 
-// GetZonesCollectionFilterItem represents sum type.
-type GetZonesCollectionFilterItem struct {
-	Type        GetZonesCollectionFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetState returns the value of State.
+func (s *GetZonesCollectionFilter) GetState() OptString {
+	return s.State
 }
 
-// GetZonesCollectionFilterItemType is oneOf type of GetZonesCollectionFilterItem.
-type GetZonesCollectionFilterItemType string
-
-// Possible values for GetZonesCollectionFilterItemType.
-const (
-	StringGetZonesCollectionFilterItem      GetZonesCollectionFilterItemType = "string"
-	StringArrayGetZonesCollectionFilterItem GetZonesCollectionFilterItemType = "[]string"
-)
-
-// IsString reports whether GetZonesCollectionFilterItem is string.
-func (s GetZonesCollectionFilterItem) IsString() bool {
-	return s.Type == StringGetZonesCollectionFilterItem
-}
-
-// IsStringArray reports whether GetZonesCollectionFilterItem is []string.
-func (s GetZonesCollectionFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayGetZonesCollectionFilterItem
-}
-
-// SetString sets GetZonesCollectionFilterItem to string.
-func (s *GetZonesCollectionFilterItem) SetString(v string) {
-	s.Type = StringGetZonesCollectionFilterItem
-	s.String = v
-}
-
-// GetString returns string and true boolean if GetZonesCollectionFilterItem is string.
-func (s GetZonesCollectionFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
-}
-
-// NewStringGetZonesCollectionFilterItem returns new GetZonesCollectionFilterItem from string.
-func NewStringGetZonesCollectionFilterItem(v string) GetZonesCollectionFilterItem {
-	var s GetZonesCollectionFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets GetZonesCollectionFilterItem to []string.
-func (s *GetZonesCollectionFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayGetZonesCollectionFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if GetZonesCollectionFilterItem is []string.
-func (s GetZonesCollectionFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayGetZonesCollectionFilterItem returns new GetZonesCollectionFilterItem from []string.
-func NewStringArrayGetZonesCollectionFilterItem(v []string) GetZonesCollectionFilterItem {
-	var s GetZonesCollectionFilterItem
-	s.SetStringArray(v)
-	return s
+// SetState sets the value of State.
+func (s *GetZonesCollectionFilter) SetState(val OptString) {
+	s.State = val
 }
 
 type GetZonesCollectionIncludeItem string
@@ -31551,83 +28944,45 @@ func (s *LegacyNetwork) SetIpv4(val IPNet) {
 	s.Ipv4 = val
 }
 
-type ListScopedVariablesFilter map[string]ListScopedVariablesFilterItem
-
-func (s *ListScopedVariablesFilter) init() ListScopedVariablesFilter {
-	m := *s
-	if m == nil {
-		m = map[string]ListScopedVariablesFilterItem{}
-		*s = m
-	}
-	return m
+type ListScopedVariablesFilter struct {
+	// `filter[identifier]=value` List only those environments matching this identifier. May return
+	// multiple results.
+	Identifier OptString `json:"identifier"`
+	// `filter[search]=value` search for a value associated with a field on the given scoped variable(s).
+	Search OptString `json:"search"`
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the scoped variable's
+	// current state.
+	State OptString `json:"state"`
 }
 
-// ListScopedVariablesFilterItem represents sum type.
-type ListScopedVariablesFilterItem struct {
-	Type        ListScopedVariablesFilterItemType // switch on this field
-	String      string
-	StringArray []string
+// GetIdentifier returns the value of Identifier.
+func (s *ListScopedVariablesFilter) GetIdentifier() OptString {
+	return s.Identifier
 }
 
-// ListScopedVariablesFilterItemType is oneOf type of ListScopedVariablesFilterItem.
-type ListScopedVariablesFilterItemType string
-
-// Possible values for ListScopedVariablesFilterItemType.
-const (
-	StringListScopedVariablesFilterItem      ListScopedVariablesFilterItemType = "string"
-	StringArrayListScopedVariablesFilterItem ListScopedVariablesFilterItemType = "[]string"
-)
-
-// IsString reports whether ListScopedVariablesFilterItem is string.
-func (s ListScopedVariablesFilterItem) IsString() bool {
-	return s.Type == StringListScopedVariablesFilterItem
+// GetSearch returns the value of Search.
+func (s *ListScopedVariablesFilter) GetSearch() OptString {
+	return s.Search
 }
 
-// IsStringArray reports whether ListScopedVariablesFilterItem is []string.
-func (s ListScopedVariablesFilterItem) IsStringArray() bool {
-	return s.Type == StringArrayListScopedVariablesFilterItem
+// GetState returns the value of State.
+func (s *ListScopedVariablesFilter) GetState() OptString {
+	return s.State
 }
 
-// SetString sets ListScopedVariablesFilterItem to string.
-func (s *ListScopedVariablesFilterItem) SetString(v string) {
-	s.Type = StringListScopedVariablesFilterItem
-	s.String = v
+// SetIdentifier sets the value of Identifier.
+func (s *ListScopedVariablesFilter) SetIdentifier(val OptString) {
+	s.Identifier = val
 }
 
-// GetString returns string and true boolean if ListScopedVariablesFilterItem is string.
-func (s ListScopedVariablesFilterItem) GetString() (v string, ok bool) {
-	if !s.IsString() {
-		return v, false
-	}
-	return s.String, true
+// SetSearch sets the value of Search.
+func (s *ListScopedVariablesFilter) SetSearch(val OptString) {
+	s.Search = val
 }
 
-// NewStringListScopedVariablesFilterItem returns new ListScopedVariablesFilterItem from string.
-func NewStringListScopedVariablesFilterItem(v string) ListScopedVariablesFilterItem {
-	var s ListScopedVariablesFilterItem
-	s.SetString(v)
-	return s
-}
-
-// SetStringArray sets ListScopedVariablesFilterItem to []string.
-func (s *ListScopedVariablesFilterItem) SetStringArray(v []string) {
-	s.Type = StringArrayListScopedVariablesFilterItem
-	s.StringArray = v
-}
-
-// GetStringArray returns []string and true boolean if ListScopedVariablesFilterItem is []string.
-func (s ListScopedVariablesFilterItem) GetStringArray() (v []string, ok bool) {
-	if !s.IsStringArray() {
-		return v, false
-	}
-	return s.StringArray, true
-}
-
-// NewStringArrayListScopedVariablesFilterItem returns new ListScopedVariablesFilterItem from []string.
-func NewStringArrayListScopedVariablesFilterItem(v []string) ListScopedVariablesFilterItem {
-	var s ListScopedVariablesFilterItem
-	s.SetStringArray(v)
-	return s
+// SetState sets the value of State.
+func (s *ListScopedVariablesFilter) SetState(val OptString) {
+	s.State = val
 }
 
 type ListScopedVariablesOK struct {
@@ -42020,52 +39375,6 @@ func (o OptGPUSpecExtra) Or(d GPUSpecExtra) GPUSpecExtra {
 	return d
 }
 
-// NewOptGetAccountInvitesFilter returns new OptGetAccountInvitesFilter with value set to v.
-func NewOptGetAccountInvitesFilter(v GetAccountInvitesFilter) OptGetAccountInvitesFilter {
-	return OptGetAccountInvitesFilter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetAccountInvitesFilter is optional GetAccountInvitesFilter.
-type OptGetAccountInvitesFilter struct {
-	Value GetAccountInvitesFilter
-	Set   bool
-}
-
-// IsSet returns true if OptGetAccountInvitesFilter was set.
-func (o OptGetAccountInvitesFilter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetAccountInvitesFilter) Reset() {
-	var v GetAccountInvitesFilter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetAccountInvitesFilter) SetTo(v GetAccountInvitesFilter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetAccountInvitesFilter) Get() (v GetAccountInvitesFilter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetAccountInvitesFilter) Or(d GetAccountInvitesFilter) GetAccountInvitesFilter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptGetAccountInvitesPage returns new OptGetAccountInvitesPage with value set to v.
 func NewOptGetAccountInvitesPage(v GetAccountInvitesPage) OptGetAccountInvitesPage {
 	return OptGetAccountInvitesPage{
@@ -42106,52 +39415,6 @@ func (o OptGetAccountInvitesPage) Get() (v GetAccountInvitesPage, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptGetAccountInvitesPage) Or(d GetAccountInvitesPage) GetAccountInvitesPage {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptGetAccountLoginsFilter returns new OptGetAccountLoginsFilter with value set to v.
-func NewOptGetAccountLoginsFilter(v GetAccountLoginsFilter) OptGetAccountLoginsFilter {
-	return OptGetAccountLoginsFilter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetAccountLoginsFilter is optional GetAccountLoginsFilter.
-type OptGetAccountLoginsFilter struct {
-	Value GetAccountLoginsFilter
-	Set   bool
-}
-
-// IsSet returns true if OptGetAccountLoginsFilter was set.
-func (o OptGetAccountLoginsFilter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetAccountLoginsFilter) Reset() {
-	var v GetAccountLoginsFilter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetAccountLoginsFilter) SetTo(v GetAccountLoginsFilter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetAccountLoginsFilter) Get() (v GetAccountLoginsFilter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetAccountLoginsFilter) Or(d GetAccountLoginsFilter) GetAccountLoginsFilter {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -42204,52 +39467,6 @@ func (o OptGetAccountLoginsPage) Or(d GetAccountLoginsPage) GetAccountLoginsPage
 	return d
 }
 
-// NewOptGetAnnouncementsListFilter returns new OptGetAnnouncementsListFilter with value set to v.
-func NewOptGetAnnouncementsListFilter(v GetAnnouncementsListFilter) OptGetAnnouncementsListFilter {
-	return OptGetAnnouncementsListFilter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetAnnouncementsListFilter is optional GetAnnouncementsListFilter.
-type OptGetAnnouncementsListFilter struct {
-	Value GetAnnouncementsListFilter
-	Set   bool
-}
-
-// IsSet returns true if OptGetAnnouncementsListFilter was set.
-func (o OptGetAnnouncementsListFilter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetAnnouncementsListFilter) Reset() {
-	var v GetAnnouncementsListFilter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetAnnouncementsListFilter) SetTo(v GetAnnouncementsListFilter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetAnnouncementsListFilter) Get() (v GetAnnouncementsListFilter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetAnnouncementsListFilter) Or(d GetAnnouncementsListFilter) GetAnnouncementsListFilter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptGetAnnouncementsListPage returns new OptGetAnnouncementsListPage with value set to v.
 func NewOptGetAnnouncementsListPage(v GetAnnouncementsListPage) OptGetAnnouncementsListPage {
 	return OptGetAnnouncementsListPage{
@@ -42290,52 +39507,6 @@ func (o OptGetAnnouncementsListPage) Get() (v GetAnnouncementsListPage, ok bool)
 
 // Or returns value if set, or given parameter if does not.
 func (o OptGetAnnouncementsListPage) Or(d GetAnnouncementsListPage) GetAnnouncementsListPage {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptGetApiKeysFilter returns new OptGetApiKeysFilter with value set to v.
-func NewOptGetApiKeysFilter(v GetApiKeysFilter) OptGetApiKeysFilter {
-	return OptGetApiKeysFilter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetApiKeysFilter is optional GetApiKeysFilter.
-type OptGetApiKeysFilter struct {
-	Value GetApiKeysFilter
-	Set   bool
-}
-
-// IsSet returns true if OptGetApiKeysFilter was set.
-func (o OptGetApiKeysFilter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetApiKeysFilter) Reset() {
-	var v GetApiKeysFilter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetApiKeysFilter) SetTo(v GetApiKeysFilter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetApiKeysFilter) Get() (v GetApiKeysFilter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetApiKeysFilter) Or(d GetApiKeysFilter) GetApiKeysFilter {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -42434,52 +39605,6 @@ func (o OptGetBackupsCollectionPage) Or(d GetBackupsCollectionPage) GetBackupsCo
 	return d
 }
 
-// NewOptGetBillingMethodsFilter returns new OptGetBillingMethodsFilter with value set to v.
-func NewOptGetBillingMethodsFilter(v GetBillingMethodsFilter) OptGetBillingMethodsFilter {
-	return OptGetBillingMethodsFilter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetBillingMethodsFilter is optional GetBillingMethodsFilter.
-type OptGetBillingMethodsFilter struct {
-	Value GetBillingMethodsFilter
-	Set   bool
-}
-
-// IsSet returns true if OptGetBillingMethodsFilter was set.
-func (o OptGetBillingMethodsFilter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetBillingMethodsFilter) Reset() {
-	var v GetBillingMethodsFilter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetBillingMethodsFilter) SetTo(v GetBillingMethodsFilter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetBillingMethodsFilter) Get() (v GetBillingMethodsFilter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetBillingMethodsFilter) Or(d GetBillingMethodsFilter) GetBillingMethodsFilter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptGetBillingMethodsPage returns new OptGetBillingMethodsPage with value set to v.
 func NewOptGetBillingMethodsPage(v GetBillingMethodsPage) OptGetBillingMethodsPage {
 	return OptGetBillingMethodsPage{
@@ -42520,52 +39645,6 @@ func (o OptGetBillingMethodsPage) Get() (v GetBillingMethodsPage, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptGetBillingMethodsPage) Or(d GetBillingMethodsPage) GetBillingMethodsPage {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptGetBillingOveragesFilter returns new OptGetBillingOveragesFilter with value set to v.
-func NewOptGetBillingOveragesFilter(v GetBillingOveragesFilter) OptGetBillingOveragesFilter {
-	return OptGetBillingOveragesFilter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetBillingOveragesFilter is optional GetBillingOveragesFilter.
-type OptGetBillingOveragesFilter struct {
-	Value GetBillingOveragesFilter
-	Set   bool
-}
-
-// IsSet returns true if OptGetBillingOveragesFilter was set.
-func (o OptGetBillingOveragesFilter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetBillingOveragesFilter) Reset() {
-	var v GetBillingOveragesFilter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetBillingOveragesFilter) SetTo(v GetBillingOveragesFilter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetBillingOveragesFilter) Get() (v GetBillingOveragesFilter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetBillingOveragesFilter) Or(d GetBillingOveragesFilter) GetBillingOveragesFilter {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -42618,52 +39697,6 @@ func (o OptGetBillingOveragesPage) Or(d GetBillingOveragesPage) GetBillingOverag
 	return d
 }
 
-// NewOptGetBillingServicesFilter returns new OptGetBillingServicesFilter with value set to v.
-func NewOptGetBillingServicesFilter(v GetBillingServicesFilter) OptGetBillingServicesFilter {
-	return OptGetBillingServicesFilter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetBillingServicesFilter is optional GetBillingServicesFilter.
-type OptGetBillingServicesFilter struct {
-	Value GetBillingServicesFilter
-	Set   bool
-}
-
-// IsSet returns true if OptGetBillingServicesFilter was set.
-func (o OptGetBillingServicesFilter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetBillingServicesFilter) Reset() {
-	var v GetBillingServicesFilter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetBillingServicesFilter) SetTo(v GetBillingServicesFilter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetBillingServicesFilter) Get() (v GetBillingServicesFilter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetBillingServicesFilter) Or(d GetBillingServicesFilter) GetBillingServicesFilter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptGetBillingServicesPage returns new OptGetBillingServicesPage with value set to v.
 func NewOptGetBillingServicesPage(v GetBillingServicesPage) OptGetBillingServicesPage {
 	return OptGetBillingServicesPage{
@@ -42704,52 +39737,6 @@ func (o OptGetBillingServicesPage) Get() (v GetBillingServicesPage, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptGetBillingServicesPage) Or(d GetBillingServicesPage) GetBillingServicesPage {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptGetBillingSupportPlansFilter returns new OptGetBillingSupportPlansFilter with value set to v.
-func NewOptGetBillingSupportPlansFilter(v GetBillingSupportPlansFilter) OptGetBillingSupportPlansFilter {
-	return OptGetBillingSupportPlansFilter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetBillingSupportPlansFilter is optional GetBillingSupportPlansFilter.
-type OptGetBillingSupportPlansFilter struct {
-	Value GetBillingSupportPlansFilter
-	Set   bool
-}
-
-// IsSet returns true if OptGetBillingSupportPlansFilter was set.
-func (o OptGetBillingSupportPlansFilter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetBillingSupportPlansFilter) Reset() {
-	var v GetBillingSupportPlansFilter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetBillingSupportPlansFilter) SetTo(v GetBillingSupportPlansFilter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetBillingSupportPlansFilter) Get() (v GetBillingSupportPlansFilter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetBillingSupportPlansFilter) Or(d GetBillingSupportPlansFilter) GetBillingSupportPlansFilter {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -43026,52 +40013,6 @@ func (o OptGetContainersPage) Get() (v GetContainersPage, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptGetContainersPage) Or(d GetContainersPage) GetContainersPage {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptGetCreditsFilter returns new OptGetCreditsFilter with value set to v.
-func NewOptGetCreditsFilter(v GetCreditsFilter) OptGetCreditsFilter {
-	return OptGetCreditsFilter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetCreditsFilter is optional GetCreditsFilter.
-type OptGetCreditsFilter struct {
-	Value GetCreditsFilter
-	Set   bool
-}
-
-// IsSet returns true if OptGetCreditsFilter was set.
-func (o OptGetCreditsFilter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetCreditsFilter) Reset() {
-	var v GetCreditsFilter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetCreditsFilter) SetTo(v GetCreditsFilter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetCreditsFilter) Get() (v GetCreditsFilter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetCreditsFilter) Or(d GetCreditsFilter) GetCreditsFilter {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -43492,52 +40433,6 @@ func (o OptGetHubActivityPage) Or(d GetHubActivityPage) GetHubActivityPage {
 	return d
 }
 
-// NewOptGetHubInvitesFilter returns new OptGetHubInvitesFilter with value set to v.
-func NewOptGetHubInvitesFilter(v GetHubInvitesFilter) OptGetHubInvitesFilter {
-	return OptGetHubInvitesFilter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetHubInvitesFilter is optional GetHubInvitesFilter.
-type OptGetHubInvitesFilter struct {
-	Value GetHubInvitesFilter
-	Set   bool
-}
-
-// IsSet returns true if OptGetHubInvitesFilter was set.
-func (o OptGetHubInvitesFilter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetHubInvitesFilter) Reset() {
-	var v GetHubInvitesFilter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetHubInvitesFilter) SetTo(v GetHubInvitesFilter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetHubInvitesFilter) Get() (v GetHubInvitesFilter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetHubInvitesFilter) Or(d GetHubInvitesFilter) GetHubInvitesFilter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptGetHubInvitesPage returns new OptGetHubInvitesPage with value set to v.
 func NewOptGetHubInvitesPage(v GetHubInvitesPage) OptGetHubInvitesPage {
 	return OptGetHubInvitesPage{
@@ -43584,52 +40479,6 @@ func (o OptGetHubInvitesPage) Or(d GetHubInvitesPage) GetHubInvitesPage {
 	return d
 }
 
-// NewOptGetHubMembersFilter returns new OptGetHubMembersFilter with value set to v.
-func NewOptGetHubMembersFilter(v GetHubMembersFilter) OptGetHubMembersFilter {
-	return OptGetHubMembersFilter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetHubMembersFilter is optional GetHubMembersFilter.
-type OptGetHubMembersFilter struct {
-	Value GetHubMembersFilter
-	Set   bool
-}
-
-// IsSet returns true if OptGetHubMembersFilter was set.
-func (o OptGetHubMembersFilter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetHubMembersFilter) Reset() {
-	var v GetHubMembersFilter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetHubMembersFilter) SetTo(v GetHubMembersFilter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetHubMembersFilter) Get() (v GetHubMembersFilter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetHubMembersFilter) Or(d GetHubMembersFilter) GetHubMembersFilter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptGetHubMembersPage returns new OptGetHubMembersPage with value set to v.
 func NewOptGetHubMembersPage(v GetHubMembersPage) OptGetHubMembersPage {
 	return OptGetHubMembersPage{
@@ -43670,52 +40519,6 @@ func (o OptGetHubMembersPage) Get() (v GetHubMembersPage, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptGetHubMembersPage) Or(d GetHubMembersPage) GetHubMembersPage {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptGetHubUsageFilter returns new OptGetHubUsageFilter with value set to v.
-func NewOptGetHubUsageFilter(v GetHubUsageFilter) OptGetHubUsageFilter {
-	return OptGetHubUsageFilter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetHubUsageFilter is optional GetHubUsageFilter.
-type OptGetHubUsageFilter struct {
-	Value GetHubUsageFilter
-	Set   bool
-}
-
-// IsSet returns true if OptGetHubUsageFilter was set.
-func (o OptGetHubUsageFilter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetHubUsageFilter) Reset() {
-	var v GetHubUsageFilter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetHubUsageFilter) SetTo(v GetHubUsageFilter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetHubUsageFilter) Get() (v GetHubUsageFilter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetHubUsageFilter) Or(d GetHubUsageFilter) GetHubUsageFilter {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -44182,52 +40985,6 @@ func (o OptGetInstancesPage) Or(d GetInstancesPage) GetInstancesPage {
 	return d
 }
 
-// NewOptGetInvoicesFilter returns new OptGetInvoicesFilter with value set to v.
-func NewOptGetInvoicesFilter(v GetInvoicesFilter) OptGetInvoicesFilter {
-	return OptGetInvoicesFilter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetInvoicesFilter is optional GetInvoicesFilter.
-type OptGetInvoicesFilter struct {
-	Value GetInvoicesFilter
-	Set   bool
-}
-
-// IsSet returns true if OptGetInvoicesFilter was set.
-func (o OptGetInvoicesFilter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetInvoicesFilter) Reset() {
-	var v GetInvoicesFilter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetInvoicesFilter) SetTo(v GetInvoicesFilter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetInvoicesFilter) Get() (v GetInvoicesFilter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetInvoicesFilter) Or(d GetInvoicesFilter) GetInvoicesFilter {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptGetInvoicesPage returns new OptGetInvoicesPage with value set to v.
 func NewOptGetInvoicesPage(v GetInvoicesPage) OptGetInvoicesPage {
 	return OptGetInvoicesPage{
@@ -44544,52 +41301,6 @@ func (o OptGetNetworksPage) Get() (v GetNetworksPage, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptGetNetworksPage) Or(d GetNetworksPage) GetNetworksPage {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptGetOrdersFilter returns new OptGetOrdersFilter with value set to v.
-func NewOptGetOrdersFilter(v GetOrdersFilter) OptGetOrdersFilter {
-	return OptGetOrdersFilter{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGetOrdersFilter is optional GetOrdersFilter.
-type OptGetOrdersFilter struct {
-	Value GetOrdersFilter
-	Set   bool
-}
-
-// IsSet returns true if OptGetOrdersFilter was set.
-func (o OptGetOrdersFilter) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGetOrdersFilter) Reset() {
-	var v GetOrdersFilter
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGetOrdersFilter) SetTo(v GetOrdersFilter) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGetOrdersFilter) Get() (v GetOrdersFilter, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGetOrdersFilter) Or(d GetOrdersFilter) GetOrdersFilter {
 	if v, ok := o.Get(); ok {
 		return v
 	}
