@@ -23699,46 +23699,6 @@ func (s *CreateImageSourceReqAbout) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
-// Encode encodes CreateImageSourceReqType as json.
-func (s CreateImageSourceReqType) Encode(e *jx.Encoder) {
-	e.Str(string(s))
-}
-
-// Decode decodes CreateImageSourceReqType from json.
-func (s *CreateImageSourceReqType) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode CreateImageSourceReqType to nil")
-	}
-	v, err := d.StrBytes()
-	if err != nil {
-		return err
-	}
-	// Try to use constant string.
-	switch CreateImageSourceReqType(v) {
-	case CreateImageSourceReqTypeStackBuild:
-		*s = CreateImageSourceReqTypeStackBuild
-	case CreateImageSourceReqTypeDirect:
-		*s = CreateImageSourceReqTypeDirect
-	default:
-		*s = CreateImageSourceReqType(v)
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s CreateImageSourceReqType) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *CreateImageSourceReqType) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
 // Encode implements json.Marshaler.
 func (s *CreateInvoiceJobOK) Encode(e *jx.Encoder) {
 	e.ObjStart()
@@ -29906,6 +29866,337 @@ func (s *CreditStateError) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *CycleSourceOrigin) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CycleSourceOrigin) encodeFields(e *jx.Encoder) {
+	{
+		if s.Details.Set {
+			e.FieldStart("details")
+			s.Details.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCycleSourceOrigin = [1]string{
+	0: "details",
+}
+
+// Decode decodes CycleSourceOrigin from json.
+func (s *CycleSourceOrigin) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CycleSourceOrigin to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "details":
+			if err := func() error {
+				s.Details.Reset()
+				if err := s.Details.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"details\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CycleSourceOrigin")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CycleSourceOrigin) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CycleSourceOrigin) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CycleSourceOriginDetails) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CycleSourceOriginDetails) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("source_id")
+		s.SourceID.Encode(e)
+	}
+}
+
+var jsonFieldsNameOfCycleSourceOriginDetails = [1]string{
+	0: "source_id",
+}
+
+// Decode decodes CycleSourceOriginDetails from json.
+func (s *CycleSourceOriginDetails) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CycleSourceOriginDetails to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "source_id":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.SourceID.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"source_id\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CycleSourceOriginDetails")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000001,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCycleSourceOriginDetails) {
+					name = jsonFieldsNameOfCycleSourceOriginDetails[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CycleSourceOriginDetails) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CycleSourceOriginDetails) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CycleUploadOrigin) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CycleUploadOrigin) encodeFields(e *jx.Encoder) {
+	{
+		if s.Details.Set {
+			e.FieldStart("details")
+			s.Details.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfCycleUploadOrigin = [1]string{
+	0: "details",
+}
+
+// Decode decodes CycleUploadOrigin from json.
+func (s *CycleUploadOrigin) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CycleUploadOrigin to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "details":
+			if err := func() error {
+				s.Details.Reset()
+				if err := s.Details.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"details\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CycleUploadOrigin")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CycleUploadOrigin) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CycleUploadOrigin) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *CycleUploadOriginDetails) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *CycleUploadOriginDetails) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("expires")
+		s.Expires.Encode(e)
+	}
+	{
+		e.FieldStart("token")
+		e.Str(s.Token)
+	}
+}
+
+var jsonFieldsNameOfCycleUploadOriginDetails = [2]string{
+	0: "expires",
+	1: "token",
+}
+
+// Decode decodes CycleUploadOriginDetails from json.
+func (s *CycleUploadOriginDetails) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode CycleUploadOriginDetails to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "expires":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				if err := s.Expires.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"expires\"")
+			}
+		case "token":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				v, err := d.Str()
+				s.Token = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"token\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode CycleUploadOriginDetails")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfCycleUploadOriginDetails) {
+					name = jsonFieldsNameOfCycleUploadOriginDetails[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *CycleUploadOriginDetails) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *CycleUploadOriginDetails) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *DNSRecordTaskAccepted) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -31934,14 +32225,14 @@ func (s *DnsTlsCertificateEvents) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
-func (s *DockerHubSource) Encode(e *jx.Encoder) {
+func (s *DockerFileOrigin) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *DockerHubSource) encodeFields(e *jx.Encoder) {
+func (s *DockerFileOrigin) encodeFields(e *jx.Encoder) {
 	{
 		if s.Details.Set {
 			e.FieldStart("details")
@@ -31950,14 +32241,14 @@ func (s *DockerHubSource) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfDockerHubSource = [1]string{
+var jsonFieldsNameOfDockerFileOrigin = [1]string{
 	0: "details",
 }
 
-// Decode decodes DockerHubSource from json.
-func (s *DockerHubSource) Decode(d *jx.Decoder) error {
+// Decode decodes DockerFileOrigin from json.
+func (s *DockerFileOrigin) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode DockerHubSource to nil")
+		return errors.New("invalid: unable to decode DockerFileOrigin to nil")
 	}
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
@@ -31977,34 +32268,230 @@ func (s *DockerHubSource) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode DockerHubSource")
+		return errors.Wrap(err, "decode DockerFileOrigin")
 	}
 
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *DockerHubSource) MarshalJSON() ([]byte, error) {
+func (s *DockerFileOrigin) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DockerHubSource) UnmarshalJSON(data []byte) error {
+func (s *DockerFileOrigin) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *DockerHubSourceDetails) Encode(e *jx.Encoder) {
+func (s *DockerFileOriginDetails) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *DockerHubSourceDetails) encodeFields(e *jx.Encoder) {
+func (s *DockerFileOriginDetails) encodeFields(e *jx.Encoder) {
+	{
+		if s.Repo.Set {
+			e.FieldStart("repo")
+			s.Repo.Encode(e)
+		}
+	}
+	{
+		if s.TargzURL.Set {
+			e.FieldStart("targz_url")
+			s.TargzURL.Encode(e)
+		}
+	}
+	{
+		if s.ContextDir.Set {
+			e.FieldStart("context_dir")
+			s.ContextDir.Encode(e)
+		}
+	}
+	{
+		if s.BuildFile.Set {
+			e.FieldStart("build_file")
+			s.BuildFile.Encode(e)
+		}
+	}
+	{
+		if s.Credentials != nil {
+			e.FieldStart("credentials")
+			s.Credentials.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfDockerFileOriginDetails = [5]string{
+	0: "repo",
+	1: "targz_url",
+	2: "context_dir",
+	3: "build_file",
+	4: "credentials",
+}
+
+// Decode decodes DockerFileOriginDetails from json.
+func (s *DockerFileOriginDetails) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode DockerFileOriginDetails to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "repo":
+			if err := func() error {
+				s.Repo.Reset()
+				if err := s.Repo.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"repo\"")
+			}
+		case "targz_url":
+			if err := func() error {
+				s.TargzURL.Reset()
+				if err := s.TargzURL.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"targz_url\"")
+			}
+		case "context_dir":
+			if err := func() error {
+				s.ContextDir.Reset()
+				if err := s.ContextDir.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"context_dir\"")
+			}
+		case "build_file":
+			if err := func() error {
+				s.BuildFile.Reset()
+				if err := s.BuildFile.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"build_file\"")
+			}
+		case "credentials":
+			if err := func() error {
+				s.Credentials = nil
+				var elem DockerfileCredentials
+				if err := elem.Decode(d); err != nil {
+					return err
+				}
+				s.Credentials = &elem
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"credentials\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode DockerFileOriginDetails")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *DockerFileOriginDetails) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *DockerFileOriginDetails) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *DockerHubOrigin) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *DockerHubOrigin) encodeFields(e *jx.Encoder) {
+	{
+		if s.Details.Set {
+			e.FieldStart("details")
+			s.Details.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfDockerHubOrigin = [1]string{
+	0: "details",
+}
+
+// Decode decodes DockerHubOrigin from json.
+func (s *DockerHubOrigin) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode DockerHubOrigin to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "details":
+			if err := func() error {
+				s.Details.Reset()
+				if err := s.Details.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"details\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode DockerHubOrigin")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *DockerHubOrigin) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *DockerHubOrigin) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *DockerHubOriginDetails) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *DockerHubOriginDetails) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("target")
 		e.Str(s.Target)
@@ -32023,16 +32510,16 @@ func (s *DockerHubSourceDetails) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfDockerHubSourceDetails = [3]string{
+var jsonFieldsNameOfDockerHubOriginDetails = [3]string{
 	0: "target",
 	1: "username",
 	2: "token",
 }
 
-// Decode decodes DockerHubSourceDetails from json.
-func (s *DockerHubSourceDetails) Decode(d *jx.Decoder) error {
+// Decode decodes DockerHubOriginDetails from json.
+func (s *DockerHubOriginDetails) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode DockerHubSourceDetails to nil")
+		return errors.New("invalid: unable to decode DockerHubOriginDetails to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -32075,7 +32562,7 @@ func (s *DockerHubSourceDetails) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode DockerHubSourceDetails")
+		return errors.Wrap(err, "decode DockerHubOriginDetails")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -32092,8 +32579,8 @@ func (s *DockerHubSourceDetails) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfDockerHubSourceDetails) {
-					name = jsonFieldsNameOfDockerHubSourceDetails[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfDockerHubOriginDetails) {
+					name = jsonFieldsNameOfDockerHubOriginDetails[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -32114,27 +32601,27 @@ func (s *DockerHubSourceDetails) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *DockerHubSourceDetails) MarshalJSON() ([]byte, error) {
+func (s *DockerHubOriginDetails) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DockerHubSourceDetails) UnmarshalJSON(data []byte) error {
+func (s *DockerHubOriginDetails) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *DockerRegistrySource) Encode(e *jx.Encoder) {
+func (s *DockerRegistryOrigin) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *DockerRegistrySource) encodeFields(e *jx.Encoder) {
+func (s *DockerRegistryOrigin) encodeFields(e *jx.Encoder) {
 	{
 		if s.Details.Set {
 			e.FieldStart("details")
@@ -32143,14 +32630,14 @@ func (s *DockerRegistrySource) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfDockerRegistrySource = [1]string{
+var jsonFieldsNameOfDockerRegistryOrigin = [1]string{
 	0: "details",
 }
 
-// Decode decodes DockerRegistrySource from json.
-func (s *DockerRegistrySource) Decode(d *jx.Decoder) error {
+// Decode decodes DockerRegistryOrigin from json.
+func (s *DockerRegistryOrigin) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode DockerRegistrySource to nil")
+		return errors.New("invalid: unable to decode DockerRegistryOrigin to nil")
 	}
 
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
@@ -32170,34 +32657,34 @@ func (s *DockerRegistrySource) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode DockerRegistrySource")
+		return errors.Wrap(err, "decode DockerRegistryOrigin")
 	}
 
 	return nil
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *DockerRegistrySource) MarshalJSON() ([]byte, error) {
+func (s *DockerRegistryOrigin) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DockerRegistrySource) UnmarshalJSON(data []byte) error {
+func (s *DockerRegistryOrigin) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
 // Encode implements json.Marshaler.
-func (s *DockerRegistrySourceDetails) Encode(e *jx.Encoder) {
+func (s *DockerRegistryOriginDetails) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *DockerRegistrySourceDetails) encodeFields(e *jx.Encoder) {
+func (s *DockerRegistryOriginDetails) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("target")
 		e.Str(s.Target)
@@ -32226,7 +32713,7 @@ func (s *DockerRegistrySourceDetails) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfDockerRegistrySourceDetails = [5]string{
+var jsonFieldsNameOfDockerRegistryOriginDetails = [5]string{
 	0: "target",
 	1: "url",
 	2: "username",
@@ -32234,10 +32721,10 @@ var jsonFieldsNameOfDockerRegistrySourceDetails = [5]string{
 	4: "password",
 }
 
-// Decode decodes DockerRegistrySourceDetails from json.
-func (s *DockerRegistrySourceDetails) Decode(d *jx.Decoder) error {
+// Decode decodes DockerRegistryOriginDetails from json.
+func (s *DockerRegistryOriginDetails) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode DockerRegistrySourceDetails to nil")
+		return errors.New("invalid: unable to decode DockerRegistryOriginDetails to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -32302,7 +32789,7 @@ func (s *DockerRegistrySourceDetails) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode DockerRegistrySourceDetails")
+		return errors.Wrap(err, "decode DockerRegistryOriginDetails")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
@@ -32319,8 +32806,8 @@ func (s *DockerRegistrySourceDetails) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfDockerRegistrySourceDetails) {
-					name = jsonFieldsNameOfDockerRegistrySourceDetails[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfDockerRegistryOriginDetails) {
+					name = jsonFieldsNameOfDockerRegistryOriginDetails[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -32341,14 +32828,14 @@ func (s *DockerRegistrySourceDetails) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *DockerRegistrySourceDetails) MarshalJSON() ([]byte, error) {
+func (s *DockerRegistryOriginDetails) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DockerRegistrySourceDetails) UnmarshalJSON(data []byte) error {
+func (s *DockerRegistryOriginDetails) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -32496,202 +32983,6 @@ func (s *DockerfileCredentialsItem) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *DockerfileCredentialsItem) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *DockerfileFileSource) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *DockerfileFileSource) encodeFields(e *jx.Encoder) {
-	{
-		if s.Details.Set {
-			e.FieldStart("details")
-			s.Details.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfDockerfileFileSource = [1]string{
-	0: "details",
-}
-
-// Decode decodes DockerfileFileSource from json.
-func (s *DockerfileFileSource) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DockerfileFileSource to nil")
-	}
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "details":
-			if err := func() error {
-				s.Details.Reset()
-				if err := s.Details.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"details\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode DockerfileFileSource")
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DockerfileFileSource) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DockerfileFileSource) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *DockerfileFileSourceDetails) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *DockerfileFileSourceDetails) encodeFields(e *jx.Encoder) {
-	{
-		if s.Repo.Set {
-			e.FieldStart("repo")
-			s.Repo.Encode(e)
-		}
-	}
-	{
-		if s.TargzURL.Set {
-			e.FieldStart("targz_url")
-			s.TargzURL.Encode(e)
-		}
-	}
-	{
-		if s.ContextDir.Set {
-			e.FieldStart("context_dir")
-			s.ContextDir.Encode(e)
-		}
-	}
-	{
-		if s.BuildFile.Set {
-			e.FieldStart("build_file")
-			s.BuildFile.Encode(e)
-		}
-	}
-	{
-		if s.Credentials != nil {
-			e.FieldStart("credentials")
-			s.Credentials.Encode(e)
-		}
-	}
-}
-
-var jsonFieldsNameOfDockerfileFileSourceDetails = [5]string{
-	0: "repo",
-	1: "targz_url",
-	2: "context_dir",
-	3: "build_file",
-	4: "credentials",
-}
-
-// Decode decodes DockerfileFileSourceDetails from json.
-func (s *DockerfileFileSourceDetails) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode DockerfileFileSourceDetails to nil")
-	}
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "repo":
-			if err := func() error {
-				s.Repo.Reset()
-				if err := s.Repo.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"repo\"")
-			}
-		case "targz_url":
-			if err := func() error {
-				s.TargzURL.Reset()
-				if err := s.TargzURL.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"targz_url\"")
-			}
-		case "context_dir":
-			if err := func() error {
-				s.ContextDir.Reset()
-				if err := s.ContextDir.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"context_dir\"")
-			}
-		case "build_file":
-			if err := func() error {
-				s.BuildFile.Reset()
-				if err := s.BuildFile.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"build_file\"")
-			}
-		case "credentials":
-			if err := func() error {
-				s.Credentials = nil
-				var elem DockerfileCredentials
-				if err := elem.Decode(d); err != nil {
-					return err
-				}
-				s.Credentials = &elem
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"credentials\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode DockerfileFileSourceDetails")
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *DockerfileFileSourceDetails) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *DockerfileFileSourceDetails) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -52507,6 +52798,146 @@ func (s *ImageMeta) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes ImageOrigin as json.
+func (s ImageOrigin) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case CycleSourceOriginImageOrigin:
+		e.ObjStart()
+		e.FieldStart("type")
+		e.Str("cycle-source")
+		s.CycleSourceOrigin.encodeFields(e)
+		e.ObjEnd()
+	case CycleUploadOriginImageOrigin:
+		e.ObjStart()
+		e.FieldStart("type")
+		e.Str("cycle-upload")
+		s.CycleUploadOrigin.encodeFields(e)
+		e.ObjEnd()
+	case DockerFileOriginImageOrigin:
+		e.ObjStart()
+		e.FieldStart("type")
+		e.Str("docker-file")
+		s.DockerFileOrigin.encodeFields(e)
+		e.ObjEnd()
+	case DockerHubOriginImageOrigin:
+		e.ObjStart()
+		e.FieldStart("type")
+		e.Str("docker-hub")
+		s.DockerHubOrigin.encodeFields(e)
+		e.ObjEnd()
+	case DockerRegistryOriginImageOrigin:
+		e.ObjStart()
+		e.FieldStart("type")
+		e.Str("docker-registry")
+		s.DockerRegistryOrigin.encodeFields(e)
+		e.ObjEnd()
+	case NoneOriginImageOrigin:
+		e.ObjStart()
+		e.FieldStart("type")
+		e.Str("none")
+		s.NoneOrigin.encodeFields(e)
+		e.ObjEnd()
+	}
+}
+
+// Decode decodes ImageOrigin from json.
+func (s *ImageOrigin) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ImageOrigin to nil")
+	}
+	// Sum type discriminator.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			if found {
+				return d.Skip()
+			}
+			switch string(key) {
+			case "type":
+				typ, err := d.Str()
+				if err != nil {
+					return err
+				}
+				switch typ {
+				case "cycle-source":
+					s.Type = CycleSourceOriginImageOrigin
+					found = true
+				case "cycle-upload":
+					s.Type = CycleUploadOriginImageOrigin
+					found = true
+				case "docker-file":
+					s.Type = DockerFileOriginImageOrigin
+					found = true
+				case "docker-hub":
+					s.Type = DockerHubOriginImageOrigin
+					found = true
+				case "docker-registry":
+					s.Type = DockerRegistryOriginImageOrigin
+					found = true
+				case "none":
+					s.Type = NoneOriginImageOrigin
+					found = true
+				default:
+					return errors.Errorf("unknown type %s", typ)
+				}
+				return nil
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		return errors.New("unable to detect sum type variant")
+	}
+	switch s.Type {
+	case DockerHubOriginImageOrigin:
+		if err := s.DockerHubOrigin.Decode(d); err != nil {
+			return err
+		}
+	case DockerFileOriginImageOrigin:
+		if err := s.DockerFileOrigin.Decode(d); err != nil {
+			return err
+		}
+	case DockerRegistryOriginImageOrigin:
+		if err := s.DockerRegistryOrigin.Decode(d); err != nil {
+			return err
+		}
+	case CycleUploadOriginImageOrigin:
+		if err := s.CycleUploadOrigin.Decode(d); err != nil {
+			return err
+		}
+	case CycleSourceOriginImageOrigin:
+		if err := s.CycleSourceOrigin.Decode(d); err != nil {
+			return err
+		}
+	case NoneOriginImageOrigin:
+		if err := s.NoneOrigin.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ImageOrigin) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ImageOrigin) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode implements json.Marshaler.
 func (s *ImageSource) Encode(e *jx.Encoder) {
 	e.ObjStart()
@@ -52523,6 +52954,10 @@ func (s *ImageSource) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("identifier")
 		s.Identifier.Encode(e)
+	}
+	{
+		e.FieldStart("type")
+		s.Type.Encode(e)
 	}
 	{
 		e.FieldStart("hub_id")
@@ -52555,10 +52990,6 @@ func (s *ImageSource) encodeFields(e *jx.Encoder) {
 		s.Events.Encode(e)
 	}
 	{
-		e.FieldStart("requires")
-		s.Requires.Encode(e)
-	}
-	{
 		if s.Meta.Set {
 			e.FieldStart("meta")
 			s.Meta.Encode(e)
@@ -52569,14 +53000,14 @@ func (s *ImageSource) encodeFields(e *jx.Encoder) {
 var jsonFieldsNameOfImageSource = [11]string{
 	0:  "id",
 	1:  "identifier",
-	2:  "hub_id",
-	3:  "name",
-	4:  "about",
-	5:  "origin",
-	6:  "creator",
-	7:  "state",
-	8:  "events",
-	9:  "requires",
+	2:  "type",
+	3:  "hub_id",
+	4:  "name",
+	5:  "about",
+	6:  "origin",
+	7:  "creator",
+	8:  "state",
+	9:  "events",
 	10: "meta",
 }
 
@@ -52609,8 +53040,18 @@ func (s *ImageSource) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"identifier\"")
 			}
-		case "hub_id":
+		case "type":
 			requiredBitSet[0] |= 1 << 2
+			if err := func() error {
+				if err := s.Type.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"type\"")
+			}
+		case "hub_id":
+			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
 				if err := s.HubID.Decode(d); err != nil {
 					return err
@@ -52620,7 +53061,7 @@ func (s *ImageSource) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"hub_id\"")
 			}
 		case "name":
-			requiredBitSet[0] |= 1 << 3
+			requiredBitSet[0] |= 1 << 4
 			if err := func() error {
 				v, err := d.Str()
 				s.Name = string(v)
@@ -52642,7 +53083,7 @@ func (s *ImageSource) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"about\"")
 			}
 		case "origin":
-			requiredBitSet[0] |= 1 << 5
+			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
 				if err := s.Origin.Decode(d); err != nil {
 					return err
@@ -52652,7 +53093,7 @@ func (s *ImageSource) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"origin\"")
 			}
 		case "creator":
-			requiredBitSet[0] |= 1 << 6
+			requiredBitSet[0] |= 1 << 7
 			if err := func() error {
 				if err := s.Creator.Decode(d); err != nil {
 					return err
@@ -52662,7 +53103,7 @@ func (s *ImageSource) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"creator\"")
 			}
 		case "state":
-			requiredBitSet[0] |= 1 << 7
+			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
 				if err := s.State.Decode(d); err != nil {
 					return err
@@ -52672,7 +53113,7 @@ func (s *ImageSource) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"state\"")
 			}
 		case "events":
-			requiredBitSet[1] |= 1 << 0
+			requiredBitSet[1] |= 1 << 1
 			if err := func() error {
 				if err := s.Events.Decode(d); err != nil {
 					return err
@@ -52680,16 +53121,6 @@ func (s *ImageSource) Decode(d *jx.Decoder) error {
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"events\"")
-			}
-		case "requires":
-			requiredBitSet[1] |= 1 << 1
-			if err := func() error {
-				if err := s.Requires.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"requires\"")
 			}
 		case "meta":
 			if err := func() error {
@@ -52711,7 +53142,7 @@ func (s *ImageSource) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [2]uint8{
-		0b11101111,
+		0b11011111,
 		0b00000011,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
@@ -53979,201 +54410,6 @@ func (s *ImageSourceMetaImagesCountState) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
-// Encode encodes ImageSourceOrigin as json.
-func (s ImageSourceOrigin) Encode(e *jx.Encoder) {
-	switch s.Type {
-	case DockerfileFileSourceImageSourceOrigin:
-		e.ObjStart()
-		e.FieldStart("type")
-		e.Str("docker-file")
-		s.DockerfileFileSource.encodeFields(e)
-		e.ObjEnd()
-	case DockerHubSourceImageSourceOrigin:
-		e.ObjStart()
-		e.FieldStart("type")
-		e.Str("docker-hub")
-		s.DockerHubSource.encodeFields(e)
-		e.ObjEnd()
-	case DockerRegistrySourceImageSourceOrigin:
-		e.ObjStart()
-		e.FieldStart("type")
-		e.Str("docker-registry")
-		s.DockerRegistrySource.encodeFields(e)
-		e.ObjEnd()
-	}
-}
-
-// Decode decodes ImageSourceOrigin from json.
-func (s *ImageSourceOrigin) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode ImageSourceOrigin to nil")
-	}
-	// Sum type discriminator.
-	if typ := d.Next(); typ != jx.Object {
-		return errors.Errorf("unexpected json type %q", typ)
-	}
-
-	var found bool
-	if err := d.Capture(func(d *jx.Decoder) error {
-		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
-			if found {
-				return d.Skip()
-			}
-			switch string(key) {
-			case "type":
-				typ, err := d.Str()
-				if err != nil {
-					return err
-				}
-				switch typ {
-				case "docker-file":
-					s.Type = DockerfileFileSourceImageSourceOrigin
-					found = true
-				case "docker-hub":
-					s.Type = DockerHubSourceImageSourceOrigin
-					found = true
-				case "docker-registry":
-					s.Type = DockerRegistrySourceImageSourceOrigin
-					found = true
-				default:
-					return errors.Errorf("unknown type %s", typ)
-				}
-				return nil
-			}
-			return d.Skip()
-		})
-	}); err != nil {
-		return errors.Wrap(err, "capture")
-	}
-	if !found {
-		return errors.New("unable to detect sum type variant")
-	}
-	switch s.Type {
-	case DockerHubSourceImageSourceOrigin:
-		if err := s.DockerHubSource.Decode(d); err != nil {
-			return err
-		}
-	case DockerfileFileSourceImageSourceOrigin:
-		if err := s.DockerfileFileSource.Decode(d); err != nil {
-			return err
-		}
-	case DockerRegistrySourceImageSourceOrigin:
-		if err := s.DockerRegistrySource.Decode(d); err != nil {
-			return err
-		}
-	default:
-		return errors.Errorf("inferred invalid type: %s", s.Type)
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s ImageSourceOrigin) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ImageSourceOrigin) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *ImageSourceRequires) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *ImageSourceRequires) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("nvidia_gpu")
-		s.NvidiaGpu.Encode(e)
-	}
-}
-
-var jsonFieldsNameOfImageSourceRequires = [1]string{
-	0: "nvidia_gpu",
-}
-
-// Decode decodes ImageSourceRequires from json.
-func (s *ImageSourceRequires) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode ImageSourceRequires to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "nvidia_gpu":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				if err := s.NvidiaGpu.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"nvidia_gpu\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode ImageSourceRequires")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000001,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfImageSourceRequires) {
-					name = jsonFieldsNameOfImageSourceRequires[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *ImageSourceRequires) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ImageSourceRequires) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
 // Encode implements json.Marshaler.
 func (s *ImageSourceState) Encode(e *jx.Encoder) {
 	e.ObjStart()
@@ -54418,6 +54654,48 @@ func (s *ImageSourceStateError) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *ImageSourceStateError) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ImageSourceType as json.
+func (s ImageSourceType) Encode(e *jx.Encoder) {
+	e.Str(string(s))
+}
+
+// Decode decodes ImageSourceType from json.
+func (s *ImageSourceType) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ImageSourceType to nil")
+	}
+	v, err := d.StrBytes()
+	if err != nil {
+		return err
+	}
+	// Try to use constant string.
+	switch ImageSourceType(v) {
+	case ImageSourceTypeStackBuild:
+		*s = ImageSourceTypeStackBuild
+	case ImageSourceTypeDirect:
+		*s = ImageSourceTypeDirect
+	case ImageSourceTypeBucket:
+		*s = ImageSourceTypeBucket
+	default:
+		*s = ImageSourceType(v)
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ImageSourceType) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ImageSourceType) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -54706,6 +54984,8 @@ func (s *ImageStateCurrent) Decode(d *jx.Decoder) error {
 	switch ImageStateCurrent(v) {
 	case ImageStateCurrentNew:
 		*s = ImageStateCurrentNew
+	case ImageStateCurrentUploading:
+		*s = ImageStateCurrentUploading
 	case ImageStateCurrentDownloading:
 		*s = ImageStateCurrentDownloading
 	case ImageStateCurrentBuilding:
@@ -69594,6 +69874,116 @@ func (s *NodeStateError) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode implements json.Marshaler.
+func (s *NoneOrigin) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *NoneOrigin) encodeFields(e *jx.Encoder) {
+	{
+		if s.Details != nil {
+			e.FieldStart("details")
+			s.Details.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfNoneOrigin = [1]string{
+	0: "details",
+}
+
+// Decode decodes NoneOrigin from json.
+func (s *NoneOrigin) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode NoneOrigin to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "details":
+			if err := func() error {
+				s.Details = nil
+				var elem NoneOriginDetails
+				if err := elem.Decode(d); err != nil {
+					return err
+				}
+				s.Details = &elem
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"details\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode NoneOrigin")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *NoneOrigin) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *NoneOrigin) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *NoneOriginDetails) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *NoneOriginDetails) encodeFields(e *jx.Encoder) {
+}
+
+var jsonFieldsNameOfNoneOriginDetails = [0]string{}
+
+// Decode decodes NoneOriginDetails from json.
+func (s *NoneOriginDetails) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode NoneOriginDetails to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode NoneOriginDetails")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *NoneOriginDetails) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *NoneOriginDetails) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes AbstractionIntegration as json.
 func (o OptAbstractionIntegration) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -73338,6 +73728,72 @@ func (s *OptCreditStateError) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes CycleSourceOriginDetails as json.
+func (o OptCycleSourceOriginDetails) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes CycleSourceOriginDetails from json.
+func (o *OptCycleSourceOriginDetails) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCycleSourceOriginDetails to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCycleSourceOriginDetails) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCycleSourceOriginDetails) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes CycleUploadOriginDetails as json.
+func (o OptCycleUploadOriginDetails) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes CycleUploadOriginDetails from json.
+func (o *OptCycleUploadOriginDetails) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptCycleUploadOriginDetails to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptCycleUploadOriginDetails) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptCycleUploadOriginDetails) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes DNSRecordTaskReq as json.
 func (o OptDNSRecordTaskReq) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -73602,18 +74058,18 @@ func (s *OptDnsTlsCertificate) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
-// Encode encodes DockerHubSourceDetails as json.
-func (o OptDockerHubSourceDetails) Encode(e *jx.Encoder) {
+// Encode encodes DockerFileOriginDetails as json.
+func (o OptDockerFileOriginDetails) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
 	o.Value.Encode(e)
 }
 
-// Decode decodes DockerHubSourceDetails from json.
-func (o *OptDockerHubSourceDetails) Decode(d *jx.Decoder) error {
+// Decode decodes DockerFileOriginDetails from json.
+func (o *OptDockerFileOriginDetails) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptDockerHubSourceDetails to nil")
+		return errors.New("invalid: unable to decode OptDockerFileOriginDetails to nil")
 	}
 	o.Set = true
 	if err := o.Value.Decode(d); err != nil {
@@ -73623,30 +74079,30 @@ func (o *OptDockerHubSourceDetails) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptDockerHubSourceDetails) MarshalJSON() ([]byte, error) {
+func (s OptDockerFileOriginDetails) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptDockerHubSourceDetails) UnmarshalJSON(data []byte) error {
+func (s *OptDockerFileOriginDetails) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes DockerRegistrySourceDetails as json.
-func (o OptDockerRegistrySourceDetails) Encode(e *jx.Encoder) {
+// Encode encodes DockerHubOriginDetails as json.
+func (o OptDockerHubOriginDetails) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
 	o.Value.Encode(e)
 }
 
-// Decode decodes DockerRegistrySourceDetails from json.
-func (o *OptDockerRegistrySourceDetails) Decode(d *jx.Decoder) error {
+// Decode decodes DockerHubOriginDetails from json.
+func (o *OptDockerHubOriginDetails) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptDockerRegistrySourceDetails to nil")
+		return errors.New("invalid: unable to decode OptDockerHubOriginDetails to nil")
 	}
 	o.Set = true
 	if err := o.Value.Decode(d); err != nil {
@@ -73656,30 +74112,30 @@ func (o *OptDockerRegistrySourceDetails) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptDockerRegistrySourceDetails) MarshalJSON() ([]byte, error) {
+func (s OptDockerHubOriginDetails) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptDockerRegistrySourceDetails) UnmarshalJSON(data []byte) error {
+func (s *OptDockerHubOriginDetails) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
 
-// Encode encodes DockerfileFileSourceDetails as json.
-func (o OptDockerfileFileSourceDetails) Encode(e *jx.Encoder) {
+// Encode encodes DockerRegistryOriginDetails as json.
+func (o OptDockerRegistryOriginDetails) Encode(e *jx.Encoder) {
 	if !o.Set {
 		return
 	}
 	o.Value.Encode(e)
 }
 
-// Decode decodes DockerfileFileSourceDetails from json.
-func (o *OptDockerfileFileSourceDetails) Decode(d *jx.Decoder) error {
+// Decode decodes DockerRegistryOriginDetails from json.
+func (o *OptDockerRegistryOriginDetails) Decode(d *jx.Decoder) error {
 	if o == nil {
-		return errors.New("invalid: unable to decode OptDockerfileFileSourceDetails to nil")
+		return errors.New("invalid: unable to decode OptDockerRegistryOriginDetails to nil")
 	}
 	o.Set = true
 	if err := o.Value.Decode(d); err != nil {
@@ -73689,14 +74145,14 @@ func (o *OptDockerfileFileSourceDetails) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s OptDockerfileFileSourceDetails) MarshalJSON() ([]byte, error) {
+func (s OptDockerRegistryOriginDetails) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptDockerfileFileSourceDetails) UnmarshalJSON(data []byte) error {
+func (s *OptDockerRegistryOriginDetails) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -75325,6 +75781,39 @@ func (s *OptImageMeta) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes ImageOrigin as json.
+func (o OptImageOrigin) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes ImageOrigin from json.
+func (o *OptImageOrigin) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptImageOrigin to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptImageOrigin) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptImageOrigin) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes ImageSource as json.
 func (o OptImageSource) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -75553,39 +76042,6 @@ func (s OptImageSourceMetaImagesCount) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptImageSourceMetaImagesCount) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes ImageSourceOrigin as json.
-func (o OptImageSourceOrigin) Encode(e *jx.Encoder) {
-	if !o.Set {
-		return
-	}
-	o.Value.Encode(e)
-}
-
-// Decode decodes ImageSourceOrigin from json.
-func (o *OptImageSourceOrigin) Decode(d *jx.Decoder) error {
-	if o == nil {
-		return errors.New("invalid: unable to decode OptImageSourceOrigin to nil")
-	}
-	o.Set = true
-	if err := o.Value.Decode(d); err != nil {
-		return err
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s OptImageSourceOrigin) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptImageSourceOrigin) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -86306,7 +86762,7 @@ func (s *PipelineIncludesComponentsItem) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "origin":
+			case "type":
 				match := ImageSourcePipelineIncludesComponentsItem
 				if found && s.Type != match {
 					s.Type = ""
@@ -86314,7 +86770,7 @@ func (s *PipelineIncludesComponentsItem) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "requires":
+			case "origin":
 				match := ImageSourcePipelineIncludesComponentsItem
 				if found && s.Type != match {
 					s.Type = ""

@@ -5953,6 +5953,28 @@ func (s *GetRecordsCollectionPage) DecodeURI(d uri.Decoder) error {
 
 // EncodeURI encodes GetSecurityReportFilter as URI form.
 func (s *GetSecurityReportFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("range-start", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusStart.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-start\"")
+	}
+	if err := e.EncodeField("range-end", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusEnd.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-end\"")
+	}
 	if err := e.EncodeField("environment", func(e uri.Encoder) error {
 		if val, ok := s.Environment.Get(); ok {
 			return e.EncodeValue(conv.StringToString(val))
@@ -5972,9 +5994,11 @@ func (s *GetSecurityReportFilter) EncodeURI(e uri.Encoder) error {
 	return nil
 }
 
-var uriFieldsNameOfGetSecurityReportFilter = [2]string{
-	0: "environment",
-	1: "event",
+var uriFieldsNameOfGetSecurityReportFilter = [4]string{
+	0: "range-start",
+	1: "range-end",
+	2: "environment",
+	3: "event",
 }
 
 // DecodeURI decodes GetSecurityReportFilter from URI form.
@@ -5985,6 +6009,68 @@ func (s *GetSecurityReportFilter) DecodeURI(d uri.Decoder) error {
 
 	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
 		switch k {
+		case "range-start":
+			if err := func() error {
+				var sDotRangeMinusStartVal DateTime
+				if err := func() error {
+					var sDotRangeMinusStartValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusStartValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusStartVal = DateTime(sDotRangeMinusStartValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusStart.SetTo(sDotRangeMinusStartVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-start\"")
+			}
+		case "range-end":
+			if err := func() error {
+				var sDotRangeMinusEndVal DateTime
+				if err := func() error {
+					var sDotRangeMinusEndValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusEndValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusEndVal = DateTime(sDotRangeMinusEndValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusEnd.SetTo(sDotRangeMinusEndVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-end\"")
+			}
 		case "environment":
 			if err := func() error {
 				var sDotEnvironmentVal string

@@ -3765,16 +3765,6 @@ func (s *CreateImageSourceReq) Validate() error {
 	}
 	return nil
 }
-func (s CreateImageSourceReqType) Validate() error {
-	switch s {
-	case "stack_build":
-		return nil
-	case "direct":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
 func (s *CreateInvoiceJobReq) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -4676,6 +4666,22 @@ func (s CreditStateCurrent) Validate() error {
 		return errors.Errorf("invalid value: %v", s)
 	}
 }
+func (s CycleSourceOriginType) Validate() error {
+	switch s {
+	case "cycle-source":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s CycleUploadOriginType) Validate() error {
+	switch s {
+	case "cycle-upload":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
 func (s *DNSRecordTaskReq) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -4908,29 +4914,7 @@ func (s *DnsTlsCertificate) Validate() error {
 	}
 	return nil
 }
-func (s DockerHubSourceType) Validate() error {
-	switch s {
-	case "docker-hub":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-func (s DockerRegistrySourceType) Validate() error {
-	switch s {
-	case "docker-registry":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-func (s DockerfileCredentials) Validate() error {
-	if s == nil {
-		return errors.New("nil is invalid value")
-	}
-	return nil
-}
-func (s *DockerfileFileSource) Validate() error {
+func (s *DockerFileOrigin) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Details.Set {
@@ -4955,7 +4939,7 @@ func (s *DockerfileFileSource) Validate() error {
 	}
 	return nil
 }
-func (s *DockerfileFileSourceDetails) Validate() error {
+func (s *DockerFileOriginDetails) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Repo.Set {
@@ -4999,13 +4983,35 @@ func (s *DockerfileFileSourceDetails) Validate() error {
 	}
 	return nil
 }
-func (s DockerfileFileSourceType) Validate() error {
+func (s DockerFileOriginType) Validate() error {
 	switch s {
 	case "docker-file":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
+}
+func (s DockerHubOriginType) Validate() error {
+	switch s {
+	case "docker-hub":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s DockerRegistryOriginType) Validate() error {
+	switch s {
+	case "docker-registry":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s DockerfileCredentials) Validate() error {
+	if s == nil {
+		return errors.New("nil is invalid value")
+	}
+	return nil
 }
 func (s *EmployeeLogin) Validate() error {
 	var failures []validate.FieldError
@@ -11930,8 +11936,41 @@ func (s *ImageIncludes) Validate() error {
 	}
 	return nil
 }
+func (s ImageOrigin) Validate() error {
+	switch s.Type {
+	case DockerHubOriginImageOrigin:
+		return nil // no validation needed
+	case DockerFileOriginImageOrigin:
+		if err := s.DockerFileOrigin.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case DockerRegistryOriginImageOrigin:
+		return nil // no validation needed
+	case CycleUploadOriginImageOrigin:
+		return nil // no validation needed
+	case CycleSourceOriginImageOrigin:
+		return nil // no validation needed
+	case NoneOriginImageOrigin:
+		return nil // no validation needed
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
 func (s *ImageSource) Validate() error {
 	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
 	if err := func() error {
 		if err := s.Origin.Validate(); err != nil {
 			return err
@@ -12227,22 +12266,6 @@ func (s *ImageSourceMetaImagesCountState) Validate() error {
 	}
 	return nil
 }
-func (s ImageSourceOrigin) Validate() error {
-	switch s.Type {
-	case DockerHubSourceImageSourceOrigin:
-		return nil // no validation needed
-	case DockerfileFileSourceImageSourceOrigin:
-		if err := s.DockerfileFileSource.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case DockerRegistrySourceImageSourceOrigin:
-		return nil // no validation needed
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *ImageSourceState) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -12268,6 +12291,18 @@ func (s ImageSourceStateCurrent) Validate() error {
 	case "deleting":
 		return nil
 	case "deleted":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s ImageSourceType) Validate() error {
+	switch s {
+	case "stack-build":
+		return nil
+	case "direct":
+		return nil
+	case "bucket":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -12312,6 +12347,8 @@ func (s *ImageState) Validate() error {
 func (s ImageStateCurrent) Validate() error {
 	switch s {
 	case "new":
+		return nil
+	case "uploading":
 		return nil
 	case "downloading":
 		return nil
@@ -14414,6 +14451,14 @@ func (s NodeStateCurrent) Validate() error {
 	case "online":
 		return nil
 	case "decommissioned":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+func (s NoneOriginType) Validate() error {
+	switch s {
+	case "none":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)

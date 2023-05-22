@@ -10521,11 +10521,10 @@ func (s *CreateImageSourceCreated) SetData(val OptImageSource) {
 
 type CreateImageSourceReq struct {
 	// A name for the image source.
-	Name       OptString     `json:"name"`
-	Identifier OptIdentifier `json:"identifier"`
-	// A value identifiying the type of image.
-	Type   CreateImageSourceReqType `json:"type"`
-	Origin ImageSourceOrigin        `json:"origin"`
+	Name       OptString       `json:"name"`
+	Identifier OptIdentifier   `json:"identifier"`
+	Type       ImageSourceType `json:"type"`
+	Origin     ImageOrigin     `json:"origin"`
 	// User defined information about the image source.
 	About OptCreateImageSourceReqAbout `json:"about"`
 }
@@ -10541,12 +10540,12 @@ func (s *CreateImageSourceReq) GetIdentifier() OptIdentifier {
 }
 
 // GetType returns the value of Type.
-func (s *CreateImageSourceReq) GetType() CreateImageSourceReqType {
+func (s *CreateImageSourceReq) GetType() ImageSourceType {
 	return s.Type
 }
 
 // GetOrigin returns the value of Origin.
-func (s *CreateImageSourceReq) GetOrigin() ImageSourceOrigin {
+func (s *CreateImageSourceReq) GetOrigin() ImageOrigin {
 	return s.Origin
 }
 
@@ -10566,12 +10565,12 @@ func (s *CreateImageSourceReq) SetIdentifier(val OptIdentifier) {
 }
 
 // SetType sets the value of Type.
-func (s *CreateImageSourceReq) SetType(val CreateImageSourceReqType) {
+func (s *CreateImageSourceReq) SetType(val ImageSourceType) {
 	s.Type = val
 }
 
 // SetOrigin sets the value of Origin.
-func (s *CreateImageSourceReq) SetOrigin(val ImageSourceOrigin) {
+func (s *CreateImageSourceReq) SetOrigin(val ImageOrigin) {
 	s.Origin = val
 }
 
@@ -10594,40 +10593,6 @@ func (s *CreateImageSourceReqAbout) GetDescription() NilString {
 // SetDescription sets the value of Description.
 func (s *CreateImageSourceReqAbout) SetDescription(val NilString) {
 	s.Description = val
-}
-
-// A value identifiying the type of image.
-type CreateImageSourceReqType string
-
-const (
-	CreateImageSourceReqTypeStackBuild CreateImageSourceReqType = "stack_build"
-	CreateImageSourceReqTypeDirect     CreateImageSourceReqType = "direct"
-)
-
-// MarshalText implements encoding.TextMarshaler.
-func (s CreateImageSourceReqType) MarshalText() ([]byte, error) {
-	switch s {
-	case CreateImageSourceReqTypeStackBuild:
-		return []byte(s), nil
-	case CreateImageSourceReqTypeDirect:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *CreateImageSourceReqType) UnmarshalText(data []byte) error {
-	switch CreateImageSourceReqType(data) {
-	case CreateImageSourceReqTypeStackBuild:
-		*s = CreateImageSourceReqTypeStackBuild
-		return nil
-	case CreateImageSourceReqTypeDirect:
-		*s = CreateImageSourceReqTypeDirect
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
 }
 
 type CreateInvoiceJobOK struct {
@@ -12740,6 +12705,143 @@ func (s *CreditStateError) SetTime(val OptDateTime) {
 	s.Time = val
 }
 
+// An image origin that references an image source on Cycle.
+// This origin will never be embedded in an image source. It is for use in stacks, describing an
+// image which is already a part of an image source on Cycle.
+// Ref: #/components/schemas/CycleSourceOrigin
+type CycleSourceOrigin struct {
+	Details OptCycleSourceOriginDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *CycleSourceOrigin) GetDetails() OptCycleSourceOriginDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *CycleSourceOrigin) SetDetails(val OptCycleSourceOriginDetails) {
+	s.Details = val
+}
+
+type CycleSourceOriginDetails struct {
+	// The ID referencing the image source where this image originated.
+	SourceID ID `json:"source_id"`
+}
+
+// GetSourceID returns the value of SourceID.
+func (s *CycleSourceOriginDetails) GetSourceID() ID {
+	return s.SourceID
+}
+
+// SetSourceID sets the value of SourceID.
+func (s *CycleSourceOriginDetails) SetSourceID(val ID) {
+	s.SourceID = val
+}
+
+type CycleSourceOriginType string
+
+const (
+	CycleSourceOriginTypeCycleSource CycleSourceOriginType = "cycle-source"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CycleSourceOriginType) MarshalText() ([]byte, error) {
+	switch s {
+	case CycleSourceOriginTypeCycleSource:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CycleSourceOriginType) UnmarshalText(data []byte) error {
+	switch CycleSourceOriginType(data) {
+	case CycleSourceOriginTypeCycleSource:
+		*s = CycleSourceOriginTypeCycleSource
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// An image origin where the image is pushed directly to the factory, bypassing the need for a
+// registry or external source.
+// In order to utilize this image origin type, a tar file of an OCI compliant image will need to be
+// generated and pushed directly to the factory. The authentication token is generated when this
+// image is created, and expires at the provided time.
+// Once you have a token, it can be uploaded as multipart form data under the key `file.tar`,
+// directly to the factory at `https://factory.cycle.io:9414/v1/images/<IMAGE ID>/upload?hub-id=<HUB
+// ID>&token=<TOKEN>`.
+// Ref: #/components/schemas/CycleUploadOrigin
+type CycleUploadOrigin struct {
+	Details OptCycleUploadOriginDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *CycleUploadOrigin) GetDetails() OptCycleUploadOriginDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *CycleUploadOrigin) SetDetails(val OptCycleUploadOriginDetails) {
+	s.Details = val
+}
+
+type CycleUploadOriginDetails struct {
+	// The date-time at which the authorization token for uploading this image expires.
+	Expires DateTime `json:"expires"`
+	// The token that is required by the factory to accept an upload for this image.
+	Token string `json:"token"`
+}
+
+// GetExpires returns the value of Expires.
+func (s *CycleUploadOriginDetails) GetExpires() DateTime {
+	return s.Expires
+}
+
+// GetToken returns the value of Token.
+func (s *CycleUploadOriginDetails) GetToken() string {
+	return s.Token
+}
+
+// SetExpires sets the value of Expires.
+func (s *CycleUploadOriginDetails) SetExpires(val DateTime) {
+	s.Expires = val
+}
+
+// SetToken sets the value of Token.
+func (s *CycleUploadOriginDetails) SetToken(val string) {
+	s.Token = val
+}
+
+type CycleUploadOriginType string
+
+const (
+	CycleUploadOriginTypeCycleUpload CycleUploadOriginType = "cycle-upload"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CycleUploadOriginType) MarshalText() ([]byte, error) {
+	switch s {
+	case CycleUploadOriginTypeCycleUpload:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CycleUploadOriginType) UnmarshalText(data []byte) error {
+	switch CycleUploadOriginType(data) {
+	case CycleUploadOriginTypeCycleUpload:
+		*s = CycleUploadOriginTypeCycleUpload
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type DNSRecordTaskAccepted struct {
 	Data OptTaskDescriptor `json:"data"`
 }
@@ -13487,24 +13589,127 @@ func (s *DnsTlsCertificateEvents) SetGenerated(val OptDateTime) {
 	s.Generated = val
 }
 
-// Ref: #/components/schemas/DockerHubSource
-type DockerHubSource struct {
-	// An image source origin that pulls from DockerHub.
-	Details OptDockerHubSourceDetails `json:"details"`
+// An image origin where the image is built from a Dockerfile located in a git repository.
+// Ref: #/components/schemas/DockerFileOrigin
+type DockerFileOrigin struct {
+	Details OptDockerFileOriginDetails `json:"details"`
 }
 
 // GetDetails returns the value of Details.
-func (s *DockerHubSource) GetDetails() OptDockerHubSourceDetails {
+func (s *DockerFileOrigin) GetDetails() OptDockerFileOriginDetails {
 	return s.Details
 }
 
 // SetDetails sets the value of Details.
-func (s *DockerHubSource) SetDetails(val OptDockerHubSourceDetails) {
+func (s *DockerFileOrigin) SetDetails(val OptDockerFileOriginDetails) {
 	s.Details = val
 }
 
-// An image source origin that pulls from DockerHub.
-type DockerHubSourceDetails struct {
+type DockerFileOriginDetails struct {
+	Repo OptRepoType `json:"repo"`
+	// An endpoint that serves the tar file.
+	TargzURL OptString `json:"targz_url"`
+	// The path to the directory to use as the context when building the image.
+	ContextDir OptString `json:"context_dir"`
+	// The path to the Dockerfile to be used for buiding the image.
+	BuildFile   OptString              `json:"build_file"`
+	Credentials *DockerfileCredentials `json:"credentials"`
+}
+
+// GetRepo returns the value of Repo.
+func (s *DockerFileOriginDetails) GetRepo() OptRepoType {
+	return s.Repo
+}
+
+// GetTargzURL returns the value of TargzURL.
+func (s *DockerFileOriginDetails) GetTargzURL() OptString {
+	return s.TargzURL
+}
+
+// GetContextDir returns the value of ContextDir.
+func (s *DockerFileOriginDetails) GetContextDir() OptString {
+	return s.ContextDir
+}
+
+// GetBuildFile returns the value of BuildFile.
+func (s *DockerFileOriginDetails) GetBuildFile() OptString {
+	return s.BuildFile
+}
+
+// GetCredentials returns the value of Credentials.
+func (s *DockerFileOriginDetails) GetCredentials() *DockerfileCredentials {
+	return s.Credentials
+}
+
+// SetRepo sets the value of Repo.
+func (s *DockerFileOriginDetails) SetRepo(val OptRepoType) {
+	s.Repo = val
+}
+
+// SetTargzURL sets the value of TargzURL.
+func (s *DockerFileOriginDetails) SetTargzURL(val OptString) {
+	s.TargzURL = val
+}
+
+// SetContextDir sets the value of ContextDir.
+func (s *DockerFileOriginDetails) SetContextDir(val OptString) {
+	s.ContextDir = val
+}
+
+// SetBuildFile sets the value of BuildFile.
+func (s *DockerFileOriginDetails) SetBuildFile(val OptString) {
+	s.BuildFile = val
+}
+
+// SetCredentials sets the value of Credentials.
+func (s *DockerFileOriginDetails) SetCredentials(val *DockerfileCredentials) {
+	s.Credentials = val
+}
+
+type DockerFileOriginType string
+
+const (
+	DockerFileOriginTypeDockerFile DockerFileOriginType = "docker-file"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DockerFileOriginType) MarshalText() ([]byte, error) {
+	switch s {
+	case DockerFileOriginTypeDockerFile:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DockerFileOriginType) UnmarshalText(data []byte) error {
+	switch DockerFileOriginType(data) {
+	case DockerFileOriginTypeDockerFile:
+		*s = DockerFileOriginTypeDockerFile
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// An image origin where the image is pulled from DockerHub.
+// Ref: #/components/schemas/DockerHubOrigin
+type DockerHubOrigin struct {
+	Details OptDockerHubOriginDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *DockerHubOrigin) GetDetails() OptDockerHubOriginDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *DockerHubOrigin) SetDetails(val OptDockerHubOriginDetails) {
+	s.Details = val
+}
+
+type DockerHubOriginDetails struct {
 	// The DockerHub target string. ex - `mysql:5.7`.
 	Target string `json:"target"`
 	// For authentication, a username.
@@ -13514,45 +13719,45 @@ type DockerHubSourceDetails struct {
 }
 
 // GetTarget returns the value of Target.
-func (s *DockerHubSourceDetails) GetTarget() string {
+func (s *DockerHubOriginDetails) GetTarget() string {
 	return s.Target
 }
 
 // GetUsername returns the value of Username.
-func (s *DockerHubSourceDetails) GetUsername() OptString {
+func (s *DockerHubOriginDetails) GetUsername() OptString {
 	return s.Username
 }
 
 // GetToken returns the value of Token.
-func (s *DockerHubSourceDetails) GetToken() OptString {
+func (s *DockerHubOriginDetails) GetToken() OptString {
 	return s.Token
 }
 
 // SetTarget sets the value of Target.
-func (s *DockerHubSourceDetails) SetTarget(val string) {
+func (s *DockerHubOriginDetails) SetTarget(val string) {
 	s.Target = val
 }
 
 // SetUsername sets the value of Username.
-func (s *DockerHubSourceDetails) SetUsername(val OptString) {
+func (s *DockerHubOriginDetails) SetUsername(val OptString) {
 	s.Username = val
 }
 
 // SetToken sets the value of Token.
-func (s *DockerHubSourceDetails) SetToken(val OptString) {
+func (s *DockerHubOriginDetails) SetToken(val OptString) {
 	s.Token = val
 }
 
-type DockerHubSourceType string
+type DockerHubOriginType string
 
 const (
-	DockerHubSourceTypeDockerHub DockerHubSourceType = "docker-hub"
+	DockerHubOriginTypeDockerHub DockerHubOriginType = "docker-hub"
 )
 
 // MarshalText implements encoding.TextMarshaler.
-func (s DockerHubSourceType) MarshalText() ([]byte, error) {
+func (s DockerHubOriginType) MarshalText() ([]byte, error) {
 	switch s {
-	case DockerHubSourceTypeDockerHub:
+	case DockerHubOriginTypeDockerHub:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -13560,34 +13765,33 @@ func (s DockerHubSourceType) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *DockerHubSourceType) UnmarshalText(data []byte) error {
-	switch DockerHubSourceType(data) {
-	case DockerHubSourceTypeDockerHub:
-		*s = DockerHubSourceTypeDockerHub
+func (s *DockerHubOriginType) UnmarshalText(data []byte) error {
+	switch DockerHubOriginType(data) {
+	case DockerHubOriginTypeDockerHub:
+		*s = DockerHubOriginTypeDockerHub
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-// Ref: #/components/schemas/DockerRegistrySource
-type DockerRegistrySource struct {
-	// An image source origin that pulls from a private Docker registry.
-	Details OptDockerRegistrySourceDetails `json:"details"`
+// An image origin where the image is pulled from a private Docker registry.
+// Ref: #/components/schemas/DockerRegistryOrigin
+type DockerRegistryOrigin struct {
+	Details OptDockerRegistryOriginDetails `json:"details"`
 }
 
 // GetDetails returns the value of Details.
-func (s *DockerRegistrySource) GetDetails() OptDockerRegistrySourceDetails {
+func (s *DockerRegistryOrigin) GetDetails() OptDockerRegistryOriginDetails {
 	return s.Details
 }
 
 // SetDetails sets the value of Details.
-func (s *DockerRegistrySource) SetDetails(val OptDockerRegistrySourceDetails) {
+func (s *DockerRegistryOrigin) SetDetails(val OptDockerRegistryOriginDetails) {
 	s.Details = val
 }
 
-// An image source origin that pulls from a private Docker registry.
-type DockerRegistrySourceDetails struct {
+type DockerRegistryOriginDetails struct {
 	// The image name on the registry.
 	Target string `json:"target"`
 	// The url of the remote registry.
@@ -13601,65 +13805,65 @@ type DockerRegistrySourceDetails struct {
 }
 
 // GetTarget returns the value of Target.
-func (s *DockerRegistrySourceDetails) GetTarget() string {
+func (s *DockerRegistryOriginDetails) GetTarget() string {
 	return s.Target
 }
 
 // GetURL returns the value of URL.
-func (s *DockerRegistrySourceDetails) GetURL() string {
+func (s *DockerRegistryOriginDetails) GetURL() string {
 	return s.URL
 }
 
 // GetUsername returns the value of Username.
-func (s *DockerRegistrySourceDetails) GetUsername() OptString {
+func (s *DockerRegistryOriginDetails) GetUsername() OptString {
 	return s.Username
 }
 
 // GetToken returns the value of Token.
-func (s *DockerRegistrySourceDetails) GetToken() OptString {
+func (s *DockerRegistryOriginDetails) GetToken() OptString {
 	return s.Token
 }
 
 // GetPassword returns the value of Password.
-func (s *DockerRegistrySourceDetails) GetPassword() OptString {
+func (s *DockerRegistryOriginDetails) GetPassword() OptString {
 	return s.Password
 }
 
 // SetTarget sets the value of Target.
-func (s *DockerRegistrySourceDetails) SetTarget(val string) {
+func (s *DockerRegistryOriginDetails) SetTarget(val string) {
 	s.Target = val
 }
 
 // SetURL sets the value of URL.
-func (s *DockerRegistrySourceDetails) SetURL(val string) {
+func (s *DockerRegistryOriginDetails) SetURL(val string) {
 	s.URL = val
 }
 
 // SetUsername sets the value of Username.
-func (s *DockerRegistrySourceDetails) SetUsername(val OptString) {
+func (s *DockerRegistryOriginDetails) SetUsername(val OptString) {
 	s.Username = val
 }
 
 // SetToken sets the value of Token.
-func (s *DockerRegistrySourceDetails) SetToken(val OptString) {
+func (s *DockerRegistryOriginDetails) SetToken(val OptString) {
 	s.Token = val
 }
 
 // SetPassword sets the value of Password.
-func (s *DockerRegistrySourceDetails) SetPassword(val OptString) {
+func (s *DockerRegistryOriginDetails) SetPassword(val OptString) {
 	s.Password = val
 }
 
-type DockerRegistrySourceType string
+type DockerRegistryOriginType string
 
 const (
-	DockerRegistrySourceTypeDockerRegistry DockerRegistrySourceType = "docker-registry"
+	DockerRegistryOriginTypeDockerRegistry DockerRegistryOriginType = "docker-registry"
 )
 
 // MarshalText implements encoding.TextMarshaler.
-func (s DockerRegistrySourceType) MarshalText() ([]byte, error) {
+func (s DockerRegistryOriginType) MarshalText() ([]byte, error) {
 	switch s {
-	case DockerRegistrySourceTypeDockerRegistry:
+	case DockerRegistryOriginTypeDockerRegistry:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -13667,10 +13871,10 @@ func (s DockerRegistrySourceType) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *DockerRegistrySourceType) UnmarshalText(data []byte) error {
-	switch DockerRegistrySourceType(data) {
-	case DockerRegistrySourceTypeDockerRegistry:
-		*s = DockerRegistrySourceTypeDockerRegistry
+func (s *DockerRegistryOriginType) UnmarshalText(data []byte) error {
+	switch DockerRegistryOriginType(data) {
+	case DockerRegistryOriginTypeDockerRegistry:
+		*s = DockerRegistryOriginTypeDockerRegistry
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -13717,111 +13921,6 @@ func (s *DockerfileCredentialsItem) SetUsername(val OptString) {
 // SetToken sets the value of Token.
 func (s *DockerfileCredentialsItem) SetToken(val OptString) {
 	s.Token = val
-}
-
-// Ref: #/components/schemas/DockerfileFileSource
-type DockerfileFileSource struct {
-	// An image source origin that creates an image from a Dockerfile that's listed in a repository.
-	Details OptDockerfileFileSourceDetails `json:"details"`
-}
-
-// GetDetails returns the value of Details.
-func (s *DockerfileFileSource) GetDetails() OptDockerfileFileSourceDetails {
-	return s.Details
-}
-
-// SetDetails sets the value of Details.
-func (s *DockerfileFileSource) SetDetails(val OptDockerfileFileSourceDetails) {
-	s.Details = val
-}
-
-// An image source origin that creates an image from a Dockerfile that's listed in a repository.
-type DockerfileFileSourceDetails struct {
-	Repo OptRepoType `json:"repo"`
-	// An endpoint that serves the tar file.
-	TargzURL OptString `json:"targz_url"`
-	// The path to the directory to use as the context when building the image.
-	ContextDir OptString `json:"context_dir"`
-	// The path to the Dockerfile to be used for buiding the image.
-	BuildFile   OptString              `json:"build_file"`
-	Credentials *DockerfileCredentials `json:"credentials"`
-}
-
-// GetRepo returns the value of Repo.
-func (s *DockerfileFileSourceDetails) GetRepo() OptRepoType {
-	return s.Repo
-}
-
-// GetTargzURL returns the value of TargzURL.
-func (s *DockerfileFileSourceDetails) GetTargzURL() OptString {
-	return s.TargzURL
-}
-
-// GetContextDir returns the value of ContextDir.
-func (s *DockerfileFileSourceDetails) GetContextDir() OptString {
-	return s.ContextDir
-}
-
-// GetBuildFile returns the value of BuildFile.
-func (s *DockerfileFileSourceDetails) GetBuildFile() OptString {
-	return s.BuildFile
-}
-
-// GetCredentials returns the value of Credentials.
-func (s *DockerfileFileSourceDetails) GetCredentials() *DockerfileCredentials {
-	return s.Credentials
-}
-
-// SetRepo sets the value of Repo.
-func (s *DockerfileFileSourceDetails) SetRepo(val OptRepoType) {
-	s.Repo = val
-}
-
-// SetTargzURL sets the value of TargzURL.
-func (s *DockerfileFileSourceDetails) SetTargzURL(val OptString) {
-	s.TargzURL = val
-}
-
-// SetContextDir sets the value of ContextDir.
-func (s *DockerfileFileSourceDetails) SetContextDir(val OptString) {
-	s.ContextDir = val
-}
-
-// SetBuildFile sets the value of BuildFile.
-func (s *DockerfileFileSourceDetails) SetBuildFile(val OptString) {
-	s.BuildFile = val
-}
-
-// SetCredentials sets the value of Credentials.
-func (s *DockerfileFileSourceDetails) SetCredentials(val *DockerfileCredentials) {
-	s.Credentials = val
-}
-
-type DockerfileFileSourceType string
-
-const (
-	DockerfileFileSourceTypeDockerFile DockerfileFileSourceType = "docker-file"
-)
-
-// MarshalText implements encoding.TextMarshaler.
-func (s DockerfileFileSourceType) MarshalText() ([]byte, error) {
-	switch s {
-	case DockerfileFileSourceTypeDockerFile:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *DockerfileFileSourceType) UnmarshalText(data []byte) error {
-	switch DockerfileFileSourceType(data) {
-	case DockerfileFileSourceTypeDockerFile:
-		*s = DockerfileFileSourceTypeDockerFile
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
 }
 
 // Merged schema.
@@ -20690,11 +20789,25 @@ func (s *GetSearchIndexOK) SetData(val OptIndex) {
 }
 
 type GetSecurityReportFilter struct {
+	// The start date from when to pull the security report.
+	RangeMinusStart OptDateTime `json:"range-start"`
+	// The end date from when to pull the security report.
+	RangeMinusEnd OptDateTime `json:"range-end"`
 	// `filter[environment]=<Environment ID>` fetch the security report for the specified environment.
 	Environment OptString `json:"environment"`
 	// `filter[event]=value` filter by event occurrence. Example: `filter[event]=environment.services.vpn.
 	// login`.
 	Event OptString `json:"event"`
+}
+
+// GetRangeMinusStart returns the value of RangeMinusStart.
+func (s *GetSecurityReportFilter) GetRangeMinusStart() OptDateTime {
+	return s.RangeMinusStart
+}
+
+// GetRangeMinusEnd returns the value of RangeMinusEnd.
+func (s *GetSecurityReportFilter) GetRangeMinusEnd() OptDateTime {
+	return s.RangeMinusEnd
 }
 
 // GetEnvironment returns the value of Environment.
@@ -20705,6 +20818,16 @@ func (s *GetSecurityReportFilter) GetEnvironment() OptString {
 // GetEvent returns the value of Event.
 func (s *GetSecurityReportFilter) GetEvent() OptString {
 	return s.Event
+}
+
+// SetRangeMinusStart sets the value of RangeMinusStart.
+func (s *GetSecurityReportFilter) SetRangeMinusStart(val OptDateTime) {
+	s.RangeMinusStart = val
+}
+
+// SetRangeMinusEnd sets the value of RangeMinusEnd.
+func (s *GetSecurityReportFilter) SetRangeMinusEnd(val OptDateTime) {
+	s.RangeMinusEnd = val
 }
 
 // SetEnvironment sets the value of Environment.
@@ -24829,25 +24952,194 @@ func (s *ImageMeta) SetContainersCount(val OptStateCountSummary) {
 	s.ContainersCount = val
 }
 
+// The origin of the given image source.
+// Ref: #/components/schemas/ImageOrigin
+// ImageOrigin represents sum type.
+type ImageOrigin struct {
+	Type                 ImageOriginType // switch on this field
+	DockerHubOrigin      DockerHubOrigin
+	DockerFileOrigin     DockerFileOrigin
+	DockerRegistryOrigin DockerRegistryOrigin
+	CycleUploadOrigin    CycleUploadOrigin
+	CycleSourceOrigin    CycleSourceOrigin
+	NoneOrigin           NoneOrigin
+}
+
+// ImageOriginType is oneOf type of ImageOrigin.
+type ImageOriginType string
+
+// Possible values for ImageOriginType.
+const (
+	DockerHubOriginImageOrigin      ImageOriginType = "DockerHubOrigin"
+	DockerFileOriginImageOrigin     ImageOriginType = "DockerFileOrigin"
+	DockerRegistryOriginImageOrigin ImageOriginType = "DockerRegistryOrigin"
+	CycleUploadOriginImageOrigin    ImageOriginType = "CycleUploadOrigin"
+	CycleSourceOriginImageOrigin    ImageOriginType = "CycleSourceOrigin"
+	NoneOriginImageOrigin           ImageOriginType = "NoneOrigin"
+)
+
+// IsDockerHubOrigin reports whether ImageOrigin is DockerHubOrigin.
+func (s ImageOrigin) IsDockerHubOrigin() bool { return s.Type == DockerHubOriginImageOrigin }
+
+// IsDockerFileOrigin reports whether ImageOrigin is DockerFileOrigin.
+func (s ImageOrigin) IsDockerFileOrigin() bool { return s.Type == DockerFileOriginImageOrigin }
+
+// IsDockerRegistryOrigin reports whether ImageOrigin is DockerRegistryOrigin.
+func (s ImageOrigin) IsDockerRegistryOrigin() bool { return s.Type == DockerRegistryOriginImageOrigin }
+
+// IsCycleUploadOrigin reports whether ImageOrigin is CycleUploadOrigin.
+func (s ImageOrigin) IsCycleUploadOrigin() bool { return s.Type == CycleUploadOriginImageOrigin }
+
+// IsCycleSourceOrigin reports whether ImageOrigin is CycleSourceOrigin.
+func (s ImageOrigin) IsCycleSourceOrigin() bool { return s.Type == CycleSourceOriginImageOrigin }
+
+// IsNoneOrigin reports whether ImageOrigin is NoneOrigin.
+func (s ImageOrigin) IsNoneOrigin() bool { return s.Type == NoneOriginImageOrigin }
+
+// SetDockerHubOrigin sets ImageOrigin to DockerHubOrigin.
+func (s *ImageOrigin) SetDockerHubOrigin(v DockerHubOrigin) {
+	s.Type = DockerHubOriginImageOrigin
+	s.DockerHubOrigin = v
+}
+
+// GetDockerHubOrigin returns DockerHubOrigin and true boolean if ImageOrigin is DockerHubOrigin.
+func (s ImageOrigin) GetDockerHubOrigin() (v DockerHubOrigin, ok bool) {
+	if !s.IsDockerHubOrigin() {
+		return v, false
+	}
+	return s.DockerHubOrigin, true
+}
+
+// NewDockerHubOriginImageOrigin returns new ImageOrigin from DockerHubOrigin.
+func NewDockerHubOriginImageOrigin(v DockerHubOrigin) ImageOrigin {
+	var s ImageOrigin
+	s.SetDockerHubOrigin(v)
+	return s
+}
+
+// SetDockerFileOrigin sets ImageOrigin to DockerFileOrigin.
+func (s *ImageOrigin) SetDockerFileOrigin(v DockerFileOrigin) {
+	s.Type = DockerFileOriginImageOrigin
+	s.DockerFileOrigin = v
+}
+
+// GetDockerFileOrigin returns DockerFileOrigin and true boolean if ImageOrigin is DockerFileOrigin.
+func (s ImageOrigin) GetDockerFileOrigin() (v DockerFileOrigin, ok bool) {
+	if !s.IsDockerFileOrigin() {
+		return v, false
+	}
+	return s.DockerFileOrigin, true
+}
+
+// NewDockerFileOriginImageOrigin returns new ImageOrigin from DockerFileOrigin.
+func NewDockerFileOriginImageOrigin(v DockerFileOrigin) ImageOrigin {
+	var s ImageOrigin
+	s.SetDockerFileOrigin(v)
+	return s
+}
+
+// SetDockerRegistryOrigin sets ImageOrigin to DockerRegistryOrigin.
+func (s *ImageOrigin) SetDockerRegistryOrigin(v DockerRegistryOrigin) {
+	s.Type = DockerRegistryOriginImageOrigin
+	s.DockerRegistryOrigin = v
+}
+
+// GetDockerRegistryOrigin returns DockerRegistryOrigin and true boolean if ImageOrigin is DockerRegistryOrigin.
+func (s ImageOrigin) GetDockerRegistryOrigin() (v DockerRegistryOrigin, ok bool) {
+	if !s.IsDockerRegistryOrigin() {
+		return v, false
+	}
+	return s.DockerRegistryOrigin, true
+}
+
+// NewDockerRegistryOriginImageOrigin returns new ImageOrigin from DockerRegistryOrigin.
+func NewDockerRegistryOriginImageOrigin(v DockerRegistryOrigin) ImageOrigin {
+	var s ImageOrigin
+	s.SetDockerRegistryOrigin(v)
+	return s
+}
+
+// SetCycleUploadOrigin sets ImageOrigin to CycleUploadOrigin.
+func (s *ImageOrigin) SetCycleUploadOrigin(v CycleUploadOrigin) {
+	s.Type = CycleUploadOriginImageOrigin
+	s.CycleUploadOrigin = v
+}
+
+// GetCycleUploadOrigin returns CycleUploadOrigin and true boolean if ImageOrigin is CycleUploadOrigin.
+func (s ImageOrigin) GetCycleUploadOrigin() (v CycleUploadOrigin, ok bool) {
+	if !s.IsCycleUploadOrigin() {
+		return v, false
+	}
+	return s.CycleUploadOrigin, true
+}
+
+// NewCycleUploadOriginImageOrigin returns new ImageOrigin from CycleUploadOrigin.
+func NewCycleUploadOriginImageOrigin(v CycleUploadOrigin) ImageOrigin {
+	var s ImageOrigin
+	s.SetCycleUploadOrigin(v)
+	return s
+}
+
+// SetCycleSourceOrigin sets ImageOrigin to CycleSourceOrigin.
+func (s *ImageOrigin) SetCycleSourceOrigin(v CycleSourceOrigin) {
+	s.Type = CycleSourceOriginImageOrigin
+	s.CycleSourceOrigin = v
+}
+
+// GetCycleSourceOrigin returns CycleSourceOrigin and true boolean if ImageOrigin is CycleSourceOrigin.
+func (s ImageOrigin) GetCycleSourceOrigin() (v CycleSourceOrigin, ok bool) {
+	if !s.IsCycleSourceOrigin() {
+		return v, false
+	}
+	return s.CycleSourceOrigin, true
+}
+
+// NewCycleSourceOriginImageOrigin returns new ImageOrigin from CycleSourceOrigin.
+func NewCycleSourceOriginImageOrigin(v CycleSourceOrigin) ImageOrigin {
+	var s ImageOrigin
+	s.SetCycleSourceOrigin(v)
+	return s
+}
+
+// SetNoneOrigin sets ImageOrigin to NoneOrigin.
+func (s *ImageOrigin) SetNoneOrigin(v NoneOrigin) {
+	s.Type = NoneOriginImageOrigin
+	s.NoneOrigin = v
+}
+
+// GetNoneOrigin returns NoneOrigin and true boolean if ImageOrigin is NoneOrigin.
+func (s ImageOrigin) GetNoneOrigin() (v NoneOrigin, ok bool) {
+	if !s.IsNoneOrigin() {
+		return v, false
+	}
+	return s.NoneOrigin, true
+}
+
+// NewNoneOriginImageOrigin returns new ImageOrigin from NoneOrigin.
+func NewNoneOriginImageOrigin(v NoneOrigin) ImageOrigin {
+	var s ImageOrigin
+	s.SetNoneOrigin(v)
+	return s
+}
+
 // An image source is a set of resources that direct the platform on where it can find the resources
 // needed to build an image resource.
 // Ref: #/components/schemas/ImageSource
 type ImageSource struct {
 	ID ID `json:"id"`
 	// A human readable slugged identifier for this image source.
-	Identifier Identifier `json:"identifier"`
-	HubID      HubID      `json:"hub_id"`
+	Identifier Identifier      `json:"identifier"`
+	Type       ImageSourceType `json:"type"`
+	HubID      HubID           `json:"hub_id"`
 	// A name for the image source resource.
 	Name    string              `json:"name"`
 	About   OptImageSourceAbout `json:"about"`
-	Origin  ImageSourceOrigin   `json:"origin"`
+	Origin  ImageOrigin         `json:"origin"`
 	Creator CreatorScope        `json:"creator"`
 	State   ImageSourceState    `json:"state"`
 	// A collection of timestamps for each event in the iamge source's lifetime.
-	Events ImageSourceEvents `json:"events"`
-	// Information about a server resource this image requires to function properly.
-	Requires ImageSourceRequires `json:"requires"`
-	Meta     OptImageSourceMeta  `json:"meta"`
+	Events ImageSourceEvents  `json:"events"`
+	Meta   OptImageSourceMeta `json:"meta"`
 }
 
 // GetID returns the value of ID.
@@ -24858,6 +25150,11 @@ func (s *ImageSource) GetID() ID {
 // GetIdentifier returns the value of Identifier.
 func (s *ImageSource) GetIdentifier() Identifier {
 	return s.Identifier
+}
+
+// GetType returns the value of Type.
+func (s *ImageSource) GetType() ImageSourceType {
+	return s.Type
 }
 
 // GetHubID returns the value of HubID.
@@ -24876,7 +25173,7 @@ func (s *ImageSource) GetAbout() OptImageSourceAbout {
 }
 
 // GetOrigin returns the value of Origin.
-func (s *ImageSource) GetOrigin() ImageSourceOrigin {
+func (s *ImageSource) GetOrigin() ImageOrigin {
 	return s.Origin
 }
 
@@ -24895,11 +25192,6 @@ func (s *ImageSource) GetEvents() ImageSourceEvents {
 	return s.Events
 }
 
-// GetRequires returns the value of Requires.
-func (s *ImageSource) GetRequires() ImageSourceRequires {
-	return s.Requires
-}
-
 // GetMeta returns the value of Meta.
 func (s *ImageSource) GetMeta() OptImageSourceMeta {
 	return s.Meta
@@ -24913,6 +25205,11 @@ func (s *ImageSource) SetID(val ID) {
 // SetIdentifier sets the value of Identifier.
 func (s *ImageSource) SetIdentifier(val Identifier) {
 	s.Identifier = val
+}
+
+// SetType sets the value of Type.
+func (s *ImageSource) SetType(val ImageSourceType) {
+	s.Type = val
 }
 
 // SetHubID sets the value of HubID.
@@ -24931,7 +25228,7 @@ func (s *ImageSource) SetAbout(val OptImageSourceAbout) {
 }
 
 // SetOrigin sets the value of Origin.
-func (s *ImageSource) SetOrigin(val ImageSourceOrigin) {
+func (s *ImageSource) SetOrigin(val ImageOrigin) {
 	s.Origin = val
 }
 
@@ -24948,11 +25245,6 @@ func (s *ImageSource) SetState(val ImageSourceState) {
 // SetEvents sets the value of Events.
 func (s *ImageSource) SetEvents(val ImageSourceEvents) {
 	s.Events = val
-}
-
-// SetRequires sets the value of Requires.
-func (s *ImageSource) SetRequires(val ImageSourceRequires) {
-	s.Requires = val
 }
 
 // SetMeta sets the value of Meta.
@@ -25048,7 +25340,7 @@ type ImageSourceCreateStepDetails struct {
 	Name   string              `json:"name"`
 	Type   string              `json:"type"`
 	About  OptImageSourceAbout `json:"about"`
-	Origin ImageSourceOrigin   `json:"origin"`
+	Origin ImageOrigin         `json:"origin"`
 }
 
 // GetName returns the value of Name.
@@ -25067,7 +25359,7 @@ func (s *ImageSourceCreateStepDetails) GetAbout() OptImageSourceAbout {
 }
 
 // GetOrigin returns the value of Origin.
-func (s *ImageSourceCreateStepDetails) GetOrigin() ImageSourceOrigin {
+func (s *ImageSourceCreateStepDetails) GetOrigin() ImageOrigin {
 	return s.Origin
 }
 
@@ -25087,7 +25379,7 @@ func (s *ImageSourceCreateStepDetails) SetAbout(val OptImageSourceAbout) {
 }
 
 // SetOrigin sets the value of Origin.
-func (s *ImageSourceCreateStepDetails) SetOrigin(val ImageSourceOrigin) {
+func (s *ImageSourceCreateStepDetails) SetOrigin(val ImageOrigin) {
 	s.Origin = val
 }
 
@@ -25131,9 +25423,9 @@ func (s *ImageSourceDetails) SetDetails(val ImageSourceDetailsDetails) {
 }
 
 type ImageSourceDetailsDetails struct {
-	ID      string            `json:"id"`
-	StackID string            `json:"stack_id"`
-	Origin  ImageSourceOrigin `json:"origin"`
+	ID      string      `json:"id"`
+	StackID string      `json:"stack_id"`
+	Origin  ImageOrigin `json:"origin"`
 }
 
 // GetID returns the value of ID.
@@ -25147,7 +25439,7 @@ func (s *ImageSourceDetailsDetails) GetStackID() string {
 }
 
 // GetOrigin returns the value of Origin.
-func (s *ImageSourceDetailsDetails) GetOrigin() ImageSourceOrigin {
+func (s *ImageSourceDetailsDetails) GetOrigin() ImageOrigin {
 	return s.Origin
 }
 
@@ -25162,7 +25454,7 @@ func (s *ImageSourceDetailsDetails) SetStackID(val string) {
 }
 
 // SetOrigin sets the value of Origin.
-func (s *ImageSourceDetailsDetails) SetOrigin(val ImageSourceOrigin) {
+func (s *ImageSourceDetailsDetails) SetOrigin(val ImageOrigin) {
 	s.Origin = val
 }
 
@@ -25348,120 +25640,6 @@ func (s *ImageSourceMetaImagesCountState) SetDeleting(val float64) {
 	s.Deleting = val
 }
 
-// The origin of the given image source.
-// Ref: #/components/schemas/ImageSourceOrigin
-// ImageSourceOrigin represents sum type.
-type ImageSourceOrigin struct {
-	Type                 ImageSourceOriginType // switch on this field
-	DockerHubSource      DockerHubSource
-	DockerfileFileSource DockerfileFileSource
-	DockerRegistrySource DockerRegistrySource
-}
-
-// ImageSourceOriginType is oneOf type of ImageSourceOrigin.
-type ImageSourceOriginType string
-
-// Possible values for ImageSourceOriginType.
-const (
-	DockerHubSourceImageSourceOrigin      ImageSourceOriginType = "DockerHubSource"
-	DockerfileFileSourceImageSourceOrigin ImageSourceOriginType = "DockerfileFileSource"
-	DockerRegistrySourceImageSourceOrigin ImageSourceOriginType = "DockerRegistrySource"
-)
-
-// IsDockerHubSource reports whether ImageSourceOrigin is DockerHubSource.
-func (s ImageSourceOrigin) IsDockerHubSource() bool {
-	return s.Type == DockerHubSourceImageSourceOrigin
-}
-
-// IsDockerfileFileSource reports whether ImageSourceOrigin is DockerfileFileSource.
-func (s ImageSourceOrigin) IsDockerfileFileSource() bool {
-	return s.Type == DockerfileFileSourceImageSourceOrigin
-}
-
-// IsDockerRegistrySource reports whether ImageSourceOrigin is DockerRegistrySource.
-func (s ImageSourceOrigin) IsDockerRegistrySource() bool {
-	return s.Type == DockerRegistrySourceImageSourceOrigin
-}
-
-// SetDockerHubSource sets ImageSourceOrigin to DockerHubSource.
-func (s *ImageSourceOrigin) SetDockerHubSource(v DockerHubSource) {
-	s.Type = DockerHubSourceImageSourceOrigin
-	s.DockerHubSource = v
-}
-
-// GetDockerHubSource returns DockerHubSource and true boolean if ImageSourceOrigin is DockerHubSource.
-func (s ImageSourceOrigin) GetDockerHubSource() (v DockerHubSource, ok bool) {
-	if !s.IsDockerHubSource() {
-		return v, false
-	}
-	return s.DockerHubSource, true
-}
-
-// NewDockerHubSourceImageSourceOrigin returns new ImageSourceOrigin from DockerHubSource.
-func NewDockerHubSourceImageSourceOrigin(v DockerHubSource) ImageSourceOrigin {
-	var s ImageSourceOrigin
-	s.SetDockerHubSource(v)
-	return s
-}
-
-// SetDockerfileFileSource sets ImageSourceOrigin to DockerfileFileSource.
-func (s *ImageSourceOrigin) SetDockerfileFileSource(v DockerfileFileSource) {
-	s.Type = DockerfileFileSourceImageSourceOrigin
-	s.DockerfileFileSource = v
-}
-
-// GetDockerfileFileSource returns DockerfileFileSource and true boolean if ImageSourceOrigin is DockerfileFileSource.
-func (s ImageSourceOrigin) GetDockerfileFileSource() (v DockerfileFileSource, ok bool) {
-	if !s.IsDockerfileFileSource() {
-		return v, false
-	}
-	return s.DockerfileFileSource, true
-}
-
-// NewDockerfileFileSourceImageSourceOrigin returns new ImageSourceOrigin from DockerfileFileSource.
-func NewDockerfileFileSourceImageSourceOrigin(v DockerfileFileSource) ImageSourceOrigin {
-	var s ImageSourceOrigin
-	s.SetDockerfileFileSource(v)
-	return s
-}
-
-// SetDockerRegistrySource sets ImageSourceOrigin to DockerRegistrySource.
-func (s *ImageSourceOrigin) SetDockerRegistrySource(v DockerRegistrySource) {
-	s.Type = DockerRegistrySourceImageSourceOrigin
-	s.DockerRegistrySource = v
-}
-
-// GetDockerRegistrySource returns DockerRegistrySource and true boolean if ImageSourceOrigin is DockerRegistrySource.
-func (s ImageSourceOrigin) GetDockerRegistrySource() (v DockerRegistrySource, ok bool) {
-	if !s.IsDockerRegistrySource() {
-		return v, false
-	}
-	return s.DockerRegistrySource, true
-}
-
-// NewDockerRegistrySourceImageSourceOrigin returns new ImageSourceOrigin from DockerRegistrySource.
-func NewDockerRegistrySourceImageSourceOrigin(v DockerRegistrySource) ImageSourceOrigin {
-	var s ImageSourceOrigin
-	s.SetDockerRegistrySource(v)
-	return s
-}
-
-// Information about a server resource this image requires to function properly.
-type ImageSourceRequires struct {
-	// A boolean where true represents this image requies an Nvidia GPU to run properly.
-	NvidiaGpu NilBool `json:"nvidia_gpu"`
-}
-
-// GetNvidiaGpu returns the value of NvidiaGpu.
-func (s *ImageSourceRequires) GetNvidiaGpu() NilBool {
-	return s.NvidiaGpu
-}
-
-// SetNvidiaGpu sets the value of NvidiaGpu.
-func (s *ImageSourceRequires) SetNvidiaGpu(val NilBool) {
-	s.NvidiaGpu = val
-}
-
 // Merged schema.
 // Ref: #/components/schemas/ImageSourceState
 type ImageSourceState struct {
@@ -25570,6 +25748,47 @@ func (s *ImageSourceStateError) SetTime(val OptDateTime) {
 	s.Time = val
 }
 
+// The type of images in this source.
+// Ref: #/components/schemas/ImageSourceType
+type ImageSourceType string
+
+const (
+	ImageSourceTypeStackBuild ImageSourceType = "stack-build"
+	ImageSourceTypeDirect     ImageSourceType = "direct"
+	ImageSourceTypeBucket     ImageSourceType = "bucket"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ImageSourceType) MarshalText() ([]byte, error) {
+	switch s {
+	case ImageSourceTypeStackBuild:
+		return []byte(s), nil
+	case ImageSourceTypeDirect:
+		return []byte(s), nil
+	case ImageSourceTypeBucket:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ImageSourceType) UnmarshalText(data []byte) error {
+	switch ImageSourceType(data) {
+	case ImageSourceTypeStackBuild:
+		*s = ImageSourceTypeStackBuild
+		return nil
+	case ImageSourceTypeDirect:
+		*s = ImageSourceTypeDirect
+		return nil
+	case ImageSourceTypeBucket:
+		*s = ImageSourceTypeBucket
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // If the image is part of a stack, that information will be available here.
 type ImageStack struct {
 	ID ID `json:"id"`
@@ -25654,6 +25873,7 @@ type ImageStateCurrent string
 
 const (
 	ImageStateCurrentNew         ImageStateCurrent = "new"
+	ImageStateCurrentUploading   ImageStateCurrent = "uploading"
 	ImageStateCurrentDownloading ImageStateCurrent = "downloading"
 	ImageStateCurrentBuilding    ImageStateCurrent = "building"
 	ImageStateCurrentVerifying   ImageStateCurrent = "verifying"
@@ -25667,6 +25887,8 @@ const (
 func (s ImageStateCurrent) MarshalText() ([]byte, error) {
 	switch s {
 	case ImageStateCurrentNew:
+		return []byte(s), nil
+	case ImageStateCurrentUploading:
 		return []byte(s), nil
 	case ImageStateCurrentDownloading:
 		return []byte(s), nil
@@ -25692,6 +25914,9 @@ func (s *ImageStateCurrent) UnmarshalText(data []byte) error {
 	switch ImageStateCurrent(data) {
 	case ImageStateCurrentNew:
 		*s = ImageStateCurrentNew
+		return nil
+	case ImageStateCurrentUploading:
+		*s = ImageStateCurrentUploading
 		return nil
 	case ImageStateCurrentDownloading:
 		*s = ImageStateCurrentDownloading
@@ -32659,6 +32884,51 @@ func (s *NodeStateError) SetTime(val OptDateTime) {
 	s.Time = val
 }
 
+// An empty origin. No details are provided for this image.
+// Ref: #/components/schemas/NoneOrigin
+type NoneOrigin struct {
+	Details *NoneOriginDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *NoneOrigin) GetDetails() *NoneOriginDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *NoneOrigin) SetDetails(val *NoneOriginDetails) {
+	s.Details = val
+}
+
+type NoneOriginDetails struct{}
+
+type NoneOriginType string
+
+const (
+	NoneOriginTypeNone NoneOriginType = "none"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s NoneOriginType) MarshalText() ([]byte, error) {
+	switch s {
+	case NoneOriginTypeNone:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *NoneOriginType) UnmarshalText(data []byte) error {
+	switch NoneOriginType(data) {
+	case NoneOriginTypeNone:
+		*s = NoneOriginTypeNone
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // NewOptAbstractionIntegration returns new OptAbstractionIntegration with value set to v.
 func NewOptAbstractionIntegration(v AbstractionIntegration) OptAbstractionIntegration {
 	return OptAbstractionIntegration{
@@ -37903,6 +38173,190 @@ func (o OptCreditStateError) Or(d CreditStateError) CreditStateError {
 	return d
 }
 
+// NewOptCycleSourceOriginDetails returns new OptCycleSourceOriginDetails with value set to v.
+func NewOptCycleSourceOriginDetails(v CycleSourceOriginDetails) OptCycleSourceOriginDetails {
+	return OptCycleSourceOriginDetails{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCycleSourceOriginDetails is optional CycleSourceOriginDetails.
+type OptCycleSourceOriginDetails struct {
+	Value CycleSourceOriginDetails
+	Set   bool
+}
+
+// IsSet returns true if OptCycleSourceOriginDetails was set.
+func (o OptCycleSourceOriginDetails) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCycleSourceOriginDetails) Reset() {
+	var v CycleSourceOriginDetails
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCycleSourceOriginDetails) SetTo(v CycleSourceOriginDetails) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCycleSourceOriginDetails) Get() (v CycleSourceOriginDetails, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCycleSourceOriginDetails) Or(d CycleSourceOriginDetails) CycleSourceOriginDetails {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCycleSourceOriginType returns new OptCycleSourceOriginType with value set to v.
+func NewOptCycleSourceOriginType(v CycleSourceOriginType) OptCycleSourceOriginType {
+	return OptCycleSourceOriginType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCycleSourceOriginType is optional CycleSourceOriginType.
+type OptCycleSourceOriginType struct {
+	Value CycleSourceOriginType
+	Set   bool
+}
+
+// IsSet returns true if OptCycleSourceOriginType was set.
+func (o OptCycleSourceOriginType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCycleSourceOriginType) Reset() {
+	var v CycleSourceOriginType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCycleSourceOriginType) SetTo(v CycleSourceOriginType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCycleSourceOriginType) Get() (v CycleSourceOriginType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCycleSourceOriginType) Or(d CycleSourceOriginType) CycleSourceOriginType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCycleUploadOriginDetails returns new OptCycleUploadOriginDetails with value set to v.
+func NewOptCycleUploadOriginDetails(v CycleUploadOriginDetails) OptCycleUploadOriginDetails {
+	return OptCycleUploadOriginDetails{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCycleUploadOriginDetails is optional CycleUploadOriginDetails.
+type OptCycleUploadOriginDetails struct {
+	Value CycleUploadOriginDetails
+	Set   bool
+}
+
+// IsSet returns true if OptCycleUploadOriginDetails was set.
+func (o OptCycleUploadOriginDetails) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCycleUploadOriginDetails) Reset() {
+	var v CycleUploadOriginDetails
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCycleUploadOriginDetails) SetTo(v CycleUploadOriginDetails) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCycleUploadOriginDetails) Get() (v CycleUploadOriginDetails, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCycleUploadOriginDetails) Or(d CycleUploadOriginDetails) CycleUploadOriginDetails {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCycleUploadOriginType returns new OptCycleUploadOriginType with value set to v.
+func NewOptCycleUploadOriginType(v CycleUploadOriginType) OptCycleUploadOriginType {
+	return OptCycleUploadOriginType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCycleUploadOriginType is optional CycleUploadOriginType.
+type OptCycleUploadOriginType struct {
+	Value CycleUploadOriginType
+	Set   bool
+}
+
+// IsSet returns true if OptCycleUploadOriginType was set.
+func (o OptCycleUploadOriginType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCycleUploadOriginType) Reset() {
+	var v CycleUploadOriginType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCycleUploadOriginType) SetTo(v CycleUploadOriginType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCycleUploadOriginType) Get() (v CycleUploadOriginType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCycleUploadOriginType) Or(d CycleUploadOriginType) CycleUploadOriginType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptDNSRecordTaskReq returns new OptDNSRecordTaskReq with value set to v.
 func NewOptDNSRecordTaskReq(v DNSRecordTaskReq) OptDNSRecordTaskReq {
 	return OptDNSRecordTaskReq{
@@ -38363,38 +38817,38 @@ func (o OptDnsTlsCertificate) Or(d DnsTlsCertificate) DnsTlsCertificate {
 	return d
 }
 
-// NewOptDockerHubSourceDetails returns new OptDockerHubSourceDetails with value set to v.
-func NewOptDockerHubSourceDetails(v DockerHubSourceDetails) OptDockerHubSourceDetails {
-	return OptDockerHubSourceDetails{
+// NewOptDockerFileOriginDetails returns new OptDockerFileOriginDetails with value set to v.
+func NewOptDockerFileOriginDetails(v DockerFileOriginDetails) OptDockerFileOriginDetails {
+	return OptDockerFileOriginDetails{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptDockerHubSourceDetails is optional DockerHubSourceDetails.
-type OptDockerHubSourceDetails struct {
-	Value DockerHubSourceDetails
+// OptDockerFileOriginDetails is optional DockerFileOriginDetails.
+type OptDockerFileOriginDetails struct {
+	Value DockerFileOriginDetails
 	Set   bool
 }
 
-// IsSet returns true if OptDockerHubSourceDetails was set.
-func (o OptDockerHubSourceDetails) IsSet() bool { return o.Set }
+// IsSet returns true if OptDockerFileOriginDetails was set.
+func (o OptDockerFileOriginDetails) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptDockerHubSourceDetails) Reset() {
-	var v DockerHubSourceDetails
+func (o *OptDockerFileOriginDetails) Reset() {
+	var v DockerFileOriginDetails
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptDockerHubSourceDetails) SetTo(v DockerHubSourceDetails) {
+func (o *OptDockerFileOriginDetails) SetTo(v DockerFileOriginDetails) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptDockerHubSourceDetails) Get() (v DockerHubSourceDetails, ok bool) {
+func (o OptDockerFileOriginDetails) Get() (v DockerFileOriginDetails, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -38402,45 +38856,45 @@ func (o OptDockerHubSourceDetails) Get() (v DockerHubSourceDetails, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptDockerHubSourceDetails) Or(d DockerHubSourceDetails) DockerHubSourceDetails {
+func (o OptDockerFileOriginDetails) Or(d DockerFileOriginDetails) DockerFileOriginDetails {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptDockerHubSourceType returns new OptDockerHubSourceType with value set to v.
-func NewOptDockerHubSourceType(v DockerHubSourceType) OptDockerHubSourceType {
-	return OptDockerHubSourceType{
+// NewOptDockerFileOriginType returns new OptDockerFileOriginType with value set to v.
+func NewOptDockerFileOriginType(v DockerFileOriginType) OptDockerFileOriginType {
+	return OptDockerFileOriginType{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptDockerHubSourceType is optional DockerHubSourceType.
-type OptDockerHubSourceType struct {
-	Value DockerHubSourceType
+// OptDockerFileOriginType is optional DockerFileOriginType.
+type OptDockerFileOriginType struct {
+	Value DockerFileOriginType
 	Set   bool
 }
 
-// IsSet returns true if OptDockerHubSourceType was set.
-func (o OptDockerHubSourceType) IsSet() bool { return o.Set }
+// IsSet returns true if OptDockerFileOriginType was set.
+func (o OptDockerFileOriginType) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptDockerHubSourceType) Reset() {
-	var v DockerHubSourceType
+func (o *OptDockerFileOriginType) Reset() {
+	var v DockerFileOriginType
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptDockerHubSourceType) SetTo(v DockerHubSourceType) {
+func (o *OptDockerFileOriginType) SetTo(v DockerFileOriginType) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptDockerHubSourceType) Get() (v DockerHubSourceType, ok bool) {
+func (o OptDockerFileOriginType) Get() (v DockerFileOriginType, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -38448,45 +38902,45 @@ func (o OptDockerHubSourceType) Get() (v DockerHubSourceType, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptDockerHubSourceType) Or(d DockerHubSourceType) DockerHubSourceType {
+func (o OptDockerFileOriginType) Or(d DockerFileOriginType) DockerFileOriginType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptDockerRegistrySourceDetails returns new OptDockerRegistrySourceDetails with value set to v.
-func NewOptDockerRegistrySourceDetails(v DockerRegistrySourceDetails) OptDockerRegistrySourceDetails {
-	return OptDockerRegistrySourceDetails{
+// NewOptDockerHubOriginDetails returns new OptDockerHubOriginDetails with value set to v.
+func NewOptDockerHubOriginDetails(v DockerHubOriginDetails) OptDockerHubOriginDetails {
+	return OptDockerHubOriginDetails{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptDockerRegistrySourceDetails is optional DockerRegistrySourceDetails.
-type OptDockerRegistrySourceDetails struct {
-	Value DockerRegistrySourceDetails
+// OptDockerHubOriginDetails is optional DockerHubOriginDetails.
+type OptDockerHubOriginDetails struct {
+	Value DockerHubOriginDetails
 	Set   bool
 }
 
-// IsSet returns true if OptDockerRegistrySourceDetails was set.
-func (o OptDockerRegistrySourceDetails) IsSet() bool { return o.Set }
+// IsSet returns true if OptDockerHubOriginDetails was set.
+func (o OptDockerHubOriginDetails) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptDockerRegistrySourceDetails) Reset() {
-	var v DockerRegistrySourceDetails
+func (o *OptDockerHubOriginDetails) Reset() {
+	var v DockerHubOriginDetails
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptDockerRegistrySourceDetails) SetTo(v DockerRegistrySourceDetails) {
+func (o *OptDockerHubOriginDetails) SetTo(v DockerHubOriginDetails) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptDockerRegistrySourceDetails) Get() (v DockerRegistrySourceDetails, ok bool) {
+func (o OptDockerHubOriginDetails) Get() (v DockerHubOriginDetails, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -38494,45 +38948,45 @@ func (o OptDockerRegistrySourceDetails) Get() (v DockerRegistrySourceDetails, ok
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptDockerRegistrySourceDetails) Or(d DockerRegistrySourceDetails) DockerRegistrySourceDetails {
+func (o OptDockerHubOriginDetails) Or(d DockerHubOriginDetails) DockerHubOriginDetails {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptDockerRegistrySourceType returns new OptDockerRegistrySourceType with value set to v.
-func NewOptDockerRegistrySourceType(v DockerRegistrySourceType) OptDockerRegistrySourceType {
-	return OptDockerRegistrySourceType{
+// NewOptDockerHubOriginType returns new OptDockerHubOriginType with value set to v.
+func NewOptDockerHubOriginType(v DockerHubOriginType) OptDockerHubOriginType {
+	return OptDockerHubOriginType{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptDockerRegistrySourceType is optional DockerRegistrySourceType.
-type OptDockerRegistrySourceType struct {
-	Value DockerRegistrySourceType
+// OptDockerHubOriginType is optional DockerHubOriginType.
+type OptDockerHubOriginType struct {
+	Value DockerHubOriginType
 	Set   bool
 }
 
-// IsSet returns true if OptDockerRegistrySourceType was set.
-func (o OptDockerRegistrySourceType) IsSet() bool { return o.Set }
+// IsSet returns true if OptDockerHubOriginType was set.
+func (o OptDockerHubOriginType) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptDockerRegistrySourceType) Reset() {
-	var v DockerRegistrySourceType
+func (o *OptDockerHubOriginType) Reset() {
+	var v DockerHubOriginType
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptDockerRegistrySourceType) SetTo(v DockerRegistrySourceType) {
+func (o *OptDockerHubOriginType) SetTo(v DockerHubOriginType) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptDockerRegistrySourceType) Get() (v DockerRegistrySourceType, ok bool) {
+func (o OptDockerHubOriginType) Get() (v DockerHubOriginType, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -38540,45 +38994,45 @@ func (o OptDockerRegistrySourceType) Get() (v DockerRegistrySourceType, ok bool)
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptDockerRegistrySourceType) Or(d DockerRegistrySourceType) DockerRegistrySourceType {
+func (o OptDockerHubOriginType) Or(d DockerHubOriginType) DockerHubOriginType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptDockerfileFileSourceDetails returns new OptDockerfileFileSourceDetails with value set to v.
-func NewOptDockerfileFileSourceDetails(v DockerfileFileSourceDetails) OptDockerfileFileSourceDetails {
-	return OptDockerfileFileSourceDetails{
+// NewOptDockerRegistryOriginDetails returns new OptDockerRegistryOriginDetails with value set to v.
+func NewOptDockerRegistryOriginDetails(v DockerRegistryOriginDetails) OptDockerRegistryOriginDetails {
+	return OptDockerRegistryOriginDetails{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptDockerfileFileSourceDetails is optional DockerfileFileSourceDetails.
-type OptDockerfileFileSourceDetails struct {
-	Value DockerfileFileSourceDetails
+// OptDockerRegistryOriginDetails is optional DockerRegistryOriginDetails.
+type OptDockerRegistryOriginDetails struct {
+	Value DockerRegistryOriginDetails
 	Set   bool
 }
 
-// IsSet returns true if OptDockerfileFileSourceDetails was set.
-func (o OptDockerfileFileSourceDetails) IsSet() bool { return o.Set }
+// IsSet returns true if OptDockerRegistryOriginDetails was set.
+func (o OptDockerRegistryOriginDetails) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptDockerfileFileSourceDetails) Reset() {
-	var v DockerfileFileSourceDetails
+func (o *OptDockerRegistryOriginDetails) Reset() {
+	var v DockerRegistryOriginDetails
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptDockerfileFileSourceDetails) SetTo(v DockerfileFileSourceDetails) {
+func (o *OptDockerRegistryOriginDetails) SetTo(v DockerRegistryOriginDetails) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptDockerfileFileSourceDetails) Get() (v DockerfileFileSourceDetails, ok bool) {
+func (o OptDockerRegistryOriginDetails) Get() (v DockerRegistryOriginDetails, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -38586,45 +39040,45 @@ func (o OptDockerfileFileSourceDetails) Get() (v DockerfileFileSourceDetails, ok
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptDockerfileFileSourceDetails) Or(d DockerfileFileSourceDetails) DockerfileFileSourceDetails {
+func (o OptDockerRegistryOriginDetails) Or(d DockerRegistryOriginDetails) DockerRegistryOriginDetails {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptDockerfileFileSourceType returns new OptDockerfileFileSourceType with value set to v.
-func NewOptDockerfileFileSourceType(v DockerfileFileSourceType) OptDockerfileFileSourceType {
-	return OptDockerfileFileSourceType{
+// NewOptDockerRegistryOriginType returns new OptDockerRegistryOriginType with value set to v.
+func NewOptDockerRegistryOriginType(v DockerRegistryOriginType) OptDockerRegistryOriginType {
+	return OptDockerRegistryOriginType{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptDockerfileFileSourceType is optional DockerfileFileSourceType.
-type OptDockerfileFileSourceType struct {
-	Value DockerfileFileSourceType
+// OptDockerRegistryOriginType is optional DockerRegistryOriginType.
+type OptDockerRegistryOriginType struct {
+	Value DockerRegistryOriginType
 	Set   bool
 }
 
-// IsSet returns true if OptDockerfileFileSourceType was set.
-func (o OptDockerfileFileSourceType) IsSet() bool { return o.Set }
+// IsSet returns true if OptDockerRegistryOriginType was set.
+func (o OptDockerRegistryOriginType) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptDockerfileFileSourceType) Reset() {
-	var v DockerfileFileSourceType
+func (o *OptDockerRegistryOriginType) Reset() {
+	var v DockerRegistryOriginType
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptDockerfileFileSourceType) SetTo(v DockerfileFileSourceType) {
+func (o *OptDockerRegistryOriginType) SetTo(v DockerRegistryOriginType) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptDockerfileFileSourceType) Get() (v DockerfileFileSourceType, ok bool) {
+func (o OptDockerRegistryOriginType) Get() (v DockerRegistryOriginType, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -38632,7 +39086,7 @@ func (o OptDockerfileFileSourceType) Get() (v DockerfileFileSourceType, ok bool)
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptDockerfileFileSourceType) Or(d DockerfileFileSourceType) DockerfileFileSourceType {
+func (o OptDockerRegistryOriginType) Or(d DockerRegistryOriginType) DockerRegistryOriginType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -43929,6 +44383,52 @@ func (o OptImageMeta) Or(d ImageMeta) ImageMeta {
 	return d
 }
 
+// NewOptImageOrigin returns new OptImageOrigin with value set to v.
+func NewOptImageOrigin(v ImageOrigin) OptImageOrigin {
+	return OptImageOrigin{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageOrigin is optional ImageOrigin.
+type OptImageOrigin struct {
+	Value ImageOrigin
+	Set   bool
+}
+
+// IsSet returns true if OptImageOrigin was set.
+func (o OptImageOrigin) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageOrigin) Reset() {
+	var v ImageOrigin
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageOrigin) SetTo(v ImageOrigin) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageOrigin) Get() (v ImageOrigin, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageOrigin) Or(d ImageOrigin) ImageOrigin {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptImageSource returns new OptImageSource with value set to v.
 func NewOptImageSource(v ImageSource) OptImageSource {
 	return OptImageSource{
@@ -44245,52 +44745,6 @@ func (o OptImageSourceMetaImagesCount) Get() (v ImageSourceMetaImagesCount, ok b
 
 // Or returns value if set, or given parameter if does not.
 func (o OptImageSourceMetaImagesCount) Or(d ImageSourceMetaImagesCount) ImageSourceMetaImagesCount {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptImageSourceOrigin returns new OptImageSourceOrigin with value set to v.
-func NewOptImageSourceOrigin(v ImageSourceOrigin) OptImageSourceOrigin {
-	return OptImageSourceOrigin{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptImageSourceOrigin is optional ImageSourceOrigin.
-type OptImageSourceOrigin struct {
-	Value ImageSourceOrigin
-	Set   bool
-}
-
-// IsSet returns true if OptImageSourceOrigin was set.
-func (o OptImageSourceOrigin) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptImageSourceOrigin) Reset() {
-	var v ImageSourceOrigin
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptImageSourceOrigin) SetTo(v ImageSourceOrigin) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptImageSourceOrigin) Get() (v ImageSourceOrigin, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptImageSourceOrigin) Or(d ImageSourceOrigin) ImageSourceOrigin {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -47035,6 +47489,52 @@ func (o OptNodeStateError) Get() (v NodeStateError, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNodeStateError) Or(d NodeStateError) NodeStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNoneOriginType returns new OptNoneOriginType with value set to v.
+func NewOptNoneOriginType(v NoneOriginType) OptNoneOriginType {
+	return OptNoneOriginType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNoneOriginType is optional NoneOriginType.
+type OptNoneOriginType struct {
+	Value NoneOriginType
+	Set   bool
+}
+
+// IsSet returns true if OptNoneOriginType was set.
+func (o OptNoneOriginType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNoneOriginType) Reset() {
+	var v NoneOriginType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptNoneOriginType) SetTo(v NoneOriginType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNoneOriginType) Get() (v NoneOriginType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNoneOriginType) Or(d NoneOriginType) NoneOriginType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -69421,7 +69921,7 @@ func (s *StackContainerItem) SetImage(val StackContainerItemImage) {
 
 type StackContainerItemImage struct {
 	Name     string                           `json:"name"`
-	Origin   ImageSourceOrigin                `json:"origin"`
+	Origin   ImageOrigin                      `json:"origin"`
 	Stateful OptBool                          `json:"stateful"`
 	Config   OptStackContainerItemImageConfig `json:"config"`
 	Role     OptStackContainerItemImageRole   `json:"role"`
@@ -69434,7 +69934,7 @@ func (s *StackContainerItemImage) GetName() string {
 }
 
 // GetOrigin returns the value of Origin.
-func (s *StackContainerItemImage) GetOrigin() ImageSourceOrigin {
+func (s *StackContainerItemImage) GetOrigin() ImageOrigin {
 	return s.Origin
 }
 
@@ -69464,7 +69964,7 @@ func (s *StackContainerItemImage) SetName(val string) {
 }
 
 // SetOrigin sets the value of Origin.
-func (s *StackContainerItemImage) SetOrigin(val ImageSourceOrigin) {
+func (s *StackContainerItemImage) SetOrigin(val ImageOrigin) {
 	s.Origin = val
 }
 
@@ -72354,8 +72854,8 @@ func (s *UpdateImageSourceOK) SetData(val OptImageSource) {
 
 type UpdateImageSourceReq struct {
 	// A name for the image source.
-	Name   OptString            `json:"name"`
-	Origin OptImageSourceOrigin `json:"origin"`
+	Name   OptString      `json:"name"`
+	Origin OptImageOrigin `json:"origin"`
 	// User defined information about the image source.
 	About OptUpdateImageSourceReqAbout `json:"about"`
 }
@@ -72366,7 +72866,7 @@ func (s *UpdateImageSourceReq) GetName() OptString {
 }
 
 // GetOrigin returns the value of Origin.
-func (s *UpdateImageSourceReq) GetOrigin() OptImageSourceOrigin {
+func (s *UpdateImageSourceReq) GetOrigin() OptImageOrigin {
 	return s.Origin
 }
 
@@ -72381,7 +72881,7 @@ func (s *UpdateImageSourceReq) SetName(val OptString) {
 }
 
 // SetOrigin sets the value of Origin.
-func (s *UpdateImageSourceReq) SetOrigin(val OptImageSourceOrigin) {
+func (s *UpdateImageSourceReq) SetOrigin(val OptImageOrigin) {
 	s.Origin = val
 }
 
