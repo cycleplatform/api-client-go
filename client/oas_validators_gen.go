@@ -12074,6 +12074,17 @@ func (s *ImageSourceCreateStepDetails) Validate() error {
 func (s *ImageSourceDetails) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if err := func() error {
 		if err := s.Details.Validate(); err != nil {
 			return err
 		}
@@ -12089,8 +12100,54 @@ func (s *ImageSourceDetails) Validate() error {
 	}
 	return nil
 }
-func (s *ImageSourceDetailsDetails) Validate() error {
+func (s ImageSourceDetailsDetails) Validate() error {
+	switch s.Type {
+	case ImageSourceDetailsDetails0ImageSourceDetailsDetails:
+		if err := s.ImageSourceDetailsDetails0.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ImageSourceDetailsDetails1ImageSourceDetailsDetails:
+		if err := s.ImageSourceDetailsDetails1.Validate(); err != nil {
+			return err
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s *ImageSourceDetailsDetails0) Validate() error {
 	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Origin.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "origin",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+func (s *ImageSourceDetailsDetails1) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Containers == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "containers",
+			Error: err,
+		})
+	}
 	if err := func() error {
 		if err := s.Origin.Validate(); err != nil {
 			return err

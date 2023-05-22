@@ -53632,17 +53632,24 @@ func (s *ImageSourceDetails) Encode(e *jx.Encoder) {
 func (s *ImageSourceDetails) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("type")
-		e.Str(s.Type)
+		s.Type.Encode(e)
 	}
 	{
 		e.FieldStart("details")
 		s.Details.Encode(e)
 	}
+	{
+		if s.Override.Set {
+			e.FieldStart("override")
+			s.Override.Encode(e)
+		}
+	}
 }
 
-var jsonFieldsNameOfImageSourceDetails = [2]string{
+var jsonFieldsNameOfImageSourceDetails = [3]string{
 	0: "type",
 	1: "details",
+	2: "override",
 }
 
 // Decode decodes ImageSourceDetails from json.
@@ -53657,9 +53664,7 @@ func (s *ImageSourceDetails) Decode(d *jx.Decoder) error {
 		case "type":
 			requiredBitSet[0] |= 1 << 0
 			if err := func() error {
-				v, err := d.Str()
-				s.Type = string(v)
-				if err != nil {
+				if err := s.Type.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -53675,6 +53680,16 @@ func (s *ImageSourceDetails) Decode(d *jx.Decoder) error {
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"details\"")
+			}
+		case "override":
+			if err := func() error {
+				s.Override.Reset()
+				if err := s.Override.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"override\"")
 			}
 		default:
 			return d.Skip()
@@ -53732,15 +53747,203 @@ func (s *ImageSourceDetails) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes ImageSourceDetailsDetails as json.
+func (s ImageSourceDetailsDetails) Encode(e *jx.Encoder) {
+	switch s.Type {
+	case ImageSourceDetailsDetails0ImageSourceDetailsDetails:
+		s.ImageSourceDetailsDetails0.Encode(e)
+	case ImageSourceDetailsDetails1ImageSourceDetailsDetails:
+		s.ImageSourceDetailsDetails1.Encode(e)
+	}
+}
+
+// Decode decodes ImageSourceDetailsDetails from json.
+func (s *ImageSourceDetailsDetails) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ImageSourceDetailsDetails to nil")
+	}
+	// Sum type fields.
+	if typ := d.Next(); typ != jx.Object {
+		return errors.Errorf("unexpected json type %q", typ)
+	}
+
+	var found bool
+	if err := d.Capture(func(d *jx.Decoder) error {
+		return d.ObjBytes(func(d *jx.Decoder, key []byte) error {
+			switch string(key) {
+			case "stack_id":
+				match := ImageSourceDetailsDetails1ImageSourceDetailsDetails
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "containers":
+				match := ImageSourceDetailsDetails1ImageSourceDetailsDetails
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			}
+			return d.Skip()
+		})
+	}); err != nil {
+		return errors.Wrap(err, "capture")
+	}
+	if !found {
+		s.Type = ImageSourceDetailsDetails0ImageSourceDetailsDetails
+	}
+	switch s.Type {
+	case ImageSourceDetailsDetails0ImageSourceDetailsDetails:
+		if err := s.ImageSourceDetailsDetails0.Decode(d); err != nil {
+			return err
+		}
+	case ImageSourceDetailsDetails1ImageSourceDetailsDetails:
+		if err := s.ImageSourceDetailsDetails1.Decode(d); err != nil {
+			return err
+		}
+	default:
+		return errors.Errorf("inferred invalid type: %s", s.Type)
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ImageSourceDetailsDetails) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ImageSourceDetailsDetails) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode implements json.Marshaler.
-func (s *ImageSourceDetailsDetails) Encode(e *jx.Encoder) {
+func (s *ImageSourceDetailsDetails0) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
 // encodeFields encodes fields.
-func (s *ImageSourceDetailsDetails) encodeFields(e *jx.Encoder) {
+func (s *ImageSourceDetailsDetails0) encodeFields(e *jx.Encoder) {
+	{
+		e.FieldStart("id")
+		e.Str(s.ID)
+	}
+	{
+		e.FieldStart("origin")
+		s.Origin.Encode(e)
+	}
+}
+
+var jsonFieldsNameOfImageSourceDetailsDetails0 = [2]string{
+	0: "id",
+	1: "origin",
+}
+
+// Decode decodes ImageSourceDetailsDetails0 from json.
+func (s *ImageSourceDetailsDetails0) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ImageSourceDetailsDetails0 to nil")
+	}
+	var requiredBitSet [1]uint8
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "id":
+			requiredBitSet[0] |= 1 << 0
+			if err := func() error {
+				v, err := d.Str()
+				s.ID = string(v)
+				if err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"id\"")
+			}
+		case "origin":
+			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				if err := s.Origin.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"origin\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ImageSourceDetailsDetails0")
+	}
+	// Validate required fields.
+	var failures []validate.FieldError
+	for i, mask := range [1]uint8{
+		0b00000011,
+	} {
+		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
+			// Mask only required fields and check equality to mask using XOR.
+			//
+			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
+			// Bits of fields which would be set are actually bits of missed fields.
+			missed := bits.OnesCount8(result)
+			for bitN := 0; bitN < missed; bitN++ {
+				bitIdx := bits.TrailingZeros8(result)
+				fieldIdx := i*8 + bitIdx
+				var name string
+				if fieldIdx < len(jsonFieldsNameOfImageSourceDetailsDetails0) {
+					name = jsonFieldsNameOfImageSourceDetailsDetails0[fieldIdx]
+				} else {
+					name = strconv.Itoa(fieldIdx)
+				}
+				failures = append(failures, validate.FieldError{
+					Name:  name,
+					Error: validate.ErrFieldRequired,
+				})
+				// Reset bit.
+				result &^= 1 << bitIdx
+			}
+		}
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ImageSourceDetailsDetails0) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ImageSourceDetailsDetails0) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *ImageSourceDetailsDetails1) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ImageSourceDetailsDetails1) encodeFields(e *jx.Encoder) {
 	{
 		e.FieldStart("id")
 		e.Str(s.ID)
@@ -53750,21 +53953,30 @@ func (s *ImageSourceDetailsDetails) encodeFields(e *jx.Encoder) {
 		e.Str(s.StackID)
 	}
 	{
+		e.FieldStart("containers")
+		e.ArrStart()
+		for _, elem := range s.Containers {
+			elem.Encode(e)
+		}
+		e.ArrEnd()
+	}
+	{
 		e.FieldStart("origin")
 		s.Origin.Encode(e)
 	}
 }
 
-var jsonFieldsNameOfImageSourceDetailsDetails = [3]string{
+var jsonFieldsNameOfImageSourceDetailsDetails1 = [4]string{
 	0: "id",
 	1: "stack_id",
-	2: "origin",
+	2: "containers",
+	3: "origin",
 }
 
-// Decode decodes ImageSourceDetailsDetails from json.
-func (s *ImageSourceDetailsDetails) Decode(d *jx.Decoder) error {
+// Decode decodes ImageSourceDetailsDetails1 from json.
+func (s *ImageSourceDetailsDetails1) Decode(d *jx.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode ImageSourceDetailsDetails to nil")
+		return errors.New("invalid: unable to decode ImageSourceDetailsDetails1 to nil")
 	}
 	var requiredBitSet [1]uint8
 
@@ -53794,8 +54006,26 @@ func (s *ImageSourceDetailsDetails) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"stack_id\"")
 			}
-		case "origin":
+		case "containers":
 			requiredBitSet[0] |= 1 << 2
+			if err := func() error {
+				s.Containers = make([]Identifier, 0)
+				if err := d.Arr(func(d *jx.Decoder) error {
+					var elem Identifier
+					if err := elem.Decode(d); err != nil {
+						return err
+					}
+					s.Containers = append(s.Containers, elem)
+					return nil
+				}); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"containers\"")
+			}
+		case "origin":
+			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
 				if err := s.Origin.Decode(d); err != nil {
 					return err
@@ -53809,12 +54039,12 @@ func (s *ImageSourceDetailsDetails) Decode(d *jx.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode ImageSourceDetailsDetails")
+		return errors.Wrap(err, "decode ImageSourceDetailsDetails1")
 	}
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000111,
+		0b00001111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -53826,8 +54056,8 @@ func (s *ImageSourceDetailsDetails) Decode(d *jx.Decoder) error {
 				bitIdx := bits.TrailingZeros8(result)
 				fieldIdx := i*8 + bitIdx
 				var name string
-				if fieldIdx < len(jsonFieldsNameOfImageSourceDetailsDetails) {
-					name = jsonFieldsNameOfImageSourceDetailsDetails[fieldIdx]
+				if fieldIdx < len(jsonFieldsNameOfImageSourceDetailsDetails1) {
+					name = jsonFieldsNameOfImageSourceDetailsDetails1[fieldIdx]
 				} else {
 					name = strconv.Itoa(fieldIdx)
 				}
@@ -53848,14 +54078,94 @@ func (s *ImageSourceDetailsDetails) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *ImageSourceDetailsDetails) MarshalJSON() ([]byte, error) {
+func (s *ImageSourceDetailsDetails1) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
 }
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ImageSourceDetailsDetails) UnmarshalJSON(data []byte) error {
+func (s *ImageSourceDetailsDetails1) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *ImageSourceDetailsOverride) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ImageSourceDetailsOverride) encodeFields(e *jx.Encoder) {
+	{
+		if s.Target.Set {
+			e.FieldStart("target")
+			s.Target.Encode(e)
+		}
+	}
+	{
+		if s.TargzURL.Set {
+			e.FieldStart("targz_url")
+			s.TargzURL.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfImageSourceDetailsOverride = [2]string{
+	0: "target",
+	1: "targz_url",
+}
+
+// Decode decodes ImageSourceDetailsOverride from json.
+func (s *ImageSourceDetailsOverride) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ImageSourceDetailsOverride to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "target":
+			if err := func() error {
+				s.Target.Reset()
+				if err := s.Target.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"target\"")
+			}
+		case "targz_url":
+			if err := func() error {
+				s.TargzURL.Reset()
+				if err := s.TargzURL.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"targz_url\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ImageSourceDetailsOverride")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ImageSourceDetailsOverride) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ImageSourceDetailsOverride) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -75942,6 +76252,39 @@ func (s OptImageSourceDetails) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptImageSourceDetails) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ImageSourceDetailsOverride as json.
+func (o OptImageSourceDetailsOverride) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes ImageSourceDetailsOverride from json.
+func (o *OptImageSourceDetailsOverride) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptImageSourceDetailsOverride to nil")
+	}
+	o.Set = true
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptImageSourceDetailsOverride) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptImageSourceDetailsOverride) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

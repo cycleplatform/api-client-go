@@ -25398,12 +25398,13 @@ func (s *ImageSourceCreateStepOptions) SetSkip(val OptBool) {
 }
 
 type ImageSourceDetails struct {
-	Type    string                    `json:"type"`
-	Details ImageSourceDetailsDetails `json:"details"`
+	Type     ImageSourceType               `json:"type"`
+	Details  ImageSourceDetailsDetails     `json:"details"`
+	Override OptImageSourceDetailsOverride `json:"override"`
 }
 
 // GetType returns the value of Type.
-func (s *ImageSourceDetails) GetType() string {
+func (s *ImageSourceDetails) GetType() ImageSourceType {
 	return s.Type
 }
 
@@ -25412,8 +25413,13 @@ func (s *ImageSourceDetails) GetDetails() ImageSourceDetailsDetails {
 	return s.Details
 }
 
+// GetOverride returns the value of Override.
+func (s *ImageSourceDetails) GetOverride() OptImageSourceDetailsOverride {
+	return s.Override
+}
+
 // SetType sets the value of Type.
-func (s *ImageSourceDetails) SetType(val string) {
+func (s *ImageSourceDetails) SetType(val ImageSourceType) {
 	s.Type = val
 }
 
@@ -25422,40 +25428,174 @@ func (s *ImageSourceDetails) SetDetails(val ImageSourceDetailsDetails) {
 	s.Details = val
 }
 
+// SetOverride sets the value of Override.
+func (s *ImageSourceDetails) SetOverride(val OptImageSourceDetailsOverride) {
+	s.Override = val
+}
+
+// ImageSourceDetailsDetails represents sum type.
 type ImageSourceDetailsDetails struct {
-	ID      string      `json:"id"`
-	StackID string      `json:"stack_id"`
-	Origin  ImageOrigin `json:"origin"`
+	Type                       ImageSourceDetailsDetailsType // switch on this field
+	ImageSourceDetailsDetails0 ImageSourceDetailsDetails0
+	ImageSourceDetailsDetails1 ImageSourceDetailsDetails1
+}
+
+// ImageSourceDetailsDetailsType is oneOf type of ImageSourceDetailsDetails.
+type ImageSourceDetailsDetailsType string
+
+// Possible values for ImageSourceDetailsDetailsType.
+const (
+	ImageSourceDetailsDetails0ImageSourceDetailsDetails ImageSourceDetailsDetailsType = "ImageSourceDetailsDetails0"
+	ImageSourceDetailsDetails1ImageSourceDetailsDetails ImageSourceDetailsDetailsType = "ImageSourceDetailsDetails1"
+)
+
+// IsImageSourceDetailsDetails0 reports whether ImageSourceDetailsDetails is ImageSourceDetailsDetails0.
+func (s ImageSourceDetailsDetails) IsImageSourceDetailsDetails0() bool {
+	return s.Type == ImageSourceDetailsDetails0ImageSourceDetailsDetails
+}
+
+// IsImageSourceDetailsDetails1 reports whether ImageSourceDetailsDetails is ImageSourceDetailsDetails1.
+func (s ImageSourceDetailsDetails) IsImageSourceDetailsDetails1() bool {
+	return s.Type == ImageSourceDetailsDetails1ImageSourceDetailsDetails
+}
+
+// SetImageSourceDetailsDetails0 sets ImageSourceDetailsDetails to ImageSourceDetailsDetails0.
+func (s *ImageSourceDetailsDetails) SetImageSourceDetailsDetails0(v ImageSourceDetailsDetails0) {
+	s.Type = ImageSourceDetailsDetails0ImageSourceDetailsDetails
+	s.ImageSourceDetailsDetails0 = v
+}
+
+// GetImageSourceDetailsDetails0 returns ImageSourceDetailsDetails0 and true boolean if ImageSourceDetailsDetails is ImageSourceDetailsDetails0.
+func (s ImageSourceDetailsDetails) GetImageSourceDetailsDetails0() (v ImageSourceDetailsDetails0, ok bool) {
+	if !s.IsImageSourceDetailsDetails0() {
+		return v, false
+	}
+	return s.ImageSourceDetailsDetails0, true
+}
+
+// NewImageSourceDetailsDetails0ImageSourceDetailsDetails returns new ImageSourceDetailsDetails from ImageSourceDetailsDetails0.
+func NewImageSourceDetailsDetails0ImageSourceDetailsDetails(v ImageSourceDetailsDetails0) ImageSourceDetailsDetails {
+	var s ImageSourceDetailsDetails
+	s.SetImageSourceDetailsDetails0(v)
+	return s
+}
+
+// SetImageSourceDetailsDetails1 sets ImageSourceDetailsDetails to ImageSourceDetailsDetails1.
+func (s *ImageSourceDetailsDetails) SetImageSourceDetailsDetails1(v ImageSourceDetailsDetails1) {
+	s.Type = ImageSourceDetailsDetails1ImageSourceDetailsDetails
+	s.ImageSourceDetailsDetails1 = v
+}
+
+// GetImageSourceDetailsDetails1 returns ImageSourceDetailsDetails1 and true boolean if ImageSourceDetailsDetails is ImageSourceDetailsDetails1.
+func (s ImageSourceDetailsDetails) GetImageSourceDetailsDetails1() (v ImageSourceDetailsDetails1, ok bool) {
+	if !s.IsImageSourceDetailsDetails1() {
+		return v, false
+	}
+	return s.ImageSourceDetailsDetails1, true
+}
+
+// NewImageSourceDetailsDetails1ImageSourceDetailsDetails returns new ImageSourceDetailsDetails from ImageSourceDetailsDetails1.
+func NewImageSourceDetailsDetails1ImageSourceDetailsDetails(v ImageSourceDetailsDetails1) ImageSourceDetailsDetails {
+	var s ImageSourceDetailsDetails
+	s.SetImageSourceDetailsDetails1(v)
+	return s
+}
+
+type ImageSourceDetailsDetails0 struct {
+	ID     string      `json:"id"`
+	Origin ImageOrigin `json:"origin"`
 }
 
 // GetID returns the value of ID.
-func (s *ImageSourceDetailsDetails) GetID() string {
+func (s *ImageSourceDetailsDetails0) GetID() string {
 	return s.ID
 }
 
-// GetStackID returns the value of StackID.
-func (s *ImageSourceDetailsDetails) GetStackID() string {
-	return s.StackID
-}
-
 // GetOrigin returns the value of Origin.
-func (s *ImageSourceDetailsDetails) GetOrigin() ImageOrigin {
+func (s *ImageSourceDetailsDetails0) GetOrigin() ImageOrigin {
 	return s.Origin
 }
 
 // SetID sets the value of ID.
-func (s *ImageSourceDetailsDetails) SetID(val string) {
+func (s *ImageSourceDetailsDetails0) SetID(val string) {
+	s.ID = val
+}
+
+// SetOrigin sets the value of Origin.
+func (s *ImageSourceDetailsDetails0) SetOrigin(val ImageOrigin) {
+	s.Origin = val
+}
+
+type ImageSourceDetailsDetails1 struct {
+	ID         string       `json:"id"`
+	StackID    string       `json:"stack_id"`
+	Containers []Identifier `json:"containers"`
+	Origin     ImageOrigin  `json:"origin"`
+}
+
+// GetID returns the value of ID.
+func (s *ImageSourceDetailsDetails1) GetID() string {
+	return s.ID
+}
+
+// GetStackID returns the value of StackID.
+func (s *ImageSourceDetailsDetails1) GetStackID() string {
+	return s.StackID
+}
+
+// GetContainers returns the value of Containers.
+func (s *ImageSourceDetailsDetails1) GetContainers() []Identifier {
+	return s.Containers
+}
+
+// GetOrigin returns the value of Origin.
+func (s *ImageSourceDetailsDetails1) GetOrigin() ImageOrigin {
+	return s.Origin
+}
+
+// SetID sets the value of ID.
+func (s *ImageSourceDetailsDetails1) SetID(val string) {
 	s.ID = val
 }
 
 // SetStackID sets the value of StackID.
-func (s *ImageSourceDetailsDetails) SetStackID(val string) {
+func (s *ImageSourceDetailsDetails1) SetStackID(val string) {
 	s.StackID = val
 }
 
+// SetContainers sets the value of Containers.
+func (s *ImageSourceDetailsDetails1) SetContainers(val []Identifier) {
+	s.Containers = val
+}
+
 // SetOrigin sets the value of Origin.
-func (s *ImageSourceDetailsDetails) SetOrigin(val ImageOrigin) {
+func (s *ImageSourceDetailsDetails1) SetOrigin(val ImageOrigin) {
 	s.Origin = val
+}
+
+type ImageSourceDetailsOverride struct {
+	Target   OptString `json:"target"`
+	TargzURL OptString `json:"targz_url"`
+}
+
+// GetTarget returns the value of Target.
+func (s *ImageSourceDetailsOverride) GetTarget() OptString {
+	return s.Target
+}
+
+// GetTargzURL returns the value of TargzURL.
+func (s *ImageSourceDetailsOverride) GetTargzURL() OptString {
+	return s.TargzURL
+}
+
+// SetTarget sets the value of Target.
+func (s *ImageSourceDetailsOverride) SetTarget(val OptString) {
+	s.Target = val
+}
+
+// SetTargzURL sets the value of TargzURL.
+func (s *ImageSourceDetailsOverride) SetTargzURL(val OptString) {
+	s.TargzURL = val
 }
 
 // A collection of timestamps for each event in the iamge source's lifetime.
@@ -44607,6 +44747,52 @@ func (o OptImageSourceDetails) Get() (v ImageSourceDetails, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptImageSourceDetails) Or(d ImageSourceDetails) ImageSourceDetails {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageSourceDetailsOverride returns new OptImageSourceDetailsOverride with value set to v.
+func NewOptImageSourceDetailsOverride(v ImageSourceDetailsOverride) OptImageSourceDetailsOverride {
+	return OptImageSourceDetailsOverride{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageSourceDetailsOverride is optional ImageSourceDetailsOverride.
+type OptImageSourceDetailsOverride struct {
+	Value ImageSourceDetailsOverride
+	Set   bool
+}
+
+// IsSet returns true if OptImageSourceDetailsOverride was set.
+func (o OptImageSourceDetailsOverride) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageSourceDetailsOverride) Reset() {
+	var v ImageSourceDetailsOverride
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageSourceDetailsOverride) SetTo(v ImageSourceDetailsOverride) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageSourceDetailsOverride) Get() (v ImageSourceDetailsOverride, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageSourceDetailsOverride) Or(d ImageSourceDetailsOverride) ImageSourceDetailsOverride {
 	if v, ok := o.Get(); ok {
 		return v
 	}
