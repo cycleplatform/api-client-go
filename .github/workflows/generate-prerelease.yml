@@ -41,9 +41,10 @@ jobs:
         git remote set-url origin https://x-access-token:${{ secrets.API_SPEC_PAT }}@github.com/${{ github.repository }}
         git commit -am "Auto generate pre-release client from latest API spec" && git push || echo "No changes to commit"
         
-    - name: Bump version and push tag
-      uses: anothrNick/github-tag-action@1.65.0 
-      env:
-        GITHUB_TOKEN: ${{ secrets.API_SPEC_PAT }}
-        WITH_V: true
-        PRERELEASE: true
+    - name: Update 'edge' tag and create prerelease
+      uses: "marvinpinto/action-automatic-releases@latest"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        automatic_release_tag: "edge"
+        prerelease: true
+        title: "Development Build"
