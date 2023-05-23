@@ -24151,29 +24151,30 @@ func (s *IPNet) SetCidr(val string) {
 
 type Identifier string
 
-// An Image Resource, which is a point in time build on a given image source.
+// An image is a point in time build on a given image source, and what is distributed by Cycle to run
+// containers.
 // Ref: #/components/schemas/Image
 type Image struct {
 	ID    ID    `json:"id"`
 	HubID HubID `json:"hub_id"`
 	// A user defined name for the image.
 	Name string `json:"name"`
-	// If the image is part of a stack, that information will be available here.
-	Stack ImageStack `json:"stack"`
 	// The image size in bytes.
 	Size int `json:"size"`
 	// An object that holds information about the image.
 	About OptImageAbout `json:"about"`
 	// Describes where the image is hosted.
 	Backend ImageBackend `json:"backend"`
-	// Tags that describe the version, package, or data about the image.
-	Tags []string `json:"tags"`
+	// Any restrictions or requirements needed to run this image as a container.
+	Requires ImageRequires `json:"requires"`
+	// Any additional build details for this image.
+	Build NilImageBuild `json:"build"`
 	// Configuration settings for the image.
 	Config  ImageConfig           `json:"config"`
 	Source  OptImageSourceDetails `json:"source"`
 	Creator OptCreatorScope       `json:"creator"`
 	// Identifies which factory the image was built on and when.
-	Factory OptImageFactory `json:"factory"`
+	Factory NilImageFactory `json:"factory"`
 	State   ImageState      `json:"state"`
 	// A collection of timestamps for each event in the image's lifetime.
 	Events ImageEvents  `json:"events"`
@@ -24195,11 +24196,6 @@ func (s *Image) GetName() string {
 	return s.Name
 }
 
-// GetStack returns the value of Stack.
-func (s *Image) GetStack() ImageStack {
-	return s.Stack
-}
-
 // GetSize returns the value of Size.
 func (s *Image) GetSize() int {
 	return s.Size
@@ -24215,9 +24211,14 @@ func (s *Image) GetBackend() ImageBackend {
 	return s.Backend
 }
 
-// GetTags returns the value of Tags.
-func (s *Image) GetTags() []string {
-	return s.Tags
+// GetRequires returns the value of Requires.
+func (s *Image) GetRequires() ImageRequires {
+	return s.Requires
+}
+
+// GetBuild returns the value of Build.
+func (s *Image) GetBuild() NilImageBuild {
+	return s.Build
 }
 
 // GetConfig returns the value of Config.
@@ -24236,7 +24237,7 @@ func (s *Image) GetCreator() OptCreatorScope {
 }
 
 // GetFactory returns the value of Factory.
-func (s *Image) GetFactory() OptImageFactory {
+func (s *Image) GetFactory() NilImageFactory {
 	return s.Factory
 }
 
@@ -24270,11 +24271,6 @@ func (s *Image) SetName(val string) {
 	s.Name = val
 }
 
-// SetStack sets the value of Stack.
-func (s *Image) SetStack(val ImageStack) {
-	s.Stack = val
-}
-
 // SetSize sets the value of Size.
 func (s *Image) SetSize(val int) {
 	s.Size = val
@@ -24290,9 +24286,14 @@ func (s *Image) SetBackend(val ImageBackend) {
 	s.Backend = val
 }
 
-// SetTags sets the value of Tags.
-func (s *Image) SetTags(val []string) {
-	s.Tags = val
+// SetRequires sets the value of Requires.
+func (s *Image) SetRequires(val ImageRequires) {
+	s.Requires = val
+}
+
+// SetBuild sets the value of Build.
+func (s *Image) SetBuild(val NilImageBuild) {
+	s.Build = val
 }
 
 // SetConfig sets the value of Config.
@@ -24311,7 +24312,7 @@ func (s *Image) SetCreator(val OptCreatorScope) {
 }
 
 // SetFactory sets the value of Factory.
-func (s *Image) SetFactory(val OptImageFactory) {
+func (s *Image) SetFactory(val NilImageFactory) {
 	s.Factory = val
 }
 
@@ -24351,7 +24352,7 @@ type ImageBackend struct {
 	// The provider where this image is hosted.
 	Provider string `json:"provider"`
 	// The size of the image in bytes.
-	Size string `json:"size"`
+	Size int `json:"size"`
 	// A file name for the image, used by the platform.
 	FileName string `json:"file_name"`
 	// A file id for the image, used by the platform.
@@ -24364,7 +24365,7 @@ func (s *ImageBackend) GetProvider() string {
 }
 
 // GetSize returns the value of Size.
-func (s *ImageBackend) GetSize() string {
+func (s *ImageBackend) GetSize() int {
 	return s.Size
 }
 
@@ -24384,7 +24385,7 @@ func (s *ImageBackend) SetProvider(val string) {
 }
 
 // SetSize sets the value of Size.
-func (s *ImageBackend) SetSize(val string) {
+func (s *ImageBackend) SetSize(val int) {
 	s.Size = val
 }
 
@@ -24398,6 +24399,34 @@ func (s *ImageBackend) SetFileID(val string) {
 	s.FileID = val
 }
 
+// Any additional build details for this image.
+type ImageBuild struct {
+	// Arguments to pass to the factory during a build of this image.
+	Args OptImageBuildArgs `json:"args"`
+}
+
+// GetArgs returns the value of Args.
+func (s *ImageBuild) GetArgs() OptImageBuildArgs {
+	return s.Args
+}
+
+// SetArgs sets the value of Args.
+func (s *ImageBuild) SetArgs(val OptImageBuildArgs) {
+	s.Args = val
+}
+
+// Arguments to pass to the factory during a build of this image.
+type ImageBuildArgs map[string]string
+
+func (s *ImageBuildArgs) init() ImageBuildArgs {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
 // Configuration settings for the image.
 type ImageConfig struct {
 	// The linux user this image runs its processes as.
@@ -24407,11 +24436,9 @@ type ImageConfig struct {
 	// Image defined environment variables for the image.
 	Env ImageConfigEnv `json:"env"`
 	// Image labels.
-	Labels string `json:"labels"`
+	Labels ImageConfigLabels `json:"labels"`
 	// The CMD array used to start the container.
 	Command []string `json:"command"`
-	// Additional commands to run at build time.
-	Onbuild []string `json:"onbuild"`
 	// An entrypoint command.
 	Entrypoint []string `json:"entrypoint"`
 	// Volumes information for the given image.
@@ -24438,18 +24465,13 @@ func (s *ImageConfig) GetEnv() ImageConfigEnv {
 }
 
 // GetLabels returns the value of Labels.
-func (s *ImageConfig) GetLabels() string {
+func (s *ImageConfig) GetLabels() ImageConfigLabels {
 	return s.Labels
 }
 
 // GetCommand returns the value of Command.
 func (s *ImageConfig) GetCommand() []string {
 	return s.Command
-}
-
-// GetOnbuild returns the value of Onbuild.
-func (s *ImageConfig) GetOnbuild() []string {
-	return s.Onbuild
 }
 
 // GetEntrypoint returns the value of Entrypoint.
@@ -24488,18 +24510,13 @@ func (s *ImageConfig) SetEnv(val ImageConfigEnv) {
 }
 
 // SetLabels sets the value of Labels.
-func (s *ImageConfig) SetLabels(val string) {
+func (s *ImageConfig) SetLabels(val ImageConfigLabels) {
 	s.Labels = val
 }
 
 // SetCommand sets the value of Command.
 func (s *ImageConfig) SetCommand(val []string) {
 	s.Command = val
-}
-
-// SetOnbuild sets the value of Onbuild.
-func (s *ImageConfig) SetOnbuild(val []string) {
-	s.Onbuild = val
 }
 
 // SetEntrypoint sets the value of Entrypoint.
@@ -24526,6 +24543,18 @@ func (s *ImageConfig) SetSignalStop(val string) {
 type ImageConfigEnv map[string]string
 
 func (s *ImageConfigEnv) init() ImageConfigEnv {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+// Image labels.
+type ImageConfigLabels map[string]string
+
+func (s *ImageConfigLabels) init() ImageConfigLabels {
 	m := *s
 	if m == nil {
 		m = map[string]string{}
@@ -24782,6 +24811,8 @@ func (s *ImageEvents) SetDeleted(val DateTime) {
 type ImageFactory struct {
 	// The node holding the factory service that was responsible for building the image.
 	NodeID string `json:"node_id"`
+	// A date timestamp for when the node cached the image.
+	Cached DateTime `json:"cached"`
 	// A date timestamp for when the node acknowledged the image import job.
 	Acknowledged DateTime `json:"acknowledged"`
 }
@@ -24789,6 +24820,11 @@ type ImageFactory struct {
 // GetNodeID returns the value of NodeID.
 func (s *ImageFactory) GetNodeID() string {
 	return s.NodeID
+}
+
+// GetCached returns the value of Cached.
+func (s *ImageFactory) GetCached() DateTime {
+	return s.Cached
 }
 
 // GetAcknowledged returns the value of Acknowledged.
@@ -24799,6 +24835,11 @@ func (s *ImageFactory) GetAcknowledged() DateTime {
 // SetNodeID sets the value of NodeID.
 func (s *ImageFactory) SetNodeID(val string) {
 	s.NodeID = val
+}
+
+// SetCached sets the value of Cached.
+func (s *ImageFactory) SetCached(val DateTime) {
+	s.Cached = val
 }
 
 // SetAcknowledged sets the value of Acknowledged.
@@ -25120,6 +25161,21 @@ func NewNoneOriginImageOrigin(v NoneOrigin) ImageOrigin {
 	var s ImageOrigin
 	s.SetNoneOrigin(v)
 	return s
+}
+
+// Any restrictions or requirements needed to run this image as a container.
+type ImageRequires struct {
+	NvidiaGpu OptBool `json:"nvidia_gpu"`
+}
+
+// GetNvidiaGpu returns the value of NvidiaGpu.
+func (s *ImageRequires) GetNvidiaGpu() OptBool {
+	return s.NvidiaGpu
+}
+
+// SetNvidiaGpu sets the value of NvidiaGpu.
+func (s *ImageRequires) SetNvidiaGpu(val OptBool) {
+	s.NvidiaGpu = val
 }
 
 // An image source is a set of resources that direct the platform on where it can find the resources
@@ -25927,45 +25983,6 @@ func (s *ImageSourceType) UnmarshalText(data []byte) error {
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
-}
-
-// If the image is part of a stack, that information will be available here.
-type ImageStack struct {
-	ID ID `json:"id"`
-	// A unique identifier for the build the image is assocaited with.
-	BuildID string `json:"build_id"`
-	// If this image is being used for any containers their identifiers are listed here.
-	Containers []string `json:"containers"`
-}
-
-// GetID returns the value of ID.
-func (s *ImageStack) GetID() ID {
-	return s.ID
-}
-
-// GetBuildID returns the value of BuildID.
-func (s *ImageStack) GetBuildID() string {
-	return s.BuildID
-}
-
-// GetContainers returns the value of Containers.
-func (s *ImageStack) GetContainers() []string {
-	return s.Containers
-}
-
-// SetID sets the value of ID.
-func (s *ImageStack) SetID(val ID) {
-	s.ID = val
-}
-
-// SetBuildID sets the value of BuildID.
-func (s *ImageStack) SetBuildID(val string) {
-	s.BuildID = val
-}
-
-// SetContainers sets the value of Containers.
-func (s *ImageStack) SetContainers(val []string) {
-	s.Containers = val
 }
 
 // Merged schema.
@@ -31860,6 +31877,96 @@ func (o NilHubIntegrationsLetsencrypt) Get() (v HubIntegrationsLetsencrypt, ok b
 
 // Or returns value if set, or given parameter if does not.
 func (o NilHubIntegrationsLetsencrypt) Or(d HubIntegrationsLetsencrypt) HubIntegrationsLetsencrypt {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilImageBuild returns new NilImageBuild with value set to v.
+func NewNilImageBuild(v ImageBuild) NilImageBuild {
+	return NilImageBuild{
+		Value: v,
+	}
+}
+
+// NilImageBuild is nullable ImageBuild.
+type NilImageBuild struct {
+	Value ImageBuild
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilImageBuild) SetTo(v ImageBuild) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilImageBuild) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilImageBuild) SetToNull() {
+	o.Null = true
+	var v ImageBuild
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilImageBuild) Get() (v ImageBuild, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilImageBuild) Or(d ImageBuild) ImageBuild {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilImageFactory returns new NilImageFactory with value set to v.
+func NewNilImageFactory(v ImageFactory) NilImageFactory {
+	return NilImageFactory{
+		Value: v,
+	}
+}
+
+// NilImageFactory is nullable ImageFactory.
+type NilImageFactory struct {
+	Value ImageFactory
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilImageFactory) SetTo(v ImageFactory) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilImageFactory) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilImageFactory) SetToNull() {
+	o.Null = true
+	var v ImageFactory
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilImageFactory) Get() (v ImageFactory, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilImageFactory) Or(d ImageFactory) ImageFactory {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -44247,6 +44354,52 @@ func (o OptImageAbout) Or(d ImageAbout) ImageAbout {
 	return d
 }
 
+// NewOptImageBuildArgs returns new OptImageBuildArgs with value set to v.
+func NewOptImageBuildArgs(v ImageBuildArgs) OptImageBuildArgs {
+	return OptImageBuildArgs{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageBuildArgs is optional ImageBuildArgs.
+type OptImageBuildArgs struct {
+	Value ImageBuildArgs
+	Set   bool
+}
+
+// IsSet returns true if OptImageBuildArgs was set.
+func (o OptImageBuildArgs) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageBuildArgs) Reset() {
+	var v ImageBuildArgs
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageBuildArgs) SetTo(v ImageBuildArgs) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageBuildArgs) Get() (v ImageBuildArgs, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageBuildArgs) Or(d ImageBuildArgs) ImageBuildArgs {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptImageConfigVolumesItemMode returns new OptImageConfigVolumesItemMode with value set to v.
 func NewOptImageConfigVolumesItemMode(v ImageConfigVolumesItemMode) OptImageConfigVolumesItemMode {
 	return OptImageConfigVolumesItemMode{
@@ -44333,52 +44486,6 @@ func (o OptImageCreateStepOptions) Get() (v ImageCreateStepOptions, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptImageCreateStepOptions) Or(d ImageCreateStepOptions) ImageCreateStepOptions {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptImageFactory returns new OptImageFactory with value set to v.
-func NewOptImageFactory(v ImageFactory) OptImageFactory {
-	return OptImageFactory{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptImageFactory is optional ImageFactory.
-type OptImageFactory struct {
-	Value ImageFactory
-	Set   bool
-}
-
-// IsSet returns true if OptImageFactory was set.
-func (o OptImageFactory) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptImageFactory) Reset() {
-	var v ImageFactory
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptImageFactory) SetTo(v ImageFactory) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptImageFactory) Get() (v ImageFactory, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptImageFactory) Or(d ImageFactory) ImageFactory {
 	if v, ok := o.Get(); ok {
 		return v
 	}

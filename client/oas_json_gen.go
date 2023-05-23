@@ -10240,6 +10240,14 @@ func (s *ComponentsIncludesItem) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
+			case "stack":
+				match := ContainerComponentsIncludesItem
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "instances":
 				match := ContainerComponentsIncludesItem
 				if found && s.Type != match {
@@ -10336,7 +10344,15 @@ func (s *ComponentsIncludesItem) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "tags":
+			case "requires":
+				match := ImageComponentsIncludesItem
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "build":
 				match := ImageComponentsIncludesItem
 				if found && s.Type != match {
 					s.Type = ""
@@ -50731,10 +50747,6 @@ func (s *Image) encodeFields(e *jx.Encoder) {
 		e.Str(s.Name)
 	}
 	{
-		e.FieldStart("stack")
-		s.Stack.Encode(e)
-	}
-	{
 		e.FieldStart("size")
 		e.Int(s.Size)
 	}
@@ -50749,12 +50761,12 @@ func (s *Image) encodeFields(e *jx.Encoder) {
 		s.Backend.Encode(e)
 	}
 	{
-		e.FieldStart("tags")
-		e.ArrStart()
-		for _, elem := range s.Tags {
-			e.Str(elem)
-		}
-		e.ArrEnd()
+		e.FieldStart("requires")
+		s.Requires.Encode(e)
+	}
+	{
+		e.FieldStart("build")
+		s.Build.Encode(e)
 	}
 	{
 		e.FieldStart("config")
@@ -50773,10 +50785,8 @@ func (s *Image) encodeFields(e *jx.Encoder) {
 		}
 	}
 	{
-		if s.Factory.Set {
-			e.FieldStart("factory")
-			s.Factory.Encode(e)
-		}
+		e.FieldStart("factory")
+		s.Factory.Encode(e)
 	}
 	{
 		e.FieldStart("state")
@@ -50798,11 +50808,11 @@ var jsonFieldsNameOfImage = [15]string{
 	0:  "id",
 	1:  "hub_id",
 	2:  "name",
-	3:  "stack",
-	4:  "size",
-	5:  "about",
-	6:  "backend",
-	7:  "tags",
+	3:  "size",
+	4:  "about",
+	5:  "backend",
+	6:  "requires",
+	7:  "build",
 	8:  "config",
 	9:  "source",
 	10: "creator",
@@ -50853,18 +50863,8 @@ func (s *Image) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"name\"")
 			}
-		case "stack":
-			requiredBitSet[0] |= 1 << 3
-			if err := func() error {
-				if err := s.Stack.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"stack\"")
-			}
 		case "size":
-			requiredBitSet[0] |= 1 << 4
+			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
 				v, err := d.Int()
 				s.Size = int(v)
@@ -50886,7 +50886,7 @@ func (s *Image) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"about\"")
 			}
 		case "backend":
-			requiredBitSet[0] |= 1 << 6
+			requiredBitSet[0] |= 1 << 5
 			if err := func() error {
 				if err := s.Backend.Decode(d); err != nil {
 					return err
@@ -50895,25 +50895,25 @@ func (s *Image) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"backend\"")
 			}
-		case "tags":
-			requiredBitSet[0] |= 1 << 7
+		case "requires":
+			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
-				s.Tags = make([]string, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem string
-					v, err := d.Str()
-					elem = string(v)
-					if err != nil {
-						return err
-					}
-					s.Tags = append(s.Tags, elem)
-					return nil
-				}); err != nil {
+				if err := s.Requires.Decode(d); err != nil {
 					return err
 				}
 				return nil
 			}(); err != nil {
-				return errors.Wrap(err, "decode field \"tags\"")
+				return errors.Wrap(err, "decode field \"requires\"")
+			}
+		case "build":
+			requiredBitSet[0] |= 1 << 7
+			if err := func() error {
+				if err := s.Build.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"build\"")
 			}
 		case "config":
 			requiredBitSet[1] |= 1 << 0
@@ -50946,8 +50946,8 @@ func (s *Image) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"creator\"")
 			}
 		case "factory":
+			requiredBitSet[1] |= 1 << 3
 			if err := func() error {
-				s.Factory.Reset()
 				if err := s.Factory.Decode(d); err != nil {
 					return err
 				}
@@ -50995,8 +50995,8 @@ func (s *Image) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [2]uint8{
-		0b11011111,
-		0b00110001,
+		0b11101111,
+		0b00111001,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -51151,7 +51151,7 @@ func (s *ImageBackend) encodeFields(e *jx.Encoder) {
 	}
 	{
 		e.FieldStart("size")
-		e.Str(s.Size)
+		e.Int(s.Size)
 	}
 	{
 		e.FieldStart("file_name")
@@ -51194,8 +51194,8 @@ func (s *ImageBackend) Decode(d *jx.Decoder) error {
 		case "size":
 			requiredBitSet[0] |= 1 << 1
 			if err := func() error {
-				v, err := d.Str()
-				s.Size = string(v)
+				v, err := d.Int()
+				s.Size = int(v)
 				if err != nil {
 					return err
 				}
@@ -51284,6 +51284,125 @@ func (s *ImageBackend) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
+func (s *ImageBuild) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ImageBuild) encodeFields(e *jx.Encoder) {
+	{
+		if s.Args.Set {
+			e.FieldStart("args")
+			s.Args.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfImageBuild = [1]string{
+	0: "args",
+}
+
+// Decode decodes ImageBuild from json.
+func (s *ImageBuild) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ImageBuild to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "args":
+			if err := func() error {
+				s.Args.Reset()
+				if err := s.Args.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"args\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ImageBuild")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ImageBuild) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ImageBuild) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s ImageBuildArgs) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields implements json.Marshaler.
+func (s ImageBuildArgs) encodeFields(e *jx.Encoder) {
+	for k, elem := range s {
+		e.FieldStart(k)
+
+		e.Str(elem)
+	}
+}
+
+// Decode decodes ImageBuildArgs from json.
+func (s *ImageBuildArgs) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ImageBuildArgs to nil")
+	}
+	m := s.init()
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		var elem string
+		if err := func() error {
+			v, err := d.Str()
+			elem = string(v)
+			if err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			return errors.Wrapf(err, "decode field %q", k)
+		}
+		m[string(k)] = elem
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ImageBuildArgs")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ImageBuildArgs) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ImageBuildArgs) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
 func (s *ImageConfig) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
@@ -51310,20 +51429,12 @@ func (s *ImageConfig) encodeFields(e *jx.Encoder) {
 	}
 	{
 		e.FieldStart("labels")
-		e.Str(s.Labels)
+		s.Labels.Encode(e)
 	}
 	{
 		e.FieldStart("command")
 		e.ArrStart()
 		for _, elem := range s.Command {
-			e.Str(elem)
-		}
-		e.ArrEnd()
-	}
-	{
-		e.FieldStart("onbuild")
-		e.ArrStart()
-		for _, elem := range s.Onbuild {
 			e.Str(elem)
 		}
 		e.ArrEnd()
@@ -51354,17 +51465,16 @@ func (s *ImageConfig) encodeFields(e *jx.Encoder) {
 	}
 }
 
-var jsonFieldsNameOfImageConfig = [10]string{
+var jsonFieldsNameOfImageConfig = [9]string{
 	0: "user",
 	1: "ports",
 	2: "env",
 	3: "labels",
 	4: "command",
-	5: "onbuild",
-	6: "entrypoint",
-	7: "volumes",
-	8: "workdir",
-	9: "signal_stop",
+	5: "entrypoint",
+	6: "volumes",
+	7: "workdir",
+	8: "signal_stop",
 }
 
 // Decode decodes ImageConfig from json.
@@ -51419,9 +51529,7 @@ func (s *ImageConfig) Decode(d *jx.Decoder) error {
 		case "labels":
 			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
-				v, err := d.Str()
-				s.Labels = string(v)
-				if err != nil {
+				if err := s.Labels.Decode(d); err != nil {
 					return err
 				}
 				return nil
@@ -51448,28 +51556,8 @@ func (s *ImageConfig) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"command\"")
 			}
-		case "onbuild":
-			requiredBitSet[0] |= 1 << 5
-			if err := func() error {
-				s.Onbuild = make([]string, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem string
-					v, err := d.Str()
-					elem = string(v)
-					if err != nil {
-						return err
-					}
-					s.Onbuild = append(s.Onbuild, elem)
-					return nil
-				}); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"onbuild\"")
-			}
 		case "entrypoint":
-			requiredBitSet[0] |= 1 << 6
+			requiredBitSet[0] |= 1 << 5
 			if err := func() error {
 				s.Entrypoint = make([]string, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
@@ -51489,7 +51577,7 @@ func (s *ImageConfig) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"entrypoint\"")
 			}
 		case "volumes":
-			requiredBitSet[0] |= 1 << 7
+			requiredBitSet[0] |= 1 << 6
 			if err := func() error {
 				s.Volumes = make([]ImageConfigVolumesItem, 0)
 				if err := d.Arr(func(d *jx.Decoder) error {
@@ -51507,7 +51595,7 @@ func (s *ImageConfig) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"volumes\"")
 			}
 		case "workdir":
-			requiredBitSet[1] |= 1 << 0
+			requiredBitSet[0] |= 1 << 7
 			if err := func() error {
 				v, err := d.Str()
 				s.Workdir = string(v)
@@ -51519,7 +51607,7 @@ func (s *ImageConfig) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"workdir\"")
 			}
 		case "signal_stop":
-			requiredBitSet[1] |= 1 << 1
+			requiredBitSet[1] |= 1 << 0
 			if err := func() error {
 				v, err := d.Str()
 				s.SignalStop = string(v)
@@ -51541,7 +51629,7 @@ func (s *ImageConfig) Decode(d *jx.Decoder) error {
 	var failures []validate.FieldError
 	for i, mask := range [2]uint8{
 		0b11111111,
-		0b00000011,
+		0b00000001,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -51639,6 +51727,62 @@ func (s ImageConfigEnv) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *ImageConfigEnv) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s ImageConfigLabels) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields implements json.Marshaler.
+func (s ImageConfigLabels) encodeFields(e *jx.Encoder) {
+	for k, elem := range s {
+		e.FieldStart(k)
+
+		e.Str(elem)
+	}
+}
+
+// Decode decodes ImageConfigLabels from json.
+func (s *ImageConfigLabels) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ImageConfigLabels to nil")
+	}
+	m := s.init()
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		var elem string
+		if err := func() error {
+			v, err := d.Str()
+			elem = string(v)
+			if err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			return errors.Wrapf(err, "decode field %q", k)
+		}
+		m[string(k)] = elem
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ImageConfigLabels")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s ImageConfigLabels) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ImageConfigLabels) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -52333,14 +52477,19 @@ func (s *ImageFactory) encodeFields(e *jx.Encoder) {
 		e.Str(s.NodeID)
 	}
 	{
+		e.FieldStart("cached")
+		s.Cached.Encode(e)
+	}
+	{
 		e.FieldStart("acknowledged")
 		s.Acknowledged.Encode(e)
 	}
 }
 
-var jsonFieldsNameOfImageFactory = [2]string{
+var jsonFieldsNameOfImageFactory = [3]string{
 	0: "node_id",
-	1: "acknowledged",
+	1: "cached",
+	2: "acknowledged",
 }
 
 // Decode decodes ImageFactory from json.
@@ -52364,8 +52513,18 @@ func (s *ImageFactory) Decode(d *jx.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"node_id\"")
 			}
-		case "acknowledged":
+		case "cached":
 			requiredBitSet[0] |= 1 << 1
+			if err := func() error {
+				if err := s.Cached.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"cached\"")
+			}
+		case "acknowledged":
+			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
 				if err := s.Acknowledged.Decode(d); err != nil {
 					return err
@@ -52384,7 +52543,7 @@ func (s *ImageFactory) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00000011,
+		0b00000111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -52934,6 +53093,69 @@ func (s ImageOrigin) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *ImageOrigin) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode implements json.Marshaler.
+func (s *ImageRequires) Encode(e *jx.Encoder) {
+	e.ObjStart()
+	s.encodeFields(e)
+	e.ObjEnd()
+}
+
+// encodeFields encodes fields.
+func (s *ImageRequires) encodeFields(e *jx.Encoder) {
+	{
+		if s.NvidiaGpu.Set {
+			e.FieldStart("nvidia_gpu")
+			s.NvidiaGpu.Encode(e)
+		}
+	}
+}
+
+var jsonFieldsNameOfImageRequires = [1]string{
+	0: "nvidia_gpu",
+}
+
+// Decode decodes ImageRequires from json.
+func (s *ImageRequires) Decode(d *jx.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode ImageRequires to nil")
+	}
+
+	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
+		switch string(k) {
+		case "nvidia_gpu":
+			if err := func() error {
+				s.NvidiaGpu.Reset()
+				if err := s.NvidiaGpu.Decode(d); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"nvidia_gpu\"")
+			}
+		default:
+			return d.Skip()
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode ImageRequires")
+	}
+
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s *ImageRequires) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *ImageRequires) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -55006,146 +55228,6 @@ func (s ImageSourceType) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *ImageSourceType) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode implements json.Marshaler.
-func (s *ImageStack) Encode(e *jx.Encoder) {
-	e.ObjStart()
-	s.encodeFields(e)
-	e.ObjEnd()
-}
-
-// encodeFields encodes fields.
-func (s *ImageStack) encodeFields(e *jx.Encoder) {
-	{
-		e.FieldStart("id")
-		s.ID.Encode(e)
-	}
-	{
-		e.FieldStart("build_id")
-		e.Str(s.BuildID)
-	}
-	{
-		e.FieldStart("containers")
-		e.ArrStart()
-		for _, elem := range s.Containers {
-			e.Str(elem)
-		}
-		e.ArrEnd()
-	}
-}
-
-var jsonFieldsNameOfImageStack = [3]string{
-	0: "id",
-	1: "build_id",
-	2: "containers",
-}
-
-// Decode decodes ImageStack from json.
-func (s *ImageStack) Decode(d *jx.Decoder) error {
-	if s == nil {
-		return errors.New("invalid: unable to decode ImageStack to nil")
-	}
-	var requiredBitSet [1]uint8
-
-	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		case "id":
-			requiredBitSet[0] |= 1 << 0
-			if err := func() error {
-				if err := s.ID.Decode(d); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"id\"")
-			}
-		case "build_id":
-			requiredBitSet[0] |= 1 << 1
-			if err := func() error {
-				v, err := d.Str()
-				s.BuildID = string(v)
-				if err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"build_id\"")
-			}
-		case "containers":
-			requiredBitSet[0] |= 1 << 2
-			if err := func() error {
-				s.Containers = make([]string, 0)
-				if err := d.Arr(func(d *jx.Decoder) error {
-					var elem string
-					v, err := d.Str()
-					elem = string(v)
-					if err != nil {
-						return err
-					}
-					s.Containers = append(s.Containers, elem)
-					return nil
-				}); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"containers\"")
-			}
-		default:
-			return d.Skip()
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "decode ImageStack")
-	}
-	// Validate required fields.
-	var failures []validate.FieldError
-	for i, mask := range [1]uint8{
-		0b00000111,
-	} {
-		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
-			// Mask only required fields and check equality to mask using XOR.
-			//
-			// If XOR result is not zero, result is not equal to expected, so some fields are missed.
-			// Bits of fields which would be set are actually bits of missed fields.
-			missed := bits.OnesCount8(result)
-			for bitN := 0; bitN < missed; bitN++ {
-				bitIdx := bits.TrailingZeros8(result)
-				fieldIdx := i*8 + bitIdx
-				var name string
-				if fieldIdx < len(jsonFieldsNameOfImageStack) {
-					name = jsonFieldsNameOfImageStack[fieldIdx]
-				} else {
-					name = strconv.Itoa(fieldIdx)
-				}
-				failures = append(failures, validate.FieldError{
-					Name:  name,
-					Error: validate.ErrFieldRequired,
-				})
-				// Reset bit.
-				result &^= 1 << bitIdx
-			}
-		}
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s *ImageStack) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *ImageStack) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -68804,6 +68886,94 @@ func (s *NilHubIntegrationsLetsencrypt) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes ImageBuild as json.
+func (o NilImageBuild) Encode(e *jx.Encoder) {
+	if o.Null {
+		e.Null()
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes ImageBuild from json.
+func (o *NilImageBuild) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode NilImageBuild to nil")
+	}
+	if d.Next() == jx.Null {
+		if err := d.Null(); err != nil {
+			return err
+		}
+
+		var v ImageBuild
+		o.Value = v
+		o.Null = true
+		return nil
+	}
+	o.Null = false
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s NilImageBuild) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *NilImageBuild) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes ImageFactory as json.
+func (o NilImageFactory) Encode(e *jx.Encoder) {
+	if o.Null {
+		e.Null()
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes ImageFactory from json.
+func (o *NilImageFactory) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode NilImageFactory to nil")
+	}
+	if d.Next() == jx.Null {
+		if err := d.Null(); err != nil {
+			return err
+		}
+
+		var v ImageFactory
+		o.Value = v
+		o.Null = true
+		return nil
+	}
+	o.Null = false
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s NilImageFactory) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *NilImageFactory) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes InfrastructureProviderLocationGeographic as json.
 func (o NilInfrastructureProviderLocationGeographic) Encode(e *jx.Encoder) {
 	if o.Null {
@@ -75893,6 +76063,40 @@ func (s *OptImageAbout) UnmarshalJSON(data []byte) error {
 	return s.Decode(d)
 }
 
+// Encode encodes ImageBuildArgs as json.
+func (o OptImageBuildArgs) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes ImageBuildArgs from json.
+func (o *OptImageBuildArgs) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptImageBuildArgs to nil")
+	}
+	o.Set = true
+	o.Value = make(ImageBuildArgs)
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptImageBuildArgs) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptImageBuildArgs) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes ImageConfigVolumesItemMode as json.
 func (o OptImageConfigVolumesItemMode) Encode(e *jx.Encoder) {
 	if !o.Set {
@@ -75955,39 +76159,6 @@ func (s OptImageCreateStepOptions) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptImageCreateStepOptions) UnmarshalJSON(data []byte) error {
-	d := jx.DecodeBytes(data)
-	return s.Decode(d)
-}
-
-// Encode encodes ImageFactory as json.
-func (o OptImageFactory) Encode(e *jx.Encoder) {
-	if !o.Set {
-		return
-	}
-	o.Value.Encode(e)
-}
-
-// Decode decodes ImageFactory from json.
-func (o *OptImageFactory) Decode(d *jx.Decoder) error {
-	if o == nil {
-		return errors.New("invalid: unable to decode OptImageFactory to nil")
-	}
-	o.Set = true
-	if err := o.Value.Decode(d); err != nil {
-		return err
-	}
-	return nil
-}
-
-// MarshalJSON implements stdjson.Marshaler.
-func (s OptImageFactory) MarshalJSON() ([]byte, error) {
-	e := jx.Encoder{}
-	s.Encode(&e)
-	return e.Bytes(), nil
-}
-
-// UnmarshalJSON implements stdjson.Unmarshaler.
-func (s *OptImageFactory) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }
@@ -87009,6 +87180,14 @@ func (s *PipelineIncludesComponentsItem) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
+			case "stack":
+				match := ContainerPipelineIncludesComponentsItem
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
 			case "instances":
 				match := ContainerPipelineIncludesComponentsItem
 				if found && s.Type != match {
@@ -87089,7 +87268,15 @@ func (s *PipelineIncludesComponentsItem) Decode(d *jx.Decoder) error {
 				}
 				found = true
 				s.Type = match
-			case "tags":
+			case "requires":
+				match := ImagePipelineIncludesComponentsItem
+				if found && s.Type != match {
+					s.Type = ""
+					return errors.Errorf("multiple oneOf matches: (%v, %v)", s.Type, match)
+				}
+				found = true
+				s.Type = match
+			case "build":
 				match := ImagePipelineIncludesComponentsItem
 				if found && s.Type != match {
 					s.Type = ""

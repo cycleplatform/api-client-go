@@ -11597,28 +11597,6 @@ func (s IPKind) Validate() error {
 func (s *Image) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.Stack.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "stack",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if s.Tags == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "tags",
-			Error: err,
-		})
-	}
-	if err := func() error {
 		if err := s.Config.Validate(); err != nil {
 			return err
 		}
@@ -11719,17 +11697,6 @@ func (s *ImageConfig) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "command",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if s.Onbuild == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "onbuild",
 			Error: err,
 		})
 	}
@@ -12364,24 +12331,6 @@ func (s ImageSourceType) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
-}
-func (s *ImageStack) Validate() error {
-	var failures []validate.FieldError
-	if err := func() error {
-		if s.Containers == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "containers",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
 }
 func (s *ImageState) Validate() error {
 	var failures []validate.FieldError
