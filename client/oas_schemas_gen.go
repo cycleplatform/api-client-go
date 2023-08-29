@@ -297,7 +297,7 @@ type AccountState struct {
 	Current AccountStateCurrent `json:"current"`
 	Changed DateTime            `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptAccountStateError `json:"error"`
+	Error OptNilAccountStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -311,7 +311,7 @@ func (s *AccountState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *AccountState) GetError() OptAccountStateError {
+func (s *AccountState) GetError() OptNilAccountStateError {
 	return s.Error
 }
 
@@ -326,7 +326,7 @@ func (s *AccountState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *AccountState) SetError(val OptAccountStateError) {
+func (s *AccountState) SetError(val OptNilAccountStateError) {
 	s.Error = val
 }
 
@@ -669,7 +669,7 @@ type AnnouncementState struct {
 	Current AnnouncementStateCurrent `json:"current"`
 	Changed DateTime                 `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptAnnouncementStateError `json:"error"`
+	Error OptNilAnnouncementStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -683,7 +683,7 @@ func (s *AnnouncementState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *AnnouncementState) GetError() OptAnnouncementStateError {
+func (s *AnnouncementState) GetError() OptNilAnnouncementStateError {
 	return s.Error
 }
 
@@ -698,7 +698,7 @@ func (s *AnnouncementState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *AnnouncementState) SetError(val OptAnnouncementStateError) {
+func (s *AnnouncementState) SetError(val OptNilAnnouncementStateError) {
 	s.Error = val
 }
 
@@ -1057,7 +1057,7 @@ type ApiKeyCreatorState struct {
 	Current ApiKeyCreatorStateCurrent `json:"current"`
 	Changed DateTime                  `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptApiKeyCreatorStateError `json:"error"`
+	Error OptNilApiKeyCreatorStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -1071,7 +1071,7 @@ func (s *ApiKeyCreatorState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *ApiKeyCreatorState) GetError() OptApiKeyCreatorStateError {
+func (s *ApiKeyCreatorState) GetError() OptNilApiKeyCreatorStateError {
 	return s.Error
 }
 
@@ -1086,7 +1086,7 @@ func (s *ApiKeyCreatorState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *ApiKeyCreatorState) SetError(val OptApiKeyCreatorStateError) {
+func (s *ApiKeyCreatorState) SetError(val OptNilApiKeyCreatorStateError) {
 	s.Error = val
 }
 
@@ -1261,7 +1261,7 @@ type ApiKeyState struct {
 	Current ApiKeyStateCurrent `json:"current"`
 	Changed DateTime           `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptApiKeyStateError `json:"error"`
+	Error OptNilApiKeyStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -1275,7 +1275,7 @@ func (s *ApiKeyState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *ApiKeyState) GetError() OptApiKeyStateError {
+func (s *ApiKeyState) GetError() OptNilApiKeyStateError {
 	return s.Error
 }
 
@@ -1290,7 +1290,7 @@ func (s *ApiKeyState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *ApiKeyState) SetError(val OptApiKeyStateError) {
+func (s *ApiKeyState) SetError(val OptNilApiKeyStateError) {
 	s.Error = val
 }
 
@@ -1587,7 +1587,7 @@ type BackupState struct {
 	Current BackupStateCurrent `json:"current"`
 	Changed DateTime           `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptBackupStateError `json:"error"`
+	Error OptNilBackupStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -1601,7 +1601,7 @@ func (s *BackupState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *BackupState) GetError() OptBackupStateError {
+func (s *BackupState) GetError() OptNilBackupStateError {
 	return s.Error
 }
 
@@ -1616,7 +1616,7 @@ func (s *BackupState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *BackupState) SetError(val OptBackupStateError) {
+func (s *BackupState) SetError(val OptNilBackupStateError) {
 	s.Error = val
 }
 
@@ -2247,7 +2247,7 @@ type BillingOrderState struct {
 	Current BillingOrderStateCurrent `json:"current"`
 	Changed DateTime                 `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptBillingOrderStateError `json:"error"`
+	Error OptNilBillingOrderStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -2261,7 +2261,7 @@ func (s *BillingOrderState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *BillingOrderState) GetError() OptBillingOrderStateError {
+func (s *BillingOrderState) GetError() OptNilBillingOrderStateError {
 	return s.Error
 }
 
@@ -2276,7 +2276,7 @@ func (s *BillingOrderState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *BillingOrderState) SetError(val OptBillingOrderStateError) {
+func (s *BillingOrderState) SetError(val OptNilBillingOrderStateError) {
 	s.Error = val
 }
 
@@ -2573,7 +2573,7 @@ type BillingServiceState struct {
 	Current BillingServiceStateCurrent `json:"current"`
 	Changed DateTime                   `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptBillingServiceStateError `json:"error"`
+	Error OptNilBillingServiceStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -2587,7 +2587,7 @@ func (s *BillingServiceState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *BillingServiceState) GetError() OptBillingServiceStateError {
+func (s *BillingServiceState) GetError() OptNilBillingServiceStateError {
 	return s.Error
 }
 
@@ -2602,7 +2602,7 @@ func (s *BillingServiceState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *BillingServiceState) SetError(val OptBillingServiceStateError) {
+func (s *BillingServiceState) SetError(val OptNilBillingServiceStateError) {
 	s.Error = val
 }
 
@@ -7018,7 +7018,7 @@ type ContainerState struct {
 	Desired OptContainerStateDesired `json:"desired"`
 	Changed DateTime                 `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptContainerStateError `json:"error"`
+	Error OptNilContainerStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -7037,7 +7037,7 @@ func (s *ContainerState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *ContainerState) GetError() OptContainerStateError {
+func (s *ContainerState) GetError() OptNilContainerStateError {
 	return s.Error
 }
 
@@ -7057,7 +7057,7 @@ func (s *ContainerState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *ContainerState) SetError(val OptContainerStateError) {
+func (s *ContainerState) SetError(val OptNilContainerStateError) {
 	s.Error = val
 }
 
@@ -11647,7 +11647,7 @@ type CreditState struct {
 	Current CreditStateCurrent `json:"current"`
 	Changed DateTime           `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptCreditStateError `json:"error"`
+	Error OptNilCreditStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -11661,7 +11661,7 @@ func (s *CreditState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *CreditState) GetError() OptCreditStateError {
+func (s *CreditState) GetError() OptNilCreditStateError {
 	return s.Error
 }
 
@@ -11676,7 +11676,7 @@ func (s *CreditState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *CreditState) SetError(val OptCreditStateError) {
+func (s *CreditState) SetError(val OptNilCreditStateError) {
 	s.Error = val
 }
 
@@ -14339,7 +14339,7 @@ type EnvironmentState struct {
 	Current EnvironmentStateCurrent `json:"current"`
 	Changed DateTime                `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptEnvironmentStateError `json:"error"`
+	Error OptNilEnvironmentStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -14353,7 +14353,7 @@ func (s *EnvironmentState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *EnvironmentState) GetError() OptEnvironmentStateError {
+func (s *EnvironmentState) GetError() OptNilEnvironmentStateError {
 	return s.Error
 }
 
@@ -14368,7 +14368,7 @@ func (s *EnvironmentState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *EnvironmentState) SetError(val OptEnvironmentStateError) {
+func (s *EnvironmentState) SetError(val OptNilEnvironmentStateError) {
 	s.Error = val
 }
 
@@ -22148,7 +22148,7 @@ type GlobalLoadBalancerState struct {
 	Current GlobalLoadBalancerStateCurrent `json:"current"`
 	Changed DateTime                       `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptGlobalLoadBalancerStateError `json:"error"`
+	Error OptNilGlobalLoadBalancerStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -22162,7 +22162,7 @@ func (s *GlobalLoadBalancerState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *GlobalLoadBalancerState) GetError() OptGlobalLoadBalancerStateError {
+func (s *GlobalLoadBalancerState) GetError() OptNilGlobalLoadBalancerStateError {
 	return s.Error
 }
 
@@ -22177,7 +22177,7 @@ func (s *GlobalLoadBalancerState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *GlobalLoadBalancerState) SetError(val OptGlobalLoadBalancerStateError) {
+func (s *GlobalLoadBalancerState) SetError(val OptNilGlobalLoadBalancerStateError) {
 	s.Error = val
 }
 
@@ -23919,7 +23919,7 @@ type HubState struct {
 	Current HubStateCurrent `json:"current"`
 	Changed DateTime        `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptHubStateError `json:"error"`
+	Error OptNilHubStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -23933,7 +23933,7 @@ func (s *HubState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *HubState) GetError() OptHubStateError {
+func (s *HubState) GetError() OptNilHubStateError {
 	return s.Error
 }
 
@@ -23948,7 +23948,7 @@ func (s *HubState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *HubState) SetError(val OptHubStateError) {
+func (s *HubState) SetError(val OptNilHubStateError) {
 	s.Error = val
 }
 
@@ -26131,7 +26131,7 @@ type ImageSourceState struct {
 	Current ImageSourceStateCurrent `json:"current"`
 	Changed DateTime                `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptImageSourceStateError `json:"error"`
+	Error OptNilImageSourceStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -26145,7 +26145,7 @@ func (s *ImageSourceState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *ImageSourceState) GetError() OptImageSourceStateError {
+func (s *ImageSourceState) GetError() OptNilImageSourceStateError {
 	return s.Error
 }
 
@@ -26160,7 +26160,7 @@ func (s *ImageSourceState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *ImageSourceState) SetError(val OptImageSourceStateError) {
+func (s *ImageSourceState) SetError(val OptNilImageSourceStateError) {
 	s.Error = val
 }
 
@@ -26280,7 +26280,7 @@ type ImageState struct {
 	Current ImageStateCurrent `json:"current"`
 	Changed DateTime          `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptImageStateError `json:"error"`
+	Error OptNilImageStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -26294,7 +26294,7 @@ func (s *ImageState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *ImageState) GetError() OptImageStateError {
+func (s *ImageState) GetError() OptNilImageStateError {
 	return s.Error
 }
 
@@ -26309,7 +26309,7 @@ func (s *ImageState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *ImageState) SetError(val OptImageStateError) {
+func (s *ImageState) SetError(val OptNilImageStateError) {
 	s.Error = val
 }
 
@@ -28121,7 +28121,7 @@ type InstanceState struct {
 	Health  OptInstanceStateHealth `json:"health"`
 	Changed DateTime               `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptInstanceStateError `json:"error"`
+	Error OptNilInstanceStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -28140,7 +28140,7 @@ func (s *InstanceState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *InstanceState) GetError() OptInstanceStateError {
+func (s *InstanceState) GetError() OptNilInstanceStateError {
 	return s.Error
 }
 
@@ -28160,7 +28160,7 @@ func (s *InstanceState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *InstanceState) SetError(val OptInstanceStateError) {
+func (s *InstanceState) SetError(val OptNilInstanceStateError) {
 	s.Error = val
 }
 
@@ -28987,7 +28987,7 @@ type InvoiceState struct {
 	Current InvoiceStateCurrent `json:"current"`
 	Changed DateTime            `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptInvoiceStateError `json:"error"`
+	Error OptNilInvoiceStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -29001,7 +29001,7 @@ func (s *InvoiceState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *InvoiceState) GetError() OptInvoiceStateError {
+func (s *InvoiceState) GetError() OptNilInvoiceStateError {
 	return s.Error
 }
 
@@ -29016,7 +29016,7 @@ func (s *InvoiceState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *InvoiceState) SetError(val OptInvoiceStateError) {
+func (s *InvoiceState) SetError(val OptNilInvoiceStateError) {
 	s.Error = val
 }
 
@@ -29155,7 +29155,7 @@ type IpState struct {
 	Current IpStateCurrent `json:"current"`
 	Changed DateTime       `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptIpStateError `json:"error"`
+	Error OptNilIpStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -29169,7 +29169,7 @@ func (s *IpState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *IpState) GetError() OptIpStateError {
+func (s *IpState) GetError() OptNilIpStateError {
 	return s.Error
 }
 
@@ -29184,7 +29184,7 @@ func (s *IpState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *IpState) SetError(val OptIpStateError) {
+func (s *IpState) SetError(val OptNilIpStateError) {
 	s.Error = val
 }
 
@@ -29470,7 +29470,7 @@ type JobState struct {
 	Current JobStateCurrent `json:"current"`
 	Changed DateTime        `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptJobStateError `json:"error"`
+	Error OptNilJobStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -29484,7 +29484,7 @@ func (s *JobState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *JobState) GetError() OptJobStateError {
+func (s *JobState) GetError() OptNilJobStateError {
 	return s.Error
 }
 
@@ -29499,7 +29499,7 @@ func (s *JobState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *JobState) SetError(val OptJobStateError) {
+func (s *JobState) SetError(val OptNilJobStateError) {
 	s.Error = val
 }
 
@@ -30952,7 +30952,7 @@ type MembershipState struct {
 	Current MembershipStateCurrent `json:"current"`
 	Changed DateTime               `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptMembershipStateError `json:"error"`
+	Error OptNilMembershipStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -30966,7 +30966,7 @@ func (s *MembershipState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *MembershipState) GetError() OptMembershipStateError {
+func (s *MembershipState) GetError() OptNilMembershipStateError {
 	return s.Error
 }
 
@@ -30981,7 +30981,7 @@ func (s *MembershipState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *MembershipState) SetError(val OptMembershipStateError) {
+func (s *MembershipState) SetError(val OptNilMembershipStateError) {
 	s.Error = val
 }
 
@@ -31377,7 +31377,7 @@ type MethodState struct {
 	Current MethodStateCurrent `json:"current"`
 	Changed DateTime           `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptMethodStateError `json:"error"`
+	Error OptNilMethodStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -31391,7 +31391,7 @@ func (s *MethodState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *MethodState) GetError() OptMethodStateError {
+func (s *MethodState) GetError() OptNilMethodStateError {
 	return s.Error
 }
 
@@ -31406,7 +31406,7 @@ func (s *MethodState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *MethodState) SetError(val OptMethodStateError) {
+func (s *MethodState) SetError(val OptNilMethodStateError) {
 	s.Error = val
 }
 
@@ -32198,7 +32198,7 @@ type NetworkState struct {
 	Current NetworkStateCurrent `json:"current"`
 	Changed DateTime            `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptNetworkStateError `json:"error"`
+	Error OptNilNetworkStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -32212,7 +32212,7 @@ func (s *NetworkState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *NetworkState) GetError() OptNetworkStateError {
+func (s *NetworkState) GetError() OptNilNetworkStateError {
 	return s.Error
 }
 
@@ -32227,7 +32227,7 @@ func (s *NetworkState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *NetworkState) SetError(val OptNetworkStateError) {
+func (s *NetworkState) SetError(val OptNilNetworkStateError) {
 	s.Error = val
 }
 
@@ -34876,7 +34876,7 @@ type NodeState struct {
 	Current NodeStateCurrent `json:"current"`
 	Changed DateTime         `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptNodeStateError `json:"error"`
+	Error OptNilNodeStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -34890,7 +34890,7 @@ func (s *NodeState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *NodeState) GetError() OptNodeStateError {
+func (s *NodeState) GetError() OptNilNodeStateError {
 	return s.Error
 }
 
@@ -34905,7 +34905,7 @@ func (s *NodeState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *NodeState) SetError(val OptNodeStateError) {
+func (s *NodeState) SetError(val OptNilNodeStateError) {
 	s.Error = val
 }
 
@@ -35219,52 +35219,6 @@ func (o OptAccount) Or(d Account) Account {
 	return d
 }
 
-// NewOptAccountStateError returns new OptAccountStateError with value set to v.
-func NewOptAccountStateError(v AccountStateError) OptAccountStateError {
-	return OptAccountStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptAccountStateError is optional AccountStateError.
-type OptAccountStateError struct {
-	Value AccountStateError
-	Set   bool
-}
-
-// IsSet returns true if OptAccountStateError was set.
-func (o OptAccountStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptAccountStateError) Reset() {
-	var v AccountStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptAccountStateError) SetTo(v AccountStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptAccountStateError) Get() (v AccountStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptAccountStateError) Or(d AccountStateError) AccountStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptAddress returns new OptAddress with value set to v.
 func NewOptAddress(v Address) OptAddress {
 	return OptAddress{
@@ -35305,52 +35259,6 @@ func (o OptAddress) Get() (v Address, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptAddress) Or(d Address) Address {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptAnnouncementStateError returns new OptAnnouncementStateError with value set to v.
-func NewOptAnnouncementStateError(v AnnouncementStateError) OptAnnouncementStateError {
-	return OptAnnouncementStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptAnnouncementStateError is optional AnnouncementStateError.
-type OptAnnouncementStateError struct {
-	Value AnnouncementStateError
-	Set   bool
-}
-
-// IsSet returns true if OptAnnouncementStateError was set.
-func (o OptAnnouncementStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptAnnouncementStateError) Reset() {
-	var v AnnouncementStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptAnnouncementStateError) SetTo(v AnnouncementStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptAnnouncementStateError) Get() (v AnnouncementStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptAnnouncementStateError) Or(d AnnouncementStateError) AnnouncementStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -35403,98 +35311,6 @@ func (o OptApiKey) Or(d ApiKey) ApiKey {
 	return d
 }
 
-// NewOptApiKeyCreatorStateError returns new OptApiKeyCreatorStateError with value set to v.
-func NewOptApiKeyCreatorStateError(v ApiKeyCreatorStateError) OptApiKeyCreatorStateError {
-	return OptApiKeyCreatorStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptApiKeyCreatorStateError is optional ApiKeyCreatorStateError.
-type OptApiKeyCreatorStateError struct {
-	Value ApiKeyCreatorStateError
-	Set   bool
-}
-
-// IsSet returns true if OptApiKeyCreatorStateError was set.
-func (o OptApiKeyCreatorStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptApiKeyCreatorStateError) Reset() {
-	var v ApiKeyCreatorStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptApiKeyCreatorStateError) SetTo(v ApiKeyCreatorStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptApiKeyCreatorStateError) Get() (v ApiKeyCreatorStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptApiKeyCreatorStateError) Or(d ApiKeyCreatorStateError) ApiKeyCreatorStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptApiKeyStateError returns new OptApiKeyStateError with value set to v.
-func NewOptApiKeyStateError(v ApiKeyStateError) OptApiKeyStateError {
-	return OptApiKeyStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptApiKeyStateError is optional ApiKeyStateError.
-type OptApiKeyStateError struct {
-	Value ApiKeyStateError
-	Set   bool
-}
-
-// IsSet returns true if OptApiKeyStateError was set.
-func (o OptApiKeyStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptApiKeyStateError) Reset() {
-	var v ApiKeyStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptApiKeyStateError) SetTo(v ApiKeyStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptApiKeyStateError) Get() (v ApiKeyStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptApiKeyStateError) Or(d ApiKeyStateError) ApiKeyStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptBackup returns new OptBackup with value set to v.
 func NewOptBackup(v Backup) OptBackup {
 	return OptBackup{
@@ -35535,52 +35351,6 @@ func (o OptBackup) Get() (v Backup, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptBackup) Or(d Backup) Backup {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptBackupStateError returns new OptBackupStateError with value set to v.
-func NewOptBackupStateError(v BackupStateError) OptBackupStateError {
-	return OptBackupStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptBackupStateError is optional BackupStateError.
-type OptBackupStateError struct {
-	Value BackupStateError
-	Set   bool
-}
-
-// IsSet returns true if OptBackupStateError was set.
-func (o OptBackupStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptBackupStateError) Reset() {
-	var v BackupStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptBackupStateError) SetTo(v BackupStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptBackupStateError) Get() (v BackupStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptBackupStateError) Or(d BackupStateError) BackupStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -35673,98 +35443,6 @@ func (o OptBillingOrder) Get() (v BillingOrder, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptBillingOrder) Or(d BillingOrder) BillingOrder {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptBillingOrderStateError returns new OptBillingOrderStateError with value set to v.
-func NewOptBillingOrderStateError(v BillingOrderStateError) OptBillingOrderStateError {
-	return OptBillingOrderStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptBillingOrderStateError is optional BillingOrderStateError.
-type OptBillingOrderStateError struct {
-	Value BillingOrderStateError
-	Set   bool
-}
-
-// IsSet returns true if OptBillingOrderStateError was set.
-func (o OptBillingOrderStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptBillingOrderStateError) Reset() {
-	var v BillingOrderStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptBillingOrderStateError) SetTo(v BillingOrderStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptBillingOrderStateError) Get() (v BillingOrderStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptBillingOrderStateError) Or(d BillingOrderStateError) BillingOrderStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptBillingServiceStateError returns new OptBillingServiceStateError with value set to v.
-func NewOptBillingServiceStateError(v BillingServiceStateError) OptBillingServiceStateError {
-	return OptBillingServiceStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptBillingServiceStateError is optional BillingServiceStateError.
-type OptBillingServiceStateError struct {
-	Value BillingServiceStateError
-	Set   bool
-}
-
-// IsSet returns true if OptBillingServiceStateError was set.
-func (o OptBillingServiceStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptBillingServiceStateError) Reset() {
-	var v BillingServiceStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptBillingServiceStateError) SetTo(v BillingServiceStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptBillingServiceStateError) Get() (v BillingServiceStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptBillingServiceStateError) Or(d BillingServiceStateError) BillingServiceStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -37421,52 +37099,6 @@ func (o OptContainerStateDesired) Get() (v ContainerStateDesired, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptContainerStateDesired) Or(d ContainerStateDesired) ContainerStateDesired {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptContainerStateError returns new OptContainerStateError with value set to v.
-func NewOptContainerStateError(v ContainerStateError) OptContainerStateError {
-	return OptContainerStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptContainerStateError is optional ContainerStateError.
-type OptContainerStateError struct {
-	Value ContainerStateError
-	Set   bool
-}
-
-// IsSet returns true if OptContainerStateError was set.
-func (o OptContainerStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptContainerStateError) Reset() {
-	var v ContainerStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptContainerStateError) SetTo(v ContainerStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptContainerStateError) Get() (v ContainerStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptContainerStateError) Or(d ContainerStateError) ContainerStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -40417,52 +40049,6 @@ func (o OptCreditCard) Or(d CreditCard) CreditCard {
 	return d
 }
 
-// NewOptCreditStateError returns new OptCreditStateError with value set to v.
-func NewOptCreditStateError(v CreditStateError) OptCreditStateError {
-	return OptCreditStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCreditStateError is optional CreditStateError.
-type OptCreditStateError struct {
-	Value CreditStateError
-	Set   bool
-}
-
-// IsSet returns true if OptCreditStateError was set.
-func (o OptCreditStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCreditStateError) Reset() {
-	var v CreditStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCreditStateError) SetTo(v CreditStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCreditStateError) Get() (v CreditStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCreditStateError) Or(d CreditStateError) CreditStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptCycleUploadOriginDetails returns new OptCycleUploadOriginDetails with value set to v.
 func NewOptCycleUploadOriginDetails(v CycleUploadOriginDetails) OptCycleUploadOriginDetails {
 	return OptCycleUploadOriginDetails{
@@ -41469,52 +41055,6 @@ func (o OptEnvironmentStartStepOptions) Get() (v EnvironmentStartStepOptions, ok
 
 // Or returns value if set, or given parameter if does not.
 func (o OptEnvironmentStartStepOptions) Or(d EnvironmentStartStepOptions) EnvironmentStartStepOptions {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptEnvironmentStateError returns new OptEnvironmentStateError with value set to v.
-func NewOptEnvironmentStateError(v EnvironmentStateError) OptEnvironmentStateError {
-	return OptEnvironmentStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptEnvironmentStateError is optional EnvironmentStateError.
-type OptEnvironmentStateError struct {
-	Value EnvironmentStateError
-	Set   bool
-}
-
-// IsSet returns true if OptEnvironmentStateError was set.
-func (o OptEnvironmentStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptEnvironmentStateError) Reset() {
-	var v EnvironmentStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptEnvironmentStateError) SetTo(v EnvironmentStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptEnvironmentStateError) Get() (v EnvironmentStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptEnvironmentStateError) Or(d EnvironmentStateError) EnvironmentStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -45569,52 +45109,6 @@ func (o OptGlobalLoadBalancerIncludes) Or(d GlobalLoadBalancerIncludes) GlobalLo
 	return d
 }
 
-// NewOptGlobalLoadBalancerStateError returns new OptGlobalLoadBalancerStateError with value set to v.
-func NewOptGlobalLoadBalancerStateError(v GlobalLoadBalancerStateError) OptGlobalLoadBalancerStateError {
-	return OptGlobalLoadBalancerStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptGlobalLoadBalancerStateError is optional GlobalLoadBalancerStateError.
-type OptGlobalLoadBalancerStateError struct {
-	Value GlobalLoadBalancerStateError
-	Set   bool
-}
-
-// IsSet returns true if OptGlobalLoadBalancerStateError was set.
-func (o OptGlobalLoadBalancerStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptGlobalLoadBalancerStateError) Reset() {
-	var v GlobalLoadBalancerStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptGlobalLoadBalancerStateError) SetTo(v GlobalLoadBalancerStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptGlobalLoadBalancerStateError) Get() (v GlobalLoadBalancerStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptGlobalLoadBalancerStateError) Or(d GlobalLoadBalancerStateError) GlobalLoadBalancerStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptHub returns new OptHub with value set to v.
 func NewOptHub(v Hub) OptHub {
 	return OptHub{
@@ -46299,52 +45793,6 @@ func (o OptHubNotificationToken) Get() (v HubNotificationToken, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptHubNotificationToken) Or(d HubNotificationToken) HubNotificationToken {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptHubStateError returns new OptHubStateError with value set to v.
-func NewOptHubStateError(v HubStateError) OptHubStateError {
-	return OptHubStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptHubStateError is optional HubStateError.
-type OptHubStateError struct {
-	Value HubStateError
-	Set   bool
-}
-
-// IsSet returns true if OptHubStateError was set.
-func (o OptHubStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptHubStateError) Reset() {
-	var v HubStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptHubStateError) SetTo(v HubStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptHubStateError) Get() (v HubStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptHubStateError) Or(d HubStateError) HubStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -47363,98 +46811,6 @@ func (o OptImageSourceMetaImagesCount) Or(d ImageSourceMetaImagesCount) ImageSou
 	return d
 }
 
-// NewOptImageSourceStateError returns new OptImageSourceStateError with value set to v.
-func NewOptImageSourceStateError(v ImageSourceStateError) OptImageSourceStateError {
-	return OptImageSourceStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptImageSourceStateError is optional ImageSourceStateError.
-type OptImageSourceStateError struct {
-	Value ImageSourceStateError
-	Set   bool
-}
-
-// IsSet returns true if OptImageSourceStateError was set.
-func (o OptImageSourceStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptImageSourceStateError) Reset() {
-	var v ImageSourceStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptImageSourceStateError) SetTo(v ImageSourceStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptImageSourceStateError) Get() (v ImageSourceStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptImageSourceStateError) Or(d ImageSourceStateError) ImageSourceStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptImageStateError returns new OptImageStateError with value set to v.
-func NewOptImageStateError(v ImageStateError) OptImageStateError {
-	return OptImageStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptImageStateError is optional ImageStateError.
-type OptImageStateError struct {
-	Value ImageStateError
-	Set   bool
-}
-
-// IsSet returns true if OptImageStateError was set.
-func (o OptImageStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptImageStateError) Reset() {
-	var v ImageStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptImageStateError) SetTo(v ImageStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptImageStateError) Get() (v ImageStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptImageStateError) Or(d ImageStateError) ImageStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptImagesIncludes returns new OptImagesIncludes with value set to v.
 func NewOptImagesIncludes(v ImagesIncludes) OptImagesIncludes {
 	return OptImagesIncludes{
@@ -47823,52 +47179,6 @@ func (o OptInstanceIncludes) Or(d InstanceIncludes) InstanceIncludes {
 	return d
 }
 
-// NewOptInstanceStateError returns new OptInstanceStateError with value set to v.
-func NewOptInstanceStateError(v InstanceStateError) OptInstanceStateError {
-	return OptInstanceStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptInstanceStateError is optional InstanceStateError.
-type OptInstanceStateError struct {
-	Value InstanceStateError
-	Set   bool
-}
-
-// IsSet returns true if OptInstanceStateError was set.
-func (o OptInstanceStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptInstanceStateError) Reset() {
-	var v InstanceStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptInstanceStateError) SetTo(v InstanceStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptInstanceStateError) Get() (v InstanceStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptInstanceStateError) Or(d InstanceStateError) InstanceStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptInstanceStateHealth returns new OptInstanceStateHealth with value set to v.
 func NewOptInstanceStateHealth(v InstanceStateHealth) OptInstanceStateHealth {
 	return OptInstanceStateHealth{
@@ -48099,98 +47409,6 @@ func (o OptInvoiceMeta) Or(d InvoiceMeta) InvoiceMeta {
 	return d
 }
 
-// NewOptInvoiceStateError returns new OptInvoiceStateError with value set to v.
-func NewOptInvoiceStateError(v InvoiceStateError) OptInvoiceStateError {
-	return OptInvoiceStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptInvoiceStateError is optional InvoiceStateError.
-type OptInvoiceStateError struct {
-	Value InvoiceStateError
-	Set   bool
-}
-
-// IsSet returns true if OptInvoiceStateError was set.
-func (o OptInvoiceStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptInvoiceStateError) Reset() {
-	var v InvoiceStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptInvoiceStateError) SetTo(v InvoiceStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptInvoiceStateError) Get() (v InvoiceStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptInvoiceStateError) Or(d InvoiceStateError) InvoiceStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptIpStateError returns new OptIpStateError with value set to v.
-func NewOptIpStateError(v IpStateError) OptIpStateError {
-	return OptIpStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptIpStateError is optional IpStateError.
-type OptIpStateError struct {
-	Value IpStateError
-	Set   bool
-}
-
-// IsSet returns true if OptIpStateError was set.
-func (o OptIpStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptIpStateError) Reset() {
-	var v IpStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptIpStateError) SetTo(v IpStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptIpStateError) Get() (v IpStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptIpStateError) Or(d IpStateError) IpStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptJob returns new OptJob with value set to v.
 func NewOptJob(v Job) OptJob {
 	return OptJob{
@@ -48277,52 +47495,6 @@ func (o OptJobIncludes) Get() (v JobIncludes, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptJobIncludes) Or(d JobIncludes) JobIncludes {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptJobStateError returns new OptJobStateError with value set to v.
-func NewOptJobStateError(v JobStateError) OptJobStateError {
-	return OptJobStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptJobStateError is optional JobStateError.
-type OptJobStateError struct {
-	Value JobStateError
-	Set   bool
-}
-
-// IsSet returns true if OptJobStateError was set.
-func (o OptJobStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptJobStateError) Reset() {
-	var v JobStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptJobStateError) SetTo(v JobStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptJobStateError) Get() (v JobStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptJobStateError) Or(d JobStateError) JobStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -48797,52 +47969,6 @@ func (o OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses) Or(
 	return d
 }
 
-// NewOptMembershipStateError returns new OptMembershipStateError with value set to v.
-func NewOptMembershipStateError(v MembershipStateError) OptMembershipStateError {
-	return OptMembershipStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptMembershipStateError is optional MembershipStateError.
-type OptMembershipStateError struct {
-	Value MembershipStateError
-	Set   bool
-}
-
-// IsSet returns true if OptMembershipStateError was set.
-func (o OptMembershipStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptMembershipStateError) Reset() {
-	var v MembershipStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptMembershipStateError) SetTo(v MembershipStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptMembershipStateError) Get() (v MembershipStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptMembershipStateError) Or(d MembershipStateError) MembershipStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptMemoryData returns new OptMemoryData with value set to v.
 func NewOptMemoryData(v MemoryData) OptMemoryData {
 	return OptMemoryData{
@@ -48929,52 +48055,6 @@ func (o OptMethod) Get() (v Method, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptMethod) Or(d Method) Method {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptMethodStateError returns new OptMethodStateError with value set to v.
-func NewOptMethodStateError(v MethodStateError) OptMethodStateError {
-	return OptMethodStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptMethodStateError is optional MethodStateError.
-type OptMethodStateError struct {
-	Value MethodStateError
-	Set   bool
-}
-
-// IsSet returns true if OptMethodStateError was set.
-func (o OptMethodStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptMethodStateError) Reset() {
-	var v MethodStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptMethodStateError) SetTo(v MethodStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptMethodStateError) Get() (v MethodStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptMethodStateError) Or(d MethodStateError) MethodStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -49211,38 +48291,55 @@ func (o OptNetworkIncludes) Or(d NetworkIncludes) NetworkIncludes {
 	return d
 }
 
-// NewOptNetworkStateError returns new OptNetworkStateError with value set to v.
-func NewOptNetworkStateError(v NetworkStateError) OptNetworkStateError {
-	return OptNetworkStateError{
+// NewOptNilAccountStateError returns new OptNilAccountStateError with value set to v.
+func NewOptNilAccountStateError(v AccountStateError) OptNilAccountStateError {
+	return OptNilAccountStateError{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNetworkStateError is optional NetworkStateError.
-type OptNetworkStateError struct {
-	Value NetworkStateError
+// OptNilAccountStateError is optional nullable AccountStateError.
+type OptNilAccountStateError struct {
+	Value AccountStateError
 	Set   bool
+	Null  bool
 }
 
-// IsSet returns true if OptNetworkStateError was set.
-func (o OptNetworkStateError) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilAccountStateError was set.
+func (o OptNilAccountStateError) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNetworkStateError) Reset() {
-	var v NetworkStateError
+func (o *OptNilAccountStateError) Reset() {
+	var v AccountStateError
 	o.Value = v
 	o.Set = false
+	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNetworkStateError) SetTo(v NetworkStateError) {
+func (o *OptNilAccountStateError) SetTo(v AccountStateError) {
 	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilAccountStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilAccountStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v AccountStateError
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNetworkStateError) Get() (v NetworkStateError, ok bool) {
+func (o OptNilAccountStateError) Get() (v AccountStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
 	if !o.Set {
 		return v, false
 	}
@@ -49250,7 +48347,7 @@ func (o OptNetworkStateError) Get() (v NetworkStateError, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNetworkStateError) Or(d NetworkStateError) NetworkStateError {
+func (o OptNilAccountStateError) Or(d AccountStateError) AccountStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -49314,6 +48411,384 @@ func (o OptNilAccountTwoFactorAuth) Get() (v AccountTwoFactorAuth, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilAccountTwoFactorAuth) Or(d AccountTwoFactorAuth) AccountTwoFactorAuth {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilAnnouncementStateError returns new OptNilAnnouncementStateError with value set to v.
+func NewOptNilAnnouncementStateError(v AnnouncementStateError) OptNilAnnouncementStateError {
+	return OptNilAnnouncementStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilAnnouncementStateError is optional nullable AnnouncementStateError.
+type OptNilAnnouncementStateError struct {
+	Value AnnouncementStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilAnnouncementStateError was set.
+func (o OptNilAnnouncementStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilAnnouncementStateError) Reset() {
+	var v AnnouncementStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilAnnouncementStateError) SetTo(v AnnouncementStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilAnnouncementStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilAnnouncementStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v AnnouncementStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilAnnouncementStateError) Get() (v AnnouncementStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilAnnouncementStateError) Or(d AnnouncementStateError) AnnouncementStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilApiKeyCreatorStateError returns new OptNilApiKeyCreatorStateError with value set to v.
+func NewOptNilApiKeyCreatorStateError(v ApiKeyCreatorStateError) OptNilApiKeyCreatorStateError {
+	return OptNilApiKeyCreatorStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilApiKeyCreatorStateError is optional nullable ApiKeyCreatorStateError.
+type OptNilApiKeyCreatorStateError struct {
+	Value ApiKeyCreatorStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilApiKeyCreatorStateError was set.
+func (o OptNilApiKeyCreatorStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilApiKeyCreatorStateError) Reset() {
+	var v ApiKeyCreatorStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilApiKeyCreatorStateError) SetTo(v ApiKeyCreatorStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilApiKeyCreatorStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilApiKeyCreatorStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ApiKeyCreatorStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilApiKeyCreatorStateError) Get() (v ApiKeyCreatorStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilApiKeyCreatorStateError) Or(d ApiKeyCreatorStateError) ApiKeyCreatorStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilApiKeyStateError returns new OptNilApiKeyStateError with value set to v.
+func NewOptNilApiKeyStateError(v ApiKeyStateError) OptNilApiKeyStateError {
+	return OptNilApiKeyStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilApiKeyStateError is optional nullable ApiKeyStateError.
+type OptNilApiKeyStateError struct {
+	Value ApiKeyStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilApiKeyStateError was set.
+func (o OptNilApiKeyStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilApiKeyStateError) Reset() {
+	var v ApiKeyStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilApiKeyStateError) SetTo(v ApiKeyStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilApiKeyStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilApiKeyStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ApiKeyStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilApiKeyStateError) Get() (v ApiKeyStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilApiKeyStateError) Or(d ApiKeyStateError) ApiKeyStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilBackupStateError returns new OptNilBackupStateError with value set to v.
+func NewOptNilBackupStateError(v BackupStateError) OptNilBackupStateError {
+	return OptNilBackupStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilBackupStateError is optional nullable BackupStateError.
+type OptNilBackupStateError struct {
+	Value BackupStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilBackupStateError was set.
+func (o OptNilBackupStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilBackupStateError) Reset() {
+	var v BackupStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilBackupStateError) SetTo(v BackupStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilBackupStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilBackupStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v BackupStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilBackupStateError) Get() (v BackupStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilBackupStateError) Or(d BackupStateError) BackupStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilBillingOrderStateError returns new OptNilBillingOrderStateError with value set to v.
+func NewOptNilBillingOrderStateError(v BillingOrderStateError) OptNilBillingOrderStateError {
+	return OptNilBillingOrderStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilBillingOrderStateError is optional nullable BillingOrderStateError.
+type OptNilBillingOrderStateError struct {
+	Value BillingOrderStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilBillingOrderStateError was set.
+func (o OptNilBillingOrderStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilBillingOrderStateError) Reset() {
+	var v BillingOrderStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilBillingOrderStateError) SetTo(v BillingOrderStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilBillingOrderStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilBillingOrderStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v BillingOrderStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilBillingOrderStateError) Get() (v BillingOrderStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilBillingOrderStateError) Or(d BillingOrderStateError) BillingOrderStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilBillingServiceStateError returns new OptNilBillingServiceStateError with value set to v.
+func NewOptNilBillingServiceStateError(v BillingServiceStateError) OptNilBillingServiceStateError {
+	return OptNilBillingServiceStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilBillingServiceStateError is optional nullable BillingServiceStateError.
+type OptNilBillingServiceStateError struct {
+	Value BillingServiceStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilBillingServiceStateError was set.
+func (o OptNilBillingServiceStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilBillingServiceStateError) Reset() {
+	var v BillingServiceStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilBillingServiceStateError) SetTo(v BillingServiceStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilBillingServiceStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilBillingServiceStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v BillingServiceStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilBillingServiceStateError) Get() (v BillingServiceStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilBillingServiceStateError) Or(d BillingServiceStateError) BillingServiceStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -49509,6 +48984,69 @@ func (o OptNilContainerRole) Or(d ContainerRole) ContainerRole {
 	return d
 }
 
+// NewOptNilContainerStateError returns new OptNilContainerStateError with value set to v.
+func NewOptNilContainerStateError(v ContainerStateError) OptNilContainerStateError {
+	return OptNilContainerStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilContainerStateError is optional nullable ContainerStateError.
+type OptNilContainerStateError struct {
+	Value ContainerStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilContainerStateError was set.
+func (o OptNilContainerStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilContainerStateError) Reset() {
+	var v ContainerStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilContainerStateError) SetTo(v ContainerStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilContainerStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilContainerStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ContainerStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilContainerStateError) Get() (v ContainerStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilContainerStateError) Or(d ContainerStateError) ContainerStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilCreateScopedVariableReqSecret returns new OptNilCreateScopedVariableReqSecret with value set to v.
 func NewOptNilCreateScopedVariableReqSecret(v CreateScopedVariableReqSecret) OptNilCreateScopedVariableReqSecret {
 	return OptNilCreateScopedVariableReqSecret{
@@ -49566,6 +49104,69 @@ func (o OptNilCreateScopedVariableReqSecret) Get() (v CreateScopedVariableReqSec
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilCreateScopedVariableReqSecret) Or(d CreateScopedVariableReqSecret) CreateScopedVariableReqSecret {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilCreditStateError returns new OptNilCreditStateError with value set to v.
+func NewOptNilCreditStateError(v CreditStateError) OptNilCreditStateError {
+	return OptNilCreditStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilCreditStateError is optional nullable CreditStateError.
+type OptNilCreditStateError struct {
+	Value CreditStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilCreditStateError was set.
+func (o OptNilCreditStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilCreditStateError) Reset() {
+	var v CreditStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilCreditStateError) SetTo(v CreditStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilCreditStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilCreditStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v CreditStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilCreditStateError) Get() (v CreditStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilCreditStateError) Or(d CreditStateError) CreditStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -49824,6 +49425,195 @@ func (o OptNilEmployeeLoginTwoFactorAuth) Or(d EmployeeLoginTwoFactorAuth) Emplo
 	return d
 }
 
+// NewOptNilEnvironmentStateError returns new OptNilEnvironmentStateError with value set to v.
+func NewOptNilEnvironmentStateError(v EnvironmentStateError) OptNilEnvironmentStateError {
+	return OptNilEnvironmentStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilEnvironmentStateError is optional nullable EnvironmentStateError.
+type OptNilEnvironmentStateError struct {
+	Value EnvironmentStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilEnvironmentStateError was set.
+func (o OptNilEnvironmentStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilEnvironmentStateError) Reset() {
+	var v EnvironmentStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilEnvironmentStateError) SetTo(v EnvironmentStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilEnvironmentStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilEnvironmentStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v EnvironmentStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilEnvironmentStateError) Get() (v EnvironmentStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilEnvironmentStateError) Or(d EnvironmentStateError) EnvironmentStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilGlobalLoadBalancerStateError returns new OptNilGlobalLoadBalancerStateError with value set to v.
+func NewOptNilGlobalLoadBalancerStateError(v GlobalLoadBalancerStateError) OptNilGlobalLoadBalancerStateError {
+	return OptNilGlobalLoadBalancerStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilGlobalLoadBalancerStateError is optional nullable GlobalLoadBalancerStateError.
+type OptNilGlobalLoadBalancerStateError struct {
+	Value GlobalLoadBalancerStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilGlobalLoadBalancerStateError was set.
+func (o OptNilGlobalLoadBalancerStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilGlobalLoadBalancerStateError) Reset() {
+	var v GlobalLoadBalancerStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilGlobalLoadBalancerStateError) SetTo(v GlobalLoadBalancerStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilGlobalLoadBalancerStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilGlobalLoadBalancerStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v GlobalLoadBalancerStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilGlobalLoadBalancerStateError) Get() (v GlobalLoadBalancerStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilGlobalLoadBalancerStateError) Or(d GlobalLoadBalancerStateError) GlobalLoadBalancerStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilHubStateError returns new OptNilHubStateError with value set to v.
+func NewOptNilHubStateError(v HubStateError) OptNilHubStateError {
+	return OptNilHubStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilHubStateError is optional nullable HubStateError.
+type OptNilHubStateError struct {
+	Value HubStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilHubStateError was set.
+func (o OptNilHubStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilHubStateError) Reset() {
+	var v HubStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilHubStateError) SetTo(v HubStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilHubStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilHubStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v HubStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilHubStateError) Get() (v HubStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilHubStateError) Or(d HubStateError) HubStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilIPAssignment returns new OptNilIPAssignment with value set to v.
 func NewOptNilIPAssignment(v IPAssignment) OptNilIPAssignment {
 	return OptNilIPAssignment{
@@ -49881,6 +49671,384 @@ func (o OptNilIPAssignment) Get() (v IPAssignment, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilIPAssignment) Or(d IPAssignment) IPAssignment {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilImageSourceStateError returns new OptNilImageSourceStateError with value set to v.
+func NewOptNilImageSourceStateError(v ImageSourceStateError) OptNilImageSourceStateError {
+	return OptNilImageSourceStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilImageSourceStateError is optional nullable ImageSourceStateError.
+type OptNilImageSourceStateError struct {
+	Value ImageSourceStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilImageSourceStateError was set.
+func (o OptNilImageSourceStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilImageSourceStateError) Reset() {
+	var v ImageSourceStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilImageSourceStateError) SetTo(v ImageSourceStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilImageSourceStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilImageSourceStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ImageSourceStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilImageSourceStateError) Get() (v ImageSourceStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilImageSourceStateError) Or(d ImageSourceStateError) ImageSourceStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilImageStateError returns new OptNilImageStateError with value set to v.
+func NewOptNilImageStateError(v ImageStateError) OptNilImageStateError {
+	return OptNilImageStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilImageStateError is optional nullable ImageStateError.
+type OptNilImageStateError struct {
+	Value ImageStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilImageStateError was set.
+func (o OptNilImageStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilImageStateError) Reset() {
+	var v ImageStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilImageStateError) SetTo(v ImageStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilImageStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilImageStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ImageStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilImageStateError) Get() (v ImageStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilImageStateError) Or(d ImageStateError) ImageStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilInstanceStateError returns new OptNilInstanceStateError with value set to v.
+func NewOptNilInstanceStateError(v InstanceStateError) OptNilInstanceStateError {
+	return OptNilInstanceStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilInstanceStateError is optional nullable InstanceStateError.
+type OptNilInstanceStateError struct {
+	Value InstanceStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilInstanceStateError was set.
+func (o OptNilInstanceStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilInstanceStateError) Reset() {
+	var v InstanceStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilInstanceStateError) SetTo(v InstanceStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilInstanceStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilInstanceStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v InstanceStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilInstanceStateError) Get() (v InstanceStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilInstanceStateError) Or(d InstanceStateError) InstanceStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilInvoiceStateError returns new OptNilInvoiceStateError with value set to v.
+func NewOptNilInvoiceStateError(v InvoiceStateError) OptNilInvoiceStateError {
+	return OptNilInvoiceStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilInvoiceStateError is optional nullable InvoiceStateError.
+type OptNilInvoiceStateError struct {
+	Value InvoiceStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilInvoiceStateError was set.
+func (o OptNilInvoiceStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilInvoiceStateError) Reset() {
+	var v InvoiceStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilInvoiceStateError) SetTo(v InvoiceStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilInvoiceStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilInvoiceStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v InvoiceStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilInvoiceStateError) Get() (v InvoiceStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilInvoiceStateError) Or(d InvoiceStateError) InvoiceStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilIpStateError returns new OptNilIpStateError with value set to v.
+func NewOptNilIpStateError(v IpStateError) OptNilIpStateError {
+	return OptNilIpStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilIpStateError is optional nullable IpStateError.
+type OptNilIpStateError struct {
+	Value IpStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilIpStateError was set.
+func (o OptNilIpStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilIpStateError) Reset() {
+	var v IpStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilIpStateError) SetTo(v IpStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilIpStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilIpStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v IpStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilIpStateError) Get() (v IpStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilIpStateError) Or(d IpStateError) IpStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilJobStateError returns new OptNilJobStateError with value set to v.
+func NewOptNilJobStateError(v JobStateError) OptNilJobStateError {
+	return OptNilJobStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilJobStateError is optional nullable JobStateError.
+type OptNilJobStateError struct {
+	Value JobStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilJobStateError was set.
+func (o OptNilJobStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilJobStateError) Reset() {
+	var v JobStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilJobStateError) SetTo(v JobStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilJobStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilJobStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v JobStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilJobStateError) Get() (v JobStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilJobStateError) Or(d JobStateError) JobStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -50076,6 +50244,888 @@ func (o OptNilLogsError) Or(d LogsError) LogsError {
 	return d
 }
 
+// NewOptNilMembershipStateError returns new OptNilMembershipStateError with value set to v.
+func NewOptNilMembershipStateError(v MembershipStateError) OptNilMembershipStateError {
+	return OptNilMembershipStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilMembershipStateError is optional nullable MembershipStateError.
+type OptNilMembershipStateError struct {
+	Value MembershipStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilMembershipStateError was set.
+func (o OptNilMembershipStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilMembershipStateError) Reset() {
+	var v MembershipStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilMembershipStateError) SetTo(v MembershipStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilMembershipStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilMembershipStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v MembershipStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilMembershipStateError) Get() (v MembershipStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilMembershipStateError) Or(d MembershipStateError) MembershipStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilMethodStateError returns new OptNilMethodStateError with value set to v.
+func NewOptNilMethodStateError(v MethodStateError) OptNilMethodStateError {
+	return OptNilMethodStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilMethodStateError is optional nullable MethodStateError.
+type OptNilMethodStateError struct {
+	Value MethodStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilMethodStateError was set.
+func (o OptNilMethodStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilMethodStateError) Reset() {
+	var v MethodStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilMethodStateError) SetTo(v MethodStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilMethodStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilMethodStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v MethodStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilMethodStateError) Get() (v MethodStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilMethodStateError) Or(d MethodStateError) MethodStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilNetworkStateError returns new OptNilNetworkStateError with value set to v.
+func NewOptNilNetworkStateError(v NetworkStateError) OptNilNetworkStateError {
+	return OptNilNetworkStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilNetworkStateError is optional nullable NetworkStateError.
+type OptNilNetworkStateError struct {
+	Value NetworkStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilNetworkStateError was set.
+func (o OptNilNetworkStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilNetworkStateError) Reset() {
+	var v NetworkStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilNetworkStateError) SetTo(v NetworkStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilNetworkStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilNetworkStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v NetworkStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilNetworkStateError) Get() (v NetworkStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilNetworkStateError) Or(d NetworkStateError) NetworkStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilNodeStateError returns new OptNilNodeStateError with value set to v.
+func NewOptNilNodeStateError(v NodeStateError) OptNilNodeStateError {
+	return OptNilNodeStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilNodeStateError is optional nullable NodeStateError.
+type OptNilNodeStateError struct {
+	Value NodeStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilNodeStateError was set.
+func (o OptNilNodeStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilNodeStateError) Reset() {
+	var v NodeStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilNodeStateError) SetTo(v NodeStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilNodeStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilNodeStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v NodeStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilNodeStateError) Get() (v NodeStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilNodeStateError) Or(d NodeStateError) NodeStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilOrderStateError returns new OptNilOrderStateError with value set to v.
+func NewOptNilOrderStateError(v OrderStateError) OptNilOrderStateError {
+	return OptNilOrderStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilOrderStateError is optional nullable OrderStateError.
+type OptNilOrderStateError struct {
+	Value OrderStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilOrderStateError was set.
+func (o OptNilOrderStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilOrderStateError) Reset() {
+	var v OrderStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilOrderStateError) SetTo(v OrderStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilOrderStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilOrderStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v OrderStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilOrderStateError) Get() (v OrderStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilOrderStateError) Or(d OrderStateError) OrderStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilPipelineStateError returns new OptNilPipelineStateError with value set to v.
+func NewOptNilPipelineStateError(v PipelineStateError) OptNilPipelineStateError {
+	return OptNilPipelineStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilPipelineStateError is optional nullable PipelineStateError.
+type OptNilPipelineStateError struct {
+	Value PipelineStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilPipelineStateError was set.
+func (o OptNilPipelineStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilPipelineStateError) Reset() {
+	var v PipelineStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilPipelineStateError) SetTo(v PipelineStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilPipelineStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilPipelineStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v PipelineStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilPipelineStateError) Get() (v PipelineStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilPipelineStateError) Or(d PipelineStateError) PipelineStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilPoolStateError returns new OptNilPoolStateError with value set to v.
+func NewOptNilPoolStateError(v PoolStateError) OptNilPoolStateError {
+	return OptNilPoolStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilPoolStateError is optional nullable PoolStateError.
+type OptNilPoolStateError struct {
+	Value PoolStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilPoolStateError was set.
+func (o OptNilPoolStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilPoolStateError) Reset() {
+	var v PoolStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilPoolStateError) SetTo(v PoolStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilPoolStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilPoolStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v PoolStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilPoolStateError) Get() (v PoolStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilPoolStateError) Or(d PoolStateError) PoolStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilPromoCodeStateError returns new OptNilPromoCodeStateError with value set to v.
+func NewOptNilPromoCodeStateError(v PromoCodeStateError) OptNilPromoCodeStateError {
+	return OptNilPromoCodeStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilPromoCodeStateError is optional nullable PromoCodeStateError.
+type OptNilPromoCodeStateError struct {
+	Value PromoCodeStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilPromoCodeStateError was set.
+func (o OptNilPromoCodeStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilPromoCodeStateError) Reset() {
+	var v PromoCodeStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilPromoCodeStateError) SetTo(v PromoCodeStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilPromoCodeStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilPromoCodeStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v PromoCodeStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilPromoCodeStateError) Get() (v PromoCodeStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilPromoCodeStateError) Or(d PromoCodeStateError) PromoCodeStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilProviderStateError returns new OptNilProviderStateError with value set to v.
+func NewOptNilProviderStateError(v ProviderStateError) OptNilProviderStateError {
+	return OptNilProviderStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilProviderStateError is optional nullable ProviderStateError.
+type OptNilProviderStateError struct {
+	Value ProviderStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilProviderStateError was set.
+func (o OptNilProviderStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilProviderStateError) Reset() {
+	var v ProviderStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilProviderStateError) SetTo(v ProviderStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilProviderStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilProviderStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ProviderStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilProviderStateError) Get() (v ProviderStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilProviderStateError) Or(d ProviderStateError) ProviderStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilRecordStateError returns new OptNilRecordStateError with value set to v.
+func NewOptNilRecordStateError(v RecordStateError) OptNilRecordStateError {
+	return OptNilRecordStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilRecordStateError is optional nullable RecordStateError.
+type OptNilRecordStateError struct {
+	Value RecordStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilRecordStateError was set.
+func (o OptNilRecordStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilRecordStateError) Reset() {
+	var v RecordStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilRecordStateError) SetTo(v RecordStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilRecordStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilRecordStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v RecordStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilRecordStateError) Get() (v RecordStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilRecordStateError) Or(d RecordStateError) RecordStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilRunStateError returns new OptNilRunStateError with value set to v.
+func NewOptNilRunStateError(v RunStateError) OptNilRunStateError {
+	return OptNilRunStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilRunStateError is optional nullable RunStateError.
+type OptNilRunStateError struct {
+	Value RunStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilRunStateError was set.
+func (o OptNilRunStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilRunStateError) Reset() {
+	var v RunStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilRunStateError) SetTo(v RunStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilRunStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilRunStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v RunStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilRunStateError) Get() (v RunStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilRunStateError) Or(d RunStateError) RunStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilScopedVariableStateError returns new OptNilScopedVariableStateError with value set to v.
+func NewOptNilScopedVariableStateError(v ScopedVariableStateError) OptNilScopedVariableStateError {
+	return OptNilScopedVariableStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilScopedVariableStateError is optional nullable ScopedVariableStateError.
+type OptNilScopedVariableStateError struct {
+	Value ScopedVariableStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilScopedVariableStateError was set.
+func (o OptNilScopedVariableStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilScopedVariableStateError) Reset() {
+	var v ScopedVariableStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilScopedVariableStateError) SetTo(v ScopedVariableStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilScopedVariableStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilScopedVariableStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ScopedVariableStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilScopedVariableStateError) Get() (v ScopedVariableStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilScopedVariableStateError) Or(d ScopedVariableStateError) ScopedVariableStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilServerStateError returns new OptNilServerStateError with value set to v.
+func NewOptNilServerStateError(v ServerStateError) OptNilServerStateError {
+	return OptNilServerStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilServerStateError is optional nullable ServerStateError.
+type OptNilServerStateError struct {
+	Value ServerStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilServerStateError was set.
+func (o OptNilServerStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilServerStateError) Reset() {
+	var v ServerStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilServerStateError) SetTo(v ServerStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilServerStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilServerStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ServerStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilServerStateError) Get() (v ServerStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilServerStateError) Or(d ServerStateError) ServerStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilStackBuildStateError returns new OptNilStackBuildStateError with value set to v.
+func NewOptNilStackBuildStateError(v StackBuildStateError) OptNilStackBuildStateError {
+	return OptNilStackBuildStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStackBuildStateError is optional nullable StackBuildStateError.
+type OptNilStackBuildStateError struct {
+	Value StackBuildStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStackBuildStateError was set.
+func (o OptNilStackBuildStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStackBuildStateError) Reset() {
+	var v StackBuildStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStackBuildStateError) SetTo(v StackBuildStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilStackBuildStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilStackBuildStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v StackBuildStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStackBuildStateError) Get() (v StackBuildStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStackBuildStateError) Or(d StackBuildStateError) StackBuildStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilStackContainerConfigResources returns new OptNilStackContainerConfigResources with value set to v.
 func NewOptNilStackContainerConfigResources(v StackContainerConfigResources) OptNilStackContainerConfigResources {
 	return OptNilStackContainerConfigResources{
@@ -50202,6 +51252,69 @@ func (o OptNilStackContainerConfigRuntime) Or(d StackContainerConfigRuntime) Sta
 	return d
 }
 
+// NewOptNilStackStateError returns new OptNilStackStateError with value set to v.
+func NewOptNilStackStateError(v StackStateError) OptNilStackStateError {
+	return OptNilStackStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStackStateError is optional nullable StackStateError.
+type OptNilStackStateError struct {
+	Value StackStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStackStateError was set.
+func (o OptNilStackStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStackStateError) Reset() {
+	var v StackStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStackStateError) SetTo(v StackStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilStackStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilStackStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v StackStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStackStateError) Get() (v StackStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStackStateError) Or(d StackStateError) StackStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilStringArray returns new OptNilStringArray with value set to v.
 func NewOptNilStringArray(v []string) OptNilStringArray {
 	return OptNilStringArray{
@@ -50259,6 +51372,69 @@ func (o OptNilStringArray) Get() (v []string, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilStringArray) Or(d []string) []string {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilTriggerKeyStateError returns new OptNilTriggerKeyStateError with value set to v.
+func NewOptNilTriggerKeyStateError(v TriggerKeyStateError) OptNilTriggerKeyStateError {
+	return OptNilTriggerKeyStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilTriggerKeyStateError is optional nullable TriggerKeyStateError.
+type OptNilTriggerKeyStateError struct {
+	Value TriggerKeyStateError
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilTriggerKeyStateError was set.
+func (o OptNilTriggerKeyStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilTriggerKeyStateError) Reset() {
+	var v TriggerKeyStateError
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilTriggerKeyStateError) SetTo(v TriggerKeyStateError) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilTriggerKeyStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilTriggerKeyStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v TriggerKeyStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilTriggerKeyStateError) Get() (v TriggerKeyStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilTriggerKeyStateError) Or(d TriggerKeyStateError) TriggerKeyStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -50454,38 +51630,55 @@ func (o OptNilVpnReconfigureTaskContentsConfig) Or(d VpnReconfigureTaskContentsC
 	return d
 }
 
-// NewOptNodeStateError returns new OptNodeStateError with value set to v.
-func NewOptNodeStateError(v NodeStateError) OptNodeStateError {
-	return OptNodeStateError{
+// NewOptNilZoneStateError returns new OptNilZoneStateError with value set to v.
+func NewOptNilZoneStateError(v ZoneStateError) OptNilZoneStateError {
+	return OptNilZoneStateError{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNodeStateError is optional NodeStateError.
-type OptNodeStateError struct {
-	Value NodeStateError
+// OptNilZoneStateError is optional nullable ZoneStateError.
+type OptNilZoneStateError struct {
+	Value ZoneStateError
 	Set   bool
+	Null  bool
 }
 
-// IsSet returns true if OptNodeStateError was set.
-func (o OptNodeStateError) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilZoneStateError was set.
+func (o OptNilZoneStateError) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNodeStateError) Reset() {
-	var v NodeStateError
+func (o *OptNilZoneStateError) Reset() {
+	var v ZoneStateError
 	o.Value = v
 	o.Set = false
+	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNodeStateError) SetTo(v NodeStateError) {
+func (o *OptNilZoneStateError) SetTo(v ZoneStateError) {
 	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilZoneStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilZoneStateError) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ZoneStateError
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNodeStateError) Get() (v NodeStateError, ok bool) {
+func (o OptNilZoneStateError) Get() (v ZoneStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
 	if !o.Set {
 		return v, false
 	}
@@ -50493,7 +51686,7 @@ func (o OptNodeStateError) Get() (v NodeStateError, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNodeStateError) Or(d NodeStateError) NodeStateError {
+func (o OptNilZoneStateError) Or(d ZoneStateError) ZoneStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -50632,52 +51825,6 @@ func (o OptOrderItemDiscount) Get() (v OrderItemDiscount, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptOrderItemDiscount) Or(d OrderItemDiscount) OrderItemDiscount {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptOrderStateError returns new OptOrderStateError with value set to v.
-func NewOptOrderStateError(v OrderStateError) OptOrderStateError {
-	return OptOrderStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptOrderStateError is optional OrderStateError.
-type OptOrderStateError struct {
-	Value OrderStateError
-	Set   bool
-}
-
-// IsSet returns true if OptOrderStateError was set.
-func (o OptOrderStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptOrderStateError) Reset() {
-	var v OrderStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptOrderStateError) SetTo(v OrderStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptOrderStateError) Get() (v OrderStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptOrderStateError) Or(d OrderStateError) OrderStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -50914,52 +52061,6 @@ func (o OptPipelineStageOptions) Or(d PipelineStageOptions) PipelineStageOptions
 	return d
 }
 
-// NewOptPipelineStateError returns new OptPipelineStateError with value set to v.
-func NewOptPipelineStateError(v PipelineStateError) OptPipelineStateError {
-	return OptPipelineStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPipelineStateError is optional PipelineStateError.
-type OptPipelineStateError struct {
-	Value PipelineStateError
-	Set   bool
-}
-
-// IsSet returns true if OptPipelineStateError was set.
-func (o OptPipelineStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPipelineStateError) Reset() {
-	var v PipelineStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPipelineStateError) SetTo(v PipelineStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPipelineStateError) Get() (v PipelineStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPipelineStateError) Or(d PipelineStateError) PipelineStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptPool returns new OptPool with value set to v.
 func NewOptPool(v Pool) OptPool {
 	return OptPool{
@@ -51052,52 +52153,6 @@ func (o OptPoolIncludes) Or(d PoolIncludes) PoolIncludes {
 	return d
 }
 
-// NewOptPoolStateError returns new OptPoolStateError with value set to v.
-func NewOptPoolStateError(v PoolStateError) OptPoolStateError {
-	return OptPoolStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPoolStateError is optional PoolStateError.
-type OptPoolStateError struct {
-	Value PoolStateError
-	Set   bool
-}
-
-// IsSet returns true if OptPoolStateError was set.
-func (o OptPoolStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPoolStateError) Reset() {
-	var v PoolStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPoolStateError) SetTo(v PoolStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPoolStateError) Get() (v PoolStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPoolStateError) Or(d PoolStateError) PoolStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptPromoCodeInclude returns new OptPromoCodeInclude with value set to v.
 func NewOptPromoCodeInclude(v PromoCodeInclude) OptPromoCodeInclude {
 	return OptPromoCodeInclude{
@@ -51138,52 +52193,6 @@ func (o OptPromoCodeInclude) Get() (v PromoCodeInclude, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptPromoCodeInclude) Or(d PromoCodeInclude) PromoCodeInclude {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptPromoCodeStateError returns new OptPromoCodeStateError with value set to v.
-func NewOptPromoCodeStateError(v PromoCodeStateError) OptPromoCodeStateError {
-	return OptPromoCodeStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptPromoCodeStateError is optional PromoCodeStateError.
-type OptPromoCodeStateError struct {
-	Value PromoCodeStateError
-	Set   bool
-}
-
-// IsSet returns true if OptPromoCodeStateError was set.
-func (o OptPromoCodeStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptPromoCodeStateError) Reset() {
-	var v PromoCodeStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptPromoCodeStateError) SetTo(v PromoCodeStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptPromoCodeStateError) Get() (v PromoCodeStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptPromoCodeStateError) Or(d PromoCodeStateError) PromoCodeStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -51322,52 +52331,6 @@ func (o OptProviderServerSpecAvailabilityZones) Get() (v ProviderServerSpecAvail
 
 // Or returns value if set, or given parameter if does not.
 func (o OptProviderServerSpecAvailabilityZones) Or(d ProviderServerSpecAvailabilityZones) ProviderServerSpecAvailabilityZones {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptProviderStateError returns new OptProviderStateError with value set to v.
-func NewOptProviderStateError(v ProviderStateError) OptProviderStateError {
-	return OptProviderStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptProviderStateError is optional ProviderStateError.
-type OptProviderStateError struct {
-	Value ProviderStateError
-	Set   bool
-}
-
-// IsSet returns true if OptProviderStateError was set.
-func (o OptProviderStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptProviderStateError) Reset() {
-	var v ProviderStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptProviderStateError) SetTo(v ProviderStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptProviderStateError) Get() (v ProviderStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptProviderStateError) Or(d ProviderStateError) ProviderStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -51598,52 +52561,6 @@ func (o OptRecordIncludes) Get() (v RecordIncludes, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptRecordIncludes) Or(d RecordIncludes) RecordIncludes {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptRecordStateError returns new OptRecordStateError with value set to v.
-func NewOptRecordStateError(v RecordStateError) OptRecordStateError {
-	return OptRecordStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptRecordStateError is optional RecordStateError.
-type OptRecordStateError struct {
-	Value RecordStateError
-	Set   bool
-}
-
-// IsSet returns true if OptRecordStateError was set.
-func (o OptRecordStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptRecordStateError) Reset() {
-	var v RecordStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptRecordStateError) SetTo(v RecordStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptRecordStateError) Get() (v RecordStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptRecordStateError) Or(d RecordStateError) RecordStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -52478,52 +53395,6 @@ func (o OptRestoreBackupJobReq) Or(d RestoreBackupJobReq) RestoreBackupJobReq {
 	return d
 }
 
-// NewOptRunStateError returns new OptRunStateError with value set to v.
-func NewOptRunStateError(v RunStateError) OptRunStateError {
-	return OptRunStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptRunStateError is optional RunStateError.
-type OptRunStateError struct {
-	Value RunStateError
-	Set   bool
-}
-
-// IsSet returns true if OptRunStateError was set.
-func (o OptRunStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptRunStateError) Reset() {
-	var v RunStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptRunStateError) SetTo(v RunStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptRunStateError) Get() (v RunStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptRunStateError) Or(d RunStateError) RunStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptSSHResponse returns new OptSSHResponse with value set to v.
 func NewOptSSHResponse(v SSHResponse) OptSSHResponse {
 	return OptSSHResponse{
@@ -52656,52 +53527,6 @@ func (o OptScopedVariableScope) Get() (v ScopedVariableScope, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptScopedVariableScope) Or(d ScopedVariableScope) ScopedVariableScope {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptScopedVariableStateError returns new OptScopedVariableStateError with value set to v.
-func NewOptScopedVariableStateError(v ScopedVariableStateError) OptScopedVariableStateError {
-	return OptScopedVariableStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptScopedVariableStateError is optional ScopedVariableStateError.
-type OptScopedVariableStateError struct {
-	Value ScopedVariableStateError
-	Set   bool
-}
-
-// IsSet returns true if OptScopedVariableStateError was set.
-func (o OptScopedVariableStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptScopedVariableStateError) Reset() {
-	var v ScopedVariableStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptScopedVariableStateError) SetTo(v ScopedVariableStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptScopedVariableStateError) Get() (v ScopedVariableStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptScopedVariableStateError) Or(d ScopedVariableStateError) ScopedVariableStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -53116,52 +53941,6 @@ func (o OptServerProviderProvisionOptions) Get() (v ServerProviderProvisionOptio
 
 // Or returns value if set, or given parameter if does not.
 func (o OptServerProviderProvisionOptions) Or(d ServerProviderProvisionOptions) ServerProviderProvisionOptions {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptServerStateError returns new OptServerStateError with value set to v.
-func NewOptServerStateError(v ServerStateError) OptServerStateError {
-	return OptServerStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptServerStateError is optional ServerStateError.
-type OptServerStateError struct {
-	Value ServerStateError
-	Set   bool
-}
-
-// IsSet returns true if OptServerStateError was set.
-func (o OptServerStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptServerStateError) Reset() {
-	var v ServerStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptServerStateError) SetTo(v ServerStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptServerStateError) Get() (v ServerStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptServerStateError) Or(d ServerStateError) ServerStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -54450,52 +55229,6 @@ func (o OptStackBuildState) Get() (v StackBuildState, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptStackBuildState) Or(d StackBuildState) StackBuildState {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptStackBuildStateError returns new OptStackBuildStateError with value set to v.
-func NewOptStackBuildStateError(v StackBuildStateError) OptStackBuildStateError {
-	return OptStackBuildStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptStackBuildStateError is optional StackBuildStateError.
-type OptStackBuildStateError struct {
-	Value StackBuildStateError
-	Set   bool
-}
-
-// IsSet returns true if OptStackBuildStateError was set.
-func (o OptStackBuildStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptStackBuildStateError) Reset() {
-	var v StackBuildStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptStackBuildStateError) SetTo(v StackBuildStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptStackBuildStateError) Get() (v StackBuildStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptStackBuildStateError) Or(d StackBuildStateError) StackBuildStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -56710,52 +57443,6 @@ func (o OptStackSpecServicesVpn) Or(d StackSpecServicesVpn) StackSpecServicesVpn
 	return d
 }
 
-// NewOptStackStateError returns new OptStackStateError with value set to v.
-func NewOptStackStateError(v StackStateError) OptStackStateError {
-	return OptStackStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptStackStateError is optional StackStateError.
-type OptStackStateError struct {
-	Value StackStateError
-	Set   bool
-}
-
-// IsSet returns true if OptStackStateError was set.
-func (o OptStackStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptStackStateError) Reset() {
-	var v StackStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptStackStateError) SetTo(v StackStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptStackStateError) Get() (v StackStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptStackStateError) Or(d StackStateError) StackStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptStackSummary returns new OptStackSummary with value set to v.
 func NewOptStackSummary(v StackSummary) OptStackSummary {
 	return OptStackSummary{
@@ -57072,52 +57759,6 @@ func (o OptTriggerKey) Get() (v TriggerKey, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptTriggerKey) Or(d TriggerKey) TriggerKey {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptTriggerKeyStateError returns new OptTriggerKeyStateError with value set to v.
-func NewOptTriggerKeyStateError(v TriggerKeyStateError) OptTriggerKeyStateError {
-	return OptTriggerKeyStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptTriggerKeyStateError is optional TriggerKeyStateError.
-type OptTriggerKeyStateError struct {
-	Value TriggerKeyStateError
-	Set   bool
-}
-
-// IsSet returns true if OptTriggerKeyStateError was set.
-func (o OptTriggerKeyStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptTriggerKeyStateError) Reset() {
-	var v TriggerKeyStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptTriggerKeyStateError) SetTo(v TriggerKeyStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptTriggerKeyStateError) Get() (v TriggerKeyStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptTriggerKeyStateError) Or(d TriggerKeyStateError) TriggerKeyStateError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -59010,52 +59651,6 @@ func (o OptZoneIncludes) Or(d ZoneIncludes) ZoneIncludes {
 	return d
 }
 
-// NewOptZoneStateError returns new OptZoneStateError with value set to v.
-func NewOptZoneStateError(v ZoneStateError) OptZoneStateError {
-	return OptZoneStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptZoneStateError is optional ZoneStateError.
-type OptZoneStateError struct {
-	Value ZoneStateError
-	Set   bool
-}
-
-// IsSet returns true if OptZoneStateError was set.
-func (o OptZoneStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptZoneStateError) Reset() {
-	var v ZoneStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptZoneStateError) SetTo(v ZoneStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptZoneStateError) Get() (v ZoneStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptZoneStateError) Or(d ZoneStateError) ZoneStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // An order is a resource that describes a billing order.
 // Ref: #/components/schemas/Order
 type Order struct {
@@ -59307,7 +59902,7 @@ type OrderState struct {
 	Current OrderStateCurrent `json:"current"`
 	Changed DateTime          `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptOrderStateError `json:"error"`
+	Error OptNilOrderStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -59321,7 +59916,7 @@ func (s *OrderState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *OrderState) GetError() OptOrderStateError {
+func (s *OrderState) GetError() OptNilOrderStateError {
 	return s.Error
 }
 
@@ -59336,7 +59931,7 @@ func (s *OrderState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *OrderState) SetError(val OptOrderStateError) {
+func (s *OrderState) SetError(val OptNilOrderStateError) {
 	s.Error = val
 }
 
@@ -60295,7 +60890,7 @@ type PipelineState struct {
 	Current PipelineStateCurrent `json:"current"`
 	Changed DateTime             `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptPipelineStateError `json:"error"`
+	Error OptNilPipelineStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -60309,7 +60904,7 @@ func (s *PipelineState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *PipelineState) GetError() OptPipelineStateError {
+func (s *PipelineState) GetError() OptNilPipelineStateError {
 	return s.Error
 }
 
@@ -60324,7 +60919,7 @@ func (s *PipelineState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *PipelineState) SetError(val OptPipelineStateError) {
+func (s *PipelineState) SetError(val OptNilPipelineStateError) {
 	s.Error = val
 }
 
@@ -61330,7 +61925,7 @@ type PoolState struct {
 	Current PoolStateCurrent `json:"current"`
 	Changed DateTime         `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptPoolStateError `json:"error"`
+	Error OptNilPoolStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -61344,7 +61939,7 @@ func (s *PoolState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *PoolState) GetError() OptPoolStateError {
+func (s *PoolState) GetError() OptNilPoolStateError {
 	return s.Error
 }
 
@@ -61359,7 +61954,7 @@ func (s *PoolState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *PoolState) SetError(val OptPoolStateError) {
+func (s *PoolState) SetError(val OptNilPoolStateError) {
 	s.Error = val
 }
 
@@ -61606,7 +62201,7 @@ type PromoCodeState struct {
 	Current PromoCodeStateCurrent `json:"current"`
 	Changed DateTime              `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptPromoCodeStateError `json:"error"`
+	Error OptNilPromoCodeStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -61620,7 +62215,7 @@ func (s *PromoCodeState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *PromoCodeState) GetError() OptPromoCodeStateError {
+func (s *PromoCodeState) GetError() OptNilPromoCodeStateError {
 	return s.Error
 }
 
@@ -61635,7 +62230,7 @@ func (s *PromoCodeState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *PromoCodeState) SetError(val OptPromoCodeStateError) {
+func (s *PromoCodeState) SetError(val OptNilPromoCodeStateError) {
 	s.Error = val
 }
 
@@ -62093,7 +62688,7 @@ type ProviderState struct {
 	Current ProviderStateCurrent `json:"current"`
 	Changed DateTime             `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptProviderStateError `json:"error"`
+	Error OptNilProviderStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -62107,7 +62702,7 @@ func (s *ProviderState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *ProviderState) GetError() OptProviderStateError {
+func (s *ProviderState) GetError() OptNilProviderStateError {
 	return s.Error
 }
 
@@ -62122,7 +62717,7 @@ func (s *ProviderState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *ProviderState) SetError(val OptProviderStateError) {
+func (s *ProviderState) SetError(val OptNilProviderStateError) {
 	s.Error = val
 }
 
@@ -63011,7 +63606,7 @@ type RecordState struct {
 	Current RecordStateCurrent `json:"current"`
 	Changed DateTime           `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptRecordStateError `json:"error"`
+	Error OptNilRecordStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -63025,7 +63620,7 @@ func (s *RecordState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *RecordState) GetError() OptRecordStateError {
+func (s *RecordState) GetError() OptNilRecordStateError {
 	return s.Error
 }
 
@@ -63040,7 +63635,7 @@ func (s *RecordState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *RecordState) SetError(val OptRecordStateError) {
+func (s *RecordState) SetError(val OptNilRecordStateError) {
 	s.Error = val
 }
 
@@ -65653,7 +66248,7 @@ type RunState struct {
 	Current RunStateCurrent `json:"current"`
 	Changed DateTime        `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptRunStateError `json:"error"`
+	Error OptNilRunStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -65667,7 +66262,7 @@ func (s *RunState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *RunState) GetError() OptRunStateError {
+func (s *RunState) GetError() OptNilRunStateError {
 	return s.Error
 }
 
@@ -65682,7 +66277,7 @@ func (s *RunState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *RunState) SetError(val OptRunStateError) {
+func (s *RunState) SetError(val OptNilRunStateError) {
 	s.Error = val
 }
 
@@ -66506,7 +67101,7 @@ type ScopedVariableState struct {
 	Current ScopedVariableStateCurrent `json:"current"`
 	Changed DateTime                   `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptScopedVariableStateError `json:"error"`
+	Error OptNilScopedVariableStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -66520,7 +67115,7 @@ func (s *ScopedVariableState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *ScopedVariableState) GetError() OptScopedVariableStateError {
+func (s *ScopedVariableState) GetError() OptNilScopedVariableStateError {
 	return s.Error
 }
 
@@ -66535,7 +67130,7 @@ func (s *ScopedVariableState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *ScopedVariableState) SetError(val OptScopedVariableStateError) {
+func (s *ScopedVariableState) SetError(val OptNilScopedVariableStateError) {
 	s.Error = val
 }
 
@@ -68003,7 +68598,7 @@ type ServerState struct {
 	Current ServerStateCurrent `json:"current"`
 	Changed DateTime           `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptServerStateError `json:"error"`
+	Error OptNilServerStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -68017,7 +68612,7 @@ func (s *ServerState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *ServerState) GetError() OptServerStateError {
+func (s *ServerState) GetError() OptNilServerStateError {
 	return s.Error
 }
 
@@ -68032,7 +68627,7 @@ func (s *ServerState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *ServerState) SetError(val OptServerStateError) {
+func (s *ServerState) SetError(val OptNilServerStateError) {
 	s.Error = val
 }
 
@@ -71195,7 +71790,7 @@ type StackBuildState struct {
 	Current StackBuildStateCurrent `json:"current"`
 	Changed DateTime               `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptStackBuildStateError `json:"error"`
+	Error OptNilStackBuildStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -71209,7 +71804,7 @@ func (s *StackBuildState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *StackBuildState) GetError() OptStackBuildStateError {
+func (s *StackBuildState) GetError() OptNilStackBuildStateError {
 	return s.Error
 }
 
@@ -71224,7 +71819,7 @@ func (s *StackBuildState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *StackBuildState) SetError(val OptStackBuildStateError) {
+func (s *StackBuildState) SetError(val OptNilStackBuildStateError) {
 	s.Error = val
 }
 
@@ -74861,7 +75456,7 @@ type StackState struct {
 	Current StackStateCurrent `json:"current"`
 	Changed DateTime          `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptStackStateError `json:"error"`
+	Error OptNilStackStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -74875,7 +75470,7 @@ func (s *StackState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *StackState) GetError() OptStackStateError {
+func (s *StackState) GetError() OptNilStackStateError {
 	return s.Error
 }
 
@@ -74890,7 +75485,7 @@ func (s *StackState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *StackState) SetError(val OptStackStateError) {
+func (s *StackState) SetError(val OptNilStackStateError) {
 	s.Error = val
 }
 
@@ -76030,7 +76625,7 @@ type TriggerKeyState struct {
 	Current TriggerKeyStateCurrent `json:"current"`
 	Changed DateTime               `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptTriggerKeyStateError `json:"error"`
+	Error OptNilTriggerKeyStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -76044,7 +76639,7 @@ func (s *TriggerKeyState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *TriggerKeyState) GetError() OptTriggerKeyStateError {
+func (s *TriggerKeyState) GetError() OptNilTriggerKeyStateError {
 	return s.Error
 }
 
@@ -76059,7 +76654,7 @@ func (s *TriggerKeyState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *TriggerKeyState) SetError(val OptTriggerKeyStateError) {
+func (s *TriggerKeyState) SetError(val OptNilTriggerKeyStateError) {
 	s.Error = val
 }
 
@@ -79645,7 +80240,7 @@ type ZoneState struct {
 	Current ZoneStateCurrent `json:"current"`
 	Changed DateTime         `json:"changed"`
 	// An error, if any, that has occurred for this resource.
-	Error OptZoneStateError `json:"error"`
+	Error OptNilZoneStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -79659,7 +80254,7 @@ func (s *ZoneState) GetChanged() DateTime {
 }
 
 // GetError returns the value of Error.
-func (s *ZoneState) GetError() OptZoneStateError {
+func (s *ZoneState) GetError() OptNilZoneStateError {
 	return s.Error
 }
 
@@ -79674,7 +80269,7 @@ func (s *ZoneState) SetChanged(val DateTime) {
 }
 
 // SetError sets the value of Error.
-func (s *ZoneState) SetError(val OptZoneStateError) {
+func (s *ZoneState) SetError(val OptNilZoneStateError) {
 	s.Error = val
 }
 
