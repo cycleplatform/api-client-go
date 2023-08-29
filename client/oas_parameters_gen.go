@@ -50,6 +50,21 @@ type CreateEnvironmentJobParams struct {
 	EnvironmentId string
 }
 
+// CreateEnvironmentVpnTaskParams is parameters of createEnvironmentVpnTask operation.
+type CreateEnvironmentVpnTaskParams struct {
+	// The ID of the environment the VPN service resides in.
+	EnvironmentId string
+}
+
+// CreateGlobalLoadBalancerParams is parameters of createGlobalLoadBalancer operation.
+type CreateGlobalLoadBalancerParams struct {
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []CreateGlobalLoadBalancerIncludeItem
+}
+
 // CreateImageJobParams is parameters of createImageJob operation.
 type CreateImageJobParams struct {
 	// The ID of the requested image.
@@ -90,6 +105,15 @@ type CreatePipelineTriggerKeyParams struct {
 type CreateProviderJobParams struct {
 	// The ID for the given provider.
 	ProviderId string
+}
+
+// CreateSDNNetworkParams is parameters of createSDNNetwork operation.
+type CreateSDNNetworkParams struct {
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []CreateSDNNetworkIncludeItem
 }
 
 // CreateScopedVariableParams is parameters of createScopedVariable operation.
@@ -483,6 +507,35 @@ type GetEnvironmentsParams struct {
 	Page OptGetEnvironmentsPage
 }
 
+// GetGlobalLoadBalancerParams is parameters of getGlobalLoadBalancer operation.
+type GetGlobalLoadBalancerParams struct {
+	// The ID of the global load balancer.
+	LbId string
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetGlobalLoadBalancerIncludeItem
+}
+
+// GetGlobalLoadBalancersParams is parameters of getGlobalLoadBalancers operation.
+type GetGlobalLoadBalancersParams struct {
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetGlobalLoadBalancersIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetGlobalLoadBalancersFilter
+	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort []string
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetGlobalLoadBalancersPage
+}
+
 // GetHubParams is parameters of getHub operation.
 type GetHubParams struct {
 	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
@@ -490,24 +543,6 @@ type GetHubParams struct {
 	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
 	// in the root document. These will be clearly labeled.
 	Meta []GetHubMetaItem
-}
-
-// GetHubActivityParams is parameters of getHubActivity operation.
-type GetHubActivityParams struct {
-	// A comma separated list of include values. Included resources will show up under the root
-	// document's `include` field, with the key being the id of the included resource. In the case of
-	// applying an include to a collection of resources, if two resources share the same include, it will
-	// only appear once in the return.
-	Include []GetHubActivityIncludeItem
-	// ## Filter Field
-	// The filter field is a key-value object, where the key is what you would like to filter, and the
-	// value is the value you're filtering for.
-	Filter OptGetHubActivityFilter
-	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort []string
-	// In a list return, the data associated with the page number and size returned. 20 results per page,
-	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptGetHubActivityPage
 }
 
 // GetHubInvitesParams is parameters of getHubInvites operation.
@@ -577,6 +612,26 @@ type GetHubMembersAccountParams struct {
 	Include []GetHubMembersAccountIncludeItem
 }
 
+// GetHubMembershipParams is parameters of getHubMembership operation.
+type GetHubMembershipParams struct {
+	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
+	// In the case of applying a meta to a collection of resources, each resource will have it's own
+	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
+	// in the root document. These will be clearly labeled.
+	Meta []GetHubMembershipMetaItem
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetHubMembershipIncludeItem
+	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort   []string
+	Filter *GetHubMembershipFilter
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetHubMembershipPage
+}
+
 // GetHubUsageParams is parameters of getHubUsage operation.
 type GetHubUsageParams struct {
 	Filter *GetHubUsageFilter
@@ -584,6 +639,9 @@ type GetHubUsageParams struct {
 
 // GetHubsParams is parameters of getHubs operation.
 type GetHubsParams struct {
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetHubsPage
 	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
@@ -762,6 +820,22 @@ type GetLoadBalancerInfoParams struct {
 	EnvironmentId string
 }
 
+// GetLoadBalancerLatestTelemetryReportParams is parameters of getLoadBalancerLatestTelemetryReport operation.
+type GetLoadBalancerLatestTelemetryReportParams struct {
+	// The environmentId where the load balancer resides.
+	EnvironmentId string
+}
+
+// GetLoadBalancerTelemetryReportParams is parameters of getLoadBalancerTelemetryReport operation.
+type GetLoadBalancerTelemetryReportParams struct {
+	// The environmentId where the load balancer resides.
+	EnvironmentId string
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetLoadBalancerTelemetryReportFilter
+}
+
 // GetNativeProvidersParams is parameters of getNativeProviders operation.
 type GetNativeProvidersParams struct {
 	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
@@ -784,6 +858,11 @@ type GetNativeProvidersParams struct {
 type GetNetworkParams struct {
 	// The ID of the network.
 	NetworkId string
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetNetworkIncludeItem
 }
 
 // GetNetworksParams is parameters of getNetworks operation.
@@ -1273,12 +1352,6 @@ type ReconfigureLoadBalancerParams struct {
 	EnvironmentId string
 }
 
-// ReconfigureVPNParams is parameters of reconfigureVPN operation.
-type ReconfigureVPNParams struct {
-	// The ID of the environment the VPN service resides in.
-	EnvironmentId string
-}
-
 // RemoveApiKeyParams is parameters of removeApiKey operation.
 type RemoveApiKeyParams struct {
 	// The ID of the API Key.
@@ -1331,6 +1404,12 @@ type RemoveDNSZoneParams struct {
 type RemoveEnvironmentParams struct {
 	// The ID of the requested environment.
 	EnvironmentId string
+}
+
+// RemoveGlobalLoadBalancerParams is parameters of removeGlobalLoadBalancer operation.
+type RemoveGlobalLoadBalancerParams struct {
+	// The ID of the global load balancer.
+	LbId string
 }
 
 // RemoveHubInviteParams is parameters of removeHubInvite operation.
@@ -1494,6 +1573,17 @@ type UpdateEnvironmentParams struct {
 	EnvironmentId string
 }
 
+// UpdateGlobalLoadBalancerParams is parameters of updateGlobalLoadBalancer operation.
+type UpdateGlobalLoadBalancerParams struct {
+	// The ID of the global load balancer.
+	LbId string
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []UpdateGlobalLoadBalancerIncludeItem
+}
+
 // UpdateHubMemberParams is parameters of updateHubMember operation.
 type UpdateHubMemberParams struct {
 	// The ID for the given member.
@@ -1536,6 +1626,11 @@ type UpdateProviderParams struct {
 type UpdateSDNNetworkParams struct {
 	// The ID of the network.
 	NetworkId string
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []UpdateSDNNetworkIncludeItem
 }
 
 // UpdateScopedVariableParams is parameters of updateScopedVariable operation.

@@ -2502,8 +2502,16 @@ func (s *GetEnvironmentsPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
-// EncodeURI encodes GetHubActivityFilter as URI form.
-func (s *GetHubActivityFilter) EncodeURI(e uri.Encoder) error {
+// EncodeURI encodes GetGlobalLoadBalancersFilter as URI form.
+func (s *GetGlobalLoadBalancersFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("identifier", func(e uri.Encoder) error {
+		if val, ok := s.Identifier.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"identifier\"")
+	}
 	if err := e.EncodeField("search", func(e uri.Encoder) error {
 		if val, ok := s.Search.Get(); ok {
 			return e.EncodeValue(conv.StringToString(val))
@@ -2520,85 +2528,47 @@ func (s *GetHubActivityFilter) EncodeURI(e uri.Encoder) error {
 	}); err != nil {
 		return errors.Wrap(err, "encode field \"state\"")
 	}
-	if err := e.EncodeField("user", func(e uri.Encoder) error {
-		if val, ok := s.User.Get(); ok {
-			return e.EncodeValue(conv.StringToString(val))
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "encode field \"user\"")
-	}
-	if err := e.EncodeField("environment", func(e uri.Encoder) error {
-		if val, ok := s.Environment.Get(); ok {
-			return e.EncodeValue(conv.StringToString(val))
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "encode field \"environment\"")
-	}
-	if err := e.EncodeField("container", func(e uri.Encoder) error {
-		if val, ok := s.Container.Get(); ok {
-			return e.EncodeValue(conv.StringToString(val))
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "encode field \"container\"")
-	}
-	if err := e.EncodeField("instance", func(e uri.Encoder) error {
-		if val, ok := s.Instance.Get(); ok {
-			return e.EncodeValue(conv.StringToString(val))
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "encode field \"instance\"")
-	}
-	if err := e.EncodeField("server", func(e uri.Encoder) error {
-		if val, ok := s.Server.Get(); ok {
-			return e.EncodeValue(conv.StringToString(val))
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "encode field \"server\"")
-	}
-	if err := e.EncodeField("event", func(e uri.Encoder) error {
-		if val, ok := s.Event.Get(); ok {
-			return e.EncodeValue(conv.StringToString(val))
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "encode field \"event\"")
-	}
-	if err := e.EncodeField("verbosity", func(e uri.Encoder) error {
-		if val, ok := s.Verbosity.Get(); ok {
-			return e.EncodeValue(conv.IntToString(val))
-		}
-		return nil
-	}); err != nil {
-		return errors.Wrap(err, "encode field \"verbosity\"")
-	}
 	return nil
 }
 
-var uriFieldsNameOfGetHubActivityFilter = [9]string{
-	0: "search",
-	1: "state",
-	2: "user",
-	3: "environment",
-	4: "container",
-	5: "instance",
-	6: "server",
-	7: "event",
-	8: "verbosity",
+var uriFieldsNameOfGetGlobalLoadBalancersFilter = [3]string{
+	0: "identifier",
+	1: "search",
+	2: "state",
 }
 
-// DecodeURI decodes GetHubActivityFilter from URI form.
-func (s *GetHubActivityFilter) DecodeURI(d uri.Decoder) error {
+// DecodeURI decodes GetGlobalLoadBalancersFilter from URI form.
+func (s *GetGlobalLoadBalancersFilter) DecodeURI(d uri.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode GetHubActivityFilter to nil")
+		return errors.New("invalid: unable to decode GetGlobalLoadBalancersFilter to nil")
 	}
 
 	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
 		switch k {
+		case "identifier":
+			if err := func() error {
+				var sDotIdentifierVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotIdentifierVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Identifier.SetTo(sDotIdentifierVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"identifier\"")
+			}
 		case "search":
 			if err := func() error {
 				var sDotSearchVal string
@@ -2647,187 +2617,19 @@ func (s *GetHubActivityFilter) DecodeURI(d uri.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"state\"")
 			}
-		case "user":
-			if err := func() error {
-				var sDotUserVal string
-				if err := func() error {
-					val, err := d.DecodeValue()
-					if err != nil {
-						return err
-					}
-
-					c, err := conv.ToString(val)
-					if err != nil {
-						return err
-					}
-
-					sDotUserVal = c
-					return nil
-				}(); err != nil {
-					return err
-				}
-				s.User.SetTo(sDotUserVal)
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"user\"")
-			}
-		case "environment":
-			if err := func() error {
-				var sDotEnvironmentVal string
-				if err := func() error {
-					val, err := d.DecodeValue()
-					if err != nil {
-						return err
-					}
-
-					c, err := conv.ToString(val)
-					if err != nil {
-						return err
-					}
-
-					sDotEnvironmentVal = c
-					return nil
-				}(); err != nil {
-					return err
-				}
-				s.Environment.SetTo(sDotEnvironmentVal)
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"environment\"")
-			}
-		case "container":
-			if err := func() error {
-				var sDotContainerVal string
-				if err := func() error {
-					val, err := d.DecodeValue()
-					if err != nil {
-						return err
-					}
-
-					c, err := conv.ToString(val)
-					if err != nil {
-						return err
-					}
-
-					sDotContainerVal = c
-					return nil
-				}(); err != nil {
-					return err
-				}
-				s.Container.SetTo(sDotContainerVal)
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"container\"")
-			}
-		case "instance":
-			if err := func() error {
-				var sDotInstanceVal string
-				if err := func() error {
-					val, err := d.DecodeValue()
-					if err != nil {
-						return err
-					}
-
-					c, err := conv.ToString(val)
-					if err != nil {
-						return err
-					}
-
-					sDotInstanceVal = c
-					return nil
-				}(); err != nil {
-					return err
-				}
-				s.Instance.SetTo(sDotInstanceVal)
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"instance\"")
-			}
-		case "server":
-			if err := func() error {
-				var sDotServerVal string
-				if err := func() error {
-					val, err := d.DecodeValue()
-					if err != nil {
-						return err
-					}
-
-					c, err := conv.ToString(val)
-					if err != nil {
-						return err
-					}
-
-					sDotServerVal = c
-					return nil
-				}(); err != nil {
-					return err
-				}
-				s.Server.SetTo(sDotServerVal)
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"server\"")
-			}
-		case "event":
-			if err := func() error {
-				var sDotEventVal string
-				if err := func() error {
-					val, err := d.DecodeValue()
-					if err != nil {
-						return err
-					}
-
-					c, err := conv.ToString(val)
-					if err != nil {
-						return err
-					}
-
-					sDotEventVal = c
-					return nil
-				}(); err != nil {
-					return err
-				}
-				s.Event.SetTo(sDotEventVal)
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"event\"")
-			}
-		case "verbosity":
-			if err := func() error {
-				var sDotVerbosityVal int
-				if err := func() error {
-					val, err := d.DecodeValue()
-					if err != nil {
-						return err
-					}
-
-					c, err := conv.ToInt(val)
-					if err != nil {
-						return err
-					}
-
-					sDotVerbosityVal = c
-					return nil
-				}(); err != nil {
-					return err
-				}
-				s.Verbosity.SetTo(sDotVerbosityVal)
-				return nil
-			}(); err != nil {
-				return errors.Wrap(err, "decode field \"verbosity\"")
-			}
 		default:
 			return nil
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode GetHubActivityFilter")
+		return errors.Wrap(err, "decode GetGlobalLoadBalancersFilter")
 	}
 
 	return nil
 }
 
-// EncodeURI encodes GetHubActivityPage as URI form.
-func (s *GetHubActivityPage) EncodeURI(e uri.Encoder) error {
+// EncodeURI encodes GetGlobalLoadBalancersPage as URI form.
+func (s *GetGlobalLoadBalancersPage) EncodeURI(e uri.Encoder) error {
 	if err := e.EncodeField("number", func(e uri.Encoder) error {
 		if val, ok := s.Number.Get(); ok {
 			return e.EncodeValue(conv.Float64ToString(val))
@@ -2847,15 +2649,15 @@ func (s *GetHubActivityPage) EncodeURI(e uri.Encoder) error {
 	return nil
 }
 
-var uriFieldsNameOfGetHubActivityPage = [2]string{
+var uriFieldsNameOfGetGlobalLoadBalancersPage = [2]string{
 	0: "number",
 	1: "size",
 }
 
-// DecodeURI decodes GetHubActivityPage from URI form.
-func (s *GetHubActivityPage) DecodeURI(d uri.Decoder) error {
+// DecodeURI decodes GetGlobalLoadBalancersPage from URI form.
+func (s *GetGlobalLoadBalancersPage) DecodeURI(d uri.Decoder) error {
 	if s == nil {
-		return errors.New("invalid: unable to decode GetHubActivityPage to nil")
+		return errors.New("invalid: unable to decode GetGlobalLoadBalancersPage to nil")
 	}
 
 	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
@@ -2913,7 +2715,7 @@ func (s *GetHubActivityPage) DecodeURI(d uri.Decoder) error {
 		}
 		return nil
 	}); err != nil {
-		return errors.Wrap(err, "decode GetHubActivityPage")
+		return errors.Wrap(err, "decode GetGlobalLoadBalancersPage")
 	}
 
 	return nil
@@ -3157,6 +2959,125 @@ func (s *GetHubMembersPage) DecodeURI(d uri.Decoder) error {
 	return nil
 }
 
+// EncodeURI encodes GetHubMembershipFilter as URI form.
+func (s *GetHubMembershipFilter) EncodeURI(e uri.Encoder) error {
+	return nil
+}
+
+var uriFieldsNameOfGetHubMembershipFilter = [0]string{}
+
+// DecodeURI decodes GetHubMembershipFilter from URI form.
+func (s *GetHubMembershipFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetHubMembershipFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetHubMembershipFilter")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetHubMembershipPage as URI form.
+func (s *GetHubMembershipPage) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("number", func(e uri.Encoder) error {
+		if val, ok := s.Number.Get(); ok {
+			return e.EncodeValue(conv.Float64ToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"number\"")
+	}
+	if err := e.EncodeField("size", func(e uri.Encoder) error {
+		if val, ok := s.Size.Get(); ok {
+			return e.EncodeValue(conv.Float64ToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"size\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetHubMembershipPage = [2]string{
+	0: "number",
+	1: "size",
+}
+
+// DecodeURI decodes GetHubMembershipPage from URI form.
+func (s *GetHubMembershipPage) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetHubMembershipPage to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "number":
+			if err := func() error {
+				var sDotNumberVal float64
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToFloat64(val)
+					if err != nil {
+						return err
+					}
+
+					sDotNumberVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Number.SetTo(sDotNumberVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"number\"")
+			}
+		case "size":
+			if err := func() error {
+				var sDotSizeVal float64
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToFloat64(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSizeVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Size.SetTo(sDotSizeVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"size\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetHubMembershipPage")
+	}
+
+	return nil
+}
+
 // EncodeURI encodes GetHubUsageFilter as URI form.
 func (s *GetHubUsageFilter) EncodeURI(e uri.Encoder) error {
 	return nil
@@ -3304,6 +3225,99 @@ func (s *GetHubsFilter) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetHubsFilter")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetHubsPage as URI form.
+func (s *GetHubsPage) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("number", func(e uri.Encoder) error {
+		if val, ok := s.Number.Get(); ok {
+			return e.EncodeValue(conv.Float64ToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"number\"")
+	}
+	if err := e.EncodeField("size", func(e uri.Encoder) error {
+		if val, ok := s.Size.Get(); ok {
+			return e.EncodeValue(conv.Float64ToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"size\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetHubsPage = [2]string{
+	0: "number",
+	1: "size",
+}
+
+// DecodeURI decodes GetHubsPage from URI form.
+func (s *GetHubsPage) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetHubsPage to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "number":
+			if err := func() error {
+				var sDotNumberVal float64
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToFloat64(val)
+					if err != nil {
+						return err
+					}
+
+					sDotNumberVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Number.SetTo(sDotNumberVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"number\"")
+			}
+		case "size":
+			if err := func() error {
+				var sDotSizeVal float64
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToFloat64(val)
+					if err != nil {
+						return err
+					}
+
+					sDotSizeVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.Size.SetTo(sDotSizeVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"size\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetHubsPage")
 	}
 
 	return nil
@@ -4558,6 +4572,119 @@ func (s *GetJobsPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetJobsPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetLoadBalancerTelemetryReportFilter as URI form.
+func (s *GetLoadBalancerTelemetryReportFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("range-start", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusStart.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-start\"")
+	}
+	if err := e.EncodeField("range-end", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusEnd.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-end\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetLoadBalancerTelemetryReportFilter = [2]string{
+	0: "range-start",
+	1: "range-end",
+}
+
+// DecodeURI decodes GetLoadBalancerTelemetryReportFilter from URI form.
+func (s *GetLoadBalancerTelemetryReportFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetLoadBalancerTelemetryReportFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "range-start":
+			if err := func() error {
+				var sDotRangeMinusStartVal DateTime
+				if err := func() error {
+					var sDotRangeMinusStartValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusStartValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusStartVal = DateTime(sDotRangeMinusStartValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusStart.SetTo(sDotRangeMinusStartVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-start\"")
+			}
+		case "range-end":
+			if err := func() error {
+				var sDotRangeMinusEndVal DateTime
+				if err := func() error {
+					var sDotRangeMinusEndValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusEndValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusEndVal = DateTime(sDotRangeMinusEndValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusEnd.SetTo(sDotRangeMinusEndVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-end\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetLoadBalancerTelemetryReportFilter")
 	}
 
 	return nil

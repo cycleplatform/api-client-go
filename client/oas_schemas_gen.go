@@ -432,1185 +432,6 @@ func (s *AccountTwoFactorAuth) SetVerified(val bool) {
 	s.Verified = val
 }
 
-// A resource representing information about activity taking place on a given hub.
-// Ref: #/components/schemas/Activity
-type Activity struct {
-	ID    ID    `json:"id"`
-	HubID HubID `json:"hub_id"`
-	// Userscope.
-	User ActivityUser `json:"user"`
-	// A number representing how verbose the acitivty reporting is for a given hub.
-	Verbosity int           `json:"verbosity"`
-	Context   Context       `json:"context"`
-	Session   OptNilSession `json:"session"`
-	// An array of changes.
-	Changes []Change `json:"changes"`
-	// A record of additional annotations for the activity.
-	Annotations ActivityAnnotations `json:"annotations"`
-	// An object describing a given activity error.
-	Error NilActivityError `json:"error"`
-	// An object holding information about a component.
-	Component NilActivityComponent `json:"component"`
-	// An array of tags that denote things such as a type of security event, or can be user-provided.
-	Tags []string `json:"tags"`
-	// A status for the given activity.
-	Status ActivityStatus `json:"status"`
-	// The activity event.
-	Event ActivityEvent `json:"event"`
-	// A timestamp for when the activity took place.
-	Time DateTime `json:"time"`
-}
-
-// GetID returns the value of ID.
-func (s *Activity) GetID() ID {
-	return s.ID
-}
-
-// GetHubID returns the value of HubID.
-func (s *Activity) GetHubID() HubID {
-	return s.HubID
-}
-
-// GetUser returns the value of User.
-func (s *Activity) GetUser() ActivityUser {
-	return s.User
-}
-
-// GetVerbosity returns the value of Verbosity.
-func (s *Activity) GetVerbosity() int {
-	return s.Verbosity
-}
-
-// GetContext returns the value of Context.
-func (s *Activity) GetContext() Context {
-	return s.Context
-}
-
-// GetSession returns the value of Session.
-func (s *Activity) GetSession() OptNilSession {
-	return s.Session
-}
-
-// GetChanges returns the value of Changes.
-func (s *Activity) GetChanges() []Change {
-	return s.Changes
-}
-
-// GetAnnotations returns the value of Annotations.
-func (s *Activity) GetAnnotations() ActivityAnnotations {
-	return s.Annotations
-}
-
-// GetError returns the value of Error.
-func (s *Activity) GetError() NilActivityError {
-	return s.Error
-}
-
-// GetComponent returns the value of Component.
-func (s *Activity) GetComponent() NilActivityComponent {
-	return s.Component
-}
-
-// GetTags returns the value of Tags.
-func (s *Activity) GetTags() []string {
-	return s.Tags
-}
-
-// GetStatus returns the value of Status.
-func (s *Activity) GetStatus() ActivityStatus {
-	return s.Status
-}
-
-// GetEvent returns the value of Event.
-func (s *Activity) GetEvent() ActivityEvent {
-	return s.Event
-}
-
-// GetTime returns the value of Time.
-func (s *Activity) GetTime() DateTime {
-	return s.Time
-}
-
-// SetID sets the value of ID.
-func (s *Activity) SetID(val ID) {
-	s.ID = val
-}
-
-// SetHubID sets the value of HubID.
-func (s *Activity) SetHubID(val HubID) {
-	s.HubID = val
-}
-
-// SetUser sets the value of User.
-func (s *Activity) SetUser(val ActivityUser) {
-	s.User = val
-}
-
-// SetVerbosity sets the value of Verbosity.
-func (s *Activity) SetVerbosity(val int) {
-	s.Verbosity = val
-}
-
-// SetContext sets the value of Context.
-func (s *Activity) SetContext(val Context) {
-	s.Context = val
-}
-
-// SetSession sets the value of Session.
-func (s *Activity) SetSession(val OptNilSession) {
-	s.Session = val
-}
-
-// SetChanges sets the value of Changes.
-func (s *Activity) SetChanges(val []Change) {
-	s.Changes = val
-}
-
-// SetAnnotations sets the value of Annotations.
-func (s *Activity) SetAnnotations(val ActivityAnnotations) {
-	s.Annotations = val
-}
-
-// SetError sets the value of Error.
-func (s *Activity) SetError(val NilActivityError) {
-	s.Error = val
-}
-
-// SetComponent sets the value of Component.
-func (s *Activity) SetComponent(val NilActivityComponent) {
-	s.Component = val
-}
-
-// SetTags sets the value of Tags.
-func (s *Activity) SetTags(val []string) {
-	s.Tags = val
-}
-
-// SetStatus sets the value of Status.
-func (s *Activity) SetStatus(val ActivityStatus) {
-	s.Status = val
-}
-
-// SetEvent sets the value of Event.
-func (s *Activity) SetEvent(val ActivityEvent) {
-	s.Event = val
-}
-
-// SetTime sets the value of Time.
-func (s *Activity) SetTime(val DateTime) {
-	s.Time = val
-}
-
-// A record of additional annotations for the activity.
-type ActivityAnnotations map[string]string
-
-func (s *ActivityAnnotations) init() ActivityAnnotations {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
-
-// An object holding information about a component.
-type ActivityComponent struct {
-	ID ID `json:"id"`
-	// The type of component.
-	Type string `json:"type"`
-}
-
-// GetID returns the value of ID.
-func (s *ActivityComponent) GetID() ID {
-	return s.ID
-}
-
-// GetType returns the value of Type.
-func (s *ActivityComponent) GetType() string {
-	return s.Type
-}
-
-// SetID sets the value of ID.
-func (s *ActivityComponent) SetID(val ID) {
-	s.ID = val
-}
-
-// SetType sets the value of Type.
-func (s *ActivityComponent) SetType(val string) {
-	s.Type = val
-}
-
-// An object describing a given activity error.
-type ActivityError struct {
-	// The error message.
-	Message string `json:"message"`
-}
-
-// GetMessage returns the value of Message.
-func (s *ActivityError) GetMessage() string {
-	return s.Message
-}
-
-// SetMessage sets the value of Message.
-func (s *ActivityError) SetMessage(val string) {
-	s.Message = val
-}
-
-// The activity event.
-type ActivityEvent string
-
-const (
-	ActivityEventHubTaskDelete                                ActivityEvent = "hub.task.delete"
-	ActivityEventHubUpdate                                    ActivityEvent = "hub.update"
-	ActivityEventHubCreate                                    ActivityEvent = "hub.create"
-	ActivityEventHubImagesPrune                               ActivityEvent = "hub.images.prune"
-	ActivityEventHubTaskImagesPrune                           ActivityEvent = "hub.task.images.prune"
-	ActivityEventEnvironmentInitialize                        ActivityEvent = "environment.initialize"
-	ActivityEventEnvironmentStart                             ActivityEvent = "environment.start"
-	ActivityEventEnvironmentStop                              ActivityEvent = "environment.stop"
-	ActivityEventEnvironmentTaskStart                         ActivityEvent = "environment.task.start"
-	ActivityEventEnvironmentTaskStop                          ActivityEvent = "environment.task.stop"
-	ActivityEventEnvironmentTaskInitialize                    ActivityEvent = "environment.task.initialize"
-	ActivityEventEnvironmentDelete                            ActivityEvent = "environment.delete"
-	ActivityEventEnvironmentTaskDelete                        ActivityEvent = "environment.task.delete"
-	ActivityEventEnvironmentUpdate                            ActivityEvent = "environment.update"
-	ActivityEventEnvironmentCreate                            ActivityEvent = "environment.create"
-	ActivityEventEnvironmentServicesDiscoveryTaskReconfigure  ActivityEvent = "environment.services.discovery.task.reconfigure"
-	ActivityEventEnvironmentServicesLbTaskReconfigure         ActivityEvent = "environment.services.lb.task.reconfigure"
-	ActivityEventEnvironmentServicesVpnTaskReconfigure        ActivityEvent = "environment.services.vpn.task.reconfigure"
-	ActivityEventImageImport                                  ActivityEvent = "image.import"
-	ActivityEventImageTaskImport                              ActivityEvent = "image.task.import"
-	ActivityEventImageUpdate                                  ActivityEvent = "image.update"
-	ActivityEventImageCreate                                  ActivityEvent = "image.create"
-	ActivityEventImageDelete                                  ActivityEvent = "image.delete"
-	ActivityEventImageTaskDelete                              ActivityEvent = "image.task.delete"
-	ActivityEventImageSourceCreate                            ActivityEvent = "image.source.create"
-	ActivityEventImageSourceUpdate                            ActivityEvent = "image.source.update"
-	ActivityEventImageSourceTaskDelete                        ActivityEvent = "image.source.task.delete"
-	ActivityEventContainerCreate                              ActivityEvent = "container.create"
-	ActivityEventContainerUpdate                              ActivityEvent = "container.update"
-	ActivityEventContainerInitialize                          ActivityEvent = "container.initialize"
-	ActivityEventContainerStart                               ActivityEvent = "container.start"
-	ActivityEventContainerTaskStart                           ActivityEvent = "container.task.start"
-	ActivityEventContainerStop                                ActivityEvent = "container.stop"
-	ActivityEventContainerTaskStop                            ActivityEvent = "container.task.stop"
-	ActivityEventContainerReconfigure                         ActivityEvent = "container.reconfigure"
-	ActivityEventContainerTaskReconfigure                     ActivityEvent = "container.task.reconfigure"
-	ActivityEventContainerReconfigureVolumes                  ActivityEvent = "container.reconfigure.volumes"
-	ActivityEventContainerTaskReconfigureVolumes              ActivityEvent = "container.task.reconfigure.volumes"
-	ActivityEventContainerReimage                             ActivityEvent = "container.reimage"
-	ActivityEventContainerTaskReimage                         ActivityEvent = "container.task.reimage"
-	ActivityEventContainerScale                               ActivityEvent = "container.scale"
-	ActivityEventContainerTaskScale                           ActivityEvent = "container.task.scale"
-	ActivityEventContainerDelete                              ActivityEvent = "container.delete"
-	ActivityEventContainerTaskDelete                          ActivityEvent = "container.task.delete"
-	ActivityEventContainerInstanceError                       ActivityEvent = "container.instance.error"
-	ActivityEventContainerInstanceSftpLogin                   ActivityEvent = "container.instance.sftp.login"
-	ActivityEventContainerInstanceMigrationStart              ActivityEvent = "container.instance.migration.start"
-	ActivityEventContainerInstanceMigrationRevert             ActivityEvent = "container.instance.migration.revert"
-	ActivityEventContainerInstanceDelete                      ActivityEvent = "container.instance.delete"
-	ActivityEventContainerInstancesDelete                     ActivityEvent = "container.instances.delete"
-	ActivityEventContainerInstancesCreate                     ActivityEvent = "container.instances.create"
-	ActivityEventContainerInstanceHealthcheckRestarted        ActivityEvent = "container.instance.healthcheck.restarted"
-	ActivityEventContainerBackupCreate                        ActivityEvent = "container.backup.create"
-	ActivityEventContainerBackupRestore                       ActivityEvent = "container.backup.restore"
-	ActivityEventContainerBackupTaskRestore                   ActivityEvent = "container.backup.task.restore"
-	ActivityEventContainerBackupDelete                        ActivityEvent = "container.backup.delete"
-	ActivityEventContainerBackupTaskDelete                    ActivityEvent = "container.backup.task.delete"
-	ActivityEventDNSZoneTaskVerify                            ActivityEvent = "dns.zone.task.verify"
-	ActivityEventDNSZoneTaskDelete                            ActivityEvent = "dns.zone.task.delete"
-	ActivityEventDNSZoneUpdate                                ActivityEvent = "dns.zone.update"
-	ActivityEventDNSZoneCreate                                ActivityEvent = "dns.zone.create"
-	ActivityEventDNSZoneVerify                                ActivityEvent = "dns.zone.verify"
-	ActivityEventDNSZoneDelete                                ActivityEvent = "dns.zone.delete"
-	ActivityEventDNSZoneRecordCertGenerateAuto                ActivityEvent = "dns.zone.record.cert.generate.auto"
-	ActivityEventDNSZoneRecordCertGenerate                    ActivityEvent = "dns.zone.record.cert.generate"
-	ActivityEventDNSZoneRecordDelete                          ActivityEvent = "dns.zone.record.delete"
-	ActivityEventDNSZoneRecordUpdate                          ActivityEvent = "dns.zone.record.update"
-	ActivityEventDNSZoneRecordCreate                          ActivityEvent = "dns.zone.record.create"
-	ActivityEventDNSZoneRecordTaskDelete                      ActivityEvent = "dns.zone.record.task.delete"
-	ActivityEventDNSZoneRecordTaskCertGenerate                ActivityEvent = "dns.zone.record.task.cert.generate"
-	ActivityEventStackTaskDelete                              ActivityEvent = "stack.task.delete"
-	ActivityEventStackUpdate                                  ActivityEvent = "stack.update"
-	ActivityEventStackCreate                                  ActivityEvent = "stack.create"
-	ActivityEventStackTaskPrune                               ActivityEvent = "stack.task.prune"
-	ActivityEventStackBuildCreate                             ActivityEvent = "stack.build.create"
-	ActivityEventStackBuildGenerate                           ActivityEvent = "stack.build.generate"
-	ActivityEventStackBuildDeploy                             ActivityEvent = "stack.build.deploy"
-	ActivityEventStackBuildDelete                             ActivityEvent = "stack.build.delete"
-	ActivityEventStackBuildTaskGenerate                       ActivityEvent = "stack.build.task.generate"
-	ActivityEventStackBuildTaskDelete                         ActivityEvent = "stack.build.task.delete"
-	ActivityEventInfrastructureServerTaskDelete               ActivityEvent = "infrastructure.server.task.delete"
-	ActivityEventInfrastructureServerTaskRestart              ActivityEvent = "infrastructure.server.task.restart"
-	ActivityEventInfrastructureServerTaskProvision            ActivityEvent = "infrastructure.server.task.provision"
-	ActivityEventInfrastructureServerUpdate                   ActivityEvent = "infrastructure.server.update"
-	ActivityEventInfrastructureServerDelete                   ActivityEvent = "infrastructure.server.delete"
-	ActivityEventInfrastructureServerRestart                  ActivityEvent = "infrastructure.server.restart"
-	ActivityEventInfrastructureServerComputeRestart           ActivityEvent = "infrastructure.server.compute.restart"
-	ActivityEventInfrastructureServerProvision                ActivityEvent = "infrastructure.server.provision"
-	ActivityEventInfrastructureServerLive                     ActivityEvent = "infrastructure.server.live"
-	ActivityEventInfrastructureServerServicesSftpLockdownAuto ActivityEvent = "infrastructure.server.services.sftp.lockdown.auto"
-	ActivityEventInfrastructureServerReconfigureFeatures      ActivityEvent = "infrastructure.server.reconfigure.features"
-	ActivityEventInfrastructureServerTaskReconfigureFeatures  ActivityEvent = "infrastructure.server.task.reconfigure.features"
-	ActivityEventInfrastructureProviderCreate                 ActivityEvent = "infrastructure.provider.create"
-	ActivityEventInfrastructureProviderUpdate                 ActivityEvent = "infrastructure.provider.update"
-	ActivityEventInfrastructureProviderDelete                 ActivityEvent = "infrastructure.provider.delete"
-	ActivityEventSdnNetworkTaskDelete                         ActivityEvent = "sdn.network.task.delete"
-	ActivityEventSdnNetworkUpdate                             ActivityEvent = "sdn.network.update"
-	ActivityEventSdnNetworkCreate                             ActivityEvent = "sdn.network.create"
-	ActivityEventSdnNetworkTaskReconfigure                    ActivityEvent = "sdn.network.task.reconfigure"
-	ActivityEventInfrastructureIpsPoolTaskDelete              ActivityEvent = "infrastructure.ips.pool.task.delete"
-	ActivityEventBillingOrderTaskConfirm                      ActivityEvent = "billing.order.task.confirm"
-	ActivityEventBillingOrderConfirm                          ActivityEvent = "billing.order.confirm"
-	ActivityEventBillingInvoiceTaskVoid                       ActivityEvent = "billing.invoice.task.void"
-	ActivityEventBillingInvoiceTaskCredit                     ActivityEvent = "billing.invoice.task.credit"
-	ActivityEventBillingInvoiceTaskRefund                     ActivityEvent = "billing.invoice.task.refund"
-	ActivityEventBillingInvoiceTaskPay                        ActivityEvent = "billing.invoice.task.pay"
-	ActivityEventBillingInvoicePay                            ActivityEvent = "billing.invoice.pay"
-	ActivityEventBillingMethodUpdate                          ActivityEvent = "billing.method.update"
-	ActivityEventBillingMethodCreate                          ActivityEvent = "billing.method.create"
-	ActivityEventBillingMethodDelete                          ActivityEvent = "billing.method.delete"
-	ActivityEventBillingMethodTaskDelete                      ActivityEvent = "billing.method.task.delete"
-	ActivityEventHubApikeyCreate                              ActivityEvent = "hub.apikey.create"
-	ActivityEventHubApikeyUpdate                              ActivityEvent = "hub.apikey.update"
-	ActivityEventHubApikeyDelete                              ActivityEvent = "hub.apikey.delete"
-	ActivityEventHubMembershipCreate                          ActivityEvent = "hub.membership.create"
-	ActivityEventHubMembershipDelete                          ActivityEvent = "hub.membership.delete"
-	ActivityEventPipelineUpdate                               ActivityEvent = "pipeline.update"
-	ActivityEventPipelineTaskDelete                           ActivityEvent = "pipeline.task.delete"
-	ActivityEventPipelineDelete                               ActivityEvent = "pipeline.delete"
-	ActivityEventPipelineCreate                               ActivityEvent = "pipeline.create"
-	ActivityEventPipelineTaskTrigger                          ActivityEvent = "pipeline.task.trigger"
-	ActivityEventPipelineTrigger                              ActivityEvent = "pipeline.trigger"
-	ActivityEventPipelineKeyUpdate                            ActivityEvent = "pipeline.key.update"
-	ActivityEventPipelineKeyDelete                            ActivityEvent = "pipeline.key.delete"
-	ActivityEventPipelineKeyCreate                            ActivityEvent = "pipeline.key.create"
-)
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ActivityEvent) MarshalText() ([]byte, error) {
-	switch s {
-	case ActivityEventHubTaskDelete:
-		return []byte(s), nil
-	case ActivityEventHubUpdate:
-		return []byte(s), nil
-	case ActivityEventHubCreate:
-		return []byte(s), nil
-	case ActivityEventHubImagesPrune:
-		return []byte(s), nil
-	case ActivityEventHubTaskImagesPrune:
-		return []byte(s), nil
-	case ActivityEventEnvironmentInitialize:
-		return []byte(s), nil
-	case ActivityEventEnvironmentStart:
-		return []byte(s), nil
-	case ActivityEventEnvironmentStop:
-		return []byte(s), nil
-	case ActivityEventEnvironmentTaskStart:
-		return []byte(s), nil
-	case ActivityEventEnvironmentTaskStop:
-		return []byte(s), nil
-	case ActivityEventEnvironmentTaskInitialize:
-		return []byte(s), nil
-	case ActivityEventEnvironmentDelete:
-		return []byte(s), nil
-	case ActivityEventEnvironmentTaskDelete:
-		return []byte(s), nil
-	case ActivityEventEnvironmentUpdate:
-		return []byte(s), nil
-	case ActivityEventEnvironmentCreate:
-		return []byte(s), nil
-	case ActivityEventEnvironmentServicesDiscoveryTaskReconfigure:
-		return []byte(s), nil
-	case ActivityEventEnvironmentServicesLbTaskReconfigure:
-		return []byte(s), nil
-	case ActivityEventEnvironmentServicesVpnTaskReconfigure:
-		return []byte(s), nil
-	case ActivityEventImageImport:
-		return []byte(s), nil
-	case ActivityEventImageTaskImport:
-		return []byte(s), nil
-	case ActivityEventImageUpdate:
-		return []byte(s), nil
-	case ActivityEventImageCreate:
-		return []byte(s), nil
-	case ActivityEventImageDelete:
-		return []byte(s), nil
-	case ActivityEventImageTaskDelete:
-		return []byte(s), nil
-	case ActivityEventImageSourceCreate:
-		return []byte(s), nil
-	case ActivityEventImageSourceUpdate:
-		return []byte(s), nil
-	case ActivityEventImageSourceTaskDelete:
-		return []byte(s), nil
-	case ActivityEventContainerCreate:
-		return []byte(s), nil
-	case ActivityEventContainerUpdate:
-		return []byte(s), nil
-	case ActivityEventContainerInitialize:
-		return []byte(s), nil
-	case ActivityEventContainerStart:
-		return []byte(s), nil
-	case ActivityEventContainerTaskStart:
-		return []byte(s), nil
-	case ActivityEventContainerStop:
-		return []byte(s), nil
-	case ActivityEventContainerTaskStop:
-		return []byte(s), nil
-	case ActivityEventContainerReconfigure:
-		return []byte(s), nil
-	case ActivityEventContainerTaskReconfigure:
-		return []byte(s), nil
-	case ActivityEventContainerReconfigureVolumes:
-		return []byte(s), nil
-	case ActivityEventContainerTaskReconfigureVolumes:
-		return []byte(s), nil
-	case ActivityEventContainerReimage:
-		return []byte(s), nil
-	case ActivityEventContainerTaskReimage:
-		return []byte(s), nil
-	case ActivityEventContainerScale:
-		return []byte(s), nil
-	case ActivityEventContainerTaskScale:
-		return []byte(s), nil
-	case ActivityEventContainerDelete:
-		return []byte(s), nil
-	case ActivityEventContainerTaskDelete:
-		return []byte(s), nil
-	case ActivityEventContainerInstanceError:
-		return []byte(s), nil
-	case ActivityEventContainerInstanceSftpLogin:
-		return []byte(s), nil
-	case ActivityEventContainerInstanceMigrationStart:
-		return []byte(s), nil
-	case ActivityEventContainerInstanceMigrationRevert:
-		return []byte(s), nil
-	case ActivityEventContainerInstanceDelete:
-		return []byte(s), nil
-	case ActivityEventContainerInstancesDelete:
-		return []byte(s), nil
-	case ActivityEventContainerInstancesCreate:
-		return []byte(s), nil
-	case ActivityEventContainerInstanceHealthcheckRestarted:
-		return []byte(s), nil
-	case ActivityEventContainerBackupCreate:
-		return []byte(s), nil
-	case ActivityEventContainerBackupRestore:
-		return []byte(s), nil
-	case ActivityEventContainerBackupTaskRestore:
-		return []byte(s), nil
-	case ActivityEventContainerBackupDelete:
-		return []byte(s), nil
-	case ActivityEventContainerBackupTaskDelete:
-		return []byte(s), nil
-	case ActivityEventDNSZoneTaskVerify:
-		return []byte(s), nil
-	case ActivityEventDNSZoneTaskDelete:
-		return []byte(s), nil
-	case ActivityEventDNSZoneUpdate:
-		return []byte(s), nil
-	case ActivityEventDNSZoneCreate:
-		return []byte(s), nil
-	case ActivityEventDNSZoneVerify:
-		return []byte(s), nil
-	case ActivityEventDNSZoneDelete:
-		return []byte(s), nil
-	case ActivityEventDNSZoneRecordCertGenerateAuto:
-		return []byte(s), nil
-	case ActivityEventDNSZoneRecordCertGenerate:
-		return []byte(s), nil
-	case ActivityEventDNSZoneRecordDelete:
-		return []byte(s), nil
-	case ActivityEventDNSZoneRecordUpdate:
-		return []byte(s), nil
-	case ActivityEventDNSZoneRecordCreate:
-		return []byte(s), nil
-	case ActivityEventDNSZoneRecordTaskDelete:
-		return []byte(s), nil
-	case ActivityEventDNSZoneRecordTaskCertGenerate:
-		return []byte(s), nil
-	case ActivityEventStackTaskDelete:
-		return []byte(s), nil
-	case ActivityEventStackUpdate:
-		return []byte(s), nil
-	case ActivityEventStackCreate:
-		return []byte(s), nil
-	case ActivityEventStackTaskPrune:
-		return []byte(s), nil
-	case ActivityEventStackBuildCreate:
-		return []byte(s), nil
-	case ActivityEventStackBuildGenerate:
-		return []byte(s), nil
-	case ActivityEventStackBuildDeploy:
-		return []byte(s), nil
-	case ActivityEventStackBuildDelete:
-		return []byte(s), nil
-	case ActivityEventStackBuildTaskGenerate:
-		return []byte(s), nil
-	case ActivityEventStackBuildTaskDelete:
-		return []byte(s), nil
-	case ActivityEventInfrastructureServerTaskDelete:
-		return []byte(s), nil
-	case ActivityEventInfrastructureServerTaskRestart:
-		return []byte(s), nil
-	case ActivityEventInfrastructureServerTaskProvision:
-		return []byte(s), nil
-	case ActivityEventInfrastructureServerUpdate:
-		return []byte(s), nil
-	case ActivityEventInfrastructureServerDelete:
-		return []byte(s), nil
-	case ActivityEventInfrastructureServerRestart:
-		return []byte(s), nil
-	case ActivityEventInfrastructureServerComputeRestart:
-		return []byte(s), nil
-	case ActivityEventInfrastructureServerProvision:
-		return []byte(s), nil
-	case ActivityEventInfrastructureServerLive:
-		return []byte(s), nil
-	case ActivityEventInfrastructureServerServicesSftpLockdownAuto:
-		return []byte(s), nil
-	case ActivityEventInfrastructureServerReconfigureFeatures:
-		return []byte(s), nil
-	case ActivityEventInfrastructureServerTaskReconfigureFeatures:
-		return []byte(s), nil
-	case ActivityEventInfrastructureProviderCreate:
-		return []byte(s), nil
-	case ActivityEventInfrastructureProviderUpdate:
-		return []byte(s), nil
-	case ActivityEventInfrastructureProviderDelete:
-		return []byte(s), nil
-	case ActivityEventSdnNetworkTaskDelete:
-		return []byte(s), nil
-	case ActivityEventSdnNetworkUpdate:
-		return []byte(s), nil
-	case ActivityEventSdnNetworkCreate:
-		return []byte(s), nil
-	case ActivityEventSdnNetworkTaskReconfigure:
-		return []byte(s), nil
-	case ActivityEventInfrastructureIpsPoolTaskDelete:
-		return []byte(s), nil
-	case ActivityEventBillingOrderTaskConfirm:
-		return []byte(s), nil
-	case ActivityEventBillingOrderConfirm:
-		return []byte(s), nil
-	case ActivityEventBillingInvoiceTaskVoid:
-		return []byte(s), nil
-	case ActivityEventBillingInvoiceTaskCredit:
-		return []byte(s), nil
-	case ActivityEventBillingInvoiceTaskRefund:
-		return []byte(s), nil
-	case ActivityEventBillingInvoiceTaskPay:
-		return []byte(s), nil
-	case ActivityEventBillingInvoicePay:
-		return []byte(s), nil
-	case ActivityEventBillingMethodUpdate:
-		return []byte(s), nil
-	case ActivityEventBillingMethodCreate:
-		return []byte(s), nil
-	case ActivityEventBillingMethodDelete:
-		return []byte(s), nil
-	case ActivityEventBillingMethodTaskDelete:
-		return []byte(s), nil
-	case ActivityEventHubApikeyCreate:
-		return []byte(s), nil
-	case ActivityEventHubApikeyUpdate:
-		return []byte(s), nil
-	case ActivityEventHubApikeyDelete:
-		return []byte(s), nil
-	case ActivityEventHubMembershipCreate:
-		return []byte(s), nil
-	case ActivityEventHubMembershipDelete:
-		return []byte(s), nil
-	case ActivityEventPipelineUpdate:
-		return []byte(s), nil
-	case ActivityEventPipelineTaskDelete:
-		return []byte(s), nil
-	case ActivityEventPipelineDelete:
-		return []byte(s), nil
-	case ActivityEventPipelineCreate:
-		return []byte(s), nil
-	case ActivityEventPipelineTaskTrigger:
-		return []byte(s), nil
-	case ActivityEventPipelineTrigger:
-		return []byte(s), nil
-	case ActivityEventPipelineKeyUpdate:
-		return []byte(s), nil
-	case ActivityEventPipelineKeyDelete:
-		return []byte(s), nil
-	case ActivityEventPipelineKeyCreate:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ActivityEvent) UnmarshalText(data []byte) error {
-	switch ActivityEvent(data) {
-	case ActivityEventHubTaskDelete:
-		*s = ActivityEventHubTaskDelete
-		return nil
-	case ActivityEventHubUpdate:
-		*s = ActivityEventHubUpdate
-		return nil
-	case ActivityEventHubCreate:
-		*s = ActivityEventHubCreate
-		return nil
-	case ActivityEventHubImagesPrune:
-		*s = ActivityEventHubImagesPrune
-		return nil
-	case ActivityEventHubTaskImagesPrune:
-		*s = ActivityEventHubTaskImagesPrune
-		return nil
-	case ActivityEventEnvironmentInitialize:
-		*s = ActivityEventEnvironmentInitialize
-		return nil
-	case ActivityEventEnvironmentStart:
-		*s = ActivityEventEnvironmentStart
-		return nil
-	case ActivityEventEnvironmentStop:
-		*s = ActivityEventEnvironmentStop
-		return nil
-	case ActivityEventEnvironmentTaskStart:
-		*s = ActivityEventEnvironmentTaskStart
-		return nil
-	case ActivityEventEnvironmentTaskStop:
-		*s = ActivityEventEnvironmentTaskStop
-		return nil
-	case ActivityEventEnvironmentTaskInitialize:
-		*s = ActivityEventEnvironmentTaskInitialize
-		return nil
-	case ActivityEventEnvironmentDelete:
-		*s = ActivityEventEnvironmentDelete
-		return nil
-	case ActivityEventEnvironmentTaskDelete:
-		*s = ActivityEventEnvironmentTaskDelete
-		return nil
-	case ActivityEventEnvironmentUpdate:
-		*s = ActivityEventEnvironmentUpdate
-		return nil
-	case ActivityEventEnvironmentCreate:
-		*s = ActivityEventEnvironmentCreate
-		return nil
-	case ActivityEventEnvironmentServicesDiscoveryTaskReconfigure:
-		*s = ActivityEventEnvironmentServicesDiscoveryTaskReconfigure
-		return nil
-	case ActivityEventEnvironmentServicesLbTaskReconfigure:
-		*s = ActivityEventEnvironmentServicesLbTaskReconfigure
-		return nil
-	case ActivityEventEnvironmentServicesVpnTaskReconfigure:
-		*s = ActivityEventEnvironmentServicesVpnTaskReconfigure
-		return nil
-	case ActivityEventImageImport:
-		*s = ActivityEventImageImport
-		return nil
-	case ActivityEventImageTaskImport:
-		*s = ActivityEventImageTaskImport
-		return nil
-	case ActivityEventImageUpdate:
-		*s = ActivityEventImageUpdate
-		return nil
-	case ActivityEventImageCreate:
-		*s = ActivityEventImageCreate
-		return nil
-	case ActivityEventImageDelete:
-		*s = ActivityEventImageDelete
-		return nil
-	case ActivityEventImageTaskDelete:
-		*s = ActivityEventImageTaskDelete
-		return nil
-	case ActivityEventImageSourceCreate:
-		*s = ActivityEventImageSourceCreate
-		return nil
-	case ActivityEventImageSourceUpdate:
-		*s = ActivityEventImageSourceUpdate
-		return nil
-	case ActivityEventImageSourceTaskDelete:
-		*s = ActivityEventImageSourceTaskDelete
-		return nil
-	case ActivityEventContainerCreate:
-		*s = ActivityEventContainerCreate
-		return nil
-	case ActivityEventContainerUpdate:
-		*s = ActivityEventContainerUpdate
-		return nil
-	case ActivityEventContainerInitialize:
-		*s = ActivityEventContainerInitialize
-		return nil
-	case ActivityEventContainerStart:
-		*s = ActivityEventContainerStart
-		return nil
-	case ActivityEventContainerTaskStart:
-		*s = ActivityEventContainerTaskStart
-		return nil
-	case ActivityEventContainerStop:
-		*s = ActivityEventContainerStop
-		return nil
-	case ActivityEventContainerTaskStop:
-		*s = ActivityEventContainerTaskStop
-		return nil
-	case ActivityEventContainerReconfigure:
-		*s = ActivityEventContainerReconfigure
-		return nil
-	case ActivityEventContainerTaskReconfigure:
-		*s = ActivityEventContainerTaskReconfigure
-		return nil
-	case ActivityEventContainerReconfigureVolumes:
-		*s = ActivityEventContainerReconfigureVolumes
-		return nil
-	case ActivityEventContainerTaskReconfigureVolumes:
-		*s = ActivityEventContainerTaskReconfigureVolumes
-		return nil
-	case ActivityEventContainerReimage:
-		*s = ActivityEventContainerReimage
-		return nil
-	case ActivityEventContainerTaskReimage:
-		*s = ActivityEventContainerTaskReimage
-		return nil
-	case ActivityEventContainerScale:
-		*s = ActivityEventContainerScale
-		return nil
-	case ActivityEventContainerTaskScale:
-		*s = ActivityEventContainerTaskScale
-		return nil
-	case ActivityEventContainerDelete:
-		*s = ActivityEventContainerDelete
-		return nil
-	case ActivityEventContainerTaskDelete:
-		*s = ActivityEventContainerTaskDelete
-		return nil
-	case ActivityEventContainerInstanceError:
-		*s = ActivityEventContainerInstanceError
-		return nil
-	case ActivityEventContainerInstanceSftpLogin:
-		*s = ActivityEventContainerInstanceSftpLogin
-		return nil
-	case ActivityEventContainerInstanceMigrationStart:
-		*s = ActivityEventContainerInstanceMigrationStart
-		return nil
-	case ActivityEventContainerInstanceMigrationRevert:
-		*s = ActivityEventContainerInstanceMigrationRevert
-		return nil
-	case ActivityEventContainerInstanceDelete:
-		*s = ActivityEventContainerInstanceDelete
-		return nil
-	case ActivityEventContainerInstancesDelete:
-		*s = ActivityEventContainerInstancesDelete
-		return nil
-	case ActivityEventContainerInstancesCreate:
-		*s = ActivityEventContainerInstancesCreate
-		return nil
-	case ActivityEventContainerInstanceHealthcheckRestarted:
-		*s = ActivityEventContainerInstanceHealthcheckRestarted
-		return nil
-	case ActivityEventContainerBackupCreate:
-		*s = ActivityEventContainerBackupCreate
-		return nil
-	case ActivityEventContainerBackupRestore:
-		*s = ActivityEventContainerBackupRestore
-		return nil
-	case ActivityEventContainerBackupTaskRestore:
-		*s = ActivityEventContainerBackupTaskRestore
-		return nil
-	case ActivityEventContainerBackupDelete:
-		*s = ActivityEventContainerBackupDelete
-		return nil
-	case ActivityEventContainerBackupTaskDelete:
-		*s = ActivityEventContainerBackupTaskDelete
-		return nil
-	case ActivityEventDNSZoneTaskVerify:
-		*s = ActivityEventDNSZoneTaskVerify
-		return nil
-	case ActivityEventDNSZoneTaskDelete:
-		*s = ActivityEventDNSZoneTaskDelete
-		return nil
-	case ActivityEventDNSZoneUpdate:
-		*s = ActivityEventDNSZoneUpdate
-		return nil
-	case ActivityEventDNSZoneCreate:
-		*s = ActivityEventDNSZoneCreate
-		return nil
-	case ActivityEventDNSZoneVerify:
-		*s = ActivityEventDNSZoneVerify
-		return nil
-	case ActivityEventDNSZoneDelete:
-		*s = ActivityEventDNSZoneDelete
-		return nil
-	case ActivityEventDNSZoneRecordCertGenerateAuto:
-		*s = ActivityEventDNSZoneRecordCertGenerateAuto
-		return nil
-	case ActivityEventDNSZoneRecordCertGenerate:
-		*s = ActivityEventDNSZoneRecordCertGenerate
-		return nil
-	case ActivityEventDNSZoneRecordDelete:
-		*s = ActivityEventDNSZoneRecordDelete
-		return nil
-	case ActivityEventDNSZoneRecordUpdate:
-		*s = ActivityEventDNSZoneRecordUpdate
-		return nil
-	case ActivityEventDNSZoneRecordCreate:
-		*s = ActivityEventDNSZoneRecordCreate
-		return nil
-	case ActivityEventDNSZoneRecordTaskDelete:
-		*s = ActivityEventDNSZoneRecordTaskDelete
-		return nil
-	case ActivityEventDNSZoneRecordTaskCertGenerate:
-		*s = ActivityEventDNSZoneRecordTaskCertGenerate
-		return nil
-	case ActivityEventStackTaskDelete:
-		*s = ActivityEventStackTaskDelete
-		return nil
-	case ActivityEventStackUpdate:
-		*s = ActivityEventStackUpdate
-		return nil
-	case ActivityEventStackCreate:
-		*s = ActivityEventStackCreate
-		return nil
-	case ActivityEventStackTaskPrune:
-		*s = ActivityEventStackTaskPrune
-		return nil
-	case ActivityEventStackBuildCreate:
-		*s = ActivityEventStackBuildCreate
-		return nil
-	case ActivityEventStackBuildGenerate:
-		*s = ActivityEventStackBuildGenerate
-		return nil
-	case ActivityEventStackBuildDeploy:
-		*s = ActivityEventStackBuildDeploy
-		return nil
-	case ActivityEventStackBuildDelete:
-		*s = ActivityEventStackBuildDelete
-		return nil
-	case ActivityEventStackBuildTaskGenerate:
-		*s = ActivityEventStackBuildTaskGenerate
-		return nil
-	case ActivityEventStackBuildTaskDelete:
-		*s = ActivityEventStackBuildTaskDelete
-		return nil
-	case ActivityEventInfrastructureServerTaskDelete:
-		*s = ActivityEventInfrastructureServerTaskDelete
-		return nil
-	case ActivityEventInfrastructureServerTaskRestart:
-		*s = ActivityEventInfrastructureServerTaskRestart
-		return nil
-	case ActivityEventInfrastructureServerTaskProvision:
-		*s = ActivityEventInfrastructureServerTaskProvision
-		return nil
-	case ActivityEventInfrastructureServerUpdate:
-		*s = ActivityEventInfrastructureServerUpdate
-		return nil
-	case ActivityEventInfrastructureServerDelete:
-		*s = ActivityEventInfrastructureServerDelete
-		return nil
-	case ActivityEventInfrastructureServerRestart:
-		*s = ActivityEventInfrastructureServerRestart
-		return nil
-	case ActivityEventInfrastructureServerComputeRestart:
-		*s = ActivityEventInfrastructureServerComputeRestart
-		return nil
-	case ActivityEventInfrastructureServerProvision:
-		*s = ActivityEventInfrastructureServerProvision
-		return nil
-	case ActivityEventInfrastructureServerLive:
-		*s = ActivityEventInfrastructureServerLive
-		return nil
-	case ActivityEventInfrastructureServerServicesSftpLockdownAuto:
-		*s = ActivityEventInfrastructureServerServicesSftpLockdownAuto
-		return nil
-	case ActivityEventInfrastructureServerReconfigureFeatures:
-		*s = ActivityEventInfrastructureServerReconfigureFeatures
-		return nil
-	case ActivityEventInfrastructureServerTaskReconfigureFeatures:
-		*s = ActivityEventInfrastructureServerTaskReconfigureFeatures
-		return nil
-	case ActivityEventInfrastructureProviderCreate:
-		*s = ActivityEventInfrastructureProviderCreate
-		return nil
-	case ActivityEventInfrastructureProviderUpdate:
-		*s = ActivityEventInfrastructureProviderUpdate
-		return nil
-	case ActivityEventInfrastructureProviderDelete:
-		*s = ActivityEventInfrastructureProviderDelete
-		return nil
-	case ActivityEventSdnNetworkTaskDelete:
-		*s = ActivityEventSdnNetworkTaskDelete
-		return nil
-	case ActivityEventSdnNetworkUpdate:
-		*s = ActivityEventSdnNetworkUpdate
-		return nil
-	case ActivityEventSdnNetworkCreate:
-		*s = ActivityEventSdnNetworkCreate
-		return nil
-	case ActivityEventSdnNetworkTaskReconfigure:
-		*s = ActivityEventSdnNetworkTaskReconfigure
-		return nil
-	case ActivityEventInfrastructureIpsPoolTaskDelete:
-		*s = ActivityEventInfrastructureIpsPoolTaskDelete
-		return nil
-	case ActivityEventBillingOrderTaskConfirm:
-		*s = ActivityEventBillingOrderTaskConfirm
-		return nil
-	case ActivityEventBillingOrderConfirm:
-		*s = ActivityEventBillingOrderConfirm
-		return nil
-	case ActivityEventBillingInvoiceTaskVoid:
-		*s = ActivityEventBillingInvoiceTaskVoid
-		return nil
-	case ActivityEventBillingInvoiceTaskCredit:
-		*s = ActivityEventBillingInvoiceTaskCredit
-		return nil
-	case ActivityEventBillingInvoiceTaskRefund:
-		*s = ActivityEventBillingInvoiceTaskRefund
-		return nil
-	case ActivityEventBillingInvoiceTaskPay:
-		*s = ActivityEventBillingInvoiceTaskPay
-		return nil
-	case ActivityEventBillingInvoicePay:
-		*s = ActivityEventBillingInvoicePay
-		return nil
-	case ActivityEventBillingMethodUpdate:
-		*s = ActivityEventBillingMethodUpdate
-		return nil
-	case ActivityEventBillingMethodCreate:
-		*s = ActivityEventBillingMethodCreate
-		return nil
-	case ActivityEventBillingMethodDelete:
-		*s = ActivityEventBillingMethodDelete
-		return nil
-	case ActivityEventBillingMethodTaskDelete:
-		*s = ActivityEventBillingMethodTaskDelete
-		return nil
-	case ActivityEventHubApikeyCreate:
-		*s = ActivityEventHubApikeyCreate
-		return nil
-	case ActivityEventHubApikeyUpdate:
-		*s = ActivityEventHubApikeyUpdate
-		return nil
-	case ActivityEventHubApikeyDelete:
-		*s = ActivityEventHubApikeyDelete
-		return nil
-	case ActivityEventHubMembershipCreate:
-		*s = ActivityEventHubMembershipCreate
-		return nil
-	case ActivityEventHubMembershipDelete:
-		*s = ActivityEventHubMembershipDelete
-		return nil
-	case ActivityEventPipelineUpdate:
-		*s = ActivityEventPipelineUpdate
-		return nil
-	case ActivityEventPipelineTaskDelete:
-		*s = ActivityEventPipelineTaskDelete
-		return nil
-	case ActivityEventPipelineDelete:
-		*s = ActivityEventPipelineDelete
-		return nil
-	case ActivityEventPipelineCreate:
-		*s = ActivityEventPipelineCreate
-		return nil
-	case ActivityEventPipelineTaskTrigger:
-		*s = ActivityEventPipelineTaskTrigger
-		return nil
-	case ActivityEventPipelineTrigger:
-		*s = ActivityEventPipelineTrigger
-		return nil
-	case ActivityEventPipelineKeyUpdate:
-		*s = ActivityEventPipelineKeyUpdate
-		return nil
-	case ActivityEventPipelineKeyDelete:
-		*s = ActivityEventPipelineKeyDelete
-		return nil
-	case ActivityEventPipelineKeyCreate:
-		*s = ActivityEventPipelineKeyCreate
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// All includable resources linkable to the given records.
-// Ref: #/components/schemas/ActivityIncludes
-type ActivityIncludes struct {
-	Users      OptCreatorInclude     `json:"users"`
-	Components OptComponentsIncludes `json:"components"`
-}
-
-// GetUsers returns the value of Users.
-func (s *ActivityIncludes) GetUsers() OptCreatorInclude {
-	return s.Users
-}
-
-// GetComponents returns the value of Components.
-func (s *ActivityIncludes) GetComponents() OptComponentsIncludes {
-	return s.Components
-}
-
-// SetUsers sets the value of Users.
-func (s *ActivityIncludes) SetUsers(val OptCreatorInclude) {
-	s.Users = val
-}
-
-// SetComponents sets the value of Components.
-func (s *ActivityIncludes) SetComponents(val OptComponentsIncludes) {
-	s.Components = val
-}
-
-// A status for the given activity.
-type ActivityStatus string
-
-const (
-	ActivityStatusInfo     ActivityStatus = "info"
-	ActivityStatusWarning  ActivityStatus = "warning"
-	ActivityStatusRequest  ActivityStatus = "request"
-	ActivityStatusSuccess  ActivityStatus = "success"
-	ActivityStatusError    ActivityStatus = "error"
-	ActivityStatusAlert    ActivityStatus = "alert"
-	ActivityStatusRecovery ActivityStatus = "recovery"
-)
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ActivityStatus) MarshalText() ([]byte, error) {
-	switch s {
-	case ActivityStatusInfo:
-		return []byte(s), nil
-	case ActivityStatusWarning:
-		return []byte(s), nil
-	case ActivityStatusRequest:
-		return []byte(s), nil
-	case ActivityStatusSuccess:
-		return []byte(s), nil
-	case ActivityStatusError:
-		return []byte(s), nil
-	case ActivityStatusAlert:
-		return []byte(s), nil
-	case ActivityStatusRecovery:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ActivityStatus) UnmarshalText(data []byte) error {
-	switch ActivityStatus(data) {
-	case ActivityStatusInfo:
-		*s = ActivityStatusInfo
-		return nil
-	case ActivityStatusWarning:
-		*s = ActivityStatusWarning
-		return nil
-	case ActivityStatusRequest:
-		*s = ActivityStatusRequest
-		return nil
-	case ActivityStatusSuccess:
-		*s = ActivityStatusSuccess
-		return nil
-	case ActivityStatusError:
-		*s = ActivityStatusError
-		return nil
-	case ActivityStatusAlert:
-		*s = ActivityStatusAlert
-		return nil
-	case ActivityStatusRecovery:
-		*s = ActivityStatusRecovery
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// Userscope.
-type ActivityUser struct {
-	// The type of user.
-	Type ActivityUserType `json:"type"`
-	// The given users ID.
-	ID string `json:"id"`
-}
-
-// GetType returns the value of Type.
-func (s *ActivityUser) GetType() ActivityUserType {
-	return s.Type
-}
-
-// GetID returns the value of ID.
-func (s *ActivityUser) GetID() string {
-	return s.ID
-}
-
-// SetType sets the value of Type.
-func (s *ActivityUser) SetType(val ActivityUserType) {
-	s.Type = val
-}
-
-// SetID sets the value of ID.
-func (s *ActivityUser) SetID(val string) {
-	s.ID = val
-}
-
-// The type of user.
-type ActivityUserType string
-
-const (
-	ActivityUserTypeAccount          ActivityUserType = "account"
-	ActivityUserTypeEnvironment      ActivityUserType = "environment"
-	ActivityUserTypePlatform         ActivityUserType = "platform"
-	ActivityUserTypePlatformPipeline ActivityUserType = "platform-pipeline"
-	ActivityUserTypeEmployee         ActivityUserType = "employee"
-	ActivityUserTypeAPIKey           ActivityUserType = "api-key"
-	ActivityUserTypeVisitor          ActivityUserType = "visitor"
-)
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ActivityUserType) MarshalText() ([]byte, error) {
-	switch s {
-	case ActivityUserTypeAccount:
-		return []byte(s), nil
-	case ActivityUserTypeEnvironment:
-		return []byte(s), nil
-	case ActivityUserTypePlatform:
-		return []byte(s), nil
-	case ActivityUserTypePlatformPipeline:
-		return []byte(s), nil
-	case ActivityUserTypeEmployee:
-		return []byte(s), nil
-	case ActivityUserTypeAPIKey:
-		return []byte(s), nil
-	case ActivityUserTypeVisitor:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ActivityUserType) UnmarshalText(data []byte) error {
-	switch ActivityUserType(data) {
-	case ActivityUserTypeAccount:
-		*s = ActivityUserTypeAccount
-		return nil
-	case ActivityUserTypeEnvironment:
-		*s = ActivityUserTypeEnvironment
-		return nil
-	case ActivityUserTypePlatform:
-		*s = ActivityUserTypePlatform
-		return nil
-	case ActivityUserTypePlatformPipeline:
-		*s = ActivityUserTypePlatformPipeline
-		return nil
-	case ActivityUserTypeEmployee:
-		*s = ActivityUserTypeEmployee
-		return nil
-	case ActivityUserTypeAPIKey:
-		*s = ActivityUserTypeAPIKey
-		return nil
-	case ActivityUserTypeVisitor:
-		*s = ActivityUserTypeVisitor
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
 // Address information for a given billing method.
 // Ref: #/components/schemas/Address
 type Address struct {
@@ -3951,6 +2772,109 @@ func (s *BillingSummaryType) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/BucketImageSourceType
+type BucketImageSourceType struct {
+	Details  OptBucketImageSourceTypeDetails  `json:"details"`
+	Override OptBucketImageSourceTypeOverride `json:"override"`
+}
+
+// GetDetails returns the value of Details.
+func (s *BucketImageSourceType) GetDetails() OptBucketImageSourceTypeDetails {
+	return s.Details
+}
+
+// GetOverride returns the value of Override.
+func (s *BucketImageSourceType) GetOverride() OptBucketImageSourceTypeOverride {
+	return s.Override
+}
+
+// SetDetails sets the value of Details.
+func (s *BucketImageSourceType) SetDetails(val OptBucketImageSourceTypeDetails) {
+	s.Details = val
+}
+
+// SetOverride sets the value of Override.
+func (s *BucketImageSourceType) SetOverride(val OptBucketImageSourceTypeOverride) {
+	s.Override = val
+}
+
+type BucketImageSourceTypeDetails struct {
+	ID     string      `json:"id"`
+	Origin ImageOrigin `json:"origin"`
+}
+
+// GetID returns the value of ID.
+func (s *BucketImageSourceTypeDetails) GetID() string {
+	return s.ID
+}
+
+// GetOrigin returns the value of Origin.
+func (s *BucketImageSourceTypeDetails) GetOrigin() ImageOrigin {
+	return s.Origin
+}
+
+// SetID sets the value of ID.
+func (s *BucketImageSourceTypeDetails) SetID(val string) {
+	s.ID = val
+}
+
+// SetOrigin sets the value of Origin.
+func (s *BucketImageSourceTypeDetails) SetOrigin(val ImageOrigin) {
+	s.Origin = val
+}
+
+type BucketImageSourceTypeOverride struct {
+	Target   OptString `json:"target"`
+	TargzURL OptString `json:"targz_url"`
+}
+
+// GetTarget returns the value of Target.
+func (s *BucketImageSourceTypeOverride) GetTarget() OptString {
+	return s.Target
+}
+
+// GetTargzURL returns the value of TargzURL.
+func (s *BucketImageSourceTypeOverride) GetTargzURL() OptString {
+	return s.TargzURL
+}
+
+// SetTarget sets the value of Target.
+func (s *BucketImageSourceTypeOverride) SetTarget(val OptString) {
+	s.Target = val
+}
+
+// SetTargzURL sets the value of TargzURL.
+func (s *BucketImageSourceTypeOverride) SetTargzURL(val OptString) {
+	s.TargzURL = val
+}
+
+type BucketImageSourceTypeType string
+
+const (
+	BucketImageSourceTypeTypeBucket BucketImageSourceTypeType = "bucket"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s BucketImageSourceTypeType) MarshalText() ([]byte, error) {
+	switch s {
+	case BucketImageSourceTypeTypeBucket:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *BucketImageSourceTypeType) UnmarshalText(data []byte) error {
+	switch BucketImageSourceTypeType(data) {
+	case BucketImageSourceTypeTypeBucket:
+		*s = BucketImageSourceTypeTypeBucket
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // A build log for a given image.
 // Ref: #/components/schemas/BuildLog
 type BuildLog struct {
@@ -4277,6 +3201,7 @@ const (
 	CapabilityHubsMembersView                   Capability = "hubs-members-view"
 	CapabilityHubsNotificationsListen           Capability = "hubs-notifications-listen"
 	CapabilityHubsIntegrationsManage            Capability = "hubs-integrations-manage"
+	CapabilityHubsUsageView                     Capability = "hubs-usage-view"
 	CapabilityBillingMethodsManage              Capability = "billing-methods-manage"
 	CapabilityBillingInvoicesView               Capability = "billing-invoices-view"
 	CapabilityBillingInvoicesPay                Capability = "billing-invoices-pay"
@@ -4285,6 +3210,8 @@ const (
 	CapabilityBillingCreditsView                Capability = "billing-credits-view"
 	CapabilitySdnNetworksView                   Capability = "sdn-networks-view"
 	CapabilitySdnNetworksManage                 Capability = "sdn-networks-manage"
+	CapabilitySdnGlobalLbsManage                Capability = "sdn-global-lbs-manage"
+	CapabilitySdnGlobalLbsView                  Capability = "sdn-global-lbs-view"
 	CapabilityPipelinesManage                   Capability = "pipelines-manage"
 	CapabilityPipelinesView                     Capability = "pipelines-view"
 	CapabilityPipelinesTrigger                  Capability = "pipelines-trigger"
@@ -4332,7 +3259,10 @@ const (
 	CapabilityServersDecommission               Capability = "servers-decommission"
 	CapabilityInfrastructureProvidersManage     Capability = "infrastructure-providers-manage"
 	CapabilityInfrastructureProvidersView       Capability = "infrastructure-providers-view"
-	CapabilityUsageView                         Capability = "usage-view"
+	CapabilitySecurityView                      Capability = "security-view"
+	CapabilitySecurityManage                    Capability = "security-manage"
+	CapabilityMonitorView                       Capability = "monitor-view"
+	CapabilityMonitorManage                     Capability = "monitor-manage"
 	CapabilityDNSView                           Capability = "dns-view"
 	CapabilityDNSManage                         Capability = "dns-manage"
 	CapabilityDNSCertsView                      Capability = "dns-certs-view"
@@ -4357,6 +3287,8 @@ func (s Capability) MarshalText() ([]byte, error) {
 		return []byte(s), nil
 	case CapabilityHubsIntegrationsManage:
 		return []byte(s), nil
+	case CapabilityHubsUsageView:
+		return []byte(s), nil
 	case CapabilityBillingMethodsManage:
 		return []byte(s), nil
 	case CapabilityBillingInvoicesView:
@@ -4372,6 +3304,10 @@ func (s Capability) MarshalText() ([]byte, error) {
 	case CapabilitySdnNetworksView:
 		return []byte(s), nil
 	case CapabilitySdnNetworksManage:
+		return []byte(s), nil
+	case CapabilitySdnGlobalLbsManage:
+		return []byte(s), nil
+	case CapabilitySdnGlobalLbsView:
 		return []byte(s), nil
 	case CapabilityPipelinesManage:
 		return []byte(s), nil
@@ -4467,7 +3403,13 @@ func (s Capability) MarshalText() ([]byte, error) {
 		return []byte(s), nil
 	case CapabilityInfrastructureProvidersView:
 		return []byte(s), nil
-	case CapabilityUsageView:
+	case CapabilitySecurityView:
+		return []byte(s), nil
+	case CapabilitySecurityManage:
+		return []byte(s), nil
+	case CapabilityMonitorView:
+		return []byte(s), nil
+	case CapabilityMonitorManage:
 		return []byte(s), nil
 	case CapabilityDNSView:
 		return []byte(s), nil
@@ -4507,6 +3449,9 @@ func (s *Capability) UnmarshalText(data []byte) error {
 	case CapabilityHubsIntegrationsManage:
 		*s = CapabilityHubsIntegrationsManage
 		return nil
+	case CapabilityHubsUsageView:
+		*s = CapabilityHubsUsageView
+		return nil
 	case CapabilityBillingMethodsManage:
 		*s = CapabilityBillingMethodsManage
 		return nil
@@ -4530,6 +3475,12 @@ func (s *Capability) UnmarshalText(data []byte) error {
 		return nil
 	case CapabilitySdnNetworksManage:
 		*s = CapabilitySdnNetworksManage
+		return nil
+	case CapabilitySdnGlobalLbsManage:
+		*s = CapabilitySdnGlobalLbsManage
+		return nil
+	case CapabilitySdnGlobalLbsView:
+		*s = CapabilitySdnGlobalLbsView
 		return nil
 	case CapabilityPipelinesManage:
 		*s = CapabilityPipelinesManage
@@ -4672,8 +3623,17 @@ func (s *Capability) UnmarshalText(data []byte) error {
 	case CapabilityInfrastructureProvidersView:
 		*s = CapabilityInfrastructureProvidersView
 		return nil
-	case CapabilityUsageView:
-		*s = CapabilityUsageView
+	case CapabilitySecurityView:
+		*s = CapabilitySecurityView
+		return nil
+	case CapabilitySecurityManage:
+		*s = CapabilitySecurityManage
+		return nil
+	case CapabilityMonitorView:
+		*s = CapabilityMonitorView
+		return nil
+	case CapabilityMonitorManage:
+		*s = CapabilityMonitorManage
 		return nil
 	case CapabilityDNSView:
 		*s = CapabilityDNSView
@@ -4726,45 +3686,6 @@ func (s *Certificate) SetGenerated(val DateTime) {
 // SetWildcardChild sets the value of WildcardChild.
 func (s *Certificate) SetWildcardChild(val bool) {
 	s.WildcardChild = val
-}
-
-// An object with information of details for before and after a resource changed.
-// Ref: #/components/schemas/Change
-type Change struct {
-	// A description of the resource that was changed.
-	Component string    `json:"component"`
-	Before    OptDetail `json:"before"`
-	After     OptDetail `json:"after"`
-}
-
-// GetComponent returns the value of Component.
-func (s *Change) GetComponent() string {
-	return s.Component
-}
-
-// GetBefore returns the value of Before.
-func (s *Change) GetBefore() OptDetail {
-	return s.Before
-}
-
-// GetAfter returns the value of After.
-func (s *Change) GetAfter() OptDetail {
-	return s.After
-}
-
-// SetComponent sets the value of Component.
-func (s *Change) SetComponent(val string) {
-	s.Component = val
-}
-
-// SetBefore sets the value of Before.
-func (s *Change) SetBefore(val OptDetail) {
-	s.Before = val
-}
-
-// SetAfter sets the value of After.
-func (s *Change) SetAfter(val OptDetail) {
-	s.After = val
 }
 
 // A count of servers in a cluster with the given version of Cycle software.
@@ -4866,7 +3787,8 @@ type Component struct {
 	// ID of the component.
 	ID string `json:"id"`
 	// Name of the component.
-	Name string `json:"name"`
+	Name       string        `json:"name"`
+	Identifier OptIdentifier `json:"identifier"`
 	// State of the component.
 	State  string `json:"state"`
 	Events Events `json:"events"`
@@ -4884,6 +3806,11 @@ func (s *Component) GetID() string {
 // GetName returns the value of Name.
 func (s *Component) GetName() string {
 	return s.Name
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *Component) GetIdentifier() OptIdentifier {
+	return s.Identifier
 }
 
 // GetState returns the value of State.
@@ -4914,6 +3841,11 @@ func (s *Component) SetID(val string) {
 // SetName sets the value of Name.
 func (s *Component) SetName(val string) {
 	s.Name = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *Component) SetIdentifier(val OptIdentifier) {
+	s.Identifier = val
 }
 
 // SetState sets the value of State.
@@ -5024,459 +3956,6 @@ func (s *ComponentAssociations) SetProviderMinusLocation(val OptString) {
 	s.ProviderMinusLocation = val
 }
 
-// A resource thats assocaited with activity.
-// Ref: #/components/schemas/ComponentsIncludes
-type ComponentsIncludes map[string]ComponentsIncludesItem
-
-func (s *ComponentsIncludes) init() ComponentsIncludes {
-	m := *s
-	if m == nil {
-		m = map[string]ComponentsIncludesItem{}
-		*s = m
-	}
-	return m
-}
-
-// ComponentsIncludesItem represents sum type.
-type ComponentsIncludesItem struct {
-	Type          ComponentsIncludesItemType // switch on this field
-	Container     Container
-	Instance      Instance
-	Environment   Environment
-	Image         Image
-	InfraServer   InfraServer
-	Pool          Pool
-	Stack         Stack
-	StackBuild    StackBuild
-	Zone          Zone
-	Record        Record
-	ApiKey        ApiKey
-	Provider      Provider
-	SDNNetwork    SDNNetwork
-	HubMembership HubMembership
-	Pipeline      Pipeline
-	TriggerKey    TriggerKey
-}
-
-// ComponentsIncludesItemType is oneOf type of ComponentsIncludesItem.
-type ComponentsIncludesItemType string
-
-// Possible values for ComponentsIncludesItemType.
-const (
-	ContainerComponentsIncludesItem     ComponentsIncludesItemType = "Container"
-	InstanceComponentsIncludesItem      ComponentsIncludesItemType = "Instance"
-	EnvironmentComponentsIncludesItem   ComponentsIncludesItemType = "Environment"
-	ImageComponentsIncludesItem         ComponentsIncludesItemType = "Image"
-	InfraServerComponentsIncludesItem   ComponentsIncludesItemType = "InfraServer"
-	PoolComponentsIncludesItem          ComponentsIncludesItemType = "Pool"
-	StackComponentsIncludesItem         ComponentsIncludesItemType = "Stack"
-	StackBuildComponentsIncludesItem    ComponentsIncludesItemType = "StackBuild"
-	ZoneComponentsIncludesItem          ComponentsIncludesItemType = "Zone"
-	RecordComponentsIncludesItem        ComponentsIncludesItemType = "Record"
-	ApiKeyComponentsIncludesItem        ComponentsIncludesItemType = "ApiKey"
-	ProviderComponentsIncludesItem      ComponentsIncludesItemType = "Provider"
-	SDNNetworkComponentsIncludesItem    ComponentsIncludesItemType = "SDNNetwork"
-	HubMembershipComponentsIncludesItem ComponentsIncludesItemType = "HubMembership"
-	PipelineComponentsIncludesItem      ComponentsIncludesItemType = "Pipeline"
-	TriggerKeyComponentsIncludesItem    ComponentsIncludesItemType = "TriggerKey"
-)
-
-// IsContainer reports whether ComponentsIncludesItem is Container.
-func (s ComponentsIncludesItem) IsContainer() bool { return s.Type == ContainerComponentsIncludesItem }
-
-// IsInstance reports whether ComponentsIncludesItem is Instance.
-func (s ComponentsIncludesItem) IsInstance() bool { return s.Type == InstanceComponentsIncludesItem }
-
-// IsEnvironment reports whether ComponentsIncludesItem is Environment.
-func (s ComponentsIncludesItem) IsEnvironment() bool {
-	return s.Type == EnvironmentComponentsIncludesItem
-}
-
-// IsImage reports whether ComponentsIncludesItem is Image.
-func (s ComponentsIncludesItem) IsImage() bool { return s.Type == ImageComponentsIncludesItem }
-
-// IsInfraServer reports whether ComponentsIncludesItem is InfraServer.
-func (s ComponentsIncludesItem) IsInfraServer() bool {
-	return s.Type == InfraServerComponentsIncludesItem
-}
-
-// IsPool reports whether ComponentsIncludesItem is Pool.
-func (s ComponentsIncludesItem) IsPool() bool { return s.Type == PoolComponentsIncludesItem }
-
-// IsStack reports whether ComponentsIncludesItem is Stack.
-func (s ComponentsIncludesItem) IsStack() bool { return s.Type == StackComponentsIncludesItem }
-
-// IsStackBuild reports whether ComponentsIncludesItem is StackBuild.
-func (s ComponentsIncludesItem) IsStackBuild() bool {
-	return s.Type == StackBuildComponentsIncludesItem
-}
-
-// IsZone reports whether ComponentsIncludesItem is Zone.
-func (s ComponentsIncludesItem) IsZone() bool { return s.Type == ZoneComponentsIncludesItem }
-
-// IsRecord reports whether ComponentsIncludesItem is Record.
-func (s ComponentsIncludesItem) IsRecord() bool { return s.Type == RecordComponentsIncludesItem }
-
-// IsApiKey reports whether ComponentsIncludesItem is ApiKey.
-func (s ComponentsIncludesItem) IsApiKey() bool { return s.Type == ApiKeyComponentsIncludesItem }
-
-// IsProvider reports whether ComponentsIncludesItem is Provider.
-func (s ComponentsIncludesItem) IsProvider() bool { return s.Type == ProviderComponentsIncludesItem }
-
-// IsSDNNetwork reports whether ComponentsIncludesItem is SDNNetwork.
-func (s ComponentsIncludesItem) IsSDNNetwork() bool {
-	return s.Type == SDNNetworkComponentsIncludesItem
-}
-
-// IsHubMembership reports whether ComponentsIncludesItem is HubMembership.
-func (s ComponentsIncludesItem) IsHubMembership() bool {
-	return s.Type == HubMembershipComponentsIncludesItem
-}
-
-// IsPipeline reports whether ComponentsIncludesItem is Pipeline.
-func (s ComponentsIncludesItem) IsPipeline() bool { return s.Type == PipelineComponentsIncludesItem }
-
-// IsTriggerKey reports whether ComponentsIncludesItem is TriggerKey.
-func (s ComponentsIncludesItem) IsTriggerKey() bool {
-	return s.Type == TriggerKeyComponentsIncludesItem
-}
-
-// SetContainer sets ComponentsIncludesItem to Container.
-func (s *ComponentsIncludesItem) SetContainer(v Container) {
-	s.Type = ContainerComponentsIncludesItem
-	s.Container = v
-}
-
-// GetContainer returns Container and true boolean if ComponentsIncludesItem is Container.
-func (s ComponentsIncludesItem) GetContainer() (v Container, ok bool) {
-	if !s.IsContainer() {
-		return v, false
-	}
-	return s.Container, true
-}
-
-// NewContainerComponentsIncludesItem returns new ComponentsIncludesItem from Container.
-func NewContainerComponentsIncludesItem(v Container) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetContainer(v)
-	return s
-}
-
-// SetInstance sets ComponentsIncludesItem to Instance.
-func (s *ComponentsIncludesItem) SetInstance(v Instance) {
-	s.Type = InstanceComponentsIncludesItem
-	s.Instance = v
-}
-
-// GetInstance returns Instance and true boolean if ComponentsIncludesItem is Instance.
-func (s ComponentsIncludesItem) GetInstance() (v Instance, ok bool) {
-	if !s.IsInstance() {
-		return v, false
-	}
-	return s.Instance, true
-}
-
-// NewInstanceComponentsIncludesItem returns new ComponentsIncludesItem from Instance.
-func NewInstanceComponentsIncludesItem(v Instance) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetInstance(v)
-	return s
-}
-
-// SetEnvironment sets ComponentsIncludesItem to Environment.
-func (s *ComponentsIncludesItem) SetEnvironment(v Environment) {
-	s.Type = EnvironmentComponentsIncludesItem
-	s.Environment = v
-}
-
-// GetEnvironment returns Environment and true boolean if ComponentsIncludesItem is Environment.
-func (s ComponentsIncludesItem) GetEnvironment() (v Environment, ok bool) {
-	if !s.IsEnvironment() {
-		return v, false
-	}
-	return s.Environment, true
-}
-
-// NewEnvironmentComponentsIncludesItem returns new ComponentsIncludesItem from Environment.
-func NewEnvironmentComponentsIncludesItem(v Environment) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetEnvironment(v)
-	return s
-}
-
-// SetImage sets ComponentsIncludesItem to Image.
-func (s *ComponentsIncludesItem) SetImage(v Image) {
-	s.Type = ImageComponentsIncludesItem
-	s.Image = v
-}
-
-// GetImage returns Image and true boolean if ComponentsIncludesItem is Image.
-func (s ComponentsIncludesItem) GetImage() (v Image, ok bool) {
-	if !s.IsImage() {
-		return v, false
-	}
-	return s.Image, true
-}
-
-// NewImageComponentsIncludesItem returns new ComponentsIncludesItem from Image.
-func NewImageComponentsIncludesItem(v Image) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetImage(v)
-	return s
-}
-
-// SetInfraServer sets ComponentsIncludesItem to InfraServer.
-func (s *ComponentsIncludesItem) SetInfraServer(v InfraServer) {
-	s.Type = InfraServerComponentsIncludesItem
-	s.InfraServer = v
-}
-
-// GetInfraServer returns InfraServer and true boolean if ComponentsIncludesItem is InfraServer.
-func (s ComponentsIncludesItem) GetInfraServer() (v InfraServer, ok bool) {
-	if !s.IsInfraServer() {
-		return v, false
-	}
-	return s.InfraServer, true
-}
-
-// NewInfraServerComponentsIncludesItem returns new ComponentsIncludesItem from InfraServer.
-func NewInfraServerComponentsIncludesItem(v InfraServer) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetInfraServer(v)
-	return s
-}
-
-// SetPool sets ComponentsIncludesItem to Pool.
-func (s *ComponentsIncludesItem) SetPool(v Pool) {
-	s.Type = PoolComponentsIncludesItem
-	s.Pool = v
-}
-
-// GetPool returns Pool and true boolean if ComponentsIncludesItem is Pool.
-func (s ComponentsIncludesItem) GetPool() (v Pool, ok bool) {
-	if !s.IsPool() {
-		return v, false
-	}
-	return s.Pool, true
-}
-
-// NewPoolComponentsIncludesItem returns new ComponentsIncludesItem from Pool.
-func NewPoolComponentsIncludesItem(v Pool) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetPool(v)
-	return s
-}
-
-// SetStack sets ComponentsIncludesItem to Stack.
-func (s *ComponentsIncludesItem) SetStack(v Stack) {
-	s.Type = StackComponentsIncludesItem
-	s.Stack = v
-}
-
-// GetStack returns Stack and true boolean if ComponentsIncludesItem is Stack.
-func (s ComponentsIncludesItem) GetStack() (v Stack, ok bool) {
-	if !s.IsStack() {
-		return v, false
-	}
-	return s.Stack, true
-}
-
-// NewStackComponentsIncludesItem returns new ComponentsIncludesItem from Stack.
-func NewStackComponentsIncludesItem(v Stack) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetStack(v)
-	return s
-}
-
-// SetStackBuild sets ComponentsIncludesItem to StackBuild.
-func (s *ComponentsIncludesItem) SetStackBuild(v StackBuild) {
-	s.Type = StackBuildComponentsIncludesItem
-	s.StackBuild = v
-}
-
-// GetStackBuild returns StackBuild and true boolean if ComponentsIncludesItem is StackBuild.
-func (s ComponentsIncludesItem) GetStackBuild() (v StackBuild, ok bool) {
-	if !s.IsStackBuild() {
-		return v, false
-	}
-	return s.StackBuild, true
-}
-
-// NewStackBuildComponentsIncludesItem returns new ComponentsIncludesItem from StackBuild.
-func NewStackBuildComponentsIncludesItem(v StackBuild) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetStackBuild(v)
-	return s
-}
-
-// SetZone sets ComponentsIncludesItem to Zone.
-func (s *ComponentsIncludesItem) SetZone(v Zone) {
-	s.Type = ZoneComponentsIncludesItem
-	s.Zone = v
-}
-
-// GetZone returns Zone and true boolean if ComponentsIncludesItem is Zone.
-func (s ComponentsIncludesItem) GetZone() (v Zone, ok bool) {
-	if !s.IsZone() {
-		return v, false
-	}
-	return s.Zone, true
-}
-
-// NewZoneComponentsIncludesItem returns new ComponentsIncludesItem from Zone.
-func NewZoneComponentsIncludesItem(v Zone) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetZone(v)
-	return s
-}
-
-// SetRecord sets ComponentsIncludesItem to Record.
-func (s *ComponentsIncludesItem) SetRecord(v Record) {
-	s.Type = RecordComponentsIncludesItem
-	s.Record = v
-}
-
-// GetRecord returns Record and true boolean if ComponentsIncludesItem is Record.
-func (s ComponentsIncludesItem) GetRecord() (v Record, ok bool) {
-	if !s.IsRecord() {
-		return v, false
-	}
-	return s.Record, true
-}
-
-// NewRecordComponentsIncludesItem returns new ComponentsIncludesItem from Record.
-func NewRecordComponentsIncludesItem(v Record) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetRecord(v)
-	return s
-}
-
-// SetApiKey sets ComponentsIncludesItem to ApiKey.
-func (s *ComponentsIncludesItem) SetApiKey(v ApiKey) {
-	s.Type = ApiKeyComponentsIncludesItem
-	s.ApiKey = v
-}
-
-// GetApiKey returns ApiKey and true boolean if ComponentsIncludesItem is ApiKey.
-func (s ComponentsIncludesItem) GetApiKey() (v ApiKey, ok bool) {
-	if !s.IsApiKey() {
-		return v, false
-	}
-	return s.ApiKey, true
-}
-
-// NewApiKeyComponentsIncludesItem returns new ComponentsIncludesItem from ApiKey.
-func NewApiKeyComponentsIncludesItem(v ApiKey) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetApiKey(v)
-	return s
-}
-
-// SetProvider sets ComponentsIncludesItem to Provider.
-func (s *ComponentsIncludesItem) SetProvider(v Provider) {
-	s.Type = ProviderComponentsIncludesItem
-	s.Provider = v
-}
-
-// GetProvider returns Provider and true boolean if ComponentsIncludesItem is Provider.
-func (s ComponentsIncludesItem) GetProvider() (v Provider, ok bool) {
-	if !s.IsProvider() {
-		return v, false
-	}
-	return s.Provider, true
-}
-
-// NewProviderComponentsIncludesItem returns new ComponentsIncludesItem from Provider.
-func NewProviderComponentsIncludesItem(v Provider) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetProvider(v)
-	return s
-}
-
-// SetSDNNetwork sets ComponentsIncludesItem to SDNNetwork.
-func (s *ComponentsIncludesItem) SetSDNNetwork(v SDNNetwork) {
-	s.Type = SDNNetworkComponentsIncludesItem
-	s.SDNNetwork = v
-}
-
-// GetSDNNetwork returns SDNNetwork and true boolean if ComponentsIncludesItem is SDNNetwork.
-func (s ComponentsIncludesItem) GetSDNNetwork() (v SDNNetwork, ok bool) {
-	if !s.IsSDNNetwork() {
-		return v, false
-	}
-	return s.SDNNetwork, true
-}
-
-// NewSDNNetworkComponentsIncludesItem returns new ComponentsIncludesItem from SDNNetwork.
-func NewSDNNetworkComponentsIncludesItem(v SDNNetwork) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetSDNNetwork(v)
-	return s
-}
-
-// SetHubMembership sets ComponentsIncludesItem to HubMembership.
-func (s *ComponentsIncludesItem) SetHubMembership(v HubMembership) {
-	s.Type = HubMembershipComponentsIncludesItem
-	s.HubMembership = v
-}
-
-// GetHubMembership returns HubMembership and true boolean if ComponentsIncludesItem is HubMembership.
-func (s ComponentsIncludesItem) GetHubMembership() (v HubMembership, ok bool) {
-	if !s.IsHubMembership() {
-		return v, false
-	}
-	return s.HubMembership, true
-}
-
-// NewHubMembershipComponentsIncludesItem returns new ComponentsIncludesItem from HubMembership.
-func NewHubMembershipComponentsIncludesItem(v HubMembership) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetHubMembership(v)
-	return s
-}
-
-// SetPipeline sets ComponentsIncludesItem to Pipeline.
-func (s *ComponentsIncludesItem) SetPipeline(v Pipeline) {
-	s.Type = PipelineComponentsIncludesItem
-	s.Pipeline = v
-}
-
-// GetPipeline returns Pipeline and true boolean if ComponentsIncludesItem is Pipeline.
-func (s ComponentsIncludesItem) GetPipeline() (v Pipeline, ok bool) {
-	if !s.IsPipeline() {
-		return v, false
-	}
-	return s.Pipeline, true
-}
-
-// NewPipelineComponentsIncludesItem returns new ComponentsIncludesItem from Pipeline.
-func NewPipelineComponentsIncludesItem(v Pipeline) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetPipeline(v)
-	return s
-}
-
-// SetTriggerKey sets ComponentsIncludesItem to TriggerKey.
-func (s *ComponentsIncludesItem) SetTriggerKey(v TriggerKey) {
-	s.Type = TriggerKeyComponentsIncludesItem
-	s.TriggerKey = v
-}
-
-// GetTriggerKey returns TriggerKey and true boolean if ComponentsIncludesItem is TriggerKey.
-func (s ComponentsIncludesItem) GetTriggerKey() (v TriggerKey, ok bool) {
-	if !s.IsTriggerKey() {
-		return v, false
-	}
-	return s.TriggerKey, true
-}
-
-// NewTriggerKeyComponentsIncludesItem returns new ComponentsIncludesItem from TriggerKey.
-func NewTriggerKeyComponentsIncludesItem(v TriggerKey) ComponentsIncludesItem {
-	var s ComponentsIncludesItem
-	s.SetTriggerKey(v)
-	return s
-}
-
 // A container configuration.
 // Ref: #/components/schemas/Config
 type Config struct {
@@ -5548,13 +4027,13 @@ type Container struct {
 	// A human readable slugged identifier for this container. Usually used as a key in a stack file.
 	Identifier Identifier `json:"identifier"`
 	// A user defined name for the container resource.
-	Name        string                      `json:"name"`
-	Creator     CreatorScope                `json:"creator"`
-	Environment ContainerEnvironmentSummary `json:"environment"`
-	HubID       HubID                       `json:"hub_id"`
-	Image       ImageSummary                `json:"image"`
-	Stack       OptStackSummary             `json:"stack"`
-	Config      Config                      `json:"config"`
+	Name        string                         `json:"name"`
+	Creator     CreatorScope                   `json:"creator"`
+	Environment NilContainerEnvironmentSummary `json:"environment"`
+	HubID       HubID                          `json:"hub_id"`
+	Image       ImageSummary                   `json:"image"`
+	Stack       OptStackSummary                `json:"stack"`
+	Config      Config                         `json:"config"`
 	// The number of instances for a given container.
 	Instances int             `json:"instances"`
 	Volumes   []VolumeSummary `json:"volumes"`
@@ -5565,8 +4044,10 @@ type Container struct {
 	// A boolean where true signifies the container is stateful.
 	Stateful bool `json:"stateful"`
 	// A boolean where true signifies the container is marked as deprecated.
-	Deprecate OptBool        `json:"deprecate"`
-	State     ContainerState `json:"state"`
+	Deprecate OptBool `json:"deprecate"`
+	// When set to true, prevents this container from being deleted.
+	Lock  OptBool        `json:"lock"`
+	State ContainerState `json:"state"`
 	// A collection of timestamps for each event in the container's lifetime.
 	Events ContainerEvents   `json:"events"`
 	Meta   OptContainersMeta `json:"meta"`
@@ -5593,7 +4074,7 @@ func (s *Container) GetCreator() CreatorScope {
 }
 
 // GetEnvironment returns the value of Environment.
-func (s *Container) GetEnvironment() ContainerEnvironmentSummary {
+func (s *Container) GetEnvironment() NilContainerEnvironmentSummary {
 	return s.Environment
 }
 
@@ -5647,6 +4128,11 @@ func (s *Container) GetDeprecate() OptBool {
 	return s.Deprecate
 }
 
+// GetLock returns the value of Lock.
+func (s *Container) GetLock() OptBool {
+	return s.Lock
+}
+
 // GetState returns the value of State.
 func (s *Container) GetState() ContainerState {
 	return s.State
@@ -5683,7 +4169,7 @@ func (s *Container) SetCreator(val CreatorScope) {
 }
 
 // SetEnvironment sets the value of Environment.
-func (s *Container) SetEnvironment(val ContainerEnvironmentSummary) {
+func (s *Container) SetEnvironment(val NilContainerEnvironmentSummary) {
 	s.Environment = val
 }
 
@@ -5737,6 +4223,11 @@ func (s *Container) SetDeprecate(val OptBool) {
 	s.Deprecate = val
 }
 
+// SetLock sets the value of Lock.
+func (s *Container) SetLock(val OptBool) {
+	s.Lock = val
+}
+
 // SetState sets the value of State.
 func (s *Container) SetState(val ContainerState) {
 	s.State = val
@@ -5753,12 +4244,12 @@ func (s *Container) SetMeta(val OptContainersMeta) {
 }
 
 // Custom meta data for a given container.
-type ContainerAnnotations map[string]string
+type ContainerAnnotations map[string]jx.Raw
 
 func (s *ContainerAnnotations) init() ContainerAnnotations {
 	m := *s
 	if m == nil {
-		m = map[string]string{}
+		m = map[string]jx.Raw{}
 		*s = m
 	}
 	return m
@@ -5833,13 +4324,15 @@ func (s *ContainerCreateStepAction) UnmarshalText(data []byte) error {
 
 // Merged schema.
 type ContainerCreateStepDetails struct {
-	Name        string                                `json:"name"`
-	Environment ResourceLocation                      `json:"environment"`
-	Image       ResourceLocation                      `json:"image"`
-	Stateful    bool                                  `json:"stateful"`
+	Name        string           `json:"name"`
+	Environment ResourceLocation `json:"environment"`
+	Image       ResourceLocation `json:"image"`
+	Stateful    bool             `json:"stateful"`
+	// Additional information about a container.
 	Annotations ContainerCreateStepDetailsAnnotations `json:"annotations"`
 	Config      Config                                `json:"config"`
 	Volumes     []ContainerVolume                     `json:"volumes"`
+	OneOf       ContainerCreateStepDetailsSum
 }
 
 // GetName returns the value of Name.
@@ -5877,6 +4370,11 @@ func (s *ContainerCreateStepDetails) GetVolumes() []ContainerVolume {
 	return s.Volumes
 }
 
+// GetOneOf returns the value of OneOf.
+func (s *ContainerCreateStepDetails) GetOneOf() ContainerCreateStepDetailsSum {
+	return s.OneOf
+}
+
 // SetName sets the value of Name.
 func (s *ContainerCreateStepDetails) SetName(val string) {
 	s.Name = val
@@ -5912,7 +4410,148 @@ func (s *ContainerCreateStepDetails) SetVolumes(val []ContainerVolume) {
 	s.Volumes = val
 }
 
-type ContainerCreateStepDetailsAnnotations struct{}
+// SetOneOf sets the value of OneOf.
+func (s *ContainerCreateStepDetails) SetOneOf(val ContainerCreateStepDetailsSum) {
+	s.OneOf = val
+}
+
+// Additional information about a container.
+type ContainerCreateStepDetailsAnnotations map[string]jx.Raw
+
+func (s *ContainerCreateStepDetailsAnnotations) init() ContainerCreateStepDetailsAnnotations {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+// ContainerCreateStepDetailsSum represents sum type.
+type ContainerCreateStepDetailsSum struct {
+	Type                           ContainerCreateStepDetailsSumType // switch on this field
+	ContainerCreateStepDetailsSum0 ContainerCreateStepDetailsSum0
+	ContainerCreateStepDetailsSum1 ContainerCreateStepDetailsSum1
+}
+
+// ContainerCreateStepDetailsSumType is oneOf type of ContainerCreateStepDetailsSum.
+type ContainerCreateStepDetailsSumType string
+
+// Possible values for ContainerCreateStepDetailsSumType.
+const (
+	ContainerCreateStepDetailsSum0ContainerCreateStepDetailsSum ContainerCreateStepDetailsSumType = "ContainerCreateStepDetailsSum0"
+	ContainerCreateStepDetailsSum1ContainerCreateStepDetailsSum ContainerCreateStepDetailsSumType = "ContainerCreateStepDetailsSum1"
+)
+
+// IsContainerCreateStepDetailsSum0 reports whether ContainerCreateStepDetailsSum is ContainerCreateStepDetailsSum0.
+func (s ContainerCreateStepDetailsSum) IsContainerCreateStepDetailsSum0() bool {
+	return s.Type == ContainerCreateStepDetailsSum0ContainerCreateStepDetailsSum
+}
+
+// IsContainerCreateStepDetailsSum1 reports whether ContainerCreateStepDetailsSum is ContainerCreateStepDetailsSum1.
+func (s ContainerCreateStepDetailsSum) IsContainerCreateStepDetailsSum1() bool {
+	return s.Type == ContainerCreateStepDetailsSum1ContainerCreateStepDetailsSum
+}
+
+// SetContainerCreateStepDetailsSum0 sets ContainerCreateStepDetailsSum to ContainerCreateStepDetailsSum0.
+func (s *ContainerCreateStepDetailsSum) SetContainerCreateStepDetailsSum0(v ContainerCreateStepDetailsSum0) {
+	s.Type = ContainerCreateStepDetailsSum0ContainerCreateStepDetailsSum
+	s.ContainerCreateStepDetailsSum0 = v
+}
+
+// GetContainerCreateStepDetailsSum0 returns ContainerCreateStepDetailsSum0 and true boolean if ContainerCreateStepDetailsSum is ContainerCreateStepDetailsSum0.
+func (s ContainerCreateStepDetailsSum) GetContainerCreateStepDetailsSum0() (v ContainerCreateStepDetailsSum0, ok bool) {
+	if !s.IsContainerCreateStepDetailsSum0() {
+		return v, false
+	}
+	return s.ContainerCreateStepDetailsSum0, true
+}
+
+// NewContainerCreateStepDetailsSum0ContainerCreateStepDetailsSum returns new ContainerCreateStepDetailsSum from ContainerCreateStepDetailsSum0.
+func NewContainerCreateStepDetailsSum0ContainerCreateStepDetailsSum(v ContainerCreateStepDetailsSum0) ContainerCreateStepDetailsSum {
+	var s ContainerCreateStepDetailsSum
+	s.SetContainerCreateStepDetailsSum0(v)
+	return s
+}
+
+// SetContainerCreateStepDetailsSum1 sets ContainerCreateStepDetailsSum to ContainerCreateStepDetailsSum1.
+func (s *ContainerCreateStepDetailsSum) SetContainerCreateStepDetailsSum1(v ContainerCreateStepDetailsSum1) {
+	s.Type = ContainerCreateStepDetailsSum1ContainerCreateStepDetailsSum
+	s.ContainerCreateStepDetailsSum1 = v
+}
+
+// GetContainerCreateStepDetailsSum1 returns ContainerCreateStepDetailsSum1 and true boolean if ContainerCreateStepDetailsSum is ContainerCreateStepDetailsSum1.
+func (s ContainerCreateStepDetailsSum) GetContainerCreateStepDetailsSum1() (v ContainerCreateStepDetailsSum1, ok bool) {
+	if !s.IsContainerCreateStepDetailsSum1() {
+		return v, false
+	}
+	return s.ContainerCreateStepDetailsSum1, true
+}
+
+// NewContainerCreateStepDetailsSum1ContainerCreateStepDetailsSum returns new ContainerCreateStepDetailsSum from ContainerCreateStepDetailsSum1.
+func NewContainerCreateStepDetailsSum1ContainerCreateStepDetailsSum(v ContainerCreateStepDetailsSum1) ContainerCreateStepDetailsSum {
+	var s ContainerCreateStepDetailsSum
+	s.SetContainerCreateStepDetailsSum1(v)
+	return s
+}
+
+type ContainerCreateStepDetailsSum0 struct {
+	// The ID of an existing resource that exists before the pipeline is run.
+	ID string `json:"id"`
+}
+
+// GetID returns the value of ID.
+func (s *ContainerCreateStepDetailsSum0) GetID() string {
+	return s.ID
+}
+
+// SetID sets the value of ID.
+func (s *ContainerCreateStepDetailsSum0) SetID(val string) {
+	s.ID = val
+}
+
+type ContainerCreateStepDetailsSum1 struct {
+	// The stage and step to report on.
+	From ContainerCreateStepDetailsSum1From `json:"from"`
+}
+
+// GetFrom returns the value of From.
+func (s *ContainerCreateStepDetailsSum1) GetFrom() ContainerCreateStepDetailsSum1From {
+	return s.From
+}
+
+// SetFrom sets the value of From.
+func (s *ContainerCreateStepDetailsSum1) SetFrom(val ContainerCreateStepDetailsSum1From) {
+	s.From = val
+}
+
+// The stage and step to report on.
+type ContainerCreateStepDetailsSum1From struct {
+	// An identifier for the stage the step being reported on resides in.
+	Stage OptString `json:"stage"`
+	// An identifier for the step to be reported on.
+	Step string `json:"step"`
+}
+
+// GetStage returns the value of Stage.
+func (s *ContainerCreateStepDetailsSum1From) GetStage() OptString {
+	return s.Stage
+}
+
+// GetStep returns the value of Step.
+func (s *ContainerCreateStepDetailsSum1From) GetStep() string {
+	return s.Step
+}
+
+// SetStage sets the value of Stage.
+func (s *ContainerCreateStepDetailsSum1From) SetStage(val OptString) {
+	s.Stage = val
+}
+
+// SetStep sets the value of Step.
+func (s *ContainerCreateStepDetailsSum1From) SetStep(val string) {
+	s.Step = val
+}
 
 type ContainerCreateStepOptions struct {
 	Skip OptBool `json:"skip"`
@@ -6023,8 +4662,6 @@ type ContainerDeploy struct {
 	Shutdown OptContainerDeployShutdown `json:"shutdown"`
 	// Configurations for container startup.
 	Startup OptContainerDeployStartup `json:"startup"`
-	// Configurations for how the container behaves when updating.
-	Update OptContainerDeployUpdate `json:"update"`
 	// Configurations for container restart events.
 	Restart OptContainerDeployRestart `json:"restart"`
 	// Configuration for determining the health of a container.
@@ -6061,11 +4698,6 @@ func (s *ContainerDeploy) GetShutdown() OptContainerDeployShutdown {
 // GetStartup returns the value of Startup.
 func (s *ContainerDeploy) GetStartup() OptContainerDeployStartup {
 	return s.Startup
-}
-
-// GetUpdate returns the value of Update.
-func (s *ContainerDeploy) GetUpdate() OptContainerDeployUpdate {
-	return s.Update
 }
 
 // GetRestart returns the value of Restart.
@@ -6113,11 +4745,6 @@ func (s *ContainerDeploy) SetStartup(val OptContainerDeployStartup) {
 	s.Startup = val
 }
 
-// SetUpdate sets the value of Update.
-func (s *ContainerDeploy) SetUpdate(val OptContainerDeployUpdate) {
-	s.Update = val
-}
-
 // SetRestart sets the value of Restart.
 func (s *ContainerDeploy) SetRestart(val OptContainerDeployRestart) {
 	s.Restart = val
@@ -6136,10 +4763,8 @@ func (s *ContainerDeploy) SetTelemetry(val OptContainerDeployTelemetry) {
 // Settings that give more granular control over deployment targets and conditions.
 type ContainerDeployConstraints struct {
 	// Constraint settings related to which nodes an instance can be deployed to.
-	Node OptContainerDeployConstraintsNode `json:"node"`
-	// An array of container identifiers the platform will send the start signal to before sending the
-	// start signal to this container.
-	Containers []string `json:"containers"`
+	Node    OptContainerDeployConstraintsNode `json:"node"`
+	Secrets []string                          `json:"secrets"`
 }
 
 // GetNode returns the value of Node.
@@ -6147,9 +4772,9 @@ func (s *ContainerDeployConstraints) GetNode() OptContainerDeployConstraintsNode
 	return s.Node
 }
 
-// GetContainers returns the value of Containers.
-func (s *ContainerDeployConstraints) GetContainers() []string {
-	return s.Containers
+// GetSecrets returns the value of Secrets.
+func (s *ContainerDeployConstraints) GetSecrets() []string {
+	return s.Secrets
 }
 
 // SetNode sets the value of Node.
@@ -6157,9 +4782,9 @@ func (s *ContainerDeployConstraints) SetNode(val OptContainerDeployConstraintsNo
 	s.Node = val
 }
 
-// SetContainers sets the value of Containers.
-func (s *ContainerDeployConstraints) SetContainers(val []string) {
-	s.Containers = val
+// SetSecrets sets the value of Secrets.
+func (s *ContainerDeployConstraints) SetSecrets(val []string) {
+	s.Secrets = val
 }
 
 // Constraint settings related to which nodes an instance can be deployed to.
@@ -6213,10 +4838,10 @@ type ContainerDeployHealthCheck struct {
 	Command string `json:"command"`
 	// The number of times the platform will retry the command before marking the container unhealthy.
 	Retries int `json:"retries"`
-	// The number of seconds between retries.
-	Interval int `json:"interval"`
-	// The number of time in seconds before a health check attempt times out.
-	Timeout int `json:"timeout"`
+	// How long to wait between restarts.
+	Interval Duration `json:"interval"`
+	// How long before a health check attempt times out.
+	Timeout Duration `json:"timeout"`
 	// A boolean where `true` represents the desire for a container to restart if unhealthy.
 	Restart bool `json:"restart"`
 }
@@ -6232,12 +4857,12 @@ func (s *ContainerDeployHealthCheck) GetRetries() int {
 }
 
 // GetInterval returns the value of Interval.
-func (s *ContainerDeployHealthCheck) GetInterval() int {
+func (s *ContainerDeployHealthCheck) GetInterval() Duration {
 	return s.Interval
 }
 
 // GetTimeout returns the value of Timeout.
-func (s *ContainerDeployHealthCheck) GetTimeout() int {
+func (s *ContainerDeployHealthCheck) GetTimeout() Duration {
 	return s.Timeout
 }
 
@@ -6257,12 +4882,12 @@ func (s *ContainerDeployHealthCheck) SetRetries(val int) {
 }
 
 // SetInterval sets the value of Interval.
-func (s *ContainerDeployHealthCheck) SetInterval(val int) {
+func (s *ContainerDeployHealthCheck) SetInterval(val Duration) {
 	s.Interval = val
 }
 
 // SetTimeout sets the value of Timeout.
-func (s *ContainerDeployHealthCheck) SetTimeout(val int) {
+func (s *ContainerDeployHealthCheck) SetTimeout(val Duration) {
 	s.Timeout = val
 }
 
@@ -6275,8 +4900,8 @@ func (s *ContainerDeployHealthCheck) SetRestart(val bool) {
 type ContainerDeployRestart struct {
 	// Policy for what should happen in the event of a container dying.
 	Condition ContainerDeployRestartCondition `json:"condition"`
-	// Time in seconds the platform will wait before trying to restart the container.
-	Delay int `json:"delay"`
+	// How long the platform will wait before trying to restart the container.
+	Delay Duration `json:"delay"`
 	// The amount of times the platform will attempt the restart policies.
 	MaxAttempts int `json:"max_attempts"`
 }
@@ -6287,7 +4912,7 @@ func (s *ContainerDeployRestart) GetCondition() ContainerDeployRestartCondition 
 }
 
 // GetDelay returns the value of Delay.
-func (s *ContainerDeployRestart) GetDelay() int {
+func (s *ContainerDeployRestart) GetDelay() Duration {
 	return s.Delay
 }
 
@@ -6302,7 +4927,7 @@ func (s *ContainerDeployRestart) SetCondition(val ContainerDeployRestartConditio
 }
 
 // SetDelay sets the value of Delay.
-func (s *ContainerDeployRestart) SetDelay(val int) {
+func (s *ContainerDeployRestart) SetDelay(val Duration) {
 	s.Delay = val
 }
 
@@ -6353,14 +4978,14 @@ func (s *ContainerDeployRestartCondition) UnmarshalText(data []byte) error {
 
 // Configuration for what to do during container shutdown.
 type ContainerDeployShutdown struct {
-	// The time in seconds the platform will wait for a container to stop gracefully.
-	GracefulTimeout int `json:"graceful_timeout"`
+	// How long the platform will wait for a container to stop gracefully.
+	GracefulTimeout Duration `json:"graceful_timeout"`
 	// Process signal sent to the container process.
 	Signals []ContainerDeployShutdownSignalsItem `json:"signals"`
 }
 
 // GetGracefulTimeout returns the value of GracefulTimeout.
-func (s *ContainerDeployShutdown) GetGracefulTimeout() int {
+func (s *ContainerDeployShutdown) GetGracefulTimeout() Duration {
 	return s.GracefulTimeout
 }
 
@@ -6370,7 +4995,7 @@ func (s *ContainerDeployShutdown) GetSignals() []ContainerDeployShutdownSignalsI
 }
 
 // SetGracefulTimeout sets the value of GracefulTimeout.
-func (s *ContainerDeployShutdown) SetGracefulTimeout(val int) {
+func (s *ContainerDeployShutdown) SetGracefulTimeout(val Duration) {
 	s.GracefulTimeout = val
 }
 
@@ -6438,18 +5063,17 @@ func (s *ContainerDeployShutdownSignalsItem) UnmarshalText(data []byte) error {
 
 // Configurations for container startup.
 type ContainerDeployStartup struct {
-	// A value in seconds representing how long the platform will wait before sending the start signal to
-	// the given container.
-	Delay OptInt `json:"delay"`
+	// How long the platform will wait before sending the start signal to the given container.
+	Delay OptDuration `json:"delay"`
 }
 
 // GetDelay returns the value of Delay.
-func (s *ContainerDeployStartup) GetDelay() OptInt {
+func (s *ContainerDeployStartup) GetDelay() OptDuration {
 	return s.Delay
 }
 
 // SetDelay sets the value of Delay.
-func (s *ContainerDeployStartup) SetDelay(val OptInt) {
+func (s *ContainerDeployStartup) SetDelay(val OptDuration) {
 	s.Delay = val
 }
 
@@ -6483,23 +5107,23 @@ func (s *ContainerDeployStatefulOptions) SetUseBaseHostname(val OptNilBool) {
 
 // Configuration settings for container telemetery reporting.
 type ContainerDeployTelemetry struct {
-	// The number in seconds for telemetry data to be retained.
-	Retention int `json:"retention"`
-	// The number in seconds between samples.
-	Interval int `json:"interval"`
+	// How long telemetry data should be retained.
+	Retention Duration `json:"retention"`
+	// The duration between samples.
+	Interval Duration `json:"interval"`
 	// A boolean where true disables all telemetry reporting for this container.
 	Disable bool `json:"disable"`
 	// An endpoint to report the telemetry data to.
-	Webhook OptString `json:"webhook"`
+	WebHook OptString `json:"web_hook"`
 }
 
 // GetRetention returns the value of Retention.
-func (s *ContainerDeployTelemetry) GetRetention() int {
+func (s *ContainerDeployTelemetry) GetRetention() Duration {
 	return s.Retention
 }
 
 // GetInterval returns the value of Interval.
-func (s *ContainerDeployTelemetry) GetInterval() int {
+func (s *ContainerDeployTelemetry) GetInterval() Duration {
 	return s.Interval
 }
 
@@ -6508,18 +5132,18 @@ func (s *ContainerDeployTelemetry) GetDisable() bool {
 	return s.Disable
 }
 
-// GetWebhook returns the value of Webhook.
-func (s *ContainerDeployTelemetry) GetWebhook() OptString {
-	return s.Webhook
+// GetWebHook returns the value of WebHook.
+func (s *ContainerDeployTelemetry) GetWebHook() OptString {
+	return s.WebHook
 }
 
 // SetRetention sets the value of Retention.
-func (s *ContainerDeployTelemetry) SetRetention(val int) {
+func (s *ContainerDeployTelemetry) SetRetention(val Duration) {
 	s.Retention = val
 }
 
 // SetInterval sets the value of Interval.
-func (s *ContainerDeployTelemetry) SetInterval(val int) {
+func (s *ContainerDeployTelemetry) SetInterval(val Duration) {
 	s.Interval = val
 }
 
@@ -6528,35 +5152,9 @@ func (s *ContainerDeployTelemetry) SetDisable(val bool) {
 	s.Disable = val
 }
 
-// SetWebhook sets the value of Webhook.
-func (s *ContainerDeployTelemetry) SetWebhook(val OptString) {
-	s.Webhook = val
-}
-
-// Configurations for how the container behaves when updating.
-type ContainerDeployUpdate struct {
-	Parallelism int `json:"parallelism"`
-	Delay       int `json:"delay"`
-}
-
-// GetParallelism returns the value of Parallelism.
-func (s *ContainerDeployUpdate) GetParallelism() int {
-	return s.Parallelism
-}
-
-// GetDelay returns the value of Delay.
-func (s *ContainerDeployUpdate) GetDelay() int {
-	return s.Delay
-}
-
-// SetParallelism sets the value of Parallelism.
-func (s *ContainerDeployUpdate) SetParallelism(val int) {
-	s.Parallelism = val
-}
-
-// SetDelay sets the value of Delay.
-func (s *ContainerDeployUpdate) SetDelay(val int) {
-	s.Delay = val
+// SetWebHook sets the value of WebHook.
+func (s *ContainerDeployTelemetry) SetWebHook(val OptString) {
+	s.WebHook = val
 }
 
 // A summary of supplemental environment and network information specific to a container.
@@ -6861,7 +5459,9 @@ type ContainerIntegrationsBackups struct {
 	// Configuration settings for each backup.
 	Backup ContainerIntegrationsBackupsBackup `json:"backup"`
 	// Configuration settings for restoring from a backup.
-	Restore ContainerIntegrationsBackupsRestore `json:"restore"`
+	Restore NilContainerIntegrationsBackupsRestore `json:"restore"`
+	// How long the platform will keep backups. Default is 1 year.
+	Retention NilDuration `json:"retention"`
 }
 
 // GetDestination returns the value of Destination.
@@ -6875,8 +5475,13 @@ func (s *ContainerIntegrationsBackups) GetBackup() ContainerIntegrationsBackupsB
 }
 
 // GetRestore returns the value of Restore.
-func (s *ContainerIntegrationsBackups) GetRestore() ContainerIntegrationsBackupsRestore {
+func (s *ContainerIntegrationsBackups) GetRestore() NilContainerIntegrationsBackupsRestore {
 	return s.Restore
+}
+
+// GetRetention returns the value of Retention.
+func (s *ContainerIntegrationsBackups) GetRetention() NilDuration {
+	return s.Retention
 }
 
 // SetDestination sets the value of Destination.
@@ -6890,16 +5495,21 @@ func (s *ContainerIntegrationsBackups) SetBackup(val ContainerIntegrationsBackup
 }
 
 // SetRestore sets the value of Restore.
-func (s *ContainerIntegrationsBackups) SetRestore(val ContainerIntegrationsBackupsRestore) {
+func (s *ContainerIntegrationsBackups) SetRestore(val NilContainerIntegrationsBackupsRestore) {
 	s.Restore = val
+}
+
+// SetRetention sets the value of Retention.
+func (s *ContainerIntegrationsBackups) SetRetention(val NilDuration) {
+	s.Retention = val
 }
 
 // Configuration settings for each backup.
 type ContainerIntegrationsBackupsBackup struct {
 	// The command to run for the backup.
 	Command string `json:"command"`
-	// The time in seconds for the backup to attempt to run before timing out.
-	Timeout OptNilInt `json:"timeout"`
+	// How long the backup will attempt to run before timing out.
+	Timeout OptNilDuration `json:"timeout"`
 	// A cron string that configures how often the backup will run.
 	CronString OptString `json:"cron_string"`
 }
@@ -6910,7 +5520,7 @@ func (s *ContainerIntegrationsBackupsBackup) GetCommand() string {
 }
 
 // GetTimeout returns the value of Timeout.
-func (s *ContainerIntegrationsBackupsBackup) GetTimeout() OptNilInt {
+func (s *ContainerIntegrationsBackupsBackup) GetTimeout() OptNilDuration {
 	return s.Timeout
 }
 
@@ -6925,7 +5535,7 @@ func (s *ContainerIntegrationsBackupsBackup) SetCommand(val string) {
 }
 
 // SetTimeout sets the value of Timeout.
-func (s *ContainerIntegrationsBackupsBackup) SetTimeout(val OptNilInt) {
+func (s *ContainerIntegrationsBackupsBackup) SetTimeout(val OptNilDuration) {
 	s.Timeout = val
 }
 
@@ -6966,8 +5576,8 @@ func (s *ContainerIntegrationsBackupsDestination) UnmarshalText(data []byte) err
 type ContainerIntegrationsBackupsRestore struct {
 	// The command to run for restoring from a backup.
 	Command string `json:"command"`
-	// The time in seconds for the restore to appempt to complete before timing out.
-	Timeout OptNilInt `json:"timeout"`
+	// The time in seconds for the restore to attempt to complete before timing out.
+	Timeout OptNilDuration `json:"timeout"`
 }
 
 // GetCommand returns the value of Command.
@@ -6976,7 +5586,7 @@ func (s *ContainerIntegrationsBackupsRestore) GetCommand() string {
 }
 
 // GetTimeout returns the value of Timeout.
-func (s *ContainerIntegrationsBackupsRestore) GetTimeout() OptNilInt {
+func (s *ContainerIntegrationsBackupsRestore) GetTimeout() OptNilDuration {
 	return s.Timeout
 }
 
@@ -6986,7 +5596,7 @@ func (s *ContainerIntegrationsBackupsRestore) SetCommand(val string) {
 }
 
 // SetTimeout sets the value of Timeout.
-func (s *ContainerIntegrationsBackupsRestore) SetTimeout(val OptNilInt) {
+func (s *ContainerIntegrationsBackupsRestore) SetTimeout(val OptNilDuration) {
 	s.Timeout = val
 }
 
@@ -7317,6 +5927,7 @@ func (s *ContainerReimageStepAction) UnmarshalText(data []byte) error {
 type ContainerReimageStepDetails struct {
 	Image   ResourceLocation                      `json:"image"`
 	Options OptContainerReimageStepDetailsOptions `json:"options"`
+	OneOf   ContainerReimageStepDetailsSum
 }
 
 // GetImage returns the value of Image.
@@ -7329,6 +5940,11 @@ func (s *ContainerReimageStepDetails) GetOptions() OptContainerReimageStepDetail
 	return s.Options
 }
 
+// GetOneOf returns the value of OneOf.
+func (s *ContainerReimageStepDetails) GetOneOf() ContainerReimageStepDetailsSum {
+	return s.OneOf
+}
+
 // SetImage sets the value of Image.
 func (s *ContainerReimageStepDetails) SetImage(val ResourceLocation) {
 	s.Image = val
@@ -7337,6 +5953,11 @@ func (s *ContainerReimageStepDetails) SetImage(val ResourceLocation) {
 // SetOptions sets the value of Options.
 func (s *ContainerReimageStepDetails) SetOptions(val OptContainerReimageStepDetailsOptions) {
 	s.Options = val
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *ContainerReimageStepDetails) SetOneOf(val ContainerReimageStepDetailsSum) {
+	s.OneOf = val
 }
 
 type ContainerReimageStepDetailsOptions struct {
@@ -7351,6 +5972,132 @@ func (s *ContainerReimageStepDetailsOptions) GetAllowIncompatible() bool {
 // SetAllowIncompatible sets the value of AllowIncompatible.
 func (s *ContainerReimageStepDetailsOptions) SetAllowIncompatible(val bool) {
 	s.AllowIncompatible = val
+}
+
+// ContainerReimageStepDetailsSum represents sum type.
+type ContainerReimageStepDetailsSum struct {
+	Type                            ContainerReimageStepDetailsSumType // switch on this field
+	ContainerReimageStepDetailsSum0 ContainerReimageStepDetailsSum0
+	ContainerReimageStepDetailsSum1 ContainerReimageStepDetailsSum1
+}
+
+// ContainerReimageStepDetailsSumType is oneOf type of ContainerReimageStepDetailsSum.
+type ContainerReimageStepDetailsSumType string
+
+// Possible values for ContainerReimageStepDetailsSumType.
+const (
+	ContainerReimageStepDetailsSum0ContainerReimageStepDetailsSum ContainerReimageStepDetailsSumType = "ContainerReimageStepDetailsSum0"
+	ContainerReimageStepDetailsSum1ContainerReimageStepDetailsSum ContainerReimageStepDetailsSumType = "ContainerReimageStepDetailsSum1"
+)
+
+// IsContainerReimageStepDetailsSum0 reports whether ContainerReimageStepDetailsSum is ContainerReimageStepDetailsSum0.
+func (s ContainerReimageStepDetailsSum) IsContainerReimageStepDetailsSum0() bool {
+	return s.Type == ContainerReimageStepDetailsSum0ContainerReimageStepDetailsSum
+}
+
+// IsContainerReimageStepDetailsSum1 reports whether ContainerReimageStepDetailsSum is ContainerReimageStepDetailsSum1.
+func (s ContainerReimageStepDetailsSum) IsContainerReimageStepDetailsSum1() bool {
+	return s.Type == ContainerReimageStepDetailsSum1ContainerReimageStepDetailsSum
+}
+
+// SetContainerReimageStepDetailsSum0 sets ContainerReimageStepDetailsSum to ContainerReimageStepDetailsSum0.
+func (s *ContainerReimageStepDetailsSum) SetContainerReimageStepDetailsSum0(v ContainerReimageStepDetailsSum0) {
+	s.Type = ContainerReimageStepDetailsSum0ContainerReimageStepDetailsSum
+	s.ContainerReimageStepDetailsSum0 = v
+}
+
+// GetContainerReimageStepDetailsSum0 returns ContainerReimageStepDetailsSum0 and true boolean if ContainerReimageStepDetailsSum is ContainerReimageStepDetailsSum0.
+func (s ContainerReimageStepDetailsSum) GetContainerReimageStepDetailsSum0() (v ContainerReimageStepDetailsSum0, ok bool) {
+	if !s.IsContainerReimageStepDetailsSum0() {
+		return v, false
+	}
+	return s.ContainerReimageStepDetailsSum0, true
+}
+
+// NewContainerReimageStepDetailsSum0ContainerReimageStepDetailsSum returns new ContainerReimageStepDetailsSum from ContainerReimageStepDetailsSum0.
+func NewContainerReimageStepDetailsSum0ContainerReimageStepDetailsSum(v ContainerReimageStepDetailsSum0) ContainerReimageStepDetailsSum {
+	var s ContainerReimageStepDetailsSum
+	s.SetContainerReimageStepDetailsSum0(v)
+	return s
+}
+
+// SetContainerReimageStepDetailsSum1 sets ContainerReimageStepDetailsSum to ContainerReimageStepDetailsSum1.
+func (s *ContainerReimageStepDetailsSum) SetContainerReimageStepDetailsSum1(v ContainerReimageStepDetailsSum1) {
+	s.Type = ContainerReimageStepDetailsSum1ContainerReimageStepDetailsSum
+	s.ContainerReimageStepDetailsSum1 = v
+}
+
+// GetContainerReimageStepDetailsSum1 returns ContainerReimageStepDetailsSum1 and true boolean if ContainerReimageStepDetailsSum is ContainerReimageStepDetailsSum1.
+func (s ContainerReimageStepDetailsSum) GetContainerReimageStepDetailsSum1() (v ContainerReimageStepDetailsSum1, ok bool) {
+	if !s.IsContainerReimageStepDetailsSum1() {
+		return v, false
+	}
+	return s.ContainerReimageStepDetailsSum1, true
+}
+
+// NewContainerReimageStepDetailsSum1ContainerReimageStepDetailsSum returns new ContainerReimageStepDetailsSum from ContainerReimageStepDetailsSum1.
+func NewContainerReimageStepDetailsSum1ContainerReimageStepDetailsSum(v ContainerReimageStepDetailsSum1) ContainerReimageStepDetailsSum {
+	var s ContainerReimageStepDetailsSum
+	s.SetContainerReimageStepDetailsSum1(v)
+	return s
+}
+
+type ContainerReimageStepDetailsSum0 struct {
+	// The ID of an existing resource that exists before the pipeline is run.
+	ID string `json:"id"`
+}
+
+// GetID returns the value of ID.
+func (s *ContainerReimageStepDetailsSum0) GetID() string {
+	return s.ID
+}
+
+// SetID sets the value of ID.
+func (s *ContainerReimageStepDetailsSum0) SetID(val string) {
+	s.ID = val
+}
+
+type ContainerReimageStepDetailsSum1 struct {
+	// The stage and step to report on.
+	From ContainerReimageStepDetailsSum1From `json:"from"`
+}
+
+// GetFrom returns the value of From.
+func (s *ContainerReimageStepDetailsSum1) GetFrom() ContainerReimageStepDetailsSum1From {
+	return s.From
+}
+
+// SetFrom sets the value of From.
+func (s *ContainerReimageStepDetailsSum1) SetFrom(val ContainerReimageStepDetailsSum1From) {
+	s.From = val
+}
+
+// The stage and step to report on.
+type ContainerReimageStepDetailsSum1From struct {
+	// An identifier for the stage the step being reported on resides in.
+	Stage OptString `json:"stage"`
+	// An identifier for the step to be reported on.
+	Step string `json:"step"`
+}
+
+// GetStage returns the value of Stage.
+func (s *ContainerReimageStepDetailsSum1From) GetStage() OptString {
+	return s.Stage
+}
+
+// GetStep returns the value of Step.
+func (s *ContainerReimageStepDetailsSum1From) GetStep() string {
+	return s.Step
+}
+
+// SetStage sets the value of Stage.
+func (s *ContainerReimageStepDetailsSum1From) SetStage(val OptString) {
+	s.Stage = val
+}
+
+// SetStep sets the value of Step.
+func (s *ContainerReimageStepDetailsSum1From) SetStep(val string) {
+	s.Step = val
 }
 
 type ContainerReimageStepOptions struct {
@@ -8588,10 +7335,10 @@ func (s *ContainerStopStepOptions) SetSkip(val OptBool) {
 type ContainerSummary struct {
 	ID ID `json:"id"`
 	// A user defined name for the container resource.
-	Name        string                      `json:"name"`
-	State       ContainerState              `json:"state"`
-	Image       ContainerImageSummary       `json:"image"`
-	Environment ContainerEnvironmentSummary `json:"environment"`
+	Name        string                         `json:"name"`
+	State       ContainerState                 `json:"state"`
+	Image       ContainerImageSummary          `json:"image"`
+	Environment NilContainerEnvironmentSummary `json:"environment"`
 }
 
 // GetID returns the value of ID.
@@ -8615,7 +7362,7 @@ func (s *ContainerSummary) GetImage() ContainerImageSummary {
 }
 
 // GetEnvironment returns the value of Environment.
-func (s *ContainerSummary) GetEnvironment() ContainerEnvironmentSummary {
+func (s *ContainerSummary) GetEnvironment() NilContainerEnvironmentSummary {
 	return s.Environment
 }
 
@@ -8640,7 +7387,7 @@ func (s *ContainerSummary) SetImage(val ContainerImageSummary) {
 }
 
 // SetEnvironment sets the value of Environment.
-func (s *ContainerSummary) SetEnvironment(val ContainerEnvironmentSummary) {
+func (s *ContainerSummary) SetEnvironment(val NilContainerEnvironmentSummary) {
 	s.Environment = val
 }
 
@@ -9005,83 +7752,6 @@ func (s *ContainersMetaDomainsItem) SetRecord(val Record) {
 	s.Record = val
 }
 
-// ID context for resources associated with an activity.
-// Ref: #/components/schemas/Context
-type Context struct {
-	// An ID for the given resource.
-	EnvironmentID OptString `json:"environment_id"`
-	// An ID for the given resource.
-	ContainerID OptString `json:"container_id"`
-	// An ID for the given resource.
-	InstanceID OptString `json:"instance_id"`
-	// An ID for the given resource.
-	ServerID OptString `json:"server_id"`
-	// An ID for the given resource.
-	StackID OptString `json:"stack_id"`
-	// An ID for the given resource.
-	DNSZoneID OptString `json:"dns_zone_id"`
-}
-
-// GetEnvironmentID returns the value of EnvironmentID.
-func (s *Context) GetEnvironmentID() OptString {
-	return s.EnvironmentID
-}
-
-// GetContainerID returns the value of ContainerID.
-func (s *Context) GetContainerID() OptString {
-	return s.ContainerID
-}
-
-// GetInstanceID returns the value of InstanceID.
-func (s *Context) GetInstanceID() OptString {
-	return s.InstanceID
-}
-
-// GetServerID returns the value of ServerID.
-func (s *Context) GetServerID() OptString {
-	return s.ServerID
-}
-
-// GetStackID returns the value of StackID.
-func (s *Context) GetStackID() OptString {
-	return s.StackID
-}
-
-// GetDNSZoneID returns the value of DNSZoneID.
-func (s *Context) GetDNSZoneID() OptString {
-	return s.DNSZoneID
-}
-
-// SetEnvironmentID sets the value of EnvironmentID.
-func (s *Context) SetEnvironmentID(val OptString) {
-	s.EnvironmentID = val
-}
-
-// SetContainerID sets the value of ContainerID.
-func (s *Context) SetContainerID(val OptString) {
-	s.ContainerID = val
-}
-
-// SetInstanceID sets the value of InstanceID.
-func (s *Context) SetInstanceID(val OptString) {
-	s.InstanceID = val
-}
-
-// SetServerID sets the value of ServerID.
-func (s *Context) SetServerID(val OptString) {
-	s.ServerID = val
-}
-
-// SetStackID sets the value of StackID.
-func (s *Context) SetStackID(val OptString) {
-	s.StackID = val
-}
-
-// SetDNSZoneID sets the value of DNSZoneID.
-func (s *Context) SetDNSZoneID(val OptString) {
-	s.DNSZoneID = val
-}
-
 type CreateApiKeyCreated struct {
 	Data OptApiKey `json:"data"`
 }
@@ -9363,8 +8033,8 @@ type CreateContainerInstanceJobReqType string
 
 // Possible values for CreateContainerInstanceJobReqType.
 const (
-	RevertMigrationCreateContainerInstanceJobReq CreateContainerInstanceJobReqType = "RevertMigration"
-	MigrateCreateContainerInstanceJobReq         CreateContainerInstanceJobReqType = "Migrate"
+	RevertMigrationCreateContainerInstanceJobReq CreateContainerInstanceJobReqType = "migrate_revert"
+	MigrateCreateContainerInstanceJobReq         CreateContainerInstanceJobReqType = "migrate"
 )
 
 // IsRevertMigration reports whether CreateContainerInstanceJobReq is RevertMigration.
@@ -9476,12 +8146,12 @@ type CreateContainerJobReqType string
 
 // Possible values for CreateContainerJobReqType.
 const (
-	ContainerStartActionCreateContainerJobReq CreateContainerJobReqType = "ContainerStartAction"
-	ContainerStopActionCreateContainerJobReq  CreateContainerJobReqType = "ContainerStopAction"
-	ReconfigureContainerCreateContainerJobReq CreateContainerJobReqType = "ReconfigureContainer"
-	ReconfigureVolumesCreateContainerJobReq   CreateContainerJobReqType = "ReconfigureVolumes"
-	ReimageCreateContainerJobReq              CreateContainerJobReqType = "Reimage"
-	ScaleCreateContainerJobReq                CreateContainerJobReqType = "Scale"
+	ContainerStartActionCreateContainerJobReq CreateContainerJobReqType = "start"
+	ContainerStopActionCreateContainerJobReq  CreateContainerJobReqType = "stop"
+	ReconfigureContainerCreateContainerJobReq CreateContainerJobReqType = "reconfigure"
+	ReconfigureVolumesCreateContainerJobReq   CreateContainerJobReqType = "reconfigure.volumes"
+	ReimageCreateContainerJobReq              CreateContainerJobReqType = "reimage"
+	ScaleCreateContainerJobReq                CreateContainerJobReqType = "scale"
 )
 
 // IsContainerStartAction reports whether CreateContainerJobReq is ContainerStartAction.
@@ -9645,9 +8315,11 @@ type CreateContainerReq struct {
 	// An identifier for the image used to create this container.
 	ImageID string `json:"image_id"`
 	// A boolean where true represents this container is stateful.
-	Stateful bool              `json:"stateful"`
-	Config   Config            `json:"config"`
-	Volumes  []ContainerVolume `json:"volumes"`
+	Stateful bool   `json:"stateful"`
+	Config   Config `json:"config"`
+	// When set to true, prevents this container from being deleted.
+	Lock    OptBool           `json:"lock"`
+	Volumes []ContainerVolume `json:"volumes"`
 	// User defined meta data for the container.
 	Annotations OptCreateContainerReqAnnotations `json:"annotations"`
 }
@@ -9680,6 +8352,11 @@ func (s *CreateContainerReq) GetStateful() bool {
 // GetConfig returns the value of Config.
 func (s *CreateContainerReq) GetConfig() Config {
 	return s.Config
+}
+
+// GetLock returns the value of Lock.
+func (s *CreateContainerReq) GetLock() OptBool {
+	return s.Lock
 }
 
 // GetVolumes returns the value of Volumes.
@@ -9722,6 +8399,11 @@ func (s *CreateContainerReq) SetConfig(val Config) {
 	s.Config = val
 }
 
+// SetLock sets the value of Lock.
+func (s *CreateContainerReq) SetLock(val OptBool) {
+	s.Lock = val
+}
+
 // SetVolumes sets the value of Volumes.
 func (s *CreateContainerReq) SetVolumes(val []ContainerVolume) {
 	s.Volumes = val
@@ -9733,12 +8415,12 @@ func (s *CreateContainerReq) SetAnnotations(val OptCreateContainerReqAnnotations
 }
 
 // User defined meta data for the container.
-type CreateContainerReqAnnotations map[string]string
+type CreateContainerReqAnnotations map[string]jx.Raw
 
 func (s *CreateContainerReqAnnotations) init() CreateContainerReqAnnotations {
 	m := *s
 	if m == nil {
-		m = map[string]string{}
+		m = map[string]jx.Raw{}
 		*s = m
 	}
 	return m
@@ -10023,6 +8705,198 @@ func (s *CreateEnvironmentReqStack) SetBuildID(val ID) {
 	s.BuildID = val
 }
 
+type CreateEnvironmentVpnTaskAccepted struct {
+	Data OptTaskDescriptor `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *CreateEnvironmentVpnTaskAccepted) GetData() OptTaskDescriptor {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *CreateEnvironmentVpnTaskAccepted) SetData(val OptTaskDescriptor) {
+	s.Data = val
+}
+
+// CreateEnvironmentVpnTaskReq represents sum type.
+type CreateEnvironmentVpnTaskReq struct {
+	Type               CreateEnvironmentVpnTaskReqType // switch on this field
+	VpnResetTask       VpnResetTask
+	VpnReconfigureTask VpnReconfigureTask
+}
+
+// CreateEnvironmentVpnTaskReqType is oneOf type of CreateEnvironmentVpnTaskReq.
+type CreateEnvironmentVpnTaskReqType string
+
+// Possible values for CreateEnvironmentVpnTaskReqType.
+const (
+	VpnResetTaskCreateEnvironmentVpnTaskReq       CreateEnvironmentVpnTaskReqType = "reset"
+	VpnReconfigureTaskCreateEnvironmentVpnTaskReq CreateEnvironmentVpnTaskReqType = "reconfigure"
+)
+
+// IsVpnResetTask reports whether CreateEnvironmentVpnTaskReq is VpnResetTask.
+func (s CreateEnvironmentVpnTaskReq) IsVpnResetTask() bool {
+	return s.Type == VpnResetTaskCreateEnvironmentVpnTaskReq
+}
+
+// IsVpnReconfigureTask reports whether CreateEnvironmentVpnTaskReq is VpnReconfigureTask.
+func (s CreateEnvironmentVpnTaskReq) IsVpnReconfigureTask() bool {
+	return s.Type == VpnReconfigureTaskCreateEnvironmentVpnTaskReq
+}
+
+// SetVpnResetTask sets CreateEnvironmentVpnTaskReq to VpnResetTask.
+func (s *CreateEnvironmentVpnTaskReq) SetVpnResetTask(v VpnResetTask) {
+	s.Type = VpnResetTaskCreateEnvironmentVpnTaskReq
+	s.VpnResetTask = v
+}
+
+// GetVpnResetTask returns VpnResetTask and true boolean if CreateEnvironmentVpnTaskReq is VpnResetTask.
+func (s CreateEnvironmentVpnTaskReq) GetVpnResetTask() (v VpnResetTask, ok bool) {
+	if !s.IsVpnResetTask() {
+		return v, false
+	}
+	return s.VpnResetTask, true
+}
+
+// NewVpnResetTaskCreateEnvironmentVpnTaskReq returns new CreateEnvironmentVpnTaskReq from VpnResetTask.
+func NewVpnResetTaskCreateEnvironmentVpnTaskReq(v VpnResetTask) CreateEnvironmentVpnTaskReq {
+	var s CreateEnvironmentVpnTaskReq
+	s.SetVpnResetTask(v)
+	return s
+}
+
+// SetVpnReconfigureTask sets CreateEnvironmentVpnTaskReq to VpnReconfigureTask.
+func (s *CreateEnvironmentVpnTaskReq) SetVpnReconfigureTask(v VpnReconfigureTask) {
+	s.Type = VpnReconfigureTaskCreateEnvironmentVpnTaskReq
+	s.VpnReconfigureTask = v
+}
+
+// GetVpnReconfigureTask returns VpnReconfigureTask and true boolean if CreateEnvironmentVpnTaskReq is VpnReconfigureTask.
+func (s CreateEnvironmentVpnTaskReq) GetVpnReconfigureTask() (v VpnReconfigureTask, ok bool) {
+	if !s.IsVpnReconfigureTask() {
+		return v, false
+	}
+	return s.VpnReconfigureTask, true
+}
+
+// NewVpnReconfigureTaskCreateEnvironmentVpnTaskReq returns new CreateEnvironmentVpnTaskReq from VpnReconfigureTask.
+func NewVpnReconfigureTaskCreateEnvironmentVpnTaskReq(v VpnReconfigureTask) CreateEnvironmentVpnTaskReq {
+	var s CreateEnvironmentVpnTaskReq
+	s.SetVpnReconfigureTask(v)
+	return s
+}
+
+type CreateGlobalLoadBalancerCreated struct {
+	Data     OptGlobalLoadBalancer         `json:"data"`
+	Includes OptGlobalLoadBalancerIncludes `json:"includes"`
+}
+
+// GetData returns the value of Data.
+func (s *CreateGlobalLoadBalancerCreated) GetData() OptGlobalLoadBalancer {
+	return s.Data
+}
+
+// GetIncludes returns the value of Includes.
+func (s *CreateGlobalLoadBalancerCreated) GetIncludes() OptGlobalLoadBalancerIncludes {
+	return s.Includes
+}
+
+// SetData sets the value of Data.
+func (s *CreateGlobalLoadBalancerCreated) SetData(val OptGlobalLoadBalancer) {
+	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *CreateGlobalLoadBalancerCreated) SetIncludes(val OptGlobalLoadBalancerIncludes) {
+	s.Includes = val
+}
+
+type CreateGlobalLoadBalancerIncludeItem string
+
+const (
+	CreateGlobalLoadBalancerIncludeItemCreators     CreateGlobalLoadBalancerIncludeItem = "creators"
+	CreateGlobalLoadBalancerIncludeItemEnvironments CreateGlobalLoadBalancerIncludeItem = "environments"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateGlobalLoadBalancerIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateGlobalLoadBalancerIncludeItemCreators:
+		return []byte(s), nil
+	case CreateGlobalLoadBalancerIncludeItemEnvironments:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateGlobalLoadBalancerIncludeItem) UnmarshalText(data []byte) error {
+	switch CreateGlobalLoadBalancerIncludeItem(data) {
+	case CreateGlobalLoadBalancerIncludeItemCreators:
+		*s = CreateGlobalLoadBalancerIncludeItemCreators
+		return nil
+	case CreateGlobalLoadBalancerIncludeItemEnvironments:
+		*s = CreateGlobalLoadBalancerIncludeItemEnvironments
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type CreateGlobalLoadBalancerReq struct {
+	// The name of the global load balancer.
+	Name string `json:"name"`
+	// A human-readable identifier for referencing this global load balancer. Identifiers do not need to
+	// be unique.
+	Identifier string `json:"identifier"`
+	// The infrastructure cluster this global load balancer will be associated with.
+	Cluster string `json:"cluster"`
+	// An array of environment ids that this global load balancer will balance traffic across.
+	Environments []string `json:"environments"`
+}
+
+// GetName returns the value of Name.
+func (s *CreateGlobalLoadBalancerReq) GetName() string {
+	return s.Name
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *CreateGlobalLoadBalancerReq) GetIdentifier() string {
+	return s.Identifier
+}
+
+// GetCluster returns the value of Cluster.
+func (s *CreateGlobalLoadBalancerReq) GetCluster() string {
+	return s.Cluster
+}
+
+// GetEnvironments returns the value of Environments.
+func (s *CreateGlobalLoadBalancerReq) GetEnvironments() []string {
+	return s.Environments
+}
+
+// SetName sets the value of Name.
+func (s *CreateGlobalLoadBalancerReq) SetName(val string) {
+	s.Name = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *CreateGlobalLoadBalancerReq) SetIdentifier(val string) {
+	s.Identifier = val
+}
+
+// SetCluster sets the value of Cluster.
+func (s *CreateGlobalLoadBalancerReq) SetCluster(val string) {
+	s.Cluster = val
+}
+
+// SetEnvironments sets the value of Environments.
+func (s *CreateGlobalLoadBalancerReq) SetEnvironments(val []string) {
+	s.Environments = val
+}
+
 type CreateHubInviteCreated struct {
 	Data OptHubMembership `json:"data"`
 }
@@ -10196,8 +9070,7 @@ type CreateHubReq struct {
 	Name         OptString          `json:"name"`
 	Identifier   OptIdentifier      `json:"identifier"`
 	Integrations OptHubIntegrations `json:"integrations"`
-	// All hub webhooks for the given hub.
-	Webhooks OptCreateHubReqWebhooks `json:"webhooks"`
+	Webhooks     OptHubWebhooks     `json:"webhooks"`
 }
 
 // GetName returns the value of Name.
@@ -10216,7 +9089,7 @@ func (s *CreateHubReq) GetIntegrations() OptHubIntegrations {
 }
 
 // GetWebhooks returns the value of Webhooks.
-func (s *CreateHubReq) GetWebhooks() OptCreateHubReqWebhooks {
+func (s *CreateHubReq) GetWebhooks() OptHubWebhooks {
 	return s.Webhooks
 }
 
@@ -10236,24 +9109,8 @@ func (s *CreateHubReq) SetIntegrations(val OptHubIntegrations) {
 }
 
 // SetWebhooks sets the value of Webhooks.
-func (s *CreateHubReq) SetWebhooks(val OptCreateHubReqWebhooks) {
+func (s *CreateHubReq) SetWebhooks(val OptHubWebhooks) {
 	s.Webhooks = val
-}
-
-// All hub webhooks for the given hub.
-type CreateHubReqWebhooks struct {
-	// A webhook to report information to each time a server is deployed on the given hub.
-	ServerDeployed NilString `json:"server_deployed"`
-}
-
-// GetServerDeployed returns the value of ServerDeployed.
-func (s *CreateHubReqWebhooks) GetServerDeployed() NilString {
-	return s.ServerDeployed
-}
-
-// SetServerDeployed sets the value of ServerDeployed.
-func (s *CreateHubReqWebhooks) SetServerDeployed(val NilString) {
-	s.ServerDeployed = val
 }
 
 type CreateImageCollectionJobAccepted struct {
@@ -10491,18 +9348,32 @@ func (s *CreateImageReqBuildArgs) init() CreateImageReqBuildArgs {
 
 // An override object to be used for a single image create request.
 type CreateImageReqOverride struct {
-	// A target to be used for overridding the default target.
-	Target string `json:"target"`
+	// For image sources with `docker-hub` or `docker-registry` origin types. A target to be used for
+	// overridding the default target - should include an image and a tag.
+	Target OptString `json:"target"`
+	// For image sources with `docker-file` origin types. A URL pointing to a .tar.gz file of a repo with
+	// a Dockerfile in it - can be used instead of linking Cycle directly to a repository.
+	TargzURL OptString `json:"targz_url"`
 }
 
 // GetTarget returns the value of Target.
-func (s *CreateImageReqOverride) GetTarget() string {
+func (s *CreateImageReqOverride) GetTarget() OptString {
 	return s.Target
 }
 
+// GetTargzURL returns the value of TargzURL.
+func (s *CreateImageReqOverride) GetTargzURL() OptString {
+	return s.TargzURL
+}
+
 // SetTarget sets the value of Target.
-func (s *CreateImageReqOverride) SetTarget(val string) {
+func (s *CreateImageReqOverride) SetTarget(val OptString) {
 	s.Target = val
+}
+
+// SetTargzURL sets the value of TargzURL.
+func (s *CreateImageReqOverride) SetTargzURL(val OptString) {
+	s.TargzURL = val
 }
 
 type CreateImageSourceCreated struct {
@@ -11242,17 +10113,61 @@ func (s *CreateProviderReqIntegrationNative) SetAuth(val IALAuth) {
 }
 
 type CreateSDNNetworkCreated struct {
-	Data OptSDNNetwork `json:"data"`
+	Data     OptNetwork         `json:"data"`
+	Includes OptNetworkIncludes `json:"includes"`
 }
 
 // GetData returns the value of Data.
-func (s *CreateSDNNetworkCreated) GetData() OptSDNNetwork {
+func (s *CreateSDNNetworkCreated) GetData() OptNetwork {
 	return s.Data
 }
 
+// GetIncludes returns the value of Includes.
+func (s *CreateSDNNetworkCreated) GetIncludes() OptNetworkIncludes {
+	return s.Includes
+}
+
 // SetData sets the value of Data.
-func (s *CreateSDNNetworkCreated) SetData(val OptSDNNetwork) {
+func (s *CreateSDNNetworkCreated) SetData(val OptNetwork) {
 	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *CreateSDNNetworkCreated) SetIncludes(val OptNetworkIncludes) {
+	s.Includes = val
+}
+
+type CreateSDNNetworkIncludeItem string
+
+const (
+	CreateSDNNetworkIncludeItemCreators     CreateSDNNetworkIncludeItem = "creators"
+	CreateSDNNetworkIncludeItemEnvironments CreateSDNNetworkIncludeItem = "environments"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreateSDNNetworkIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case CreateSDNNetworkIncludeItemCreators:
+		return []byte(s), nil
+	case CreateSDNNetworkIncludeItemEnvironments:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreateSDNNetworkIncludeItem) UnmarshalText(data []byte) error {
+	switch CreateSDNNetworkIncludeItem(data) {
+	case CreateSDNNetworkIncludeItemCreators:
+		*s = CreateSDNNetworkIncludeItemCreators
+		return nil
+	case CreateSDNNetworkIncludeItemEnvironments:
+		*s = CreateSDNNetworkIncludeItemEnvironments
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 type CreateSDNNetworkReq struct {
@@ -11400,70 +10315,84 @@ func (s *CreateScopedVariableReqSecret) SetHint(val OptString) {
 }
 
 // The source or value of the scoped variable.
-// CreateScopedVariableReqSource represents sum type.
 type CreateScopedVariableReqSource struct {
-	Type      CreateScopedVariableReqSourceType // switch on this field
+	OneOf CreateScopedVariableReqSourceSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *CreateScopedVariableReqSource) GetOneOf() CreateScopedVariableReqSourceSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *CreateScopedVariableReqSource) SetOneOf(val CreateScopedVariableReqSourceSum) {
+	s.OneOf = val
+}
+
+// CreateScopedVariableReqSourceSum represents sum type.
+type CreateScopedVariableReqSourceSum struct {
+	Type      CreateScopedVariableReqSourceSumType // switch on this field
 	RawSource RawSource
 	URLSource URLSource
 }
 
-// CreateScopedVariableReqSourceType is oneOf type of CreateScopedVariableReqSource.
-type CreateScopedVariableReqSourceType string
+// CreateScopedVariableReqSourceSumType is oneOf type of CreateScopedVariableReqSourceSum.
+type CreateScopedVariableReqSourceSumType string
 
-// Possible values for CreateScopedVariableReqSourceType.
+// Possible values for CreateScopedVariableReqSourceSumType.
 const (
-	RawSourceCreateScopedVariableReqSource CreateScopedVariableReqSourceType = "RawSource"
-	URLSourceCreateScopedVariableReqSource CreateScopedVariableReqSourceType = "URLSource"
+	RawSourceCreateScopedVariableReqSourceSum CreateScopedVariableReqSourceSumType = "raw"
+	URLSourceCreateScopedVariableReqSourceSum CreateScopedVariableReqSourceSumType = "url"
 )
 
-// IsRawSource reports whether CreateScopedVariableReqSource is RawSource.
-func (s CreateScopedVariableReqSource) IsRawSource() bool {
-	return s.Type == RawSourceCreateScopedVariableReqSource
+// IsRawSource reports whether CreateScopedVariableReqSourceSum is RawSource.
+func (s CreateScopedVariableReqSourceSum) IsRawSource() bool {
+	return s.Type == RawSourceCreateScopedVariableReqSourceSum
 }
 
-// IsURLSource reports whether CreateScopedVariableReqSource is URLSource.
-func (s CreateScopedVariableReqSource) IsURLSource() bool {
-	return s.Type == URLSourceCreateScopedVariableReqSource
+// IsURLSource reports whether CreateScopedVariableReqSourceSum is URLSource.
+func (s CreateScopedVariableReqSourceSum) IsURLSource() bool {
+	return s.Type == URLSourceCreateScopedVariableReqSourceSum
 }
 
-// SetRawSource sets CreateScopedVariableReqSource to RawSource.
-func (s *CreateScopedVariableReqSource) SetRawSource(v RawSource) {
-	s.Type = RawSourceCreateScopedVariableReqSource
+// SetRawSource sets CreateScopedVariableReqSourceSum to RawSource.
+func (s *CreateScopedVariableReqSourceSum) SetRawSource(v RawSource) {
+	s.Type = RawSourceCreateScopedVariableReqSourceSum
 	s.RawSource = v
 }
 
-// GetRawSource returns RawSource and true boolean if CreateScopedVariableReqSource is RawSource.
-func (s CreateScopedVariableReqSource) GetRawSource() (v RawSource, ok bool) {
+// GetRawSource returns RawSource and true boolean if CreateScopedVariableReqSourceSum is RawSource.
+func (s CreateScopedVariableReqSourceSum) GetRawSource() (v RawSource, ok bool) {
 	if !s.IsRawSource() {
 		return v, false
 	}
 	return s.RawSource, true
 }
 
-// NewRawSourceCreateScopedVariableReqSource returns new CreateScopedVariableReqSource from RawSource.
-func NewRawSourceCreateScopedVariableReqSource(v RawSource) CreateScopedVariableReqSource {
-	var s CreateScopedVariableReqSource
+// NewRawSourceCreateScopedVariableReqSourceSum returns new CreateScopedVariableReqSourceSum from RawSource.
+func NewRawSourceCreateScopedVariableReqSourceSum(v RawSource) CreateScopedVariableReqSourceSum {
+	var s CreateScopedVariableReqSourceSum
 	s.SetRawSource(v)
 	return s
 }
 
-// SetURLSource sets CreateScopedVariableReqSource to URLSource.
-func (s *CreateScopedVariableReqSource) SetURLSource(v URLSource) {
-	s.Type = URLSourceCreateScopedVariableReqSource
+// SetURLSource sets CreateScopedVariableReqSourceSum to URLSource.
+func (s *CreateScopedVariableReqSourceSum) SetURLSource(v URLSource) {
+	s.Type = URLSourceCreateScopedVariableReqSourceSum
 	s.URLSource = v
 }
 
-// GetURLSource returns URLSource and true boolean if CreateScopedVariableReqSource is URLSource.
-func (s CreateScopedVariableReqSource) GetURLSource() (v URLSource, ok bool) {
+// GetURLSource returns URLSource and true boolean if CreateScopedVariableReqSourceSum is URLSource.
+func (s CreateScopedVariableReqSourceSum) GetURLSource() (v URLSource, ok bool) {
 	if !s.IsURLSource() {
 		return v, false
 	}
 	return s.URLSource, true
 }
 
-// NewURLSourceCreateScopedVariableReqSource returns new CreateScopedVariableReqSource from URLSource.
-func NewURLSourceCreateScopedVariableReqSource(v URLSource) CreateScopedVariableReqSource {
-	var s CreateScopedVariableReqSource
+// NewURLSourceCreateScopedVariableReqSourceSum returns new CreateScopedVariableReqSourceSum from URLSource.
+func NewURLSourceCreateScopedVariableReqSourceSum(v URLSource) CreateScopedVariableReqSourceSum {
+	var s CreateScopedVariableReqSourceSum
 	s.SetURLSource(v)
 	return s
 }
@@ -11498,10 +10427,11 @@ func (s *CreateServerJobOK) SetData(val OptTaskDescriptor) {
 
 // CreateServerJobReq represents sum type.
 type CreateServerJobReq struct {
-	Type              CreateServerJobReqType // switch on this field
-	ReconfigureServer ReconfigureServer
-	RestartServer     RestartServer
-	RestartCompute    RestartCompute
+	Type                  CreateServerJobReqType // switch on this field
+	ReconfigureServer     ReconfigureServer
+	RestartServer         RestartServer
+	RestartCompute        RestartCompute
+	RestartComputeSpawner RestartComputeSpawner
 }
 
 // CreateServerJobReqType is oneOf type of CreateServerJobReq.
@@ -11509,9 +10439,10 @@ type CreateServerJobReqType string
 
 // Possible values for CreateServerJobReqType.
 const (
-	ReconfigureServerCreateServerJobReq CreateServerJobReqType = "ReconfigureServer"
-	RestartServerCreateServerJobReq     CreateServerJobReqType = "RestartServer"
-	RestartComputeCreateServerJobReq    CreateServerJobReqType = "RestartCompute"
+	ReconfigureServerCreateServerJobReq     CreateServerJobReqType = "reconfigure.features"
+	RestartServerCreateServerJobReq         CreateServerJobReqType = "restart"
+	RestartComputeCreateServerJobReq        CreateServerJobReqType = "compute.restart"
+	RestartComputeSpawnerCreateServerJobReq CreateServerJobReqType = "compute.spawner.restart"
 )
 
 // IsReconfigureServer reports whether CreateServerJobReq is ReconfigureServer.
@@ -11525,6 +10456,11 @@ func (s CreateServerJobReq) IsRestartServer() bool { return s.Type == RestartSer
 // IsRestartCompute reports whether CreateServerJobReq is RestartCompute.
 func (s CreateServerJobReq) IsRestartCompute() bool {
 	return s.Type == RestartComputeCreateServerJobReq
+}
+
+// IsRestartComputeSpawner reports whether CreateServerJobReq is RestartComputeSpawner.
+func (s CreateServerJobReq) IsRestartComputeSpawner() bool {
+	return s.Type == RestartComputeSpawnerCreateServerJobReq
 }
 
 // SetReconfigureServer sets CreateServerJobReq to ReconfigureServer.
@@ -11587,6 +10523,27 @@ func (s CreateServerJobReq) GetRestartCompute() (v RestartCompute, ok bool) {
 func NewRestartComputeCreateServerJobReq(v RestartCompute) CreateServerJobReq {
 	var s CreateServerJobReq
 	s.SetRestartCompute(v)
+	return s
+}
+
+// SetRestartComputeSpawner sets CreateServerJobReq to RestartComputeSpawner.
+func (s *CreateServerJobReq) SetRestartComputeSpawner(v RestartComputeSpawner) {
+	s.Type = RestartComputeSpawnerCreateServerJobReq
+	s.RestartComputeSpawner = v
+}
+
+// GetRestartComputeSpawner returns RestartComputeSpawner and true boolean if CreateServerJobReq is RestartComputeSpawner.
+func (s CreateServerJobReq) GetRestartComputeSpawner() (v RestartComputeSpawner, ok bool) {
+	if !s.IsRestartComputeSpawner() {
+		return v, false
+	}
+	return s.RestartComputeSpawner, true
+}
+
+// NewRestartComputeSpawnerCreateServerJobReq returns new CreateServerJobReq from RestartComputeSpawner.
+func NewRestartComputeSpawnerCreateServerJobReq(v RestartComputeSpawner) CreateServerJobReq {
+	var s CreateServerJobReq
+	s.SetRestartComputeSpawner(v)
 	return s
 }
 
@@ -11781,8 +10738,8 @@ type CreateStackBuildJobReqType string
 
 // Possible values for CreateStackBuildJobReqType.
 const (
-	GenerateStackBuildActionCreateStackBuildJobReq CreateStackBuildJobReqType = "GenerateStackBuildAction"
-	DeployStackBuildActionCreateStackBuildJobReq   CreateStackBuildJobReqType = "DeployStackBuildAction"
+	GenerateStackBuildActionCreateStackBuildJobReq CreateStackBuildJobReqType = "generate"
+	DeployStackBuildActionCreateStackBuildJobReq   CreateStackBuildJobReqType = "deploy"
 )
 
 // IsGenerateStackBuildAction reports whether CreateStackBuildJobReq is GenerateStackBuildAction.
@@ -12009,6 +10966,34 @@ func (s *CreateVPNUserReq) SetPassword(val string) {
 	s.Password = val
 }
 
+// A creator object. Describes who created the resource.
+// Ref: #/components/schemas/Creator
+type Creator struct {
+	ID OptID `json:"id"`
+	// The type of creator.
+	Type OptCreatorType `json:"type"`
+}
+
+// GetID returns the value of ID.
+func (s *Creator) GetID() OptID {
+	return s.ID
+}
+
+// GetType returns the value of Type.
+func (s *Creator) GetType() OptCreatorType {
+	return s.Type
+}
+
+// SetID sets the value of ID.
+func (s *Creator) SetID(val OptID) {
+	s.ID = val
+}
+
+// SetType sets the value of Type.
+func (s *Creator) SetType(val OptCreatorType) {
+	s.Type = val
+}
+
 // An identity that created a resource.
 // Ref: #/components/schemas/CreatorInclude
 type CreatorInclude struct {
@@ -12220,6 +11205,64 @@ func (s *CreatorScopeType) UnmarshalText(data []byte) error {
 		return nil
 	case CreatorScopeTypeVisitor:
 		*s = CreatorScopeTypeVisitor
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// The type of creator.
+type CreatorType string
+
+const (
+	CreatorTypeAccount      CreatorType = "account"
+	CreatorTypeEmployee     CreatorType = "employee"
+	CreatorTypeAPIKey       CreatorType = "api-key"
+	CreatorTypeVisitor      CreatorType = "visitor"
+	CreatorTypeEnvironments CreatorType = "environments"
+	CreatorTypeEmpty        CreatorType = ""
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CreatorType) MarshalText() ([]byte, error) {
+	switch s {
+	case CreatorTypeAccount:
+		return []byte(s), nil
+	case CreatorTypeEmployee:
+		return []byte(s), nil
+	case CreatorTypeAPIKey:
+		return []byte(s), nil
+	case CreatorTypeVisitor:
+		return []byte(s), nil
+	case CreatorTypeEnvironments:
+		return []byte(s), nil
+	case CreatorTypeEmpty:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CreatorType) UnmarshalText(data []byte) error {
+	switch CreatorType(data) {
+	case CreatorTypeAccount:
+		*s = CreatorTypeAccount
+		return nil
+	case CreatorTypeEmployee:
+		*s = CreatorTypeEmployee
+		return nil
+	case CreatorTypeAPIKey:
+		*s = CreatorTypeAPIKey
+		return nil
+	case CreatorTypeVisitor:
+		*s = CreatorTypeVisitor
+		return nil
+	case CreatorTypeEnvironments:
+		*s = CreatorTypeEnvironments
+		return nil
+	case CreatorTypeEmpty:
+		*s = CreatorTypeEmpty
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -12710,16 +11753,16 @@ func (s *CreditStateError) SetTime(val OptDateTime) {
 // image which is already a part of an image source on Cycle.
 // Ref: #/components/schemas/CycleSourceOrigin
 type CycleSourceOrigin struct {
-	Details OptCycleSourceOriginDetails `json:"details"`
+	Details CycleSourceOriginDetails `json:"details"`
 }
 
 // GetDetails returns the value of Details.
-func (s *CycleSourceOrigin) GetDetails() OptCycleSourceOriginDetails {
+func (s *CycleSourceOrigin) GetDetails() CycleSourceOriginDetails {
 	return s.Details
 }
 
 // SetDetails sets the value of Details.
-func (s *CycleSourceOrigin) SetDetails(val OptCycleSourceOriginDetails) {
+func (s *CycleSourceOrigin) SetDetails(val CycleSourceOriginDetails) {
 	s.Details = val
 }
 
@@ -13014,6 +12057,155 @@ func (s *DNSZoneTaskReqAction) UnmarshalText(data []byte) error {
 
 type DateTime time.Time
 
+// Ref: #/components/schemas/DefaultLbType
+type DefaultLbType struct {
+	// Allow / disallow traffic to be routed via IPv4.
+	Ipv4 bool `json:"ipv4"`
+	// Allow / disallow traffic to be routed via IPv6.
+	Ipv6    bool                    `json:"ipv6"`
+	Details NilDefaultLbTypeDetails `json:"details"`
+}
+
+// GetIpv4 returns the value of Ipv4.
+func (s *DefaultLbType) GetIpv4() bool {
+	return s.Ipv4
+}
+
+// GetIpv6 returns the value of Ipv6.
+func (s *DefaultLbType) GetIpv6() bool {
+	return s.Ipv6
+}
+
+// GetDetails returns the value of Details.
+func (s *DefaultLbType) GetDetails() NilDefaultLbTypeDetails {
+	return s.Details
+}
+
+// SetIpv4 sets the value of Ipv4.
+func (s *DefaultLbType) SetIpv4(val bool) {
+	s.Ipv4 = val
+}
+
+// SetIpv6 sets the value of Ipv6.
+func (s *DefaultLbType) SetIpv6(val bool) {
+	s.Ipv6 = val
+}
+
+// SetDetails sets the value of Details.
+func (s *DefaultLbType) SetDetails(val NilDefaultLbTypeDetails) {
+	s.Details = val
+}
+
+// Merged schema.
+type DefaultLbTypeDetails struct {
+	OneOf DefaultLbTypeDetailsSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *DefaultLbTypeDetails) GetOneOf() DefaultLbTypeDetailsSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *DefaultLbTypeDetails) SetOneOf(val DefaultLbTypeDetailsSum) {
+	s.OneOf = val
+}
+
+// DefaultLbTypeDetailsSum represents sum type.
+type DefaultLbTypeDetailsSum struct {
+	Type          DefaultLbTypeDetailsSumType // switch on this field
+	HaProxyConfig HaProxyConfig
+	V1LbConfig    V1LbConfig
+}
+
+// DefaultLbTypeDetailsSumType is oneOf type of DefaultLbTypeDetailsSum.
+type DefaultLbTypeDetailsSumType string
+
+// Possible values for DefaultLbTypeDetailsSumType.
+const (
+	HaProxyConfigDefaultLbTypeDetailsSum DefaultLbTypeDetailsSumType = "HaProxyConfig"
+	V1LbConfigDefaultLbTypeDetailsSum    DefaultLbTypeDetailsSumType = "V1LbConfig"
+)
+
+// IsHaProxyConfig reports whether DefaultLbTypeDetailsSum is HaProxyConfig.
+func (s DefaultLbTypeDetailsSum) IsHaProxyConfig() bool {
+	return s.Type == HaProxyConfigDefaultLbTypeDetailsSum
+}
+
+// IsV1LbConfig reports whether DefaultLbTypeDetailsSum is V1LbConfig.
+func (s DefaultLbTypeDetailsSum) IsV1LbConfig() bool {
+	return s.Type == V1LbConfigDefaultLbTypeDetailsSum
+}
+
+// SetHaProxyConfig sets DefaultLbTypeDetailsSum to HaProxyConfig.
+func (s *DefaultLbTypeDetailsSum) SetHaProxyConfig(v HaProxyConfig) {
+	s.Type = HaProxyConfigDefaultLbTypeDetailsSum
+	s.HaProxyConfig = v
+}
+
+// GetHaProxyConfig returns HaProxyConfig and true boolean if DefaultLbTypeDetailsSum is HaProxyConfig.
+func (s DefaultLbTypeDetailsSum) GetHaProxyConfig() (v HaProxyConfig, ok bool) {
+	if !s.IsHaProxyConfig() {
+		return v, false
+	}
+	return s.HaProxyConfig, true
+}
+
+// NewHaProxyConfigDefaultLbTypeDetailsSum returns new DefaultLbTypeDetailsSum from HaProxyConfig.
+func NewHaProxyConfigDefaultLbTypeDetailsSum(v HaProxyConfig) DefaultLbTypeDetailsSum {
+	var s DefaultLbTypeDetailsSum
+	s.SetHaProxyConfig(v)
+	return s
+}
+
+// SetV1LbConfig sets DefaultLbTypeDetailsSum to V1LbConfig.
+func (s *DefaultLbTypeDetailsSum) SetV1LbConfig(v V1LbConfig) {
+	s.Type = V1LbConfigDefaultLbTypeDetailsSum
+	s.V1LbConfig = v
+}
+
+// GetV1LbConfig returns V1LbConfig and true boolean if DefaultLbTypeDetailsSum is V1LbConfig.
+func (s DefaultLbTypeDetailsSum) GetV1LbConfig() (v V1LbConfig, ok bool) {
+	if !s.IsV1LbConfig() {
+		return v, false
+	}
+	return s.V1LbConfig, true
+}
+
+// NewV1LbConfigDefaultLbTypeDetailsSum returns new DefaultLbTypeDetailsSum from V1LbConfig.
+func NewV1LbConfigDefaultLbTypeDetailsSum(v V1LbConfig) DefaultLbTypeDetailsSum {
+	var s DefaultLbTypeDetailsSum
+	s.SetV1LbConfig(v)
+	return s
+}
+
+type DefaultLbTypeType string
+
+const (
+	DefaultLbTypeTypeDefault DefaultLbTypeType = "default"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DefaultLbTypeType) MarshalText() ([]byte, error) {
+	switch s {
+	case DefaultLbTypeTypeDefault:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DefaultLbTypeType) UnmarshalText(data []byte) error {
+	switch DefaultLbTypeType(data) {
+	case DefaultLbTypeTypeDefault:
+		*s = DefaultLbTypeTypeDefault
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Ref: #/components/schemas/DeployStackBuildAction
 type DeployStackBuildAction struct {
 	// Additional information needed for the job.
@@ -13301,44 +12493,107 @@ func (s *DeploymentStrategyName) UnmarshalText(data []byte) error {
 	}
 }
 
-// Details about a given event that is part of an activity.
-// Ref: #/components/schemas/Detail
-type Detail struct {
-	ID OptID `json:"id"`
-	// A number describing the amount of the resource that exists.
-	Number OptInt `json:"number"`
-	// Additional information.
-	String OptString `json:"string"`
+// Ref: #/components/schemas/DirectImageSourceType
+type DirectImageSourceType struct {
+	Details  OptDirectImageSourceTypeDetails  `json:"details"`
+	Override OptDirectImageSourceTypeOverride `json:"override"`
+}
+
+// GetDetails returns the value of Details.
+func (s *DirectImageSourceType) GetDetails() OptDirectImageSourceTypeDetails {
+	return s.Details
+}
+
+// GetOverride returns the value of Override.
+func (s *DirectImageSourceType) GetOverride() OptDirectImageSourceTypeOverride {
+	return s.Override
+}
+
+// SetDetails sets the value of Details.
+func (s *DirectImageSourceType) SetDetails(val OptDirectImageSourceTypeDetails) {
+	s.Details = val
+}
+
+// SetOverride sets the value of Override.
+func (s *DirectImageSourceType) SetOverride(val OptDirectImageSourceTypeOverride) {
+	s.Override = val
+}
+
+type DirectImageSourceTypeDetails struct {
+	ID     string      `json:"id"`
+	Origin ImageOrigin `json:"origin"`
 }
 
 // GetID returns the value of ID.
-func (s *Detail) GetID() OptID {
+func (s *DirectImageSourceTypeDetails) GetID() string {
 	return s.ID
 }
 
-// GetNumber returns the value of Number.
-func (s *Detail) GetNumber() OptInt {
-	return s.Number
-}
-
-// GetString returns the value of String.
-func (s *Detail) GetString() OptString {
-	return s.String
+// GetOrigin returns the value of Origin.
+func (s *DirectImageSourceTypeDetails) GetOrigin() ImageOrigin {
+	return s.Origin
 }
 
 // SetID sets the value of ID.
-func (s *Detail) SetID(val OptID) {
+func (s *DirectImageSourceTypeDetails) SetID(val string) {
 	s.ID = val
 }
 
-// SetNumber sets the value of Number.
-func (s *Detail) SetNumber(val OptInt) {
-	s.Number = val
+// SetOrigin sets the value of Origin.
+func (s *DirectImageSourceTypeDetails) SetOrigin(val ImageOrigin) {
+	s.Origin = val
 }
 
-// SetString sets the value of String.
-func (s *Detail) SetString(val OptString) {
-	s.String = val
+type DirectImageSourceTypeOverride struct {
+	Target   OptString `json:"target"`
+	TargzURL OptString `json:"targz_url"`
+}
+
+// GetTarget returns the value of Target.
+func (s *DirectImageSourceTypeOverride) GetTarget() OptString {
+	return s.Target
+}
+
+// GetTargzURL returns the value of TargzURL.
+func (s *DirectImageSourceTypeOverride) GetTargzURL() OptString {
+	return s.TargzURL
+}
+
+// SetTarget sets the value of Target.
+func (s *DirectImageSourceTypeOverride) SetTarget(val OptString) {
+	s.Target = val
+}
+
+// SetTargzURL sets the value of TargzURL.
+func (s *DirectImageSourceTypeOverride) SetTargzURL(val OptString) {
+	s.TargzURL = val
+}
+
+type DirectImageSourceTypeType string
+
+const (
+	DirectImageSourceTypeTypeDirect DirectImageSourceTypeType = "direct"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DirectImageSourceTypeType) MarshalText() ([]byte, error) {
+	switch s {
+	case DirectImageSourceTypeTypeDirect:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DirectImageSourceTypeType) UnmarshalText(data []byte) error {
+	switch DirectImageSourceTypeType(data) {
+	case DirectImageSourceTypeTypeDirect:
+		*s = DirectImageSourceTypeTypeDirect
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 type DisableTwoFaOK struct {
@@ -13419,7 +12674,7 @@ type DiscoveryEnvironmentService struct {
 	// A boolean representing if this service container is set to high availability mode or not.
 	HighAvailability bool `json:"high_availability"`
 	// The config object for the discovery service.
-	Config jx.Raw `json:"config"`
+	Config *DiscoveryEnvironmentServiceConfig `json:"config"`
 }
 
 // GetEnable returns the value of Enable.
@@ -13438,7 +12693,7 @@ func (s *DiscoveryEnvironmentService) GetHighAvailability() bool {
 }
 
 // GetConfig returns the value of Config.
-func (s *DiscoveryEnvironmentService) GetConfig() jx.Raw {
+func (s *DiscoveryEnvironmentService) GetConfig() *DiscoveryEnvironmentServiceConfig {
 	return s.Config
 }
 
@@ -13458,9 +12713,12 @@ func (s *DiscoveryEnvironmentService) SetHighAvailability(val bool) {
 }
 
 // SetConfig sets the value of Config.
-func (s *DiscoveryEnvironmentService) SetConfig(val jx.Raw) {
+func (s *DiscoveryEnvironmentService) SetConfig(val *DiscoveryEnvironmentServiceConfig) {
 	s.Config = val
 }
+
+// The config object for the discovery service.
+type DiscoveryEnvironmentServiceConfig struct{}
 
 // A DNS TLS certificate.
 // Ref: #/components/schemas/DnsTlsCertificate
@@ -13592,28 +12850,34 @@ func (s *DnsTlsCertificateEvents) SetGenerated(val OptDateTime) {
 // An image origin where the image is built from a Dockerfile located in a git repository.
 // Ref: #/components/schemas/DockerFileOrigin
 type DockerFileOrigin struct {
-	Details OptDockerFileOriginDetails `json:"details"`
+	Details DockerFileOriginDetails `json:"details"`
 }
 
 // GetDetails returns the value of Details.
-func (s *DockerFileOrigin) GetDetails() OptDockerFileOriginDetails {
+func (s *DockerFileOrigin) GetDetails() DockerFileOriginDetails {
 	return s.Details
 }
 
 // SetDetails sets the value of Details.
-func (s *DockerFileOrigin) SetDetails(val OptDockerFileOriginDetails) {
+func (s *DockerFileOrigin) SetDetails(val DockerFileOriginDetails) {
 	s.Details = val
 }
 
 type DockerFileOriginDetails struct {
-	Repo OptRepoType `json:"repo"`
+	Existing OptExistingSource `json:"existing"`
+	Repo     OptRepoType       `json:"repo"`
 	// An endpoint that serves the tar file.
 	TargzURL OptString `json:"targz_url"`
 	// The path to the directory to use as the context when building the image.
 	ContextDir OptString `json:"context_dir"`
 	// The path to the Dockerfile to be used for buiding the image.
-	BuildFile   OptString              `json:"build_file"`
-	Credentials *DockerfileCredentials `json:"credentials"`
+	BuildFile   OptString             `json:"build_file"`
+	Credentials DockerfileCredentials `json:"credentials"`
+}
+
+// GetExisting returns the value of Existing.
+func (s *DockerFileOriginDetails) GetExisting() OptExistingSource {
+	return s.Existing
 }
 
 // GetRepo returns the value of Repo.
@@ -13637,8 +12901,13 @@ func (s *DockerFileOriginDetails) GetBuildFile() OptString {
 }
 
 // GetCredentials returns the value of Credentials.
-func (s *DockerFileOriginDetails) GetCredentials() *DockerfileCredentials {
+func (s *DockerFileOriginDetails) GetCredentials() DockerfileCredentials {
 	return s.Credentials
+}
+
+// SetExisting sets the value of Existing.
+func (s *DockerFileOriginDetails) SetExisting(val OptExistingSource) {
+	s.Existing = val
 }
 
 // SetRepo sets the value of Repo.
@@ -13662,7 +12931,7 @@ func (s *DockerFileOriginDetails) SetBuildFile(val OptString) {
 }
 
 // SetCredentials sets the value of Credentials.
-func (s *DockerFileOriginDetails) SetCredentials(val *DockerfileCredentials) {
+func (s *DockerFileOriginDetails) SetCredentials(val DockerfileCredentials) {
 	s.Credentials = val
 }
 
@@ -13696,26 +12965,32 @@ func (s *DockerFileOriginType) UnmarshalText(data []byte) error {
 // An image origin where the image is pulled from DockerHub.
 // Ref: #/components/schemas/DockerHubOrigin
 type DockerHubOrigin struct {
-	Details OptDockerHubOriginDetails `json:"details"`
+	Details DockerHubOriginDetails `json:"details"`
 }
 
 // GetDetails returns the value of Details.
-func (s *DockerHubOrigin) GetDetails() OptDockerHubOriginDetails {
+func (s *DockerHubOrigin) GetDetails() DockerHubOriginDetails {
 	return s.Details
 }
 
 // SetDetails sets the value of Details.
-func (s *DockerHubOrigin) SetDetails(val OptDockerHubOriginDetails) {
+func (s *DockerHubOrigin) SetDetails(val DockerHubOriginDetails) {
 	s.Details = val
 }
 
 type DockerHubOriginDetails struct {
+	Existing OptExistingSource `json:"existing"`
 	// The DockerHub target string. ex - `mysql:5.7`.
 	Target string `json:"target"`
 	// For authentication, a username.
 	Username OptString `json:"username"`
 	// For authentication, a token.
 	Token OptString `json:"token"`
+}
+
+// GetExisting returns the value of Existing.
+func (s *DockerHubOriginDetails) GetExisting() OptExistingSource {
+	return s.Existing
 }
 
 // GetTarget returns the value of Target.
@@ -13731,6 +13006,11 @@ func (s *DockerHubOriginDetails) GetUsername() OptString {
 // GetToken returns the value of Token.
 func (s *DockerHubOriginDetails) GetToken() OptString {
 	return s.Token
+}
+
+// SetExisting sets the value of Existing.
+func (s *DockerHubOriginDetails) SetExisting(val OptExistingSource) {
+	s.Existing = val
 }
 
 // SetTarget sets the value of Target.
@@ -13778,20 +13058,21 @@ func (s *DockerHubOriginType) UnmarshalText(data []byte) error {
 // An image origin where the image is pulled from a private Docker registry.
 // Ref: #/components/schemas/DockerRegistryOrigin
 type DockerRegistryOrigin struct {
-	Details OptDockerRegistryOriginDetails `json:"details"`
+	Details DockerRegistryOriginDetails `json:"details"`
 }
 
 // GetDetails returns the value of Details.
-func (s *DockerRegistryOrigin) GetDetails() OptDockerRegistryOriginDetails {
+func (s *DockerRegistryOrigin) GetDetails() DockerRegistryOriginDetails {
 	return s.Details
 }
 
 // SetDetails sets the value of Details.
-func (s *DockerRegistryOrigin) SetDetails(val OptDockerRegistryOriginDetails) {
+func (s *DockerRegistryOrigin) SetDetails(val DockerRegistryOriginDetails) {
 	s.Details = val
 }
 
 type DockerRegistryOriginDetails struct {
+	Existing OptExistingSource `json:"existing"`
 	// The image name on the registry.
 	Target string `json:"target"`
 	// The url of the remote registry.
@@ -13802,6 +13083,11 @@ type DockerRegistryOriginDetails struct {
 	Token OptString `json:"token"`
 	// For authentication, a password.
 	Password OptString `json:"password"`
+}
+
+// GetExisting returns the value of Existing.
+func (s *DockerRegistryOriginDetails) GetExisting() OptExistingSource {
+	return s.Existing
 }
 
 // GetTarget returns the value of Target.
@@ -13827,6 +13113,11 @@ func (s *DockerRegistryOriginDetails) GetToken() OptString {
 // GetPassword returns the value of Password.
 func (s *DockerRegistryOriginDetails) GetPassword() OptString {
 	return s.Password
+}
+
+// SetExisting sets the value of Existing.
+func (s *DockerRegistryOriginDetails) SetExisting(val OptExistingSource) {
+	s.Existing = val
 }
 
 // SetTarget sets the value of Target.
@@ -13922,6 +13213,8 @@ func (s *DockerfileCredentialsItem) SetUsername(val OptString) {
 func (s *DockerfileCredentialsItem) SetToken(val OptString) {
 	s.Token = val
 }
+
+type Duration string
 
 // Merged schema.
 // Ref: #/components/schemas/EmployeeLogin
@@ -14485,6 +13778,7 @@ type EnvironmentCreateStepDetails struct {
 	Cluster    string              `json:"cluster"`
 	StackBuild OptResourceLocation `json:"stack_build"`
 	Features   Features            `json:"features"`
+	OneOf      EnvironmentCreateStepDetailsSum
 }
 
 // GetName returns the value of Name.
@@ -14512,6 +13806,11 @@ func (s *EnvironmentCreateStepDetails) GetFeatures() Features {
 	return s.Features
 }
 
+// GetOneOf returns the value of OneOf.
+func (s *EnvironmentCreateStepDetails) GetOneOf() EnvironmentCreateStepDetailsSum {
+	return s.OneOf
+}
+
 // SetName sets the value of Name.
 func (s *EnvironmentCreateStepDetails) SetName(val string) {
 	s.Name = val
@@ -14535,6 +13834,137 @@ func (s *EnvironmentCreateStepDetails) SetStackBuild(val OptResourceLocation) {
 // SetFeatures sets the value of Features.
 func (s *EnvironmentCreateStepDetails) SetFeatures(val Features) {
 	s.Features = val
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *EnvironmentCreateStepDetails) SetOneOf(val EnvironmentCreateStepDetailsSum) {
+	s.OneOf = val
+}
+
+// EnvironmentCreateStepDetailsSum represents sum type.
+type EnvironmentCreateStepDetailsSum struct {
+	Type                             EnvironmentCreateStepDetailsSumType // switch on this field
+	EnvironmentCreateStepDetailsSum0 EnvironmentCreateStepDetailsSum0
+	EnvironmentCreateStepDetailsSum1 EnvironmentCreateStepDetailsSum1
+}
+
+// EnvironmentCreateStepDetailsSumType is oneOf type of EnvironmentCreateStepDetailsSum.
+type EnvironmentCreateStepDetailsSumType string
+
+// Possible values for EnvironmentCreateStepDetailsSumType.
+const (
+	EnvironmentCreateStepDetailsSum0EnvironmentCreateStepDetailsSum EnvironmentCreateStepDetailsSumType = "EnvironmentCreateStepDetailsSum0"
+	EnvironmentCreateStepDetailsSum1EnvironmentCreateStepDetailsSum EnvironmentCreateStepDetailsSumType = "EnvironmentCreateStepDetailsSum1"
+)
+
+// IsEnvironmentCreateStepDetailsSum0 reports whether EnvironmentCreateStepDetailsSum is EnvironmentCreateStepDetailsSum0.
+func (s EnvironmentCreateStepDetailsSum) IsEnvironmentCreateStepDetailsSum0() bool {
+	return s.Type == EnvironmentCreateStepDetailsSum0EnvironmentCreateStepDetailsSum
+}
+
+// IsEnvironmentCreateStepDetailsSum1 reports whether EnvironmentCreateStepDetailsSum is EnvironmentCreateStepDetailsSum1.
+func (s EnvironmentCreateStepDetailsSum) IsEnvironmentCreateStepDetailsSum1() bool {
+	return s.Type == EnvironmentCreateStepDetailsSum1EnvironmentCreateStepDetailsSum
+}
+
+// SetEnvironmentCreateStepDetailsSum0 sets EnvironmentCreateStepDetailsSum to EnvironmentCreateStepDetailsSum0.
+func (s *EnvironmentCreateStepDetailsSum) SetEnvironmentCreateStepDetailsSum0(v EnvironmentCreateStepDetailsSum0) {
+	s.Type = EnvironmentCreateStepDetailsSum0EnvironmentCreateStepDetailsSum
+	s.EnvironmentCreateStepDetailsSum0 = v
+}
+
+// GetEnvironmentCreateStepDetailsSum0 returns EnvironmentCreateStepDetailsSum0 and true boolean if EnvironmentCreateStepDetailsSum is EnvironmentCreateStepDetailsSum0.
+func (s EnvironmentCreateStepDetailsSum) GetEnvironmentCreateStepDetailsSum0() (v EnvironmentCreateStepDetailsSum0, ok bool) {
+	if !s.IsEnvironmentCreateStepDetailsSum0() {
+		return v, false
+	}
+	return s.EnvironmentCreateStepDetailsSum0, true
+}
+
+// NewEnvironmentCreateStepDetailsSum0EnvironmentCreateStepDetailsSum returns new EnvironmentCreateStepDetailsSum from EnvironmentCreateStepDetailsSum0.
+func NewEnvironmentCreateStepDetailsSum0EnvironmentCreateStepDetailsSum(v EnvironmentCreateStepDetailsSum0) EnvironmentCreateStepDetailsSum {
+	var s EnvironmentCreateStepDetailsSum
+	s.SetEnvironmentCreateStepDetailsSum0(v)
+	return s
+}
+
+// SetEnvironmentCreateStepDetailsSum1 sets EnvironmentCreateStepDetailsSum to EnvironmentCreateStepDetailsSum1.
+func (s *EnvironmentCreateStepDetailsSum) SetEnvironmentCreateStepDetailsSum1(v EnvironmentCreateStepDetailsSum1) {
+	s.Type = EnvironmentCreateStepDetailsSum1EnvironmentCreateStepDetailsSum
+	s.EnvironmentCreateStepDetailsSum1 = v
+}
+
+// GetEnvironmentCreateStepDetailsSum1 returns EnvironmentCreateStepDetailsSum1 and true boolean if EnvironmentCreateStepDetailsSum is EnvironmentCreateStepDetailsSum1.
+func (s EnvironmentCreateStepDetailsSum) GetEnvironmentCreateStepDetailsSum1() (v EnvironmentCreateStepDetailsSum1, ok bool) {
+	if !s.IsEnvironmentCreateStepDetailsSum1() {
+		return v, false
+	}
+	return s.EnvironmentCreateStepDetailsSum1, true
+}
+
+// NewEnvironmentCreateStepDetailsSum1EnvironmentCreateStepDetailsSum returns new EnvironmentCreateStepDetailsSum from EnvironmentCreateStepDetailsSum1.
+func NewEnvironmentCreateStepDetailsSum1EnvironmentCreateStepDetailsSum(v EnvironmentCreateStepDetailsSum1) EnvironmentCreateStepDetailsSum {
+	var s EnvironmentCreateStepDetailsSum
+	s.SetEnvironmentCreateStepDetailsSum1(v)
+	return s
+}
+
+type EnvironmentCreateStepDetailsSum0 struct {
+	// The ID of an existing resource that exists before the pipeline is run.
+	ID string `json:"id"`
+}
+
+// GetID returns the value of ID.
+func (s *EnvironmentCreateStepDetailsSum0) GetID() string {
+	return s.ID
+}
+
+// SetID sets the value of ID.
+func (s *EnvironmentCreateStepDetailsSum0) SetID(val string) {
+	s.ID = val
+}
+
+type EnvironmentCreateStepDetailsSum1 struct {
+	// The stage and step to report on.
+	From EnvironmentCreateStepDetailsSum1From `json:"from"`
+}
+
+// GetFrom returns the value of From.
+func (s *EnvironmentCreateStepDetailsSum1) GetFrom() EnvironmentCreateStepDetailsSum1From {
+	return s.From
+}
+
+// SetFrom sets the value of From.
+func (s *EnvironmentCreateStepDetailsSum1) SetFrom(val EnvironmentCreateStepDetailsSum1From) {
+	s.From = val
+}
+
+// The stage and step to report on.
+type EnvironmentCreateStepDetailsSum1From struct {
+	// An identifier for the stage the step being reported on resides in.
+	Stage OptString `json:"stage"`
+	// An identifier for the step to be reported on.
+	Step string `json:"step"`
+}
+
+// GetStage returns the value of Stage.
+func (s *EnvironmentCreateStepDetailsSum1From) GetStage() OptString {
+	return s.Stage
+}
+
+// GetStep returns the value of Step.
+func (s *EnvironmentCreateStepDetailsSum1From) GetStep() string {
+	return s.Step
+}
+
+// SetStage sets the value of Stage.
+func (s *EnvironmentCreateStepDetailsSum1From) SetStage(val OptString) {
+	s.Stage = val
+}
+
+// SetStep sets the value of Step.
+func (s *EnvironmentCreateStepDetailsSum1From) SetStep(val string) {
+	s.Step = val
 }
 
 type EnvironmentCreateStepOptions struct {
@@ -15860,7 +15290,7 @@ func (s *ErrorCode) UnmarshalText(data []byte) error {
 type ErrorEnvelope struct {
 	Error Error `json:"error"`
 	// Data will always be `null` here.
-	Data jx.Raw `json:"data"`
+	Data *ErrorEnvelopeData `json:"data"`
 }
 
 // GetError returns the value of Error.
@@ -15869,7 +15299,7 @@ func (s *ErrorEnvelope) GetError() Error {
 }
 
 // GetData returns the value of Data.
-func (s *ErrorEnvelope) GetData() jx.Raw {
+func (s *ErrorEnvelope) GetData() *ErrorEnvelopeData {
 	return s.Data
 }
 
@@ -15879,9 +15309,12 @@ func (s *ErrorEnvelope) SetError(val Error) {
 }
 
 // SetData sets the value of Data.
-func (s *ErrorEnvelope) SetData(val jx.Raw) {
+func (s *ErrorEnvelope) SetData(val *ErrorEnvelopeData) {
 	s.Data = val
 }
+
+// Data will always be `null` here.
+type ErrorEnvelopeData struct{}
 
 // ErrorEnvelopeStatusCode wraps ErrorEnvelope with StatusCode.
 type ErrorEnvelopeStatusCode struct {
@@ -15923,8 +15356,7 @@ const (
 	ErrorStatus500 ErrorStatus = 500
 )
 
-// Cycle resources usually contain an events field, the event being the key and a formatted time
-// string being the value.
+// Describes the date and time at which certain events occurred in the lifetime of this resource.
 // Ref: #/components/schemas/Events
 type Events map[string]DateTime
 
@@ -15935,6 +15367,25 @@ func (s *Events) init() Events {
 		*s = m
 	}
 	return m
+}
+
+// In a stack, specifies an image source ID from which Cycle will derive any values not specified in
+// the stack file. This is useful for avoiding direct placement of credentials in a stack file, for
+// example.
+// Ref: #/components/schemas/ExistingSource
+type ExistingSource struct {
+	// The ID of the image source this image should be built from.
+	SourceID OptID `json:"source_id"`
+}
+
+// GetSourceID returns the value of SourceID.
+func (s *ExistingSource) GetSourceID() OptID {
+	return s.SourceID
+}
+
+// SetSourceID sets the value of SourceID.
+func (s *ExistingSource) SetSourceID(val OptID) {
+	s.SourceID = val
 }
 
 type ExpireInstanceSSHTokensOK struct {
@@ -16175,83 +15626,6 @@ func (s *GenerateStackBuildActionAction) UnmarshalText(data []byte) error {
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
-}
-
-// Geographic information about a provider location.
-// Ref: #/components/schemas/Geographic
-type Geographic struct {
-	// The latitude of the given provider datacenter.
-	Latitude int `json:"latitude"`
-	// The longitude of the given provider datacenter.
-	Longitude int `json:"longitude"`
-	// The city the datacenter resides in.
-	City string `json:"city"`
-	// The state the datacenter resides in.
-	State string `json:"state"`
-	// The country the datacenter resides in.
-	Country string `json:"country"`
-	// The region the datacenter resides in.
-	Region string `json:"region"`
-}
-
-// GetLatitude returns the value of Latitude.
-func (s *Geographic) GetLatitude() int {
-	return s.Latitude
-}
-
-// GetLongitude returns the value of Longitude.
-func (s *Geographic) GetLongitude() int {
-	return s.Longitude
-}
-
-// GetCity returns the value of City.
-func (s *Geographic) GetCity() string {
-	return s.City
-}
-
-// GetState returns the value of State.
-func (s *Geographic) GetState() string {
-	return s.State
-}
-
-// GetCountry returns the value of Country.
-func (s *Geographic) GetCountry() string {
-	return s.Country
-}
-
-// GetRegion returns the value of Region.
-func (s *Geographic) GetRegion() string {
-	return s.Region
-}
-
-// SetLatitude sets the value of Latitude.
-func (s *Geographic) SetLatitude(val int) {
-	s.Latitude = val
-}
-
-// SetLongitude sets the value of Longitude.
-func (s *Geographic) SetLongitude(val int) {
-	s.Longitude = val
-}
-
-// SetCity sets the value of City.
-func (s *Geographic) SetCity(val string) {
-	s.City = val
-}
-
-// SetState sets the value of State.
-func (s *Geographic) SetState(val string) {
-	s.State = val
-}
-
-// SetCountry sets the value of Country.
-func (s *Geographic) SetCountry(val string) {
-	s.Country = val
-}
-
-// SetRegion sets the value of Region.
-func (s *Geographic) SetRegion(val string) {
-	s.Region = val
 }
 
 type GetAccountInvitesFilter struct{}
@@ -18016,156 +17390,19 @@ func (s *GetEnvironmentsPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
-type GetHubActivityFilter struct {
-	// `filter[search]=value` search activities for a value associated with a field on the given
-	// activity(s).
-	Search OptString `json:"search"`
-	// `filter[state]=value1,value2` state filtering will allow you to filter by the activity's current
-	// state.
-	State OptString `json:"state"`
-	// `filter[user]=ID` user filtering by ID. Submit the ID of the user you wish to filter for and the
-	// return will be any activity from that user.
-	User OptString `json:"user"`
-	// `filter[environment]=ID` environment filtering by ID. Submit the ID of the environment you wish to
-	// filter for and the return will be any activity from that environment.
-	Environment OptString `json:"environment"`
-	// `filter[container]=ID` container filtering by ID. Submit the ID of the container you wish to
-	// filter for and the return will be any activity from that container.
-	Container OptString `json:"container"`
-	// `filter[instance]=ID` instance filtering by ID. Submit the ID of the instance you wish to filter
-	// for and the return will be any activity from that instance.
-	Instance OptString `json:"instance"`
-	// `filter[server]=ID` server filtering by ID. Submit the ID of the server you wish to filter for and
-	// the return will be any activity from that server.
-	Server OptString `json:"server"`
-	// `filter[event]=value` filter by event occurrence. Example: `filter[event]=environment.services.vpn.
-	// login`.
-	Event OptString `json:"event"`
-	// `filter[verbosity]=integer` filter the activity return by verbosity. The verbosity can be:
-	// `0` - Activity that users would find useful.
-	// `1` - Activity that can be useful when tracking down how something happened.
-	// `2` - Full activity, can be useful in debugging problems.
-	Verbosity OptInt `json:"verbosity"`
-}
-
-// GetSearch returns the value of Search.
-func (s *GetHubActivityFilter) GetSearch() OptString {
-	return s.Search
-}
-
-// GetState returns the value of State.
-func (s *GetHubActivityFilter) GetState() OptString {
-	return s.State
-}
-
-// GetUser returns the value of User.
-func (s *GetHubActivityFilter) GetUser() OptString {
-	return s.User
-}
-
-// GetEnvironment returns the value of Environment.
-func (s *GetHubActivityFilter) GetEnvironment() OptString {
-	return s.Environment
-}
-
-// GetContainer returns the value of Container.
-func (s *GetHubActivityFilter) GetContainer() OptString {
-	return s.Container
-}
-
-// GetInstance returns the value of Instance.
-func (s *GetHubActivityFilter) GetInstance() OptString {
-	return s.Instance
-}
-
-// GetServer returns the value of Server.
-func (s *GetHubActivityFilter) GetServer() OptString {
-	return s.Server
-}
-
-// GetEvent returns the value of Event.
-func (s *GetHubActivityFilter) GetEvent() OptString {
-	return s.Event
-}
-
-// GetVerbosity returns the value of Verbosity.
-func (s *GetHubActivityFilter) GetVerbosity() OptInt {
-	return s.Verbosity
-}
-
-// SetSearch sets the value of Search.
-func (s *GetHubActivityFilter) SetSearch(val OptString) {
-	s.Search = val
-}
-
-// SetState sets the value of State.
-func (s *GetHubActivityFilter) SetState(val OptString) {
-	s.State = val
-}
-
-// SetUser sets the value of User.
-func (s *GetHubActivityFilter) SetUser(val OptString) {
-	s.User = val
-}
-
-// SetEnvironment sets the value of Environment.
-func (s *GetHubActivityFilter) SetEnvironment(val OptString) {
-	s.Environment = val
-}
-
-// SetContainer sets the value of Container.
-func (s *GetHubActivityFilter) SetContainer(val OptString) {
-	s.Container = val
-}
-
-// SetInstance sets the value of Instance.
-func (s *GetHubActivityFilter) SetInstance(val OptString) {
-	s.Instance = val
-}
-
-// SetServer sets the value of Server.
-func (s *GetHubActivityFilter) SetServer(val OptString) {
-	s.Server = val
-}
-
-// SetEvent sets the value of Event.
-func (s *GetHubActivityFilter) SetEvent(val OptString) {
-	s.Event = val
-}
-
-// SetVerbosity sets the value of Verbosity.
-func (s *GetHubActivityFilter) SetVerbosity(val OptInt) {
-	s.Verbosity = val
-}
-
-type GetHubActivityIncludeItem string
+type GetGlobalLoadBalancerIncludeItem string
 
 const (
-	GetHubActivityIncludeItemUsers        GetHubActivityIncludeItem = "users"
-	GetHubActivityIncludeItemComponents   GetHubActivityIncludeItem = "components"
-	GetHubActivityIncludeItemCreators     GetHubActivityIncludeItem = "creators"
-	GetHubActivityIncludeItemImages       GetHubActivityIncludeItem = "images"
-	GetHubActivityIncludeItemStackBuilds  GetHubActivityIncludeItem = "stack_builds"
-	GetHubActivityIncludeItemStacks       GetHubActivityIncludeItem = "stacks"
-	GetHubActivityIncludeItemEnvironments GetHubActivityIncludeItem = "environments"
+	GetGlobalLoadBalancerIncludeItemCreators     GetGlobalLoadBalancerIncludeItem = "creators"
+	GetGlobalLoadBalancerIncludeItemEnvironments GetGlobalLoadBalancerIncludeItem = "environments"
 )
 
 // MarshalText implements encoding.TextMarshaler.
-func (s GetHubActivityIncludeItem) MarshalText() ([]byte, error) {
+func (s GetGlobalLoadBalancerIncludeItem) MarshalText() ([]byte, error) {
 	switch s {
-	case GetHubActivityIncludeItemUsers:
+	case GetGlobalLoadBalancerIncludeItemCreators:
 		return []byte(s), nil
-	case GetHubActivityIncludeItemComponents:
-		return []byte(s), nil
-	case GetHubActivityIncludeItemCreators:
-		return []byte(s), nil
-	case GetHubActivityIncludeItemImages:
-		return []byte(s), nil
-	case GetHubActivityIncludeItemStackBuilds:
-		return []byte(s), nil
-	case GetHubActivityIncludeItemStacks:
-		return []byte(s), nil
-	case GetHubActivityIncludeItemEnvironments:
+	case GetGlobalLoadBalancerIncludeItemEnvironments:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -18173,60 +17410,144 @@ func (s GetHubActivityIncludeItem) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *GetHubActivityIncludeItem) UnmarshalText(data []byte) error {
-	switch GetHubActivityIncludeItem(data) {
-	case GetHubActivityIncludeItemUsers:
-		*s = GetHubActivityIncludeItemUsers
+func (s *GetGlobalLoadBalancerIncludeItem) UnmarshalText(data []byte) error {
+	switch GetGlobalLoadBalancerIncludeItem(data) {
+	case GetGlobalLoadBalancerIncludeItemCreators:
+		*s = GetGlobalLoadBalancerIncludeItemCreators
 		return nil
-	case GetHubActivityIncludeItemComponents:
-		*s = GetHubActivityIncludeItemComponents
-		return nil
-	case GetHubActivityIncludeItemCreators:
-		*s = GetHubActivityIncludeItemCreators
-		return nil
-	case GetHubActivityIncludeItemImages:
-		*s = GetHubActivityIncludeItemImages
-		return nil
-	case GetHubActivityIncludeItemStackBuilds:
-		*s = GetHubActivityIncludeItemStackBuilds
-		return nil
-	case GetHubActivityIncludeItemStacks:
-		*s = GetHubActivityIncludeItemStacks
-		return nil
-	case GetHubActivityIncludeItemEnvironments:
-		*s = GetHubActivityIncludeItemEnvironments
+	case GetGlobalLoadBalancerIncludeItemEnvironments:
+		*s = GetGlobalLoadBalancerIncludeItemEnvironments
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-type GetHubActivityOK struct {
-	Data     []Activity          `json:"data"`
-	Includes OptActivityIncludes `json:"includes"`
+type GetGlobalLoadBalancerOK struct {
+	Data     OptGlobalLoadBalancer         `json:"data"`
+	Includes OptGlobalLoadBalancerIncludes `json:"includes"`
 }
 
 // GetData returns the value of Data.
-func (s *GetHubActivityOK) GetData() []Activity {
+func (s *GetGlobalLoadBalancerOK) GetData() OptGlobalLoadBalancer {
 	return s.Data
 }
 
 // GetIncludes returns the value of Includes.
-func (s *GetHubActivityOK) GetIncludes() OptActivityIncludes {
+func (s *GetGlobalLoadBalancerOK) GetIncludes() OptGlobalLoadBalancerIncludes {
 	return s.Includes
 }
 
 // SetData sets the value of Data.
-func (s *GetHubActivityOK) SetData(val []Activity) {
+func (s *GetGlobalLoadBalancerOK) SetData(val OptGlobalLoadBalancer) {
 	s.Data = val
 }
 
 // SetIncludes sets the value of Includes.
-func (s *GetHubActivityOK) SetIncludes(val OptActivityIncludes) {
+func (s *GetGlobalLoadBalancerOK) SetIncludes(val OptGlobalLoadBalancerIncludes) {
 	s.Includes = val
 }
 
-type GetHubActivityPage struct {
+type GetGlobalLoadBalancersFilter struct {
+	// `filter[identifier]=value` only return global load balancers that match the identifier.
+	Identifier OptString `json:"identifier"`
+	// `filter[search]=value` search for a value associated with a field on the given global load
+	// balancer(s).
+	Search OptString `json:"search"`
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the global load
+	// balancer's current state.
+	State OptString `json:"state"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *GetGlobalLoadBalancersFilter) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetSearch returns the value of Search.
+func (s *GetGlobalLoadBalancersFilter) GetSearch() OptString {
+	return s.Search
+}
+
+// GetState returns the value of State.
+func (s *GetGlobalLoadBalancersFilter) GetState() OptString {
+	return s.State
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *GetGlobalLoadBalancersFilter) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetSearch sets the value of Search.
+func (s *GetGlobalLoadBalancersFilter) SetSearch(val OptString) {
+	s.Search = val
+}
+
+// SetState sets the value of State.
+func (s *GetGlobalLoadBalancersFilter) SetState(val OptString) {
+	s.State = val
+}
+
+type GetGlobalLoadBalancersIncludeItem string
+
+const (
+	GetGlobalLoadBalancersIncludeItemCreators     GetGlobalLoadBalancersIncludeItem = "creators"
+	GetGlobalLoadBalancersIncludeItemEnvironments GetGlobalLoadBalancersIncludeItem = "environments"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetGlobalLoadBalancersIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetGlobalLoadBalancersIncludeItemCreators:
+		return []byte(s), nil
+	case GetGlobalLoadBalancersIncludeItemEnvironments:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetGlobalLoadBalancersIncludeItem) UnmarshalText(data []byte) error {
+	switch GetGlobalLoadBalancersIncludeItem(data) {
+	case GetGlobalLoadBalancersIncludeItemCreators:
+		*s = GetGlobalLoadBalancersIncludeItemCreators
+		return nil
+	case GetGlobalLoadBalancersIncludeItemEnvironments:
+		*s = GetGlobalLoadBalancersIncludeItemEnvironments
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetGlobalLoadBalancersOK struct {
+	Data     []GlobalLoadBalancer          `json:"data"`
+	Includes OptGlobalLoadBalancerIncludes `json:"includes"`
+}
+
+// GetData returns the value of Data.
+func (s *GetGlobalLoadBalancersOK) GetData() []GlobalLoadBalancer {
+	return s.Data
+}
+
+// GetIncludes returns the value of Includes.
+func (s *GetGlobalLoadBalancersOK) GetIncludes() OptGlobalLoadBalancerIncludes {
+	return s.Includes
+}
+
+// SetData sets the value of Data.
+func (s *GetGlobalLoadBalancersOK) SetData(val []GlobalLoadBalancer) {
+	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *GetGlobalLoadBalancersOK) SetIncludes(val OptGlobalLoadBalancerIncludes) {
+	s.Includes = val
+}
+
+type GetGlobalLoadBalancersPage struct {
 	// The page to jump to.
 	Number OptFloat64 `json:"number"`
 	// The number of resources returned per page.
@@ -18234,22 +17555,22 @@ type GetHubActivityPage struct {
 }
 
 // GetNumber returns the value of Number.
-func (s *GetHubActivityPage) GetNumber() OptFloat64 {
+func (s *GetGlobalLoadBalancersPage) GetNumber() OptFloat64 {
 	return s.Number
 }
 
 // GetSize returns the value of Size.
-func (s *GetHubActivityPage) GetSize() OptFloat64 {
+func (s *GetGlobalLoadBalancersPage) GetSize() OptFloat64 {
 	return s.Size
 }
 
 // SetNumber sets the value of Number.
-func (s *GetHubActivityPage) SetNumber(val OptFloat64) {
+func (s *GetGlobalLoadBalancersPage) SetNumber(val OptFloat64) {
 	s.Number = val
 }
 
 // SetSize sets the value of Size.
-func (s *GetHubActivityPage) SetSize(val OptFloat64) {
+func (s *GetGlobalLoadBalancersPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
@@ -18662,6 +17983,114 @@ func (s *GetHubMembersPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
+type GetHubMembershipFilter struct{}
+
+type GetHubMembershipIncludeItem string
+
+const (
+	GetHubMembershipIncludeItemAccounts GetHubMembershipIncludeItem = "accounts"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetHubMembershipIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetHubMembershipIncludeItemAccounts:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetHubMembershipIncludeItem) UnmarshalText(data []byte) error {
+	switch GetHubMembershipIncludeItem(data) {
+	case GetHubMembershipIncludeItemAccounts:
+		*s = GetHubMembershipIncludeItemAccounts
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetHubMembershipMetaItem string
+
+const (
+	GetHubMembershipMetaItemCapabilities GetHubMembershipMetaItem = "capabilities"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetHubMembershipMetaItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetHubMembershipMetaItemCapabilities:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetHubMembershipMetaItem) UnmarshalText(data []byte) error {
+	switch GetHubMembershipMetaItem(data) {
+	case GetHubMembershipMetaItemCapabilities:
+		*s = GetHubMembershipMetaItemCapabilities
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetHubMembershipOK struct {
+	Data     OptHubMembership         `json:"data"`
+	Includes OptHubMembershipIncludes `json:"includes"`
+}
+
+// GetData returns the value of Data.
+func (s *GetHubMembershipOK) GetData() OptHubMembership {
+	return s.Data
+}
+
+// GetIncludes returns the value of Includes.
+func (s *GetHubMembershipOK) GetIncludes() OptHubMembershipIncludes {
+	return s.Includes
+}
+
+// SetData sets the value of Data.
+func (s *GetHubMembershipOK) SetData(val OptHubMembership) {
+	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *GetHubMembershipOK) SetIncludes(val OptHubMembershipIncludes) {
+	s.Includes = val
+}
+
+type GetHubMembershipPage struct {
+	// The page to jump to.
+	Number OptFloat64 `json:"number"`
+	// The number of resources returned per page.
+	Size OptFloat64 `json:"size"`
+}
+
+// GetNumber returns the value of Number.
+func (s *GetHubMembershipPage) GetNumber() OptFloat64 {
+	return s.Number
+}
+
+// GetSize returns the value of Size.
+func (s *GetHubMembershipPage) GetSize() OptFloat64 {
+	return s.Size
+}
+
+// SetNumber sets the value of Number.
+func (s *GetHubMembershipPage) SetNumber(val OptFloat64) {
+	s.Number = val
+}
+
+// SetSize sets the value of Size.
+func (s *GetHubMembershipPage) SetSize(val OptFloat64) {
+	s.Size = val
+}
+
 type GetHubMetaItem string
 
 const (
@@ -18771,6 +18200,33 @@ func (s *GetHubsOK) GetData() []Hub {
 // SetData sets the value of Data.
 func (s *GetHubsOK) SetData(val []Hub) {
 	s.Data = val
+}
+
+type GetHubsPage struct {
+	// The page to jump to.
+	Number OptFloat64 `json:"number"`
+	// The number of resources returned per page.
+	Size OptFloat64 `json:"size"`
+}
+
+// GetNumber returns the value of Number.
+func (s *GetHubsPage) GetNumber() OptFloat64 {
+	return s.Number
+}
+
+// GetSize returns the value of Size.
+func (s *GetHubsPage) GetSize() OptFloat64 {
+	return s.Size
+}
+
+// SetNumber sets the value of Number.
+func (s *GetHubsPage) SetNumber(val OptFloat64) {
+	s.Number = val
+}
+
+// SetSize sets the value of Size.
+func (s *GetHubsPage) SetSize(val OptFloat64) {
+	s.Size = val
 }
 
 type GetImageBuildLogOK struct {
@@ -19765,16 +19221,178 @@ func (s *GetLatestJobsOK) SetData(val []Job) {
 }
 
 type GetLoadBalancerInfoOK struct {
-	Data OptLoadBalancerInfoReturn `json:"data"`
+	// Information about an environments load balancer configuration, state, and availability settings.
+	Data OptGetLoadBalancerInfoOKData `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *GetLoadBalancerInfoOK) GetData() OptLoadBalancerInfoReturn {
+func (s *GetLoadBalancerInfoOK) GetData() OptGetLoadBalancerInfoOKData {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *GetLoadBalancerInfoOK) SetData(val OptLoadBalancerInfoReturn) {
+func (s *GetLoadBalancerInfoOK) SetData(val OptGetLoadBalancerInfoOKData) {
+	s.Data = val
+}
+
+// Information about an environments load balancer configuration, state, and availability settings.
+type GetLoadBalancerInfoOKData struct {
+	DefaultConfig NilLoadBalancerConfig                   `json:"default_config"`
+	DefaultType   GetLoadBalancerInfoOKDataDefaultType    `json:"default_type"`
+	BaseConfigs   OptGetLoadBalancerInfoOKDataBaseConfigs `json:"base_configs"`
+	Service       NilLoadBalancerEnvironmentService       `json:"service"`
+}
+
+// GetDefaultConfig returns the value of DefaultConfig.
+func (s *GetLoadBalancerInfoOKData) GetDefaultConfig() NilLoadBalancerConfig {
+	return s.DefaultConfig
+}
+
+// GetDefaultType returns the value of DefaultType.
+func (s *GetLoadBalancerInfoOKData) GetDefaultType() GetLoadBalancerInfoOKDataDefaultType {
+	return s.DefaultType
+}
+
+// GetBaseConfigs returns the value of BaseConfigs.
+func (s *GetLoadBalancerInfoOKData) GetBaseConfigs() OptGetLoadBalancerInfoOKDataBaseConfigs {
+	return s.BaseConfigs
+}
+
+// GetService returns the value of Service.
+func (s *GetLoadBalancerInfoOKData) GetService() NilLoadBalancerEnvironmentService {
+	return s.Service
+}
+
+// SetDefaultConfig sets the value of DefaultConfig.
+func (s *GetLoadBalancerInfoOKData) SetDefaultConfig(val NilLoadBalancerConfig) {
+	s.DefaultConfig = val
+}
+
+// SetDefaultType sets the value of DefaultType.
+func (s *GetLoadBalancerInfoOKData) SetDefaultType(val GetLoadBalancerInfoOKDataDefaultType) {
+	s.DefaultType = val
+}
+
+// SetBaseConfigs sets the value of BaseConfigs.
+func (s *GetLoadBalancerInfoOKData) SetBaseConfigs(val OptGetLoadBalancerInfoOKDataBaseConfigs) {
+	s.BaseConfigs = val
+}
+
+// SetService sets the value of Service.
+func (s *GetLoadBalancerInfoOKData) SetService(val NilLoadBalancerEnvironmentService) {
+	s.Service = val
+}
+
+type GetLoadBalancerInfoOKDataBaseConfigs struct {
+	Haproxy HaProxyConfig `json:"haproxy"`
+	V1      V1LbConfig    `json:"v1"`
+}
+
+// GetHaproxy returns the value of Haproxy.
+func (s *GetLoadBalancerInfoOKDataBaseConfigs) GetHaproxy() HaProxyConfig {
+	return s.Haproxy
+}
+
+// GetV1 returns the value of V1.
+func (s *GetLoadBalancerInfoOKDataBaseConfigs) GetV1() V1LbConfig {
+	return s.V1
+}
+
+// SetHaproxy sets the value of Haproxy.
+func (s *GetLoadBalancerInfoOKDataBaseConfigs) SetHaproxy(val HaProxyConfig) {
+	s.Haproxy = val
+}
+
+// SetV1 sets the value of V1.
+func (s *GetLoadBalancerInfoOKDataBaseConfigs) SetV1(val V1LbConfig) {
+	s.V1 = val
+}
+
+type GetLoadBalancerInfoOKDataDefaultType string
+
+const (
+	GetLoadBalancerInfoOKDataDefaultTypeHaproxy GetLoadBalancerInfoOKDataDefaultType = "haproxy"
+	GetLoadBalancerInfoOKDataDefaultTypeV1      GetLoadBalancerInfoOKDataDefaultType = "v1"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetLoadBalancerInfoOKDataDefaultType) MarshalText() ([]byte, error) {
+	switch s {
+	case GetLoadBalancerInfoOKDataDefaultTypeHaproxy:
+		return []byte(s), nil
+	case GetLoadBalancerInfoOKDataDefaultTypeV1:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetLoadBalancerInfoOKDataDefaultType) UnmarshalText(data []byte) error {
+	switch GetLoadBalancerInfoOKDataDefaultType(data) {
+	case GetLoadBalancerInfoOKDataDefaultTypeHaproxy:
+		*s = GetLoadBalancerInfoOKDataDefaultTypeHaproxy
+		return nil
+	case GetLoadBalancerInfoOKDataDefaultTypeV1:
+		*s = GetLoadBalancerInfoOKDataDefaultTypeV1
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type GetLoadBalancerLatestTelemetryReportOK struct {
+	Data LoadBalancerLatestTelemetry `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *GetLoadBalancerLatestTelemetryReportOK) GetData() LoadBalancerLatestTelemetry {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *GetLoadBalancerLatestTelemetryReportOK) SetData(val LoadBalancerLatestTelemetry) {
+	s.Data = val
+}
+
+type GetLoadBalancerTelemetryReportFilter struct {
+	// The start date from when to pull load balancer telemetry data.
+	RangeMinusStart OptDateTime `json:"range-start"`
+	// The end date from when to pull load balancer telemetry data.
+	RangeMinusEnd OptDateTime `json:"range-end"`
+}
+
+// GetRangeMinusStart returns the value of RangeMinusStart.
+func (s *GetLoadBalancerTelemetryReportFilter) GetRangeMinusStart() OptDateTime {
+	return s.RangeMinusStart
+}
+
+// GetRangeMinusEnd returns the value of RangeMinusEnd.
+func (s *GetLoadBalancerTelemetryReportFilter) GetRangeMinusEnd() OptDateTime {
+	return s.RangeMinusEnd
+}
+
+// SetRangeMinusStart sets the value of RangeMinusStart.
+func (s *GetLoadBalancerTelemetryReportFilter) SetRangeMinusStart(val OptDateTime) {
+	s.RangeMinusStart = val
+}
+
+// SetRangeMinusEnd sets the value of RangeMinusEnd.
+func (s *GetLoadBalancerTelemetryReportFilter) SetRangeMinusEnd(val OptDateTime) {
+	s.RangeMinusEnd = val
+}
+
+type GetLoadBalancerTelemetryReportOK struct {
+	Data OptLoadBalancerTelemetryReport `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *GetLoadBalancerTelemetryReportOK) GetData() OptLoadBalancerTelemetryReport {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *GetLoadBalancerTelemetryReportOK) SetData(val OptLoadBalancerTelemetryReport) {
 	s.Data = val
 }
 
@@ -19861,18 +19479,62 @@ func (s *GetNativeProvidersPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
+type GetNetworkIncludeItem string
+
+const (
+	GetNetworkIncludeItemCreators     GetNetworkIncludeItem = "creators"
+	GetNetworkIncludeItemEnvironments GetNetworkIncludeItem = "environments"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetNetworkIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetNetworkIncludeItemCreators:
+		return []byte(s), nil
+	case GetNetworkIncludeItemEnvironments:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetNetworkIncludeItem) UnmarshalText(data []byte) error {
+	switch GetNetworkIncludeItem(data) {
+	case GetNetworkIncludeItemCreators:
+		*s = GetNetworkIncludeItemCreators
+		return nil
+	case GetNetworkIncludeItemEnvironments:
+		*s = GetNetworkIncludeItemEnvironments
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type GetNetworkOK struct {
-	Data OptSDNNetwork `json:"data"`
+	Data     OptNetwork         `json:"data"`
+	Includes OptNetworkIncludes `json:"includes"`
 }
 
 // GetData returns the value of Data.
-func (s *GetNetworkOK) GetData() OptSDNNetwork {
+func (s *GetNetworkOK) GetData() OptNetwork {
 	return s.Data
 }
 
+// GetIncludes returns the value of Includes.
+func (s *GetNetworkOK) GetIncludes() OptNetworkIncludes {
+	return s.Includes
+}
+
 // SetData sets the value of Data.
-func (s *GetNetworkOK) SetData(val OptSDNNetwork) {
+func (s *GetNetworkOK) SetData(val OptNetwork) {
 	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *GetNetworkOK) SetIncludes(val OptNetworkIncludes) {
+	s.Includes = val
 }
 
 type GetNetworksFilter struct {
@@ -19937,12 +19599,12 @@ func (s *GetNetworksIncludeItem) UnmarshalText(data []byte) error {
 }
 
 type GetNetworksOK struct {
-	Data     []SDNNetwork       `json:"data"`
+	Data     []Network          `json:"data"`
 	Includes OptNetworkIncludes `json:"includes"`
 }
 
 // GetData returns the value of Data.
-func (s *GetNetworksOK) GetData() []SDNNetwork {
+func (s *GetNetworksOK) GetData() []Network {
 	return s.Data
 }
 
@@ -19952,7 +19614,7 @@ func (s *GetNetworksOK) GetIncludes() OptNetworkIncludes {
 }
 
 // SetData sets the value of Data.
-func (s *GetNetworksOK) SetData(val []SDNNetwork) {
+func (s *GetNetworksOK) SetData(val []Network) {
 	s.Data = val
 }
 
@@ -22252,36 +21914,411 @@ func (s *GetZonesCollectionPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
-// Ref: #/components/schemas/HAProxyConfig
-type HAProxyConfig struct {
+// A load balancer that sits outside of any environment and routes traffic between multiple
+// environments. Global load balancers are used to manage rainbow/canary deployments and prevent
+// downtime during an update.
+// Ref: #/components/schemas/GlobalLoadBalancer
+type GlobalLoadBalancer struct {
+	ID ID `json:"id"`
+	// A custom name given to this global load balancer.
+	Name       string                  `json:"name"`
+	Identifier Identifier              `json:"identifier"`
+	Cluster    Identifier              `json:"cluster"`
+	Creator    Creator                 `json:"creator"`
+	HubID      ID                      `json:"hub_id"`
+	State      GlobalLoadBalancerState `json:"state"`
+	// An array where each item lists an environment ID and settings for the global load balancer to
+	// route traffic to them.
+	Environments []GlobalLoadBalancerEnvironmentsItem `json:"environments"`
+	// Describes the date and time at which certain events occurred in the lifetime of this resource.
+	Events GlobalLoadBalancerEvents `json:"events"`
+}
+
+// GetID returns the value of ID.
+func (s *GlobalLoadBalancer) GetID() ID {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *GlobalLoadBalancer) GetName() string {
+	return s.Name
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *GlobalLoadBalancer) GetIdentifier() Identifier {
+	return s.Identifier
+}
+
+// GetCluster returns the value of Cluster.
+func (s *GlobalLoadBalancer) GetCluster() Identifier {
+	return s.Cluster
+}
+
+// GetCreator returns the value of Creator.
+func (s *GlobalLoadBalancer) GetCreator() Creator {
+	return s.Creator
+}
+
+// GetHubID returns the value of HubID.
+func (s *GlobalLoadBalancer) GetHubID() ID {
+	return s.HubID
+}
+
+// GetState returns the value of State.
+func (s *GlobalLoadBalancer) GetState() GlobalLoadBalancerState {
+	return s.State
+}
+
+// GetEnvironments returns the value of Environments.
+func (s *GlobalLoadBalancer) GetEnvironments() []GlobalLoadBalancerEnvironmentsItem {
+	return s.Environments
+}
+
+// GetEvents returns the value of Events.
+func (s *GlobalLoadBalancer) GetEvents() GlobalLoadBalancerEvents {
+	return s.Events
+}
+
+// SetID sets the value of ID.
+func (s *GlobalLoadBalancer) SetID(val ID) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *GlobalLoadBalancer) SetName(val string) {
+	s.Name = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *GlobalLoadBalancer) SetIdentifier(val Identifier) {
+	s.Identifier = val
+}
+
+// SetCluster sets the value of Cluster.
+func (s *GlobalLoadBalancer) SetCluster(val Identifier) {
+	s.Cluster = val
+}
+
+// SetCreator sets the value of Creator.
+func (s *GlobalLoadBalancer) SetCreator(val Creator) {
+	s.Creator = val
+}
+
+// SetHubID sets the value of HubID.
+func (s *GlobalLoadBalancer) SetHubID(val ID) {
+	s.HubID = val
+}
+
+// SetState sets the value of State.
+func (s *GlobalLoadBalancer) SetState(val GlobalLoadBalancerState) {
+	s.State = val
+}
+
+// SetEnvironments sets the value of Environments.
+func (s *GlobalLoadBalancer) SetEnvironments(val []GlobalLoadBalancerEnvironmentsItem) {
+	s.Environments = val
+}
+
+// SetEvents sets the value of Events.
+func (s *GlobalLoadBalancer) SetEvents(val GlobalLoadBalancerEvents) {
+	s.Events = val
+}
+
+type GlobalLoadBalancerEnvironmentsItem struct {
+	ID      ID                                        `json:"id"`
+	Traffic GlobalLoadBalancerEnvironmentsItemTraffic `json:"traffic"`
+}
+
+// GetID returns the value of ID.
+func (s *GlobalLoadBalancerEnvironmentsItem) GetID() ID {
+	return s.ID
+}
+
+// GetTraffic returns the value of Traffic.
+func (s *GlobalLoadBalancerEnvironmentsItem) GetTraffic() GlobalLoadBalancerEnvironmentsItemTraffic {
+	return s.Traffic
+}
+
+// SetID sets the value of ID.
+func (s *GlobalLoadBalancerEnvironmentsItem) SetID(val ID) {
+	s.ID = val
+}
+
+// SetTraffic sets the value of Traffic.
+func (s *GlobalLoadBalancerEnvironmentsItem) SetTraffic(val GlobalLoadBalancerEnvironmentsItemTraffic) {
+	s.Traffic = val
+}
+
+type GlobalLoadBalancerEnvironmentsItemTraffic struct {
+	// The percentage of all traffic the global load balancer should route to this environment. Must add
+	// up to 100% across all environments.
+	Percentage int `json:"percentage"`
+}
+
+// GetPercentage returns the value of Percentage.
+func (s *GlobalLoadBalancerEnvironmentsItemTraffic) GetPercentage() int {
+	return s.Percentage
+}
+
+// SetPercentage sets the value of Percentage.
+func (s *GlobalLoadBalancerEnvironmentsItemTraffic) SetPercentage(val int) {
+	s.Percentage = val
+}
+
+// Describes the date and time at which certain events occurred in the lifetime of this resource.
+type GlobalLoadBalancerEvents struct {
+	// The timestamp of when the global lb was created.
+	Created DateTime `json:"created"`
+	// The timestamp of when the global lb was updated.
+	Updated DateTime `json:"updated"`
+	// The timestamp of when the global lb was deleted.
+	Deleted DateTime `json:"deleted"`
+}
+
+// GetCreated returns the value of Created.
+func (s *GlobalLoadBalancerEvents) GetCreated() DateTime {
+	return s.Created
+}
+
+// GetUpdated returns the value of Updated.
+func (s *GlobalLoadBalancerEvents) GetUpdated() DateTime {
+	return s.Updated
+}
+
+// GetDeleted returns the value of Deleted.
+func (s *GlobalLoadBalancerEvents) GetDeleted() DateTime {
+	return s.Deleted
+}
+
+// SetCreated sets the value of Created.
+func (s *GlobalLoadBalancerEvents) SetCreated(val DateTime) {
+	s.Created = val
+}
+
+// SetUpdated sets the value of Updated.
+func (s *GlobalLoadBalancerEvents) SetUpdated(val DateTime) {
+	s.Updated = val
+}
+
+// SetDeleted sets the value of Deleted.
+func (s *GlobalLoadBalancerEvents) SetDeleted(val DateTime) {
+	s.Deleted = val
+}
+
+// All includable resource linkable to the given global load balancer.
+// Ref: #/components/schemas/GlobalLoadBalancerIncludes
+type GlobalLoadBalancerIncludes struct {
+	Creators     OptCreatorInclude      `json:"creators"`
+	Environments OptEnvironmentIncludes `json:"environments"`
+}
+
+// GetCreators returns the value of Creators.
+func (s *GlobalLoadBalancerIncludes) GetCreators() OptCreatorInclude {
+	return s.Creators
+}
+
+// GetEnvironments returns the value of Environments.
+func (s *GlobalLoadBalancerIncludes) GetEnvironments() OptEnvironmentIncludes {
+	return s.Environments
+}
+
+// SetCreators sets the value of Creators.
+func (s *GlobalLoadBalancerIncludes) SetCreators(val OptCreatorInclude) {
+	s.Creators = val
+}
+
+// SetEnvironments sets the value of Environments.
+func (s *GlobalLoadBalancerIncludes) SetEnvironments(val OptEnvironmentIncludes) {
+	s.Environments = val
+}
+
+// Merged schema.
+// Ref: #/components/schemas/GlobalLoadBalancerState
+type GlobalLoadBalancerState struct {
+	// The current state of the global load balancer.
+	Current GlobalLoadBalancerStateCurrent `json:"current"`
+	Changed DateTime                       `json:"changed"`
+	// An error, if any, that has occurred for this resource.
+	Error OptGlobalLoadBalancerStateError `json:"error"`
+}
+
+// GetCurrent returns the value of Current.
+func (s *GlobalLoadBalancerState) GetCurrent() GlobalLoadBalancerStateCurrent {
+	return s.Current
+}
+
+// GetChanged returns the value of Changed.
+func (s *GlobalLoadBalancerState) GetChanged() DateTime {
+	return s.Changed
+}
+
+// GetError returns the value of Error.
+func (s *GlobalLoadBalancerState) GetError() OptGlobalLoadBalancerStateError {
+	return s.Error
+}
+
+// SetCurrent sets the value of Current.
+func (s *GlobalLoadBalancerState) SetCurrent(val GlobalLoadBalancerStateCurrent) {
+	s.Current = val
+}
+
+// SetChanged sets the value of Changed.
+func (s *GlobalLoadBalancerState) SetChanged(val DateTime) {
+	s.Changed = val
+}
+
+// SetError sets the value of Error.
+func (s *GlobalLoadBalancerState) SetError(val OptGlobalLoadBalancerStateError) {
+	s.Error = val
+}
+
+// The current state of the global load balancer.
+type GlobalLoadBalancerStateCurrent string
+
+const (
+	GlobalLoadBalancerStateCurrentNew      GlobalLoadBalancerStateCurrent = "new"
+	GlobalLoadBalancerStateCurrentLive     GlobalLoadBalancerStateCurrent = "live"
+	GlobalLoadBalancerStateCurrentDeleting GlobalLoadBalancerStateCurrent = "deleting"
+	GlobalLoadBalancerStateCurrentDeleted  GlobalLoadBalancerStateCurrent = "deleted"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GlobalLoadBalancerStateCurrent) MarshalText() ([]byte, error) {
+	switch s {
+	case GlobalLoadBalancerStateCurrentNew:
+		return []byte(s), nil
+	case GlobalLoadBalancerStateCurrentLive:
+		return []byte(s), nil
+	case GlobalLoadBalancerStateCurrentDeleting:
+		return []byte(s), nil
+	case GlobalLoadBalancerStateCurrentDeleted:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GlobalLoadBalancerStateCurrent) UnmarshalText(data []byte) error {
+	switch GlobalLoadBalancerStateCurrent(data) {
+	case GlobalLoadBalancerStateCurrentNew:
+		*s = GlobalLoadBalancerStateCurrentNew
+		return nil
+	case GlobalLoadBalancerStateCurrentLive:
+		*s = GlobalLoadBalancerStateCurrentLive
+		return nil
+	case GlobalLoadBalancerStateCurrentDeleting:
+		*s = GlobalLoadBalancerStateCurrentDeleting
+		return nil
+	case GlobalLoadBalancerStateCurrentDeleted:
+		*s = GlobalLoadBalancerStateCurrentDeleted
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// An error, if any, that has occurred for this resource.
+type GlobalLoadBalancerStateError struct {
+	// Details about the error that has occurred.
+	Message OptString `json:"message"`
+	// The timestamp of when the error was encountered.
+	Time OptDateTime `json:"time"`
+}
+
+// GetMessage returns the value of Message.
+func (s *GlobalLoadBalancerStateError) GetMessage() OptString {
+	return s.Message
+}
+
+// GetTime returns the value of Time.
+func (s *GlobalLoadBalancerStateError) GetTime() OptDateTime {
+	return s.Time
+}
+
+// SetMessage sets the value of Message.
+func (s *GlobalLoadBalancerStateError) SetMessage(val OptString) {
+	s.Message = val
+}
+
+// SetTime sets the value of Time.
+func (s *GlobalLoadBalancerStateError) SetTime(val OptDateTime) {
+	s.Time = val
+}
+
+// Describes settings that are passed to HAProxy within the load balancer.
+// Ref: #/components/schemas/HaProxyConfig
+type HaProxyConfig struct {
+	// Settings that are applied to any port that is not overridden in the following ports section.
+	Default HaProxyConfigSet `json:"default"`
+	// An object that defines how HAProxy will act on a specific port. The key is a custom port, and the
+	// value is the same settings object found under `default` above.
+	Ports HaProxyConfigPorts `json:"ports"`
+}
+
+// GetDefault returns the value of Default.
+func (s *HaProxyConfig) GetDefault() HaProxyConfigSet {
+	return s.Default
+}
+
+// GetPorts returns the value of Ports.
+func (s *HaProxyConfig) GetPorts() HaProxyConfigPorts {
+	return s.Ports
+}
+
+// SetDefault sets the value of Default.
+func (s *HaProxyConfig) SetDefault(val HaProxyConfigSet) {
+	s.Default = val
+}
+
+// SetPorts sets the value of Ports.
+func (s *HaProxyConfig) SetPorts(val HaProxyConfigPorts) {
+	s.Ports = val
+}
+
+// An object that defines how HAProxy will act on a specific port. The key is a custom port, and the
+// value is the same settings object found under `default` above.
+type HaProxyConfigPorts map[string]HaProxyConfigSet
+
+func (s *HaProxyConfigPorts) init() HaProxyConfigPorts {
+	m := *s
+	if m == nil {
+		m = map[string]HaProxyConfigSet{}
+		*s = m
+	}
+	return m
+}
+
+// Ref: #/components/schemas/HaProxyConfigSet
+type HaProxyConfigSet struct {
 	// Settings that describe how incoming traffic to the load balancer is handled.
-	Frontend NilHAProxyConfigFrontend `json:"frontend"`
+	Frontend HaProxyConfigSetFrontend `json:"frontend"`
 	// Settings related to how the load balancer routes connections to container instances.
-	Backend NilHAProxyConfigBackend `json:"backend"`
+	Backend HaProxyConfigSetBackend `json:"backend"`
 }
 
 // GetFrontend returns the value of Frontend.
-func (s *HAProxyConfig) GetFrontend() NilHAProxyConfigFrontend {
+func (s *HaProxyConfigSet) GetFrontend() HaProxyConfigSetFrontend {
 	return s.Frontend
 }
 
 // GetBackend returns the value of Backend.
-func (s *HAProxyConfig) GetBackend() NilHAProxyConfigBackend {
+func (s *HaProxyConfigSet) GetBackend() HaProxyConfigSetBackend {
 	return s.Backend
 }
 
 // SetFrontend sets the value of Frontend.
-func (s *HAProxyConfig) SetFrontend(val NilHAProxyConfigFrontend) {
+func (s *HaProxyConfigSet) SetFrontend(val HaProxyConfigSetFrontend) {
 	s.Frontend = val
 }
 
 // SetBackend sets the value of Backend.
-func (s *HAProxyConfig) SetBackend(val NilHAProxyConfigBackend) {
+func (s *HaProxyConfigSet) SetBackend(val HaProxyConfigSetBackend) {
 	s.Backend = val
 }
 
 // Settings related to how the load balancer routes connections to container instances.
-type HAProxyConfigBackend struct {
+type HaProxyConfigSetBackend struct {
 	// How connections are balanced across your container instances. Can be one of the following:
 	// - `roundrobin`: Each container instance is used in turns.
 	// - `static-rr`: Each container instance is used in turns, but is faster than Round Robin at the
@@ -22290,29 +22327,29 @@ type HAProxyConfigBackend struct {
 	// - `first`: Routes traffic to the first available instance.
 	// - `source`: The same client IP always reaches the same container instance as long as no instance
 	// goes down or up.
-	Balance HAProxyConfigBackendBalance `json:"balance"`
+	Balance HaProxyConfigSetBackendBalance `json:"balance"`
 	// Various options for handling timeouts when communicating with a container instance behind the load
 	// balancer.
-	Timeouts NilHAProxyConfigBackendTimeouts `json:"timeouts"`
+	Timeouts NilHaProxyConfigSetBackendTimeouts `json:"timeouts"`
 }
 
 // GetBalance returns the value of Balance.
-func (s *HAProxyConfigBackend) GetBalance() HAProxyConfigBackendBalance {
+func (s *HaProxyConfigSetBackend) GetBalance() HaProxyConfigSetBackendBalance {
 	return s.Balance
 }
 
 // GetTimeouts returns the value of Timeouts.
-func (s *HAProxyConfigBackend) GetTimeouts() NilHAProxyConfigBackendTimeouts {
+func (s *HaProxyConfigSetBackend) GetTimeouts() NilHaProxyConfigSetBackendTimeouts {
 	return s.Timeouts
 }
 
 // SetBalance sets the value of Balance.
-func (s *HAProxyConfigBackend) SetBalance(val HAProxyConfigBackendBalance) {
+func (s *HaProxyConfigSetBackend) SetBalance(val HaProxyConfigSetBackendBalance) {
 	s.Balance = val
 }
 
 // SetTimeouts sets the value of Timeouts.
-func (s *HAProxyConfigBackend) SetTimeouts(val NilHAProxyConfigBackendTimeouts) {
+func (s *HaProxyConfigSetBackend) SetTimeouts(val NilHaProxyConfigSetBackendTimeouts) {
 	s.Timeouts = val
 }
 
@@ -22324,28 +22361,28 @@ func (s *HAProxyConfigBackend) SetTimeouts(val NilHAProxyConfigBackendTimeouts) 
 // - `first`: Routes traffic to the first available instance.
 // - `source`: The same client IP always reaches the same container instance as long as no instance
 // goes down or up.
-type HAProxyConfigBackendBalance string
+type HaProxyConfigSetBackendBalance string
 
 const (
-	HAProxyConfigBackendBalanceRoundrobin HAProxyConfigBackendBalance = "roundrobin"
-	HAProxyConfigBackendBalanceStaticRr   HAProxyConfigBackendBalance = "static-rr"
-	HAProxyConfigBackendBalanceLeastconn  HAProxyConfigBackendBalance = "leastconn"
-	HAProxyConfigBackendBalanceFirst      HAProxyConfigBackendBalance = "first"
-	HAProxyConfigBackendBalanceSource     HAProxyConfigBackendBalance = "source"
+	HaProxyConfigSetBackendBalanceRoundrobin HaProxyConfigSetBackendBalance = "roundrobin"
+	HaProxyConfigSetBackendBalanceStaticRr   HaProxyConfigSetBackendBalance = "static-rr"
+	HaProxyConfigSetBackendBalanceLeastconn  HaProxyConfigSetBackendBalance = "leastconn"
+	HaProxyConfigSetBackendBalanceFirst      HaProxyConfigSetBackendBalance = "first"
+	HaProxyConfigSetBackendBalanceSource     HaProxyConfigSetBackendBalance = "source"
 )
 
 // MarshalText implements encoding.TextMarshaler.
-func (s HAProxyConfigBackendBalance) MarshalText() ([]byte, error) {
+func (s HaProxyConfigSetBackendBalance) MarshalText() ([]byte, error) {
 	switch s {
-	case HAProxyConfigBackendBalanceRoundrobin:
+	case HaProxyConfigSetBackendBalanceRoundrobin:
 		return []byte(s), nil
-	case HAProxyConfigBackendBalanceStaticRr:
+	case HaProxyConfigSetBackendBalanceStaticRr:
 		return []byte(s), nil
-	case HAProxyConfigBackendBalanceLeastconn:
+	case HaProxyConfigSetBackendBalanceLeastconn:
 		return []byte(s), nil
-	case HAProxyConfigBackendBalanceFirst:
+	case HaProxyConfigSetBackendBalanceFirst:
 		return []byte(s), nil
-	case HAProxyConfigBackendBalanceSource:
+	case HaProxyConfigSetBackendBalanceSource:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -22353,22 +22390,22 @@ func (s HAProxyConfigBackendBalance) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *HAProxyConfigBackendBalance) UnmarshalText(data []byte) error {
-	switch HAProxyConfigBackendBalance(data) {
-	case HAProxyConfigBackendBalanceRoundrobin:
-		*s = HAProxyConfigBackendBalanceRoundrobin
+func (s *HaProxyConfigSetBackendBalance) UnmarshalText(data []byte) error {
+	switch HaProxyConfigSetBackendBalance(data) {
+	case HaProxyConfigSetBackendBalanceRoundrobin:
+		*s = HaProxyConfigSetBackendBalanceRoundrobin
 		return nil
-	case HAProxyConfigBackendBalanceStaticRr:
-		*s = HAProxyConfigBackendBalanceStaticRr
+	case HaProxyConfigSetBackendBalanceStaticRr:
+		*s = HaProxyConfigSetBackendBalanceStaticRr
 		return nil
-	case HAProxyConfigBackendBalanceLeastconn:
-		*s = HAProxyConfigBackendBalanceLeastconn
+	case HaProxyConfigSetBackendBalanceLeastconn:
+		*s = HaProxyConfigSetBackendBalanceLeastconn
 		return nil
-	case HAProxyConfigBackendBalanceFirst:
-		*s = HAProxyConfigBackendBalanceFirst
+	case HaProxyConfigSetBackendBalanceFirst:
+		*s = HaProxyConfigSetBackendBalanceFirst
 		return nil
-	case HAProxyConfigBackendBalanceSource:
-		*s = HAProxyConfigBackendBalanceSource
+	case HaProxyConfigSetBackendBalanceSource:
+		*s = HaProxyConfigSetBackendBalanceSource
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -22377,7 +22414,7 @@ func (s *HAProxyConfigBackendBalance) UnmarshalText(data []byte) error {
 
 // Various options for handling timeouts when communicating with a container instance behind the load
 // balancer.
-type HAProxyConfigBackendTimeouts struct {
+type HaProxyConfigSetBackendTimeouts struct {
 	// The number of seconds the load balancer will wait for a response from the container instance. See
 	// the [HAProxy Docs](https://cbonte.github.io/haproxy-dconv/1.7/configuration.html#4.
 	// 2-timeout%20server) for more information.
@@ -22401,96 +22438,96 @@ type HAProxyConfigBackendTimeouts struct {
 }
 
 // GetServerSecs returns the value of ServerSecs.
-func (s *HAProxyConfigBackendTimeouts) GetServerSecs() NilInt {
+func (s *HaProxyConfigSetBackendTimeouts) GetServerSecs() NilInt {
 	return s.ServerSecs
 }
 
 // GetServerFinMs returns the value of ServerFinMs.
-func (s *HAProxyConfigBackendTimeouts) GetServerFinMs() NilInt {
+func (s *HaProxyConfigSetBackendTimeouts) GetServerFinMs() NilInt {
 	return s.ServerFinMs
 }
 
 // GetConnectMs returns the value of ConnectMs.
-func (s *HAProxyConfigBackendTimeouts) GetConnectMs() NilInt {
+func (s *HaProxyConfigSetBackendTimeouts) GetConnectMs() NilInt {
 	return s.ConnectMs
 }
 
 // GetQueueMs returns the value of QueueMs.
-func (s *HAProxyConfigBackendTimeouts) GetQueueMs() NilInt {
+func (s *HaProxyConfigSetBackendTimeouts) GetQueueMs() NilInt {
 	return s.QueueMs
 }
 
 // GetTunnelSecs returns the value of TunnelSecs.
-func (s *HAProxyConfigBackendTimeouts) GetTunnelSecs() NilInt {
+func (s *HaProxyConfigSetBackendTimeouts) GetTunnelSecs() NilInt {
 	return s.TunnelSecs
 }
 
 // SetServerSecs sets the value of ServerSecs.
-func (s *HAProxyConfigBackendTimeouts) SetServerSecs(val NilInt) {
+func (s *HaProxyConfigSetBackendTimeouts) SetServerSecs(val NilInt) {
 	s.ServerSecs = val
 }
 
 // SetServerFinMs sets the value of ServerFinMs.
-func (s *HAProxyConfigBackendTimeouts) SetServerFinMs(val NilInt) {
+func (s *HaProxyConfigSetBackendTimeouts) SetServerFinMs(val NilInt) {
 	s.ServerFinMs = val
 }
 
 // SetConnectMs sets the value of ConnectMs.
-func (s *HAProxyConfigBackendTimeouts) SetConnectMs(val NilInt) {
+func (s *HaProxyConfigSetBackendTimeouts) SetConnectMs(val NilInt) {
 	s.ConnectMs = val
 }
 
 // SetQueueMs sets the value of QueueMs.
-func (s *HAProxyConfigBackendTimeouts) SetQueueMs(val NilInt) {
+func (s *HaProxyConfigSetBackendTimeouts) SetQueueMs(val NilInt) {
 	s.QueueMs = val
 }
 
 // SetTunnelSecs sets the value of TunnelSecs.
-func (s *HAProxyConfigBackendTimeouts) SetTunnelSecs(val NilInt) {
+func (s *HaProxyConfigSetBackendTimeouts) SetTunnelSecs(val NilInt) {
 	s.TunnelSecs = val
 }
 
 // Settings that describe how incoming traffic to the load balancer is handled.
-type HAProxyConfigFrontend struct {
+type HaProxyConfigSetFrontend struct {
 	// The type of traffic expected by the load balancer for this port. Can be either:
 	// - tcp: Traffic is forwarded without any parsing or additional manipulation.
 	// - http: Traffic is treated as web traffic. If a LINKED record is configured for a container
 	// exposing this port, the domain will be parsed and it will be forwarded to the proper container.
 	// This allows multiple services to run on port 80 in the same environment.
-	Mode HAProxyConfigFrontendMode `json:"mode"`
+	Mode HaProxyConfigSetFrontendMode `json:"mode"`
 	// The number of simultaneous connections that can be processed at a time.
 	MaxConnections NilInt `json:"max_connections"`
 	// Various options for handling timeouts when communicating with the client.
-	Timeouts NilHAProxyConfigFrontendTimeouts `json:"timeouts"`
+	Timeouts NilHaProxyConfigSetFrontendTimeouts `json:"timeouts"`
 }
 
 // GetMode returns the value of Mode.
-func (s *HAProxyConfigFrontend) GetMode() HAProxyConfigFrontendMode {
+func (s *HaProxyConfigSetFrontend) GetMode() HaProxyConfigSetFrontendMode {
 	return s.Mode
 }
 
 // GetMaxConnections returns the value of MaxConnections.
-func (s *HAProxyConfigFrontend) GetMaxConnections() NilInt {
+func (s *HaProxyConfigSetFrontend) GetMaxConnections() NilInt {
 	return s.MaxConnections
 }
 
 // GetTimeouts returns the value of Timeouts.
-func (s *HAProxyConfigFrontend) GetTimeouts() NilHAProxyConfigFrontendTimeouts {
+func (s *HaProxyConfigSetFrontend) GetTimeouts() NilHaProxyConfigSetFrontendTimeouts {
 	return s.Timeouts
 }
 
 // SetMode sets the value of Mode.
-func (s *HAProxyConfigFrontend) SetMode(val HAProxyConfigFrontendMode) {
+func (s *HaProxyConfigSetFrontend) SetMode(val HaProxyConfigSetFrontendMode) {
 	s.Mode = val
 }
 
 // SetMaxConnections sets the value of MaxConnections.
-func (s *HAProxyConfigFrontend) SetMaxConnections(val NilInt) {
+func (s *HaProxyConfigSetFrontend) SetMaxConnections(val NilInt) {
 	s.MaxConnections = val
 }
 
 // SetTimeouts sets the value of Timeouts.
-func (s *HAProxyConfigFrontend) SetTimeouts(val NilHAProxyConfigFrontendTimeouts) {
+func (s *HaProxyConfigSetFrontend) SetTimeouts(val NilHaProxyConfigSetFrontendTimeouts) {
 	s.Timeouts = val
 }
 
@@ -22499,19 +22536,19 @@ func (s *HAProxyConfigFrontend) SetTimeouts(val NilHAProxyConfigFrontendTimeouts
 // - http: Traffic is treated as web traffic. If a LINKED record is configured for a container
 // exposing this port, the domain will be parsed and it will be forwarded to the proper container.
 // This allows multiple services to run on port 80 in the same environment.
-type HAProxyConfigFrontendMode string
+type HaProxyConfigSetFrontendMode string
 
 const (
-	HAProxyConfigFrontendModeTCP  HAProxyConfigFrontendMode = "tcp"
-	HAProxyConfigFrontendModeHTTP HAProxyConfigFrontendMode = "http"
+	HaProxyConfigSetFrontendModeTCP  HaProxyConfigSetFrontendMode = "tcp"
+	HaProxyConfigSetFrontendModeHTTP HaProxyConfigSetFrontendMode = "http"
 )
 
 // MarshalText implements encoding.TextMarshaler.
-func (s HAProxyConfigFrontendMode) MarshalText() ([]byte, error) {
+func (s HaProxyConfigSetFrontendMode) MarshalText() ([]byte, error) {
 	switch s {
-	case HAProxyConfigFrontendModeTCP:
+	case HaProxyConfigSetFrontendModeTCP:
 		return []byte(s), nil
-	case HAProxyConfigFrontendModeHTTP:
+	case HaProxyConfigSetFrontendModeHTTP:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -22519,13 +22556,13 @@ func (s HAProxyConfigFrontendMode) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *HAProxyConfigFrontendMode) UnmarshalText(data []byte) error {
-	switch HAProxyConfigFrontendMode(data) {
-	case HAProxyConfigFrontendModeTCP:
-		*s = HAProxyConfigFrontendModeTCP
+func (s *HaProxyConfigSetFrontendMode) UnmarshalText(data []byte) error {
+	switch HaProxyConfigSetFrontendMode(data) {
+	case HaProxyConfigSetFrontendModeTCP:
+		*s = HaProxyConfigSetFrontendModeTCP
 		return nil
-	case HAProxyConfigFrontendModeHTTP:
-		*s = HAProxyConfigFrontendModeHTTP
+	case HaProxyConfigSetFrontendModeHTTP:
+		*s = HaProxyConfigSetFrontendModeHTTP
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -22533,7 +22570,7 @@ func (s *HAProxyConfigFrontendMode) UnmarshalText(data []byte) error {
 }
 
 // Various options for handling timeouts when communicating with the client.
-type HAProxyConfigFrontendTimeouts struct {
+type HaProxyConfigSetFrontendTimeouts struct {
 	// The number of seconds the load balancer will wait for a response from a client before
 	// disconnecting.
 	ClientSecs NilInt `json:"client_secs"`
@@ -22552,43 +22589,352 @@ type HAProxyConfigFrontendTimeouts struct {
 }
 
 // GetClientSecs returns the value of ClientSecs.
-func (s *HAProxyConfigFrontendTimeouts) GetClientSecs() NilInt {
+func (s *HaProxyConfigSetFrontendTimeouts) GetClientSecs() NilInt {
 	return s.ClientSecs
 }
 
 // GetClientFinMs returns the value of ClientFinMs.
-func (s *HAProxyConfigFrontendTimeouts) GetClientFinMs() NilInt {
+func (s *HaProxyConfigSetFrontendTimeouts) GetClientFinMs() NilInt {
 	return s.ClientFinMs
 }
 
 // GetHTTPKeepAliveMs returns the value of HTTPKeepAliveMs.
-func (s *HAProxyConfigFrontendTimeouts) GetHTTPKeepAliveMs() NilInt {
+func (s *HaProxyConfigSetFrontendTimeouts) GetHTTPKeepAliveMs() NilInt {
 	return s.HTTPKeepAliveMs
 }
 
 // GetHTTPRequestMs returns the value of HTTPRequestMs.
-func (s *HAProxyConfigFrontendTimeouts) GetHTTPRequestMs() NilInt {
+func (s *HaProxyConfigSetFrontendTimeouts) GetHTTPRequestMs() NilInt {
 	return s.HTTPRequestMs
 }
 
 // SetClientSecs sets the value of ClientSecs.
-func (s *HAProxyConfigFrontendTimeouts) SetClientSecs(val NilInt) {
+func (s *HaProxyConfigSetFrontendTimeouts) SetClientSecs(val NilInt) {
 	s.ClientSecs = val
 }
 
 // SetClientFinMs sets the value of ClientFinMs.
-func (s *HAProxyConfigFrontendTimeouts) SetClientFinMs(val NilInt) {
+func (s *HaProxyConfigSetFrontendTimeouts) SetClientFinMs(val NilInt) {
 	s.ClientFinMs = val
 }
 
 // SetHTTPKeepAliveMs sets the value of HTTPKeepAliveMs.
-func (s *HAProxyConfigFrontendTimeouts) SetHTTPKeepAliveMs(val NilInt) {
+func (s *HaProxyConfigSetFrontendTimeouts) SetHTTPKeepAliveMs(val NilInt) {
 	s.HTTPKeepAliveMs = val
 }
 
 // SetHTTPRequestMs sets the value of HTTPRequestMs.
-func (s *HAProxyConfigFrontendTimeouts) SetHTTPRequestMs(val NilInt) {
+func (s *HaProxyConfigSetFrontendTimeouts) SetHTTPRequestMs(val NilInt) {
 	s.HTTPRequestMs = val
+}
+
+// Ref: #/components/schemas/HaProxyLbType
+type HaProxyLbType struct {
+	// Allow / disallow traffic to be routed via IPv4.
+	Ipv4 bool `json:"ipv4"`
+	// Allow / disallow traffic to be routed via IPv6.
+	Ipv6    bool             `json:"ipv6"`
+	Details NilHaProxyConfig `json:"details"`
+}
+
+// GetIpv4 returns the value of Ipv4.
+func (s *HaProxyLbType) GetIpv4() bool {
+	return s.Ipv4
+}
+
+// GetIpv6 returns the value of Ipv6.
+func (s *HaProxyLbType) GetIpv6() bool {
+	return s.Ipv6
+}
+
+// GetDetails returns the value of Details.
+func (s *HaProxyLbType) GetDetails() NilHaProxyConfig {
+	return s.Details
+}
+
+// SetIpv4 sets the value of Ipv4.
+func (s *HaProxyLbType) SetIpv4(val bool) {
+	s.Ipv4 = val
+}
+
+// SetIpv6 sets the value of Ipv6.
+func (s *HaProxyLbType) SetIpv6(val bool) {
+	s.Ipv6 = val
+}
+
+// SetDetails sets the value of Details.
+func (s *HaProxyLbType) SetDetails(val NilHaProxyConfig) {
+	s.Details = val
+}
+
+type HaProxyLbTypeType string
+
+const (
+	HaProxyLbTypeTypeHaproxy HaProxyLbTypeType = "haproxy"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s HaProxyLbTypeType) MarshalText() ([]byte, error) {
+	switch s {
+	case HaProxyLbTypeTypeHaproxy:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *HaProxyLbTypeType) UnmarshalText(data []byte) error {
+	switch HaProxyLbTypeType(data) {
+	case HaProxyLbTypeTypeHaproxy:
+		*s = HaProxyLbTypeTypeHaproxy
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Additional configuration options for HTTP mode routers.
+// Ref: #/components/schemas/HttpRouterConfig
+type HttpRouterConfig struct {
+	Details HttpRouterConfigDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *HttpRouterConfig) GetDetails() HttpRouterConfigDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *HttpRouterConfig) SetDetails(val HttpRouterConfigDetails) {
+	s.Details = val
+}
+
+type HttpRouterConfigDetails struct {
+	// Defines a built-in redirect for HTTP mode routers.
+	Redirect NilHttpRouterConfigDetailsRedirect `json:"redirect"`
+	Forward  NilHttpRouterConfigDetailsForward  `json:"forward"`
+}
+
+// GetRedirect returns the value of Redirect.
+func (s *HttpRouterConfigDetails) GetRedirect() NilHttpRouterConfigDetailsRedirect {
+	return s.Redirect
+}
+
+// GetForward returns the value of Forward.
+func (s *HttpRouterConfigDetails) GetForward() NilHttpRouterConfigDetailsForward {
+	return s.Forward
+}
+
+// SetRedirect sets the value of Redirect.
+func (s *HttpRouterConfigDetails) SetRedirect(val NilHttpRouterConfigDetailsRedirect) {
+	s.Redirect = val
+}
+
+// SetForward sets the value of Forward.
+func (s *HttpRouterConfigDetails) SetForward(val NilHttpRouterConfigDetailsForward) {
+	s.Forward = val
+}
+
+type HttpRouterConfigDetailsForward struct {
+	Scheme NilHttpRouterConfigDetailsForwardScheme `json:"scheme"`
+}
+
+// GetScheme returns the value of Scheme.
+func (s *HttpRouterConfigDetailsForward) GetScheme() NilHttpRouterConfigDetailsForwardScheme {
+	return s.Scheme
+}
+
+// SetScheme sets the value of Scheme.
+func (s *HttpRouterConfigDetailsForward) SetScheme(val NilHttpRouterConfigDetailsForwardScheme) {
+	s.Scheme = val
+}
+
+type HttpRouterConfigDetailsForwardScheme string
+
+const (
+	HttpRouterConfigDetailsForwardSchemeTCP  HttpRouterConfigDetailsForwardScheme = "tcp"
+	HttpRouterConfigDetailsForwardSchemeHTTP HttpRouterConfigDetailsForwardScheme = "http"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s HttpRouterConfigDetailsForwardScheme) MarshalText() ([]byte, error) {
+	switch s {
+	case HttpRouterConfigDetailsForwardSchemeTCP:
+		return []byte(s), nil
+	case HttpRouterConfigDetailsForwardSchemeHTTP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *HttpRouterConfigDetailsForwardScheme) UnmarshalText(data []byte) error {
+	switch HttpRouterConfigDetailsForwardScheme(data) {
+	case HttpRouterConfigDetailsForwardSchemeTCP:
+		*s = HttpRouterConfigDetailsForwardSchemeTCP
+		return nil
+	case HttpRouterConfigDetailsForwardSchemeHTTP:
+		*s = HttpRouterConfigDetailsForwardSchemeHTTP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Defines a built-in redirect for HTTP mode routers.
+type HttpRouterConfigDetailsRedirect struct {
+	// If enabled and a sibling controller exists for port 443, requests will be auto redirected to it.
+	// Essentially sets up automatic TLS redirection for this router.
+	AutoHTTPSRedirect NilBool `json:"auto_https_redirect"`
+	// The port to redirect traffic to.
+	Port NilInt `json:"port"`
+	// The scheme to redirect to. (i.e. `https`).
+	Scheme NilString `json:"scheme"`
+	// A specific URL to redirect to.
+	URL NilString `json:"url"`
+}
+
+// GetAutoHTTPSRedirect returns the value of AutoHTTPSRedirect.
+func (s *HttpRouterConfigDetailsRedirect) GetAutoHTTPSRedirect() NilBool {
+	return s.AutoHTTPSRedirect
+}
+
+// GetPort returns the value of Port.
+func (s *HttpRouterConfigDetailsRedirect) GetPort() NilInt {
+	return s.Port
+}
+
+// GetScheme returns the value of Scheme.
+func (s *HttpRouterConfigDetailsRedirect) GetScheme() NilString {
+	return s.Scheme
+}
+
+// GetURL returns the value of URL.
+func (s *HttpRouterConfigDetailsRedirect) GetURL() NilString {
+	return s.URL
+}
+
+// SetAutoHTTPSRedirect sets the value of AutoHTTPSRedirect.
+func (s *HttpRouterConfigDetailsRedirect) SetAutoHTTPSRedirect(val NilBool) {
+	s.AutoHTTPSRedirect = val
+}
+
+// SetPort sets the value of Port.
+func (s *HttpRouterConfigDetailsRedirect) SetPort(val NilInt) {
+	s.Port = val
+}
+
+// SetScheme sets the value of Scheme.
+func (s *HttpRouterConfigDetailsRedirect) SetScheme(val NilString) {
+	s.Scheme = val
+}
+
+// SetURL sets the value of URL.
+func (s *HttpRouterConfigDetailsRedirect) SetURL(val NilString) {
+	s.URL = val
+}
+
+type HttpRouterConfigType string
+
+const (
+	HttpRouterConfigTypeHTTP HttpRouterConfigType = "http"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s HttpRouterConfigType) MarshalText() ([]byte, error) {
+	switch s {
+	case HttpRouterConfigTypeHTTP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *HttpRouterConfigType) UnmarshalText(data []byte) error {
+	switch HttpRouterConfigType(data) {
+	case HttpRouterConfigTypeHTTP:
+		*s = HttpRouterConfigTypeHTTP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Additional configuration options for the HTTP transport mode.
+// Ref: #/components/schemas/HttpTransportConfig
+type HttpTransportConfig struct {
+	Details HttpTransportConfigDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *HttpTransportConfig) GetDetails() HttpTransportConfigDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *HttpTransportConfig) SetDetails(val HttpTransportConfigDetails) {
+	s.Details = val
+}
+
+type HttpTransportConfigDetails struct {
+	// Defines extra configuration options connections to the load balancer.
+	Connections HttpTransportConfigDetailsConnections `json:"connections"`
+}
+
+// GetConnections returns the value of Connections.
+func (s *HttpTransportConfigDetails) GetConnections() HttpTransportConfigDetailsConnections {
+	return s.Connections
+}
+
+// SetConnections sets the value of Connections.
+func (s *HttpTransportConfigDetails) SetConnections(val HttpTransportConfigDetailsConnections) {
+	s.Connections = val
+}
+
+// Defines extra configuration options connections to the load balancer.
+type HttpTransportConfigDetailsConnections struct {
+	// Maximum number of simultaneous connections (via http/2) per connection.
+	MaxIdleConnsPerConnection NilInt `json:"max_idle_conns_per_connection"`
+}
+
+// GetMaxIdleConnsPerConnection returns the value of MaxIdleConnsPerConnection.
+func (s *HttpTransportConfigDetailsConnections) GetMaxIdleConnsPerConnection() NilInt {
+	return s.MaxIdleConnsPerConnection
+}
+
+// SetMaxIdleConnsPerConnection sets the value of MaxIdleConnsPerConnection.
+func (s *HttpTransportConfigDetailsConnections) SetMaxIdleConnsPerConnection(val NilInt) {
+	s.MaxIdleConnsPerConnection = val
+}
+
+type HttpTransportConfigType string
+
+const (
+	HttpTransportConfigTypeHTTP HttpTransportConfigType = "http"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s HttpTransportConfigType) MarshalText() ([]byte, error) {
+	switch s {
+	case HttpTransportConfigTypeHTTP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *HttpTransportConfigType) UnmarshalText(data []byte) error {
+	switch HttpTransportConfigType(data) {
+	case HttpTransportConfigTypeHTTP:
+		*s = HttpTransportConfigTypeHTTP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // A hub resource.
@@ -22604,10 +22950,9 @@ type Hub struct {
 	Events       HubEvents       `json:"events"`
 	State        HubState        `json:"state"`
 	Integrations HubIntegrations `json:"integrations"`
-	// All hub webhooks for the given hub.
-	Webhooks HubWebhooks   `json:"webhooks"`
-	Billing  NilHubBilling `json:"billing"`
-	Meta     OptHubMeta    `json:"meta"`
+	Webhooks     HubWebhooks     `json:"webhooks"`
+	Billing      NilHubBilling   `json:"billing"`
+	Meta         OptHubMeta      `json:"meta"`
 }
 
 // GetID returns the value of ID.
@@ -22724,47 +23069,8 @@ func (s *HubAuth) SetAPIKey(val string) {
 	s.APIKey = val
 }
 
-// HubBilling represents sum type.
+// Merged schema.
 type HubBilling struct {
-	Type              HubBillingType // switch on this field
-	HubBillingProfile HubBillingProfile
-}
-
-// HubBillingType is oneOf type of HubBilling.
-type HubBillingType string
-
-// Possible values for HubBillingType.
-const (
-	HubBillingProfileHubBilling HubBillingType = "HubBillingProfile"
-)
-
-// IsHubBillingProfile reports whether HubBilling is HubBillingProfile.
-func (s HubBilling) IsHubBillingProfile() bool { return s.Type == HubBillingProfileHubBilling }
-
-// SetHubBillingProfile sets HubBilling to HubBillingProfile.
-func (s *HubBilling) SetHubBillingProfile(v HubBillingProfile) {
-	s.Type = HubBillingProfileHubBilling
-	s.HubBillingProfile = v
-}
-
-// GetHubBillingProfile returns HubBillingProfile and true boolean if HubBilling is HubBillingProfile.
-func (s HubBilling) GetHubBillingProfile() (v HubBillingProfile, ok bool) {
-	if !s.IsHubBillingProfile() {
-		return v, false
-	}
-	return s.HubBillingProfile, true
-}
-
-// NewHubBillingProfileHubBilling returns new HubBilling from HubBillingProfile.
-func NewHubBillingProfileHubBilling(v HubBillingProfile) HubBilling {
-	var s HubBilling
-	s.SetHubBillingProfile(v)
-	return s
-}
-
-// A billing profile for a given hub.
-// Ref: #/components/schemas/HubBillingProfile
-type HubBillingProfile struct {
 	Term Term `json:"term"`
 	// A boolean where true represents this account being approved to use a prepaid card for billing
 	// transactions.
@@ -22774,97 +23080,97 @@ type HubBillingProfile struct {
 	// A boolean where true means this billing is disabled on this hub.
 	Disable OptBool `json:"disable"`
 	// Information about the plan associated with this hub.
-	Plans HubBillingProfilePlans `json:"plans"`
+	Plans HubBillingPlans `json:"plans"`
 	// An array of email addresses to whom the billing invoices will be sent to. If left empty, they will
 	// be sent to the owner of this hub.
 	Emails []string `json:"emails"`
 }
 
 // GetTerm returns the value of Term.
-func (s *HubBillingProfile) GetTerm() Term {
+func (s *HubBilling) GetTerm() Term {
 	return s.Term
 }
 
 // GetAllowPrepaid returns the value of AllowPrepaid.
-func (s *HubBillingProfile) GetAllowPrepaid() OptBool {
+func (s *HubBilling) GetAllowPrepaid() OptBool {
 	return s.AllowPrepaid
 }
 
 // GetPauseInvoices returns the value of PauseInvoices.
-func (s *HubBillingProfile) GetPauseInvoices() bool {
+func (s *HubBilling) GetPauseInvoices() bool {
 	return s.PauseInvoices
 }
 
 // GetDisable returns the value of Disable.
-func (s *HubBillingProfile) GetDisable() OptBool {
+func (s *HubBilling) GetDisable() OptBool {
 	return s.Disable
 }
 
 // GetPlans returns the value of Plans.
-func (s *HubBillingProfile) GetPlans() HubBillingProfilePlans {
+func (s *HubBilling) GetPlans() HubBillingPlans {
 	return s.Plans
 }
 
 // GetEmails returns the value of Emails.
-func (s *HubBillingProfile) GetEmails() []string {
+func (s *HubBilling) GetEmails() []string {
 	return s.Emails
 }
 
 // SetTerm sets the value of Term.
-func (s *HubBillingProfile) SetTerm(val Term) {
+func (s *HubBilling) SetTerm(val Term) {
 	s.Term = val
 }
 
 // SetAllowPrepaid sets the value of AllowPrepaid.
-func (s *HubBillingProfile) SetAllowPrepaid(val OptBool) {
+func (s *HubBilling) SetAllowPrepaid(val OptBool) {
 	s.AllowPrepaid = val
 }
 
 // SetPauseInvoices sets the value of PauseInvoices.
-func (s *HubBillingProfile) SetPauseInvoices(val bool) {
+func (s *HubBilling) SetPauseInvoices(val bool) {
 	s.PauseInvoices = val
 }
 
 // SetDisable sets the value of Disable.
-func (s *HubBillingProfile) SetDisable(val OptBool) {
+func (s *HubBilling) SetDisable(val OptBool) {
 	s.Disable = val
 }
 
 // SetPlans sets the value of Plans.
-func (s *HubBillingProfile) SetPlans(val HubBillingProfilePlans) {
+func (s *HubBilling) SetPlans(val HubBillingPlans) {
 	s.Plans = val
 }
 
 // SetEmails sets the value of Emails.
-func (s *HubBillingProfile) SetEmails(val []string) {
+func (s *HubBilling) SetEmails(val []string) {
 	s.Emails = val
 }
 
 // Information about the plan associated with this hub.
-type HubBillingProfilePlans struct {
+type HubBillingPlans struct {
 	// An ID referencing the pricing tier applied to this hub.
-	TierID string `json:"tier_id"`
+	TierID NilString `json:"tier_id"`
 	// An ID referencing the support plan applied to this hub.
-	SupportID string `json:"support_id"`
+	SupportID NilString `json:"support_id"`
 }
 
 // GetTierID returns the value of TierID.
-func (s *HubBillingProfilePlans) GetTierID() string {
+func (s *HubBillingPlans) GetTierID() NilString {
 	return s.TierID
 }
 
 // GetSupportID returns the value of SupportID.
-func (s *HubBillingProfilePlans) GetSupportID() string {
+func (s *HubBillingPlans) GetSupportID() NilString {
 	return s.SupportID
 }
 
 // SetTierID sets the value of TierID.
-func (s *HubBillingProfilePlans) SetTierID(val string) {
+func (s *HubBillingPlans) SetTierID(val NilString) {
 	s.TierID = val
 }
 
 // SetSupportID sets the value of SupportID.
-func (s *HubBillingProfilePlans) SetSupportID(val string) {
+func (s *HubBillingPlans) SetSupportID(val NilString) {
 	s.SupportID = val
 }
 
@@ -23072,20 +23378,26 @@ func (s *HubIntegrationsLetsencrypt) SetEmail(val string) {
 type HubMembership struct {
 	ID ID `json:"id"`
 	// An ID for the account associated with the given membership.
-	AccountID string `json:"account_id"`
-	HubID     HubID  `json:"hub_id"`
-	// A number that maps to the currently set role of the member.
-	Role int `json:"role"`
+	AccountID OptString `json:"account_id"`
+	HubID     HubID     `json:"hub_id"`
 	// A collection of timestamps for each event in the membership's lifetime.
-	Events     HubMembershipEvents `json:"events"`
-	State      MembershipState     `json:"state"`
-	Invitation Invitation          `json:"invitation"`
-	// Information about this members permissions for a given hub.
+	Events HubMembershipEvents `json:"events"`
+	// A number that maps to the currently set role of the member.
+	// ## Roles
+	// 0 = DEFAULT
+	// 1 = OWNER
+	// 2 = ADMIN
+	// 4 = DEVELOPER
+	// 8 = ANALYST.
+	Role int `json:"role"`
+	// Information about this member's permissions for a given hub.
 	Permissions HubMembershipPermissions `json:"permissions"`
 	// Preference information set by the user for the membership.
-	Prefereneces HubMembershipPrefereneces `json:"prefereneces"`
-	// Information about the membership as it pertains to the account holders affiliation with being a
-	// Cycle employee. Cycle employee accounts do not consume a "membership" for a given hub.
+	Preferences OptHubMembershipPreferences `json:"preferences"`
+	State       MembershipState             `json:"state"`
+	Invitation  Invitation                  `json:"invitation"`
+	// If this member is a Cycle employee, their employee ID will be listed here. Cycle employee accounts
+	// do not consume a "membership" for a given hub.
 	Cycle OptHubMembershipCycle `json:"cycle"`
 	Meta  OptHubMembershipMeta  `json:"meta"`
 }
@@ -23096,7 +23408,7 @@ func (s *HubMembership) GetID() ID {
 }
 
 // GetAccountID returns the value of AccountID.
-func (s *HubMembership) GetAccountID() string {
+func (s *HubMembership) GetAccountID() OptString {
 	return s.AccountID
 }
 
@@ -23105,14 +23417,24 @@ func (s *HubMembership) GetHubID() HubID {
 	return s.HubID
 }
 
+// GetEvents returns the value of Events.
+func (s *HubMembership) GetEvents() HubMembershipEvents {
+	return s.Events
+}
+
 // GetRole returns the value of Role.
 func (s *HubMembership) GetRole() int {
 	return s.Role
 }
 
-// GetEvents returns the value of Events.
-func (s *HubMembership) GetEvents() HubMembershipEvents {
-	return s.Events
+// GetPermissions returns the value of Permissions.
+func (s *HubMembership) GetPermissions() HubMembershipPermissions {
+	return s.Permissions
+}
+
+// GetPreferences returns the value of Preferences.
+func (s *HubMembership) GetPreferences() OptHubMembershipPreferences {
+	return s.Preferences
 }
 
 // GetState returns the value of State.
@@ -23123,16 +23445,6 @@ func (s *HubMembership) GetState() MembershipState {
 // GetInvitation returns the value of Invitation.
 func (s *HubMembership) GetInvitation() Invitation {
 	return s.Invitation
-}
-
-// GetPermissions returns the value of Permissions.
-func (s *HubMembership) GetPermissions() HubMembershipPermissions {
-	return s.Permissions
-}
-
-// GetPrefereneces returns the value of Prefereneces.
-func (s *HubMembership) GetPrefereneces() HubMembershipPrefereneces {
-	return s.Prefereneces
 }
 
 // GetCycle returns the value of Cycle.
@@ -23151,7 +23463,7 @@ func (s *HubMembership) SetID(val ID) {
 }
 
 // SetAccountID sets the value of AccountID.
-func (s *HubMembership) SetAccountID(val string) {
+func (s *HubMembership) SetAccountID(val OptString) {
 	s.AccountID = val
 }
 
@@ -23160,14 +23472,24 @@ func (s *HubMembership) SetHubID(val HubID) {
 	s.HubID = val
 }
 
+// SetEvents sets the value of Events.
+func (s *HubMembership) SetEvents(val HubMembershipEvents) {
+	s.Events = val
+}
+
 // SetRole sets the value of Role.
 func (s *HubMembership) SetRole(val int) {
 	s.Role = val
 }
 
-// SetEvents sets the value of Events.
-func (s *HubMembership) SetEvents(val HubMembershipEvents) {
-	s.Events = val
+// SetPermissions sets the value of Permissions.
+func (s *HubMembership) SetPermissions(val HubMembershipPermissions) {
+	s.Permissions = val
+}
+
+// SetPreferences sets the value of Preferences.
+func (s *HubMembership) SetPreferences(val OptHubMembershipPreferences) {
+	s.Preferences = val
 }
 
 // SetState sets the value of State.
@@ -23180,16 +23502,6 @@ func (s *HubMembership) SetInvitation(val Invitation) {
 	s.Invitation = val
 }
 
-// SetPermissions sets the value of Permissions.
-func (s *HubMembership) SetPermissions(val HubMembershipPermissions) {
-	s.Permissions = val
-}
-
-// SetPrefereneces sets the value of Prefereneces.
-func (s *HubMembership) SetPrefereneces(val HubMembershipPrefereneces) {
-	s.Prefereneces = val
-}
-
 // SetCycle sets the value of Cycle.
 func (s *HubMembership) SetCycle(val OptHubMembershipCycle) {
 	s.Cycle = val
@@ -23200,8 +23512,8 @@ func (s *HubMembership) SetMeta(val OptHubMembershipMeta) {
 	s.Meta = val
 }
 
-// Information about the membership as it pertains to the account holders affiliation with being a
-// Cycle employee. Cycle employee accounts do not consume a "membership" for a given hub.
+// If this member is a Cycle employee, their employee ID will be listed here. Cycle employee accounts
+// do not consume a "membership" for a given hub.
 type HubMembershipCycle struct {
 	// The ID of the employee this membership is associated with.
 	EmployeeID string `json:"employee_id"`
@@ -23220,27 +23532,27 @@ func (s *HubMembershipCycle) SetEmployeeID(val string) {
 // A collection of timestamps for each event in the membership's lifetime.
 type HubMembershipEvents struct {
 	// The timestamp of when the membership was created.
-	Created DateTime `json:"created"`
+	Created OptDateTime `json:"created"`
 	// The timestamp of when the membership was updated.
-	Updated DateTime `json:"updated"`
+	Updated OptDateTime `json:"updated"`
 	// The timestamp of when the membership was deleted.
-	Deleted DateTime `json:"deleted"`
+	Deleted OptDateTime `json:"deleted"`
 	// The timestamp of when the membership was accepted.
 	Joined DateTime `json:"joined"`
 }
 
 // GetCreated returns the value of Created.
-func (s *HubMembershipEvents) GetCreated() DateTime {
+func (s *HubMembershipEvents) GetCreated() OptDateTime {
 	return s.Created
 }
 
 // GetUpdated returns the value of Updated.
-func (s *HubMembershipEvents) GetUpdated() DateTime {
+func (s *HubMembershipEvents) GetUpdated() OptDateTime {
 	return s.Updated
 }
 
 // GetDeleted returns the value of Deleted.
-func (s *HubMembershipEvents) GetDeleted() DateTime {
+func (s *HubMembershipEvents) GetDeleted() OptDateTime {
 	return s.Deleted
 }
 
@@ -23250,17 +23562,17 @@ func (s *HubMembershipEvents) GetJoined() DateTime {
 }
 
 // SetCreated sets the value of Created.
-func (s *HubMembershipEvents) SetCreated(val DateTime) {
+func (s *HubMembershipEvents) SetCreated(val OptDateTime) {
 	s.Created = val
 }
 
 // SetUpdated sets the value of Updated.
-func (s *HubMembershipEvents) SetUpdated(val DateTime) {
+func (s *HubMembershipEvents) SetUpdated(val OptDateTime) {
 	s.Updated = val
 }
 
 // SetDeleted sets the value of Deleted.
-func (s *HubMembershipEvents) SetDeleted(val DateTime) {
+func (s *HubMembershipEvents) SetDeleted(val OptDateTime) {
 	s.Deleted = val
 }
 
@@ -23380,7 +23692,7 @@ func (s *HubMembershipMeta) SetCapabilities(val []Capability) {
 	s.Capabilities = val
 }
 
-// Information about this members permissions for a given hub.
+// Information about this member's permissions for a given hub.
 type HubMembershipPermissions struct {
 	// A boolean where true represents the member has access to view and manage all environments for the
 	// hub.
@@ -23438,123 +23750,123 @@ func (s *HubMembershipPermissionsEnvironmentsItem) SetManage(val bool) {
 }
 
 // Preference information set by the user for the membership.
-type HubMembershipPrefereneces struct {
-	Portal HubMembershipPreferenecesPortal `json:"portal"`
-	Email  HubMembershipPreferenecesEmail  `json:"email"`
+type HubMembershipPreferences struct {
+	Portal HubMembershipPreferencesPortal `json:"portal"`
+	Email  HubMembershipPreferencesEmail  `json:"email"`
 }
 
 // GetPortal returns the value of Portal.
-func (s *HubMembershipPrefereneces) GetPortal() HubMembershipPreferenecesPortal {
+func (s *HubMembershipPreferences) GetPortal() HubMembershipPreferencesPortal {
 	return s.Portal
 }
 
 // GetEmail returns the value of Email.
-func (s *HubMembershipPrefereneces) GetEmail() HubMembershipPreferenecesEmail {
+func (s *HubMembershipPreferences) GetEmail() HubMembershipPreferencesEmail {
 	return s.Email
 }
 
 // SetPortal sets the value of Portal.
-func (s *HubMembershipPrefereneces) SetPortal(val HubMembershipPreferenecesPortal) {
+func (s *HubMembershipPreferences) SetPortal(val HubMembershipPreferencesPortal) {
 	s.Portal = val
 }
 
 // SetEmail sets the value of Email.
-func (s *HubMembershipPrefereneces) SetEmail(val HubMembershipPreferenecesEmail) {
+func (s *HubMembershipPreferences) SetEmail(val HubMembershipPreferencesEmail) {
 	s.Email = val
 }
 
-type HubMembershipPreferenecesEmail struct {
-	Notificaitons OptHubMembershipPreferenecesEmailNotificaitons `json:"notificaitons"`
+type HubMembershipPreferencesEmail struct {
+	Notificaitons OptHubMembershipPreferencesEmailNotificaitons `json:"notificaitons"`
 }
 
 // GetNotificaitons returns the value of Notificaitons.
-func (s *HubMembershipPreferenecesEmail) GetNotificaitons() OptHubMembershipPreferenecesEmailNotificaitons {
+func (s *HubMembershipPreferencesEmail) GetNotificaitons() OptHubMembershipPreferencesEmailNotificaitons {
 	return s.Notificaitons
 }
 
 // SetNotificaitons sets the value of Notificaitons.
-func (s *HubMembershipPreferenecesEmail) SetNotificaitons(val OptHubMembershipPreferenecesEmailNotificaitons) {
+func (s *HubMembershipPreferencesEmail) SetNotificaitons(val OptHubMembershipPreferencesEmailNotificaitons) {
 	s.Notificaitons = val
 }
 
-type HubMembershipPreferenecesEmailNotificaitons struct {
-	Server HubMembershipPreferenecesEmailNotificaitonsServer `json:"server"`
+type HubMembershipPreferencesEmailNotificaitons struct {
+	Server HubMembershipPreferencesEmailNotificaitonsServer `json:"server"`
 }
 
 // GetServer returns the value of Server.
-func (s *HubMembershipPreferenecesEmailNotificaitons) GetServer() HubMembershipPreferenecesEmailNotificaitonsServer {
+func (s *HubMembershipPreferencesEmailNotificaitons) GetServer() HubMembershipPreferencesEmailNotificaitonsServer {
 	return s.Server
 }
 
 // SetServer sets the value of Server.
-func (s *HubMembershipPreferenecesEmailNotificaitons) SetServer(val HubMembershipPreferenecesEmailNotificaitonsServer) {
+func (s *HubMembershipPreferencesEmailNotificaitons) SetServer(val HubMembershipPreferencesEmailNotificaitonsServer) {
 	s.Server = val
 }
 
-type HubMembershipPreferenecesEmailNotificaitonsServer struct {
-	New     OptBool `json:"new"`
-	Offline OptBool `json:"offline"`
+type HubMembershipPreferencesEmailNotificaitonsServer struct {
+	New     NilBool `json:"new"`
+	Offline NilBool `json:"offline"`
 }
 
 // GetNew returns the value of New.
-func (s *HubMembershipPreferenecesEmailNotificaitonsServer) GetNew() OptBool {
+func (s *HubMembershipPreferencesEmailNotificaitonsServer) GetNew() NilBool {
 	return s.New
 }
 
 // GetOffline returns the value of Offline.
-func (s *HubMembershipPreferenecesEmailNotificaitonsServer) GetOffline() OptBool {
+func (s *HubMembershipPreferencesEmailNotificaitonsServer) GetOffline() NilBool {
 	return s.Offline
 }
 
 // SetNew sets the value of New.
-func (s *HubMembershipPreferenecesEmailNotificaitonsServer) SetNew(val OptBool) {
+func (s *HubMembershipPreferencesEmailNotificaitonsServer) SetNew(val NilBool) {
 	s.New = val
 }
 
 // SetOffline sets the value of Offline.
-func (s *HubMembershipPreferenecesEmailNotificaitonsServer) SetOffline(val OptBool) {
+func (s *HubMembershipPreferencesEmailNotificaitonsServer) SetOffline(val NilBool) {
 	s.Offline = val
 }
 
-type HubMembershipPreferenecesPortal struct {
-	Notifications HubMembershipPreferenecesPortalNotifications `json:"notifications"`
+type HubMembershipPreferencesPortal struct {
+	Notifications HubMembershipPreferencesPortalNotifications `json:"notifications"`
 }
 
 // GetNotifications returns the value of Notifications.
-func (s *HubMembershipPreferenecesPortal) GetNotifications() HubMembershipPreferenecesPortalNotifications {
+func (s *HubMembershipPreferencesPortal) GetNotifications() HubMembershipPreferencesPortalNotifications {
 	return s.Notifications
 }
 
 // SetNotifications sets the value of Notifications.
-func (s *HubMembershipPreferenecesPortal) SetNotifications(val HubMembershipPreferenecesPortalNotifications) {
+func (s *HubMembershipPreferencesPortal) SetNotifications(val HubMembershipPreferencesPortalNotifications) {
 	s.Notifications = val
 }
 
-type HubMembershipPreferenecesPortalNotifications struct {
-	Jobs HubMembershipPreferenecesPortalNotificationsJobs `json:"jobs"`
+type HubMembershipPreferencesPortalNotifications struct {
+	Jobs HubMembershipPreferencesPortalNotificationsJobs `json:"jobs"`
 }
 
 // GetJobs returns the value of Jobs.
-func (s *HubMembershipPreferenecesPortalNotifications) GetJobs() HubMembershipPreferenecesPortalNotificationsJobs {
+func (s *HubMembershipPreferencesPortalNotifications) GetJobs() HubMembershipPreferencesPortalNotificationsJobs {
 	return s.Jobs
 }
 
 // SetJobs sets the value of Jobs.
-func (s *HubMembershipPreferenecesPortalNotifications) SetJobs(val HubMembershipPreferenecesPortalNotificationsJobs) {
+func (s *HubMembershipPreferencesPortalNotifications) SetJobs(val HubMembershipPreferencesPortalNotificationsJobs) {
 	s.Jobs = val
 }
 
-type HubMembershipPreferenecesPortalNotificationsJobs struct {
+type HubMembershipPreferencesPortalNotificationsJobs struct {
 	ApikeyAlerts bool `json:"apikey_alerts"`
 }
 
 // GetApikeyAlerts returns the value of ApikeyAlerts.
-func (s *HubMembershipPreferenecesPortalNotificationsJobs) GetApikeyAlerts() bool {
+func (s *HubMembershipPreferencesPortalNotificationsJobs) GetApikeyAlerts() bool {
 	return s.ApikeyAlerts
 }
 
 // SetApikeyAlerts sets the value of ApikeyAlerts.
-func (s *HubMembershipPreferenecesPortalNotificationsJobs) SetApikeyAlerts(val bool) {
+func (s *HubMembershipPreferencesPortalNotificationsJobs) SetApikeyAlerts(val bool) {
 	s.ApikeyAlerts = val
 }
 
@@ -23777,10 +24089,16 @@ func (s *HubUsageDatum) SetContainers(val float64) {
 	s.Containers = val
 }
 
-// All hub webhooks for the given hub.
+// Hub related webhooks. When supplied, the given webhook will be called with a payload any time one
+// of these events occurs.
+// Ref: #/components/schemas/HubWebhooks
 type HubWebhooks struct {
-	// A webhook to report information to each time a server is deployed on the given hub.
+	// A webhook that is called any time a server is deployed to this hub. The payload will be a `Server`
+	// object.
 	ServerDeployed NilString `json:"server_deployed"`
+	// A webhook that is called any time a server in this hub is deleted. The payload will be a `Server`
+	// object.
+	ServerDeleted NilString `json:"server_deleted"`
 }
 
 // GetServerDeployed returns the value of ServerDeployed.
@@ -23788,9 +24106,19 @@ func (s *HubWebhooks) GetServerDeployed() NilString {
 	return s.ServerDeployed
 }
 
+// GetServerDeleted returns the value of ServerDeleted.
+func (s *HubWebhooks) GetServerDeleted() NilString {
+	return s.ServerDeleted
+}
+
 // SetServerDeployed sets the value of ServerDeployed.
 func (s *HubWebhooks) SetServerDeployed(val NilString) {
 	s.ServerDeployed = val
+}
+
+// SetServerDeleted sets the value of ServerDeleted.
+func (s *HubWebhooks) SetServerDeleted(val NilString) {
+	s.ServerDeleted = val
 }
 
 // HugeTLB data.
@@ -24995,170 +25323,212 @@ func (s *ImageMeta) SetContainersCount(val OptStateCountSummary) {
 
 // The origin of the given image source.
 // Ref: #/components/schemas/ImageOrigin
-// ImageOrigin represents sum type.
 type ImageOrigin struct {
-	Type                 ImageOriginType // switch on this field
+	OneOf ImageOriginSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *ImageOrigin) GetOneOf() ImageOriginSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *ImageOrigin) SetOneOf(val ImageOriginSum) {
+	s.OneOf = val
+}
+
+// ImageOriginSum represents sum type.
+type ImageOriginSum struct {
+	Type                 ImageOriginSumType // switch on this field
 	DockerHubOrigin      DockerHubOrigin
 	DockerFileOrigin     DockerFileOrigin
 	DockerRegistryOrigin DockerRegistryOrigin
+	OciRegistryOrigin    OciRegistryOrigin
 	CycleUploadOrigin    CycleUploadOrigin
 	CycleSourceOrigin    CycleSourceOrigin
 	NoneOrigin           NoneOrigin
 }
 
-// ImageOriginType is oneOf type of ImageOrigin.
-type ImageOriginType string
+// ImageOriginSumType is oneOf type of ImageOriginSum.
+type ImageOriginSumType string
 
-// Possible values for ImageOriginType.
+// Possible values for ImageOriginSumType.
 const (
-	DockerHubOriginImageOrigin      ImageOriginType = "DockerHubOrigin"
-	DockerFileOriginImageOrigin     ImageOriginType = "DockerFileOrigin"
-	DockerRegistryOriginImageOrigin ImageOriginType = "DockerRegistryOrigin"
-	CycleUploadOriginImageOrigin    ImageOriginType = "CycleUploadOrigin"
-	CycleSourceOriginImageOrigin    ImageOriginType = "CycleSourceOrigin"
-	NoneOriginImageOrigin           ImageOriginType = "NoneOrigin"
+	DockerHubOriginImageOriginSum      ImageOriginSumType = "docker-hub"
+	DockerFileOriginImageOriginSum     ImageOriginSumType = "docker-file"
+	DockerRegistryOriginImageOriginSum ImageOriginSumType = "docker-registry"
+	OciRegistryOriginImageOriginSum    ImageOriginSumType = "oci-registry"
+	CycleUploadOriginImageOriginSum    ImageOriginSumType = "cycle-upload"
+	CycleSourceOriginImageOriginSum    ImageOriginSumType = "cycle-source"
+	NoneOriginImageOriginSum           ImageOriginSumType = "none"
 )
 
-// IsDockerHubOrigin reports whether ImageOrigin is DockerHubOrigin.
-func (s ImageOrigin) IsDockerHubOrigin() bool { return s.Type == DockerHubOriginImageOrigin }
+// IsDockerHubOrigin reports whether ImageOriginSum is DockerHubOrigin.
+func (s ImageOriginSum) IsDockerHubOrigin() bool { return s.Type == DockerHubOriginImageOriginSum }
 
-// IsDockerFileOrigin reports whether ImageOrigin is DockerFileOrigin.
-func (s ImageOrigin) IsDockerFileOrigin() bool { return s.Type == DockerFileOriginImageOrigin }
+// IsDockerFileOrigin reports whether ImageOriginSum is DockerFileOrigin.
+func (s ImageOriginSum) IsDockerFileOrigin() bool { return s.Type == DockerFileOriginImageOriginSum }
 
-// IsDockerRegistryOrigin reports whether ImageOrigin is DockerRegistryOrigin.
-func (s ImageOrigin) IsDockerRegistryOrigin() bool { return s.Type == DockerRegistryOriginImageOrigin }
+// IsDockerRegistryOrigin reports whether ImageOriginSum is DockerRegistryOrigin.
+func (s ImageOriginSum) IsDockerRegistryOrigin() bool {
+	return s.Type == DockerRegistryOriginImageOriginSum
+}
 
-// IsCycleUploadOrigin reports whether ImageOrigin is CycleUploadOrigin.
-func (s ImageOrigin) IsCycleUploadOrigin() bool { return s.Type == CycleUploadOriginImageOrigin }
+// IsOciRegistryOrigin reports whether ImageOriginSum is OciRegistryOrigin.
+func (s ImageOriginSum) IsOciRegistryOrigin() bool { return s.Type == OciRegistryOriginImageOriginSum }
 
-// IsCycleSourceOrigin reports whether ImageOrigin is CycleSourceOrigin.
-func (s ImageOrigin) IsCycleSourceOrigin() bool { return s.Type == CycleSourceOriginImageOrigin }
+// IsCycleUploadOrigin reports whether ImageOriginSum is CycleUploadOrigin.
+func (s ImageOriginSum) IsCycleUploadOrigin() bool { return s.Type == CycleUploadOriginImageOriginSum }
 
-// IsNoneOrigin reports whether ImageOrigin is NoneOrigin.
-func (s ImageOrigin) IsNoneOrigin() bool { return s.Type == NoneOriginImageOrigin }
+// IsCycleSourceOrigin reports whether ImageOriginSum is CycleSourceOrigin.
+func (s ImageOriginSum) IsCycleSourceOrigin() bool { return s.Type == CycleSourceOriginImageOriginSum }
 
-// SetDockerHubOrigin sets ImageOrigin to DockerHubOrigin.
-func (s *ImageOrigin) SetDockerHubOrigin(v DockerHubOrigin) {
-	s.Type = DockerHubOriginImageOrigin
+// IsNoneOrigin reports whether ImageOriginSum is NoneOrigin.
+func (s ImageOriginSum) IsNoneOrigin() bool { return s.Type == NoneOriginImageOriginSum }
+
+// SetDockerHubOrigin sets ImageOriginSum to DockerHubOrigin.
+func (s *ImageOriginSum) SetDockerHubOrigin(v DockerHubOrigin) {
+	s.Type = DockerHubOriginImageOriginSum
 	s.DockerHubOrigin = v
 }
 
-// GetDockerHubOrigin returns DockerHubOrigin and true boolean if ImageOrigin is DockerHubOrigin.
-func (s ImageOrigin) GetDockerHubOrigin() (v DockerHubOrigin, ok bool) {
+// GetDockerHubOrigin returns DockerHubOrigin and true boolean if ImageOriginSum is DockerHubOrigin.
+func (s ImageOriginSum) GetDockerHubOrigin() (v DockerHubOrigin, ok bool) {
 	if !s.IsDockerHubOrigin() {
 		return v, false
 	}
 	return s.DockerHubOrigin, true
 }
 
-// NewDockerHubOriginImageOrigin returns new ImageOrigin from DockerHubOrigin.
-func NewDockerHubOriginImageOrigin(v DockerHubOrigin) ImageOrigin {
-	var s ImageOrigin
+// NewDockerHubOriginImageOriginSum returns new ImageOriginSum from DockerHubOrigin.
+func NewDockerHubOriginImageOriginSum(v DockerHubOrigin) ImageOriginSum {
+	var s ImageOriginSum
 	s.SetDockerHubOrigin(v)
 	return s
 }
 
-// SetDockerFileOrigin sets ImageOrigin to DockerFileOrigin.
-func (s *ImageOrigin) SetDockerFileOrigin(v DockerFileOrigin) {
-	s.Type = DockerFileOriginImageOrigin
+// SetDockerFileOrigin sets ImageOriginSum to DockerFileOrigin.
+func (s *ImageOriginSum) SetDockerFileOrigin(v DockerFileOrigin) {
+	s.Type = DockerFileOriginImageOriginSum
 	s.DockerFileOrigin = v
 }
 
-// GetDockerFileOrigin returns DockerFileOrigin and true boolean if ImageOrigin is DockerFileOrigin.
-func (s ImageOrigin) GetDockerFileOrigin() (v DockerFileOrigin, ok bool) {
+// GetDockerFileOrigin returns DockerFileOrigin and true boolean if ImageOriginSum is DockerFileOrigin.
+func (s ImageOriginSum) GetDockerFileOrigin() (v DockerFileOrigin, ok bool) {
 	if !s.IsDockerFileOrigin() {
 		return v, false
 	}
 	return s.DockerFileOrigin, true
 }
 
-// NewDockerFileOriginImageOrigin returns new ImageOrigin from DockerFileOrigin.
-func NewDockerFileOriginImageOrigin(v DockerFileOrigin) ImageOrigin {
-	var s ImageOrigin
+// NewDockerFileOriginImageOriginSum returns new ImageOriginSum from DockerFileOrigin.
+func NewDockerFileOriginImageOriginSum(v DockerFileOrigin) ImageOriginSum {
+	var s ImageOriginSum
 	s.SetDockerFileOrigin(v)
 	return s
 }
 
-// SetDockerRegistryOrigin sets ImageOrigin to DockerRegistryOrigin.
-func (s *ImageOrigin) SetDockerRegistryOrigin(v DockerRegistryOrigin) {
-	s.Type = DockerRegistryOriginImageOrigin
+// SetDockerRegistryOrigin sets ImageOriginSum to DockerRegistryOrigin.
+func (s *ImageOriginSum) SetDockerRegistryOrigin(v DockerRegistryOrigin) {
+	s.Type = DockerRegistryOriginImageOriginSum
 	s.DockerRegistryOrigin = v
 }
 
-// GetDockerRegistryOrigin returns DockerRegistryOrigin and true boolean if ImageOrigin is DockerRegistryOrigin.
-func (s ImageOrigin) GetDockerRegistryOrigin() (v DockerRegistryOrigin, ok bool) {
+// GetDockerRegistryOrigin returns DockerRegistryOrigin and true boolean if ImageOriginSum is DockerRegistryOrigin.
+func (s ImageOriginSum) GetDockerRegistryOrigin() (v DockerRegistryOrigin, ok bool) {
 	if !s.IsDockerRegistryOrigin() {
 		return v, false
 	}
 	return s.DockerRegistryOrigin, true
 }
 
-// NewDockerRegistryOriginImageOrigin returns new ImageOrigin from DockerRegistryOrigin.
-func NewDockerRegistryOriginImageOrigin(v DockerRegistryOrigin) ImageOrigin {
-	var s ImageOrigin
+// NewDockerRegistryOriginImageOriginSum returns new ImageOriginSum from DockerRegistryOrigin.
+func NewDockerRegistryOriginImageOriginSum(v DockerRegistryOrigin) ImageOriginSum {
+	var s ImageOriginSum
 	s.SetDockerRegistryOrigin(v)
 	return s
 }
 
-// SetCycleUploadOrigin sets ImageOrigin to CycleUploadOrigin.
-func (s *ImageOrigin) SetCycleUploadOrigin(v CycleUploadOrigin) {
-	s.Type = CycleUploadOriginImageOrigin
+// SetOciRegistryOrigin sets ImageOriginSum to OciRegistryOrigin.
+func (s *ImageOriginSum) SetOciRegistryOrigin(v OciRegistryOrigin) {
+	s.Type = OciRegistryOriginImageOriginSum
+	s.OciRegistryOrigin = v
+}
+
+// GetOciRegistryOrigin returns OciRegistryOrigin and true boolean if ImageOriginSum is OciRegistryOrigin.
+func (s ImageOriginSum) GetOciRegistryOrigin() (v OciRegistryOrigin, ok bool) {
+	if !s.IsOciRegistryOrigin() {
+		return v, false
+	}
+	return s.OciRegistryOrigin, true
+}
+
+// NewOciRegistryOriginImageOriginSum returns new ImageOriginSum from OciRegistryOrigin.
+func NewOciRegistryOriginImageOriginSum(v OciRegistryOrigin) ImageOriginSum {
+	var s ImageOriginSum
+	s.SetOciRegistryOrigin(v)
+	return s
+}
+
+// SetCycleUploadOrigin sets ImageOriginSum to CycleUploadOrigin.
+func (s *ImageOriginSum) SetCycleUploadOrigin(v CycleUploadOrigin) {
+	s.Type = CycleUploadOriginImageOriginSum
 	s.CycleUploadOrigin = v
 }
 
-// GetCycleUploadOrigin returns CycleUploadOrigin and true boolean if ImageOrigin is CycleUploadOrigin.
-func (s ImageOrigin) GetCycleUploadOrigin() (v CycleUploadOrigin, ok bool) {
+// GetCycleUploadOrigin returns CycleUploadOrigin and true boolean if ImageOriginSum is CycleUploadOrigin.
+func (s ImageOriginSum) GetCycleUploadOrigin() (v CycleUploadOrigin, ok bool) {
 	if !s.IsCycleUploadOrigin() {
 		return v, false
 	}
 	return s.CycleUploadOrigin, true
 }
 
-// NewCycleUploadOriginImageOrigin returns new ImageOrigin from CycleUploadOrigin.
-func NewCycleUploadOriginImageOrigin(v CycleUploadOrigin) ImageOrigin {
-	var s ImageOrigin
+// NewCycleUploadOriginImageOriginSum returns new ImageOriginSum from CycleUploadOrigin.
+func NewCycleUploadOriginImageOriginSum(v CycleUploadOrigin) ImageOriginSum {
+	var s ImageOriginSum
 	s.SetCycleUploadOrigin(v)
 	return s
 }
 
-// SetCycleSourceOrigin sets ImageOrigin to CycleSourceOrigin.
-func (s *ImageOrigin) SetCycleSourceOrigin(v CycleSourceOrigin) {
-	s.Type = CycleSourceOriginImageOrigin
+// SetCycleSourceOrigin sets ImageOriginSum to CycleSourceOrigin.
+func (s *ImageOriginSum) SetCycleSourceOrigin(v CycleSourceOrigin) {
+	s.Type = CycleSourceOriginImageOriginSum
 	s.CycleSourceOrigin = v
 }
 
-// GetCycleSourceOrigin returns CycleSourceOrigin and true boolean if ImageOrigin is CycleSourceOrigin.
-func (s ImageOrigin) GetCycleSourceOrigin() (v CycleSourceOrigin, ok bool) {
+// GetCycleSourceOrigin returns CycleSourceOrigin and true boolean if ImageOriginSum is CycleSourceOrigin.
+func (s ImageOriginSum) GetCycleSourceOrigin() (v CycleSourceOrigin, ok bool) {
 	if !s.IsCycleSourceOrigin() {
 		return v, false
 	}
 	return s.CycleSourceOrigin, true
 }
 
-// NewCycleSourceOriginImageOrigin returns new ImageOrigin from CycleSourceOrigin.
-func NewCycleSourceOriginImageOrigin(v CycleSourceOrigin) ImageOrigin {
-	var s ImageOrigin
+// NewCycleSourceOriginImageOriginSum returns new ImageOriginSum from CycleSourceOrigin.
+func NewCycleSourceOriginImageOriginSum(v CycleSourceOrigin) ImageOriginSum {
+	var s ImageOriginSum
 	s.SetCycleSourceOrigin(v)
 	return s
 }
 
-// SetNoneOrigin sets ImageOrigin to NoneOrigin.
-func (s *ImageOrigin) SetNoneOrigin(v NoneOrigin) {
-	s.Type = NoneOriginImageOrigin
+// SetNoneOrigin sets ImageOriginSum to NoneOrigin.
+func (s *ImageOriginSum) SetNoneOrigin(v NoneOrigin) {
+	s.Type = NoneOriginImageOriginSum
 	s.NoneOrigin = v
 }
 
-// GetNoneOrigin returns NoneOrigin and true boolean if ImageOrigin is NoneOrigin.
-func (s ImageOrigin) GetNoneOrigin() (v NoneOrigin, ok bool) {
+// GetNoneOrigin returns NoneOrigin and true boolean if ImageOriginSum is NoneOrigin.
+func (s ImageOriginSum) GetNoneOrigin() (v NoneOrigin, ok bool) {
 	if !s.IsNoneOrigin() {
 		return v, false
 	}
 	return s.NoneOrigin, true
 }
 
-// NewNoneOriginImageOrigin returns new ImageOrigin from NoneOrigin.
-func NewNoneOriginImageOrigin(v NoneOrigin) ImageOrigin {
-	var s ImageOrigin
+// NewNoneOriginImageOriginSum returns new ImageOriginSum from NoneOrigin.
+func NewNoneOriginImageOriginSum(v NoneOrigin) ImageOriginSum {
+	var s ImageOriginSum
 	s.SetNoneOrigin(v)
 	return s
 }
@@ -25454,204 +25824,113 @@ func (s *ImageSourceCreateStepOptions) SetSkip(val OptBool) {
 }
 
 type ImageSourceDetails struct {
-	Type     ImageSourceType               `json:"type"`
-	Details  ImageSourceDetailsDetails     `json:"details"`
-	Override OptImageSourceDetailsOverride `json:"override"`
+	OneOf ImageSourceDetailsSum
 }
 
-// GetType returns the value of Type.
-func (s *ImageSourceDetails) GetType() ImageSourceType {
-	return s.Type
+// GetOneOf returns the value of OneOf.
+func (s *ImageSourceDetails) GetOneOf() ImageSourceDetailsSum {
+	return s.OneOf
 }
 
-// GetDetails returns the value of Details.
-func (s *ImageSourceDetails) GetDetails() ImageSourceDetailsDetails {
-	return s.Details
+// SetOneOf sets the value of OneOf.
+func (s *ImageSourceDetails) SetOneOf(val ImageSourceDetailsSum) {
+	s.OneOf = val
 }
 
-// GetOverride returns the value of Override.
-func (s *ImageSourceDetails) GetOverride() OptImageSourceDetailsOverride {
-	return s.Override
+// ImageSourceDetailsSum represents sum type.
+type ImageSourceDetailsSum struct {
+	Type                  ImageSourceDetailsSumType // switch on this field
+	DirectImageSourceType DirectImageSourceType
+	StackImageSourceType  StackImageSourceType
+	BucketImageSourceType BucketImageSourceType
 }
 
-// SetType sets the value of Type.
-func (s *ImageSourceDetails) SetType(val ImageSourceType) {
-	s.Type = val
-}
+// ImageSourceDetailsSumType is oneOf type of ImageSourceDetailsSum.
+type ImageSourceDetailsSumType string
 
-// SetDetails sets the value of Details.
-func (s *ImageSourceDetails) SetDetails(val ImageSourceDetailsDetails) {
-	s.Details = val
-}
-
-// SetOverride sets the value of Override.
-func (s *ImageSourceDetails) SetOverride(val OptImageSourceDetailsOverride) {
-	s.Override = val
-}
-
-// ImageSourceDetailsDetails represents sum type.
-type ImageSourceDetailsDetails struct {
-	Type                       ImageSourceDetailsDetailsType // switch on this field
-	ImageSourceDetailsDetails0 ImageSourceDetailsDetails0
-	ImageSourceDetailsDetails1 ImageSourceDetailsDetails1
-}
-
-// ImageSourceDetailsDetailsType is oneOf type of ImageSourceDetailsDetails.
-type ImageSourceDetailsDetailsType string
-
-// Possible values for ImageSourceDetailsDetailsType.
+// Possible values for ImageSourceDetailsSumType.
 const (
-	ImageSourceDetailsDetails0ImageSourceDetailsDetails ImageSourceDetailsDetailsType = "ImageSourceDetailsDetails0"
-	ImageSourceDetailsDetails1ImageSourceDetailsDetails ImageSourceDetailsDetailsType = "ImageSourceDetailsDetails1"
+	DirectImageSourceTypeImageSourceDetailsSum ImageSourceDetailsSumType = "direct"
+	StackImageSourceTypeImageSourceDetailsSum  ImageSourceDetailsSumType = "stack-build"
+	BucketImageSourceTypeImageSourceDetailsSum ImageSourceDetailsSumType = "bucket"
 )
 
-// IsImageSourceDetailsDetails0 reports whether ImageSourceDetailsDetails is ImageSourceDetailsDetails0.
-func (s ImageSourceDetailsDetails) IsImageSourceDetailsDetails0() bool {
-	return s.Type == ImageSourceDetailsDetails0ImageSourceDetailsDetails
+// IsDirectImageSourceType reports whether ImageSourceDetailsSum is DirectImageSourceType.
+func (s ImageSourceDetailsSum) IsDirectImageSourceType() bool {
+	return s.Type == DirectImageSourceTypeImageSourceDetailsSum
 }
 
-// IsImageSourceDetailsDetails1 reports whether ImageSourceDetailsDetails is ImageSourceDetailsDetails1.
-func (s ImageSourceDetailsDetails) IsImageSourceDetailsDetails1() bool {
-	return s.Type == ImageSourceDetailsDetails1ImageSourceDetailsDetails
+// IsStackImageSourceType reports whether ImageSourceDetailsSum is StackImageSourceType.
+func (s ImageSourceDetailsSum) IsStackImageSourceType() bool {
+	return s.Type == StackImageSourceTypeImageSourceDetailsSum
 }
 
-// SetImageSourceDetailsDetails0 sets ImageSourceDetailsDetails to ImageSourceDetailsDetails0.
-func (s *ImageSourceDetailsDetails) SetImageSourceDetailsDetails0(v ImageSourceDetailsDetails0) {
-	s.Type = ImageSourceDetailsDetails0ImageSourceDetailsDetails
-	s.ImageSourceDetailsDetails0 = v
+// IsBucketImageSourceType reports whether ImageSourceDetailsSum is BucketImageSourceType.
+func (s ImageSourceDetailsSum) IsBucketImageSourceType() bool {
+	return s.Type == BucketImageSourceTypeImageSourceDetailsSum
 }
 
-// GetImageSourceDetailsDetails0 returns ImageSourceDetailsDetails0 and true boolean if ImageSourceDetailsDetails is ImageSourceDetailsDetails0.
-func (s ImageSourceDetailsDetails) GetImageSourceDetailsDetails0() (v ImageSourceDetailsDetails0, ok bool) {
-	if !s.IsImageSourceDetailsDetails0() {
+// SetDirectImageSourceType sets ImageSourceDetailsSum to DirectImageSourceType.
+func (s *ImageSourceDetailsSum) SetDirectImageSourceType(v DirectImageSourceType) {
+	s.Type = DirectImageSourceTypeImageSourceDetailsSum
+	s.DirectImageSourceType = v
+}
+
+// GetDirectImageSourceType returns DirectImageSourceType and true boolean if ImageSourceDetailsSum is DirectImageSourceType.
+func (s ImageSourceDetailsSum) GetDirectImageSourceType() (v DirectImageSourceType, ok bool) {
+	if !s.IsDirectImageSourceType() {
 		return v, false
 	}
-	return s.ImageSourceDetailsDetails0, true
+	return s.DirectImageSourceType, true
 }
 
-// NewImageSourceDetailsDetails0ImageSourceDetailsDetails returns new ImageSourceDetailsDetails from ImageSourceDetailsDetails0.
-func NewImageSourceDetailsDetails0ImageSourceDetailsDetails(v ImageSourceDetailsDetails0) ImageSourceDetailsDetails {
-	var s ImageSourceDetailsDetails
-	s.SetImageSourceDetailsDetails0(v)
+// NewDirectImageSourceTypeImageSourceDetailsSum returns new ImageSourceDetailsSum from DirectImageSourceType.
+func NewDirectImageSourceTypeImageSourceDetailsSum(v DirectImageSourceType) ImageSourceDetailsSum {
+	var s ImageSourceDetailsSum
+	s.SetDirectImageSourceType(v)
 	return s
 }
 
-// SetImageSourceDetailsDetails1 sets ImageSourceDetailsDetails to ImageSourceDetailsDetails1.
-func (s *ImageSourceDetailsDetails) SetImageSourceDetailsDetails1(v ImageSourceDetailsDetails1) {
-	s.Type = ImageSourceDetailsDetails1ImageSourceDetailsDetails
-	s.ImageSourceDetailsDetails1 = v
+// SetStackImageSourceType sets ImageSourceDetailsSum to StackImageSourceType.
+func (s *ImageSourceDetailsSum) SetStackImageSourceType(v StackImageSourceType) {
+	s.Type = StackImageSourceTypeImageSourceDetailsSum
+	s.StackImageSourceType = v
 }
 
-// GetImageSourceDetailsDetails1 returns ImageSourceDetailsDetails1 and true boolean if ImageSourceDetailsDetails is ImageSourceDetailsDetails1.
-func (s ImageSourceDetailsDetails) GetImageSourceDetailsDetails1() (v ImageSourceDetailsDetails1, ok bool) {
-	if !s.IsImageSourceDetailsDetails1() {
+// GetStackImageSourceType returns StackImageSourceType and true boolean if ImageSourceDetailsSum is StackImageSourceType.
+func (s ImageSourceDetailsSum) GetStackImageSourceType() (v StackImageSourceType, ok bool) {
+	if !s.IsStackImageSourceType() {
 		return v, false
 	}
-	return s.ImageSourceDetailsDetails1, true
+	return s.StackImageSourceType, true
 }
 
-// NewImageSourceDetailsDetails1ImageSourceDetailsDetails returns new ImageSourceDetailsDetails from ImageSourceDetailsDetails1.
-func NewImageSourceDetailsDetails1ImageSourceDetailsDetails(v ImageSourceDetailsDetails1) ImageSourceDetailsDetails {
-	var s ImageSourceDetailsDetails
-	s.SetImageSourceDetailsDetails1(v)
+// NewStackImageSourceTypeImageSourceDetailsSum returns new ImageSourceDetailsSum from StackImageSourceType.
+func NewStackImageSourceTypeImageSourceDetailsSum(v StackImageSourceType) ImageSourceDetailsSum {
+	var s ImageSourceDetailsSum
+	s.SetStackImageSourceType(v)
 	return s
 }
 
-type ImageSourceDetailsDetails0 struct {
-	ID     string      `json:"id"`
-	Origin ImageOrigin `json:"origin"`
+// SetBucketImageSourceType sets ImageSourceDetailsSum to BucketImageSourceType.
+func (s *ImageSourceDetailsSum) SetBucketImageSourceType(v BucketImageSourceType) {
+	s.Type = BucketImageSourceTypeImageSourceDetailsSum
+	s.BucketImageSourceType = v
 }
 
-// GetID returns the value of ID.
-func (s *ImageSourceDetailsDetails0) GetID() string {
-	return s.ID
+// GetBucketImageSourceType returns BucketImageSourceType and true boolean if ImageSourceDetailsSum is BucketImageSourceType.
+func (s ImageSourceDetailsSum) GetBucketImageSourceType() (v BucketImageSourceType, ok bool) {
+	if !s.IsBucketImageSourceType() {
+		return v, false
+	}
+	return s.BucketImageSourceType, true
 }
 
-// GetOrigin returns the value of Origin.
-func (s *ImageSourceDetailsDetails0) GetOrigin() ImageOrigin {
-	return s.Origin
-}
-
-// SetID sets the value of ID.
-func (s *ImageSourceDetailsDetails0) SetID(val string) {
-	s.ID = val
-}
-
-// SetOrigin sets the value of Origin.
-func (s *ImageSourceDetailsDetails0) SetOrigin(val ImageOrigin) {
-	s.Origin = val
-}
-
-type ImageSourceDetailsDetails1 struct {
-	ID         string       `json:"id"`
-	StackID    string       `json:"stack_id"`
-	Containers []Identifier `json:"containers"`
-	Origin     ImageOrigin  `json:"origin"`
-}
-
-// GetID returns the value of ID.
-func (s *ImageSourceDetailsDetails1) GetID() string {
-	return s.ID
-}
-
-// GetStackID returns the value of StackID.
-func (s *ImageSourceDetailsDetails1) GetStackID() string {
-	return s.StackID
-}
-
-// GetContainers returns the value of Containers.
-func (s *ImageSourceDetailsDetails1) GetContainers() []Identifier {
-	return s.Containers
-}
-
-// GetOrigin returns the value of Origin.
-func (s *ImageSourceDetailsDetails1) GetOrigin() ImageOrigin {
-	return s.Origin
-}
-
-// SetID sets the value of ID.
-func (s *ImageSourceDetailsDetails1) SetID(val string) {
-	s.ID = val
-}
-
-// SetStackID sets the value of StackID.
-func (s *ImageSourceDetailsDetails1) SetStackID(val string) {
-	s.StackID = val
-}
-
-// SetContainers sets the value of Containers.
-func (s *ImageSourceDetailsDetails1) SetContainers(val []Identifier) {
-	s.Containers = val
-}
-
-// SetOrigin sets the value of Origin.
-func (s *ImageSourceDetailsDetails1) SetOrigin(val ImageOrigin) {
-	s.Origin = val
-}
-
-type ImageSourceDetailsOverride struct {
-	Target   OptString `json:"target"`
-	TargzURL OptString `json:"targz_url"`
-}
-
-// GetTarget returns the value of Target.
-func (s *ImageSourceDetailsOverride) GetTarget() OptString {
-	return s.Target
-}
-
-// GetTargzURL returns the value of TargzURL.
-func (s *ImageSourceDetailsOverride) GetTargzURL() OptString {
-	return s.TargzURL
-}
-
-// SetTarget sets the value of Target.
-func (s *ImageSourceDetailsOverride) SetTarget(val OptString) {
-	s.Target = val
-}
-
-// SetTargzURL sets the value of TargzURL.
-func (s *ImageSourceDetailsOverride) SetTargzURL(val OptString) {
-	s.TargzURL = val
+// NewBucketImageSourceTypeImageSourceDetailsSum returns new ImageSourceDetailsSum from BucketImageSourceType.
+func NewBucketImageSourceTypeImageSourceDetailsSum(v BucketImageSourceType) ImageSourceDetailsSum {
+	var s ImageSourceDetailsSum
+	s.SetBucketImageSourceType(v)
+	return s
 }
 
 // A collection of timestamps for each event in the iamge source's lifetime.
@@ -26132,29 +26411,56 @@ func (s *ImageStateError) SetTime(val OptDateTime) {
 // A summary of the image this container was created from.
 // Ref: #/components/schemas/ImageSummary
 type ImageSummary struct {
-	ID OptID `json:"id"`
+	ID NilID `json:"id"`
+	// An image that is packaged with Cycle directly, such as the global load balancer.
+	Extension NilImageSummaryExtension `json:"extension"`
 	// If a service container, the identifier specifying which service it is.
-	Service OptNilImageSummaryService `json:"service"`
+	Service NilImageSummaryService `json:"service"`
 }
 
 // GetID returns the value of ID.
-func (s *ImageSummary) GetID() OptID {
+func (s *ImageSummary) GetID() NilID {
 	return s.ID
 }
 
+// GetExtension returns the value of Extension.
+func (s *ImageSummary) GetExtension() NilImageSummaryExtension {
+	return s.Extension
+}
+
 // GetService returns the value of Service.
-func (s *ImageSummary) GetService() OptNilImageSummaryService {
+func (s *ImageSummary) GetService() NilImageSummaryService {
 	return s.Service
 }
 
 // SetID sets the value of ID.
-func (s *ImageSummary) SetID(val OptID) {
+func (s *ImageSummary) SetID(val NilID) {
 	s.ID = val
 }
 
+// SetExtension sets the value of Extension.
+func (s *ImageSummary) SetExtension(val NilImageSummaryExtension) {
+	s.Extension = val
+}
+
 // SetService sets the value of Service.
-func (s *ImageSummary) SetService(val OptNilImageSummaryService) {
+func (s *ImageSummary) SetService(val NilImageSummaryService) {
 	s.Service = val
+}
+
+// An image that is packaged with Cycle directly, such as the global load balancer.
+type ImageSummaryExtension struct {
+	Identifier Identifier `json:"identifier"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ImageSummaryExtension) GetIdentifier() Identifier {
+	return s.Identifier
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ImageSummaryExtension) SetIdentifier(val Identifier) {
+	s.Identifier = val
 }
 
 // If a service container, the identifier specifying which service it is.
@@ -26810,12 +27116,12 @@ func (s *InfrastructureProviderLocation) SetAnnotations(val InfrastructureProvid
 }
 
 // Additional information about the given provider locaiton.
-type InfrastructureProviderLocationAnnotations map[string]string
+type InfrastructureProviderLocationAnnotations map[string]jx.Raw
 
 func (s *InfrastructureProviderLocationAnnotations) init() InfrastructureProviderLocationAnnotations {
 	m := *s
 	if m == nil {
-		m = map[string]string{}
+		m = map[string]jx.Raw{}
 		*s = m
 	}
 	return m
@@ -26849,44 +27155,80 @@ func (s *InfrastructureProviderLocationFeatures) SetSupported(val []string) {
 	s.Supported = val
 }
 
-// InfrastructureProviderLocationGeographic represents sum type.
+// Merged schema.
 type InfrastructureProviderLocationGeographic struct {
-	Type       InfrastructureProviderLocationGeographicType // switch on this field
-	Geographic Geographic
+	// The latitude of the given provider datacenter.
+	Latitude int `json:"latitude"`
+	// The longitude of the given provider datacenter.
+	Longitude int `json:"longitude"`
+	// The city the datacenter resides in.
+	City string `json:"city"`
+	// The state the datacenter resides in.
+	State string `json:"state"`
+	// The country the datacenter resides in.
+	Country string `json:"country"`
+	// The region the datacenter resides in.
+	Region string `json:"region"`
 }
 
-// InfrastructureProviderLocationGeographicType is oneOf type of InfrastructureProviderLocationGeographic.
-type InfrastructureProviderLocationGeographicType string
-
-// Possible values for InfrastructureProviderLocationGeographicType.
-const (
-	GeographicInfrastructureProviderLocationGeographic InfrastructureProviderLocationGeographicType = "Geographic"
-)
-
-// IsGeographic reports whether InfrastructureProviderLocationGeographic is Geographic.
-func (s InfrastructureProviderLocationGeographic) IsGeographic() bool {
-	return s.Type == GeographicInfrastructureProviderLocationGeographic
+// GetLatitude returns the value of Latitude.
+func (s *InfrastructureProviderLocationGeographic) GetLatitude() int {
+	return s.Latitude
 }
 
-// SetGeographic sets InfrastructureProviderLocationGeographic to Geographic.
-func (s *InfrastructureProviderLocationGeographic) SetGeographic(v Geographic) {
-	s.Type = GeographicInfrastructureProviderLocationGeographic
-	s.Geographic = v
+// GetLongitude returns the value of Longitude.
+func (s *InfrastructureProviderLocationGeographic) GetLongitude() int {
+	return s.Longitude
 }
 
-// GetGeographic returns Geographic and true boolean if InfrastructureProviderLocationGeographic is Geographic.
-func (s InfrastructureProviderLocationGeographic) GetGeographic() (v Geographic, ok bool) {
-	if !s.IsGeographic() {
-		return v, false
-	}
-	return s.Geographic, true
+// GetCity returns the value of City.
+func (s *InfrastructureProviderLocationGeographic) GetCity() string {
+	return s.City
 }
 
-// NewGeographicInfrastructureProviderLocationGeographic returns new InfrastructureProviderLocationGeographic from Geographic.
-func NewGeographicInfrastructureProviderLocationGeographic(v Geographic) InfrastructureProviderLocationGeographic {
-	var s InfrastructureProviderLocationGeographic
-	s.SetGeographic(v)
-	return s
+// GetState returns the value of State.
+func (s *InfrastructureProviderLocationGeographic) GetState() string {
+	return s.State
+}
+
+// GetCountry returns the value of Country.
+func (s *InfrastructureProviderLocationGeographic) GetCountry() string {
+	return s.Country
+}
+
+// GetRegion returns the value of Region.
+func (s *InfrastructureProviderLocationGeographic) GetRegion() string {
+	return s.Region
+}
+
+// SetLatitude sets the value of Latitude.
+func (s *InfrastructureProviderLocationGeographic) SetLatitude(val int) {
+	s.Latitude = val
+}
+
+// SetLongitude sets the value of Longitude.
+func (s *InfrastructureProviderLocationGeographic) SetLongitude(val int) {
+	s.Longitude = val
+}
+
+// SetCity sets the value of City.
+func (s *InfrastructureProviderLocationGeographic) SetCity(val string) {
+	s.City = val
+}
+
+// SetState sets the value of State.
+func (s *InfrastructureProviderLocationGeographic) SetState(val string) {
+	s.State = val
+}
+
+// SetCountry sets the value of Country.
+func (s *InfrastructureProviderLocationGeographic) SetCountry(val string) {
+	s.Country = val
+}
+
+// SetRegion sets the value of Region.
+func (s *InfrastructureProviderLocationGeographic) SetRegion(val string) {
+	s.Region = val
 }
 
 // An infrastructure summary resource.
@@ -29408,17 +29750,126 @@ func (s *ListScopedVariablesPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
+// The config object for the loadbalancer service.
+// Ref: #/components/schemas/LoadBalancerConfig
+type LoadBalancerConfig struct {
+	OneOf LoadBalancerConfigSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *LoadBalancerConfig) GetOneOf() LoadBalancerConfigSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *LoadBalancerConfig) SetOneOf(val LoadBalancerConfigSum) {
+	s.OneOf = val
+}
+
+// LoadBalancerConfigSum represents sum type.
+type LoadBalancerConfigSum struct {
+	Type          LoadBalancerConfigSumType // switch on this field
+	V1LbType      V1LbType
+	HaProxyLbType HaProxyLbType
+	DefaultLbType DefaultLbType
+}
+
+// LoadBalancerConfigSumType is oneOf type of LoadBalancerConfigSum.
+type LoadBalancerConfigSumType string
+
+// Possible values for LoadBalancerConfigSumType.
+const (
+	V1LbTypeLoadBalancerConfigSum      LoadBalancerConfigSumType = "v1"
+	HaProxyLbTypeLoadBalancerConfigSum LoadBalancerConfigSumType = "haproxy"
+	DefaultLbTypeLoadBalancerConfigSum LoadBalancerConfigSumType = "default"
+)
+
+// IsV1LbType reports whether LoadBalancerConfigSum is V1LbType.
+func (s LoadBalancerConfigSum) IsV1LbType() bool { return s.Type == V1LbTypeLoadBalancerConfigSum }
+
+// IsHaProxyLbType reports whether LoadBalancerConfigSum is HaProxyLbType.
+func (s LoadBalancerConfigSum) IsHaProxyLbType() bool {
+	return s.Type == HaProxyLbTypeLoadBalancerConfigSum
+}
+
+// IsDefaultLbType reports whether LoadBalancerConfigSum is DefaultLbType.
+func (s LoadBalancerConfigSum) IsDefaultLbType() bool {
+	return s.Type == DefaultLbTypeLoadBalancerConfigSum
+}
+
+// SetV1LbType sets LoadBalancerConfigSum to V1LbType.
+func (s *LoadBalancerConfigSum) SetV1LbType(v V1LbType) {
+	s.Type = V1LbTypeLoadBalancerConfigSum
+	s.V1LbType = v
+}
+
+// GetV1LbType returns V1LbType and true boolean if LoadBalancerConfigSum is V1LbType.
+func (s LoadBalancerConfigSum) GetV1LbType() (v V1LbType, ok bool) {
+	if !s.IsV1LbType() {
+		return v, false
+	}
+	return s.V1LbType, true
+}
+
+// NewV1LbTypeLoadBalancerConfigSum returns new LoadBalancerConfigSum from V1LbType.
+func NewV1LbTypeLoadBalancerConfigSum(v V1LbType) LoadBalancerConfigSum {
+	var s LoadBalancerConfigSum
+	s.SetV1LbType(v)
+	return s
+}
+
+// SetHaProxyLbType sets LoadBalancerConfigSum to HaProxyLbType.
+func (s *LoadBalancerConfigSum) SetHaProxyLbType(v HaProxyLbType) {
+	s.Type = HaProxyLbTypeLoadBalancerConfigSum
+	s.HaProxyLbType = v
+}
+
+// GetHaProxyLbType returns HaProxyLbType and true boolean if LoadBalancerConfigSum is HaProxyLbType.
+func (s LoadBalancerConfigSum) GetHaProxyLbType() (v HaProxyLbType, ok bool) {
+	if !s.IsHaProxyLbType() {
+		return v, false
+	}
+	return s.HaProxyLbType, true
+}
+
+// NewHaProxyLbTypeLoadBalancerConfigSum returns new LoadBalancerConfigSum from HaProxyLbType.
+func NewHaProxyLbTypeLoadBalancerConfigSum(v HaProxyLbType) LoadBalancerConfigSum {
+	var s LoadBalancerConfigSum
+	s.SetHaProxyLbType(v)
+	return s
+}
+
+// SetDefaultLbType sets LoadBalancerConfigSum to DefaultLbType.
+func (s *LoadBalancerConfigSum) SetDefaultLbType(v DefaultLbType) {
+	s.Type = DefaultLbTypeLoadBalancerConfigSum
+	s.DefaultLbType = v
+}
+
+// GetDefaultLbType returns DefaultLbType and true boolean if LoadBalancerConfigSum is DefaultLbType.
+func (s LoadBalancerConfigSum) GetDefaultLbType() (v DefaultLbType, ok bool) {
+	if !s.IsDefaultLbType() {
+		return v, false
+	}
+	return s.DefaultLbType, true
+}
+
+// NewDefaultLbTypeLoadBalancerConfigSum returns new LoadBalancerConfigSum from DefaultLbType.
+func NewDefaultLbTypeLoadBalancerConfigSum(v DefaultLbType) LoadBalancerConfigSum {
+	var s LoadBalancerConfigSum
+	s.SetDefaultLbType(v)
+	return s
+}
+
 // Information about the environments loadbalancer service(s).
 // Ref: #/components/schemas/LoadBalancerEnvironmentService
 type LoadBalancerEnvironmentService struct {
 	// Whether or not the loadbalancer service is enabled.
 	Enable bool `json:"enable"`
 	// The ID of the loadbalancer service container.
-	ContainerID string `json:"container_id"`
+	ContainerID NilString `json:"container_id"`
 	// A boolean representing if this service container is set to high availability mode or not.
-	HighAvailability bool `json:"high_availability"`
-	// The config object for the loadbalancer service.
-	Config NilLoadBalancerEnvironmentServiceConfig `json:"config"`
+	HighAvailability bool                  `json:"high_availability"`
+	Config           NilLoadBalancerConfig `json:"config"`
 }
 
 // GetEnable returns the value of Enable.
@@ -29427,7 +29878,7 @@ func (s *LoadBalancerEnvironmentService) GetEnable() bool {
 }
 
 // GetContainerID returns the value of ContainerID.
-func (s *LoadBalancerEnvironmentService) GetContainerID() string {
+func (s *LoadBalancerEnvironmentService) GetContainerID() NilString {
 	return s.ContainerID
 }
 
@@ -29437,7 +29888,7 @@ func (s *LoadBalancerEnvironmentService) GetHighAvailability() bool {
 }
 
 // GetConfig returns the value of Config.
-func (s *LoadBalancerEnvironmentService) GetConfig() NilLoadBalancerEnvironmentServiceConfig {
+func (s *LoadBalancerEnvironmentService) GetConfig() NilLoadBalancerConfig {
 	return s.Config
 }
 
@@ -29447,7 +29898,7 @@ func (s *LoadBalancerEnvironmentService) SetEnable(val bool) {
 }
 
 // SetContainerID sets the value of ContainerID.
-func (s *LoadBalancerEnvironmentService) SetContainerID(val string) {
+func (s *LoadBalancerEnvironmentService) SetContainerID(val NilString) {
 	s.ContainerID = val
 }
 
@@ -29457,300 +29908,708 @@ func (s *LoadBalancerEnvironmentService) SetHighAvailability(val bool) {
 }
 
 // SetConfig sets the value of Config.
-func (s *LoadBalancerEnvironmentService) SetConfig(val NilLoadBalancerEnvironmentServiceConfig) {
+func (s *LoadBalancerEnvironmentService) SetConfig(val NilLoadBalancerConfig) {
 	s.Config = val
 }
 
-// The config object for the loadbalancer service.
-type LoadBalancerEnvironmentServiceConfig struct {
-	// Describes settings that are passed to HAProxy within the load balancer.
-	Haproxy NilLoadBalancerEnvironmentServiceConfigHaproxy `json:"haproxy"`
-	// Allow / disallow traffic to be routed via IPv4.
-	Ipv4 NilBool `json:"ipv4"`
-	// Allow / disallow traffic to be routed via IPv6.
-	Ipv6 NilBool `json:"ipv6"`
+type LoadBalancerLatestTelemetry []LoadBalancerLatestTelemetryItem
+
+type LoadBalancerLatestTelemetryItem struct {
+	Time       DateTime                                       `json:"time"`
+	Controller Identifier                                     `json:"controller"`
+	Instances  []LoadBalancerLatestTelemetryItemInstancesItem `json:"instances"`
 }
 
-// GetHaproxy returns the value of Haproxy.
-func (s *LoadBalancerEnvironmentServiceConfig) GetHaproxy() NilLoadBalancerEnvironmentServiceConfigHaproxy {
-	return s.Haproxy
+// GetTime returns the value of Time.
+func (s *LoadBalancerLatestTelemetryItem) GetTime() DateTime {
+	return s.Time
 }
 
-// GetIpv4 returns the value of Ipv4.
-func (s *LoadBalancerEnvironmentServiceConfig) GetIpv4() NilBool {
-	return s.Ipv4
+// GetController returns the value of Controller.
+func (s *LoadBalancerLatestTelemetryItem) GetController() Identifier {
+	return s.Controller
 }
 
-// GetIpv6 returns the value of Ipv6.
-func (s *LoadBalancerEnvironmentServiceConfig) GetIpv6() NilBool {
-	return s.Ipv6
+// GetInstances returns the value of Instances.
+func (s *LoadBalancerLatestTelemetryItem) GetInstances() []LoadBalancerLatestTelemetryItemInstancesItem {
+	return s.Instances
 }
 
-// SetHaproxy sets the value of Haproxy.
-func (s *LoadBalancerEnvironmentServiceConfig) SetHaproxy(val NilLoadBalancerEnvironmentServiceConfigHaproxy) {
-	s.Haproxy = val
+// SetTime sets the value of Time.
+func (s *LoadBalancerLatestTelemetryItem) SetTime(val DateTime) {
+	s.Time = val
 }
 
-// SetIpv4 sets the value of Ipv4.
-func (s *LoadBalancerEnvironmentServiceConfig) SetIpv4(val NilBool) {
-	s.Ipv4 = val
+// SetController sets the value of Controller.
+func (s *LoadBalancerLatestTelemetryItem) SetController(val Identifier) {
+	s.Controller = val
 }
 
-// SetIpv6 sets the value of Ipv6.
-func (s *LoadBalancerEnvironmentServiceConfig) SetIpv6(val NilBool) {
-	s.Ipv6 = val
+// SetInstances sets the value of Instances.
+func (s *LoadBalancerLatestTelemetryItem) SetInstances(val []LoadBalancerLatestTelemetryItemInstancesItem) {
+	s.Instances = val
 }
 
-// Describes settings that are passed to HAProxy within the load balancer.
-type LoadBalancerEnvironmentServiceConfigHaproxy struct {
-	Default HAProxyConfig                                    `json:"default"`
-	Ports   LoadBalancerEnvironmentServiceConfigHaproxyPorts `json:"ports"`
+// Detailed telemetry for a load balancer instance at a point in time.
+type LoadBalancerLatestTelemetryItemInstancesItem struct {
+	ID            ID                                  `json:"id"`
+	HubID         HubID                               `json:"hub_id"`
+	EnvironmentID ID                                  `json:"environment_id"`
+	ContainerID   ID                                  `json:"container_id"`
+	InstanceID    ID                                  `json:"instance_id"`
+	ServerID      ID                                  `json:"server_id"`
+	Cluster       Identifier                          `json:"cluster"`
+	Time          DateTime                            `json:"time"`
+	Controller    Identifier                          `json:"controller"`
+	Latest        OptNilLoadBalancerTelemetrySnapshot `json:"latest"`
+	Snapshots     []LoadBalancerTelemetrySnapshot     `json:"snapshots"`
 }
 
-// GetDefault returns the value of Default.
-func (s *LoadBalancerEnvironmentServiceConfigHaproxy) GetDefault() HAProxyConfig {
-	return s.Default
+// GetID returns the value of ID.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetID() ID {
+	return s.ID
 }
 
-// GetPorts returns the value of Ports.
-func (s *LoadBalancerEnvironmentServiceConfigHaproxy) GetPorts() LoadBalancerEnvironmentServiceConfigHaproxyPorts {
-	return s.Ports
+// GetHubID returns the value of HubID.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetHubID() HubID {
+	return s.HubID
 }
 
-// SetDefault sets the value of Default.
-func (s *LoadBalancerEnvironmentServiceConfigHaproxy) SetDefault(val HAProxyConfig) {
-	s.Default = val
+// GetEnvironmentID returns the value of EnvironmentID.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetEnvironmentID() ID {
+	return s.EnvironmentID
 }
 
-// SetPorts sets the value of Ports.
-func (s *LoadBalancerEnvironmentServiceConfigHaproxy) SetPorts(val LoadBalancerEnvironmentServiceConfigHaproxyPorts) {
-	s.Ports = val
+// GetContainerID returns the value of ContainerID.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetContainerID() ID {
+	return s.ContainerID
 }
 
-type LoadBalancerEnvironmentServiceConfigHaproxyPorts map[string]HAProxyConfig
+// GetInstanceID returns the value of InstanceID.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetInstanceID() ID {
+	return s.InstanceID
+}
 
-func (s *LoadBalancerEnvironmentServiceConfigHaproxyPorts) init() LoadBalancerEnvironmentServiceConfigHaproxyPorts {
+// GetServerID returns the value of ServerID.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetServerID() ID {
+	return s.ServerID
+}
+
+// GetCluster returns the value of Cluster.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetCluster() Identifier {
+	return s.Cluster
+}
+
+// GetTime returns the value of Time.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetTime() DateTime {
+	return s.Time
+}
+
+// GetController returns the value of Controller.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetController() Identifier {
+	return s.Controller
+}
+
+// GetLatest returns the value of Latest.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetLatest() OptNilLoadBalancerTelemetrySnapshot {
+	return s.Latest
+}
+
+// GetSnapshots returns the value of Snapshots.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetSnapshots() []LoadBalancerTelemetrySnapshot {
+	return s.Snapshots
+}
+
+// SetID sets the value of ID.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetID(val ID) {
+	s.ID = val
+}
+
+// SetHubID sets the value of HubID.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetHubID(val HubID) {
+	s.HubID = val
+}
+
+// SetEnvironmentID sets the value of EnvironmentID.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetEnvironmentID(val ID) {
+	s.EnvironmentID = val
+}
+
+// SetContainerID sets the value of ContainerID.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetContainerID(val ID) {
+	s.ContainerID = val
+}
+
+// SetInstanceID sets the value of InstanceID.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetInstanceID(val ID) {
+	s.InstanceID = val
+}
+
+// SetServerID sets the value of ServerID.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetServerID(val ID) {
+	s.ServerID = val
+}
+
+// SetCluster sets the value of Cluster.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetCluster(val Identifier) {
+	s.Cluster = val
+}
+
+// SetTime sets the value of Time.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetTime(val DateTime) {
+	s.Time = val
+}
+
+// SetController sets the value of Controller.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetController(val Identifier) {
+	s.Controller = val
+}
+
+// SetLatest sets the value of Latest.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetLatest(val OptNilLoadBalancerTelemetrySnapshot) {
+	s.Latest = val
+}
+
+// SetSnapshots sets the value of Snapshots.
+func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetSnapshots(val []LoadBalancerTelemetrySnapshot) {
+	s.Snapshots = val
+}
+
+// Ref: #/components/schemas/LoadBalancerTelemetryControllerMetrics
+type LoadBalancerTelemetryControllerMetrics struct {
+	Disconnects      LoadBalancerTelemetryControllerMetricsDisconnects `json:"disconnects"`
+	Connections      int                                               `json:"connections"`
+	Requests         int                                               `json:"requests"`
+	BytesTransmitted int                                               `json:"bytes_transmitted"`
+	BytesReceived    int                                               `json:"bytes_received"`
+}
+
+// GetDisconnects returns the value of Disconnects.
+func (s *LoadBalancerTelemetryControllerMetrics) GetDisconnects() LoadBalancerTelemetryControllerMetricsDisconnects {
+	return s.Disconnects
+}
+
+// GetConnections returns the value of Connections.
+func (s *LoadBalancerTelemetryControllerMetrics) GetConnections() int {
+	return s.Connections
+}
+
+// GetRequests returns the value of Requests.
+func (s *LoadBalancerTelemetryControllerMetrics) GetRequests() int {
+	return s.Requests
+}
+
+// GetBytesTransmitted returns the value of BytesTransmitted.
+func (s *LoadBalancerTelemetryControllerMetrics) GetBytesTransmitted() int {
+	return s.BytesTransmitted
+}
+
+// GetBytesReceived returns the value of BytesReceived.
+func (s *LoadBalancerTelemetryControllerMetrics) GetBytesReceived() int {
+	return s.BytesReceived
+}
+
+// SetDisconnects sets the value of Disconnects.
+func (s *LoadBalancerTelemetryControllerMetrics) SetDisconnects(val LoadBalancerTelemetryControllerMetricsDisconnects) {
+	s.Disconnects = val
+}
+
+// SetConnections sets the value of Connections.
+func (s *LoadBalancerTelemetryControllerMetrics) SetConnections(val int) {
+	s.Connections = val
+}
+
+// SetRequests sets the value of Requests.
+func (s *LoadBalancerTelemetryControllerMetrics) SetRequests(val int) {
+	s.Requests = val
+}
+
+// SetBytesTransmitted sets the value of BytesTransmitted.
+func (s *LoadBalancerTelemetryControllerMetrics) SetBytesTransmitted(val int) {
+	s.BytesTransmitted = val
+}
+
+// SetBytesReceived sets the value of BytesReceived.
+func (s *LoadBalancerTelemetryControllerMetrics) SetBytesReceived(val int) {
+	s.BytesReceived = val
+}
+
+type LoadBalancerTelemetryControllerMetricsDisconnects struct {
+	NoError                int `json:"no_error"`
+	RequestInvalid         int `json:"request_invalid"`
+	TimeoutIdle            int `json:"timeout_idle"`
+	RouterNone             int `json:"router_none"`
+	RouterNomatch          int `json:"router_nomatch"`
+	DestinationUnavailable int `json:"destination_unavailable"`
+	UnknownError           int `json:"unknown_error"`
+}
+
+// GetNoError returns the value of NoError.
+func (s *LoadBalancerTelemetryControllerMetricsDisconnects) GetNoError() int {
+	return s.NoError
+}
+
+// GetRequestInvalid returns the value of RequestInvalid.
+func (s *LoadBalancerTelemetryControllerMetricsDisconnects) GetRequestInvalid() int {
+	return s.RequestInvalid
+}
+
+// GetTimeoutIdle returns the value of TimeoutIdle.
+func (s *LoadBalancerTelemetryControllerMetricsDisconnects) GetTimeoutIdle() int {
+	return s.TimeoutIdle
+}
+
+// GetRouterNone returns the value of RouterNone.
+func (s *LoadBalancerTelemetryControllerMetricsDisconnects) GetRouterNone() int {
+	return s.RouterNone
+}
+
+// GetRouterNomatch returns the value of RouterNomatch.
+func (s *LoadBalancerTelemetryControllerMetricsDisconnects) GetRouterNomatch() int {
+	return s.RouterNomatch
+}
+
+// GetDestinationUnavailable returns the value of DestinationUnavailable.
+func (s *LoadBalancerTelemetryControllerMetricsDisconnects) GetDestinationUnavailable() int {
+	return s.DestinationUnavailable
+}
+
+// GetUnknownError returns the value of UnknownError.
+func (s *LoadBalancerTelemetryControllerMetricsDisconnects) GetUnknownError() int {
+	return s.UnknownError
+}
+
+// SetNoError sets the value of NoError.
+func (s *LoadBalancerTelemetryControllerMetricsDisconnects) SetNoError(val int) {
+	s.NoError = val
+}
+
+// SetRequestInvalid sets the value of RequestInvalid.
+func (s *LoadBalancerTelemetryControllerMetricsDisconnects) SetRequestInvalid(val int) {
+	s.RequestInvalid = val
+}
+
+// SetTimeoutIdle sets the value of TimeoutIdle.
+func (s *LoadBalancerTelemetryControllerMetricsDisconnects) SetTimeoutIdle(val int) {
+	s.TimeoutIdle = val
+}
+
+// SetRouterNone sets the value of RouterNone.
+func (s *LoadBalancerTelemetryControllerMetricsDisconnects) SetRouterNone(val int) {
+	s.RouterNone = val
+}
+
+// SetRouterNomatch sets the value of RouterNomatch.
+func (s *LoadBalancerTelemetryControllerMetricsDisconnects) SetRouterNomatch(val int) {
+	s.RouterNomatch = val
+}
+
+// SetDestinationUnavailable sets the value of DestinationUnavailable.
+func (s *LoadBalancerTelemetryControllerMetricsDisconnects) SetDestinationUnavailable(val int) {
+	s.DestinationUnavailable = val
+}
+
+// SetUnknownError sets the value of UnknownError.
+func (s *LoadBalancerTelemetryControllerMetricsDisconnects) SetUnknownError(val int) {
+	s.UnknownError = val
+}
+
+// Aggregated load balancer telemetry across all instances for a given range.
+// Ref: #/components/schemas/LoadBalancerTelemetryReport
+type LoadBalancerTelemetryReport struct {
+	Created   DateTime                                   `json:"created"`
+	Range     Range                                      `json:"range"`
+	Snapshots []LoadBalancerTelemetryReportSnapshotsItem `json:"snapshots"`
+}
+
+// GetCreated returns the value of Created.
+func (s *LoadBalancerTelemetryReport) GetCreated() DateTime {
+	return s.Created
+}
+
+// GetRange returns the value of Range.
+func (s *LoadBalancerTelemetryReport) GetRange() Range {
+	return s.Range
+}
+
+// GetSnapshots returns the value of Snapshots.
+func (s *LoadBalancerTelemetryReport) GetSnapshots() []LoadBalancerTelemetryReportSnapshotsItem {
+	return s.Snapshots
+}
+
+// SetCreated sets the value of Created.
+func (s *LoadBalancerTelemetryReport) SetCreated(val DateTime) {
+	s.Created = val
+}
+
+// SetRange sets the value of Range.
+func (s *LoadBalancerTelemetryReport) SetRange(val Range) {
+	s.Range = val
+}
+
+// SetSnapshots sets the value of Snapshots.
+func (s *LoadBalancerTelemetryReport) SetSnapshots(val []LoadBalancerTelemetryReportSnapshotsItem) {
+	s.Snapshots = val
+}
+
+type LoadBalancerTelemetryReportSnapshotsItem struct {
+	Time       DateTime                               `json:"time"`
+	Controller Identifier                             `json:"controller"`
+	Metrics    LoadBalancerTelemetryControllerMetrics `json:"metrics"`
+}
+
+// GetTime returns the value of Time.
+func (s *LoadBalancerTelemetryReportSnapshotsItem) GetTime() DateTime {
+	return s.Time
+}
+
+// GetController returns the value of Controller.
+func (s *LoadBalancerTelemetryReportSnapshotsItem) GetController() Identifier {
+	return s.Controller
+}
+
+// GetMetrics returns the value of Metrics.
+func (s *LoadBalancerTelemetryReportSnapshotsItem) GetMetrics() LoadBalancerTelemetryControllerMetrics {
+	return s.Metrics
+}
+
+// SetTime sets the value of Time.
+func (s *LoadBalancerTelemetryReportSnapshotsItem) SetTime(val DateTime) {
+	s.Time = val
+}
+
+// SetController sets the value of Controller.
+func (s *LoadBalancerTelemetryReportSnapshotsItem) SetController(val Identifier) {
+	s.Controller = val
+}
+
+// SetMetrics sets the value of Metrics.
+func (s *LoadBalancerTelemetryReportSnapshotsItem) SetMetrics(val LoadBalancerTelemetryControllerMetrics) {
+	s.Metrics = val
+}
+
+// Ref: #/components/schemas/LoadBalancerTelemetryRouterMetrics
+type LoadBalancerTelemetryRouterMetrics struct {
+	Destinations LoadBalancerTelemetryRouterMetricsDestinations `json:"destinations"`
+}
+
+// GetDestinations returns the value of Destinations.
+func (s *LoadBalancerTelemetryRouterMetrics) GetDestinations() LoadBalancerTelemetryRouterMetricsDestinations {
+	return s.Destinations
+}
+
+// SetDestinations sets the value of Destinations.
+func (s *LoadBalancerTelemetryRouterMetrics) SetDestinations(val LoadBalancerTelemetryRouterMetricsDestinations) {
+	s.Destinations = val
+}
+
+type LoadBalancerTelemetryRouterMetricsDestinations map[string]LoadBalancerTelemetryRouterMetricsDestinationsItem
+
+func (s *LoadBalancerTelemetryRouterMetricsDestinations) init() LoadBalancerTelemetryRouterMetricsDestinations {
 	m := *s
 	if m == nil {
-		m = map[string]HAProxyConfig{}
+		m = map[string]LoadBalancerTelemetryRouterMetricsDestinationsItem{}
 		*s = m
 	}
 	return m
 }
 
-// Information about an environments load balancer configuration, state, and availability settings.
-// Ref: #/components/schemas/LoadBalancerInfoReturn
-type LoadBalancerInfoReturn struct {
-	// The default configuration of the load balancer.
-	DefaultConfig LoadBalancerInfoReturnDefaultConfig `json:"default_config"`
-	// Contains information about the status of the load balancer, as well as configuration overrides.
-	Service LoadBalancerInfoReturnService `json:"service"`
+type LoadBalancerTelemetryRouterMetricsDestinationsItem struct {
+	Connections NilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections `json:"connections"`
+	Requests    NilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests    `json:"requests"`
+	Latency     []int                                                            `json:"latency"`
 }
 
-// GetDefaultConfig returns the value of DefaultConfig.
-func (s *LoadBalancerInfoReturn) GetDefaultConfig() LoadBalancerInfoReturnDefaultConfig {
-	return s.DefaultConfig
+// GetConnections returns the value of Connections.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) GetConnections() NilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections {
+	return s.Connections
 }
 
-// GetService returns the value of Service.
-func (s *LoadBalancerInfoReturn) GetService() LoadBalancerInfoReturnService {
-	return s.Service
+// GetRequests returns the value of Requests.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) GetRequests() NilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests {
+	return s.Requests
 }
 
-// SetDefaultConfig sets the value of DefaultConfig.
-func (s *LoadBalancerInfoReturn) SetDefaultConfig(val LoadBalancerInfoReturnDefaultConfig) {
-	s.DefaultConfig = val
+// GetLatency returns the value of Latency.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) GetLatency() []int {
+	return s.Latency
 }
 
-// SetService sets the value of Service.
-func (s *LoadBalancerInfoReturn) SetService(val LoadBalancerInfoReturnService) {
-	s.Service = val
+// SetConnections sets the value of Connections.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) SetConnections(val NilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections) {
+	s.Connections = val
 }
 
-// The default configuration of the load balancer.
-type LoadBalancerInfoReturnDefaultConfig struct {
-	// Describes settings that are passed to HAProxy within the load balancer.
-	Haproxy OptNilLoadBalancerInfoReturnDefaultConfigHaproxy `json:"haproxy"`
-	// Allow / disallow traffic to be routed via IPv4.
-	Ipv4 OptNilBool `json:"ipv4"`
-	// Allow / disallow traffic to be routed via IPv6.
-	Ipv6 OptNilBool `json:"ipv6"`
+// SetRequests sets the value of Requests.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) SetRequests(val NilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests) {
+	s.Requests = val
 }
 
-// GetHaproxy returns the value of Haproxy.
-func (s *LoadBalancerInfoReturnDefaultConfig) GetHaproxy() OptNilLoadBalancerInfoReturnDefaultConfigHaproxy {
-	return s.Haproxy
+// SetLatency sets the value of Latency.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) SetLatency(val []int) {
+	s.Latency = val
 }
 
-// GetIpv4 returns the value of Ipv4.
-func (s *LoadBalancerInfoReturnDefaultConfig) GetIpv4() OptNilBool {
-	return s.Ipv4
+type LoadBalancerTelemetryRouterMetricsDestinationsItemConnections struct {
+	Sucess      OptInt                                                                 `json:"sucess"`
+	Unavailable int                                                                    `json:"unavailable"`
+	Errors      OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors `json:"errors"`
 }
 
-// GetIpv6 returns the value of Ipv6.
-func (s *LoadBalancerInfoReturnDefaultConfig) GetIpv6() OptNilBool {
-	return s.Ipv6
+// GetSucess returns the value of Sucess.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) GetSucess() OptInt {
+	return s.Sucess
 }
 
-// SetHaproxy sets the value of Haproxy.
-func (s *LoadBalancerInfoReturnDefaultConfig) SetHaproxy(val OptNilLoadBalancerInfoReturnDefaultConfigHaproxy) {
-	s.Haproxy = val
+// GetUnavailable returns the value of Unavailable.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) GetUnavailable() int {
+	return s.Unavailable
 }
 
-// SetIpv4 sets the value of Ipv4.
-func (s *LoadBalancerInfoReturnDefaultConfig) SetIpv4(val OptNilBool) {
-	s.Ipv4 = val
+// GetErrors returns the value of Errors.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) GetErrors() OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors {
+	return s.Errors
 }
 
-// SetIpv6 sets the value of Ipv6.
-func (s *LoadBalancerInfoReturnDefaultConfig) SetIpv6(val OptNilBool) {
-	s.Ipv6 = val
+// SetSucess sets the value of Sucess.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) SetSucess(val OptInt) {
+	s.Sucess = val
 }
 
-// Describes settings that are passed to HAProxy within the load balancer.
-type LoadBalancerInfoReturnDefaultConfigHaproxy struct {
-	Default HAProxyConfig `json:"default"`
-	Ports   HAProxyConfig `json:"ports"`
+// SetUnavailable sets the value of Unavailable.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) SetUnavailable(val int) {
+	s.Unavailable = val
 }
 
-// GetDefault returns the value of Default.
-func (s *LoadBalancerInfoReturnDefaultConfigHaproxy) GetDefault() HAProxyConfig {
-	return s.Default
+// SetErrors sets the value of Errors.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) SetErrors(val OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors) {
+	s.Errors = val
 }
 
-// GetPorts returns the value of Ports.
-func (s *LoadBalancerInfoReturnDefaultConfigHaproxy) GetPorts() HAProxyConfig {
-	return s.Ports
+type LoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors map[string]int
+
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors) init() LoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors {
+	m := *s
+	if m == nil {
+		m = map[string]int{}
+		*s = m
+	}
+	return m
 }
 
-// SetDefault sets the value of Default.
-func (s *LoadBalancerInfoReturnDefaultConfigHaproxy) SetDefault(val HAProxyConfig) {
-	s.Default = val
+type LoadBalancerTelemetryRouterMetricsDestinationsItemRequests struct {
+	Total     int                                                                    `json:"total"`
+	Responses OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses `json:"responses"`
+	Errors    OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors    `json:"errors"`
 }
 
-// SetPorts sets the value of Ports.
-func (s *LoadBalancerInfoReturnDefaultConfigHaproxy) SetPorts(val HAProxyConfig) {
-	s.Ports = val
+// GetTotal returns the value of Total.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemRequests) GetTotal() int {
+	return s.Total
 }
 
-// Contains information about the status of the load balancer, as well as configuration overrides.
-type LoadBalancerInfoReturnService struct {
-	// Whether or not the loadbalancer service is enabled.
-	Enable bool `json:"enable"`
-	// The ID of the loadbalancer service container.
-	ContainerID string `json:"container_id"`
-	// A boolean representing if this service container is set to high availability mode or not.
-	HighAvailability bool `json:"high_availability"`
-	// Contains custom configuration overrides for the load balancer. If null, the default config will be
-	// used.
-	Config OptLoadBalancerInfoReturnServiceConfig `json:"config"`
+// GetResponses returns the value of Responses.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemRequests) GetResponses() OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses {
+	return s.Responses
 }
 
-// GetEnable returns the value of Enable.
-func (s *LoadBalancerInfoReturnService) GetEnable() bool {
-	return s.Enable
+// GetErrors returns the value of Errors.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemRequests) GetErrors() OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors {
+	return s.Errors
 }
 
-// GetContainerID returns the value of ContainerID.
-func (s *LoadBalancerInfoReturnService) GetContainerID() string {
-	return s.ContainerID
+// SetTotal sets the value of Total.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemRequests) SetTotal(val int) {
+	s.Total = val
 }
 
-// GetHighAvailability returns the value of HighAvailability.
-func (s *LoadBalancerInfoReturnService) GetHighAvailability() bool {
-	return s.HighAvailability
+// SetResponses sets the value of Responses.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemRequests) SetResponses(val OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses) {
+	s.Responses = val
 }
 
-// GetConfig returns the value of Config.
-func (s *LoadBalancerInfoReturnService) GetConfig() OptLoadBalancerInfoReturnServiceConfig {
-	return s.Config
+// SetErrors sets the value of Errors.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemRequests) SetErrors(val OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors) {
+	s.Errors = val
 }
 
-// SetEnable sets the value of Enable.
-func (s *LoadBalancerInfoReturnService) SetEnable(val bool) {
-	s.Enable = val
+type LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors map[string]int
+
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors) init() LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors {
+	m := *s
+	if m == nil {
+		m = map[string]int{}
+		*s = m
+	}
+	return m
 }
 
-// SetContainerID sets the value of ContainerID.
-func (s *LoadBalancerInfoReturnService) SetContainerID(val string) {
-	s.ContainerID = val
+type LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses map[string]int
+
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses) init() LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses {
+	m := *s
+	if m == nil {
+		m = map[string]int{}
+		*s = m
+	}
+	return m
 }
 
-// SetHighAvailability sets the value of HighAvailability.
-func (s *LoadBalancerInfoReturnService) SetHighAvailability(val bool) {
-	s.HighAvailability = val
+// Ref: #/components/schemas/LoadBalancerTelemetrySnapshot
+type LoadBalancerTelemetrySnapshot struct {
+	Time      DateTime                               `json:"time"`
+	DatasetID int                                    `json:"dataset_id"`
+	Router    OptLoadBalancerTelemetryRouterMetrics  `json:"router"`
+	Urls      OptLoadBalancerTelemetryUrlMetrics     `json:"urls"`
+	Metrics   LoadBalancerTelemetryControllerMetrics `json:"metrics"`
 }
 
-// SetConfig sets the value of Config.
-func (s *LoadBalancerInfoReturnService) SetConfig(val OptLoadBalancerInfoReturnServiceConfig) {
-	s.Config = val
+// GetTime returns the value of Time.
+func (s *LoadBalancerTelemetrySnapshot) GetTime() DateTime {
+	return s.Time
 }
 
-// Contains custom configuration overrides for the load balancer. If null, the default config will be
-// used.
-type LoadBalancerInfoReturnServiceConfig struct {
-	// Describes settings that are passed to HAProxy within the load balancer.
-	Haproxy OptNilLoadBalancerInfoReturnServiceConfigHaproxy `json:"haproxy"`
-	// Allow / disallow traffic to be routed via IPv4.
-	Ipv4 OptNilBool `json:"ipv4"`
-	// Allow / disallow traffic to be routed via IPv6.
-	Ipv6 OptNilBool `json:"ipv6"`
+// GetDatasetID returns the value of DatasetID.
+func (s *LoadBalancerTelemetrySnapshot) GetDatasetID() int {
+	return s.DatasetID
 }
 
-// GetHaproxy returns the value of Haproxy.
-func (s *LoadBalancerInfoReturnServiceConfig) GetHaproxy() OptNilLoadBalancerInfoReturnServiceConfigHaproxy {
-	return s.Haproxy
+// GetRouter returns the value of Router.
+func (s *LoadBalancerTelemetrySnapshot) GetRouter() OptLoadBalancerTelemetryRouterMetrics {
+	return s.Router
 }
 
-// GetIpv4 returns the value of Ipv4.
-func (s *LoadBalancerInfoReturnServiceConfig) GetIpv4() OptNilBool {
-	return s.Ipv4
+// GetUrls returns the value of Urls.
+func (s *LoadBalancerTelemetrySnapshot) GetUrls() OptLoadBalancerTelemetryUrlMetrics {
+	return s.Urls
 }
 
-// GetIpv6 returns the value of Ipv6.
-func (s *LoadBalancerInfoReturnServiceConfig) GetIpv6() OptNilBool {
-	return s.Ipv6
+// GetMetrics returns the value of Metrics.
+func (s *LoadBalancerTelemetrySnapshot) GetMetrics() LoadBalancerTelemetryControllerMetrics {
+	return s.Metrics
 }
 
-// SetHaproxy sets the value of Haproxy.
-func (s *LoadBalancerInfoReturnServiceConfig) SetHaproxy(val OptNilLoadBalancerInfoReturnServiceConfigHaproxy) {
-	s.Haproxy = val
+// SetTime sets the value of Time.
+func (s *LoadBalancerTelemetrySnapshot) SetTime(val DateTime) {
+	s.Time = val
 }
 
-// SetIpv4 sets the value of Ipv4.
-func (s *LoadBalancerInfoReturnServiceConfig) SetIpv4(val OptNilBool) {
-	s.Ipv4 = val
+// SetDatasetID sets the value of DatasetID.
+func (s *LoadBalancerTelemetrySnapshot) SetDatasetID(val int) {
+	s.DatasetID = val
 }
 
-// SetIpv6 sets the value of Ipv6.
-func (s *LoadBalancerInfoReturnServiceConfig) SetIpv6(val OptNilBool) {
-	s.Ipv6 = val
+// SetRouter sets the value of Router.
+func (s *LoadBalancerTelemetrySnapshot) SetRouter(val OptLoadBalancerTelemetryRouterMetrics) {
+	s.Router = val
 }
 
-// Describes settings that are passed to HAProxy within the load balancer.
-type LoadBalancerInfoReturnServiceConfigHaproxy struct {
-	Default HAProxyConfig `json:"default"`
-	Ports   HAProxyConfig `json:"ports"`
+// SetUrls sets the value of Urls.
+func (s *LoadBalancerTelemetrySnapshot) SetUrls(val OptLoadBalancerTelemetryUrlMetrics) {
+	s.Urls = val
 }
 
-// GetDefault returns the value of Default.
-func (s *LoadBalancerInfoReturnServiceConfigHaproxy) GetDefault() HAProxyConfig {
-	return s.Default
+// SetMetrics sets the value of Metrics.
+func (s *LoadBalancerTelemetrySnapshot) SetMetrics(val LoadBalancerTelemetryControllerMetrics) {
+	s.Metrics = val
 }
 
-// GetPorts returns the value of Ports.
-func (s *LoadBalancerInfoReturnServiceConfigHaproxy) GetPorts() HAProxyConfig {
-	return s.Ports
+// Ref: #/components/schemas/LoadBalancerTelemetryUrlMetrics
+type LoadBalancerTelemetryUrlMetrics struct {
+	Destinations LoadBalancerTelemetryUrlMetricsDestinations `json:"destinations"`
 }
 
-// SetDefault sets the value of Default.
-func (s *LoadBalancerInfoReturnServiceConfigHaproxy) SetDefault(val HAProxyConfig) {
-	s.Default = val
+// GetDestinations returns the value of Destinations.
+func (s *LoadBalancerTelemetryUrlMetrics) GetDestinations() LoadBalancerTelemetryUrlMetricsDestinations {
+	return s.Destinations
 }
 
-// SetPorts sets the value of Ports.
-func (s *LoadBalancerInfoReturnServiceConfigHaproxy) SetPorts(val HAProxyConfig) {
-	s.Ports = val
+// SetDestinations sets the value of Destinations.
+func (s *LoadBalancerTelemetryUrlMetrics) SetDestinations(val LoadBalancerTelemetryUrlMetricsDestinations) {
+	s.Destinations = val
+}
+
+type LoadBalancerTelemetryUrlMetricsDestinations map[string]LoadBalancerTelemetryUrlMetricsDestinationsItem
+
+func (s *LoadBalancerTelemetryUrlMetricsDestinations) init() LoadBalancerTelemetryUrlMetricsDestinations {
+	m := *s
+	if m == nil {
+		m = map[string]LoadBalancerTelemetryUrlMetricsDestinationsItem{}
+		*s = m
+	}
+	return m
+}
+
+type LoadBalancerTelemetryUrlMetricsDestinationsItem struct {
+	Requests NilLoadBalancerTelemetryUrlMetricsDestinationsItemRequests `json:"requests"`
+}
+
+// GetRequests returns the value of Requests.
+func (s *LoadBalancerTelemetryUrlMetricsDestinationsItem) GetRequests() NilLoadBalancerTelemetryUrlMetricsDestinationsItemRequests {
+	return s.Requests
+}
+
+// SetRequests sets the value of Requests.
+func (s *LoadBalancerTelemetryUrlMetricsDestinationsItem) SetRequests(val NilLoadBalancerTelemetryUrlMetricsDestinationsItemRequests) {
+	s.Requests = val
+}
+
+type LoadBalancerTelemetryUrlMetricsDestinationsItemRequests struct {
+	Total     int                                                                 `json:"total"`
+	Responses OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses `json:"responses"`
+	Errors    OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors    `json:"errors"`
+}
+
+// GetTotal returns the value of Total.
+func (s *LoadBalancerTelemetryUrlMetricsDestinationsItemRequests) GetTotal() int {
+	return s.Total
+}
+
+// GetResponses returns the value of Responses.
+func (s *LoadBalancerTelemetryUrlMetricsDestinationsItemRequests) GetResponses() OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses {
+	return s.Responses
+}
+
+// GetErrors returns the value of Errors.
+func (s *LoadBalancerTelemetryUrlMetricsDestinationsItemRequests) GetErrors() OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors {
+	return s.Errors
+}
+
+// SetTotal sets the value of Total.
+func (s *LoadBalancerTelemetryUrlMetricsDestinationsItemRequests) SetTotal(val int) {
+	s.Total = val
+}
+
+// SetResponses sets the value of Responses.
+func (s *LoadBalancerTelemetryUrlMetricsDestinationsItemRequests) SetResponses(val OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses) {
+	s.Responses = val
+}
+
+// SetErrors sets the value of Errors.
+func (s *LoadBalancerTelemetryUrlMetricsDestinationsItemRequests) SetErrors(val OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors) {
+	s.Errors = val
+}
+
+type LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors map[string]int
+
+func (s *LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors) init() LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors {
+	m := *s
+	if m == nil {
+		m = map[string]int{}
+		*s = m
+	}
+	return m
+}
+
+type LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses map[string]int
+
+func (s *LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses) init() LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses {
+	m := *s
+	if m == nil {
+		m = map[string]int{}
+		*s = m
+	}
+	return m
 }
 
 // Information about the locaiton of the provider.
@@ -29811,13 +30670,18 @@ func (s *LocationsIncludes) init() LocationsIncludes {
 // Ref: #/components/schemas/Logs
 type Logs struct {
 	ID ID `json:"id"`
+	// An identifier for the container.
+	ContainerID string `json:"container_id"`
+	// An identifier for the instance.
+	InstanceID string `json:"instance_id"`
 	// An identifier for the backup.
 	BackupID string `json:"backup_id"`
 	HubID    HubID  `json:"hub_id"`
 	// The type of the backup log.
 	Type LogsType `json:"type"`
 	// The log.
-	Log string `json:"log"`
+	Log   string          `json:"log"`
+	Error OptNilLogsError `json:"error"`
 	// A collection of timestamps for each event in the backup log's lifetime.
 	Events LogsEvents `json:"events"`
 }
@@ -29825,6 +30689,16 @@ type Logs struct {
 // GetID returns the value of ID.
 func (s *Logs) GetID() ID {
 	return s.ID
+}
+
+// GetContainerID returns the value of ContainerID.
+func (s *Logs) GetContainerID() string {
+	return s.ContainerID
+}
+
+// GetInstanceID returns the value of InstanceID.
+func (s *Logs) GetInstanceID() string {
+	return s.InstanceID
 }
 
 // GetBackupID returns the value of BackupID.
@@ -29847,6 +30721,11 @@ func (s *Logs) GetLog() string {
 	return s.Log
 }
 
+// GetError returns the value of Error.
+func (s *Logs) GetError() OptNilLogsError {
+	return s.Error
+}
+
 // GetEvents returns the value of Events.
 func (s *Logs) GetEvents() LogsEvents {
 	return s.Events
@@ -29855,6 +30734,16 @@ func (s *Logs) GetEvents() LogsEvents {
 // SetID sets the value of ID.
 func (s *Logs) SetID(val ID) {
 	s.ID = val
+}
+
+// SetContainerID sets the value of ContainerID.
+func (s *Logs) SetContainerID(val string) {
+	s.ContainerID = val
+}
+
+// SetInstanceID sets the value of InstanceID.
+func (s *Logs) SetInstanceID(val string) {
+	s.InstanceID = val
 }
 
 // SetBackupID sets the value of BackupID.
@@ -29877,9 +30766,86 @@ func (s *Logs) SetLog(val string) {
 	s.Log = val
 }
 
+// SetError sets the value of Error.
+func (s *Logs) SetError(val OptNilLogsError) {
+	s.Error = val
+}
+
 // SetEvents sets the value of Events.
 func (s *Logs) SetEvents(val LogsEvents) {
 	s.Events = val
+}
+
+type LogsError struct {
+	Message         string               `json:"message"`
+	MessageInternal OptString            `json:"message_internal"`
+	Stack           []LogsErrorStackItem `json:"stack"`
+}
+
+// GetMessage returns the value of Message.
+func (s *LogsError) GetMessage() string {
+	return s.Message
+}
+
+// GetMessageInternal returns the value of MessageInternal.
+func (s *LogsError) GetMessageInternal() OptString {
+	return s.MessageInternal
+}
+
+// GetStack returns the value of Stack.
+func (s *LogsError) GetStack() []LogsErrorStackItem {
+	return s.Stack
+}
+
+// SetMessage sets the value of Message.
+func (s *LogsError) SetMessage(val string) {
+	s.Message = val
+}
+
+// SetMessageInternal sets the value of MessageInternal.
+func (s *LogsError) SetMessageInternal(val OptString) {
+	s.MessageInternal = val
+}
+
+// SetStack sets the value of Stack.
+func (s *LogsError) SetStack(val []LogsErrorStackItem) {
+	s.Stack = val
+}
+
+type LogsErrorStackItem struct {
+	File     string `json:"file"`
+	Function string `json:"function"`
+	Line     int    `json:"line"`
+}
+
+// GetFile returns the value of File.
+func (s *LogsErrorStackItem) GetFile() string {
+	return s.File
+}
+
+// GetFunction returns the value of Function.
+func (s *LogsErrorStackItem) GetFunction() string {
+	return s.Function
+}
+
+// GetLine returns the value of Line.
+func (s *LogsErrorStackItem) GetLine() int {
+	return s.Line
+}
+
+// SetFile sets the value of File.
+func (s *LogsErrorStackItem) SetFile(val string) {
+	s.File = val
+}
+
+// SetFunction sets the value of Function.
+func (s *LogsErrorStackItem) SetFunction(val string) {
+	s.Function = val
+}
+
+// SetLine sets the value of Line.
+func (s *LogsErrorStackItem) SetLine(val int) {
+	s.Line = val
 }
 
 // A collection of timestamps for each event in the backup log's lifetime.
@@ -30722,76 +31688,7 @@ func (s *NativeProvider) SetFeatures(val []string) {
 	s.Features = val
 }
 
-// An identifier for the provider.
-// Ref: #/components/schemas/NativeProviderIdentifier
 type NativeProviderIdentifier string
-
-const (
-	NativeProviderIdentifierEquinixMetal NativeProviderIdentifier = "equinix-metal"
-	NativeProviderIdentifierCoreweave    NativeProviderIdentifier = "coreweave"
-	NativeProviderIdentifierVultr        NativeProviderIdentifier = "vultr"
-	NativeProviderIdentifierHivelocity   NativeProviderIdentifier = "hivelocity"
-	NativeProviderIdentifierAWS          NativeProviderIdentifier = "aws"
-	NativeProviderIdentifierAzure        NativeProviderIdentifier = "azure"
-	NativeProviderIdentifierGcp          NativeProviderIdentifier = "gcp"
-	NativeProviderIdentifierDigitalocean NativeProviderIdentifier = "digitalocean"
-)
-
-// MarshalText implements encoding.TextMarshaler.
-func (s NativeProviderIdentifier) MarshalText() ([]byte, error) {
-	switch s {
-	case NativeProviderIdentifierEquinixMetal:
-		return []byte(s), nil
-	case NativeProviderIdentifierCoreweave:
-		return []byte(s), nil
-	case NativeProviderIdentifierVultr:
-		return []byte(s), nil
-	case NativeProviderIdentifierHivelocity:
-		return []byte(s), nil
-	case NativeProviderIdentifierAWS:
-		return []byte(s), nil
-	case NativeProviderIdentifierAzure:
-		return []byte(s), nil
-	case NativeProviderIdentifierGcp:
-		return []byte(s), nil
-	case NativeProviderIdentifierDigitalocean:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *NativeProviderIdentifier) UnmarshalText(data []byte) error {
-	switch NativeProviderIdentifier(data) {
-	case NativeProviderIdentifierEquinixMetal:
-		*s = NativeProviderIdentifierEquinixMetal
-		return nil
-	case NativeProviderIdentifierCoreweave:
-		*s = NativeProviderIdentifierCoreweave
-		return nil
-	case NativeProviderIdentifierVultr:
-		*s = NativeProviderIdentifierVultr
-		return nil
-	case NativeProviderIdentifierHivelocity:
-		*s = NativeProviderIdentifierHivelocity
-		return nil
-	case NativeProviderIdentifierAWS:
-		*s = NativeProviderIdentifierAWS
-		return nil
-	case NativeProviderIdentifierAzure:
-		*s = NativeProviderIdentifierAzure
-		return nil
-	case NativeProviderIdentifierGcp:
-		*s = NativeProviderIdentifierGcp
-		return nil
-	case NativeProviderIdentifierDigitalocean:
-		*s = NativeProviderIdentifierDigitalocean
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
 
 // Record of notices related to native provider.
 type NativeProviderNotices map[string]string
@@ -30845,6 +31742,192 @@ func (s *NativeProviderRequiredFieldsItem) SetRegex(val string) {
 	s.Regex = val
 }
 
+// SDN Network resource.
+// Ref: #/components/schemas/Network
+type Network struct {
+	ID ID `json:"id"`
+	// The name of the network.
+	Name string `json:"name"`
+	// A network identifier used to construct http calls that specifically use this network over another.
+	Identifier string `json:"identifier"`
+	// The infrastructure cluster the environments belonging to this network belong to.
+	Cluster        string                 `json:"cluster"`
+	Creator        CreatorScope           `json:"creator"`
+	HubID          HubID                  `json:"hub_id"`
+	State          NetworkState           `json:"state"`
+	PrivateNetwork NetworkPrivacySettings `json:"private_network"`
+	// An array of environments and timestamps.
+	Environments []NetworkEnvironmentsItem `json:"environments"`
+	// A collection of timestamps for each event in the network's lifetime.
+	Events NetworkEvents `json:"events"`
+}
+
+// GetID returns the value of ID.
+func (s *Network) GetID() ID {
+	return s.ID
+}
+
+// GetName returns the value of Name.
+func (s *Network) GetName() string {
+	return s.Name
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *Network) GetIdentifier() string {
+	return s.Identifier
+}
+
+// GetCluster returns the value of Cluster.
+func (s *Network) GetCluster() string {
+	return s.Cluster
+}
+
+// GetCreator returns the value of Creator.
+func (s *Network) GetCreator() CreatorScope {
+	return s.Creator
+}
+
+// GetHubID returns the value of HubID.
+func (s *Network) GetHubID() HubID {
+	return s.HubID
+}
+
+// GetState returns the value of State.
+func (s *Network) GetState() NetworkState {
+	return s.State
+}
+
+// GetPrivateNetwork returns the value of PrivateNetwork.
+func (s *Network) GetPrivateNetwork() NetworkPrivacySettings {
+	return s.PrivateNetwork
+}
+
+// GetEnvironments returns the value of Environments.
+func (s *Network) GetEnvironments() []NetworkEnvironmentsItem {
+	return s.Environments
+}
+
+// GetEvents returns the value of Events.
+func (s *Network) GetEvents() NetworkEvents {
+	return s.Events
+}
+
+// SetID sets the value of ID.
+func (s *Network) SetID(val ID) {
+	s.ID = val
+}
+
+// SetName sets the value of Name.
+func (s *Network) SetName(val string) {
+	s.Name = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *Network) SetIdentifier(val string) {
+	s.Identifier = val
+}
+
+// SetCluster sets the value of Cluster.
+func (s *Network) SetCluster(val string) {
+	s.Cluster = val
+}
+
+// SetCreator sets the value of Creator.
+func (s *Network) SetCreator(val CreatorScope) {
+	s.Creator = val
+}
+
+// SetHubID sets the value of HubID.
+func (s *Network) SetHubID(val HubID) {
+	s.HubID = val
+}
+
+// SetState sets the value of State.
+func (s *Network) SetState(val NetworkState) {
+	s.State = val
+}
+
+// SetPrivateNetwork sets the value of PrivateNetwork.
+func (s *Network) SetPrivateNetwork(val NetworkPrivacySettings) {
+	s.PrivateNetwork = val
+}
+
+// SetEnvironments sets the value of Environments.
+func (s *Network) SetEnvironments(val []NetworkEnvironmentsItem) {
+	s.Environments = val
+}
+
+// SetEvents sets the value of Events.
+func (s *Network) SetEvents(val NetworkEvents) {
+	s.Events = val
+}
+
+type NetworkEnvironmentsItem struct {
+	ID ID `json:"id"`
+	// A timestamp of when the environment was added.
+	Added DateTime `json:"added"`
+}
+
+// GetID returns the value of ID.
+func (s *NetworkEnvironmentsItem) GetID() ID {
+	return s.ID
+}
+
+// GetAdded returns the value of Added.
+func (s *NetworkEnvironmentsItem) GetAdded() DateTime {
+	return s.Added
+}
+
+// SetID sets the value of ID.
+func (s *NetworkEnvironmentsItem) SetID(val ID) {
+	s.ID = val
+}
+
+// SetAdded sets the value of Added.
+func (s *NetworkEnvironmentsItem) SetAdded(val DateTime) {
+	s.Added = val
+}
+
+// A collection of timestamps for each event in the network's lifetime.
+type NetworkEvents struct {
+	// The timestamp of when the image was created.
+	Created DateTime `json:"created"`
+	// The timestamp of when the image was updated.
+	Updated DateTime `json:"updated"`
+	// The timestamp of when the image was deleted.
+	Deleted DateTime `json:"deleted"`
+}
+
+// GetCreated returns the value of Created.
+func (s *NetworkEvents) GetCreated() DateTime {
+	return s.Created
+}
+
+// GetUpdated returns the value of Updated.
+func (s *NetworkEvents) GetUpdated() DateTime {
+	return s.Updated
+}
+
+// GetDeleted returns the value of Deleted.
+func (s *NetworkEvents) GetDeleted() DateTime {
+	return s.Deleted
+}
+
+// SetCreated sets the value of Created.
+func (s *NetworkEvents) SetCreated(val DateTime) {
+	s.Created = val
+}
+
+// SetUpdated sets the value of Updated.
+func (s *NetworkEvents) SetUpdated(val DateTime) {
+	s.Updated = val
+}
+
+// SetDeleted sets the value of Deleted.
+func (s *NetworkEvents) SetDeleted(val DateTime) {
+	s.Deleted = val
+}
+
 // All includable resource linkable to the given network.
 // Ref: #/components/schemas/NetworkIncludes
 type NetworkIncludes struct {
@@ -30870,6 +31953,140 @@ func (s *NetworkIncludes) SetCreators(val OptCreatorInclude) {
 // SetEnvironments sets the value of Environments.
 func (s *NetworkIncludes) SetEnvironments(val OptEnvironmentIncludes) {
 	s.Environments = val
+}
+
+// Private network information for a Cycle SDN.
+// Ref: #/components/schemas/NetworkPrivacySettings
+type NetworkPrivacySettings struct {
+	// A tag used to ensure proper routing.
+	VxlanTag int `json:"vxlan_tag"`
+	// The subnet of the private network.
+	Subnet string `json:"subnet"`
+	// A number used to ensure a MAC address exists for each network.
+	MACAddrSuffix int `json:"mac_addr_suffix"`
+	// IPv6 infromation for the network.
+	Ipv6 NetworkPrivacySettingsIpv6 `json:"ipv6"`
+}
+
+// GetVxlanTag returns the value of VxlanTag.
+func (s *NetworkPrivacySettings) GetVxlanTag() int {
+	return s.VxlanTag
+}
+
+// GetSubnet returns the value of Subnet.
+func (s *NetworkPrivacySettings) GetSubnet() string {
+	return s.Subnet
+}
+
+// GetMACAddrSuffix returns the value of MACAddrSuffix.
+func (s *NetworkPrivacySettings) GetMACAddrSuffix() int {
+	return s.MACAddrSuffix
+}
+
+// GetIpv6 returns the value of Ipv6.
+func (s *NetworkPrivacySettings) GetIpv6() NetworkPrivacySettingsIpv6 {
+	return s.Ipv6
+}
+
+// SetVxlanTag sets the value of VxlanTag.
+func (s *NetworkPrivacySettings) SetVxlanTag(val int) {
+	s.VxlanTag = val
+}
+
+// SetSubnet sets the value of Subnet.
+func (s *NetworkPrivacySettings) SetSubnet(val string) {
+	s.Subnet = val
+}
+
+// SetMACAddrSuffix sets the value of MACAddrSuffix.
+func (s *NetworkPrivacySettings) SetMACAddrSuffix(val int) {
+	s.MACAddrSuffix = val
+}
+
+// SetIpv6 sets the value of Ipv6.
+func (s *NetworkPrivacySettings) SetIpv6(val NetworkPrivacySettingsIpv6) {
+	s.Ipv6 = val
+}
+
+// IPv6 infromation for the network.
+type NetworkPrivacySettingsIpv6 struct {
+	// The networks IPv6 base.
+	IP string `json:"ip"`
+	// The private network CIDR.
+	Cidr string `json:"cidr"`
+}
+
+// GetIP returns the value of IP.
+func (s *NetworkPrivacySettingsIpv6) GetIP() string {
+	return s.IP
+}
+
+// GetCidr returns the value of Cidr.
+func (s *NetworkPrivacySettingsIpv6) GetCidr() string {
+	return s.Cidr
+}
+
+// SetIP sets the value of IP.
+func (s *NetworkPrivacySettingsIpv6) SetIP(val string) {
+	s.IP = val
+}
+
+// SetCidr sets the value of Cidr.
+func (s *NetworkPrivacySettingsIpv6) SetCidr(val string) {
+	s.Cidr = val
+}
+
+// A snapshot of network usage statistics.
+// Ref: #/components/schemas/NetworkSnapshot
+type NetworkSnapshot struct {
+	// An array of network interfaces attached to this instance.
+	Interfaces []NetworkSnapshotInterfacesItem `json:"interfaces"`
+}
+
+// GetInterfaces returns the value of Interfaces.
+func (s *NetworkSnapshot) GetInterfaces() []NetworkSnapshotInterfacesItem {
+	return s.Interfaces
+}
+
+// SetInterfaces sets the value of Interfaces.
+func (s *NetworkSnapshot) SetInterfaces(val []NetworkSnapshotInterfacesItem) {
+	s.Interfaces = val
+}
+
+type NetworkSnapshotInterfacesItem struct {
+	Name    string `json:"name"`
+	RxBytes int    `json:"rx_bytes"`
+	TxBytes int    `json:"tx_bytes"`
+}
+
+// GetName returns the value of Name.
+func (s *NetworkSnapshotInterfacesItem) GetName() string {
+	return s.Name
+}
+
+// GetRxBytes returns the value of RxBytes.
+func (s *NetworkSnapshotInterfacesItem) GetRxBytes() int {
+	return s.RxBytes
+}
+
+// GetTxBytes returns the value of TxBytes.
+func (s *NetworkSnapshotInterfacesItem) GetTxBytes() int {
+	return s.TxBytes
+}
+
+// SetName sets the value of Name.
+func (s *NetworkSnapshotInterfacesItem) SetName(val string) {
+	s.Name = val
+}
+
+// SetRxBytes sets the value of RxBytes.
+func (s *NetworkSnapshotInterfacesItem) SetRxBytes(val int) {
+	s.RxBytes = val
+}
+
+// SetTxBytes sets the value of TxBytes.
+func (s *NetworkSnapshotInterfacesItem) SetTxBytes(val int) {
+	s.TxBytes = val
 }
 
 // Information about the network resources for a given server.
@@ -31073,96 +32290,6 @@ func (s *NetworkStateError) SetTime(val OptDateTime) {
 	s.Time = val
 }
 
-// NewNilActivityComponent returns new NilActivityComponent with value set to v.
-func NewNilActivityComponent(v ActivityComponent) NilActivityComponent {
-	return NilActivityComponent{
-		Value: v,
-	}
-}
-
-// NilActivityComponent is nullable ActivityComponent.
-type NilActivityComponent struct {
-	Value ActivityComponent
-	Null  bool
-}
-
-// SetTo sets value to v.
-func (o *NilActivityComponent) SetTo(v ActivityComponent) {
-	o.Null = false
-	o.Value = v
-}
-
-// IsSet returns true if value is Null.
-func (o NilActivityComponent) IsNull() bool { return o.Null }
-
-// SetNull sets value to null.
-func (o *NilActivityComponent) SetToNull() {
-	o.Null = true
-	var v ActivityComponent
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o NilActivityComponent) Get() (v ActivityComponent, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o NilActivityComponent) Or(d ActivityComponent) ActivityComponent {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewNilActivityError returns new NilActivityError with value set to v.
-func NewNilActivityError(v ActivityError) NilActivityError {
-	return NilActivityError{
-		Value: v,
-	}
-}
-
-// NilActivityError is nullable ActivityError.
-type NilActivityError struct {
-	Value ActivityError
-	Null  bool
-}
-
-// SetTo sets value to v.
-func (o *NilActivityError) SetTo(v ActivityError) {
-	o.Null = false
-	o.Value = v
-}
-
-// IsSet returns true if value is Null.
-func (o NilActivityError) IsNull() bool { return o.Null }
-
-// SetNull sets value to null.
-func (o *NilActivityError) SetToNull() {
-	o.Null = true
-	var v ActivityError
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o NilActivityError) Get() (v ActivityError, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o NilActivityError) Or(d ActivityError) ActivityError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewNilBool returns new NilBool with value set to v.
 func NewNilBool(v bool) NilBool {
 	return NilBool{
@@ -31298,6 +32425,51 @@ func (o NilContainerAnnotations) Or(d ContainerAnnotations) ContainerAnnotations
 	return d
 }
 
+// NewNilContainerEnvironmentSummary returns new NilContainerEnvironmentSummary with value set to v.
+func NewNilContainerEnvironmentSummary(v ContainerEnvironmentSummary) NilContainerEnvironmentSummary {
+	return NilContainerEnvironmentSummary{
+		Value: v,
+	}
+}
+
+// NilContainerEnvironmentSummary is nullable ContainerEnvironmentSummary.
+type NilContainerEnvironmentSummary struct {
+	Value ContainerEnvironmentSummary
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilContainerEnvironmentSummary) SetTo(v ContainerEnvironmentSummary) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilContainerEnvironmentSummary) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilContainerEnvironmentSummary) SetToNull() {
+	o.Null = true
+	var v ContainerEnvironmentSummary
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilContainerEnvironmentSummary) Get() (v ContainerEnvironmentSummary, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilContainerEnvironmentSummary) Or(d ContainerEnvironmentSummary) ContainerEnvironmentSummary {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewNilContainerImageSummaryService returns new NilContainerImageSummaryService with value set to v.
 func NewNilContainerImageSummaryService(v ContainerImageSummaryService) NilContainerImageSummaryService {
 	return NilContainerImageSummaryService{
@@ -31337,6 +32509,51 @@ func (o NilContainerImageSummaryService) Get() (v ContainerImageSummaryService, 
 
 // Or returns value if set, or given parameter if does not.
 func (o NilContainerImageSummaryService) Or(d ContainerImageSummaryService) ContainerImageSummaryService {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilContainerIntegrationsBackupsRestore returns new NilContainerIntegrationsBackupsRestore with value set to v.
+func NewNilContainerIntegrationsBackupsRestore(v ContainerIntegrationsBackupsRestore) NilContainerIntegrationsBackupsRestore {
+	return NilContainerIntegrationsBackupsRestore{
+		Value: v,
+	}
+}
+
+// NilContainerIntegrationsBackupsRestore is nullable ContainerIntegrationsBackupsRestore.
+type NilContainerIntegrationsBackupsRestore struct {
+	Value ContainerIntegrationsBackupsRestore
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilContainerIntegrationsBackupsRestore) SetTo(v ContainerIntegrationsBackupsRestore) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilContainerIntegrationsBackupsRestore) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilContainerIntegrationsBackupsRestore) SetToNull() {
+	o.Null = true
+	var v ContainerIntegrationsBackupsRestore
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilContainerIntegrationsBackupsRestore) Get() (v ContainerIntegrationsBackupsRestore, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilContainerIntegrationsBackupsRestore) Or(d ContainerIntegrationsBackupsRestore) ContainerIntegrationsBackupsRestore {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -31523,6 +32740,96 @@ func (o NilCreditExpires) Or(d CreditExpires) CreditExpires {
 	return d
 }
 
+// NewNilDefaultLbTypeDetails returns new NilDefaultLbTypeDetails with value set to v.
+func NewNilDefaultLbTypeDetails(v DefaultLbTypeDetails) NilDefaultLbTypeDetails {
+	return NilDefaultLbTypeDetails{
+		Value: v,
+	}
+}
+
+// NilDefaultLbTypeDetails is nullable DefaultLbTypeDetails.
+type NilDefaultLbTypeDetails struct {
+	Value DefaultLbTypeDetails
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilDefaultLbTypeDetails) SetTo(v DefaultLbTypeDetails) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilDefaultLbTypeDetails) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilDefaultLbTypeDetails) SetToNull() {
+	o.Null = true
+	var v DefaultLbTypeDetails
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilDefaultLbTypeDetails) Get() (v DefaultLbTypeDetails, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilDefaultLbTypeDetails) Or(d DefaultLbTypeDetails) DefaultLbTypeDetails {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilDuration returns new NilDuration with value set to v.
+func NewNilDuration(v Duration) NilDuration {
+	return NilDuration{
+		Value: v,
+	}
+}
+
+// NilDuration is nullable Duration.
+type NilDuration struct {
+	Value Duration
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilDuration) SetTo(v Duration) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilDuration) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilDuration) SetToNull() {
+	o.Null = true
+	var v Duration
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilDuration) Get() (v Duration, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilDuration) Or(d Duration) Duration {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewNilFloat64 returns new NilFloat64 with value set to v.
 func NewNilFloat64(v float64) NilFloat64 {
 	return NilFloat64{
@@ -31568,37 +32875,37 @@ func (o NilFloat64) Or(d float64) float64 {
 	return d
 }
 
-// NewNilHAProxyConfigBackend returns new NilHAProxyConfigBackend with value set to v.
-func NewNilHAProxyConfigBackend(v HAProxyConfigBackend) NilHAProxyConfigBackend {
-	return NilHAProxyConfigBackend{
+// NewNilHaProxyConfig returns new NilHaProxyConfig with value set to v.
+func NewNilHaProxyConfig(v HaProxyConfig) NilHaProxyConfig {
+	return NilHaProxyConfig{
 		Value: v,
 	}
 }
 
-// NilHAProxyConfigBackend is nullable HAProxyConfigBackend.
-type NilHAProxyConfigBackend struct {
-	Value HAProxyConfigBackend
+// NilHaProxyConfig is nullable HaProxyConfig.
+type NilHaProxyConfig struct {
+	Value HaProxyConfig
 	Null  bool
 }
 
 // SetTo sets value to v.
-func (o *NilHAProxyConfigBackend) SetTo(v HAProxyConfigBackend) {
+func (o *NilHaProxyConfig) SetTo(v HaProxyConfig) {
 	o.Null = false
 	o.Value = v
 }
 
 // IsSet returns true if value is Null.
-func (o NilHAProxyConfigBackend) IsNull() bool { return o.Null }
+func (o NilHaProxyConfig) IsNull() bool { return o.Null }
 
 // SetNull sets value to null.
-func (o *NilHAProxyConfigBackend) SetToNull() {
+func (o *NilHaProxyConfig) SetToNull() {
 	o.Null = true
-	var v HAProxyConfigBackend
+	var v HaProxyConfig
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o NilHAProxyConfigBackend) Get() (v HAProxyConfigBackend, ok bool) {
+func (o NilHaProxyConfig) Get() (v HaProxyConfig, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -31606,44 +32913,44 @@ func (o NilHAProxyConfigBackend) Get() (v HAProxyConfigBackend, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o NilHAProxyConfigBackend) Or(d HAProxyConfigBackend) HAProxyConfigBackend {
+func (o NilHaProxyConfig) Or(d HaProxyConfig) HaProxyConfig {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewNilHAProxyConfigBackendTimeouts returns new NilHAProxyConfigBackendTimeouts with value set to v.
-func NewNilHAProxyConfigBackendTimeouts(v HAProxyConfigBackendTimeouts) NilHAProxyConfigBackendTimeouts {
-	return NilHAProxyConfigBackendTimeouts{
+// NewNilHaProxyConfigSetBackendTimeouts returns new NilHaProxyConfigSetBackendTimeouts with value set to v.
+func NewNilHaProxyConfigSetBackendTimeouts(v HaProxyConfigSetBackendTimeouts) NilHaProxyConfigSetBackendTimeouts {
+	return NilHaProxyConfigSetBackendTimeouts{
 		Value: v,
 	}
 }
 
-// NilHAProxyConfigBackendTimeouts is nullable HAProxyConfigBackendTimeouts.
-type NilHAProxyConfigBackendTimeouts struct {
-	Value HAProxyConfigBackendTimeouts
+// NilHaProxyConfigSetBackendTimeouts is nullable HaProxyConfigSetBackendTimeouts.
+type NilHaProxyConfigSetBackendTimeouts struct {
+	Value HaProxyConfigSetBackendTimeouts
 	Null  bool
 }
 
 // SetTo sets value to v.
-func (o *NilHAProxyConfigBackendTimeouts) SetTo(v HAProxyConfigBackendTimeouts) {
+func (o *NilHaProxyConfigSetBackendTimeouts) SetTo(v HaProxyConfigSetBackendTimeouts) {
 	o.Null = false
 	o.Value = v
 }
 
 // IsSet returns true if value is Null.
-func (o NilHAProxyConfigBackendTimeouts) IsNull() bool { return o.Null }
+func (o NilHaProxyConfigSetBackendTimeouts) IsNull() bool { return o.Null }
 
 // SetNull sets value to null.
-func (o *NilHAProxyConfigBackendTimeouts) SetToNull() {
+func (o *NilHaProxyConfigSetBackendTimeouts) SetToNull() {
 	o.Null = true
-	var v HAProxyConfigBackendTimeouts
+	var v HaProxyConfigSetBackendTimeouts
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o NilHAProxyConfigBackendTimeouts) Get() (v HAProxyConfigBackendTimeouts, ok bool) {
+func (o NilHaProxyConfigSetBackendTimeouts) Get() (v HaProxyConfigSetBackendTimeouts, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -31651,44 +32958,44 @@ func (o NilHAProxyConfigBackendTimeouts) Get() (v HAProxyConfigBackendTimeouts, 
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o NilHAProxyConfigBackendTimeouts) Or(d HAProxyConfigBackendTimeouts) HAProxyConfigBackendTimeouts {
+func (o NilHaProxyConfigSetBackendTimeouts) Or(d HaProxyConfigSetBackendTimeouts) HaProxyConfigSetBackendTimeouts {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewNilHAProxyConfigFrontend returns new NilHAProxyConfigFrontend with value set to v.
-func NewNilHAProxyConfigFrontend(v HAProxyConfigFrontend) NilHAProxyConfigFrontend {
-	return NilHAProxyConfigFrontend{
+// NewNilHaProxyConfigSetFrontendTimeouts returns new NilHaProxyConfigSetFrontendTimeouts with value set to v.
+func NewNilHaProxyConfigSetFrontendTimeouts(v HaProxyConfigSetFrontendTimeouts) NilHaProxyConfigSetFrontendTimeouts {
+	return NilHaProxyConfigSetFrontendTimeouts{
 		Value: v,
 	}
 }
 
-// NilHAProxyConfigFrontend is nullable HAProxyConfigFrontend.
-type NilHAProxyConfigFrontend struct {
-	Value HAProxyConfigFrontend
+// NilHaProxyConfigSetFrontendTimeouts is nullable HaProxyConfigSetFrontendTimeouts.
+type NilHaProxyConfigSetFrontendTimeouts struct {
+	Value HaProxyConfigSetFrontendTimeouts
 	Null  bool
 }
 
 // SetTo sets value to v.
-func (o *NilHAProxyConfigFrontend) SetTo(v HAProxyConfigFrontend) {
+func (o *NilHaProxyConfigSetFrontendTimeouts) SetTo(v HaProxyConfigSetFrontendTimeouts) {
 	o.Null = false
 	o.Value = v
 }
 
 // IsSet returns true if value is Null.
-func (o NilHAProxyConfigFrontend) IsNull() bool { return o.Null }
+func (o NilHaProxyConfigSetFrontendTimeouts) IsNull() bool { return o.Null }
 
 // SetNull sets value to null.
-func (o *NilHAProxyConfigFrontend) SetToNull() {
+func (o *NilHaProxyConfigSetFrontendTimeouts) SetToNull() {
 	o.Null = true
-	var v HAProxyConfigFrontend
+	var v HaProxyConfigSetFrontendTimeouts
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o NilHAProxyConfigFrontend) Get() (v HAProxyConfigFrontend, ok bool) {
+func (o NilHaProxyConfigSetFrontendTimeouts) Get() (v HaProxyConfigSetFrontendTimeouts, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -31696,44 +33003,44 @@ func (o NilHAProxyConfigFrontend) Get() (v HAProxyConfigFrontend, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o NilHAProxyConfigFrontend) Or(d HAProxyConfigFrontend) HAProxyConfigFrontend {
+func (o NilHaProxyConfigSetFrontendTimeouts) Or(d HaProxyConfigSetFrontendTimeouts) HaProxyConfigSetFrontendTimeouts {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewNilHAProxyConfigFrontendTimeouts returns new NilHAProxyConfigFrontendTimeouts with value set to v.
-func NewNilHAProxyConfigFrontendTimeouts(v HAProxyConfigFrontendTimeouts) NilHAProxyConfigFrontendTimeouts {
-	return NilHAProxyConfigFrontendTimeouts{
+// NewNilHttpRouterConfigDetailsForward returns new NilHttpRouterConfigDetailsForward with value set to v.
+func NewNilHttpRouterConfigDetailsForward(v HttpRouterConfigDetailsForward) NilHttpRouterConfigDetailsForward {
+	return NilHttpRouterConfigDetailsForward{
 		Value: v,
 	}
 }
 
-// NilHAProxyConfigFrontendTimeouts is nullable HAProxyConfigFrontendTimeouts.
-type NilHAProxyConfigFrontendTimeouts struct {
-	Value HAProxyConfigFrontendTimeouts
+// NilHttpRouterConfigDetailsForward is nullable HttpRouterConfigDetailsForward.
+type NilHttpRouterConfigDetailsForward struct {
+	Value HttpRouterConfigDetailsForward
 	Null  bool
 }
 
 // SetTo sets value to v.
-func (o *NilHAProxyConfigFrontendTimeouts) SetTo(v HAProxyConfigFrontendTimeouts) {
+func (o *NilHttpRouterConfigDetailsForward) SetTo(v HttpRouterConfigDetailsForward) {
 	o.Null = false
 	o.Value = v
 }
 
 // IsSet returns true if value is Null.
-func (o NilHAProxyConfigFrontendTimeouts) IsNull() bool { return o.Null }
+func (o NilHttpRouterConfigDetailsForward) IsNull() bool { return o.Null }
 
 // SetNull sets value to null.
-func (o *NilHAProxyConfigFrontendTimeouts) SetToNull() {
+func (o *NilHttpRouterConfigDetailsForward) SetToNull() {
 	o.Null = true
-	var v HAProxyConfigFrontendTimeouts
+	var v HttpRouterConfigDetailsForward
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o NilHAProxyConfigFrontendTimeouts) Get() (v HAProxyConfigFrontendTimeouts, ok bool) {
+func (o NilHttpRouterConfigDetailsForward) Get() (v HttpRouterConfigDetailsForward, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -31741,7 +33048,97 @@ func (o NilHAProxyConfigFrontendTimeouts) Get() (v HAProxyConfigFrontendTimeouts
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o NilHAProxyConfigFrontendTimeouts) Or(d HAProxyConfigFrontendTimeouts) HAProxyConfigFrontendTimeouts {
+func (o NilHttpRouterConfigDetailsForward) Or(d HttpRouterConfigDetailsForward) HttpRouterConfigDetailsForward {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilHttpRouterConfigDetailsForwardScheme returns new NilHttpRouterConfigDetailsForwardScheme with value set to v.
+func NewNilHttpRouterConfigDetailsForwardScheme(v HttpRouterConfigDetailsForwardScheme) NilHttpRouterConfigDetailsForwardScheme {
+	return NilHttpRouterConfigDetailsForwardScheme{
+		Value: v,
+	}
+}
+
+// NilHttpRouterConfigDetailsForwardScheme is nullable HttpRouterConfigDetailsForwardScheme.
+type NilHttpRouterConfigDetailsForwardScheme struct {
+	Value HttpRouterConfigDetailsForwardScheme
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilHttpRouterConfigDetailsForwardScheme) SetTo(v HttpRouterConfigDetailsForwardScheme) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilHttpRouterConfigDetailsForwardScheme) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilHttpRouterConfigDetailsForwardScheme) SetToNull() {
+	o.Null = true
+	var v HttpRouterConfigDetailsForwardScheme
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilHttpRouterConfigDetailsForwardScheme) Get() (v HttpRouterConfigDetailsForwardScheme, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilHttpRouterConfigDetailsForwardScheme) Or(d HttpRouterConfigDetailsForwardScheme) HttpRouterConfigDetailsForwardScheme {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilHttpRouterConfigDetailsRedirect returns new NilHttpRouterConfigDetailsRedirect with value set to v.
+func NewNilHttpRouterConfigDetailsRedirect(v HttpRouterConfigDetailsRedirect) NilHttpRouterConfigDetailsRedirect {
+	return NilHttpRouterConfigDetailsRedirect{
+		Value: v,
+	}
+}
+
+// NilHttpRouterConfigDetailsRedirect is nullable HttpRouterConfigDetailsRedirect.
+type NilHttpRouterConfigDetailsRedirect struct {
+	Value HttpRouterConfigDetailsRedirect
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilHttpRouterConfigDetailsRedirect) SetTo(v HttpRouterConfigDetailsRedirect) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilHttpRouterConfigDetailsRedirect) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilHttpRouterConfigDetailsRedirect) SetToNull() {
+	o.Null = true
+	var v HttpRouterConfigDetailsRedirect
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilHttpRouterConfigDetailsRedirect) Get() (v HttpRouterConfigDetailsRedirect, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilHttpRouterConfigDetailsRedirect) Or(d HttpRouterConfigDetailsRedirect) HttpRouterConfigDetailsRedirect {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -31883,6 +33280,51 @@ func (o NilHubIntegrationsLetsencrypt) Or(d HubIntegrationsLetsencrypt) HubInteg
 	return d
 }
 
+// NewNilID returns new NilID with value set to v.
+func NewNilID(v ID) NilID {
+	return NilID{
+		Value: v,
+	}
+}
+
+// NilID is nullable ID.
+type NilID struct {
+	Value ID
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilID) SetTo(v ID) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilID) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilID) SetToNull() {
+	o.Null = true
+	var v ID
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilID) Get() (v ID, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilID) Or(d ID) ID {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewNilImageBuild returns new NilImageBuild with value set to v.
 func NewNilImageBuild(v ImageBuild) NilImageBuild {
 	return NilImageBuild{
@@ -31967,6 +33409,96 @@ func (o NilImageFactory) Get() (v ImageFactory, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o NilImageFactory) Or(d ImageFactory) ImageFactory {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilImageSummaryExtension returns new NilImageSummaryExtension with value set to v.
+func NewNilImageSummaryExtension(v ImageSummaryExtension) NilImageSummaryExtension {
+	return NilImageSummaryExtension{
+		Value: v,
+	}
+}
+
+// NilImageSummaryExtension is nullable ImageSummaryExtension.
+type NilImageSummaryExtension struct {
+	Value ImageSummaryExtension
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilImageSummaryExtension) SetTo(v ImageSummaryExtension) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilImageSummaryExtension) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilImageSummaryExtension) SetToNull() {
+	o.Null = true
+	var v ImageSummaryExtension
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilImageSummaryExtension) Get() (v ImageSummaryExtension, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilImageSummaryExtension) Or(d ImageSummaryExtension) ImageSummaryExtension {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilImageSummaryService returns new NilImageSummaryService with value set to v.
+func NewNilImageSummaryService(v ImageSummaryService) NilImageSummaryService {
+	return NilImageSummaryService{
+		Value: v,
+	}
+}
+
+// NilImageSummaryService is nullable ImageSummaryService.
+type NilImageSummaryService struct {
+	Value ImageSummaryService
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilImageSummaryService) SetTo(v ImageSummaryService) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilImageSummaryService) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilImageSummaryService) SetToNull() {
+	o.Null = true
+	var v ImageSummaryService
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilImageSummaryService) Get() (v ImageSummaryService, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilImageSummaryService) Or(d ImageSummaryService) ImageSummaryService {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -32288,6 +33820,51 @@ func (o NilLegacyNetwork) Or(d LegacyNetwork) LegacyNetwork {
 	return d
 }
 
+// NewNilLoadBalancerConfig returns new NilLoadBalancerConfig with value set to v.
+func NewNilLoadBalancerConfig(v LoadBalancerConfig) NilLoadBalancerConfig {
+	return NilLoadBalancerConfig{
+		Value: v,
+	}
+}
+
+// NilLoadBalancerConfig is nullable LoadBalancerConfig.
+type NilLoadBalancerConfig struct {
+	Value LoadBalancerConfig
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilLoadBalancerConfig) SetTo(v LoadBalancerConfig) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilLoadBalancerConfig) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilLoadBalancerConfig) SetToNull() {
+	o.Null = true
+	var v LoadBalancerConfig
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilLoadBalancerConfig) Get() (v LoadBalancerConfig, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilLoadBalancerConfig) Or(d LoadBalancerConfig) LoadBalancerConfig {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewNilLoadBalancerEnvironmentService returns new NilLoadBalancerEnvironmentService with value set to v.
 func NewNilLoadBalancerEnvironmentService(v LoadBalancerEnvironmentService) NilLoadBalancerEnvironmentService {
 	return NilLoadBalancerEnvironmentService{
@@ -32333,37 +33910,39 @@ func (o NilLoadBalancerEnvironmentService) Or(d LoadBalancerEnvironmentService) 
 	return d
 }
 
-// NewNilLoadBalancerEnvironmentServiceConfig returns new NilLoadBalancerEnvironmentServiceConfig with value set to v.
-func NewNilLoadBalancerEnvironmentServiceConfig(v LoadBalancerEnvironmentServiceConfig) NilLoadBalancerEnvironmentServiceConfig {
-	return NilLoadBalancerEnvironmentServiceConfig{
+// NewNilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections returns new NilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections with value set to v.
+func NewNilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections(v LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) NilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections {
+	return NilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections{
 		Value: v,
 	}
 }
 
-// NilLoadBalancerEnvironmentServiceConfig is nullable LoadBalancerEnvironmentServiceConfig.
-type NilLoadBalancerEnvironmentServiceConfig struct {
-	Value LoadBalancerEnvironmentServiceConfig
+// NilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections is nullable LoadBalancerTelemetryRouterMetricsDestinationsItemConnections.
+type NilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections struct {
+	Value LoadBalancerTelemetryRouterMetricsDestinationsItemConnections
 	Null  bool
 }
 
 // SetTo sets value to v.
-func (o *NilLoadBalancerEnvironmentServiceConfig) SetTo(v LoadBalancerEnvironmentServiceConfig) {
+func (o *NilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections) SetTo(v LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) {
 	o.Null = false
 	o.Value = v
 }
 
 // IsSet returns true if value is Null.
-func (o NilLoadBalancerEnvironmentServiceConfig) IsNull() bool { return o.Null }
+func (o NilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections) IsNull() bool {
+	return o.Null
+}
 
 // SetNull sets value to null.
-func (o *NilLoadBalancerEnvironmentServiceConfig) SetToNull() {
+func (o *NilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections) SetToNull() {
 	o.Null = true
-	var v LoadBalancerEnvironmentServiceConfig
+	var v LoadBalancerTelemetryRouterMetricsDestinationsItemConnections
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o NilLoadBalancerEnvironmentServiceConfig) Get() (v LoadBalancerEnvironmentServiceConfig, ok bool) {
+func (o NilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections) Get() (v LoadBalancerTelemetryRouterMetricsDestinationsItemConnections, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -32371,44 +33950,44 @@ func (o NilLoadBalancerEnvironmentServiceConfig) Get() (v LoadBalancerEnvironmen
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o NilLoadBalancerEnvironmentServiceConfig) Or(d LoadBalancerEnvironmentServiceConfig) LoadBalancerEnvironmentServiceConfig {
+func (o NilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections) Or(d LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) LoadBalancerTelemetryRouterMetricsDestinationsItemConnections {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewNilLoadBalancerEnvironmentServiceConfigHaproxy returns new NilLoadBalancerEnvironmentServiceConfigHaproxy with value set to v.
-func NewNilLoadBalancerEnvironmentServiceConfigHaproxy(v LoadBalancerEnvironmentServiceConfigHaproxy) NilLoadBalancerEnvironmentServiceConfigHaproxy {
-	return NilLoadBalancerEnvironmentServiceConfigHaproxy{
+// NewNilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests returns new NilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests with value set to v.
+func NewNilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests(v LoadBalancerTelemetryRouterMetricsDestinationsItemRequests) NilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests {
+	return NilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests{
 		Value: v,
 	}
 }
 
-// NilLoadBalancerEnvironmentServiceConfigHaproxy is nullable LoadBalancerEnvironmentServiceConfigHaproxy.
-type NilLoadBalancerEnvironmentServiceConfigHaproxy struct {
-	Value LoadBalancerEnvironmentServiceConfigHaproxy
+// NilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests is nullable LoadBalancerTelemetryRouterMetricsDestinationsItemRequests.
+type NilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests struct {
+	Value LoadBalancerTelemetryRouterMetricsDestinationsItemRequests
 	Null  bool
 }
 
 // SetTo sets value to v.
-func (o *NilLoadBalancerEnvironmentServiceConfigHaproxy) SetTo(v LoadBalancerEnvironmentServiceConfigHaproxy) {
+func (o *NilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests) SetTo(v LoadBalancerTelemetryRouterMetricsDestinationsItemRequests) {
 	o.Null = false
 	o.Value = v
 }
 
 // IsSet returns true if value is Null.
-func (o NilLoadBalancerEnvironmentServiceConfigHaproxy) IsNull() bool { return o.Null }
+func (o NilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests) IsNull() bool { return o.Null }
 
 // SetNull sets value to null.
-func (o *NilLoadBalancerEnvironmentServiceConfigHaproxy) SetToNull() {
+func (o *NilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests) SetToNull() {
 	o.Null = true
-	var v LoadBalancerEnvironmentServiceConfigHaproxy
+	var v LoadBalancerTelemetryRouterMetricsDestinationsItemRequests
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o NilLoadBalancerEnvironmentServiceConfigHaproxy) Get() (v LoadBalancerEnvironmentServiceConfigHaproxy, ok bool) {
+func (o NilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests) Get() (v LoadBalancerTelemetryRouterMetricsDestinationsItemRequests, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -32416,7 +33995,52 @@ func (o NilLoadBalancerEnvironmentServiceConfigHaproxy) Get() (v LoadBalancerEnv
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o NilLoadBalancerEnvironmentServiceConfigHaproxy) Or(d LoadBalancerEnvironmentServiceConfigHaproxy) LoadBalancerEnvironmentServiceConfigHaproxy {
+func (o NilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests) Or(d LoadBalancerTelemetryRouterMetricsDestinationsItemRequests) LoadBalancerTelemetryRouterMetricsDestinationsItemRequests {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilLoadBalancerTelemetryUrlMetricsDestinationsItemRequests returns new NilLoadBalancerTelemetryUrlMetricsDestinationsItemRequests with value set to v.
+func NewNilLoadBalancerTelemetryUrlMetricsDestinationsItemRequests(v LoadBalancerTelemetryUrlMetricsDestinationsItemRequests) NilLoadBalancerTelemetryUrlMetricsDestinationsItemRequests {
+	return NilLoadBalancerTelemetryUrlMetricsDestinationsItemRequests{
+		Value: v,
+	}
+}
+
+// NilLoadBalancerTelemetryUrlMetricsDestinationsItemRequests is nullable LoadBalancerTelemetryUrlMetricsDestinationsItemRequests.
+type NilLoadBalancerTelemetryUrlMetricsDestinationsItemRequests struct {
+	Value LoadBalancerTelemetryUrlMetricsDestinationsItemRequests
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilLoadBalancerTelemetryUrlMetricsDestinationsItemRequests) SetTo(v LoadBalancerTelemetryUrlMetricsDestinationsItemRequests) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilLoadBalancerTelemetryUrlMetricsDestinationsItemRequests) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilLoadBalancerTelemetryUrlMetricsDestinationsItemRequests) SetToNull() {
+	o.Null = true
+	var v LoadBalancerTelemetryUrlMetricsDestinationsItemRequests
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilLoadBalancerTelemetryUrlMetricsDestinationsItemRequests) Get() (v LoadBalancerTelemetryUrlMetricsDestinationsItemRequests, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilLoadBalancerTelemetryUrlMetricsDestinationsItemRequests) Or(d LoadBalancerTelemetryUrlMetricsDestinationsItemRequests) LoadBalancerTelemetryUrlMetricsDestinationsItemRequests {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -32513,51 +34137,6 @@ func (o NilPromoCodeCredit) Or(d PromoCodeCredit) PromoCodeCredit {
 	return d
 }
 
-// NewNilReconfigureLoadBalancerReqContentsConfigHaproxy returns new NilReconfigureLoadBalancerReqContentsConfigHaproxy with value set to v.
-func NewNilReconfigureLoadBalancerReqContentsConfigHaproxy(v ReconfigureLoadBalancerReqContentsConfigHaproxy) NilReconfigureLoadBalancerReqContentsConfigHaproxy {
-	return NilReconfigureLoadBalancerReqContentsConfigHaproxy{
-		Value: v,
-	}
-}
-
-// NilReconfigureLoadBalancerReqContentsConfigHaproxy is nullable ReconfigureLoadBalancerReqContentsConfigHaproxy.
-type NilReconfigureLoadBalancerReqContentsConfigHaproxy struct {
-	Value ReconfigureLoadBalancerReqContentsConfigHaproxy
-	Null  bool
-}
-
-// SetTo sets value to v.
-func (o *NilReconfigureLoadBalancerReqContentsConfigHaproxy) SetTo(v ReconfigureLoadBalancerReqContentsConfigHaproxy) {
-	o.Null = false
-	o.Value = v
-}
-
-// IsSet returns true if value is Null.
-func (o NilReconfigureLoadBalancerReqContentsConfigHaproxy) IsNull() bool { return o.Null }
-
-// SetNull sets value to null.
-func (o *NilReconfigureLoadBalancerReqContentsConfigHaproxy) SetToNull() {
-	o.Null = true
-	var v ReconfigureLoadBalancerReqContentsConfigHaproxy
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o NilReconfigureLoadBalancerReqContentsConfigHaproxy) Get() (v ReconfigureLoadBalancerReqContentsConfigHaproxy, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o NilReconfigureLoadBalancerReqContentsConfigHaproxy) Or(d ReconfigureLoadBalancerReqContentsConfigHaproxy) ReconfigureLoadBalancerReqContentsConfigHaproxy {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewNilRecordFeatures returns new NilRecordFeatures with value set to v.
 func NewNilRecordFeatures(v RecordFeatures) NilRecordFeatures {
 	return NilRecordFeatures{
@@ -32597,6 +34176,51 @@ func (o NilRecordFeatures) Get() (v RecordFeatures, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o NilRecordFeatures) Or(d RecordFeatures) RecordFeatures {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilRegistryAuth returns new NilRegistryAuth with value set to v.
+func NewNilRegistryAuth(v RegistryAuth) NilRegistryAuth {
+	return NilRegistryAuth{
+		Value: v,
+	}
+}
+
+// NilRegistryAuth is nullable RegistryAuth.
+type NilRegistryAuth struct {
+	Value RegistryAuth
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilRegistryAuth) SetTo(v RegistryAuth) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilRegistryAuth) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilRegistryAuth) SetToNull() {
+	o.Null = true
+	var v RegistryAuth
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilRegistryAuth) Get() (v RegistryAuth, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilRegistryAuth) Or(d RegistryAuth) RegistryAuth {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -32648,6 +34272,51 @@ func (o NilScopedVariableSecret) Or(d ScopedVariableSecret) ScopedVariableSecret
 	return d
 }
 
+// NewNilStackContainerConfigDeployStatefulOptions returns new NilStackContainerConfigDeployStatefulOptions with value set to v.
+func NewNilStackContainerConfigDeployStatefulOptions(v StackContainerConfigDeployStatefulOptions) NilStackContainerConfigDeployStatefulOptions {
+	return NilStackContainerConfigDeployStatefulOptions{
+		Value: v,
+	}
+}
+
+// NilStackContainerConfigDeployStatefulOptions is nullable StackContainerConfigDeployStatefulOptions.
+type NilStackContainerConfigDeployStatefulOptions struct {
+	Value StackContainerConfigDeployStatefulOptions
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilStackContainerConfigDeployStatefulOptions) SetTo(v StackContainerConfigDeployStatefulOptions) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilStackContainerConfigDeployStatefulOptions) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilStackContainerConfigDeployStatefulOptions) SetToNull() {
+	o.Null = true
+	var v StackContainerConfigDeployStatefulOptions
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilStackContainerConfigDeployStatefulOptions) Get() (v StackContainerConfigDeployStatefulOptions, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilStackContainerConfigDeployStatefulOptions) Or(d StackContainerConfigDeployStatefulOptions) StackContainerConfigDeployStatefulOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewNilStackContainerConfigIntegrationsBackupsRestore returns new NilStackContainerConfigIntegrationsBackupsRestore with value set to v.
 func NewNilStackContainerConfigIntegrationsBackupsRestore(v StackContainerConfigIntegrationsBackupsRestore) NilStackContainerConfigIntegrationsBackupsRestore {
 	return NilStackContainerConfigIntegrationsBackupsRestore{
@@ -32693,37 +34362,37 @@ func (o NilStackContainerConfigIntegrationsBackupsRestore) Or(d StackContainerCo
 	return d
 }
 
-// NewNilStackContainerVolumeRemoteAccessIpsItemPassword returns new NilStackContainerVolumeRemoteAccessIpsItemPassword with value set to v.
-func NewNilStackContainerVolumeRemoteAccessIpsItemPassword(v StackContainerVolumeRemoteAccessIpsItemPassword) NilStackContainerVolumeRemoteAccessIpsItemPassword {
-	return NilStackContainerVolumeRemoteAccessIpsItemPassword{
+// NewNilStackSpecContainerImage returns new NilStackSpecContainerImage with value set to v.
+func NewNilStackSpecContainerImage(v StackSpecContainerImage) NilStackSpecContainerImage {
+	return NilStackSpecContainerImage{
 		Value: v,
 	}
 }
 
-// NilStackContainerVolumeRemoteAccessIpsItemPassword is nullable StackContainerVolumeRemoteAccessIpsItemPassword.
-type NilStackContainerVolumeRemoteAccessIpsItemPassword struct {
-	Value StackContainerVolumeRemoteAccessIpsItemPassword
+// NilStackSpecContainerImage is nullable StackSpecContainerImage.
+type NilStackSpecContainerImage struct {
+	Value StackSpecContainerImage
 	Null  bool
 }
 
 // SetTo sets value to v.
-func (o *NilStackContainerVolumeRemoteAccessIpsItemPassword) SetTo(v StackContainerVolumeRemoteAccessIpsItemPassword) {
+func (o *NilStackSpecContainerImage) SetTo(v StackSpecContainerImage) {
 	o.Null = false
 	o.Value = v
 }
 
 // IsSet returns true if value is Null.
-func (o NilStackContainerVolumeRemoteAccessIpsItemPassword) IsNull() bool { return o.Null }
+func (o NilStackSpecContainerImage) IsNull() bool { return o.Null }
 
 // SetNull sets value to null.
-func (o *NilStackContainerVolumeRemoteAccessIpsItemPassword) SetToNull() {
+func (o *NilStackSpecContainerImage) SetToNull() {
 	o.Null = true
-	var v StackContainerVolumeRemoteAccessIpsItemPassword
+	var v StackSpecContainerImage
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o NilStackContainerVolumeRemoteAccessIpsItemPassword) Get() (v StackContainerVolumeRemoteAccessIpsItemPassword, ok bool) {
+func (o NilStackSpecContainerImage) Get() (v StackSpecContainerImage, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -32731,7 +34400,52 @@ func (o NilStackContainerVolumeRemoteAccessIpsItemPassword) Get() (v StackContai
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o NilStackContainerVolumeRemoteAccessIpsItemPassword) Or(d StackContainerVolumeRemoteAccessIpsItemPassword) StackContainerVolumeRemoteAccessIpsItemPassword {
+func (o NilStackSpecContainerImage) Or(d StackSpecContainerImage) StackSpecContainerImage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilStackSpecTestContainerConfig returns new NilStackSpecTestContainerConfig with value set to v.
+func NewNilStackSpecTestContainerConfig(v StackSpecTestContainerConfig) NilStackSpecTestContainerConfig {
+	return NilStackSpecTestContainerConfig{
+		Value: v,
+	}
+}
+
+// NilStackSpecTestContainerConfig is nullable StackSpecTestContainerConfig.
+type NilStackSpecTestContainerConfig struct {
+	Value StackSpecTestContainerConfig
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilStackSpecTestContainerConfig) SetTo(v StackSpecTestContainerConfig) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilStackSpecTestContainerConfig) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilStackSpecTestContainerConfig) SetToNull() {
+	o.Null = true
+	var v StackSpecTestContainerConfig
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilStackSpecTestContainerConfig) Get() (v StackSpecTestContainerConfig, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilStackSpecTestContainerConfig) Or(d StackSpecTestContainerConfig) StackSpecTestContainerConfig {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -32822,6 +34536,96 @@ func (o NilTermRenew) Get() (v TermRenew, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o NilTermRenew) Or(d TermRenew) TermRenew {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilV1LbConfig returns new NilV1LbConfig with value set to v.
+func NewNilV1LbConfig(v V1LbConfig) NilV1LbConfig {
+	return NilV1LbConfig{
+		Value: v,
+	}
+}
+
+// NilV1LbConfig is nullable V1LbConfig.
+type NilV1LbConfig struct {
+	Value V1LbConfig
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilV1LbConfig) SetTo(v V1LbConfig) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilV1LbConfig) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilV1LbConfig) SetToNull() {
+	o.Null = true
+	var v V1LbConfig
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilV1LbConfig) Get() (v V1LbConfig, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilV1LbConfig) Or(d V1LbConfig) V1LbConfig {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilV1LbConfigControllersItemTransportConfigIngressTLS returns new NilV1LbConfigControllersItemTransportConfigIngressTLS with value set to v.
+func NewNilV1LbConfigControllersItemTransportConfigIngressTLS(v V1LbConfigControllersItemTransportConfigIngressTLS) NilV1LbConfigControllersItemTransportConfigIngressTLS {
+	return NilV1LbConfigControllersItemTransportConfigIngressTLS{
+		Value: v,
+	}
+}
+
+// NilV1LbConfigControllersItemTransportConfigIngressTLS is nullable V1LbConfigControllersItemTransportConfigIngressTLS.
+type NilV1LbConfigControllersItemTransportConfigIngressTLS struct {
+	Value V1LbConfigControllersItemTransportConfigIngressTLS
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilV1LbConfigControllersItemTransportConfigIngressTLS) SetTo(v V1LbConfigControllersItemTransportConfigIngressTLS) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilV1LbConfigControllersItemTransportConfigIngressTLS) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilV1LbConfigControllersItemTransportConfigIngressTLS) SetToNull() {
+	o.Null = true
+	var v V1LbConfigControllersItemTransportConfigIngressTLS
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilV1LbConfigControllersItemTransportConfigIngressTLS) Get() (v V1LbConfigControllersItemTransportConfigIngressTLS, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilV1LbConfigControllersItemTransportConfigIngressTLS) Or(d V1LbConfigControllersItemTransportConfigIngressTLS) V1LbConfigControllersItemTransportConfigIngressTLS {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -33176,6 +34980,99 @@ func (s *NoneOriginType) UnmarshalText(data []byte) error {
 	}
 }
 
+// An image origin that pulls images fro an OCI-compatible registry. Also used for provider-native
+// registries, such as AWS ECR.
+// Ref: #/components/schemas/OciRegistryOrigin
+type OciRegistryOrigin struct {
+	Details OciRegistryOriginDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *OciRegistryOrigin) GetDetails() OciRegistryOriginDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *OciRegistryOrigin) SetDetails(val OciRegistryOriginDetails) {
+	s.Details = val
+}
+
+type OciRegistryOriginDetails struct {
+	Existing OptExistingSource `json:"existing"`
+	// The image name on the registry.
+	Target string `json:"target"`
+	// The url of the remote registry.
+	URL  string          `json:"url"`
+	Auth NilRegistryAuth `json:"auth"`
+}
+
+// GetExisting returns the value of Existing.
+func (s *OciRegistryOriginDetails) GetExisting() OptExistingSource {
+	return s.Existing
+}
+
+// GetTarget returns the value of Target.
+func (s *OciRegistryOriginDetails) GetTarget() string {
+	return s.Target
+}
+
+// GetURL returns the value of URL.
+func (s *OciRegistryOriginDetails) GetURL() string {
+	return s.URL
+}
+
+// GetAuth returns the value of Auth.
+func (s *OciRegistryOriginDetails) GetAuth() NilRegistryAuth {
+	return s.Auth
+}
+
+// SetExisting sets the value of Existing.
+func (s *OciRegistryOriginDetails) SetExisting(val OptExistingSource) {
+	s.Existing = val
+}
+
+// SetTarget sets the value of Target.
+func (s *OciRegistryOriginDetails) SetTarget(val string) {
+	s.Target = val
+}
+
+// SetURL sets the value of URL.
+func (s *OciRegistryOriginDetails) SetURL(val string) {
+	s.URL = val
+}
+
+// SetAuth sets the value of Auth.
+func (s *OciRegistryOriginDetails) SetAuth(val NilRegistryAuth) {
+	s.Auth = val
+}
+
+type OciRegistryOriginType string
+
+const (
+	OciRegistryOriginTypeOciRegistry OciRegistryOriginType = "oci-registry"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s OciRegistryOriginType) MarshalText() ([]byte, error) {
+	switch s {
+	case OciRegistryOriginTypeOciRegistry:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *OciRegistryOriginType) UnmarshalText(data []byte) error {
+	switch OciRegistryOriginType(data) {
+	case OciRegistryOriginTypeOciRegistry:
+		*s = OciRegistryOriginTypeOciRegistry
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // NewOptAbstractionIntegration returns new OptAbstractionIntegration with value set to v.
 func NewOptAbstractionIntegration(v AbstractionIntegration) OptAbstractionIntegration {
 	return OptAbstractionIntegration{
@@ -33308,52 +35205,6 @@ func (o OptAccountStateError) Get() (v AccountStateError, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptAccountStateError) Or(d AccountStateError) AccountStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptActivityIncludes returns new OptActivityIncludes with value set to v.
-func NewOptActivityIncludes(v ActivityIncludes) OptActivityIncludes {
-	return OptActivityIncludes{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptActivityIncludes is optional ActivityIncludes.
-type OptActivityIncludes struct {
-	Value ActivityIncludes
-	Set   bool
-}
-
-// IsSet returns true if OptActivityIncludes was set.
-func (o OptActivityIncludes) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptActivityIncludes) Reset() {
-	var v ActivityIncludes
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptActivityIncludes) SetTo(v ActivityIncludes) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptActivityIncludes) Get() (v ActivityIncludes, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptActivityIncludes) Or(d ActivityIncludes) ActivityIncludes {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -33912,6 +35763,144 @@ func (o OptBool) Or(d bool) bool {
 	return d
 }
 
+// NewOptBucketImageSourceTypeDetails returns new OptBucketImageSourceTypeDetails with value set to v.
+func NewOptBucketImageSourceTypeDetails(v BucketImageSourceTypeDetails) OptBucketImageSourceTypeDetails {
+	return OptBucketImageSourceTypeDetails{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptBucketImageSourceTypeDetails is optional BucketImageSourceTypeDetails.
+type OptBucketImageSourceTypeDetails struct {
+	Value BucketImageSourceTypeDetails
+	Set   bool
+}
+
+// IsSet returns true if OptBucketImageSourceTypeDetails was set.
+func (o OptBucketImageSourceTypeDetails) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptBucketImageSourceTypeDetails) Reset() {
+	var v BucketImageSourceTypeDetails
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptBucketImageSourceTypeDetails) SetTo(v BucketImageSourceTypeDetails) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptBucketImageSourceTypeDetails) Get() (v BucketImageSourceTypeDetails, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptBucketImageSourceTypeDetails) Or(d BucketImageSourceTypeDetails) BucketImageSourceTypeDetails {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptBucketImageSourceTypeOverride returns new OptBucketImageSourceTypeOverride with value set to v.
+func NewOptBucketImageSourceTypeOverride(v BucketImageSourceTypeOverride) OptBucketImageSourceTypeOverride {
+	return OptBucketImageSourceTypeOverride{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptBucketImageSourceTypeOverride is optional BucketImageSourceTypeOverride.
+type OptBucketImageSourceTypeOverride struct {
+	Value BucketImageSourceTypeOverride
+	Set   bool
+}
+
+// IsSet returns true if OptBucketImageSourceTypeOverride was set.
+func (o OptBucketImageSourceTypeOverride) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptBucketImageSourceTypeOverride) Reset() {
+	var v BucketImageSourceTypeOverride
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptBucketImageSourceTypeOverride) SetTo(v BucketImageSourceTypeOverride) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptBucketImageSourceTypeOverride) Get() (v BucketImageSourceTypeOverride, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptBucketImageSourceTypeOverride) Or(d BucketImageSourceTypeOverride) BucketImageSourceTypeOverride {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptBucketImageSourceTypeType returns new OptBucketImageSourceTypeType with value set to v.
+func NewOptBucketImageSourceTypeType(v BucketImageSourceTypeType) OptBucketImageSourceTypeType {
+	return OptBucketImageSourceTypeType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptBucketImageSourceTypeType is optional BucketImageSourceTypeType.
+type OptBucketImageSourceTypeType struct {
+	Value BucketImageSourceTypeType
+	Set   bool
+}
+
+// IsSet returns true if OptBucketImageSourceTypeType was set.
+func (o OptBucketImageSourceTypeType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptBucketImageSourceTypeType) Reset() {
+	var v BucketImageSourceTypeType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptBucketImageSourceTypeType) SetTo(v BucketImageSourceTypeType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptBucketImageSourceTypeType) Get() (v BucketImageSourceTypeType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptBucketImageSourceTypeType) Or(d BucketImageSourceTypeType) BucketImageSourceTypeType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptBuildLog returns new OptBuildLog with value set to v.
 func NewOptBuildLog(v BuildLog) OptBuildLog {
 	return OptBuildLog{
@@ -33998,52 +35987,6 @@ func (o OptCPUSpecExtra) Get() (v CPUSpecExtra, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCPUSpecExtra) Or(d CPUSpecExtra) CPUSpecExtra {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptComponentsIncludes returns new OptComponentsIncludes with value set to v.
-func NewOptComponentsIncludes(v ComponentsIncludes) OptComponentsIncludes {
-	return OptComponentsIncludes{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptComponentsIncludes is optional ComponentsIncludes.
-type OptComponentsIncludes struct {
-	Value ComponentsIncludes
-	Set   bool
-}
-
-// IsSet returns true if OptComponentsIncludes was set.
-func (o OptComponentsIncludes) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptComponentsIncludes) Reset() {
-	var v ComponentsIncludes
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptComponentsIncludes) SetTo(v ComponentsIncludes) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptComponentsIncludes) Get() (v ComponentsIncludes, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptComponentsIncludes) Or(d ComponentsIncludes) ComponentsIncludes {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -34550,52 +36493,6 @@ func (o OptContainerDeployTelemetry) Get() (v ContainerDeployTelemetry, ok bool)
 
 // Or returns value if set, or given parameter if does not.
 func (o OptContainerDeployTelemetry) Or(d ContainerDeployTelemetry) ContainerDeployTelemetry {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptContainerDeployUpdate returns new OptContainerDeployUpdate with value set to v.
-func NewOptContainerDeployUpdate(v ContainerDeployUpdate) OptContainerDeployUpdate {
-	return OptContainerDeployUpdate{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptContainerDeployUpdate is optional ContainerDeployUpdate.
-type OptContainerDeployUpdate struct {
-	Value ContainerDeployUpdate
-	Set   bool
-}
-
-// IsSet returns true if OptContainerDeployUpdate was set.
-func (o OptContainerDeployUpdate) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptContainerDeployUpdate) Reset() {
-	var v ContainerDeployUpdate
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptContainerDeployUpdate) SetTo(v ContainerDeployUpdate) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptContainerDeployUpdate) Get() (v ContainerDeployUpdate, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptContainerDeployUpdate) Or(d ContainerDeployUpdate) ContainerDeployUpdate {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -36350,6 +38247,98 @@ func (o OptCreateEnvironmentReq) Or(d CreateEnvironmentReq) CreateEnvironmentReq
 	return d
 }
 
+// NewOptCreateEnvironmentVpnTaskReq returns new OptCreateEnvironmentVpnTaskReq with value set to v.
+func NewOptCreateEnvironmentVpnTaskReq(v CreateEnvironmentVpnTaskReq) OptCreateEnvironmentVpnTaskReq {
+	return OptCreateEnvironmentVpnTaskReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateEnvironmentVpnTaskReq is optional CreateEnvironmentVpnTaskReq.
+type OptCreateEnvironmentVpnTaskReq struct {
+	Value CreateEnvironmentVpnTaskReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateEnvironmentVpnTaskReq was set.
+func (o OptCreateEnvironmentVpnTaskReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateEnvironmentVpnTaskReq) Reset() {
+	var v CreateEnvironmentVpnTaskReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateEnvironmentVpnTaskReq) SetTo(v CreateEnvironmentVpnTaskReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateEnvironmentVpnTaskReq) Get() (v CreateEnvironmentVpnTaskReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateEnvironmentVpnTaskReq) Or(d CreateEnvironmentVpnTaskReq) CreateEnvironmentVpnTaskReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateGlobalLoadBalancerReq returns new OptCreateGlobalLoadBalancerReq with value set to v.
+func NewOptCreateGlobalLoadBalancerReq(v CreateGlobalLoadBalancerReq) OptCreateGlobalLoadBalancerReq {
+	return OptCreateGlobalLoadBalancerReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateGlobalLoadBalancerReq is optional CreateGlobalLoadBalancerReq.
+type OptCreateGlobalLoadBalancerReq struct {
+	Value CreateGlobalLoadBalancerReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateGlobalLoadBalancerReq was set.
+func (o OptCreateGlobalLoadBalancerReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateGlobalLoadBalancerReq) Reset() {
+	var v CreateGlobalLoadBalancerReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateGlobalLoadBalancerReq) SetTo(v CreateGlobalLoadBalancerReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateGlobalLoadBalancerReq) Get() (v CreateGlobalLoadBalancerReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateGlobalLoadBalancerReq) Or(d CreateGlobalLoadBalancerReq) CreateGlobalLoadBalancerReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCreateHubInviteReq returns new OptCreateHubInviteReq with value set to v.
 func NewOptCreateHubInviteReq(v CreateHubInviteReq) OptCreateHubInviteReq {
 	return OptCreateHubInviteReq{
@@ -36528,52 +38517,6 @@ func (o OptCreateHubReq) Get() (v CreateHubReq, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCreateHubReq) Or(d CreateHubReq) CreateHubReq {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCreateHubReqWebhooks returns new OptCreateHubReqWebhooks with value set to v.
-func NewOptCreateHubReqWebhooks(v CreateHubReqWebhooks) OptCreateHubReqWebhooks {
-	return OptCreateHubReqWebhooks{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCreateHubReqWebhooks is optional CreateHubReqWebhooks.
-type OptCreateHubReqWebhooks struct {
-	Value CreateHubReqWebhooks
-	Set   bool
-}
-
-// IsSet returns true if OptCreateHubReqWebhooks was set.
-func (o OptCreateHubReqWebhooks) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCreateHubReqWebhooks) Reset() {
-	var v CreateHubReqWebhooks
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCreateHubReqWebhooks) SetTo(v CreateHubReqWebhooks) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCreateHubReqWebhooks) Get() (v CreateHubReqWebhooks, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCreateHubReqWebhooks) Or(d CreateHubReqWebhooks) CreateHubReqWebhooks {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -38282,6 +40225,52 @@ func (o OptCreatorScope) Or(d CreatorScope) CreatorScope {
 	return d
 }
 
+// NewOptCreatorType returns new OptCreatorType with value set to v.
+func NewOptCreatorType(v CreatorType) OptCreatorType {
+	return OptCreatorType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreatorType is optional CreatorType.
+type OptCreatorType struct {
+	Value CreatorType
+	Set   bool
+}
+
+// IsSet returns true if OptCreatorType was set.
+func (o OptCreatorType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreatorType) Reset() {
+	var v CreatorType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreatorType) SetTo(v CreatorType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreatorType) Get() (v CreatorType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreatorType) Or(d CreatorType) CreatorType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCredit returns new OptCredit with value set to v.
 func NewOptCredit(v Credit) OptCredit {
 	return OptCredit{
@@ -38414,98 +40403,6 @@ func (o OptCreditStateError) Get() (v CreditStateError, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCreditStateError) Or(d CreditStateError) CreditStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCycleSourceOriginDetails returns new OptCycleSourceOriginDetails with value set to v.
-func NewOptCycleSourceOriginDetails(v CycleSourceOriginDetails) OptCycleSourceOriginDetails {
-	return OptCycleSourceOriginDetails{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCycleSourceOriginDetails is optional CycleSourceOriginDetails.
-type OptCycleSourceOriginDetails struct {
-	Value CycleSourceOriginDetails
-	Set   bool
-}
-
-// IsSet returns true if OptCycleSourceOriginDetails was set.
-func (o OptCycleSourceOriginDetails) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCycleSourceOriginDetails) Reset() {
-	var v CycleSourceOriginDetails
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCycleSourceOriginDetails) SetTo(v CycleSourceOriginDetails) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCycleSourceOriginDetails) Get() (v CycleSourceOriginDetails, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCycleSourceOriginDetails) Or(d CycleSourceOriginDetails) CycleSourceOriginDetails {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptCycleSourceOriginType returns new OptCycleSourceOriginType with value set to v.
-func NewOptCycleSourceOriginType(v CycleSourceOriginType) OptCycleSourceOriginType {
-	return OptCycleSourceOriginType{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptCycleSourceOriginType is optional CycleSourceOriginType.
-type OptCycleSourceOriginType struct {
-	Value CycleSourceOriginType
-	Set   bool
-}
-
-// IsSet returns true if OptCycleSourceOriginType was set.
-func (o OptCycleSourceOriginType) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptCycleSourceOriginType) Reset() {
-	var v CycleSourceOriginType
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptCycleSourceOriginType) SetTo(v CycleSourceOriginType) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptCycleSourceOriginType) Get() (v CycleSourceOriginType, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptCycleSourceOriginType) Or(d CycleSourceOriginType) CycleSourceOriginType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -38926,38 +40823,38 @@ func (o OptDeploymentStrategyName) Or(d DeploymentStrategyName) DeploymentStrate
 	return d
 }
 
-// NewOptDetail returns new OptDetail with value set to v.
-func NewOptDetail(v Detail) OptDetail {
-	return OptDetail{
+// NewOptDirectImageSourceTypeDetails returns new OptDirectImageSourceTypeDetails with value set to v.
+func NewOptDirectImageSourceTypeDetails(v DirectImageSourceTypeDetails) OptDirectImageSourceTypeDetails {
+	return OptDirectImageSourceTypeDetails{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptDetail is optional Detail.
-type OptDetail struct {
-	Value Detail
+// OptDirectImageSourceTypeDetails is optional DirectImageSourceTypeDetails.
+type OptDirectImageSourceTypeDetails struct {
+	Value DirectImageSourceTypeDetails
 	Set   bool
 }
 
-// IsSet returns true if OptDetail was set.
-func (o OptDetail) IsSet() bool { return o.Set }
+// IsSet returns true if OptDirectImageSourceTypeDetails was set.
+func (o OptDirectImageSourceTypeDetails) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptDetail) Reset() {
-	var v Detail
+func (o *OptDirectImageSourceTypeDetails) Reset() {
+	var v DirectImageSourceTypeDetails
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptDetail) SetTo(v Detail) {
+func (o *OptDirectImageSourceTypeDetails) SetTo(v DirectImageSourceTypeDetails) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptDetail) Get() (v Detail, ok bool) {
+func (o OptDirectImageSourceTypeDetails) Get() (v DirectImageSourceTypeDetails, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -38965,7 +40862,99 @@ func (o OptDetail) Get() (v Detail, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptDetail) Or(d Detail) Detail {
+func (o OptDirectImageSourceTypeDetails) Or(d DirectImageSourceTypeDetails) DirectImageSourceTypeDetails {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDirectImageSourceTypeOverride returns new OptDirectImageSourceTypeOverride with value set to v.
+func NewOptDirectImageSourceTypeOverride(v DirectImageSourceTypeOverride) OptDirectImageSourceTypeOverride {
+	return OptDirectImageSourceTypeOverride{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDirectImageSourceTypeOverride is optional DirectImageSourceTypeOverride.
+type OptDirectImageSourceTypeOverride struct {
+	Value DirectImageSourceTypeOverride
+	Set   bool
+}
+
+// IsSet returns true if OptDirectImageSourceTypeOverride was set.
+func (o OptDirectImageSourceTypeOverride) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDirectImageSourceTypeOverride) Reset() {
+	var v DirectImageSourceTypeOverride
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDirectImageSourceTypeOverride) SetTo(v DirectImageSourceTypeOverride) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDirectImageSourceTypeOverride) Get() (v DirectImageSourceTypeOverride, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDirectImageSourceTypeOverride) Or(d DirectImageSourceTypeOverride) DirectImageSourceTypeOverride {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptDirectImageSourceTypeType returns new OptDirectImageSourceTypeType with value set to v.
+func NewOptDirectImageSourceTypeType(v DirectImageSourceTypeType) OptDirectImageSourceTypeType {
+	return OptDirectImageSourceTypeType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDirectImageSourceTypeType is optional DirectImageSourceTypeType.
+type OptDirectImageSourceTypeType struct {
+	Value DirectImageSourceTypeType
+	Set   bool
+}
+
+// IsSet returns true if OptDirectImageSourceTypeType was set.
+func (o OptDirectImageSourceTypeType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDirectImageSourceTypeType) Reset() {
+	var v DirectImageSourceTypeType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDirectImageSourceTypeType) SetTo(v DirectImageSourceTypeType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDirectImageSourceTypeType) Get() (v DirectImageSourceTypeType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDirectImageSourceTypeType) Or(d DirectImageSourceTypeType) DirectImageSourceTypeType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -39064,38 +41053,38 @@ func (o OptDnsTlsCertificate) Or(d DnsTlsCertificate) DnsTlsCertificate {
 	return d
 }
 
-// NewOptDockerFileOriginDetails returns new OptDockerFileOriginDetails with value set to v.
-func NewOptDockerFileOriginDetails(v DockerFileOriginDetails) OptDockerFileOriginDetails {
-	return OptDockerFileOriginDetails{
+// NewOptDuration returns new OptDuration with value set to v.
+func NewOptDuration(v Duration) OptDuration {
+	return OptDuration{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptDockerFileOriginDetails is optional DockerFileOriginDetails.
-type OptDockerFileOriginDetails struct {
-	Value DockerFileOriginDetails
+// OptDuration is optional Duration.
+type OptDuration struct {
+	Value Duration
 	Set   bool
 }
 
-// IsSet returns true if OptDockerFileOriginDetails was set.
-func (o OptDockerFileOriginDetails) IsSet() bool { return o.Set }
+// IsSet returns true if OptDuration was set.
+func (o OptDuration) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptDockerFileOriginDetails) Reset() {
-	var v DockerFileOriginDetails
+func (o *OptDuration) Reset() {
+	var v Duration
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptDockerFileOriginDetails) SetTo(v DockerFileOriginDetails) {
+func (o *OptDuration) SetTo(v Duration) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptDockerFileOriginDetails) Get() (v DockerFileOriginDetails, ok bool) {
+func (o OptDuration) Get() (v Duration, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -39103,237 +41092,7 @@ func (o OptDockerFileOriginDetails) Get() (v DockerFileOriginDetails, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptDockerFileOriginDetails) Or(d DockerFileOriginDetails) DockerFileOriginDetails {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptDockerFileOriginType returns new OptDockerFileOriginType with value set to v.
-func NewOptDockerFileOriginType(v DockerFileOriginType) OptDockerFileOriginType {
-	return OptDockerFileOriginType{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptDockerFileOriginType is optional DockerFileOriginType.
-type OptDockerFileOriginType struct {
-	Value DockerFileOriginType
-	Set   bool
-}
-
-// IsSet returns true if OptDockerFileOriginType was set.
-func (o OptDockerFileOriginType) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptDockerFileOriginType) Reset() {
-	var v DockerFileOriginType
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptDockerFileOriginType) SetTo(v DockerFileOriginType) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptDockerFileOriginType) Get() (v DockerFileOriginType, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptDockerFileOriginType) Or(d DockerFileOriginType) DockerFileOriginType {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptDockerHubOriginDetails returns new OptDockerHubOriginDetails with value set to v.
-func NewOptDockerHubOriginDetails(v DockerHubOriginDetails) OptDockerHubOriginDetails {
-	return OptDockerHubOriginDetails{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptDockerHubOriginDetails is optional DockerHubOriginDetails.
-type OptDockerHubOriginDetails struct {
-	Value DockerHubOriginDetails
-	Set   bool
-}
-
-// IsSet returns true if OptDockerHubOriginDetails was set.
-func (o OptDockerHubOriginDetails) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptDockerHubOriginDetails) Reset() {
-	var v DockerHubOriginDetails
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptDockerHubOriginDetails) SetTo(v DockerHubOriginDetails) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptDockerHubOriginDetails) Get() (v DockerHubOriginDetails, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptDockerHubOriginDetails) Or(d DockerHubOriginDetails) DockerHubOriginDetails {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptDockerHubOriginType returns new OptDockerHubOriginType with value set to v.
-func NewOptDockerHubOriginType(v DockerHubOriginType) OptDockerHubOriginType {
-	return OptDockerHubOriginType{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptDockerHubOriginType is optional DockerHubOriginType.
-type OptDockerHubOriginType struct {
-	Value DockerHubOriginType
-	Set   bool
-}
-
-// IsSet returns true if OptDockerHubOriginType was set.
-func (o OptDockerHubOriginType) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptDockerHubOriginType) Reset() {
-	var v DockerHubOriginType
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptDockerHubOriginType) SetTo(v DockerHubOriginType) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptDockerHubOriginType) Get() (v DockerHubOriginType, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptDockerHubOriginType) Or(d DockerHubOriginType) DockerHubOriginType {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptDockerRegistryOriginDetails returns new OptDockerRegistryOriginDetails with value set to v.
-func NewOptDockerRegistryOriginDetails(v DockerRegistryOriginDetails) OptDockerRegistryOriginDetails {
-	return OptDockerRegistryOriginDetails{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptDockerRegistryOriginDetails is optional DockerRegistryOriginDetails.
-type OptDockerRegistryOriginDetails struct {
-	Value DockerRegistryOriginDetails
-	Set   bool
-}
-
-// IsSet returns true if OptDockerRegistryOriginDetails was set.
-func (o OptDockerRegistryOriginDetails) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptDockerRegistryOriginDetails) Reset() {
-	var v DockerRegistryOriginDetails
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptDockerRegistryOriginDetails) SetTo(v DockerRegistryOriginDetails) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptDockerRegistryOriginDetails) Get() (v DockerRegistryOriginDetails, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptDockerRegistryOriginDetails) Or(d DockerRegistryOriginDetails) DockerRegistryOriginDetails {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptDockerRegistryOriginType returns new OptDockerRegistryOriginType with value set to v.
-func NewOptDockerRegistryOriginType(v DockerRegistryOriginType) OptDockerRegistryOriginType {
-	return OptDockerRegistryOriginType{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptDockerRegistryOriginType is optional DockerRegistryOriginType.
-type OptDockerRegistryOriginType struct {
-	Value DockerRegistryOriginType
-	Set   bool
-}
-
-// IsSet returns true if OptDockerRegistryOriginType was set.
-func (o OptDockerRegistryOriginType) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptDockerRegistryOriginType) Reset() {
-	var v DockerRegistryOriginType
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptDockerRegistryOriginType) SetTo(v DockerRegistryOriginType) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptDockerRegistryOriginType) Get() (v DockerRegistryOriginType, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptDockerRegistryOriginType) Or(d DockerRegistryOriginType) DockerRegistryOriginType {
+func (o OptDuration) Or(d Duration) Duration {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -39892,6 +41651,52 @@ func (o OptErrorStatus) Or(d ErrorStatus) ErrorStatus {
 	return d
 }
 
+// NewOptExistingSource returns new OptExistingSource with value set to v.
+func NewOptExistingSource(v ExistingSource) OptExistingSource {
+	return OptExistingSource{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptExistingSource is optional ExistingSource.
+type OptExistingSource struct {
+	Value ExistingSource
+	Set   bool
+}
+
+// IsSet returns true if OptExistingSource was set.
+func (o OptExistingSource) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptExistingSource) Reset() {
+	var v ExistingSource
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptExistingSource) SetTo(v ExistingSource) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptExistingSource) Get() (v ExistingSource, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptExistingSource) Or(d ExistingSource) ExistingSource {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptExpireInstanceSSHTokensOKData returns new OptExpireInstanceSSHTokensOKData with value set to v.
 func NewOptExpireInstanceSSHTokensOKData(v ExpireInstanceSSHTokensOKData) OptExpireInstanceSSHTokensOKData {
 	return OptExpireInstanceSSHTokensOKData{
@@ -39978,6 +41783,52 @@ func (o OptFeaturesSpecAWS) Get() (v FeaturesSpecAWS, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptFeaturesSpecAWS) Or(d FeaturesSpecAWS) FeaturesSpecAWS {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptFloat32 returns new OptFloat32 with value set to v.
+func NewOptFloat32(v float32) OptFloat32 {
+	return OptFloat32{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptFloat32 is optional float32.
+type OptFloat32 struct {
+	Value float32
+	Set   bool
+}
+
+// IsSet returns true if OptFloat32 was set.
+func (o OptFloat32) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptFloat32) Reset() {
+	var v float32
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptFloat32) SetTo(v float32) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptFloat32) Get() (v float32, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptFloat32) Or(d float32) float32 {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -41042,38 +42893,38 @@ func (o OptGetEnvironmentsPage) Or(d GetEnvironmentsPage) GetEnvironmentsPage {
 	return d
 }
 
-// NewOptGetHubActivityFilter returns new OptGetHubActivityFilter with value set to v.
-func NewOptGetHubActivityFilter(v GetHubActivityFilter) OptGetHubActivityFilter {
-	return OptGetHubActivityFilter{
+// NewOptGetGlobalLoadBalancersFilter returns new OptGetGlobalLoadBalancersFilter with value set to v.
+func NewOptGetGlobalLoadBalancersFilter(v GetGlobalLoadBalancersFilter) OptGetGlobalLoadBalancersFilter {
+	return OptGetGlobalLoadBalancersFilter{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptGetHubActivityFilter is optional GetHubActivityFilter.
-type OptGetHubActivityFilter struct {
-	Value GetHubActivityFilter
+// OptGetGlobalLoadBalancersFilter is optional GetGlobalLoadBalancersFilter.
+type OptGetGlobalLoadBalancersFilter struct {
+	Value GetGlobalLoadBalancersFilter
 	Set   bool
 }
 
-// IsSet returns true if OptGetHubActivityFilter was set.
-func (o OptGetHubActivityFilter) IsSet() bool { return o.Set }
+// IsSet returns true if OptGetGlobalLoadBalancersFilter was set.
+func (o OptGetGlobalLoadBalancersFilter) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptGetHubActivityFilter) Reset() {
-	var v GetHubActivityFilter
+func (o *OptGetGlobalLoadBalancersFilter) Reset() {
+	var v GetGlobalLoadBalancersFilter
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptGetHubActivityFilter) SetTo(v GetHubActivityFilter) {
+func (o *OptGetGlobalLoadBalancersFilter) SetTo(v GetGlobalLoadBalancersFilter) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptGetHubActivityFilter) Get() (v GetHubActivityFilter, ok bool) {
+func (o OptGetGlobalLoadBalancersFilter) Get() (v GetGlobalLoadBalancersFilter, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -41081,45 +42932,45 @@ func (o OptGetHubActivityFilter) Get() (v GetHubActivityFilter, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptGetHubActivityFilter) Or(d GetHubActivityFilter) GetHubActivityFilter {
+func (o OptGetGlobalLoadBalancersFilter) Or(d GetGlobalLoadBalancersFilter) GetGlobalLoadBalancersFilter {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptGetHubActivityPage returns new OptGetHubActivityPage with value set to v.
-func NewOptGetHubActivityPage(v GetHubActivityPage) OptGetHubActivityPage {
-	return OptGetHubActivityPage{
+// NewOptGetGlobalLoadBalancersPage returns new OptGetGlobalLoadBalancersPage with value set to v.
+func NewOptGetGlobalLoadBalancersPage(v GetGlobalLoadBalancersPage) OptGetGlobalLoadBalancersPage {
+	return OptGetGlobalLoadBalancersPage{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptGetHubActivityPage is optional GetHubActivityPage.
-type OptGetHubActivityPage struct {
-	Value GetHubActivityPage
+// OptGetGlobalLoadBalancersPage is optional GetGlobalLoadBalancersPage.
+type OptGetGlobalLoadBalancersPage struct {
+	Value GetGlobalLoadBalancersPage
 	Set   bool
 }
 
-// IsSet returns true if OptGetHubActivityPage was set.
-func (o OptGetHubActivityPage) IsSet() bool { return o.Set }
+// IsSet returns true if OptGetGlobalLoadBalancersPage was set.
+func (o OptGetGlobalLoadBalancersPage) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptGetHubActivityPage) Reset() {
-	var v GetHubActivityPage
+func (o *OptGetGlobalLoadBalancersPage) Reset() {
+	var v GetGlobalLoadBalancersPage
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptGetHubActivityPage) SetTo(v GetHubActivityPage) {
+func (o *OptGetGlobalLoadBalancersPage) SetTo(v GetGlobalLoadBalancersPage) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptGetHubActivityPage) Get() (v GetHubActivityPage, ok bool) {
+func (o OptGetGlobalLoadBalancersPage) Get() (v GetGlobalLoadBalancersPage, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -41127,7 +42978,7 @@ func (o OptGetHubActivityPage) Get() (v GetHubActivityPage, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptGetHubActivityPage) Or(d GetHubActivityPage) GetHubActivityPage {
+func (o OptGetGlobalLoadBalancersPage) Or(d GetGlobalLoadBalancersPage) GetGlobalLoadBalancersPage {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -41226,6 +43077,52 @@ func (o OptGetHubMembersPage) Or(d GetHubMembersPage) GetHubMembersPage {
 	return d
 }
 
+// NewOptGetHubMembershipPage returns new OptGetHubMembershipPage with value set to v.
+func NewOptGetHubMembershipPage(v GetHubMembershipPage) OptGetHubMembershipPage {
+	return OptGetHubMembershipPage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetHubMembershipPage is optional GetHubMembershipPage.
+type OptGetHubMembershipPage struct {
+	Value GetHubMembershipPage
+	Set   bool
+}
+
+// IsSet returns true if OptGetHubMembershipPage was set.
+func (o OptGetHubMembershipPage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetHubMembershipPage) Reset() {
+	var v GetHubMembershipPage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetHubMembershipPage) SetTo(v GetHubMembershipPage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetHubMembershipPage) Get() (v GetHubMembershipPage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetHubMembershipPage) Or(d GetHubMembershipPage) GetHubMembershipPage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptGetHubsFilter returns new OptGetHubsFilter with value set to v.
 func NewOptGetHubsFilter(v GetHubsFilter) OptGetHubsFilter {
 	return OptGetHubsFilter{
@@ -41266,6 +43163,52 @@ func (o OptGetHubsFilter) Get() (v GetHubsFilter, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptGetHubsFilter) Or(d GetHubsFilter) GetHubsFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetHubsPage returns new OptGetHubsPage with value set to v.
+func NewOptGetHubsPage(v GetHubsPage) OptGetHubsPage {
+	return OptGetHubsPage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetHubsPage is optional GetHubsPage.
+type OptGetHubsPage struct {
+	Value GetHubsPage
+	Set   bool
+}
+
+// IsSet returns true if OptGetHubsPage was set.
+func (o OptGetHubsPage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetHubsPage) Reset() {
+	var v GetHubsPage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetHubsPage) SetTo(v GetHubsPage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetHubsPage) Get() (v GetHubsPage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetHubsPage) Or(d GetHubsPage) GetHubsPage {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -41818,6 +43761,144 @@ func (o OptGetJobsPage) Get() (v GetJobsPage, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptGetJobsPage) Or(d GetJobsPage) GetJobsPage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetLoadBalancerInfoOKData returns new OptGetLoadBalancerInfoOKData with value set to v.
+func NewOptGetLoadBalancerInfoOKData(v GetLoadBalancerInfoOKData) OptGetLoadBalancerInfoOKData {
+	return OptGetLoadBalancerInfoOKData{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetLoadBalancerInfoOKData is optional GetLoadBalancerInfoOKData.
+type OptGetLoadBalancerInfoOKData struct {
+	Value GetLoadBalancerInfoOKData
+	Set   bool
+}
+
+// IsSet returns true if OptGetLoadBalancerInfoOKData was set.
+func (o OptGetLoadBalancerInfoOKData) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetLoadBalancerInfoOKData) Reset() {
+	var v GetLoadBalancerInfoOKData
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetLoadBalancerInfoOKData) SetTo(v GetLoadBalancerInfoOKData) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetLoadBalancerInfoOKData) Get() (v GetLoadBalancerInfoOKData, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetLoadBalancerInfoOKData) Or(d GetLoadBalancerInfoOKData) GetLoadBalancerInfoOKData {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetLoadBalancerInfoOKDataBaseConfigs returns new OptGetLoadBalancerInfoOKDataBaseConfigs with value set to v.
+func NewOptGetLoadBalancerInfoOKDataBaseConfigs(v GetLoadBalancerInfoOKDataBaseConfigs) OptGetLoadBalancerInfoOKDataBaseConfigs {
+	return OptGetLoadBalancerInfoOKDataBaseConfigs{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetLoadBalancerInfoOKDataBaseConfigs is optional GetLoadBalancerInfoOKDataBaseConfigs.
+type OptGetLoadBalancerInfoOKDataBaseConfigs struct {
+	Value GetLoadBalancerInfoOKDataBaseConfigs
+	Set   bool
+}
+
+// IsSet returns true if OptGetLoadBalancerInfoOKDataBaseConfigs was set.
+func (o OptGetLoadBalancerInfoOKDataBaseConfigs) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetLoadBalancerInfoOKDataBaseConfigs) Reset() {
+	var v GetLoadBalancerInfoOKDataBaseConfigs
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetLoadBalancerInfoOKDataBaseConfigs) SetTo(v GetLoadBalancerInfoOKDataBaseConfigs) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetLoadBalancerInfoOKDataBaseConfigs) Get() (v GetLoadBalancerInfoOKDataBaseConfigs, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetLoadBalancerInfoOKDataBaseConfigs) Or(d GetLoadBalancerInfoOKDataBaseConfigs) GetLoadBalancerInfoOKDataBaseConfigs {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetLoadBalancerTelemetryReportFilter returns new OptGetLoadBalancerTelemetryReportFilter with value set to v.
+func NewOptGetLoadBalancerTelemetryReportFilter(v GetLoadBalancerTelemetryReportFilter) OptGetLoadBalancerTelemetryReportFilter {
+	return OptGetLoadBalancerTelemetryReportFilter{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetLoadBalancerTelemetryReportFilter is optional GetLoadBalancerTelemetryReportFilter.
+type OptGetLoadBalancerTelemetryReportFilter struct {
+	Value GetLoadBalancerTelemetryReportFilter
+	Set   bool
+}
+
+// IsSet returns true if OptGetLoadBalancerTelemetryReportFilter was set.
+func (o OptGetLoadBalancerTelemetryReportFilter) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetLoadBalancerTelemetryReportFilter) Reset() {
+	var v GetLoadBalancerTelemetryReportFilter
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetLoadBalancerTelemetryReportFilter) SetTo(v GetLoadBalancerTelemetryReportFilter) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetLoadBalancerTelemetryReportFilter) Get() (v GetLoadBalancerTelemetryReportFilter, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetLoadBalancerTelemetryReportFilter) Or(d GetLoadBalancerTelemetryReportFilter) GetLoadBalancerTelemetryReportFilter {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -43342,6 +45423,144 @@ func (o OptGetZonesCollectionPage) Or(d GetZonesCollectionPage) GetZonesCollecti
 	return d
 }
 
+// NewOptGlobalLoadBalancer returns new OptGlobalLoadBalancer with value set to v.
+func NewOptGlobalLoadBalancer(v GlobalLoadBalancer) OptGlobalLoadBalancer {
+	return OptGlobalLoadBalancer{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGlobalLoadBalancer is optional GlobalLoadBalancer.
+type OptGlobalLoadBalancer struct {
+	Value GlobalLoadBalancer
+	Set   bool
+}
+
+// IsSet returns true if OptGlobalLoadBalancer was set.
+func (o OptGlobalLoadBalancer) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGlobalLoadBalancer) Reset() {
+	var v GlobalLoadBalancer
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGlobalLoadBalancer) SetTo(v GlobalLoadBalancer) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGlobalLoadBalancer) Get() (v GlobalLoadBalancer, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGlobalLoadBalancer) Or(d GlobalLoadBalancer) GlobalLoadBalancer {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGlobalLoadBalancerIncludes returns new OptGlobalLoadBalancerIncludes with value set to v.
+func NewOptGlobalLoadBalancerIncludes(v GlobalLoadBalancerIncludes) OptGlobalLoadBalancerIncludes {
+	return OptGlobalLoadBalancerIncludes{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGlobalLoadBalancerIncludes is optional GlobalLoadBalancerIncludes.
+type OptGlobalLoadBalancerIncludes struct {
+	Value GlobalLoadBalancerIncludes
+	Set   bool
+}
+
+// IsSet returns true if OptGlobalLoadBalancerIncludes was set.
+func (o OptGlobalLoadBalancerIncludes) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGlobalLoadBalancerIncludes) Reset() {
+	var v GlobalLoadBalancerIncludes
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGlobalLoadBalancerIncludes) SetTo(v GlobalLoadBalancerIncludes) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGlobalLoadBalancerIncludes) Get() (v GlobalLoadBalancerIncludes, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGlobalLoadBalancerIncludes) Or(d GlobalLoadBalancerIncludes) GlobalLoadBalancerIncludes {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGlobalLoadBalancerStateError returns new OptGlobalLoadBalancerStateError with value set to v.
+func NewOptGlobalLoadBalancerStateError(v GlobalLoadBalancerStateError) OptGlobalLoadBalancerStateError {
+	return OptGlobalLoadBalancerStateError{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGlobalLoadBalancerStateError is optional GlobalLoadBalancerStateError.
+type OptGlobalLoadBalancerStateError struct {
+	Value GlobalLoadBalancerStateError
+	Set   bool
+}
+
+// IsSet returns true if OptGlobalLoadBalancerStateError was set.
+func (o OptGlobalLoadBalancerStateError) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGlobalLoadBalancerStateError) Reset() {
+	var v GlobalLoadBalancerStateError
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGlobalLoadBalancerStateError) SetTo(v GlobalLoadBalancerStateError) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGlobalLoadBalancerStateError) Get() (v GlobalLoadBalancerStateError, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGlobalLoadBalancerStateError) Or(d GlobalLoadBalancerStateError) GlobalLoadBalancerStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptHub returns new OptHub with value set to v.
 func NewOptHub(v Hub) OptHub {
 	return OptHub{
@@ -43848,38 +46067,38 @@ func (o OptHubMembershipMeta) Or(d HubMembershipMeta) HubMembershipMeta {
 	return d
 }
 
-// NewOptHubMembershipPreferenecesEmailNotificaitons returns new OptHubMembershipPreferenecesEmailNotificaitons with value set to v.
-func NewOptHubMembershipPreferenecesEmailNotificaitons(v HubMembershipPreferenecesEmailNotificaitons) OptHubMembershipPreferenecesEmailNotificaitons {
-	return OptHubMembershipPreferenecesEmailNotificaitons{
+// NewOptHubMembershipPreferences returns new OptHubMembershipPreferences with value set to v.
+func NewOptHubMembershipPreferences(v HubMembershipPreferences) OptHubMembershipPreferences {
+	return OptHubMembershipPreferences{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptHubMembershipPreferenecesEmailNotificaitons is optional HubMembershipPreferenecesEmailNotificaitons.
-type OptHubMembershipPreferenecesEmailNotificaitons struct {
-	Value HubMembershipPreferenecesEmailNotificaitons
+// OptHubMembershipPreferences is optional HubMembershipPreferences.
+type OptHubMembershipPreferences struct {
+	Value HubMembershipPreferences
 	Set   bool
 }
 
-// IsSet returns true if OptHubMembershipPreferenecesEmailNotificaitons was set.
-func (o OptHubMembershipPreferenecesEmailNotificaitons) IsSet() bool { return o.Set }
+// IsSet returns true if OptHubMembershipPreferences was set.
+func (o OptHubMembershipPreferences) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptHubMembershipPreferenecesEmailNotificaitons) Reset() {
-	var v HubMembershipPreferenecesEmailNotificaitons
+func (o *OptHubMembershipPreferences) Reset() {
+	var v HubMembershipPreferences
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptHubMembershipPreferenecesEmailNotificaitons) SetTo(v HubMembershipPreferenecesEmailNotificaitons) {
+func (o *OptHubMembershipPreferences) SetTo(v HubMembershipPreferences) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptHubMembershipPreferenecesEmailNotificaitons) Get() (v HubMembershipPreferenecesEmailNotificaitons, ok bool) {
+func (o OptHubMembershipPreferences) Get() (v HubMembershipPreferences, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -43887,7 +46106,53 @@ func (o OptHubMembershipPreferenecesEmailNotificaitons) Get() (v HubMembershipPr
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptHubMembershipPreferenecesEmailNotificaitons) Or(d HubMembershipPreferenecesEmailNotificaitons) HubMembershipPreferenecesEmailNotificaitons {
+func (o OptHubMembershipPreferences) Or(d HubMembershipPreferences) HubMembershipPreferences {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptHubMembershipPreferencesEmailNotificaitons returns new OptHubMembershipPreferencesEmailNotificaitons with value set to v.
+func NewOptHubMembershipPreferencesEmailNotificaitons(v HubMembershipPreferencesEmailNotificaitons) OptHubMembershipPreferencesEmailNotificaitons {
+	return OptHubMembershipPreferencesEmailNotificaitons{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptHubMembershipPreferencesEmailNotificaitons is optional HubMembershipPreferencesEmailNotificaitons.
+type OptHubMembershipPreferencesEmailNotificaitons struct {
+	Value HubMembershipPreferencesEmailNotificaitons
+	Set   bool
+}
+
+// IsSet returns true if OptHubMembershipPreferencesEmailNotificaitons was set.
+func (o OptHubMembershipPreferencesEmailNotificaitons) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptHubMembershipPreferencesEmailNotificaitons) Reset() {
+	var v HubMembershipPreferencesEmailNotificaitons
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptHubMembershipPreferencesEmailNotificaitons) SetTo(v HubMembershipPreferencesEmailNotificaitons) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptHubMembershipPreferencesEmailNotificaitons) Get() (v HubMembershipPreferencesEmailNotificaitons, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptHubMembershipPreferencesEmailNotificaitons) Or(d HubMembershipPreferencesEmailNotificaitons) HubMembershipPreferencesEmailNotificaitons {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -44026,6 +46291,52 @@ func (o OptHubStateError) Get() (v HubStateError, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptHubStateError) Or(d HubStateError) HubStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptHubWebhooks returns new OptHubWebhooks with value set to v.
+func NewOptHubWebhooks(v HubWebhooks) OptHubWebhooks {
+	return OptHubWebhooks{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptHubWebhooks is optional HubWebhooks.
+type OptHubWebhooks struct {
+	Value HubWebhooks
+	Set   bool
+}
+
+// IsSet returns true if OptHubWebhooks was set.
+func (o OptHubWebhooks) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptHubWebhooks) Reset() {
+	var v HubWebhooks
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptHubWebhooks) SetTo(v HubWebhooks) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptHubWebhooks) Get() (v HubWebhooks, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptHubWebhooks) Or(d HubWebhooks) HubWebhooks {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -44854,52 +47165,6 @@ func (o OptImageSourceDetails) Get() (v ImageSourceDetails, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptImageSourceDetails) Or(d ImageSourceDetails) ImageSourceDetails {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptImageSourceDetailsOverride returns new OptImageSourceDetailsOverride with value set to v.
-func NewOptImageSourceDetailsOverride(v ImageSourceDetailsOverride) OptImageSourceDetailsOverride {
-	return OptImageSourceDetailsOverride{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptImageSourceDetailsOverride is optional ImageSourceDetailsOverride.
-type OptImageSourceDetailsOverride struct {
-	Value ImageSourceDetailsOverride
-	Set   bool
-}
-
-// IsSet returns true if OptImageSourceDetailsOverride was set.
-func (o OptImageSourceDetailsOverride) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptImageSourceDetailsOverride) Reset() {
-	var v ImageSourceDetailsOverride
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptImageSourceDetailsOverride) SetTo(v ImageSourceDetailsOverride) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptImageSourceDetailsOverride) Get() (v ImageSourceDetailsOverride, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptImageSourceDetailsOverride) Or(d ImageSourceDetailsOverride) ImageSourceDetailsOverride {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -46102,38 +48367,38 @@ func (o OptListScopedVariablesPage) Or(d ListScopedVariablesPage) ListScopedVari
 	return d
 }
 
-// NewOptLoadBalancerInfoReturn returns new OptLoadBalancerInfoReturn with value set to v.
-func NewOptLoadBalancerInfoReturn(v LoadBalancerInfoReturn) OptLoadBalancerInfoReturn {
-	return OptLoadBalancerInfoReturn{
+// NewOptLoadBalancerTelemetryReport returns new OptLoadBalancerTelemetryReport with value set to v.
+func NewOptLoadBalancerTelemetryReport(v LoadBalancerTelemetryReport) OptLoadBalancerTelemetryReport {
+	return OptLoadBalancerTelemetryReport{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptLoadBalancerInfoReturn is optional LoadBalancerInfoReturn.
-type OptLoadBalancerInfoReturn struct {
-	Value LoadBalancerInfoReturn
+// OptLoadBalancerTelemetryReport is optional LoadBalancerTelemetryReport.
+type OptLoadBalancerTelemetryReport struct {
+	Value LoadBalancerTelemetryReport
 	Set   bool
 }
 
-// IsSet returns true if OptLoadBalancerInfoReturn was set.
-func (o OptLoadBalancerInfoReturn) IsSet() bool { return o.Set }
+// IsSet returns true if OptLoadBalancerTelemetryReport was set.
+func (o OptLoadBalancerTelemetryReport) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptLoadBalancerInfoReturn) Reset() {
-	var v LoadBalancerInfoReturn
+func (o *OptLoadBalancerTelemetryReport) Reset() {
+	var v LoadBalancerTelemetryReport
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptLoadBalancerInfoReturn) SetTo(v LoadBalancerInfoReturn) {
+func (o *OptLoadBalancerTelemetryReport) SetTo(v LoadBalancerTelemetryReport) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptLoadBalancerInfoReturn) Get() (v LoadBalancerInfoReturn, ok bool) {
+func (o OptLoadBalancerTelemetryReport) Get() (v LoadBalancerTelemetryReport, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -46141,45 +48406,45 @@ func (o OptLoadBalancerInfoReturn) Get() (v LoadBalancerInfoReturn, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptLoadBalancerInfoReturn) Or(d LoadBalancerInfoReturn) LoadBalancerInfoReturn {
+func (o OptLoadBalancerTelemetryReport) Or(d LoadBalancerTelemetryReport) LoadBalancerTelemetryReport {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptLoadBalancerInfoReturnServiceConfig returns new OptLoadBalancerInfoReturnServiceConfig with value set to v.
-func NewOptLoadBalancerInfoReturnServiceConfig(v LoadBalancerInfoReturnServiceConfig) OptLoadBalancerInfoReturnServiceConfig {
-	return OptLoadBalancerInfoReturnServiceConfig{
+// NewOptLoadBalancerTelemetryRouterMetrics returns new OptLoadBalancerTelemetryRouterMetrics with value set to v.
+func NewOptLoadBalancerTelemetryRouterMetrics(v LoadBalancerTelemetryRouterMetrics) OptLoadBalancerTelemetryRouterMetrics {
+	return OptLoadBalancerTelemetryRouterMetrics{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptLoadBalancerInfoReturnServiceConfig is optional LoadBalancerInfoReturnServiceConfig.
-type OptLoadBalancerInfoReturnServiceConfig struct {
-	Value LoadBalancerInfoReturnServiceConfig
+// OptLoadBalancerTelemetryRouterMetrics is optional LoadBalancerTelemetryRouterMetrics.
+type OptLoadBalancerTelemetryRouterMetrics struct {
+	Value LoadBalancerTelemetryRouterMetrics
 	Set   bool
 }
 
-// IsSet returns true if OptLoadBalancerInfoReturnServiceConfig was set.
-func (o OptLoadBalancerInfoReturnServiceConfig) IsSet() bool { return o.Set }
+// IsSet returns true if OptLoadBalancerTelemetryRouterMetrics was set.
+func (o OptLoadBalancerTelemetryRouterMetrics) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptLoadBalancerInfoReturnServiceConfig) Reset() {
-	var v LoadBalancerInfoReturnServiceConfig
+func (o *OptLoadBalancerTelemetryRouterMetrics) Reset() {
+	var v LoadBalancerTelemetryRouterMetrics
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptLoadBalancerInfoReturnServiceConfig) SetTo(v LoadBalancerInfoReturnServiceConfig) {
+func (o *OptLoadBalancerTelemetryRouterMetrics) SetTo(v LoadBalancerTelemetryRouterMetrics) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptLoadBalancerInfoReturnServiceConfig) Get() (v LoadBalancerInfoReturnServiceConfig, ok bool) {
+func (o OptLoadBalancerTelemetryRouterMetrics) Get() (v LoadBalancerTelemetryRouterMetrics, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -46187,7 +48452,291 @@ func (o OptLoadBalancerInfoReturnServiceConfig) Get() (v LoadBalancerInfoReturnS
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptLoadBalancerInfoReturnServiceConfig) Or(d LoadBalancerInfoReturnServiceConfig) LoadBalancerInfoReturnServiceConfig {
+func (o OptLoadBalancerTelemetryRouterMetrics) Or(d LoadBalancerTelemetryRouterMetrics) LoadBalancerTelemetryRouterMetrics {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors returns new OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors with value set to v.
+func NewOptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors(v LoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors) OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors {
+	return OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors is optional LoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors.
+type OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors struct {
+	Value LoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors
+	Set   bool
+}
+
+// IsSet returns true if OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors was set.
+func (o OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors) IsSet() bool {
+	return o.Set
+}
+
+// Reset unsets value.
+func (o *OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors) Reset() {
+	var v LoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors) SetTo(v LoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors) Get() (v LoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors) Or(d LoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors) LoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors returns new OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors with value set to v.
+func NewOptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors(v LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors) OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors {
+	return OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors is optional LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors.
+type OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors struct {
+	Value LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors
+	Set   bool
+}
+
+// IsSet returns true if OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors was set.
+func (o OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors) IsSet() bool {
+	return o.Set
+}
+
+// Reset unsets value.
+func (o *OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors) Reset() {
+	var v LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors) SetTo(v LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors) Get() (v LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors) Or(d LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors) LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsErrors {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses returns new OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses with value set to v.
+func NewOptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses(v LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses) OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses {
+	return OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses is optional LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses.
+type OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses struct {
+	Value LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses
+	Set   bool
+}
+
+// IsSet returns true if OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses was set.
+func (o OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses) IsSet() bool {
+	return o.Set
+}
+
+// Reset unsets value.
+func (o *OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses) Reset() {
+	var v LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses) SetTo(v LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses) Get() (v LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptLoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses) Or(d LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses) LoadBalancerTelemetryRouterMetricsDestinationsItemRequestsResponses {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptLoadBalancerTelemetryUrlMetrics returns new OptLoadBalancerTelemetryUrlMetrics with value set to v.
+func NewOptLoadBalancerTelemetryUrlMetrics(v LoadBalancerTelemetryUrlMetrics) OptLoadBalancerTelemetryUrlMetrics {
+	return OptLoadBalancerTelemetryUrlMetrics{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptLoadBalancerTelemetryUrlMetrics is optional LoadBalancerTelemetryUrlMetrics.
+type OptLoadBalancerTelemetryUrlMetrics struct {
+	Value LoadBalancerTelemetryUrlMetrics
+	Set   bool
+}
+
+// IsSet returns true if OptLoadBalancerTelemetryUrlMetrics was set.
+func (o OptLoadBalancerTelemetryUrlMetrics) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptLoadBalancerTelemetryUrlMetrics) Reset() {
+	var v LoadBalancerTelemetryUrlMetrics
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptLoadBalancerTelemetryUrlMetrics) SetTo(v LoadBalancerTelemetryUrlMetrics) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptLoadBalancerTelemetryUrlMetrics) Get() (v LoadBalancerTelemetryUrlMetrics, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptLoadBalancerTelemetryUrlMetrics) Or(d LoadBalancerTelemetryUrlMetrics) LoadBalancerTelemetryUrlMetrics {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors returns new OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors with value set to v.
+func NewOptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors(v LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors) OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors {
+	return OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors is optional LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors.
+type OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors struct {
+	Value LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors
+	Set   bool
+}
+
+// IsSet returns true if OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors was set.
+func (o OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors) Reset() {
+	var v LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors) SetTo(v LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors) Get() (v LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors) Or(d LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors) LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsErrors {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses returns new OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses with value set to v.
+func NewOptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses(v LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses) OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses {
+	return OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses is optional LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses.
+type OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses struct {
+	Value LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses
+	Set   bool
+}
+
+// IsSet returns true if OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses was set.
+func (o OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses) IsSet() bool {
+	return o.Set
+}
+
+// Reset unsets value.
+func (o *OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses) Reset() {
+	var v LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses) SetTo(v LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses) Get() (v LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptLoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses) Or(d LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses) LoadBalancerTelemetryUrlMetricsDestinationsItemRequestsResponses {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -46510,6 +49059,52 @@ func (o OptNativeIntegration) Get() (v NativeIntegration, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNativeIntegration) Or(d NativeIntegration) NativeIntegration {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNetwork returns new OptNetwork with value set to v.
+func NewOptNetwork(v Network) OptNetwork {
+	return OptNetwork{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNetwork is optional Network.
+type OptNetwork struct {
+	Value Network
+	Set   bool
+}
+
+// IsSet returns true if OptNetwork was set.
+func (o OptNetwork) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNetwork) Reset() {
+	var v Network
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptNetwork) SetTo(v Network) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNetwork) Get() (v Network, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNetwork) Or(d Network) Network {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -46986,6 +49581,69 @@ func (o OptNilDiscoveryEnvironmentService) Or(d DiscoveryEnvironmentService) Dis
 	return d
 }
 
+// NewOptNilDuration returns new OptNilDuration with value set to v.
+func NewOptNilDuration(v Duration) OptNilDuration {
+	return OptNilDuration{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilDuration is optional nullable Duration.
+type OptNilDuration struct {
+	Value Duration
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilDuration was set.
+func (o OptNilDuration) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilDuration) Reset() {
+	var v Duration
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilDuration) SetTo(v Duration) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilDuration) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilDuration) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v Duration
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilDuration) Get() (v Duration, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilDuration) Or(d Duration) Duration {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilEmployeeLoginTwoFactorAuth returns new OptNilEmployeeLoginTwoFactorAuth with value set to v.
 func NewOptNilEmployeeLoginTwoFactorAuth(v EmployeeLoginTwoFactorAuth) OptNilEmployeeLoginTwoFactorAuth {
 	return OptNilEmployeeLoginTwoFactorAuth{
@@ -47112,52 +49770,52 @@ func (o OptNilIPAssignment) Or(d IPAssignment) IPAssignment {
 	return d
 }
 
-// NewOptNilImageSummaryService returns new OptNilImageSummaryService with value set to v.
-func NewOptNilImageSummaryService(v ImageSummaryService) OptNilImageSummaryService {
-	return OptNilImageSummaryService{
+// NewOptNilLoadBalancerConfig returns new OptNilLoadBalancerConfig with value set to v.
+func NewOptNilLoadBalancerConfig(v LoadBalancerConfig) OptNilLoadBalancerConfig {
+	return OptNilLoadBalancerConfig{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNilImageSummaryService is optional nullable ImageSummaryService.
-type OptNilImageSummaryService struct {
-	Value ImageSummaryService
+// OptNilLoadBalancerConfig is optional nullable LoadBalancerConfig.
+type OptNilLoadBalancerConfig struct {
+	Value LoadBalancerConfig
 	Set   bool
 	Null  bool
 }
 
-// IsSet returns true if OptNilImageSummaryService was set.
-func (o OptNilImageSummaryService) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilLoadBalancerConfig was set.
+func (o OptNilLoadBalancerConfig) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNilImageSummaryService) Reset() {
-	var v ImageSummaryService
+func (o *OptNilLoadBalancerConfig) Reset() {
+	var v LoadBalancerConfig
 	o.Value = v
 	o.Set = false
 	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNilImageSummaryService) SetTo(v ImageSummaryService) {
+func (o *OptNilLoadBalancerConfig) SetTo(v LoadBalancerConfig) {
 	o.Set = true
 	o.Null = false
 	o.Value = v
 }
 
 // IsSet returns true if value is Null.
-func (o OptNilImageSummaryService) IsNull() bool { return o.Null }
+func (o OptNilLoadBalancerConfig) IsNull() bool { return o.Null }
 
 // SetNull sets value to null.
-func (o *OptNilImageSummaryService) SetToNull() {
+func (o *OptNilLoadBalancerConfig) SetToNull() {
 	o.Set = true
 	o.Null = true
-	var v ImageSummaryService
+	var v LoadBalancerConfig
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNilImageSummaryService) Get() (v ImageSummaryService, ok bool) {
+func (o OptNilLoadBalancerConfig) Get() (v LoadBalancerConfig, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -47168,59 +49826,59 @@ func (o OptNilImageSummaryService) Get() (v ImageSummaryService, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNilImageSummaryService) Or(d ImageSummaryService) ImageSummaryService {
+func (o OptNilLoadBalancerConfig) Or(d LoadBalancerConfig) LoadBalancerConfig {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptNilInt returns new OptNilInt with value set to v.
-func NewOptNilInt(v int) OptNilInt {
-	return OptNilInt{
+// NewOptNilLoadBalancerTelemetrySnapshot returns new OptNilLoadBalancerTelemetrySnapshot with value set to v.
+func NewOptNilLoadBalancerTelemetrySnapshot(v LoadBalancerTelemetrySnapshot) OptNilLoadBalancerTelemetrySnapshot {
+	return OptNilLoadBalancerTelemetrySnapshot{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNilInt is optional nullable int.
-type OptNilInt struct {
-	Value int
+// OptNilLoadBalancerTelemetrySnapshot is optional nullable LoadBalancerTelemetrySnapshot.
+type OptNilLoadBalancerTelemetrySnapshot struct {
+	Value LoadBalancerTelemetrySnapshot
 	Set   bool
 	Null  bool
 }
 
-// IsSet returns true if OptNilInt was set.
-func (o OptNilInt) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilLoadBalancerTelemetrySnapshot was set.
+func (o OptNilLoadBalancerTelemetrySnapshot) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNilInt) Reset() {
-	var v int
+func (o *OptNilLoadBalancerTelemetrySnapshot) Reset() {
+	var v LoadBalancerTelemetrySnapshot
 	o.Value = v
 	o.Set = false
 	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNilInt) SetTo(v int) {
+func (o *OptNilLoadBalancerTelemetrySnapshot) SetTo(v LoadBalancerTelemetrySnapshot) {
 	o.Set = true
 	o.Null = false
 	o.Value = v
 }
 
 // IsSet returns true if value is Null.
-func (o OptNilInt) IsNull() bool { return o.Null }
+func (o OptNilLoadBalancerTelemetrySnapshot) IsNull() bool { return o.Null }
 
 // SetNull sets value to null.
-func (o *OptNilInt) SetToNull() {
+func (o *OptNilLoadBalancerTelemetrySnapshot) SetToNull() {
 	o.Set = true
 	o.Null = true
-	var v int
+	var v LoadBalancerTelemetrySnapshot
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNilInt) Get() (v int, ok bool) {
+func (o OptNilLoadBalancerTelemetrySnapshot) Get() (v LoadBalancerTelemetrySnapshot, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -47231,59 +49889,59 @@ func (o OptNilInt) Get() (v int, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNilInt) Or(d int) int {
+func (o OptNilLoadBalancerTelemetrySnapshot) Or(d LoadBalancerTelemetrySnapshot) LoadBalancerTelemetrySnapshot {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptNilLoadBalancerInfoReturnDefaultConfigHaproxy returns new OptNilLoadBalancerInfoReturnDefaultConfigHaproxy with value set to v.
-func NewOptNilLoadBalancerInfoReturnDefaultConfigHaproxy(v LoadBalancerInfoReturnDefaultConfigHaproxy) OptNilLoadBalancerInfoReturnDefaultConfigHaproxy {
-	return OptNilLoadBalancerInfoReturnDefaultConfigHaproxy{
+// NewOptNilLogsError returns new OptNilLogsError with value set to v.
+func NewOptNilLogsError(v LogsError) OptNilLogsError {
+	return OptNilLogsError{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNilLoadBalancerInfoReturnDefaultConfigHaproxy is optional nullable LoadBalancerInfoReturnDefaultConfigHaproxy.
-type OptNilLoadBalancerInfoReturnDefaultConfigHaproxy struct {
-	Value LoadBalancerInfoReturnDefaultConfigHaproxy
+// OptNilLogsError is optional nullable LogsError.
+type OptNilLogsError struct {
+	Value LogsError
 	Set   bool
 	Null  bool
 }
 
-// IsSet returns true if OptNilLoadBalancerInfoReturnDefaultConfigHaproxy was set.
-func (o OptNilLoadBalancerInfoReturnDefaultConfigHaproxy) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilLogsError was set.
+func (o OptNilLogsError) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNilLoadBalancerInfoReturnDefaultConfigHaproxy) Reset() {
-	var v LoadBalancerInfoReturnDefaultConfigHaproxy
+func (o *OptNilLogsError) Reset() {
+	var v LogsError
 	o.Value = v
 	o.Set = false
 	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNilLoadBalancerInfoReturnDefaultConfigHaproxy) SetTo(v LoadBalancerInfoReturnDefaultConfigHaproxy) {
+func (o *OptNilLogsError) SetTo(v LogsError) {
 	o.Set = true
 	o.Null = false
 	o.Value = v
 }
 
 // IsSet returns true if value is Null.
-func (o OptNilLoadBalancerInfoReturnDefaultConfigHaproxy) IsNull() bool { return o.Null }
+func (o OptNilLogsError) IsNull() bool { return o.Null }
 
 // SetNull sets value to null.
-func (o *OptNilLoadBalancerInfoReturnDefaultConfigHaproxy) SetToNull() {
+func (o *OptNilLogsError) SetToNull() {
 	o.Set = true
 	o.Null = true
-	var v LoadBalancerInfoReturnDefaultConfigHaproxy
+	var v LogsError
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNilLoadBalancerInfoReturnDefaultConfigHaproxy) Get() (v LoadBalancerInfoReturnDefaultConfigHaproxy, ok bool) {
+func (o OptNilLogsError) Get() (v LogsError, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -47294,59 +49952,59 @@ func (o OptNilLoadBalancerInfoReturnDefaultConfigHaproxy) Get() (v LoadBalancerI
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNilLoadBalancerInfoReturnDefaultConfigHaproxy) Or(d LoadBalancerInfoReturnDefaultConfigHaproxy) LoadBalancerInfoReturnDefaultConfigHaproxy {
+func (o OptNilLogsError) Or(d LogsError) LogsError {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptNilLoadBalancerInfoReturnServiceConfigHaproxy returns new OptNilLoadBalancerInfoReturnServiceConfigHaproxy with value set to v.
-func NewOptNilLoadBalancerInfoReturnServiceConfigHaproxy(v LoadBalancerInfoReturnServiceConfigHaproxy) OptNilLoadBalancerInfoReturnServiceConfigHaproxy {
-	return OptNilLoadBalancerInfoReturnServiceConfigHaproxy{
+// NewOptNilStackContainerConfigResources returns new OptNilStackContainerConfigResources with value set to v.
+func NewOptNilStackContainerConfigResources(v StackContainerConfigResources) OptNilStackContainerConfigResources {
+	return OptNilStackContainerConfigResources{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNilLoadBalancerInfoReturnServiceConfigHaproxy is optional nullable LoadBalancerInfoReturnServiceConfigHaproxy.
-type OptNilLoadBalancerInfoReturnServiceConfigHaproxy struct {
-	Value LoadBalancerInfoReturnServiceConfigHaproxy
+// OptNilStackContainerConfigResources is optional nullable StackContainerConfigResources.
+type OptNilStackContainerConfigResources struct {
+	Value StackContainerConfigResources
 	Set   bool
 	Null  bool
 }
 
-// IsSet returns true if OptNilLoadBalancerInfoReturnServiceConfigHaproxy was set.
-func (o OptNilLoadBalancerInfoReturnServiceConfigHaproxy) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilStackContainerConfigResources was set.
+func (o OptNilStackContainerConfigResources) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNilLoadBalancerInfoReturnServiceConfigHaproxy) Reset() {
-	var v LoadBalancerInfoReturnServiceConfigHaproxy
+func (o *OptNilStackContainerConfigResources) Reset() {
+	var v StackContainerConfigResources
 	o.Value = v
 	o.Set = false
 	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNilLoadBalancerInfoReturnServiceConfigHaproxy) SetTo(v LoadBalancerInfoReturnServiceConfigHaproxy) {
+func (o *OptNilStackContainerConfigResources) SetTo(v StackContainerConfigResources) {
 	o.Set = true
 	o.Null = false
 	o.Value = v
 }
 
 // IsSet returns true if value is Null.
-func (o OptNilLoadBalancerInfoReturnServiceConfigHaproxy) IsNull() bool { return o.Null }
+func (o OptNilStackContainerConfigResources) IsNull() bool { return o.Null }
 
 // SetNull sets value to null.
-func (o *OptNilLoadBalancerInfoReturnServiceConfigHaproxy) SetToNull() {
+func (o *OptNilStackContainerConfigResources) SetToNull() {
 	o.Set = true
 	o.Null = true
-	var v LoadBalancerInfoReturnServiceConfigHaproxy
+	var v StackContainerConfigResources
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNilLoadBalancerInfoReturnServiceConfigHaproxy) Get() (v LoadBalancerInfoReturnServiceConfigHaproxy, ok bool) {
+func (o OptNilStackContainerConfigResources) Get() (v StackContainerConfigResources, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -47357,59 +50015,59 @@ func (o OptNilLoadBalancerInfoReturnServiceConfigHaproxy) Get() (v LoadBalancerI
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNilLoadBalancerInfoReturnServiceConfigHaproxy) Or(d LoadBalancerInfoReturnServiceConfigHaproxy) LoadBalancerInfoReturnServiceConfigHaproxy {
+func (o OptNilStackContainerConfigResources) Or(d StackContainerConfigResources) StackContainerConfigResources {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptNilReconfigureLoadBalancerReqContentsConfig returns new OptNilReconfigureLoadBalancerReqContentsConfig with value set to v.
-func NewOptNilReconfigureLoadBalancerReqContentsConfig(v ReconfigureLoadBalancerReqContentsConfig) OptNilReconfigureLoadBalancerReqContentsConfig {
-	return OptNilReconfigureLoadBalancerReqContentsConfig{
+// NewOptNilStackContainerConfigRuntime returns new OptNilStackContainerConfigRuntime with value set to v.
+func NewOptNilStackContainerConfigRuntime(v StackContainerConfigRuntime) OptNilStackContainerConfigRuntime {
+	return OptNilStackContainerConfigRuntime{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptNilReconfigureLoadBalancerReqContentsConfig is optional nullable ReconfigureLoadBalancerReqContentsConfig.
-type OptNilReconfigureLoadBalancerReqContentsConfig struct {
-	Value ReconfigureLoadBalancerReqContentsConfig
+// OptNilStackContainerConfigRuntime is optional nullable StackContainerConfigRuntime.
+type OptNilStackContainerConfigRuntime struct {
+	Value StackContainerConfigRuntime
 	Set   bool
 	Null  bool
 }
 
-// IsSet returns true if OptNilReconfigureLoadBalancerReqContentsConfig was set.
-func (o OptNilReconfigureLoadBalancerReqContentsConfig) IsSet() bool { return o.Set }
+// IsSet returns true if OptNilStackContainerConfigRuntime was set.
+func (o OptNilStackContainerConfigRuntime) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptNilReconfigureLoadBalancerReqContentsConfig) Reset() {
-	var v ReconfigureLoadBalancerReqContentsConfig
+func (o *OptNilStackContainerConfigRuntime) Reset() {
+	var v StackContainerConfigRuntime
 	o.Value = v
 	o.Set = false
 	o.Null = false
 }
 
 // SetTo sets value to v.
-func (o *OptNilReconfigureLoadBalancerReqContentsConfig) SetTo(v ReconfigureLoadBalancerReqContentsConfig) {
+func (o *OptNilStackContainerConfigRuntime) SetTo(v StackContainerConfigRuntime) {
 	o.Set = true
 	o.Null = false
 	o.Value = v
 }
 
 // IsSet returns true if value is Null.
-func (o OptNilReconfigureLoadBalancerReqContentsConfig) IsNull() bool { return o.Null }
+func (o OptNilStackContainerConfigRuntime) IsNull() bool { return o.Null }
 
 // SetNull sets value to null.
-func (o *OptNilReconfigureLoadBalancerReqContentsConfig) SetToNull() {
+func (o *OptNilStackContainerConfigRuntime) SetToNull() {
 	o.Set = true
 	o.Null = true
-	var v ReconfigureLoadBalancerReqContentsConfig
+	var v StackContainerConfigRuntime
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptNilReconfigureLoadBalancerReqContentsConfig) Get() (v ReconfigureLoadBalancerReqContentsConfig, ok bool) {
+func (o OptNilStackContainerConfigRuntime) Get() (v StackContainerConfigRuntime, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -47420,133 +50078,7 @@ func (o OptNilReconfigureLoadBalancerReqContentsConfig) Get() (v ReconfigureLoad
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptNilReconfigureLoadBalancerReqContentsConfig) Or(d ReconfigureLoadBalancerReqContentsConfig) ReconfigureLoadBalancerReqContentsConfig {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilReconfigureVPNReqContentsConfig returns new OptNilReconfigureVPNReqContentsConfig with value set to v.
-func NewOptNilReconfigureVPNReqContentsConfig(v ReconfigureVPNReqContentsConfig) OptNilReconfigureVPNReqContentsConfig {
-	return OptNilReconfigureVPNReqContentsConfig{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilReconfigureVPNReqContentsConfig is optional nullable ReconfigureVPNReqContentsConfig.
-type OptNilReconfigureVPNReqContentsConfig struct {
-	Value ReconfigureVPNReqContentsConfig
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilReconfigureVPNReqContentsConfig was set.
-func (o OptNilReconfigureVPNReqContentsConfig) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilReconfigureVPNReqContentsConfig) Reset() {
-	var v ReconfigureVPNReqContentsConfig
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilReconfigureVPNReqContentsConfig) SetTo(v ReconfigureVPNReqContentsConfig) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsSet returns true if value is Null.
-func (o OptNilReconfigureVPNReqContentsConfig) IsNull() bool { return o.Null }
-
-// SetNull sets value to null.
-func (o *OptNilReconfigureVPNReqContentsConfig) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v ReconfigureVPNReqContentsConfig
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilReconfigureVPNReqContentsConfig) Get() (v ReconfigureVPNReqContentsConfig, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilReconfigureVPNReqContentsConfig) Or(d ReconfigureVPNReqContentsConfig) ReconfigureVPNReqContentsConfig {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilSession returns new OptNilSession with value set to v.
-func NewOptNilSession(v Session) OptNilSession {
-	return OptNilSession{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilSession is optional nullable Session.
-type OptNilSession struct {
-	Value Session
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilSession was set.
-func (o OptNilSession) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilSession) Reset() {
-	var v Session
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilSession) SetTo(v Session) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsSet returns true if value is Null.
-func (o OptNilSession) IsNull() bool { return o.Null }
-
-// SetNull sets value to null.
-func (o *OptNilSession) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v Session
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilSession) Get() (v Session, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilSession) Or(d Session) Session {
+func (o OptNilStackContainerConfigRuntime) Or(d StackContainerConfigRuntime) StackContainerConfigRuntime {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -47742,6 +50274,69 @@ func (o OptNilVpnEnvironmentService) Or(d VpnEnvironmentService) VpnEnvironmentS
 	return d
 }
 
+// NewOptNilVpnReconfigureTaskContentsConfig returns new OptNilVpnReconfigureTaskContentsConfig with value set to v.
+func NewOptNilVpnReconfigureTaskContentsConfig(v VpnReconfigureTaskContentsConfig) OptNilVpnReconfigureTaskContentsConfig {
+	return OptNilVpnReconfigureTaskContentsConfig{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilVpnReconfigureTaskContentsConfig is optional nullable VpnReconfigureTaskContentsConfig.
+type OptNilVpnReconfigureTaskContentsConfig struct {
+	Value VpnReconfigureTaskContentsConfig
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilVpnReconfigureTaskContentsConfig was set.
+func (o OptNilVpnReconfigureTaskContentsConfig) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilVpnReconfigureTaskContentsConfig) Reset() {
+	var v VpnReconfigureTaskContentsConfig
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilVpnReconfigureTaskContentsConfig) SetTo(v VpnReconfigureTaskContentsConfig) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilVpnReconfigureTaskContentsConfig) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilVpnReconfigureTaskContentsConfig) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v VpnReconfigureTaskContentsConfig
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilVpnReconfigureTaskContentsConfig) Get() (v VpnReconfigureTaskContentsConfig, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilVpnReconfigureTaskContentsConfig) Or(d VpnReconfigureTaskContentsConfig) VpnReconfigureTaskContentsConfig {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNodeStateError returns new OptNodeStateError with value set to v.
 func NewOptNodeStateError(v NodeStateError) OptNodeStateError {
 	return OptNodeStateError{
@@ -47782,52 +50377,6 @@ func (o OptNodeStateError) Get() (v NodeStateError, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNodeStateError) Or(d NodeStateError) NodeStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNoneOriginType returns new OptNoneOriginType with value set to v.
-func NewOptNoneOriginType(v NoneOriginType) OptNoneOriginType {
-	return OptNoneOriginType{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNoneOriginType is optional NoneOriginType.
-type OptNoneOriginType struct {
-	Value NoneOriginType
-	Set   bool
-}
-
-// IsSet returns true if OptNoneOriginType was set.
-func (o OptNoneOriginType) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNoneOriginType) Reset() {
-	var v NoneOriginType
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptNoneOriginType) SetTo(v NoneOriginType) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNoneOriginType) Get() (v NoneOriginType, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNoneOriginType) Or(d NoneOriginType) NoneOriginType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -48846,98 +51395,6 @@ func (o OptReconfigureLoadBalancerReq) Or(d ReconfigureLoadBalancerReq) Reconfig
 	return d
 }
 
-// NewOptReconfigureVPNReq returns new OptReconfigureVPNReq with value set to v.
-func NewOptReconfigureVPNReq(v ReconfigureVPNReq) OptReconfigureVPNReq {
-	return OptReconfigureVPNReq{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptReconfigureVPNReq is optional ReconfigureVPNReq.
-type OptReconfigureVPNReq struct {
-	Value ReconfigureVPNReq
-	Set   bool
-}
-
-// IsSet returns true if OptReconfigureVPNReq was set.
-func (o OptReconfigureVPNReq) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptReconfigureVPNReq) Reset() {
-	var v ReconfigureVPNReq
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptReconfigureVPNReq) SetTo(v ReconfigureVPNReq) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptReconfigureVPNReq) Get() (v ReconfigureVPNReq, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptReconfigureVPNReq) Or(d ReconfigureVPNReq) ReconfigureVPNReq {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptReconfigureVPNReqContentsConfigAuth returns new OptReconfigureVPNReqContentsConfigAuth with value set to v.
-func NewOptReconfigureVPNReqContentsConfigAuth(v ReconfigureVPNReqContentsConfigAuth) OptReconfigureVPNReqContentsConfigAuth {
-	return OptReconfigureVPNReqContentsConfigAuth{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptReconfigureVPNReqContentsConfigAuth is optional ReconfigureVPNReqContentsConfigAuth.
-type OptReconfigureVPNReqContentsConfigAuth struct {
-	Value ReconfigureVPNReqContentsConfigAuth
-	Set   bool
-}
-
-// IsSet returns true if OptReconfigureVPNReqContentsConfigAuth was set.
-func (o OptReconfigureVPNReqContentsConfigAuth) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptReconfigureVPNReqContentsConfigAuth) Reset() {
-	var v ReconfigureVPNReqContentsConfigAuth
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptReconfigureVPNReqContentsConfigAuth) SetTo(v ReconfigureVPNReqContentsConfigAuth) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptReconfigureVPNReqContentsConfigAuth) Get() (v ReconfigureVPNReqContentsConfigAuth, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptReconfigureVPNReqContentsConfigAuth) Or(d ReconfigureVPNReqContentsConfigAuth) ReconfigureVPNReqContentsConfigAuth {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptRecord returns new OptRecord with value set to v.
 func NewOptRecord(v Record) OptRecord {
 	return OptRecord{
@@ -49536,6 +51993,52 @@ func (o OptRecordTypesTxt) Or(d RecordTypesTxt) RecordTypesTxt {
 	return d
 }
 
+// NewOptRecoverTwoFaReq returns new OptRecoverTwoFaReq with value set to v.
+func NewOptRecoverTwoFaReq(v RecoverTwoFaReq) OptRecoverTwoFaReq {
+	return OptRecoverTwoFaReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRecoverTwoFaReq is optional RecoverTwoFaReq.
+type OptRecoverTwoFaReq struct {
+	Value RecoverTwoFaReq
+	Set   bool
+}
+
+// IsSet returns true if OptRecoverTwoFaReq was set.
+func (o OptRecoverTwoFaReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRecoverTwoFaReq) Reset() {
+	var v RecoverTwoFaReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRecoverTwoFaReq) SetTo(v RecoverTwoFaReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRecoverTwoFaReq) Get() (v RecoverTwoFaReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRecoverTwoFaReq) Or(d RecoverTwoFaReq) RecoverTwoFaReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptRemoveServerOptions returns new OptRemoveServerOptions with value set to v.
 func NewOptRemoveServerOptions(v RemoveServerOptions) OptRemoveServerOptions {
 	return OptRemoveServerOptions{
@@ -49576,98 +52079,6 @@ func (o OptRemoveServerOptions) Get() (v RemoveServerOptions, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptRemoveServerOptions) Or(d RemoveServerOptions) RemoveServerOptions {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptRepoSpecDetailsAuth returns new OptRepoSpecDetailsAuth with value set to v.
-func NewOptRepoSpecDetailsAuth(v RepoSpecDetailsAuth) OptRepoSpecDetailsAuth {
-	return OptRepoSpecDetailsAuth{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptRepoSpecDetailsAuth is optional RepoSpecDetailsAuth.
-type OptRepoSpecDetailsAuth struct {
-	Value RepoSpecDetailsAuth
-	Set   bool
-}
-
-// IsSet returns true if OptRepoSpecDetailsAuth was set.
-func (o OptRepoSpecDetailsAuth) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptRepoSpecDetailsAuth) Reset() {
-	var v RepoSpecDetailsAuth
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptRepoSpecDetailsAuth) SetTo(v RepoSpecDetailsAuth) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptRepoSpecDetailsAuth) Get() (v RepoSpecDetailsAuth, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptRepoSpecDetailsAuth) Or(d RepoSpecDetailsAuth) RepoSpecDetailsAuth {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptRepoSpecDetailsRef returns new OptRepoSpecDetailsRef with value set to v.
-func NewOptRepoSpecDetailsRef(v RepoSpecDetailsRef) OptRepoSpecDetailsRef {
-	return OptRepoSpecDetailsRef{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptRepoSpecDetailsRef is optional RepoSpecDetailsRef.
-type OptRepoSpecDetailsRef struct {
-	Value RepoSpecDetailsRef
-	Set   bool
-}
-
-// IsSet returns true if OptRepoSpecDetailsRef was set.
-func (o OptRepoSpecDetailsRef) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptRepoSpecDetailsRef) Reset() {
-	var v RepoSpecDetailsRef
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptRepoSpecDetailsRef) SetTo(v RepoSpecDetailsRef) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptRepoSpecDetailsRef) Get() (v RepoSpecDetailsRef, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptRepoSpecDetailsRef) Or(d RepoSpecDetailsRef) RepoSpecDetailsRef {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -49904,52 +52315,6 @@ func (o OptResourceLocation) Or(d ResourceLocation) ResourceLocation {
 	return d
 }
 
-// NewOptResourceLocation1From returns new OptResourceLocation1From with value set to v.
-func NewOptResourceLocation1From(v ResourceLocation1From) OptResourceLocation1From {
-	return OptResourceLocation1From{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptResourceLocation1From is optional ResourceLocation1From.
-type OptResourceLocation1From struct {
-	Value ResourceLocation1From
-	Set   bool
-}
-
-// IsSet returns true if OptResourceLocation1From was set.
-func (o OptResourceLocation1From) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptResourceLocation1From) Reset() {
-	var v ResourceLocation1From
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptResourceLocation1From) SetTo(v ResourceLocation1From) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptResourceLocation1From) Get() (v ResourceLocation1From, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptResourceLocation1From) Or(d ResourceLocation1From) ResourceLocation1From {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptRestoreBackupJobReq returns new OptRestoreBackupJobReq with value set to v.
 func NewOptRestoreBackupJobReq(v RestoreBackupJobReq) OptRestoreBackupJobReq {
 	return OptRestoreBackupJobReq{
@@ -50036,52 +52401,6 @@ func (o OptRunStateError) Get() (v RunStateError, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptRunStateError) Or(d RunStateError) RunStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptSDNNetwork returns new OptSDNNetwork with value set to v.
-func NewOptSDNNetwork(v SDNNetwork) OptSDNNetwork {
-	return OptSDNNetwork{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptSDNNetwork is optional SDNNetwork.
-type OptSDNNetwork struct {
-	Value SDNNetwork
-	Set   bool
-}
-
-// IsSet returns true if OptSDNNetwork was set.
-func (o OptSDNNetwork) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptSDNNetwork) Reset() {
-	var v SDNNetwork
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptSDNNetwork) SetTo(v SDNNetwork) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptSDNNetwork) Get() (v SDNNetwork, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptSDNNetwork) Or(d SDNNetwork) SDNNetwork {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -50726,6 +53045,98 @@ func (o OptServerStateError) Get() (v ServerStateError, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptServerStateError) Or(d ServerStateError) ServerStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptServerStatsCpuUsage returns new OptServerStatsCpuUsage with value set to v.
+func NewOptServerStatsCpuUsage(v ServerStatsCpuUsage) OptServerStatsCpuUsage {
+	return OptServerStatsCpuUsage{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptServerStatsCpuUsage is optional ServerStatsCpuUsage.
+type OptServerStatsCpuUsage struct {
+	Value ServerStatsCpuUsage
+	Set   bool
+}
+
+// IsSet returns true if OptServerStatsCpuUsage was set.
+func (o OptServerStatsCpuUsage) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptServerStatsCpuUsage) Reset() {
+	var v ServerStatsCpuUsage
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptServerStatsCpuUsage) SetTo(v ServerStatsCpuUsage) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptServerStatsCpuUsage) Get() (v ServerStatsCpuUsage, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptServerStatsCpuUsage) Or(d ServerStatsCpuUsage) ServerStatsCpuUsage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptServerStatsCpuUsageTelemetry returns new OptServerStatsCpuUsageTelemetry with value set to v.
+func NewOptServerStatsCpuUsageTelemetry(v ServerStatsCpuUsageTelemetry) OptServerStatsCpuUsageTelemetry {
+	return OptServerStatsCpuUsageTelemetry{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptServerStatsCpuUsageTelemetry is optional ServerStatsCpuUsageTelemetry.
+type OptServerStatsCpuUsageTelemetry struct {
+	Value ServerStatsCpuUsageTelemetry
+	Set   bool
+}
+
+// IsSet returns true if OptServerStatsCpuUsageTelemetry was set.
+func (o OptServerStatsCpuUsageTelemetry) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptServerStatsCpuUsageTelemetry) Reset() {
+	var v ServerStatsCpuUsageTelemetry
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptServerStatsCpuUsageTelemetry) SetTo(v ServerStatsCpuUsageTelemetry) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptServerStatsCpuUsageTelemetry) Get() (v ServerStatsCpuUsageTelemetry, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptServerStatsCpuUsageTelemetry) Or(d ServerStatsCpuUsageTelemetry) ServerStatsCpuUsageTelemetry {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -52342,288 +54753,6 @@ func (o OptStackContainerConfigDeployStateful) Or(d StackContainerConfigDeploySt
 	return d
 }
 
-// NewOptStackContainerConfigDeployStatefulInstancesItemFirstStart returns new OptStackContainerConfigDeployStatefulInstancesItemFirstStart with value set to v.
-func NewOptStackContainerConfigDeployStatefulInstancesItemFirstStart(v StackContainerConfigDeployStatefulInstancesItemFirstStart) OptStackContainerConfigDeployStatefulInstancesItemFirstStart {
-	return OptStackContainerConfigDeployStatefulInstancesItemFirstStart{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptStackContainerConfigDeployStatefulInstancesItemFirstStart is optional StackContainerConfigDeployStatefulInstancesItemFirstStart.
-type OptStackContainerConfigDeployStatefulInstancesItemFirstStart struct {
-	Value StackContainerConfigDeployStatefulInstancesItemFirstStart
-	Set   bool
-}
-
-// IsSet returns true if OptStackContainerConfigDeployStatefulInstancesItemFirstStart was set.
-func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStart) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptStackContainerConfigDeployStatefulInstancesItemFirstStart) Reset() {
-	var v StackContainerConfigDeployStatefulInstancesItemFirstStart
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptStackContainerConfigDeployStatefulInstancesItemFirstStart) SetTo(v StackContainerConfigDeployStatefulInstancesItemFirstStart) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStart) Get() (v StackContainerConfigDeployStatefulInstancesItemFirstStart, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStart) Or(d StackContainerConfigDeployStatefulInstancesItemFirstStart) StackContainerConfigDeployStatefulInstancesItemFirstStart {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand returns new OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand with value set to v.
-func NewOptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand(v StackContainerConfigDeployStatefulInstancesItemFirstStartCommand) OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand {
-	return OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand is optional StackContainerConfigDeployStatefulInstancesItemFirstStartCommand.
-type OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand struct {
-	Value StackContainerConfigDeployStatefulInstancesItemFirstStartCommand
-	Set   bool
-}
-
-// IsSet returns true if OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand was set.
-func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand) IsSet() bool {
-	return o.Set
-}
-
-// Reset unsets value.
-func (o *OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand) Reset() {
-	var v StackContainerConfigDeployStatefulInstancesItemFirstStartCommand
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand) SetTo(v StackContainerConfigDeployStatefulInstancesItemFirstStartCommand) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand) Get() (v StackContainerConfigDeployStatefulInstancesItemFirstStartCommand, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand) Or(d StackContainerConfigDeployStatefulInstancesItemFirstStartCommand) StackContainerConfigDeployStatefulInstancesItemFirstStartCommand {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars returns new OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars with value set to v.
-func NewOptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars(v StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars {
-	return OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars is optional StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars.
-type OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars struct {
-	Value StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars
-	Set   bool
-}
-
-// IsSet returns true if OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars was set.
-func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) IsSet() bool {
-	return o.Set
-}
-
-// Reset unsets value.
-func (o *OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) Reset() {
-	var v StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) SetTo(v StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) Get() (v StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) Or(d StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptStackContainerConfigDeployStatefulInstancesItemStart returns new OptStackContainerConfigDeployStatefulInstancesItemStart with value set to v.
-func NewOptStackContainerConfigDeployStatefulInstancesItemStart(v StackContainerConfigDeployStatefulInstancesItemStart) OptStackContainerConfigDeployStatefulInstancesItemStart {
-	return OptStackContainerConfigDeployStatefulInstancesItemStart{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptStackContainerConfigDeployStatefulInstancesItemStart is optional StackContainerConfigDeployStatefulInstancesItemStart.
-type OptStackContainerConfigDeployStatefulInstancesItemStart struct {
-	Value StackContainerConfigDeployStatefulInstancesItemStart
-	Set   bool
-}
-
-// IsSet returns true if OptStackContainerConfigDeployStatefulInstancesItemStart was set.
-func (o OptStackContainerConfigDeployStatefulInstancesItemStart) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptStackContainerConfigDeployStatefulInstancesItemStart) Reset() {
-	var v StackContainerConfigDeployStatefulInstancesItemStart
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptStackContainerConfigDeployStatefulInstancesItemStart) SetTo(v StackContainerConfigDeployStatefulInstancesItemStart) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptStackContainerConfigDeployStatefulInstancesItemStart) Get() (v StackContainerConfigDeployStatefulInstancesItemStart, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptStackContainerConfigDeployStatefulInstancesItemStart) Or(d StackContainerConfigDeployStatefulInstancesItemStart) StackContainerConfigDeployStatefulInstancesItemStart {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptStackContainerConfigDeployStatefulInstancesItemStartCommand returns new OptStackContainerConfigDeployStatefulInstancesItemStartCommand with value set to v.
-func NewOptStackContainerConfigDeployStatefulInstancesItemStartCommand(v StackContainerConfigDeployStatefulInstancesItemStartCommand) OptStackContainerConfigDeployStatefulInstancesItemStartCommand {
-	return OptStackContainerConfigDeployStatefulInstancesItemStartCommand{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptStackContainerConfigDeployStatefulInstancesItemStartCommand is optional StackContainerConfigDeployStatefulInstancesItemStartCommand.
-type OptStackContainerConfigDeployStatefulInstancesItemStartCommand struct {
-	Value StackContainerConfigDeployStatefulInstancesItemStartCommand
-	Set   bool
-}
-
-// IsSet returns true if OptStackContainerConfigDeployStatefulInstancesItemStartCommand was set.
-func (o OptStackContainerConfigDeployStatefulInstancesItemStartCommand) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptStackContainerConfigDeployStatefulInstancesItemStartCommand) Reset() {
-	var v StackContainerConfigDeployStatefulInstancesItemStartCommand
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptStackContainerConfigDeployStatefulInstancesItemStartCommand) SetTo(v StackContainerConfigDeployStatefulInstancesItemStartCommand) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptStackContainerConfigDeployStatefulInstancesItemStartCommand) Get() (v StackContainerConfigDeployStatefulInstancesItemStartCommand, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptStackContainerConfigDeployStatefulInstancesItemStartCommand) Or(d StackContainerConfigDeployStatefulInstancesItemStartCommand) StackContainerConfigDeployStatefulInstancesItemStartCommand {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars returns new OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars with value set to v.
-func NewOptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars(v StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars {
-	return OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars is optional StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars.
-type OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars struct {
-	Value StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars
-	Set   bool
-}
-
-// IsSet returns true if OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars was set.
-func (o OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) IsSet() bool {
-	return o.Set
-}
-
-// Reset unsets value.
-func (o *OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) Reset() {
-	var v StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) SetTo(v StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) Get() (v StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) Or(d StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptStackContainerConfigDeployStrategy returns new OptStackContainerConfigDeployStrategy with value set to v.
 func NewOptStackContainerConfigDeployStrategy(v StackContainerConfigDeployStrategy) OptStackContainerConfigDeployStrategy {
 	return OptStackContainerConfigDeployStrategy{
@@ -52710,52 +54839,6 @@ func (o OptStackContainerConfigDeployTelemetry) Get() (v StackContainerConfigDep
 
 // Or returns value if set, or given parameter if does not.
 func (o OptStackContainerConfigDeployTelemetry) Or(d StackContainerConfigDeployTelemetry) StackContainerConfigDeployTelemetry {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptStackContainerConfigDeployUpdate returns new OptStackContainerConfigDeployUpdate with value set to v.
-func NewOptStackContainerConfigDeployUpdate(v StackContainerConfigDeployUpdate) OptStackContainerConfigDeployUpdate {
-	return OptStackContainerConfigDeployUpdate{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptStackContainerConfigDeployUpdate is optional StackContainerConfigDeployUpdate.
-type OptStackContainerConfigDeployUpdate struct {
-	Value StackContainerConfigDeployUpdate
-	Set   bool
-}
-
-// IsSet returns true if OptStackContainerConfigDeployUpdate was set.
-func (o OptStackContainerConfigDeployUpdate) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptStackContainerConfigDeployUpdate) Reset() {
-	var v StackContainerConfigDeployUpdate
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptStackContainerConfigDeployUpdate) SetTo(v StackContainerConfigDeployUpdate) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptStackContainerConfigDeployUpdate) Get() (v StackContainerConfigDeployUpdate, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptStackContainerConfigDeployUpdate) Or(d StackContainerConfigDeployUpdate) StackContainerConfigDeployUpdate {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -53544,38 +55627,38 @@ func (o OptStackContainerConfigScalingAutoRules) Or(d StackContainerConfigScalin
 	return d
 }
 
-// NewOptStackContainerItemImageConfig returns new OptStackContainerItemImageConfig with value set to v.
-func NewOptStackContainerItemImageConfig(v StackContainerItemImageConfig) OptStackContainerItemImageConfig {
-	return OptStackContainerItemImageConfig{
+// NewOptStackContainerItemConfig returns new OptStackContainerItemConfig with value set to v.
+func NewOptStackContainerItemConfig(v StackContainerItemConfig) OptStackContainerItemConfig {
+	return OptStackContainerItemConfig{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptStackContainerItemImageConfig is optional StackContainerItemImageConfig.
-type OptStackContainerItemImageConfig struct {
-	Value StackContainerItemImageConfig
+// OptStackContainerItemConfig is optional StackContainerItemConfig.
+type OptStackContainerItemConfig struct {
+	Value StackContainerItemConfig
 	Set   bool
 }
 
-// IsSet returns true if OptStackContainerItemImageConfig was set.
-func (o OptStackContainerItemImageConfig) IsSet() bool { return o.Set }
+// IsSet returns true if OptStackContainerItemConfig was set.
+func (o OptStackContainerItemConfig) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptStackContainerItemImageConfig) Reset() {
-	var v StackContainerItemImageConfig
+func (o *OptStackContainerItemConfig) Reset() {
+	var v StackContainerItemConfig
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptStackContainerItemImageConfig) SetTo(v StackContainerItemImageConfig) {
+func (o *OptStackContainerItemConfig) SetTo(v StackContainerItemConfig) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptStackContainerItemImageConfig) Get() (v StackContainerItemImageConfig, ok bool) {
+func (o OptStackContainerItemConfig) Get() (v StackContainerItemConfig, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -53583,45 +55666,45 @@ func (o OptStackContainerItemImageConfig) Get() (v StackContainerItemImageConfig
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptStackContainerItemImageConfig) Or(d StackContainerItemImageConfig) StackContainerItemImageConfig {
+func (o OptStackContainerItemConfig) Or(d StackContainerItemConfig) StackContainerItemConfig {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptStackContainerItemImageRole returns new OptStackContainerItemImageRole with value set to v.
-func NewOptStackContainerItemImageRole(v StackContainerItemImageRole) OptStackContainerItemImageRole {
-	return OptStackContainerItemImageRole{
+// NewOptStackContainerItemRole returns new OptStackContainerItemRole with value set to v.
+func NewOptStackContainerItemRole(v StackContainerItemRole) OptStackContainerItemRole {
+	return OptStackContainerItemRole{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptStackContainerItemImageRole is optional StackContainerItemImageRole.
-type OptStackContainerItemImageRole struct {
-	Value StackContainerItemImageRole
+// OptStackContainerItemRole is optional StackContainerItemRole.
+type OptStackContainerItemRole struct {
+	Value StackContainerItemRole
 	Set   bool
 }
 
-// IsSet returns true if OptStackContainerItemImageRole was set.
-func (o OptStackContainerItemImageRole) IsSet() bool { return o.Set }
+// IsSet returns true if OptStackContainerItemRole was set.
+func (o OptStackContainerItemRole) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptStackContainerItemImageRole) Reset() {
-	var v StackContainerItemImageRole
+func (o *OptStackContainerItemRole) Reset() {
+	var v StackContainerItemRole
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptStackContainerItemImageRole) SetTo(v StackContainerItemImageRole) {
+func (o *OptStackContainerItemRole) SetTo(v StackContainerItemRole) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptStackContainerItemImageRole) Get() (v StackContainerItemImageRole, ok bool) {
+func (o OptStackContainerItemRole) Get() (v StackContainerItemRole, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -53629,45 +55712,45 @@ func (o OptStackContainerItemImageRole) Get() (v StackContainerItemImageRole, ok
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptStackContainerItemImageRole) Or(d StackContainerItemImageRole) StackContainerItemImageRole {
+func (o OptStackContainerItemRole) Or(d StackContainerItemRole) StackContainerItemRole {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptStackContainerVolumeLocal returns new OptStackContainerVolumeLocal with value set to v.
-func NewOptStackContainerVolumeLocal(v StackContainerVolumeLocal) OptStackContainerVolumeLocal {
-	return OptStackContainerVolumeLocal{
+// NewOptStackContainerItemVolumesItemLocal returns new OptStackContainerItemVolumesItemLocal with value set to v.
+func NewOptStackContainerItemVolumesItemLocal(v StackContainerItemVolumesItemLocal) OptStackContainerItemVolumesItemLocal {
+	return OptStackContainerItemVolumesItemLocal{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptStackContainerVolumeLocal is optional StackContainerVolumeLocal.
-type OptStackContainerVolumeLocal struct {
-	Value StackContainerVolumeLocal
+// OptStackContainerItemVolumesItemLocal is optional StackContainerItemVolumesItemLocal.
+type OptStackContainerItemVolumesItemLocal struct {
+	Value StackContainerItemVolumesItemLocal
 	Set   bool
 }
 
-// IsSet returns true if OptStackContainerVolumeLocal was set.
-func (o OptStackContainerVolumeLocal) IsSet() bool { return o.Set }
+// IsSet returns true if OptStackContainerItemVolumesItemLocal was set.
+func (o OptStackContainerItemVolumesItemLocal) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptStackContainerVolumeLocal) Reset() {
-	var v StackContainerVolumeLocal
+func (o *OptStackContainerItemVolumesItemLocal) Reset() {
+	var v StackContainerItemVolumesItemLocal
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptStackContainerVolumeLocal) SetTo(v StackContainerVolumeLocal) {
+func (o *OptStackContainerItemVolumesItemLocal) SetTo(v StackContainerItemVolumesItemLocal) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptStackContainerVolumeLocal) Get() (v StackContainerVolumeLocal, ok bool) {
+func (o OptStackContainerItemVolumesItemLocal) Get() (v StackContainerItemVolumesItemLocal, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -53675,45 +55758,45 @@ func (o OptStackContainerVolumeLocal) Get() (v StackContainerVolumeLocal, ok boo
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptStackContainerVolumeLocal) Or(d StackContainerVolumeLocal) StackContainerVolumeLocal {
+func (o OptStackContainerItemVolumesItemLocal) Or(d StackContainerItemVolumesItemLocal) StackContainerItemVolumesItemLocal {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptStackContainerVolumeRemoteAccess returns new OptStackContainerVolumeRemoteAccess with value set to v.
-func NewOptStackContainerVolumeRemoteAccess(v StackContainerVolumeRemoteAccess) OptStackContainerVolumeRemoteAccess {
-	return OptStackContainerVolumeRemoteAccess{
+// NewOptStackContainerItemVolumesItemRemoteAccess returns new OptStackContainerItemVolumesItemRemoteAccess with value set to v.
+func NewOptStackContainerItemVolumesItemRemoteAccess(v StackContainerItemVolumesItemRemoteAccess) OptStackContainerItemVolumesItemRemoteAccess {
+	return OptStackContainerItemVolumesItemRemoteAccess{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptStackContainerVolumeRemoteAccess is optional StackContainerVolumeRemoteAccess.
-type OptStackContainerVolumeRemoteAccess struct {
-	Value StackContainerVolumeRemoteAccess
+// OptStackContainerItemVolumesItemRemoteAccess is optional StackContainerItemVolumesItemRemoteAccess.
+type OptStackContainerItemVolumesItemRemoteAccess struct {
+	Value StackContainerItemVolumesItemRemoteAccess
 	Set   bool
 }
 
-// IsSet returns true if OptStackContainerVolumeRemoteAccess was set.
-func (o OptStackContainerVolumeRemoteAccess) IsSet() bool { return o.Set }
+// IsSet returns true if OptStackContainerItemVolumesItemRemoteAccess was set.
+func (o OptStackContainerItemVolumesItemRemoteAccess) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptStackContainerVolumeRemoteAccess) Reset() {
-	var v StackContainerVolumeRemoteAccess
+func (o *OptStackContainerItemVolumesItemRemoteAccess) Reset() {
+	var v StackContainerItemVolumesItemRemoteAccess
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptStackContainerVolumeRemoteAccess) SetTo(v StackContainerVolumeRemoteAccess) {
+func (o *OptStackContainerItemVolumesItemRemoteAccess) SetTo(v StackContainerItemVolumesItemRemoteAccess) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptStackContainerVolumeRemoteAccess) Get() (v StackContainerVolumeRemoteAccess, ok bool) {
+func (o OptStackContainerItemVolumesItemRemoteAccess) Get() (v StackContainerItemVolumesItemRemoteAccess, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -53721,7 +55804,53 @@ func (o OptStackContainerVolumeRemoteAccess) Get() (v StackContainerVolumeRemote
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptStackContainerVolumeRemoteAccess) Or(d StackContainerVolumeRemoteAccess) StackContainerVolumeRemoteAccess {
+func (o OptStackContainerItemVolumesItemRemoteAccess) Or(d StackContainerItemVolumesItemRemoteAccess) StackContainerItemVolumesItemRemoteAccess {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm returns new OptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm with value set to v.
+func NewOptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm(v StackContainerItemVolumesItemRemoteAccessPasswordAlgorithm) OptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm {
+	return OptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm is optional StackContainerItemVolumesItemRemoteAccessPasswordAlgorithm.
+type OptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm struct {
+	Value StackContainerItemVolumesItemRemoteAccessPasswordAlgorithm
+	Set   bool
+}
+
+// IsSet returns true if OptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm was set.
+func (o OptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm) Reset() {
+	var v StackContainerItemVolumesItemRemoteAccessPasswordAlgorithm
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm) SetTo(v StackContainerItemVolumesItemRemoteAccessPasswordAlgorithm) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm) Get() (v StackContainerItemVolumesItemRemoteAccessPasswordAlgorithm, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm) Or(d StackContainerItemVolumesItemRemoteAccessPasswordAlgorithm) StackContainerItemVolumesItemRemoteAccessPasswordAlgorithm {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -53768,6 +55897,144 @@ func (o OptStackGitCommit) Get() (v StackGitCommit, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptStackGitCommit) Or(d StackGitCommit) StackGitCommit {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackImageSourceTypeDetails returns new OptStackImageSourceTypeDetails with value set to v.
+func NewOptStackImageSourceTypeDetails(v StackImageSourceTypeDetails) OptStackImageSourceTypeDetails {
+	return OptStackImageSourceTypeDetails{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackImageSourceTypeDetails is optional StackImageSourceTypeDetails.
+type OptStackImageSourceTypeDetails struct {
+	Value StackImageSourceTypeDetails
+	Set   bool
+}
+
+// IsSet returns true if OptStackImageSourceTypeDetails was set.
+func (o OptStackImageSourceTypeDetails) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackImageSourceTypeDetails) Reset() {
+	var v StackImageSourceTypeDetails
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackImageSourceTypeDetails) SetTo(v StackImageSourceTypeDetails) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackImageSourceTypeDetails) Get() (v StackImageSourceTypeDetails, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackImageSourceTypeDetails) Or(d StackImageSourceTypeDetails) StackImageSourceTypeDetails {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackImageSourceTypeOverride returns new OptStackImageSourceTypeOverride with value set to v.
+func NewOptStackImageSourceTypeOverride(v StackImageSourceTypeOverride) OptStackImageSourceTypeOverride {
+	return OptStackImageSourceTypeOverride{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackImageSourceTypeOverride is optional StackImageSourceTypeOverride.
+type OptStackImageSourceTypeOverride struct {
+	Value StackImageSourceTypeOverride
+	Set   bool
+}
+
+// IsSet returns true if OptStackImageSourceTypeOverride was set.
+func (o OptStackImageSourceTypeOverride) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackImageSourceTypeOverride) Reset() {
+	var v StackImageSourceTypeOverride
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackImageSourceTypeOverride) SetTo(v StackImageSourceTypeOverride) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackImageSourceTypeOverride) Get() (v StackImageSourceTypeOverride, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackImageSourceTypeOverride) Or(d StackImageSourceTypeOverride) StackImageSourceTypeOverride {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackImageSourceTypeType returns new OptStackImageSourceTypeType with value set to v.
+func NewOptStackImageSourceTypeType(v StackImageSourceTypeType) OptStackImageSourceTypeType {
+	return OptStackImageSourceTypeType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackImageSourceTypeType is optional StackImageSourceTypeType.
+type OptStackImageSourceTypeType struct {
+	Value StackImageSourceTypeType
+	Set   bool
+}
+
+// IsSet returns true if OptStackImageSourceTypeType was set.
+func (o OptStackImageSourceTypeType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackImageSourceTypeType) Reset() {
+	var v StackImageSourceTypeType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackImageSourceTypeType) SetTo(v StackImageSourceTypeType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackImageSourceTypeType) Get() (v StackImageSourceTypeType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackImageSourceTypeType) Or(d StackImageSourceTypeType) StackImageSourceTypeType {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -53912,6 +56179,98 @@ func (o OptStackMeta) Or(d StackMeta) StackMeta {
 	return d
 }
 
+// NewOptStackRepoSourceDetailsAuth returns new OptStackRepoSourceDetailsAuth with value set to v.
+func NewOptStackRepoSourceDetailsAuth(v StackRepoSourceDetailsAuth) OptStackRepoSourceDetailsAuth {
+	return OptStackRepoSourceDetailsAuth{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackRepoSourceDetailsAuth is optional StackRepoSourceDetailsAuth.
+type OptStackRepoSourceDetailsAuth struct {
+	Value StackRepoSourceDetailsAuth
+	Set   bool
+}
+
+// IsSet returns true if OptStackRepoSourceDetailsAuth was set.
+func (o OptStackRepoSourceDetailsAuth) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackRepoSourceDetailsAuth) Reset() {
+	var v StackRepoSourceDetailsAuth
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackRepoSourceDetailsAuth) SetTo(v StackRepoSourceDetailsAuth) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackRepoSourceDetailsAuth) Get() (v StackRepoSourceDetailsAuth, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackRepoSourceDetailsAuth) Or(d StackRepoSourceDetailsAuth) StackRepoSourceDetailsAuth {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackRepoSourceDetailsRef returns new OptStackRepoSourceDetailsRef with value set to v.
+func NewOptStackRepoSourceDetailsRef(v StackRepoSourceDetailsRef) OptStackRepoSourceDetailsRef {
+	return OptStackRepoSourceDetailsRef{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackRepoSourceDetailsRef is optional StackRepoSourceDetailsRef.
+type OptStackRepoSourceDetailsRef struct {
+	Value StackRepoSourceDetailsRef
+	Set   bool
+}
+
+// IsSet returns true if OptStackRepoSourceDetailsRef was set.
+func (o OptStackRepoSourceDetailsRef) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackRepoSourceDetailsRef) Reset() {
+	var v StackRepoSourceDetailsRef
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackRepoSourceDetailsRef) SetTo(v StackRepoSourceDetailsRef) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackRepoSourceDetailsRef) Get() (v StackRepoSourceDetailsRef, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackRepoSourceDetailsRef) Or(d StackRepoSourceDetailsRef) StackRepoSourceDetailsRef {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptStackSource returns new OptStackSource with value set to v.
 func NewOptStackSource(v StackSource) OptStackSource {
 	return OptStackSource{
@@ -53958,38 +56317,38 @@ func (o OptStackSource) Or(d StackSource) StackSource {
 	return d
 }
 
-// NewOptStackSpecDetailsAbout returns new OptStackSpecDetailsAbout with value set to v.
-func NewOptStackSpecDetailsAbout(v StackSpecDetailsAbout) OptStackSpecDetailsAbout {
-	return OptStackSpecDetailsAbout{
+// NewOptStackSpecAbout returns new OptStackSpecAbout with value set to v.
+func NewOptStackSpecAbout(v StackSpecAbout) OptStackSpecAbout {
+	return OptStackSpecAbout{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptStackSpecDetailsAbout is optional StackSpecDetailsAbout.
-type OptStackSpecDetailsAbout struct {
-	Value StackSpecDetailsAbout
+// OptStackSpecAbout is optional StackSpecAbout.
+type OptStackSpecAbout struct {
+	Value StackSpecAbout
 	Set   bool
 }
 
-// IsSet returns true if OptStackSpecDetailsAbout was set.
-func (o OptStackSpecDetailsAbout) IsSet() bool { return o.Set }
+// IsSet returns true if OptStackSpecAbout was set.
+func (o OptStackSpecAbout) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptStackSpecDetailsAbout) Reset() {
-	var v StackSpecDetailsAbout
+func (o *OptStackSpecAbout) Reset() {
+	var v StackSpecAbout
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptStackSpecDetailsAbout) SetTo(v StackSpecDetailsAbout) {
+func (o *OptStackSpecAbout) SetTo(v StackSpecAbout) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptStackSpecDetailsAbout) Get() (v StackSpecDetailsAbout, ok bool) {
+func (o OptStackSpecAbout) Get() (v StackSpecAbout, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -53997,45 +56356,45 @@ func (o OptStackSpecDetailsAbout) Get() (v StackSpecDetailsAbout, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptStackSpecDetailsAbout) Or(d StackSpecDetailsAbout) StackSpecDetailsAbout {
+func (o OptStackSpecAbout) Or(d StackSpecAbout) StackSpecAbout {
 	if v, ok := o.Get(); ok {
 		return v
 	}
 	return d
 }
 
-// NewOptStackSpecDetailsAnnotations returns new OptStackSpecDetailsAnnotations with value set to v.
-func NewOptStackSpecDetailsAnnotations(v StackSpecDetailsAnnotations) OptStackSpecDetailsAnnotations {
-	return OptStackSpecDetailsAnnotations{
+// NewOptStackSpecAnnotations returns new OptStackSpecAnnotations with value set to v.
+func NewOptStackSpecAnnotations(v StackSpecAnnotations) OptStackSpecAnnotations {
+	return OptStackSpecAnnotations{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptStackSpecDetailsAnnotations is optional StackSpecDetailsAnnotations.
-type OptStackSpecDetailsAnnotations struct {
-	Value StackSpecDetailsAnnotations
+// OptStackSpecAnnotations is optional StackSpecAnnotations.
+type OptStackSpecAnnotations struct {
+	Value StackSpecAnnotations
 	Set   bool
 }
 
-// IsSet returns true if OptStackSpecDetailsAnnotations was set.
-func (o OptStackSpecDetailsAnnotations) IsSet() bool { return o.Set }
+// IsSet returns true if OptStackSpecAnnotations was set.
+func (o OptStackSpecAnnotations) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptStackSpecDetailsAnnotations) Reset() {
-	var v StackSpecDetailsAnnotations
+func (o *OptStackSpecAnnotations) Reset() {
+	var v StackSpecAnnotations
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptStackSpecDetailsAnnotations) SetTo(v StackSpecDetailsAnnotations) {
+func (o *OptStackSpecAnnotations) SetTo(v StackSpecAnnotations) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptStackSpecDetailsAnnotations) Get() (v StackSpecDetailsAnnotations, ok bool) {
+func (o OptStackSpecAnnotations) Get() (v StackSpecAnnotations, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -54043,7 +56402,191 @@ func (o OptStackSpecDetailsAnnotations) Get() (v StackSpecDetailsAnnotations, ok
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptStackSpecDetailsAnnotations) Or(d StackSpecDetailsAnnotations) StackSpecDetailsAnnotations {
+func (o OptStackSpecAnnotations) Or(d StackSpecAnnotations) StackSpecAnnotations {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackSpecContainerImageBuild returns new OptStackSpecContainerImageBuild with value set to v.
+func NewOptStackSpecContainerImageBuild(v StackSpecContainerImageBuild) OptStackSpecContainerImageBuild {
+	return OptStackSpecContainerImageBuild{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackSpecContainerImageBuild is optional StackSpecContainerImageBuild.
+type OptStackSpecContainerImageBuild struct {
+	Value StackSpecContainerImageBuild
+	Set   bool
+}
+
+// IsSet returns true if OptStackSpecContainerImageBuild was set.
+func (o OptStackSpecContainerImageBuild) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackSpecContainerImageBuild) Reset() {
+	var v StackSpecContainerImageBuild
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackSpecContainerImageBuild) SetTo(v StackSpecContainerImageBuild) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackSpecContainerImageBuild) Get() (v StackSpecContainerImageBuild, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackSpecContainerImageBuild) Or(d StackSpecContainerImageBuild) StackSpecContainerImageBuild {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackSpecLoadBalancerConfig returns new OptStackSpecLoadBalancerConfig with value set to v.
+func NewOptStackSpecLoadBalancerConfig(v StackSpecLoadBalancerConfig) OptStackSpecLoadBalancerConfig {
+	return OptStackSpecLoadBalancerConfig{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackSpecLoadBalancerConfig is optional StackSpecLoadBalancerConfig.
+type OptStackSpecLoadBalancerConfig struct {
+	Value StackSpecLoadBalancerConfig
+	Set   bool
+}
+
+// IsSet returns true if OptStackSpecLoadBalancerConfig was set.
+func (o OptStackSpecLoadBalancerConfig) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackSpecLoadBalancerConfig) Reset() {
+	var v StackSpecLoadBalancerConfig
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackSpecLoadBalancerConfig) SetTo(v StackSpecLoadBalancerConfig) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackSpecLoadBalancerConfig) Get() (v StackSpecLoadBalancerConfig, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackSpecLoadBalancerConfig) Or(d StackSpecLoadBalancerConfig) StackSpecLoadBalancerConfig {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackSpecServices returns new OptStackSpecServices with value set to v.
+func NewOptStackSpecServices(v StackSpecServices) OptStackSpecServices {
+	return OptStackSpecServices{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackSpecServices is optional StackSpecServices.
+type OptStackSpecServices struct {
+	Value StackSpecServices
+	Set   bool
+}
+
+// IsSet returns true if OptStackSpecServices was set.
+func (o OptStackSpecServices) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackSpecServices) Reset() {
+	var v StackSpecServices
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackSpecServices) SetTo(v StackSpecServices) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackSpecServices) Get() (v StackSpecServices, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackSpecServices) Or(d StackSpecServices) StackSpecServices {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackSpecServicesVpn returns new OptStackSpecServicesVpn with value set to v.
+func NewOptStackSpecServicesVpn(v StackSpecServicesVpn) OptStackSpecServicesVpn {
+	return OptStackSpecServicesVpn{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackSpecServicesVpn is optional StackSpecServicesVpn.
+type OptStackSpecServicesVpn struct {
+	Value StackSpecServicesVpn
+	Set   bool
+}
+
+// IsSet returns true if OptStackSpecServicesVpn was set.
+func (o OptStackSpecServicesVpn) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackSpecServicesVpn) Reset() {
+	var v StackSpecServicesVpn
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackSpecServicesVpn) SetTo(v StackSpecServicesVpn) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackSpecServicesVpn) Get() (v StackSpecServicesVpn, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackSpecServicesVpn) Or(d StackSpecServicesVpn) StackSpecServicesVpn {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -55108,6 +57651,52 @@ func (o OptUpdateEnvironmentReq) Or(d UpdateEnvironmentReq) UpdateEnvironmentReq
 	return d
 }
 
+// NewOptUpdateGlobalLoadBalancerReq returns new OptUpdateGlobalLoadBalancerReq with value set to v.
+func NewOptUpdateGlobalLoadBalancerReq(v UpdateGlobalLoadBalancerReq) OptUpdateGlobalLoadBalancerReq {
+	return OptUpdateGlobalLoadBalancerReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateGlobalLoadBalancerReq is optional UpdateGlobalLoadBalancerReq.
+type OptUpdateGlobalLoadBalancerReq struct {
+	Value UpdateGlobalLoadBalancerReq
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateGlobalLoadBalancerReq was set.
+func (o OptUpdateGlobalLoadBalancerReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateGlobalLoadBalancerReq) Reset() {
+	var v UpdateGlobalLoadBalancerReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateGlobalLoadBalancerReq) SetTo(v UpdateGlobalLoadBalancerReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateGlobalLoadBalancerReq) Get() (v UpdateGlobalLoadBalancerReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateGlobalLoadBalancerReq) Or(d UpdateGlobalLoadBalancerReq) UpdateGlobalLoadBalancerReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptUpdateHubMemberReq returns new OptUpdateHubMemberReq with value set to v.
 func NewOptUpdateHubMemberReq(v UpdateHubMemberReq) OptUpdateHubMemberReq {
 	return OptUpdateHubMemberReq{
@@ -55240,52 +57829,6 @@ func (o OptUpdateHubReq) Get() (v UpdateHubReq, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptUpdateHubReq) Or(d UpdateHubReq) UpdateHubReq {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptUpdateHubReqWebhooks returns new OptUpdateHubReqWebhooks with value set to v.
-func NewOptUpdateHubReqWebhooks(v UpdateHubReqWebhooks) OptUpdateHubReqWebhooks {
-	return OptUpdateHubReqWebhooks{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptUpdateHubReqWebhooks is optional UpdateHubReqWebhooks.
-type OptUpdateHubReqWebhooks struct {
-	Value UpdateHubReqWebhooks
-	Set   bool
-}
-
-// IsSet returns true if OptUpdateHubReqWebhooks was set.
-func (o OptUpdateHubReqWebhooks) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptUpdateHubReqWebhooks) Reset() {
-	var v UpdateHubReqWebhooks
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptUpdateHubReqWebhooks) SetTo(v UpdateHubReqWebhooks) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptUpdateHubReqWebhooks) Get() (v UpdateHubReqWebhooks, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptUpdateHubReqWebhooks) Or(d UpdateHubReqWebhooks) UpdateHubReqWebhooks {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -55982,6 +58525,98 @@ func (o OptUsageDatum) Or(d UsageDatum) UsageDatum {
 	return d
 }
 
+// NewOptV1LbConfigControllersItemTransportConfigExtension returns new OptV1LbConfigControllersItemTransportConfigExtension with value set to v.
+func NewOptV1LbConfigControllersItemTransportConfigExtension(v V1LbConfigControllersItemTransportConfigExtension) OptV1LbConfigControllersItemTransportConfigExtension {
+	return OptV1LbConfigControllersItemTransportConfigExtension{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptV1LbConfigControllersItemTransportConfigExtension is optional V1LbConfigControllersItemTransportConfigExtension.
+type OptV1LbConfigControllersItemTransportConfigExtension struct {
+	Value V1LbConfigControllersItemTransportConfigExtension
+	Set   bool
+}
+
+// IsSet returns true if OptV1LbConfigControllersItemTransportConfigExtension was set.
+func (o OptV1LbConfigControllersItemTransportConfigExtension) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptV1LbConfigControllersItemTransportConfigExtension) Reset() {
+	var v V1LbConfigControllersItemTransportConfigExtension
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptV1LbConfigControllersItemTransportConfigExtension) SetTo(v V1LbConfigControllersItemTransportConfigExtension) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptV1LbConfigControllersItemTransportConfigExtension) Get() (v V1LbConfigControllersItemTransportConfigExtension, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptV1LbConfigControllersItemTransportConfigExtension) Or(d V1LbConfigControllersItemTransportConfigExtension) V1LbConfigControllersItemTransportConfigExtension {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptV1LbConfigRouterConfigExtension returns new OptV1LbConfigRouterConfigExtension with value set to v.
+func NewOptV1LbConfigRouterConfigExtension(v V1LbConfigRouterConfigExtension) OptV1LbConfigRouterConfigExtension {
+	return OptV1LbConfigRouterConfigExtension{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptV1LbConfigRouterConfigExtension is optional V1LbConfigRouterConfigExtension.
+type OptV1LbConfigRouterConfigExtension struct {
+	Value V1LbConfigRouterConfigExtension
+	Set   bool
+}
+
+// IsSet returns true if OptV1LbConfigRouterConfigExtension was set.
+func (o OptV1LbConfigRouterConfigExtension) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptV1LbConfigRouterConfigExtension) Reset() {
+	var v V1LbConfigRouterConfigExtension
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptV1LbConfigRouterConfigExtension) SetTo(v V1LbConfigRouterConfigExtension) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptV1LbConfigRouterConfigExtension) Get() (v V1LbConfigRouterConfigExtension, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptV1LbConfigRouterConfigExtension) Or(d V1LbConfigRouterConfigExtension) V1LbConfigRouterConfigExtension {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptVPNInfoReturn returns new OptVPNInfoReturn with value set to v.
 func NewOptVPNInfoReturn(v VPNInfoReturn) OptVPNInfoReturn {
 	return OptVPNInfoReturn{
@@ -56068,6 +58703,52 @@ func (o OptVPNUsers) Get() (v VPNUsers, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptVPNUsers) Or(d VPNUsers) VPNUsers {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVpnReconfigureTaskContentsConfigAuth returns new OptVpnReconfigureTaskContentsConfigAuth with value set to v.
+func NewOptVpnReconfigureTaskContentsConfigAuth(v VpnReconfigureTaskContentsConfigAuth) OptVpnReconfigureTaskContentsConfigAuth {
+	return OptVpnReconfigureTaskContentsConfigAuth{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVpnReconfigureTaskContentsConfigAuth is optional VpnReconfigureTaskContentsConfigAuth.
+type OptVpnReconfigureTaskContentsConfigAuth struct {
+	Value VpnReconfigureTaskContentsConfigAuth
+	Set   bool
+}
+
+// IsSet returns true if OptVpnReconfigureTaskContentsConfigAuth was set.
+func (o OptVpnReconfigureTaskContentsConfigAuth) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVpnReconfigureTaskContentsConfigAuth) Reset() {
+	var v VpnReconfigureTaskContentsConfigAuth
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVpnReconfigureTaskContentsConfigAuth) SetTo(v VpnReconfigureTaskContentsConfigAuth) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVpnReconfigureTaskContentsConfigAuth) Get() (v VpnReconfigureTaskContentsConfigAuth, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVpnReconfigureTaskContentsConfigAuth) Or(d VpnReconfigureTaskContentsConfigAuth) VpnReconfigureTaskContentsConfigAuth {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -57534,15 +60215,18 @@ func (s *PipelineState) SetError(val OptPipelineStateError) {
 type PipelineStateCurrent string
 
 const (
-	PipelineStateCurrentLive     PipelineStateCurrent = "live"
-	PipelineStateCurrentDeleting PipelineStateCurrent = "deleting"
-	PipelineStateCurrentDeleted  PipelineStateCurrent = "deleted"
+	PipelineStateCurrentLive      PipelineStateCurrent = "live"
+	PipelineStateCurrentAcquiring PipelineStateCurrent = "acquiring"
+	PipelineStateCurrentDeleting  PipelineStateCurrent = "deleting"
+	PipelineStateCurrentDeleted   PipelineStateCurrent = "deleted"
 )
 
 // MarshalText implements encoding.TextMarshaler.
 func (s PipelineStateCurrent) MarshalText() ([]byte, error) {
 	switch s {
 	case PipelineStateCurrentLive:
+		return []byte(s), nil
+	case PipelineStateCurrentAcquiring:
 		return []byte(s), nil
 	case PipelineStateCurrentDeleting:
 		return []byte(s), nil
@@ -57558,6 +60242,9 @@ func (s *PipelineStateCurrent) UnmarshalText(data []byte) error {
 	switch PipelineStateCurrent(data) {
 	case PipelineStateCurrentLive:
 		*s = PipelineStateCurrentLive
+		return nil
+	case PipelineStateCurrentAcquiring:
+		*s = PipelineStateCurrentAcquiring
 		return nil
 	case PipelineStateCurrentDeleting:
 		*s = PipelineStateCurrentDeleting
@@ -57629,25 +60316,25 @@ type PipelineStepsType string
 
 // Possible values for PipelineStepsType.
 const (
-	ImageSourceCreateStepPipelineSteps  PipelineStepsType = "ImageSourceCreateStep"
-	ImageCreateStepPipelineSteps        PipelineStepsType = "ImageCreateStep"
-	ImageImportStepPipelineSteps        PipelineStepsType = "ImageImportStep"
-	ImagesPruneStepPipelineSteps        PipelineStepsType = "ImagesPruneStep"
-	ContainerCreateStepPipelineSteps    PipelineStepsType = "ContainerCreateStep"
-	ContainerStartStepPipelineSteps     PipelineStepsType = "ContainerStartStep"
-	ContainerStopStepPipelineSteps      PipelineStepsType = "ContainerStopStep"
-	ContainerDeleteStepPipelineSteps    PipelineStepsType = "ContainerDeleteStep"
-	ContainerReimageStepPipelineSteps   PipelineStepsType = "ContainerReimageStep"
-	ContainerRestartStepPipelineSteps   PipelineStepsType = "ContainerRestartStep"
-	EnvironmentCreateStepPipelineSteps  PipelineStepsType = "EnvironmentCreateStep"
-	EnvironmentStartStepPipelineSteps   PipelineStepsType = "EnvironmentStartStep"
-	EnvironmentStopStepPipelineSteps    PipelineStepsType = "EnvironmentStopStep"
-	EnvironmentDeleteStepPipelineSteps  PipelineStepsType = "EnvironmentDeleteStep"
-	StackBuildCreateStepPipelineSteps   PipelineStepsType = "StackBuildCreateStep"
-	StackBuildGenerateStepPipelineSteps PipelineStepsType = "StackBuildGenerateStep"
-	StackBuildDeployStepPipelineSteps   PipelineStepsType = "StackBuildDeployStep"
-	SleepStepPipelineSteps              PipelineStepsType = "SleepStep"
-	WebhookPostStepPipelineSteps        PipelineStepsType = "WebhookPostStep"
+	ImageSourceCreateStepPipelineSteps  PipelineStepsType = "image.source.create"
+	ImageCreateStepPipelineSteps        PipelineStepsType = "image.create"
+	ImageImportStepPipelineSteps        PipelineStepsType = "image.import"
+	ImagesPruneStepPipelineSteps        PipelineStepsType = "images.prune"
+	ContainerCreateStepPipelineSteps    PipelineStepsType = "container.create"
+	ContainerStartStepPipelineSteps     PipelineStepsType = "container.start"
+	ContainerStopStepPipelineSteps      PipelineStepsType = "container.stop"
+	ContainerDeleteStepPipelineSteps    PipelineStepsType = "container.delete"
+	ContainerReimageStepPipelineSteps   PipelineStepsType = "container.reimage"
+	ContainerRestartStepPipelineSteps   PipelineStepsType = "container.restart"
+	EnvironmentCreateStepPipelineSteps  PipelineStepsType = "environment.create"
+	EnvironmentStartStepPipelineSteps   PipelineStepsType = "environment.start"
+	EnvironmentStopStepPipelineSteps    PipelineStepsType = "environment.stop"
+	EnvironmentDeleteStepPipelineSteps  PipelineStepsType = "environment.delete"
+	StackBuildCreateStepPipelineSteps   PipelineStepsType = "stack.build.create"
+	StackBuildGenerateStepPipelineSteps PipelineStepsType = "stack.build.generate"
+	StackBuildDeployStepPipelineSteps   PipelineStepsType = "stack.build.deploy"
+	SleepStepPipelineSteps              PipelineStepsType = "sleep"
+	WebhookPostStepPipelineSteps        PipelineStepsType = "webhook.post"
 )
 
 // IsImageSourceCreateStep reports whether PipelineSteps is ImageSourceCreateStep.
@@ -59405,15 +62092,14 @@ func (s *ProviderStateError) SetTime(val OptDateTime) {
 // A summary of the provider a given resource is deployed to.
 // Ref: #/components/schemas/ProviderSummary
 type ProviderSummary struct {
-	// An identifier for the provider. Custom IAL providers will be listed as `abstraction-<ID>` where
-	// the ID is a MongoDB ID.
-	Identifier ProviderSummaryIdentifier `json:"identifier"`
+	// An identifier for the provider. Custom IAL providers will be listed as `a-<ID>`.
+	Identifier string `json:"identifier"`
 	// A location identifier associated with the provider.
 	Location string `json:"location"`
 }
 
 // GetIdentifier returns the value of Identifier.
-func (s *ProviderSummary) GetIdentifier() ProviderSummaryIdentifier {
+func (s *ProviderSummary) GetIdentifier() string {
 	return s.Identifier
 }
 
@@ -59423,60 +62109,13 @@ func (s *ProviderSummary) GetLocation() string {
 }
 
 // SetIdentifier sets the value of Identifier.
-func (s *ProviderSummary) SetIdentifier(val ProviderSummaryIdentifier) {
+func (s *ProviderSummary) SetIdentifier(val string) {
 	s.Identifier = val
 }
 
 // SetLocation sets the value of Location.
 func (s *ProviderSummary) SetLocation(val string) {
 	s.Location = val
-}
-
-// An identifier for the provider. Custom IAL providers will be listed as `abstraction-<ID>` where
-// the ID is a MongoDB ID.
-type ProviderSummaryIdentifier string
-
-const (
-	ProviderSummaryIdentifierEquinixMetal       ProviderSummaryIdentifier = "equinix-metal"
-	ProviderSummaryIdentifierVultr              ProviderSummaryIdentifier = "vultr"
-	ProviderSummaryIdentifierAWS                ProviderSummaryIdentifier = "aws"
-	ProviderSummaryIdentifierAbstractionMongoID ProviderSummaryIdentifier = "abstraction-<MongoID>"
-)
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ProviderSummaryIdentifier) MarshalText() ([]byte, error) {
-	switch s {
-	case ProviderSummaryIdentifierEquinixMetal:
-		return []byte(s), nil
-	case ProviderSummaryIdentifierVultr:
-		return []byte(s), nil
-	case ProviderSummaryIdentifierAWS:
-		return []byte(s), nil
-	case ProviderSummaryIdentifierAbstractionMongoID:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ProviderSummaryIdentifier) UnmarshalText(data []byte) error {
-	switch ProviderSummaryIdentifier(data) {
-	case ProviderSummaryIdentifierEquinixMetal:
-		*s = ProviderSummaryIdentifierEquinixMetal
-		return nil
-	case ProviderSummaryIdentifierVultr:
-		*s = ProviderSummaryIdentifierVultr
-		return nil
-	case ProviderSummaryIdentifierAWS:
-		*s = ProviderSummaryIdentifierAWS
-		return nil
-	case ProviderSummaryIdentifierAbstractionMongoID:
-		*s = ProviderSummaryIdentifierAbstractionMongoID
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
 }
 
 // A resource thats associated with a provider.
@@ -59943,131 +62582,30 @@ func (s *ReconfigureLoadBalancerReqAction) UnmarshalText(data []byte) error {
 }
 
 type ReconfigureLoadBalancerReqContents struct {
-	// Boolean that sets custom vs default VPN configuration.
-	Customize OptBool `json:"customize"`
 	// A boolean where `true` represents the desire to run the environment load balancer service in high
 	// availability mode.
-	HighAvailability OptBool `json:"high_availability"`
-	// The config object for the loadbalancer service.
-	Config OptNilReconfigureLoadBalancerReqContentsConfig `json:"config"`
-}
-
-// GetCustomize returns the value of Customize.
-func (s *ReconfigureLoadBalancerReqContents) GetCustomize() OptBool {
-	return s.Customize
+	HighAvailability OptNilBool               `json:"high_availability"`
+	Config           OptNilLoadBalancerConfig `json:"config"`
 }
 
 // GetHighAvailability returns the value of HighAvailability.
-func (s *ReconfigureLoadBalancerReqContents) GetHighAvailability() OptBool {
+func (s *ReconfigureLoadBalancerReqContents) GetHighAvailability() OptNilBool {
 	return s.HighAvailability
 }
 
 // GetConfig returns the value of Config.
-func (s *ReconfigureLoadBalancerReqContents) GetConfig() OptNilReconfigureLoadBalancerReqContentsConfig {
+func (s *ReconfigureLoadBalancerReqContents) GetConfig() OptNilLoadBalancerConfig {
 	return s.Config
 }
 
-// SetCustomize sets the value of Customize.
-func (s *ReconfigureLoadBalancerReqContents) SetCustomize(val OptBool) {
-	s.Customize = val
-}
-
 // SetHighAvailability sets the value of HighAvailability.
-func (s *ReconfigureLoadBalancerReqContents) SetHighAvailability(val OptBool) {
+func (s *ReconfigureLoadBalancerReqContents) SetHighAvailability(val OptNilBool) {
 	s.HighAvailability = val
 }
 
 // SetConfig sets the value of Config.
-func (s *ReconfigureLoadBalancerReqContents) SetConfig(val OptNilReconfigureLoadBalancerReqContentsConfig) {
+func (s *ReconfigureLoadBalancerReqContents) SetConfig(val OptNilLoadBalancerConfig) {
 	s.Config = val
-}
-
-// The config object for the loadbalancer service.
-type ReconfigureLoadBalancerReqContentsConfig struct {
-	Version OptString `json:"version"`
-	// Allow / disallow traffic to be routed via IPv4.
-	Ipv4 OptNilBool `json:"ipv4"`
-	// Allow / disallow traffic to be routed via IPv6.
-	Ipv6 OptNilBool `json:"ipv6"`
-	// Describes settings that are passed to HAProxy within the load balancer.
-	Haproxy NilReconfigureLoadBalancerReqContentsConfigHaproxy `json:"haproxy"`
-}
-
-// GetVersion returns the value of Version.
-func (s *ReconfigureLoadBalancerReqContentsConfig) GetVersion() OptString {
-	return s.Version
-}
-
-// GetIpv4 returns the value of Ipv4.
-func (s *ReconfigureLoadBalancerReqContentsConfig) GetIpv4() OptNilBool {
-	return s.Ipv4
-}
-
-// GetIpv6 returns the value of Ipv6.
-func (s *ReconfigureLoadBalancerReqContentsConfig) GetIpv6() OptNilBool {
-	return s.Ipv6
-}
-
-// GetHaproxy returns the value of Haproxy.
-func (s *ReconfigureLoadBalancerReqContentsConfig) GetHaproxy() NilReconfigureLoadBalancerReqContentsConfigHaproxy {
-	return s.Haproxy
-}
-
-// SetVersion sets the value of Version.
-func (s *ReconfigureLoadBalancerReqContentsConfig) SetVersion(val OptString) {
-	s.Version = val
-}
-
-// SetIpv4 sets the value of Ipv4.
-func (s *ReconfigureLoadBalancerReqContentsConfig) SetIpv4(val OptNilBool) {
-	s.Ipv4 = val
-}
-
-// SetIpv6 sets the value of Ipv6.
-func (s *ReconfigureLoadBalancerReqContentsConfig) SetIpv6(val OptNilBool) {
-	s.Ipv6 = val
-}
-
-// SetHaproxy sets the value of Haproxy.
-func (s *ReconfigureLoadBalancerReqContentsConfig) SetHaproxy(val NilReconfigureLoadBalancerReqContentsConfigHaproxy) {
-	s.Haproxy = val
-}
-
-// Describes settings that are passed to HAProxy within the load balancer.
-type ReconfigureLoadBalancerReqContentsConfigHaproxy struct {
-	Default HAProxyConfig                                        `json:"default"`
-	Ports   ReconfigureLoadBalancerReqContentsConfigHaproxyPorts `json:"ports"`
-}
-
-// GetDefault returns the value of Default.
-func (s *ReconfigureLoadBalancerReqContentsConfigHaproxy) GetDefault() HAProxyConfig {
-	return s.Default
-}
-
-// GetPorts returns the value of Ports.
-func (s *ReconfigureLoadBalancerReqContentsConfigHaproxy) GetPorts() ReconfigureLoadBalancerReqContentsConfigHaproxyPorts {
-	return s.Ports
-}
-
-// SetDefault sets the value of Default.
-func (s *ReconfigureLoadBalancerReqContentsConfigHaproxy) SetDefault(val HAProxyConfig) {
-	s.Default = val
-}
-
-// SetPorts sets the value of Ports.
-func (s *ReconfigureLoadBalancerReqContentsConfigHaproxy) SetPorts(val ReconfigureLoadBalancerReqContentsConfigHaproxyPorts) {
-	s.Ports = val
-}
-
-type ReconfigureLoadBalancerReqContentsConfigHaproxyPorts map[string]HAProxyConfig
-
-func (s *ReconfigureLoadBalancerReqContentsConfigHaproxyPorts) init() ReconfigureLoadBalancerReqContentsConfigHaproxyPorts {
-	m := *s
-	if m == nil {
-		m = map[string]HAProxyConfig{}
-		*s = m
-	}
-	return m
 }
 
 // Ref: #/components/schemas/ReconfigureServer
@@ -60142,175 +62680,6 @@ func (s *ReconfigureServerContents) SetSftp(val bool) {
 // SetBaseVolumeGB sets the value of BaseVolumeGB.
 func (s *ReconfigureServerContents) SetBaseVolumeGB(val NilInt) {
 	s.BaseVolumeGB = val
-}
-
-type ReconfigureVPNAccepted struct {
-	Data OptTaskDescriptor `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *ReconfigureVPNAccepted) GetData() OptTaskDescriptor {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *ReconfigureVPNAccepted) SetData(val OptTaskDescriptor) {
-	s.Data = val
-}
-
-type ReconfigureVPNReq struct {
-	// The action to take.
-	Action ReconfigureVPNReqAction `json:"action"`
-	// Additional information the platform needs to create this job.
-	Contents ReconfigureVPNReqContents `json:"contents"`
-}
-
-// GetAction returns the value of Action.
-func (s *ReconfigureVPNReq) GetAction() ReconfigureVPNReqAction {
-	return s.Action
-}
-
-// GetContents returns the value of Contents.
-func (s *ReconfigureVPNReq) GetContents() ReconfigureVPNReqContents {
-	return s.Contents
-}
-
-// SetAction sets the value of Action.
-func (s *ReconfigureVPNReq) SetAction(val ReconfigureVPNReqAction) {
-	s.Action = val
-}
-
-// SetContents sets the value of Contents.
-func (s *ReconfigureVPNReq) SetContents(val ReconfigureVPNReqContents) {
-	s.Contents = val
-}
-
-// The action to take.
-type ReconfigureVPNReqAction string
-
-const (
-	ReconfigureVPNReqActionReconfigure ReconfigureVPNReqAction = "reconfigure"
-)
-
-// MarshalText implements encoding.TextMarshaler.
-func (s ReconfigureVPNReqAction) MarshalText() ([]byte, error) {
-	switch s {
-	case ReconfigureVPNReqActionReconfigure:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *ReconfigureVPNReqAction) UnmarshalText(data []byte) error {
-	switch ReconfigureVPNReqAction(data) {
-	case ReconfigureVPNReqActionReconfigure:
-		*s = ReconfigureVPNReqActionReconfigure
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-// Additional information the platform needs to create this job.
-type ReconfigureVPNReqContents struct {
-	// A boolean where true means the VPN service is enabled.
-	Enable OptBool `json:"enable"`
-	// The config object for the VPN service, in this case without the required fields normally found in
-	// a VPN config object.
-	Config OptNilReconfigureVPNReqContentsConfig `json:"config"`
-}
-
-// GetEnable returns the value of Enable.
-func (s *ReconfigureVPNReqContents) GetEnable() OptBool {
-	return s.Enable
-}
-
-// GetConfig returns the value of Config.
-func (s *ReconfigureVPNReqContents) GetConfig() OptNilReconfigureVPNReqContentsConfig {
-	return s.Config
-}
-
-// SetEnable sets the value of Enable.
-func (s *ReconfigureVPNReqContents) SetEnable(val OptBool) {
-	s.Enable = val
-}
-
-// SetConfig sets the value of Config.
-func (s *ReconfigureVPNReqContents) SetConfig(val OptNilReconfigureVPNReqContentsConfig) {
-	s.Config = val
-}
-
-// The config object for the VPN service, in this case without the required fields normally found in
-// a VPN config object.
-type ReconfigureVPNReqContentsConfig struct {
-	// If true, routes all traffic through the VPN, even non-Cycle traffic.
-	AllowInternet OptBool `json:"allow_internet"`
-	// Auth configuration for the VPN.
-	Auth OptReconfigureVPNReqContentsConfigAuth `json:"auth"`
-}
-
-// GetAllowInternet returns the value of AllowInternet.
-func (s *ReconfigureVPNReqContentsConfig) GetAllowInternet() OptBool {
-	return s.AllowInternet
-}
-
-// GetAuth returns the value of Auth.
-func (s *ReconfigureVPNReqContentsConfig) GetAuth() OptReconfigureVPNReqContentsConfigAuth {
-	return s.Auth
-}
-
-// SetAllowInternet sets the value of AllowInternet.
-func (s *ReconfigureVPNReqContentsConfig) SetAllowInternet(val OptBool) {
-	s.AllowInternet = val
-}
-
-// SetAuth sets the value of Auth.
-func (s *ReconfigureVPNReqContentsConfig) SetAuth(val OptReconfigureVPNReqContentsConfigAuth) {
-	s.Auth = val
-}
-
-// Auth configuration for the VPN.
-type ReconfigureVPNReqContentsConfigAuth struct {
-	// A webhook endpoint to hit. Will be passed the login credentials provided to the user, and should
-	// return a 200 status if the login is permitted.
-	Webhook NilString `json:"webhook"`
-	// If true, allows any Cycle account with access to the environment to log in to the VPN using their
-	// Cycle email and password.
-	CycleAccounts bool `json:"cycle_accounts"`
-	// If true, allows the custom VPN accounts to log in to the VPN.
-	VpnAccounts OptBool `json:"vpn_accounts"`
-}
-
-// GetWebhook returns the value of Webhook.
-func (s *ReconfigureVPNReqContentsConfigAuth) GetWebhook() NilString {
-	return s.Webhook
-}
-
-// GetCycleAccounts returns the value of CycleAccounts.
-func (s *ReconfigureVPNReqContentsConfigAuth) GetCycleAccounts() bool {
-	return s.CycleAccounts
-}
-
-// GetVpnAccounts returns the value of VpnAccounts.
-func (s *ReconfigureVPNReqContentsConfigAuth) GetVpnAccounts() OptBool {
-	return s.VpnAccounts
-}
-
-// SetWebhook sets the value of Webhook.
-func (s *ReconfigureVPNReqContentsConfigAuth) SetWebhook(val NilString) {
-	s.Webhook = val
-}
-
-// SetCycleAccounts sets the value of CycleAccounts.
-func (s *ReconfigureVPNReqContentsConfigAuth) SetCycleAccounts(val bool) {
-	s.CycleAccounts = val
-}
-
-// SetVpnAccounts sets the value of VpnAccounts.
-func (s *ReconfigureVPNReqContentsConfigAuth) SetVpnAccounts(val OptBool) {
-	s.VpnAccounts = val
 }
 
 // Ref: #/components/schemas/ReconfigureVolumes
@@ -60850,18 +63219,11 @@ func (s *RecordTypesCname) SetDomain(val string) {
 	s.Domain = val
 }
 
-// A Linked record is a record special to Cycle.  It represents a url that points to a specific
-// container, however the IP address mapping in handled automatically by the platform.
+// Merged schema.
 type RecordTypesLinked struct {
-	// The ID of the container this record is related to.
-	ContainerID OptString `json:"container_id"`
 	// Features associated with this record.
 	Features RecordTypesLinkedFeatures `json:"features"`
-}
-
-// GetContainerID returns the value of ContainerID.
-func (s *RecordTypesLinked) GetContainerID() OptString {
-	return s.ContainerID
+	OneOf    RecordTypesLinkedSum
 }
 
 // GetFeatures returns the value of Features.
@@ -60869,14 +63231,19 @@ func (s *RecordTypesLinked) GetFeatures() RecordTypesLinkedFeatures {
 	return s.Features
 }
 
-// SetContainerID sets the value of ContainerID.
-func (s *RecordTypesLinked) SetContainerID(val OptString) {
-	s.ContainerID = val
+// GetOneOf returns the value of OneOf.
+func (s *RecordTypesLinked) GetOneOf() RecordTypesLinkedSum {
+	return s.OneOf
 }
 
 // SetFeatures sets the value of Features.
 func (s *RecordTypesLinked) SetFeatures(val RecordTypesLinkedFeatures) {
 	s.Features = val
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *RecordTypesLinked) SetOneOf(val RecordTypesLinkedSum) {
+	s.OneOf = val
 }
 
 // Features associated with this record.
@@ -60912,16 +63279,144 @@ func (s *RecordTypesLinkedFeaturesTLS) SetEnable(val bool) {
 	s.Enable = val
 }
 
+// RecordTypesLinkedSum represents sum type.
+type RecordTypesLinkedSum struct {
+	Type                  RecordTypesLinkedSumType // switch on this field
+	RecordTypesLinkedSum0 RecordTypesLinkedSum0
+	RecordTypesLinkedSum1 RecordTypesLinkedSum1
+}
+
+// RecordTypesLinkedSumType is oneOf type of RecordTypesLinkedSum.
+type RecordTypesLinkedSumType string
+
+// Possible values for RecordTypesLinkedSumType.
+const (
+	RecordTypesLinkedSum0RecordTypesLinkedSum RecordTypesLinkedSumType = "RecordTypesLinkedSum0"
+	RecordTypesLinkedSum1RecordTypesLinkedSum RecordTypesLinkedSumType = "RecordTypesLinkedSum1"
+)
+
+// IsRecordTypesLinkedSum0 reports whether RecordTypesLinkedSum is RecordTypesLinkedSum0.
+func (s RecordTypesLinkedSum) IsRecordTypesLinkedSum0() bool {
+	return s.Type == RecordTypesLinkedSum0RecordTypesLinkedSum
+}
+
+// IsRecordTypesLinkedSum1 reports whether RecordTypesLinkedSum is RecordTypesLinkedSum1.
+func (s RecordTypesLinkedSum) IsRecordTypesLinkedSum1() bool {
+	return s.Type == RecordTypesLinkedSum1RecordTypesLinkedSum
+}
+
+// SetRecordTypesLinkedSum0 sets RecordTypesLinkedSum to RecordTypesLinkedSum0.
+func (s *RecordTypesLinkedSum) SetRecordTypesLinkedSum0(v RecordTypesLinkedSum0) {
+	s.Type = RecordTypesLinkedSum0RecordTypesLinkedSum
+	s.RecordTypesLinkedSum0 = v
+}
+
+// GetRecordTypesLinkedSum0 returns RecordTypesLinkedSum0 and true boolean if RecordTypesLinkedSum is RecordTypesLinkedSum0.
+func (s RecordTypesLinkedSum) GetRecordTypesLinkedSum0() (v RecordTypesLinkedSum0, ok bool) {
+	if !s.IsRecordTypesLinkedSum0() {
+		return v, false
+	}
+	return s.RecordTypesLinkedSum0, true
+}
+
+// NewRecordTypesLinkedSum0RecordTypesLinkedSum returns new RecordTypesLinkedSum from RecordTypesLinkedSum0.
+func NewRecordTypesLinkedSum0RecordTypesLinkedSum(v RecordTypesLinkedSum0) RecordTypesLinkedSum {
+	var s RecordTypesLinkedSum
+	s.SetRecordTypesLinkedSum0(v)
+	return s
+}
+
+// SetRecordTypesLinkedSum1 sets RecordTypesLinkedSum to RecordTypesLinkedSum1.
+func (s *RecordTypesLinkedSum) SetRecordTypesLinkedSum1(v RecordTypesLinkedSum1) {
+	s.Type = RecordTypesLinkedSum1RecordTypesLinkedSum
+	s.RecordTypesLinkedSum1 = v
+}
+
+// GetRecordTypesLinkedSum1 returns RecordTypesLinkedSum1 and true boolean if RecordTypesLinkedSum is RecordTypesLinkedSum1.
+func (s RecordTypesLinkedSum) GetRecordTypesLinkedSum1() (v RecordTypesLinkedSum1, ok bool) {
+	if !s.IsRecordTypesLinkedSum1() {
+		return v, false
+	}
+	return s.RecordTypesLinkedSum1, true
+}
+
+// NewRecordTypesLinkedSum1RecordTypesLinkedSum returns new RecordTypesLinkedSum from RecordTypesLinkedSum1.
+func NewRecordTypesLinkedSum1RecordTypesLinkedSum(v RecordTypesLinkedSum1) RecordTypesLinkedSum {
+	var s RecordTypesLinkedSum
+	s.SetRecordTypesLinkedSum1(v)
+	return s
+}
+
+type RecordTypesLinkedSum0 struct {
+	// The ID of the container this record is related to.
+	ContainerID OptString `json:"container_id"`
+}
+
+// GetContainerID returns the value of ContainerID.
+func (s *RecordTypesLinkedSum0) GetContainerID() OptString {
+	return s.ContainerID
+}
+
+// SetContainerID sets the value of ContainerID.
+func (s *RecordTypesLinkedSum0) SetContainerID(val OptString) {
+	s.ContainerID = val
+}
+
+type RecordTypesLinkedSum1 struct {
+	// If pointed at a global load balancer, the information about which container behind that global lb
+	// this record points to. Must point to a container identifier, and that identifier must be the same
+	// in every environment referenced by the global lb.
+	GlobalLb RecordTypesLinkedSum1GlobalLb `json:"global_lb"`
+}
+
+// GetGlobalLb returns the value of GlobalLb.
+func (s *RecordTypesLinkedSum1) GetGlobalLb() RecordTypesLinkedSum1GlobalLb {
+	return s.GlobalLb
+}
+
+// SetGlobalLb sets the value of GlobalLb.
+func (s *RecordTypesLinkedSum1) SetGlobalLb(val RecordTypesLinkedSum1GlobalLb) {
+	s.GlobalLb = val
+}
+
+// If pointed at a global load balancer, the information about which container behind that global lb
+// this record points to. Must point to a container identifier, and that identifier must be the same
+// in every environment referenced by the global lb.
+type RecordTypesLinkedSum1GlobalLb struct {
+	ID        ID         `json:"id"`
+	Container Identifier `json:"container"`
+}
+
+// GetID returns the value of ID.
+func (s *RecordTypesLinkedSum1GlobalLb) GetID() ID {
+	return s.ID
+}
+
+// GetContainer returns the value of Container.
+func (s *RecordTypesLinkedSum1GlobalLb) GetContainer() Identifier {
+	return s.Container
+}
+
+// SetID sets the value of ID.
+func (s *RecordTypesLinkedSum1GlobalLb) SetID(val ID) {
+	s.ID = val
+}
+
+// SetContainer sets the value of Container.
+func (s *RecordTypesLinkedSum1GlobalLb) SetContainer(val Identifier) {
+	s.Container = val
+}
+
 // A DNS MX record.
 type RecordTypesMx struct {
 	// The priority setting for this mx record.
-	Priority string `json:"priority"`
+	Priority int `json:"priority"`
 	// The domain this mx record points to.
 	Domain string `json:"domain"`
 }
 
 // GetPriority returns the value of Priority.
-func (s *RecordTypesMx) GetPriority() string {
+func (s *RecordTypesMx) GetPriority() int {
 	return s.Priority
 }
 
@@ -60931,7 +63426,7 @@ func (s *RecordTypesMx) GetDomain() string {
 }
 
 // SetPriority sets the value of Priority.
-func (s *RecordTypesMx) SetPriority(val string) {
+func (s *RecordTypesMx) SetPriority(val int) {
 	s.Priority = val
 }
 
@@ -61024,6 +63519,68 @@ func (s *RecordTypesTxt) SetValue(val string) {
 	s.Value = val
 }
 
+type RecoverTwoFaOK struct {
+	Data OptTwoFaDisableResponse `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *RecoverTwoFaOK) GetData() OptTwoFaDisableResponse {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *RecoverTwoFaOK) SetData(val OptTwoFaDisableResponse) {
+	s.Data = val
+}
+
+type RecoverTwoFaReq struct {
+	// The user’s email.
+	Email         string    `json:"email"`
+	Password      string    `json:"password"`
+	RecoveryCodes []string  `json:"recovery_codes"`
+	Token         OptString `json:"token"`
+}
+
+// GetEmail returns the value of Email.
+func (s *RecoverTwoFaReq) GetEmail() string {
+	return s.Email
+}
+
+// GetPassword returns the value of Password.
+func (s *RecoverTwoFaReq) GetPassword() string {
+	return s.Password
+}
+
+// GetRecoveryCodes returns the value of RecoveryCodes.
+func (s *RecoverTwoFaReq) GetRecoveryCodes() []string {
+	return s.RecoveryCodes
+}
+
+// GetToken returns the value of Token.
+func (s *RecoverTwoFaReq) GetToken() OptString {
+	return s.Token
+}
+
+// SetEmail sets the value of Email.
+func (s *RecoverTwoFaReq) SetEmail(val string) {
+	s.Email = val
+}
+
+// SetPassword sets the value of Password.
+func (s *RecoverTwoFaReq) SetPassword(val string) {
+	s.Password = val
+}
+
+// SetRecoveryCodes sets the value of RecoveryCodes.
+func (s *RecoverTwoFaReq) SetRecoveryCodes(val []string) {
+	s.RecoveryCodes = val
+}
+
+// SetToken sets the value of Token.
+func (s *RecoverTwoFaReq) SetToken(val OptString) {
+	s.Token = val
+}
+
 // A billing refund.
 // Ref: #/components/schemas/Refund
 type Refund struct {
@@ -61085,6 +63642,418 @@ func (s *Refund) SetAmount(val int) {
 // SetGateway sets the value of Gateway.
 func (s *Refund) SetGateway(val PaymentGateway) {
 	s.Gateway = val
+}
+
+// Authentication details for a third party image registry/source.
+// Ref: #/components/schemas/RegistryAuth
+type RegistryAuth struct {
+	OneOf RegistryAuthSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *RegistryAuth) GetOneOf() RegistryAuthSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *RegistryAuth) SetOneOf(val RegistryAuthSum) {
+	s.OneOf = val
+}
+
+// Credentials for authentication to a provider-native image registry, such as AWS ECR.
+// Ref: #/components/schemas/RegistryAuthProvider
+type RegistryAuthProvider struct {
+	Details RegistryAuthProviderDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *RegistryAuthProvider) GetDetails() RegistryAuthProviderDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *RegistryAuthProvider) SetDetails(val RegistryAuthProviderDetails) {
+	s.Details = val
+}
+
+type RegistryAuthProviderDetails struct {
+	Flavor      RegistryAuthProviderDetailsFlavor      `json:"flavor"`
+	Credentials RegistryAuthProviderDetailsCredentials `json:"credentials"`
+}
+
+// GetFlavor returns the value of Flavor.
+func (s *RegistryAuthProviderDetails) GetFlavor() RegistryAuthProviderDetailsFlavor {
+	return s.Flavor
+}
+
+// GetCredentials returns the value of Credentials.
+func (s *RegistryAuthProviderDetails) GetCredentials() RegistryAuthProviderDetailsCredentials {
+	return s.Credentials
+}
+
+// SetFlavor sets the value of Flavor.
+func (s *RegistryAuthProviderDetails) SetFlavor(val RegistryAuthProviderDetailsFlavor) {
+	s.Flavor = val
+}
+
+// SetCredentials sets the value of Credentials.
+func (s *RegistryAuthProviderDetails) SetCredentials(val RegistryAuthProviderDetailsCredentials) {
+	s.Credentials = val
+}
+
+type RegistryAuthProviderDetailsCredentials struct {
+	Region         OptString `json:"region"`
+	Namespace      OptString `json:"namespace"`
+	APIKey         OptString `json:"api_key"`
+	Secret         OptString `json:"secret"`
+	SubscriptionID OptString `json:"subscription_id"`
+	ClientID       OptString `json:"client_id"`
+	// A base64'd string of additional configuration options.
+	Config OptString `json:"config"`
+}
+
+// GetRegion returns the value of Region.
+func (s *RegistryAuthProviderDetailsCredentials) GetRegion() OptString {
+	return s.Region
+}
+
+// GetNamespace returns the value of Namespace.
+func (s *RegistryAuthProviderDetailsCredentials) GetNamespace() OptString {
+	return s.Namespace
+}
+
+// GetAPIKey returns the value of APIKey.
+func (s *RegistryAuthProviderDetailsCredentials) GetAPIKey() OptString {
+	return s.APIKey
+}
+
+// GetSecret returns the value of Secret.
+func (s *RegistryAuthProviderDetailsCredentials) GetSecret() OptString {
+	return s.Secret
+}
+
+// GetSubscriptionID returns the value of SubscriptionID.
+func (s *RegistryAuthProviderDetailsCredentials) GetSubscriptionID() OptString {
+	return s.SubscriptionID
+}
+
+// GetClientID returns the value of ClientID.
+func (s *RegistryAuthProviderDetailsCredentials) GetClientID() OptString {
+	return s.ClientID
+}
+
+// GetConfig returns the value of Config.
+func (s *RegistryAuthProviderDetailsCredentials) GetConfig() OptString {
+	return s.Config
+}
+
+// SetRegion sets the value of Region.
+func (s *RegistryAuthProviderDetailsCredentials) SetRegion(val OptString) {
+	s.Region = val
+}
+
+// SetNamespace sets the value of Namespace.
+func (s *RegistryAuthProviderDetailsCredentials) SetNamespace(val OptString) {
+	s.Namespace = val
+}
+
+// SetAPIKey sets the value of APIKey.
+func (s *RegistryAuthProviderDetailsCredentials) SetAPIKey(val OptString) {
+	s.APIKey = val
+}
+
+// SetSecret sets the value of Secret.
+func (s *RegistryAuthProviderDetailsCredentials) SetSecret(val OptString) {
+	s.Secret = val
+}
+
+// SetSubscriptionID sets the value of SubscriptionID.
+func (s *RegistryAuthProviderDetailsCredentials) SetSubscriptionID(val OptString) {
+	s.SubscriptionID = val
+}
+
+// SetClientID sets the value of ClientID.
+func (s *RegistryAuthProviderDetailsCredentials) SetClientID(val OptString) {
+	s.ClientID = val
+}
+
+// SetConfig sets the value of Config.
+func (s *RegistryAuthProviderDetailsCredentials) SetConfig(val OptString) {
+	s.Config = val
+}
+
+type RegistryAuthProviderDetailsFlavor string
+
+const (
+	RegistryAuthProviderDetailsFlavorEcr RegistryAuthProviderDetailsFlavor = "ecr"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RegistryAuthProviderDetailsFlavor) MarshalText() ([]byte, error) {
+	switch s {
+	case RegistryAuthProviderDetailsFlavorEcr:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RegistryAuthProviderDetailsFlavor) UnmarshalText(data []byte) error {
+	switch RegistryAuthProviderDetailsFlavor(data) {
+	case RegistryAuthProviderDetailsFlavorEcr:
+		*s = RegistryAuthProviderDetailsFlavorEcr
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type RegistryAuthProviderType string
+
+const (
+	RegistryAuthProviderTypeProvider RegistryAuthProviderType = "provider"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RegistryAuthProviderType) MarshalText() ([]byte, error) {
+	switch s {
+	case RegistryAuthProviderTypeProvider:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RegistryAuthProviderType) UnmarshalText(data []byte) error {
+	switch RegistryAuthProviderType(data) {
+	case RegistryAuthProviderTypeProvider:
+		*s = RegistryAuthProviderTypeProvider
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// RegistryAuthSum represents sum type.
+type RegistryAuthSum struct {
+	Type                 RegistryAuthSumType // switch on this field
+	RegistryAuthUser     RegistryAuthUser
+	RegistryAuthProvider RegistryAuthProvider
+	RegistryAuthWebhook  RegistryAuthWebhook
+}
+
+// RegistryAuthSumType is oneOf type of RegistryAuthSum.
+type RegistryAuthSumType string
+
+// Possible values for RegistryAuthSumType.
+const (
+	RegistryAuthUserRegistryAuthSum     RegistryAuthSumType = "user"
+	RegistryAuthProviderRegistryAuthSum RegistryAuthSumType = "provider"
+	RegistryAuthWebhookRegistryAuthSum  RegistryAuthSumType = "webhook"
+)
+
+// IsRegistryAuthUser reports whether RegistryAuthSum is RegistryAuthUser.
+func (s RegistryAuthSum) IsRegistryAuthUser() bool { return s.Type == RegistryAuthUserRegistryAuthSum }
+
+// IsRegistryAuthProvider reports whether RegistryAuthSum is RegistryAuthProvider.
+func (s RegistryAuthSum) IsRegistryAuthProvider() bool {
+	return s.Type == RegistryAuthProviderRegistryAuthSum
+}
+
+// IsRegistryAuthWebhook reports whether RegistryAuthSum is RegistryAuthWebhook.
+func (s RegistryAuthSum) IsRegistryAuthWebhook() bool {
+	return s.Type == RegistryAuthWebhookRegistryAuthSum
+}
+
+// SetRegistryAuthUser sets RegistryAuthSum to RegistryAuthUser.
+func (s *RegistryAuthSum) SetRegistryAuthUser(v RegistryAuthUser) {
+	s.Type = RegistryAuthUserRegistryAuthSum
+	s.RegistryAuthUser = v
+}
+
+// GetRegistryAuthUser returns RegistryAuthUser and true boolean if RegistryAuthSum is RegistryAuthUser.
+func (s RegistryAuthSum) GetRegistryAuthUser() (v RegistryAuthUser, ok bool) {
+	if !s.IsRegistryAuthUser() {
+		return v, false
+	}
+	return s.RegistryAuthUser, true
+}
+
+// NewRegistryAuthUserRegistryAuthSum returns new RegistryAuthSum from RegistryAuthUser.
+func NewRegistryAuthUserRegistryAuthSum(v RegistryAuthUser) RegistryAuthSum {
+	var s RegistryAuthSum
+	s.SetRegistryAuthUser(v)
+	return s
+}
+
+// SetRegistryAuthProvider sets RegistryAuthSum to RegistryAuthProvider.
+func (s *RegistryAuthSum) SetRegistryAuthProvider(v RegistryAuthProvider) {
+	s.Type = RegistryAuthProviderRegistryAuthSum
+	s.RegistryAuthProvider = v
+}
+
+// GetRegistryAuthProvider returns RegistryAuthProvider and true boolean if RegistryAuthSum is RegistryAuthProvider.
+func (s RegistryAuthSum) GetRegistryAuthProvider() (v RegistryAuthProvider, ok bool) {
+	if !s.IsRegistryAuthProvider() {
+		return v, false
+	}
+	return s.RegistryAuthProvider, true
+}
+
+// NewRegistryAuthProviderRegistryAuthSum returns new RegistryAuthSum from RegistryAuthProvider.
+func NewRegistryAuthProviderRegistryAuthSum(v RegistryAuthProvider) RegistryAuthSum {
+	var s RegistryAuthSum
+	s.SetRegistryAuthProvider(v)
+	return s
+}
+
+// SetRegistryAuthWebhook sets RegistryAuthSum to RegistryAuthWebhook.
+func (s *RegistryAuthSum) SetRegistryAuthWebhook(v RegistryAuthWebhook) {
+	s.Type = RegistryAuthWebhookRegistryAuthSum
+	s.RegistryAuthWebhook = v
+}
+
+// GetRegistryAuthWebhook returns RegistryAuthWebhook and true boolean if RegistryAuthSum is RegistryAuthWebhook.
+func (s RegistryAuthSum) GetRegistryAuthWebhook() (v RegistryAuthWebhook, ok bool) {
+	if !s.IsRegistryAuthWebhook() {
+		return v, false
+	}
+	return s.RegistryAuthWebhook, true
+}
+
+// NewRegistryAuthWebhookRegistryAuthSum returns new RegistryAuthSum from RegistryAuthWebhook.
+func NewRegistryAuthWebhookRegistryAuthSum(v RegistryAuthWebhook) RegistryAuthSum {
+	var s RegistryAuthSum
+	s.SetRegistryAuthWebhook(v)
+	return s
+}
+
+// User/token based credentials for authentication to a third-party image source.
+// Ref: #/components/schemas/RegistryAuthUser
+type RegistryAuthUser struct {
+	Details RegistryAuthUserDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *RegistryAuthUser) GetDetails() RegistryAuthUserDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *RegistryAuthUser) SetDetails(val RegistryAuthUserDetails) {
+	s.Details = val
+}
+
+type RegistryAuthUserDetails struct {
+	Username OptString `json:"username"`
+	Token    OptString `json:"token"`
+}
+
+// GetUsername returns the value of Username.
+func (s *RegistryAuthUserDetails) GetUsername() OptString {
+	return s.Username
+}
+
+// GetToken returns the value of Token.
+func (s *RegistryAuthUserDetails) GetToken() OptString {
+	return s.Token
+}
+
+// SetUsername sets the value of Username.
+func (s *RegistryAuthUserDetails) SetUsername(val OptString) {
+	s.Username = val
+}
+
+// SetToken sets the value of Token.
+func (s *RegistryAuthUserDetails) SetToken(val OptString) {
+	s.Token = val
+}
+
+type RegistryAuthUserType string
+
+const (
+	RegistryAuthUserTypeUser RegistryAuthUserType = "user"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RegistryAuthUserType) MarshalText() ([]byte, error) {
+	switch s {
+	case RegistryAuthUserTypeUser:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RegistryAuthUserType) UnmarshalText(data []byte) error {
+	switch RegistryAuthUserType(data) {
+	case RegistryAuthUserTypeUser:
+		*s = RegistryAuthUserTypeUser
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Webhook-based authentication to the provided URL. This webhook expects to receive a base-64 string
+// that when decoded is in the format `username:password`.
+// Ref: #/components/schemas/RegistryAuthWebhook
+type RegistryAuthWebhook struct {
+	Details RegistryAuthWebhookDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *RegistryAuthWebhook) GetDetails() RegistryAuthWebhookDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *RegistryAuthWebhook) SetDetails(val RegistryAuthWebhookDetails) {
+	s.Details = val
+}
+
+type RegistryAuthWebhookDetails struct {
+	URL string `json:"url"`
+}
+
+// GetURL returns the value of URL.
+func (s *RegistryAuthWebhookDetails) GetURL() string {
+	return s.URL
+}
+
+// SetURL sets the value of URL.
+func (s *RegistryAuthWebhookDetails) SetURL(val string) {
+	s.URL = val
+}
+
+type RegistryAuthWebhookType string
+
+const (
+	RegistryAuthWebhookTypeWebhook RegistryAuthWebhookType = "webhook"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RegistryAuthWebhookType) MarshalText() ([]byte, error) {
+	switch s {
+	case RegistryAuthWebhookTypeWebhook:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RegistryAuthWebhookType) UnmarshalText(data []byte) error {
+	switch RegistryAuthWebhookType(data) {
+	case RegistryAuthWebhookTypeWebhook:
+		*s = RegistryAuthWebhookTypeWebhook
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Ref: #/components/schemas/Reimage
@@ -61296,6 +64265,20 @@ func (s *RemoveEnvironmentAccepted) GetData() OptTaskDescriptor {
 
 // SetData sets the value of Data.
 func (s *RemoveEnvironmentAccepted) SetData(val OptTaskDescriptor) {
+	s.Data = val
+}
+
+type RemoveGlobalLoadBalancerOK struct {
+	Data OptTaskDescriptor `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *RemoveGlobalLoadBalancerOK) GetData() OptTaskDescriptor {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *RemoveGlobalLoadBalancerOK) SetData(val OptTaskDescriptor) {
 	s.Data = val
 }
 
@@ -61534,231 +64517,6 @@ func (s *RemoveVPNUserOK) SetData(val OptString) {
 	s.Data = val
 }
 
-// A repo source type for a stack.
-// Ref: #/components/schemas/RepoSpec
-type RepoSpec struct {
-	Details RepoSpecDetails `json:"details"`
-}
-
-// GetDetails returns the value of Details.
-func (s *RepoSpec) GetDetails() RepoSpecDetails {
-	return s.Details
-}
-
-// SetDetails sets the value of Details.
-func (s *RepoSpec) SetDetails(val RepoSpecDetails) {
-	s.Details = val
-}
-
-type RepoSpecDetails struct {
-	// The URL of the repository.
-	URL string `json:"url"`
-	// An optional branch arguement.  Default value is `master`.
-	Branch OptString `json:"branch"`
-	// Authentication information for the repository.
-	Auth OptRepoSpecDetailsAuth `json:"auth"`
-	// Repository reference information.
-	Ref OptRepoSpecDetailsRef `json:"ref"`
-}
-
-// GetURL returns the value of URL.
-func (s *RepoSpecDetails) GetURL() string {
-	return s.URL
-}
-
-// GetBranch returns the value of Branch.
-func (s *RepoSpecDetails) GetBranch() OptString {
-	return s.Branch
-}
-
-// GetAuth returns the value of Auth.
-func (s *RepoSpecDetails) GetAuth() OptRepoSpecDetailsAuth {
-	return s.Auth
-}
-
-// GetRef returns the value of Ref.
-func (s *RepoSpecDetails) GetRef() OptRepoSpecDetailsRef {
-	return s.Ref
-}
-
-// SetURL sets the value of URL.
-func (s *RepoSpecDetails) SetURL(val string) {
-	s.URL = val
-}
-
-// SetBranch sets the value of Branch.
-func (s *RepoSpecDetails) SetBranch(val OptString) {
-	s.Branch = val
-}
-
-// SetAuth sets the value of Auth.
-func (s *RepoSpecDetails) SetAuth(val OptRepoSpecDetailsAuth) {
-	s.Auth = val
-}
-
-// SetRef sets the value of Ref.
-func (s *RepoSpecDetails) SetRef(val OptRepoSpecDetailsRef) {
-	s.Ref = val
-}
-
-// Authentication information for the repository.
-// RepoSpecDetailsAuth represents sum type.
-type RepoSpecDetailsAuth struct {
-	Type            RepoSpecDetailsAuthType // switch on this field
-	CredentialsHTTP CredentialsHTTP
-	CredentialsSSH  CredentialsSSH
-}
-
-// RepoSpecDetailsAuthType is oneOf type of RepoSpecDetailsAuth.
-type RepoSpecDetailsAuthType string
-
-// Possible values for RepoSpecDetailsAuthType.
-const (
-	CredentialsHTTPRepoSpecDetailsAuth RepoSpecDetailsAuthType = "CredentialsHTTP"
-	CredentialsSSHRepoSpecDetailsAuth  RepoSpecDetailsAuthType = "CredentialsSSH"
-)
-
-// IsCredentialsHTTP reports whether RepoSpecDetailsAuth is CredentialsHTTP.
-func (s RepoSpecDetailsAuth) IsCredentialsHTTP() bool {
-	return s.Type == CredentialsHTTPRepoSpecDetailsAuth
-}
-
-// IsCredentialsSSH reports whether RepoSpecDetailsAuth is CredentialsSSH.
-func (s RepoSpecDetailsAuth) IsCredentialsSSH() bool {
-	return s.Type == CredentialsSSHRepoSpecDetailsAuth
-}
-
-// SetCredentialsHTTP sets RepoSpecDetailsAuth to CredentialsHTTP.
-func (s *RepoSpecDetailsAuth) SetCredentialsHTTP(v CredentialsHTTP) {
-	s.Type = CredentialsHTTPRepoSpecDetailsAuth
-	s.CredentialsHTTP = v
-}
-
-// GetCredentialsHTTP returns CredentialsHTTP and true boolean if RepoSpecDetailsAuth is CredentialsHTTP.
-func (s RepoSpecDetailsAuth) GetCredentialsHTTP() (v CredentialsHTTP, ok bool) {
-	if !s.IsCredentialsHTTP() {
-		return v, false
-	}
-	return s.CredentialsHTTP, true
-}
-
-// NewCredentialsHTTPRepoSpecDetailsAuth returns new RepoSpecDetailsAuth from CredentialsHTTP.
-func NewCredentialsHTTPRepoSpecDetailsAuth(v CredentialsHTTP) RepoSpecDetailsAuth {
-	var s RepoSpecDetailsAuth
-	s.SetCredentialsHTTP(v)
-	return s
-}
-
-// SetCredentialsSSH sets RepoSpecDetailsAuth to CredentialsSSH.
-func (s *RepoSpecDetailsAuth) SetCredentialsSSH(v CredentialsSSH) {
-	s.Type = CredentialsSSHRepoSpecDetailsAuth
-	s.CredentialsSSH = v
-}
-
-// GetCredentialsSSH returns CredentialsSSH and true boolean if RepoSpecDetailsAuth is CredentialsSSH.
-func (s RepoSpecDetailsAuth) GetCredentialsSSH() (v CredentialsSSH, ok bool) {
-	if !s.IsCredentialsSSH() {
-		return v, false
-	}
-	return s.CredentialsSSH, true
-}
-
-// NewCredentialsSSHRepoSpecDetailsAuth returns new RepoSpecDetailsAuth from CredentialsSSH.
-func NewCredentialsSSHRepoSpecDetailsAuth(v CredentialsSSH) RepoSpecDetailsAuth {
-	var s RepoSpecDetailsAuth
-	s.SetCredentialsSSH(v)
-	return s
-}
-
-// Repository reference information.
-type RepoSpecDetailsRef struct {
-	// The type of reference being used.
-	Type RepoSpecDetailsRefType `json:"type"`
-	// The value for the given reference type.
-	Value string `json:"value"`
-}
-
-// GetType returns the value of Type.
-func (s *RepoSpecDetailsRef) GetType() RepoSpecDetailsRefType {
-	return s.Type
-}
-
-// GetValue returns the value of Value.
-func (s *RepoSpecDetailsRef) GetValue() string {
-	return s.Value
-}
-
-// SetType sets the value of Type.
-func (s *RepoSpecDetailsRef) SetType(val RepoSpecDetailsRefType) {
-	s.Type = val
-}
-
-// SetValue sets the value of Value.
-func (s *RepoSpecDetailsRef) SetValue(val string) {
-	s.Value = val
-}
-
-// The type of reference being used.
-type RepoSpecDetailsRefType string
-
-const (
-	RepoSpecDetailsRefTypeHash RepoSpecDetailsRefType = "hash"
-	RepoSpecDetailsRefTypeTag  RepoSpecDetailsRefType = "tag"
-)
-
-// MarshalText implements encoding.TextMarshaler.
-func (s RepoSpecDetailsRefType) MarshalText() ([]byte, error) {
-	switch s {
-	case RepoSpecDetailsRefTypeHash:
-		return []byte(s), nil
-	case RepoSpecDetailsRefTypeTag:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *RepoSpecDetailsRefType) UnmarshalText(data []byte) error {
-	switch RepoSpecDetailsRefType(data) {
-	case RepoSpecDetailsRefTypeHash:
-		*s = RepoSpecDetailsRefTypeHash
-		return nil
-	case RepoSpecDetailsRefTypeTag:
-		*s = RepoSpecDetailsRefTypeTag
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type RepoSpecType string
-
-const (
-	RepoSpecTypeGitRepo RepoSpecType = "git-repo"
-)
-
-// MarshalText implements encoding.TextMarshaler.
-func (s RepoSpecType) MarshalText() ([]byte, error) {
-	switch s {
-	case RepoSpecTypeGitRepo:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *RepoSpecType) UnmarshalText(data []byte) error {
-	switch RepoSpecType(data) {
-	case RepoSpecTypeGitRepo:
-		*s = RepoSpecTypeGitRepo
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
 // Information about the repostiory.
 // Ref: #/components/schemas/RepoType
 type RepoType struct {
@@ -61813,66 +64571,80 @@ func (s *RepoType) SetRef(val OptRepoTypeRef) {
 }
 
 // Authentication information for the repository.
-// RepoTypeAuth represents sum type.
 type RepoTypeAuth struct {
-	Type            RepoTypeAuthType // switch on this field
+	OneOf RepoTypeAuthSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *RepoTypeAuth) GetOneOf() RepoTypeAuthSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *RepoTypeAuth) SetOneOf(val RepoTypeAuthSum) {
+	s.OneOf = val
+}
+
+// RepoTypeAuthSum represents sum type.
+type RepoTypeAuthSum struct {
+	Type            RepoTypeAuthSumType // switch on this field
 	CredentialsHTTP CredentialsHTTP
 	CredentialsSSH  CredentialsSSH
 }
 
-// RepoTypeAuthType is oneOf type of RepoTypeAuth.
-type RepoTypeAuthType string
+// RepoTypeAuthSumType is oneOf type of RepoTypeAuthSum.
+type RepoTypeAuthSumType string
 
-// Possible values for RepoTypeAuthType.
+// Possible values for RepoTypeAuthSumType.
 const (
-	CredentialsHTTPRepoTypeAuth RepoTypeAuthType = "CredentialsHTTP"
-	CredentialsSSHRepoTypeAuth  RepoTypeAuthType = "CredentialsSSH"
+	CredentialsHTTPRepoTypeAuthSum RepoTypeAuthSumType = "http"
+	CredentialsSSHRepoTypeAuthSum  RepoTypeAuthSumType = "ssh"
 )
 
-// IsCredentialsHTTP reports whether RepoTypeAuth is CredentialsHTTP.
-func (s RepoTypeAuth) IsCredentialsHTTP() bool { return s.Type == CredentialsHTTPRepoTypeAuth }
+// IsCredentialsHTTP reports whether RepoTypeAuthSum is CredentialsHTTP.
+func (s RepoTypeAuthSum) IsCredentialsHTTP() bool { return s.Type == CredentialsHTTPRepoTypeAuthSum }
 
-// IsCredentialsSSH reports whether RepoTypeAuth is CredentialsSSH.
-func (s RepoTypeAuth) IsCredentialsSSH() bool { return s.Type == CredentialsSSHRepoTypeAuth }
+// IsCredentialsSSH reports whether RepoTypeAuthSum is CredentialsSSH.
+func (s RepoTypeAuthSum) IsCredentialsSSH() bool { return s.Type == CredentialsSSHRepoTypeAuthSum }
 
-// SetCredentialsHTTP sets RepoTypeAuth to CredentialsHTTP.
-func (s *RepoTypeAuth) SetCredentialsHTTP(v CredentialsHTTP) {
-	s.Type = CredentialsHTTPRepoTypeAuth
+// SetCredentialsHTTP sets RepoTypeAuthSum to CredentialsHTTP.
+func (s *RepoTypeAuthSum) SetCredentialsHTTP(v CredentialsHTTP) {
+	s.Type = CredentialsHTTPRepoTypeAuthSum
 	s.CredentialsHTTP = v
 }
 
-// GetCredentialsHTTP returns CredentialsHTTP and true boolean if RepoTypeAuth is CredentialsHTTP.
-func (s RepoTypeAuth) GetCredentialsHTTP() (v CredentialsHTTP, ok bool) {
+// GetCredentialsHTTP returns CredentialsHTTP and true boolean if RepoTypeAuthSum is CredentialsHTTP.
+func (s RepoTypeAuthSum) GetCredentialsHTTP() (v CredentialsHTTP, ok bool) {
 	if !s.IsCredentialsHTTP() {
 		return v, false
 	}
 	return s.CredentialsHTTP, true
 }
 
-// NewCredentialsHTTPRepoTypeAuth returns new RepoTypeAuth from CredentialsHTTP.
-func NewCredentialsHTTPRepoTypeAuth(v CredentialsHTTP) RepoTypeAuth {
-	var s RepoTypeAuth
+// NewCredentialsHTTPRepoTypeAuthSum returns new RepoTypeAuthSum from CredentialsHTTP.
+func NewCredentialsHTTPRepoTypeAuthSum(v CredentialsHTTP) RepoTypeAuthSum {
+	var s RepoTypeAuthSum
 	s.SetCredentialsHTTP(v)
 	return s
 }
 
-// SetCredentialsSSH sets RepoTypeAuth to CredentialsSSH.
-func (s *RepoTypeAuth) SetCredentialsSSH(v CredentialsSSH) {
-	s.Type = CredentialsSSHRepoTypeAuth
+// SetCredentialsSSH sets RepoTypeAuthSum to CredentialsSSH.
+func (s *RepoTypeAuthSum) SetCredentialsSSH(v CredentialsSSH) {
+	s.Type = CredentialsSSHRepoTypeAuthSum
 	s.CredentialsSSH = v
 }
 
-// GetCredentialsSSH returns CredentialsSSH and true boolean if RepoTypeAuth is CredentialsSSH.
-func (s RepoTypeAuth) GetCredentialsSSH() (v CredentialsSSH, ok bool) {
+// GetCredentialsSSH returns CredentialsSSH and true boolean if RepoTypeAuthSum is CredentialsSSH.
+func (s RepoTypeAuthSum) GetCredentialsSSH() (v CredentialsSSH, ok bool) {
 	if !s.IsCredentialsSSH() {
 		return v, false
 	}
 	return s.CredentialsSSH, true
 }
 
-// NewCredentialsSSHRepoTypeAuth returns new RepoTypeAuth from CredentialsSSH.
-func NewCredentialsSSHRepoTypeAuth(v CredentialsSSH) RepoTypeAuth {
-	var s RepoTypeAuth
+// NewCredentialsSSHRepoTypeAuthSum returns new RepoTypeAuthSum from CredentialsSSH.
+func NewCredentialsSSHRepoTypeAuthSum(v CredentialsSSH) RepoTypeAuthSum {
+	var s RepoTypeAuthSum
 	s.SetCredentialsSSH(v)
 	return s
 }
@@ -61983,106 +64755,120 @@ func (s *ResetPasswordReq) SetNew(val OptString) {
 // Either a details ID or details from where the ID is an identifier for an existing resource and a
 // from is an identifier from a previous step in this pipeline.
 // Ref: #/components/schemas/ResourceLocation
-// ResourceLocation represents sum type.
 type ResourceLocation struct {
-	Type              ResourceLocationType // switch on this field
-	ResourceLocation0 ResourceLocation0
-	ResourceLocation1 ResourceLocation1
+	OneOf ResourceLocationSum
 }
 
-// ResourceLocationType is oneOf type of ResourceLocation.
-type ResourceLocationType string
+// GetOneOf returns the value of OneOf.
+func (s *ResourceLocation) GetOneOf() ResourceLocationSum {
+	return s.OneOf
+}
 
-// Possible values for ResourceLocationType.
+// SetOneOf sets the value of OneOf.
+func (s *ResourceLocation) SetOneOf(val ResourceLocationSum) {
+	s.OneOf = val
+}
+
+// ResourceLocationSum represents sum type.
+type ResourceLocationSum struct {
+	Type                 ResourceLocationSumType // switch on this field
+	ResourceLocationSum0 ResourceLocationSum0
+	ResourceLocationSum1 ResourceLocationSum1
+}
+
+// ResourceLocationSumType is oneOf type of ResourceLocationSum.
+type ResourceLocationSumType string
+
+// Possible values for ResourceLocationSumType.
 const (
-	ResourceLocation0ResourceLocation ResourceLocationType = "ResourceLocation0"
-	ResourceLocation1ResourceLocation ResourceLocationType = "ResourceLocation1"
+	ResourceLocationSum0ResourceLocationSum ResourceLocationSumType = "ResourceLocationSum0"
+	ResourceLocationSum1ResourceLocationSum ResourceLocationSumType = "ResourceLocationSum1"
 )
 
-// IsResourceLocation0 reports whether ResourceLocation is ResourceLocation0.
-func (s ResourceLocation) IsResourceLocation0() bool {
-	return s.Type == ResourceLocation0ResourceLocation
+// IsResourceLocationSum0 reports whether ResourceLocationSum is ResourceLocationSum0.
+func (s ResourceLocationSum) IsResourceLocationSum0() bool {
+	return s.Type == ResourceLocationSum0ResourceLocationSum
 }
 
-// IsResourceLocation1 reports whether ResourceLocation is ResourceLocation1.
-func (s ResourceLocation) IsResourceLocation1() bool {
-	return s.Type == ResourceLocation1ResourceLocation
+// IsResourceLocationSum1 reports whether ResourceLocationSum is ResourceLocationSum1.
+func (s ResourceLocationSum) IsResourceLocationSum1() bool {
+	return s.Type == ResourceLocationSum1ResourceLocationSum
 }
 
-// SetResourceLocation0 sets ResourceLocation to ResourceLocation0.
-func (s *ResourceLocation) SetResourceLocation0(v ResourceLocation0) {
-	s.Type = ResourceLocation0ResourceLocation
-	s.ResourceLocation0 = v
+// SetResourceLocationSum0 sets ResourceLocationSum to ResourceLocationSum0.
+func (s *ResourceLocationSum) SetResourceLocationSum0(v ResourceLocationSum0) {
+	s.Type = ResourceLocationSum0ResourceLocationSum
+	s.ResourceLocationSum0 = v
 }
 
-// GetResourceLocation0 returns ResourceLocation0 and true boolean if ResourceLocation is ResourceLocation0.
-func (s ResourceLocation) GetResourceLocation0() (v ResourceLocation0, ok bool) {
-	if !s.IsResourceLocation0() {
+// GetResourceLocationSum0 returns ResourceLocationSum0 and true boolean if ResourceLocationSum is ResourceLocationSum0.
+func (s ResourceLocationSum) GetResourceLocationSum0() (v ResourceLocationSum0, ok bool) {
+	if !s.IsResourceLocationSum0() {
 		return v, false
 	}
-	return s.ResourceLocation0, true
+	return s.ResourceLocationSum0, true
 }
 
-// NewResourceLocation0ResourceLocation returns new ResourceLocation from ResourceLocation0.
-func NewResourceLocation0ResourceLocation(v ResourceLocation0) ResourceLocation {
-	var s ResourceLocation
-	s.SetResourceLocation0(v)
+// NewResourceLocationSum0ResourceLocationSum returns new ResourceLocationSum from ResourceLocationSum0.
+func NewResourceLocationSum0ResourceLocationSum(v ResourceLocationSum0) ResourceLocationSum {
+	var s ResourceLocationSum
+	s.SetResourceLocationSum0(v)
 	return s
 }
 
-// SetResourceLocation1 sets ResourceLocation to ResourceLocation1.
-func (s *ResourceLocation) SetResourceLocation1(v ResourceLocation1) {
-	s.Type = ResourceLocation1ResourceLocation
-	s.ResourceLocation1 = v
+// SetResourceLocationSum1 sets ResourceLocationSum to ResourceLocationSum1.
+func (s *ResourceLocationSum) SetResourceLocationSum1(v ResourceLocationSum1) {
+	s.Type = ResourceLocationSum1ResourceLocationSum
+	s.ResourceLocationSum1 = v
 }
 
-// GetResourceLocation1 returns ResourceLocation1 and true boolean if ResourceLocation is ResourceLocation1.
-func (s ResourceLocation) GetResourceLocation1() (v ResourceLocation1, ok bool) {
-	if !s.IsResourceLocation1() {
+// GetResourceLocationSum1 returns ResourceLocationSum1 and true boolean if ResourceLocationSum is ResourceLocationSum1.
+func (s ResourceLocationSum) GetResourceLocationSum1() (v ResourceLocationSum1, ok bool) {
+	if !s.IsResourceLocationSum1() {
 		return v, false
 	}
-	return s.ResourceLocation1, true
+	return s.ResourceLocationSum1, true
 }
 
-// NewResourceLocation1ResourceLocation returns new ResourceLocation from ResourceLocation1.
-func NewResourceLocation1ResourceLocation(v ResourceLocation1) ResourceLocation {
-	var s ResourceLocation
-	s.SetResourceLocation1(v)
+// NewResourceLocationSum1ResourceLocationSum returns new ResourceLocationSum from ResourceLocationSum1.
+func NewResourceLocationSum1ResourceLocationSum(v ResourceLocationSum1) ResourceLocationSum {
+	var s ResourceLocationSum
+	s.SetResourceLocationSum1(v)
 	return s
 }
 
-type ResourceLocation0 struct {
+type ResourceLocationSum0 struct {
 	// The ID of an existing resource that exists before the pipeline is run.
-	ID OptString `json:"id"`
+	ID string `json:"id"`
 }
 
 // GetID returns the value of ID.
-func (s *ResourceLocation0) GetID() OptString {
+func (s *ResourceLocationSum0) GetID() string {
 	return s.ID
 }
 
 // SetID sets the value of ID.
-func (s *ResourceLocation0) SetID(val OptString) {
+func (s *ResourceLocationSum0) SetID(val string) {
 	s.ID = val
 }
 
-type ResourceLocation1 struct {
+type ResourceLocationSum1 struct {
 	// The stage and step to report on.
-	From OptResourceLocation1From `json:"from"`
+	From ResourceLocationSum1From `json:"from"`
 }
 
 // GetFrom returns the value of From.
-func (s *ResourceLocation1) GetFrom() OptResourceLocation1From {
+func (s *ResourceLocationSum1) GetFrom() ResourceLocationSum1From {
 	return s.From
 }
 
 // SetFrom sets the value of From.
-func (s *ResourceLocation1) SetFrom(val OptResourceLocation1From) {
+func (s *ResourceLocationSum1) SetFrom(val ResourceLocationSum1From) {
 	s.From = val
 }
 
 // The stage and step to report on.
-type ResourceLocation1From struct {
+type ResourceLocationSum1From struct {
 	// An identifier for the stage the step being reported on resides in.
 	Stage OptString `json:"stage"`
 	// An identifier for the step to be reported on.
@@ -62090,22 +64876,22 @@ type ResourceLocation1From struct {
 }
 
 // GetStage returns the value of Stage.
-func (s *ResourceLocation1From) GetStage() OptString {
+func (s *ResourceLocationSum1From) GetStage() OptString {
 	return s.Stage
 }
 
 // GetStep returns the value of Step.
-func (s *ResourceLocation1From) GetStep() string {
+func (s *ResourceLocationSum1From) GetStep() string {
 	return s.Step
 }
 
 // SetStage sets the value of Stage.
-func (s *ResourceLocation1From) SetStage(val OptString) {
+func (s *ResourceLocationSum1From) SetStage(val OptString) {
 	s.Stage = val
 }
 
 // SetStep sets the value of Step.
-func (s *ResourceLocation1From) SetStep(val string) {
+func (s *ResourceLocationSum1From) SetStep(val string) {
 	s.Step = val
 }
 
@@ -62124,6 +64910,7 @@ type ResourceSnapshot struct {
 	CPU           CPUSnapshot       `json:"cpu"`
 	Memory        MemorySnapshot    `json:"memory"`
 	Processes     ProcessesSnapshot `json:"processes"`
+	Network       NetworkSnapshot   `json:"network"`
 	Hugetlb       OptHugeTLB        `json:"hugetlb"`
 }
 
@@ -62165,6 +64952,11 @@ func (s *ResourceSnapshot) GetMemory() MemorySnapshot {
 // GetProcesses returns the value of Processes.
 func (s *ResourceSnapshot) GetProcesses() ProcessesSnapshot {
 	return s.Processes
+}
+
+// GetNetwork returns the value of Network.
+func (s *ResourceSnapshot) GetNetwork() NetworkSnapshot {
+	return s.Network
 }
 
 // GetHugetlb returns the value of Hugetlb.
@@ -62212,6 +65004,11 @@ func (s *ResourceSnapshot) SetProcesses(val ProcessesSnapshot) {
 	s.Processes = val
 }
 
+// SetNetwork sets the value of Network.
+func (s *ResourceSnapshot) SetNetwork(val NetworkSnapshot) {
+	s.Network = val
+}
+
 // SetHugetlb sets the value of Hugetlb.
 func (s *ResourceSnapshot) SetHugetlb(val OptHugeTLB) {
 	s.Hugetlb = val
@@ -62243,6 +65040,38 @@ func (s *RestartComputeAction) UnmarshalText(data []byte) error {
 	switch RestartComputeAction(data) {
 	case RestartComputeActionComputeRestart:
 		*s = RestartComputeActionComputeRestart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A job that restarts compute service on a given server.
+// Ref: #/components/schemas/RestartComputeSpawner
+type RestartComputeSpawner struct{}
+
+// The action to take.
+type RestartComputeSpawnerAction string
+
+const (
+	RestartComputeSpawnerActionComputeSpawnerRestart RestartComputeSpawnerAction = "compute.spawner.restart"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RestartComputeSpawnerAction) MarshalText() ([]byte, error) {
+	switch s {
+	case RestartComputeSpawnerActionComputeSpawnerRestart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RestartComputeSpawnerAction) UnmarshalText(data []byte) error {
+	switch RestartComputeSpawnerAction(data) {
+	case RestartComputeSpawnerActionComputeSpawnerRestart:
+		*s = RestartComputeSpawnerActionComputeSpawnerRestart
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -62818,273 +65647,6 @@ func (s *RunStateError) SetMessage(val OptString) {
 // SetTime sets the value of Time.
 func (s *RunStateError) SetTime(val OptDateTime) {
 	s.Time = val
-}
-
-// SDN Network resource.
-// Ref: #/components/schemas/SDNNetwork
-type SDNNetwork struct {
-	ID ID `json:"id"`
-	// The name of the network.
-	Name string `json:"name"`
-	// A network identifier used to construct http calls that specifically use this network over another.
-	Identifier string `json:"identifier"`
-	// The infrastructure cluster the environments belonging to this network belong to.
-	Cluster        string            `json:"cluster"`
-	Creator        CreatorScope      `json:"creator"`
-	HubID          HubID             `json:"hub_id"`
-	State          NetworkState      `json:"state"`
-	PrivateNetwork SDNPrivateNetwork `json:"private_network"`
-	// An array of environments and timestamps.
-	Environments []SDNNetworkEnvironmentsItem `json:"environments"`
-	// A collection of timestamps for each event in the image's lifetime.
-	Events SDNNetworkEvents `json:"events"`
-}
-
-// GetID returns the value of ID.
-func (s *SDNNetwork) GetID() ID {
-	return s.ID
-}
-
-// GetName returns the value of Name.
-func (s *SDNNetwork) GetName() string {
-	return s.Name
-}
-
-// GetIdentifier returns the value of Identifier.
-func (s *SDNNetwork) GetIdentifier() string {
-	return s.Identifier
-}
-
-// GetCluster returns the value of Cluster.
-func (s *SDNNetwork) GetCluster() string {
-	return s.Cluster
-}
-
-// GetCreator returns the value of Creator.
-func (s *SDNNetwork) GetCreator() CreatorScope {
-	return s.Creator
-}
-
-// GetHubID returns the value of HubID.
-func (s *SDNNetwork) GetHubID() HubID {
-	return s.HubID
-}
-
-// GetState returns the value of State.
-func (s *SDNNetwork) GetState() NetworkState {
-	return s.State
-}
-
-// GetPrivateNetwork returns the value of PrivateNetwork.
-func (s *SDNNetwork) GetPrivateNetwork() SDNPrivateNetwork {
-	return s.PrivateNetwork
-}
-
-// GetEnvironments returns the value of Environments.
-func (s *SDNNetwork) GetEnvironments() []SDNNetworkEnvironmentsItem {
-	return s.Environments
-}
-
-// GetEvents returns the value of Events.
-func (s *SDNNetwork) GetEvents() SDNNetworkEvents {
-	return s.Events
-}
-
-// SetID sets the value of ID.
-func (s *SDNNetwork) SetID(val ID) {
-	s.ID = val
-}
-
-// SetName sets the value of Name.
-func (s *SDNNetwork) SetName(val string) {
-	s.Name = val
-}
-
-// SetIdentifier sets the value of Identifier.
-func (s *SDNNetwork) SetIdentifier(val string) {
-	s.Identifier = val
-}
-
-// SetCluster sets the value of Cluster.
-func (s *SDNNetwork) SetCluster(val string) {
-	s.Cluster = val
-}
-
-// SetCreator sets the value of Creator.
-func (s *SDNNetwork) SetCreator(val CreatorScope) {
-	s.Creator = val
-}
-
-// SetHubID sets the value of HubID.
-func (s *SDNNetwork) SetHubID(val HubID) {
-	s.HubID = val
-}
-
-// SetState sets the value of State.
-func (s *SDNNetwork) SetState(val NetworkState) {
-	s.State = val
-}
-
-// SetPrivateNetwork sets the value of PrivateNetwork.
-func (s *SDNNetwork) SetPrivateNetwork(val SDNPrivateNetwork) {
-	s.PrivateNetwork = val
-}
-
-// SetEnvironments sets the value of Environments.
-func (s *SDNNetwork) SetEnvironments(val []SDNNetworkEnvironmentsItem) {
-	s.Environments = val
-}
-
-// SetEvents sets the value of Events.
-func (s *SDNNetwork) SetEvents(val SDNNetworkEvents) {
-	s.Events = val
-}
-
-type SDNNetworkEnvironmentsItem struct {
-	ID ID `json:"id"`
-	// A timestamp of when the environment was added.
-	Added DateTime `json:"added"`
-}
-
-// GetID returns the value of ID.
-func (s *SDNNetworkEnvironmentsItem) GetID() ID {
-	return s.ID
-}
-
-// GetAdded returns the value of Added.
-func (s *SDNNetworkEnvironmentsItem) GetAdded() DateTime {
-	return s.Added
-}
-
-// SetID sets the value of ID.
-func (s *SDNNetworkEnvironmentsItem) SetID(val ID) {
-	s.ID = val
-}
-
-// SetAdded sets the value of Added.
-func (s *SDNNetworkEnvironmentsItem) SetAdded(val DateTime) {
-	s.Added = val
-}
-
-// A collection of timestamps for each event in the image's lifetime.
-type SDNNetworkEvents struct {
-	// The timestamp of when the image was created.
-	Created DateTime `json:"created"`
-	// The timestamp of when the image was updated.
-	Updated DateTime `json:"updated"`
-	// The timestamp of when the image was deleted.
-	Deleted DateTime `json:"deleted"`
-}
-
-// GetCreated returns the value of Created.
-func (s *SDNNetworkEvents) GetCreated() DateTime {
-	return s.Created
-}
-
-// GetUpdated returns the value of Updated.
-func (s *SDNNetworkEvents) GetUpdated() DateTime {
-	return s.Updated
-}
-
-// GetDeleted returns the value of Deleted.
-func (s *SDNNetworkEvents) GetDeleted() DateTime {
-	return s.Deleted
-}
-
-// SetCreated sets the value of Created.
-func (s *SDNNetworkEvents) SetCreated(val DateTime) {
-	s.Created = val
-}
-
-// SetUpdated sets the value of Updated.
-func (s *SDNNetworkEvents) SetUpdated(val DateTime) {
-	s.Updated = val
-}
-
-// SetDeleted sets the value of Deleted.
-func (s *SDNNetworkEvents) SetDeleted(val DateTime) {
-	s.Deleted = val
-}
-
-// Private network information for a Cycle SDN.
-// Ref: #/components/schemas/SDNPrivateNetwork
-type SDNPrivateNetwork struct {
-	// A tag used to ensure proper routing.
-	VxlanTag int `json:"vxlan_tag"`
-	// The subnet of the private network.
-	Subnet string `json:"subnet"`
-	// A number used to ensure a MAC address exists for each network.
-	MACAddrSuffix int `json:"mac_addr_suffix"`
-	// IPv6 infromation for the network.
-	Ipv6 SDNPrivateNetworkIpv6 `json:"ipv6"`
-}
-
-// GetVxlanTag returns the value of VxlanTag.
-func (s *SDNPrivateNetwork) GetVxlanTag() int {
-	return s.VxlanTag
-}
-
-// GetSubnet returns the value of Subnet.
-func (s *SDNPrivateNetwork) GetSubnet() string {
-	return s.Subnet
-}
-
-// GetMACAddrSuffix returns the value of MACAddrSuffix.
-func (s *SDNPrivateNetwork) GetMACAddrSuffix() int {
-	return s.MACAddrSuffix
-}
-
-// GetIpv6 returns the value of Ipv6.
-func (s *SDNPrivateNetwork) GetIpv6() SDNPrivateNetworkIpv6 {
-	return s.Ipv6
-}
-
-// SetVxlanTag sets the value of VxlanTag.
-func (s *SDNPrivateNetwork) SetVxlanTag(val int) {
-	s.VxlanTag = val
-}
-
-// SetSubnet sets the value of Subnet.
-func (s *SDNPrivateNetwork) SetSubnet(val string) {
-	s.Subnet = val
-}
-
-// SetMACAddrSuffix sets the value of MACAddrSuffix.
-func (s *SDNPrivateNetwork) SetMACAddrSuffix(val int) {
-	s.MACAddrSuffix = val
-}
-
-// SetIpv6 sets the value of Ipv6.
-func (s *SDNPrivateNetwork) SetIpv6(val SDNPrivateNetworkIpv6) {
-	s.Ipv6 = val
-}
-
-// IPv6 infromation for the network.
-type SDNPrivateNetworkIpv6 struct {
-	// The networks IPv6 base.
-	IP string `json:"ip"`
-	// The private network CIDR.
-	Cidr string `json:"cidr"`
-}
-
-// GetIP returns the value of IP.
-func (s *SDNPrivateNetworkIpv6) GetIP() string {
-	return s.IP
-}
-
-// GetCidr returns the value of Cidr.
-func (s *SDNPrivateNetworkIpv6) GetCidr() string {
-	return s.Cidr
-}
-
-// SetIP sets the value of IP.
-func (s *SDNPrivateNetworkIpv6) SetIP(val string) {
-	s.IP = val
-}
-
-// SetCidr sets the value of Cidr.
-func (s *SDNPrivateNetworkIpv6) SetCidr(val string) {
-	s.Cidr = val
 }
 
 // Information about connecting to a instance volume over SFTP.
@@ -63738,66 +66300,84 @@ func (s *ScopedVariableSecret) SetHint(val OptString) {
 }
 
 // The source or value of the scoped variable.
-// ScopedVariableSource represents sum type.
 type ScopedVariableSource struct {
-	Type      ScopedVariableSourceType // switch on this field
+	OneOf ScopedVariableSourceSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *ScopedVariableSource) GetOneOf() ScopedVariableSourceSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *ScopedVariableSource) SetOneOf(val ScopedVariableSourceSum) {
+	s.OneOf = val
+}
+
+// ScopedVariableSourceSum represents sum type.
+type ScopedVariableSourceSum struct {
+	Type      ScopedVariableSourceSumType // switch on this field
 	URLSource URLSource
 	RawSource RawSource
 }
 
-// ScopedVariableSourceType is oneOf type of ScopedVariableSource.
-type ScopedVariableSourceType string
+// ScopedVariableSourceSumType is oneOf type of ScopedVariableSourceSum.
+type ScopedVariableSourceSumType string
 
-// Possible values for ScopedVariableSourceType.
+// Possible values for ScopedVariableSourceSumType.
 const (
-	URLSourceScopedVariableSource ScopedVariableSourceType = "URLSource"
-	RawSourceScopedVariableSource ScopedVariableSourceType = "RawSource"
+	URLSourceScopedVariableSourceSum ScopedVariableSourceSumType = "url"
+	RawSourceScopedVariableSourceSum ScopedVariableSourceSumType = "raw"
 )
 
-// IsURLSource reports whether ScopedVariableSource is URLSource.
-func (s ScopedVariableSource) IsURLSource() bool { return s.Type == URLSourceScopedVariableSource }
+// IsURLSource reports whether ScopedVariableSourceSum is URLSource.
+func (s ScopedVariableSourceSum) IsURLSource() bool {
+	return s.Type == URLSourceScopedVariableSourceSum
+}
 
-// IsRawSource reports whether ScopedVariableSource is RawSource.
-func (s ScopedVariableSource) IsRawSource() bool { return s.Type == RawSourceScopedVariableSource }
+// IsRawSource reports whether ScopedVariableSourceSum is RawSource.
+func (s ScopedVariableSourceSum) IsRawSource() bool {
+	return s.Type == RawSourceScopedVariableSourceSum
+}
 
-// SetURLSource sets ScopedVariableSource to URLSource.
-func (s *ScopedVariableSource) SetURLSource(v URLSource) {
-	s.Type = URLSourceScopedVariableSource
+// SetURLSource sets ScopedVariableSourceSum to URLSource.
+func (s *ScopedVariableSourceSum) SetURLSource(v URLSource) {
+	s.Type = URLSourceScopedVariableSourceSum
 	s.URLSource = v
 }
 
-// GetURLSource returns URLSource and true boolean if ScopedVariableSource is URLSource.
-func (s ScopedVariableSource) GetURLSource() (v URLSource, ok bool) {
+// GetURLSource returns URLSource and true boolean if ScopedVariableSourceSum is URLSource.
+func (s ScopedVariableSourceSum) GetURLSource() (v URLSource, ok bool) {
 	if !s.IsURLSource() {
 		return v, false
 	}
 	return s.URLSource, true
 }
 
-// NewURLSourceScopedVariableSource returns new ScopedVariableSource from URLSource.
-func NewURLSourceScopedVariableSource(v URLSource) ScopedVariableSource {
-	var s ScopedVariableSource
+// NewURLSourceScopedVariableSourceSum returns new ScopedVariableSourceSum from URLSource.
+func NewURLSourceScopedVariableSourceSum(v URLSource) ScopedVariableSourceSum {
+	var s ScopedVariableSourceSum
 	s.SetURLSource(v)
 	return s
 }
 
-// SetRawSource sets ScopedVariableSource to RawSource.
-func (s *ScopedVariableSource) SetRawSource(v RawSource) {
-	s.Type = RawSourceScopedVariableSource
+// SetRawSource sets ScopedVariableSourceSum to RawSource.
+func (s *ScopedVariableSourceSum) SetRawSource(v RawSource) {
+	s.Type = RawSourceScopedVariableSourceSum
 	s.RawSource = v
 }
 
-// GetRawSource returns RawSource and true boolean if ScopedVariableSource is RawSource.
-func (s ScopedVariableSource) GetRawSource() (v RawSource, ok bool) {
+// GetRawSource returns RawSource and true boolean if ScopedVariableSourceSum is RawSource.
+func (s ScopedVariableSourceSum) GetRawSource() (v RawSource, ok bool) {
 	if !s.IsRawSource() {
 		return v, false
 	}
 	return s.RawSource, true
 }
 
-// NewRawSourceScopedVariableSource returns new ScopedVariableSource from RawSource.
-func NewRawSourceScopedVariableSource(v RawSource) ScopedVariableSource {
-	var s ScopedVariableSource
+// NewRawSourceScopedVariableSourceSum returns new ScopedVariableSourceSum from RawSource.
+func NewRawSourceScopedVariableSourceSum(v RawSource) ScopedVariableSourceSum {
+	var s ScopedVariableSourceSum
 	s.SetRawSource(v)
 	return s
 }
@@ -65432,6 +68012,7 @@ type ServerStatsCpu struct {
 	Cores OptInt `json:"cores"`
 	// An array of processor information objects.
 	Processors []ServerStatsCpuProcessorsItem `json:"processors"`
+	Usage      OptServerStatsCpuUsage         `json:"usage"`
 }
 
 // GetCores returns the value of Cores.
@@ -65444,6 +68025,11 @@ func (s *ServerStatsCpu) GetProcessors() []ServerStatsCpuProcessorsItem {
 	return s.Processors
 }
 
+// GetUsage returns the value of Usage.
+func (s *ServerStatsCpu) GetUsage() OptServerStatsCpuUsage {
+	return s.Usage
+}
+
 // SetCores sets the value of Cores.
 func (s *ServerStatsCpu) SetCores(val OptInt) {
 	s.Cores = val
@@ -65452,6 +68038,11 @@ func (s *ServerStatsCpu) SetCores(val OptInt) {
 // SetProcessors sets the value of Processors.
 func (s *ServerStatsCpu) SetProcessors(val []ServerStatsCpuProcessorsItem) {
 	s.Processors = val
+}
+
+// SetUsage sets the value of Usage.
+func (s *ServerStatsCpu) SetUsage(val OptServerStatsCpuUsage) {
+	s.Usage = val
 }
 
 // Processor information.
@@ -65482,44 +68073,272 @@ func (s *ServerStatsCpuProcessorsItem) SetSpeed(val OptInt) {
 	s.Speed = val
 }
 
+// Ref: #/components/schemas/ServerStatsCpuUsage
+type ServerStatsCpuUsage struct {
+	User      OptInt `json:"user"`
+	Nice      OptInt `json:"nice"`
+	System    OptInt `json:"system"`
+	Idle      OptInt `json:"idle"`
+	Iowait    OptInt `json:"iowait"`
+	Irq       OptInt `json:"irq"`
+	SoftIrq   OptInt `json:"soft_irq"`
+	Steal     OptInt `json:"steal"`
+	Guest     OptInt `json:"guest"`
+	GuestNice OptInt `json:"guest_nice"`
+}
+
+// GetUser returns the value of User.
+func (s *ServerStatsCpuUsage) GetUser() OptInt {
+	return s.User
+}
+
+// GetNice returns the value of Nice.
+func (s *ServerStatsCpuUsage) GetNice() OptInt {
+	return s.Nice
+}
+
+// GetSystem returns the value of System.
+func (s *ServerStatsCpuUsage) GetSystem() OptInt {
+	return s.System
+}
+
+// GetIdle returns the value of Idle.
+func (s *ServerStatsCpuUsage) GetIdle() OptInt {
+	return s.Idle
+}
+
+// GetIowait returns the value of Iowait.
+func (s *ServerStatsCpuUsage) GetIowait() OptInt {
+	return s.Iowait
+}
+
+// GetIrq returns the value of Irq.
+func (s *ServerStatsCpuUsage) GetIrq() OptInt {
+	return s.Irq
+}
+
+// GetSoftIrq returns the value of SoftIrq.
+func (s *ServerStatsCpuUsage) GetSoftIrq() OptInt {
+	return s.SoftIrq
+}
+
+// GetSteal returns the value of Steal.
+func (s *ServerStatsCpuUsage) GetSteal() OptInt {
+	return s.Steal
+}
+
+// GetGuest returns the value of Guest.
+func (s *ServerStatsCpuUsage) GetGuest() OptInt {
+	return s.Guest
+}
+
+// GetGuestNice returns the value of GuestNice.
+func (s *ServerStatsCpuUsage) GetGuestNice() OptInt {
+	return s.GuestNice
+}
+
+// SetUser sets the value of User.
+func (s *ServerStatsCpuUsage) SetUser(val OptInt) {
+	s.User = val
+}
+
+// SetNice sets the value of Nice.
+func (s *ServerStatsCpuUsage) SetNice(val OptInt) {
+	s.Nice = val
+}
+
+// SetSystem sets the value of System.
+func (s *ServerStatsCpuUsage) SetSystem(val OptInt) {
+	s.System = val
+}
+
+// SetIdle sets the value of Idle.
+func (s *ServerStatsCpuUsage) SetIdle(val OptInt) {
+	s.Idle = val
+}
+
+// SetIowait sets the value of Iowait.
+func (s *ServerStatsCpuUsage) SetIowait(val OptInt) {
+	s.Iowait = val
+}
+
+// SetIrq sets the value of Irq.
+func (s *ServerStatsCpuUsage) SetIrq(val OptInt) {
+	s.Irq = val
+}
+
+// SetSoftIrq sets the value of SoftIrq.
+func (s *ServerStatsCpuUsage) SetSoftIrq(val OptInt) {
+	s.SoftIrq = val
+}
+
+// SetSteal sets the value of Steal.
+func (s *ServerStatsCpuUsage) SetSteal(val OptInt) {
+	s.Steal = val
+}
+
+// SetGuest sets the value of Guest.
+func (s *ServerStatsCpuUsage) SetGuest(val OptInt) {
+	s.Guest = val
+}
+
+// SetGuestNice sets the value of GuestNice.
+func (s *ServerStatsCpuUsage) SetGuestNice(val OptInt) {
+	s.GuestNice = val
+}
+
+// Ref: #/components/schemas/ServerStatsCpuUsageTelemetry
+type ServerStatsCpuUsageTelemetry struct {
+	User      OptFloat32 `json:"user"`
+	Nice      OptFloat32 `json:"nice"`
+	System    OptFloat32 `json:"system"`
+	Idle      OptFloat32 `json:"idle"`
+	Iowait    OptFloat32 `json:"iowait"`
+	Irq       OptFloat32 `json:"irq"`
+	SoftIrq   OptFloat32 `json:"soft_irq"`
+	Steal     OptFloat32 `json:"steal"`
+	Guest     OptFloat32 `json:"guest"`
+	GuestNice OptFloat32 `json:"guest_nice"`
+}
+
+// GetUser returns the value of User.
+func (s *ServerStatsCpuUsageTelemetry) GetUser() OptFloat32 {
+	return s.User
+}
+
+// GetNice returns the value of Nice.
+func (s *ServerStatsCpuUsageTelemetry) GetNice() OptFloat32 {
+	return s.Nice
+}
+
+// GetSystem returns the value of System.
+func (s *ServerStatsCpuUsageTelemetry) GetSystem() OptFloat32 {
+	return s.System
+}
+
+// GetIdle returns the value of Idle.
+func (s *ServerStatsCpuUsageTelemetry) GetIdle() OptFloat32 {
+	return s.Idle
+}
+
+// GetIowait returns the value of Iowait.
+func (s *ServerStatsCpuUsageTelemetry) GetIowait() OptFloat32 {
+	return s.Iowait
+}
+
+// GetIrq returns the value of Irq.
+func (s *ServerStatsCpuUsageTelemetry) GetIrq() OptFloat32 {
+	return s.Irq
+}
+
+// GetSoftIrq returns the value of SoftIrq.
+func (s *ServerStatsCpuUsageTelemetry) GetSoftIrq() OptFloat32 {
+	return s.SoftIrq
+}
+
+// GetSteal returns the value of Steal.
+func (s *ServerStatsCpuUsageTelemetry) GetSteal() OptFloat32 {
+	return s.Steal
+}
+
+// GetGuest returns the value of Guest.
+func (s *ServerStatsCpuUsageTelemetry) GetGuest() OptFloat32 {
+	return s.Guest
+}
+
+// GetGuestNice returns the value of GuestNice.
+func (s *ServerStatsCpuUsageTelemetry) GetGuestNice() OptFloat32 {
+	return s.GuestNice
+}
+
+// SetUser sets the value of User.
+func (s *ServerStatsCpuUsageTelemetry) SetUser(val OptFloat32) {
+	s.User = val
+}
+
+// SetNice sets the value of Nice.
+func (s *ServerStatsCpuUsageTelemetry) SetNice(val OptFloat32) {
+	s.Nice = val
+}
+
+// SetSystem sets the value of System.
+func (s *ServerStatsCpuUsageTelemetry) SetSystem(val OptFloat32) {
+	s.System = val
+}
+
+// SetIdle sets the value of Idle.
+func (s *ServerStatsCpuUsageTelemetry) SetIdle(val OptFloat32) {
+	s.Idle = val
+}
+
+// SetIowait sets the value of Iowait.
+func (s *ServerStatsCpuUsageTelemetry) SetIowait(val OptFloat32) {
+	s.Iowait = val
+}
+
+// SetIrq sets the value of Irq.
+func (s *ServerStatsCpuUsageTelemetry) SetIrq(val OptFloat32) {
+	s.Irq = val
+}
+
+// SetSoftIrq sets the value of SoftIrq.
+func (s *ServerStatsCpuUsageTelemetry) SetSoftIrq(val OptFloat32) {
+	s.SoftIrq = val
+}
+
+// SetSteal sets the value of Steal.
+func (s *ServerStatsCpuUsageTelemetry) SetSteal(val OptFloat32) {
+	s.Steal = val
+}
+
+// SetGuest sets the value of Guest.
+func (s *ServerStatsCpuUsageTelemetry) SetGuest(val OptFloat32) {
+	s.Guest = val
+}
+
+// SetGuestNice sets the value of GuestNice.
+func (s *ServerStatsCpuUsageTelemetry) SetGuestNice(val OptFloat32) {
+	s.GuestNice = val
+}
+
 // Statistics about the current load on the server.
 // Ref: #/components/schemas/ServerStatsLoad
 type ServerStatsLoad struct {
 	// The 1 minute load average.
-	Avg1m int `json:"avg1m"`
+	Avg1m float32 `json:"avg1m"`
 	// The 5 minute load average.
-	Avg5m int `json:"avg5m"`
+	Avg5m float32 `json:"avg5m"`
 	// The 15 minute load average.
-	Avg15m int `json:"avg15m"`
+	Avg15m float32 `json:"avg15m"`
 }
 
 // GetAvg1m returns the value of Avg1m.
-func (s *ServerStatsLoad) GetAvg1m() int {
+func (s *ServerStatsLoad) GetAvg1m() float32 {
 	return s.Avg1m
 }
 
 // GetAvg5m returns the value of Avg5m.
-func (s *ServerStatsLoad) GetAvg5m() int {
+func (s *ServerStatsLoad) GetAvg5m() float32 {
 	return s.Avg5m
 }
 
 // GetAvg15m returns the value of Avg15m.
-func (s *ServerStatsLoad) GetAvg15m() int {
+func (s *ServerStatsLoad) GetAvg15m() float32 {
 	return s.Avg15m
 }
 
 // SetAvg1m sets the value of Avg1m.
-func (s *ServerStatsLoad) SetAvg1m(val int) {
+func (s *ServerStatsLoad) SetAvg1m(val float32) {
 	s.Avg1m = val
 }
 
 // SetAvg5m sets the value of Avg5m.
-func (s *ServerStatsLoad) SetAvg5m(val int) {
+func (s *ServerStatsLoad) SetAvg5m(val float32) {
 	s.Avg5m = val
 }
 
 // SetAvg15m sets the value of Avg15m.
-func (s *ServerStatsLoad) SetAvg15m(val int) {
+func (s *ServerStatsLoad) SetAvg15m(val float32) {
 	s.Avg15m = val
 }
 
@@ -65719,6 +68538,47 @@ func (s *ServerStatsRam) SetFree(val int) {
 
 // SetTotal sets the value of Total.
 func (s *ServerStatsRam) SetTotal(val int) {
+	s.Total = val
+}
+
+// Statistics about the RAM on a given server.
+// Ref: #/components/schemas/ServerStatsRamTelemetry
+type ServerStatsRamTelemetry struct {
+	// The available RAM on the server.
+	Available float32 `json:"available"`
+	// The free RAM on the server.
+	Free float32 `json:"free"`
+	// The total RAM on the server.
+	Total float32 `json:"total"`
+}
+
+// GetAvailable returns the value of Available.
+func (s *ServerStatsRamTelemetry) GetAvailable() float32 {
+	return s.Available
+}
+
+// GetFree returns the value of Free.
+func (s *ServerStatsRamTelemetry) GetFree() float32 {
+	return s.Free
+}
+
+// GetTotal returns the value of Total.
+func (s *ServerStatsRamTelemetry) GetTotal() float32 {
+	return s.Total
+}
+
+// SetAvailable sets the value of Available.
+func (s *ServerStatsRamTelemetry) SetAvailable(val float32) {
+	s.Available = val
+}
+
+// SetFree sets the value of Free.
+func (s *ServerStatsRamTelemetry) SetFree(val float32) {
+	s.Free = val
+}
+
+// SetTotal sets the value of Total.
+func (s *ServerStatsRamTelemetry) SetTotal(val float32) {
 	s.Total = val
 }
 
@@ -65970,9 +68830,10 @@ func (s *ServerStatsStorageVolumeGroupsItemVolumesItem) SetPool(val string) {
 // Ref: #/components/schemas/ServerStatsTelemetry
 type ServerStatsTelemetry struct {
 	// The timestamp for when the telemetery data was collected.
-	Time DateTime        `json:"time"`
-	Load ServerStatsLoad `json:"load"`
-	RAM  ServerStatsRam  `json:"ram"`
+	Time     DateTime                        `json:"time"`
+	CPUUsage OptServerStatsCpuUsageTelemetry `json:"cpu_usage"`
+	Load     ServerStatsLoad                 `json:"load"`
+	RAM      ServerStatsRamTelemetry         `json:"ram"`
 	// Telemetry data for the base volume of a given server.
 	StorageBase ServerStatsTelemetryStorageBase `json:"storage_base"`
 	// User data storage across all devices.
@@ -65984,13 +68845,18 @@ func (s *ServerStatsTelemetry) GetTime() DateTime {
 	return s.Time
 }
 
+// GetCPUUsage returns the value of CPUUsage.
+func (s *ServerStatsTelemetry) GetCPUUsage() OptServerStatsCpuUsageTelemetry {
+	return s.CPUUsage
+}
+
 // GetLoad returns the value of Load.
 func (s *ServerStatsTelemetry) GetLoad() ServerStatsLoad {
 	return s.Load
 }
 
 // GetRAM returns the value of RAM.
-func (s *ServerStatsTelemetry) GetRAM() ServerStatsRam {
+func (s *ServerStatsTelemetry) GetRAM() ServerStatsRamTelemetry {
 	return s.RAM
 }
 
@@ -66009,13 +68875,18 @@ func (s *ServerStatsTelemetry) SetTime(val DateTime) {
 	s.Time = val
 }
 
+// SetCPUUsage sets the value of CPUUsage.
+func (s *ServerStatsTelemetry) SetCPUUsage(val OptServerStatsCpuUsageTelemetry) {
+	s.CPUUsage = val
+}
+
 // SetLoad sets the value of Load.
 func (s *ServerStatsTelemetry) SetLoad(val ServerStatsLoad) {
 	s.Load = val
 }
 
 // SetRAM sets the value of RAM.
-func (s *ServerStatsTelemetry) SetRAM(val ServerStatsRam) {
+func (s *ServerStatsTelemetry) SetRAM(val ServerStatsRamTelemetry) {
 	s.RAM = val
 }
 
@@ -66686,47 +69557,6 @@ func (s *ServiceItemTier) SetPrice(val BillingAmount) {
 	s.Price = val
 }
 
-// Session info about the activity entry.
-// Ref: #/components/schemas/Session
-type Session struct {
-	// URL endpoint assocaited with the activity context - does not include domain.
-	URL string `json:"url"`
-	// The IP of the account associated with the session.
-	IP string `json:"ip"`
-	// The API key ID.
-	APIKey NilString `json:"api_key"`
-}
-
-// GetURL returns the value of URL.
-func (s *Session) GetURL() string {
-	return s.URL
-}
-
-// GetIP returns the value of IP.
-func (s *Session) GetIP() string {
-	return s.IP
-}
-
-// GetAPIKey returns the value of APIKey.
-func (s *Session) GetAPIKey() NilString {
-	return s.APIKey
-}
-
-// SetURL sets the value of URL.
-func (s *Session) SetURL(val string) {
-	s.URL = val
-}
-
-// SetIP sets the value of IP.
-func (s *Session) SetIP(val string) {
-	s.IP = val
-}
-
-// SetAPIKey sets the value of APIKey.
-func (s *Session) SetAPIKey(val NilString) {
-	s.APIKey = val
-}
-
 type SetupTwoFaOK struct {
 	Data OptTwoFaSetupResponse `json:"data"`
 }
@@ -66824,18 +69654,18 @@ func (s *SleepStepAction) UnmarshalText(data []byte) error {
 }
 
 type SleepStepDetails struct {
-	// Total duration (seconds) to run this step for, before moving on to the next step.
-	Seconds OptInt `json:"seconds"`
+	// Total duration to run this step for, before moving on to the next step.
+	Duration OptDuration `json:"duration"`
 }
 
-// GetSeconds returns the value of Seconds.
-func (s *SleepStepDetails) GetSeconds() OptInt {
-	return s.Seconds
+// GetDuration returns the value of Duration.
+func (s *SleepStepDetails) GetDuration() OptDuration {
+	return s.Duration
 }
 
-// SetSeconds sets the value of Seconds.
-func (s *SleepStepDetails) SetSeconds(val OptInt) {
-	s.Seconds = val
+// SetDuration sets the value of Duration.
+func (s *SleepStepDetails) SetDuration(val OptDuration) {
+	s.Duration = val
 }
 
 type SleepStepOptions struct {
@@ -67263,6 +70093,7 @@ type StackBuildCreateStepDetails struct {
 	Stack        ResourceLocation          `json:"stack"`
 	Instructions OptStackBuildInstructions `json:"instructions"`
 	About        OptStackBuildAbout        `json:"about"`
+	OneOf        StackBuildCreateStepDetailsSum
 }
 
 // GetStack returns the value of Stack.
@@ -67280,6 +70111,11 @@ func (s *StackBuildCreateStepDetails) GetAbout() OptStackBuildAbout {
 	return s.About
 }
 
+// GetOneOf returns the value of OneOf.
+func (s *StackBuildCreateStepDetails) GetOneOf() StackBuildCreateStepDetailsSum {
+	return s.OneOf
+}
+
 // SetStack sets the value of Stack.
 func (s *StackBuildCreateStepDetails) SetStack(val ResourceLocation) {
 	s.Stack = val
@@ -67293,6 +70129,137 @@ func (s *StackBuildCreateStepDetails) SetInstructions(val OptStackBuildInstructi
 // SetAbout sets the value of About.
 func (s *StackBuildCreateStepDetails) SetAbout(val OptStackBuildAbout) {
 	s.About = val
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *StackBuildCreateStepDetails) SetOneOf(val StackBuildCreateStepDetailsSum) {
+	s.OneOf = val
+}
+
+// StackBuildCreateStepDetailsSum represents sum type.
+type StackBuildCreateStepDetailsSum struct {
+	Type                            StackBuildCreateStepDetailsSumType // switch on this field
+	StackBuildCreateStepDetailsSum0 StackBuildCreateStepDetailsSum0
+	StackBuildCreateStepDetailsSum1 StackBuildCreateStepDetailsSum1
+}
+
+// StackBuildCreateStepDetailsSumType is oneOf type of StackBuildCreateStepDetailsSum.
+type StackBuildCreateStepDetailsSumType string
+
+// Possible values for StackBuildCreateStepDetailsSumType.
+const (
+	StackBuildCreateStepDetailsSum0StackBuildCreateStepDetailsSum StackBuildCreateStepDetailsSumType = "StackBuildCreateStepDetailsSum0"
+	StackBuildCreateStepDetailsSum1StackBuildCreateStepDetailsSum StackBuildCreateStepDetailsSumType = "StackBuildCreateStepDetailsSum1"
+)
+
+// IsStackBuildCreateStepDetailsSum0 reports whether StackBuildCreateStepDetailsSum is StackBuildCreateStepDetailsSum0.
+func (s StackBuildCreateStepDetailsSum) IsStackBuildCreateStepDetailsSum0() bool {
+	return s.Type == StackBuildCreateStepDetailsSum0StackBuildCreateStepDetailsSum
+}
+
+// IsStackBuildCreateStepDetailsSum1 reports whether StackBuildCreateStepDetailsSum is StackBuildCreateStepDetailsSum1.
+func (s StackBuildCreateStepDetailsSum) IsStackBuildCreateStepDetailsSum1() bool {
+	return s.Type == StackBuildCreateStepDetailsSum1StackBuildCreateStepDetailsSum
+}
+
+// SetStackBuildCreateStepDetailsSum0 sets StackBuildCreateStepDetailsSum to StackBuildCreateStepDetailsSum0.
+func (s *StackBuildCreateStepDetailsSum) SetStackBuildCreateStepDetailsSum0(v StackBuildCreateStepDetailsSum0) {
+	s.Type = StackBuildCreateStepDetailsSum0StackBuildCreateStepDetailsSum
+	s.StackBuildCreateStepDetailsSum0 = v
+}
+
+// GetStackBuildCreateStepDetailsSum0 returns StackBuildCreateStepDetailsSum0 and true boolean if StackBuildCreateStepDetailsSum is StackBuildCreateStepDetailsSum0.
+func (s StackBuildCreateStepDetailsSum) GetStackBuildCreateStepDetailsSum0() (v StackBuildCreateStepDetailsSum0, ok bool) {
+	if !s.IsStackBuildCreateStepDetailsSum0() {
+		return v, false
+	}
+	return s.StackBuildCreateStepDetailsSum0, true
+}
+
+// NewStackBuildCreateStepDetailsSum0StackBuildCreateStepDetailsSum returns new StackBuildCreateStepDetailsSum from StackBuildCreateStepDetailsSum0.
+func NewStackBuildCreateStepDetailsSum0StackBuildCreateStepDetailsSum(v StackBuildCreateStepDetailsSum0) StackBuildCreateStepDetailsSum {
+	var s StackBuildCreateStepDetailsSum
+	s.SetStackBuildCreateStepDetailsSum0(v)
+	return s
+}
+
+// SetStackBuildCreateStepDetailsSum1 sets StackBuildCreateStepDetailsSum to StackBuildCreateStepDetailsSum1.
+func (s *StackBuildCreateStepDetailsSum) SetStackBuildCreateStepDetailsSum1(v StackBuildCreateStepDetailsSum1) {
+	s.Type = StackBuildCreateStepDetailsSum1StackBuildCreateStepDetailsSum
+	s.StackBuildCreateStepDetailsSum1 = v
+}
+
+// GetStackBuildCreateStepDetailsSum1 returns StackBuildCreateStepDetailsSum1 and true boolean if StackBuildCreateStepDetailsSum is StackBuildCreateStepDetailsSum1.
+func (s StackBuildCreateStepDetailsSum) GetStackBuildCreateStepDetailsSum1() (v StackBuildCreateStepDetailsSum1, ok bool) {
+	if !s.IsStackBuildCreateStepDetailsSum1() {
+		return v, false
+	}
+	return s.StackBuildCreateStepDetailsSum1, true
+}
+
+// NewStackBuildCreateStepDetailsSum1StackBuildCreateStepDetailsSum returns new StackBuildCreateStepDetailsSum from StackBuildCreateStepDetailsSum1.
+func NewStackBuildCreateStepDetailsSum1StackBuildCreateStepDetailsSum(v StackBuildCreateStepDetailsSum1) StackBuildCreateStepDetailsSum {
+	var s StackBuildCreateStepDetailsSum
+	s.SetStackBuildCreateStepDetailsSum1(v)
+	return s
+}
+
+type StackBuildCreateStepDetailsSum0 struct {
+	// The ID of an existing resource that exists before the pipeline is run.
+	ID string `json:"id"`
+}
+
+// GetID returns the value of ID.
+func (s *StackBuildCreateStepDetailsSum0) GetID() string {
+	return s.ID
+}
+
+// SetID sets the value of ID.
+func (s *StackBuildCreateStepDetailsSum0) SetID(val string) {
+	s.ID = val
+}
+
+type StackBuildCreateStepDetailsSum1 struct {
+	// The stage and step to report on.
+	From StackBuildCreateStepDetailsSum1From `json:"from"`
+}
+
+// GetFrom returns the value of From.
+func (s *StackBuildCreateStepDetailsSum1) GetFrom() StackBuildCreateStepDetailsSum1From {
+	return s.From
+}
+
+// SetFrom sets the value of From.
+func (s *StackBuildCreateStepDetailsSum1) SetFrom(val StackBuildCreateStepDetailsSum1From) {
+	s.From = val
+}
+
+// The stage and step to report on.
+type StackBuildCreateStepDetailsSum1From struct {
+	// An identifier for the stage the step being reported on resides in.
+	Stage OptString `json:"stage"`
+	// An identifier for the step to be reported on.
+	Step string `json:"step"`
+}
+
+// GetStage returns the value of Stage.
+func (s *StackBuildCreateStepDetailsSum1From) GetStage() OptString {
+	return s.Stage
+}
+
+// GetStep returns the value of Step.
+func (s *StackBuildCreateStepDetailsSum1From) GetStep() string {
+	return s.Step
+}
+
+// SetStage sets the value of Stage.
+func (s *StackBuildCreateStepDetailsSum1From) SetStage(val OptString) {
+	s.Stage = val
+}
+
+// SetStep sets the value of Step.
+func (s *StackBuildCreateStepDetailsSum1From) SetStep(val string) {
+	s.Step = val
 }
 
 type StackBuildCreateStepOptions struct {
@@ -67382,6 +70349,7 @@ type StackBuildDeployStepDetails struct {
 	ID          string                       `json:"id"`
 	Environment ResourceLocation             `json:"environment"`
 	Update      OptStackBuildContainerUpdate `json:"update"`
+	OneOf       StackBuildDeployStepDetailsSum
 }
 
 // GetID returns the value of ID.
@@ -67399,6 +70367,11 @@ func (s *StackBuildDeployStepDetails) GetUpdate() OptStackBuildContainerUpdate {
 	return s.Update
 }
 
+// GetOneOf returns the value of OneOf.
+func (s *StackBuildDeployStepDetails) GetOneOf() StackBuildDeployStepDetailsSum {
+	return s.OneOf
+}
+
 // SetID sets the value of ID.
 func (s *StackBuildDeployStepDetails) SetID(val string) {
 	s.ID = val
@@ -67412,6 +70385,137 @@ func (s *StackBuildDeployStepDetails) SetEnvironment(val ResourceLocation) {
 // SetUpdate sets the value of Update.
 func (s *StackBuildDeployStepDetails) SetUpdate(val OptStackBuildContainerUpdate) {
 	s.Update = val
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *StackBuildDeployStepDetails) SetOneOf(val StackBuildDeployStepDetailsSum) {
+	s.OneOf = val
+}
+
+// StackBuildDeployStepDetailsSum represents sum type.
+type StackBuildDeployStepDetailsSum struct {
+	Type                            StackBuildDeployStepDetailsSumType // switch on this field
+	StackBuildDeployStepDetailsSum0 StackBuildDeployStepDetailsSum0
+	StackBuildDeployStepDetailsSum1 StackBuildDeployStepDetailsSum1
+}
+
+// StackBuildDeployStepDetailsSumType is oneOf type of StackBuildDeployStepDetailsSum.
+type StackBuildDeployStepDetailsSumType string
+
+// Possible values for StackBuildDeployStepDetailsSumType.
+const (
+	StackBuildDeployStepDetailsSum0StackBuildDeployStepDetailsSum StackBuildDeployStepDetailsSumType = "StackBuildDeployStepDetailsSum0"
+	StackBuildDeployStepDetailsSum1StackBuildDeployStepDetailsSum StackBuildDeployStepDetailsSumType = "StackBuildDeployStepDetailsSum1"
+)
+
+// IsStackBuildDeployStepDetailsSum0 reports whether StackBuildDeployStepDetailsSum is StackBuildDeployStepDetailsSum0.
+func (s StackBuildDeployStepDetailsSum) IsStackBuildDeployStepDetailsSum0() bool {
+	return s.Type == StackBuildDeployStepDetailsSum0StackBuildDeployStepDetailsSum
+}
+
+// IsStackBuildDeployStepDetailsSum1 reports whether StackBuildDeployStepDetailsSum is StackBuildDeployStepDetailsSum1.
+func (s StackBuildDeployStepDetailsSum) IsStackBuildDeployStepDetailsSum1() bool {
+	return s.Type == StackBuildDeployStepDetailsSum1StackBuildDeployStepDetailsSum
+}
+
+// SetStackBuildDeployStepDetailsSum0 sets StackBuildDeployStepDetailsSum to StackBuildDeployStepDetailsSum0.
+func (s *StackBuildDeployStepDetailsSum) SetStackBuildDeployStepDetailsSum0(v StackBuildDeployStepDetailsSum0) {
+	s.Type = StackBuildDeployStepDetailsSum0StackBuildDeployStepDetailsSum
+	s.StackBuildDeployStepDetailsSum0 = v
+}
+
+// GetStackBuildDeployStepDetailsSum0 returns StackBuildDeployStepDetailsSum0 and true boolean if StackBuildDeployStepDetailsSum is StackBuildDeployStepDetailsSum0.
+func (s StackBuildDeployStepDetailsSum) GetStackBuildDeployStepDetailsSum0() (v StackBuildDeployStepDetailsSum0, ok bool) {
+	if !s.IsStackBuildDeployStepDetailsSum0() {
+		return v, false
+	}
+	return s.StackBuildDeployStepDetailsSum0, true
+}
+
+// NewStackBuildDeployStepDetailsSum0StackBuildDeployStepDetailsSum returns new StackBuildDeployStepDetailsSum from StackBuildDeployStepDetailsSum0.
+func NewStackBuildDeployStepDetailsSum0StackBuildDeployStepDetailsSum(v StackBuildDeployStepDetailsSum0) StackBuildDeployStepDetailsSum {
+	var s StackBuildDeployStepDetailsSum
+	s.SetStackBuildDeployStepDetailsSum0(v)
+	return s
+}
+
+// SetStackBuildDeployStepDetailsSum1 sets StackBuildDeployStepDetailsSum to StackBuildDeployStepDetailsSum1.
+func (s *StackBuildDeployStepDetailsSum) SetStackBuildDeployStepDetailsSum1(v StackBuildDeployStepDetailsSum1) {
+	s.Type = StackBuildDeployStepDetailsSum1StackBuildDeployStepDetailsSum
+	s.StackBuildDeployStepDetailsSum1 = v
+}
+
+// GetStackBuildDeployStepDetailsSum1 returns StackBuildDeployStepDetailsSum1 and true boolean if StackBuildDeployStepDetailsSum is StackBuildDeployStepDetailsSum1.
+func (s StackBuildDeployStepDetailsSum) GetStackBuildDeployStepDetailsSum1() (v StackBuildDeployStepDetailsSum1, ok bool) {
+	if !s.IsStackBuildDeployStepDetailsSum1() {
+		return v, false
+	}
+	return s.StackBuildDeployStepDetailsSum1, true
+}
+
+// NewStackBuildDeployStepDetailsSum1StackBuildDeployStepDetailsSum returns new StackBuildDeployStepDetailsSum from StackBuildDeployStepDetailsSum1.
+func NewStackBuildDeployStepDetailsSum1StackBuildDeployStepDetailsSum(v StackBuildDeployStepDetailsSum1) StackBuildDeployStepDetailsSum {
+	var s StackBuildDeployStepDetailsSum
+	s.SetStackBuildDeployStepDetailsSum1(v)
+	return s
+}
+
+type StackBuildDeployStepDetailsSum0 struct {
+	// The ID of an existing resource that exists before the pipeline is run.
+	ID string `json:"id"`
+}
+
+// GetID returns the value of ID.
+func (s *StackBuildDeployStepDetailsSum0) GetID() string {
+	return s.ID
+}
+
+// SetID sets the value of ID.
+func (s *StackBuildDeployStepDetailsSum0) SetID(val string) {
+	s.ID = val
+}
+
+type StackBuildDeployStepDetailsSum1 struct {
+	// The stage and step to report on.
+	From StackBuildDeployStepDetailsSum1From `json:"from"`
+}
+
+// GetFrom returns the value of From.
+func (s *StackBuildDeployStepDetailsSum1) GetFrom() StackBuildDeployStepDetailsSum1From {
+	return s.From
+}
+
+// SetFrom sets the value of From.
+func (s *StackBuildDeployStepDetailsSum1) SetFrom(val StackBuildDeployStepDetailsSum1From) {
+	s.From = val
+}
+
+// The stage and step to report on.
+type StackBuildDeployStepDetailsSum1From struct {
+	// An identifier for the stage the step being reported on resides in.
+	Stage OptString `json:"stage"`
+	// An identifier for the step to be reported on.
+	Step string `json:"step"`
+}
+
+// GetStage returns the value of Stage.
+func (s *StackBuildDeployStepDetailsSum1From) GetStage() OptString {
+	return s.Stage
+}
+
+// GetStep returns the value of Step.
+func (s *StackBuildDeployStepDetailsSum1From) GetStep() string {
+	return s.Step
+}
+
+// SetStage sets the value of Stage.
+func (s *StackBuildDeployStepDetailsSum1From) SetStage(val OptString) {
+	s.Stage = val
+}
+
+// SetStep sets the value of Step.
+func (s *StackBuildDeployStepDetailsSum1From) SetStep(val string) {
+	s.Step = val
 }
 
 type StackBuildDeployStepOptions struct {
@@ -68111,7 +71215,7 @@ func (s *StackBuildStateError) SetTime(val OptDateTime) {
 	s.Time = val
 }
 
-// A list of records defining the stacks containers.
+// Records defining the containers within the stack.
 // Ref: #/components/schemas/StackContainer
 type StackContainer map[string]StackContainerItem
 
@@ -68126,7 +71230,7 @@ func (s *StackContainer) init() StackContainer {
 
 // Ref: #/components/schemas/StackContainerConfigDeploy
 type StackContainerConfigDeploy struct {
-	Instances   float64                                  `json:"instances"`
+	Instances   int                                      `json:"instances"`
 	Strategy    OptStackContainerConfigDeployStrategy    `json:"strategy"`
 	Stateful    OptStackContainerConfigDeployStateful    `json:"stateful"`
 	Constraints OptStackContainerConfigDeployConstraints `json:"constraints"`
@@ -68135,11 +71239,10 @@ type StackContainerConfigDeploy struct {
 	Restart     OptStackContainerConfigDeployRestart     `json:"restart"`
 	HealthCheck OptStackContainerConfigDeployHealthCheck `json:"health_check"`
 	Telemetry   OptStackContainerConfigDeployTelemetry   `json:"telemetry"`
-	Update      OptStackContainerConfigDeployUpdate      `json:"update"`
 }
 
 // GetInstances returns the value of Instances.
-func (s *StackContainerConfigDeploy) GetInstances() float64 {
+func (s *StackContainerConfigDeploy) GetInstances() int {
 	return s.Instances
 }
 
@@ -68183,13 +71286,8 @@ func (s *StackContainerConfigDeploy) GetTelemetry() OptStackContainerConfigDeplo
 	return s.Telemetry
 }
 
-// GetUpdate returns the value of Update.
-func (s *StackContainerConfigDeploy) GetUpdate() OptStackContainerConfigDeployUpdate {
-	return s.Update
-}
-
 // SetInstances sets the value of Instances.
-func (s *StackContainerConfigDeploy) SetInstances(val float64) {
+func (s *StackContainerConfigDeploy) SetInstances(val int) {
 	s.Instances = val
 }
 
@@ -68231,11 +71329,6 @@ func (s *StackContainerConfigDeploy) SetHealthCheck(val OptStackContainerConfigD
 // SetTelemetry sets the value of Telemetry.
 func (s *StackContainerConfigDeploy) SetTelemetry(val OptStackContainerConfigDeployTelemetry) {
 	s.Telemetry = val
-}
-
-// SetUpdate sets the value of Update.
-func (s *StackContainerConfigDeploy) SetUpdate(val OptStackContainerConfigDeployUpdate) {
-	s.Update = val
 }
 
 type StackContainerConfigDeployConstraints struct {
@@ -68314,11 +71407,13 @@ func (s *StackContainerConfigDeployConstraintsNodeTags) SetAll(val []string) {
 }
 
 type StackContainerConfigDeployHealthCheck struct {
-	Command  string  `json:"command"`
-	Retries  float64 `json:"retries"`
-	Interval float64 `json:"interval"`
-	Timeout  float64 `json:"timeout"`
-	Restart  bool    `json:"restart"`
+	Command string `json:"command"`
+	Retries int    `json:"retries"`
+	// How long to wait between restarts.
+	Interval Duration `json:"interval"`
+	// How long before a health check attempt times out.
+	Timeout Duration `json:"timeout"`
+	Restart bool     `json:"restart"`
 }
 
 // GetCommand returns the value of Command.
@@ -68327,17 +71422,17 @@ func (s *StackContainerConfigDeployHealthCheck) GetCommand() string {
 }
 
 // GetRetries returns the value of Retries.
-func (s *StackContainerConfigDeployHealthCheck) GetRetries() float64 {
+func (s *StackContainerConfigDeployHealthCheck) GetRetries() int {
 	return s.Retries
 }
 
 // GetInterval returns the value of Interval.
-func (s *StackContainerConfigDeployHealthCheck) GetInterval() float64 {
+func (s *StackContainerConfigDeployHealthCheck) GetInterval() Duration {
 	return s.Interval
 }
 
 // GetTimeout returns the value of Timeout.
-func (s *StackContainerConfigDeployHealthCheck) GetTimeout() float64 {
+func (s *StackContainerConfigDeployHealthCheck) GetTimeout() Duration {
 	return s.Timeout
 }
 
@@ -68352,17 +71447,17 @@ func (s *StackContainerConfigDeployHealthCheck) SetCommand(val string) {
 }
 
 // SetRetries sets the value of Retries.
-func (s *StackContainerConfigDeployHealthCheck) SetRetries(val float64) {
+func (s *StackContainerConfigDeployHealthCheck) SetRetries(val int) {
 	s.Retries = val
 }
 
 // SetInterval sets the value of Interval.
-func (s *StackContainerConfigDeployHealthCheck) SetInterval(val float64) {
+func (s *StackContainerConfigDeployHealthCheck) SetInterval(val Duration) {
 	s.Interval = val
 }
 
 // SetTimeout sets the value of Timeout.
-func (s *StackContainerConfigDeployHealthCheck) SetTimeout(val float64) {
+func (s *StackContainerConfigDeployHealthCheck) SetTimeout(val Duration) {
 	s.Timeout = val
 }
 
@@ -68372,9 +71467,10 @@ func (s *StackContainerConfigDeployHealthCheck) SetRestart(val bool) {
 }
 
 type StackContainerConfigDeployRestart struct {
-	Condition   StackContainerConfigDeployRestartCondition `json:"condition"`
-	Delay       float64                                    `json:"delay"`
-	MaxAttempts float64                                    `json:"max_attempts"`
+	Condition StackContainerConfigDeployRestartCondition `json:"condition"`
+	// How long the platform will wait before trying to restart the container.
+	Delay       Duration                                   `json:"delay"`
+	MaxAttempts int                                        `json:"max_attempts"`
 	Notify      OptStackContainerConfigDeployRestartNotify `json:"notify"`
 }
 
@@ -68384,12 +71480,12 @@ func (s *StackContainerConfigDeployRestart) GetCondition() StackContainerConfigD
 }
 
 // GetDelay returns the value of Delay.
-func (s *StackContainerConfigDeployRestart) GetDelay() float64 {
+func (s *StackContainerConfigDeployRestart) GetDelay() Duration {
 	return s.Delay
 }
 
 // GetMaxAttempts returns the value of MaxAttempts.
-func (s *StackContainerConfigDeployRestart) GetMaxAttempts() float64 {
+func (s *StackContainerConfigDeployRestart) GetMaxAttempts() int {
 	return s.MaxAttempts
 }
 
@@ -68404,12 +71500,12 @@ func (s *StackContainerConfigDeployRestart) SetCondition(val StackContainerConfi
 }
 
 // SetDelay sets the value of Delay.
-func (s *StackContainerConfigDeployRestart) SetDelay(val float64) {
+func (s *StackContainerConfigDeployRestart) SetDelay(val Duration) {
 	s.Delay = val
 }
 
 // SetMaxAttempts sets the value of MaxAttempts.
-func (s *StackContainerConfigDeployRestart) SetMaxAttempts(val float64) {
+func (s *StackContainerConfigDeployRestart) SetMaxAttempts(val int) {
 	s.MaxAttempts = val
 }
 
@@ -68483,279 +71579,72 @@ func (s *StackContainerConfigDeployRestartNotify) SetWebHook(val OptString) {
 }
 
 type StackContainerConfigDeployShutdown struct {
-	GracefulTimeout float64                                         `json:"graceful_timeout"`
-	Signals         []StackContainerConfigDeployShutdownSignalsItem `json:"signals"`
+	// How long the platform will wait for a container to stop gracefully.
+	GracefulTimeout OptNilDuration `json:"graceful_timeout"`
+	Signals         []string       `json:"signals"`
 }
 
 // GetGracefulTimeout returns the value of GracefulTimeout.
-func (s *StackContainerConfigDeployShutdown) GetGracefulTimeout() float64 {
+func (s *StackContainerConfigDeployShutdown) GetGracefulTimeout() OptNilDuration {
 	return s.GracefulTimeout
 }
 
 // GetSignals returns the value of Signals.
-func (s *StackContainerConfigDeployShutdown) GetSignals() []StackContainerConfigDeployShutdownSignalsItem {
+func (s *StackContainerConfigDeployShutdown) GetSignals() []string {
 	return s.Signals
 }
 
 // SetGracefulTimeout sets the value of GracefulTimeout.
-func (s *StackContainerConfigDeployShutdown) SetGracefulTimeout(val float64) {
+func (s *StackContainerConfigDeployShutdown) SetGracefulTimeout(val OptNilDuration) {
 	s.GracefulTimeout = val
 }
 
 // SetSignals sets the value of Signals.
-func (s *StackContainerConfigDeployShutdown) SetSignals(val []StackContainerConfigDeployShutdownSignalsItem) {
+func (s *StackContainerConfigDeployShutdown) SetSignals(val []string) {
 	s.Signals = val
 }
 
-type StackContainerConfigDeployShutdownSignalsItem string
-
-const (
-	StackContainerConfigDeployShutdownSignalsItemSIGTERM StackContainerConfigDeployShutdownSignalsItem = "SIGTERM"
-	StackContainerConfigDeployShutdownSignalsItemSIGINT  StackContainerConfigDeployShutdownSignalsItem = "SIGINT"
-	StackContainerConfigDeployShutdownSignalsItemSIGUSR1 StackContainerConfigDeployShutdownSignalsItem = "SIGUSR1"
-	StackContainerConfigDeployShutdownSignalsItemSIGUSR2 StackContainerConfigDeployShutdownSignalsItem = "SIGUSR2"
-	StackContainerConfigDeployShutdownSignalsItemSIGHUP  StackContainerConfigDeployShutdownSignalsItem = "SIGHUP"
-)
-
-// MarshalText implements encoding.TextMarshaler.
-func (s StackContainerConfigDeployShutdownSignalsItem) MarshalText() ([]byte, error) {
-	switch s {
-	case StackContainerConfigDeployShutdownSignalsItemSIGTERM:
-		return []byte(s), nil
-	case StackContainerConfigDeployShutdownSignalsItemSIGINT:
-		return []byte(s), nil
-	case StackContainerConfigDeployShutdownSignalsItemSIGUSR1:
-		return []byte(s), nil
-	case StackContainerConfigDeployShutdownSignalsItemSIGUSR2:
-		return []byte(s), nil
-	case StackContainerConfigDeployShutdownSignalsItemSIGHUP:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *StackContainerConfigDeployShutdownSignalsItem) UnmarshalText(data []byte) error {
-	switch StackContainerConfigDeployShutdownSignalsItem(data) {
-	case StackContainerConfigDeployShutdownSignalsItemSIGTERM:
-		*s = StackContainerConfigDeployShutdownSignalsItemSIGTERM
-		return nil
-	case StackContainerConfigDeployShutdownSignalsItemSIGINT:
-		*s = StackContainerConfigDeployShutdownSignalsItemSIGINT
-		return nil
-	case StackContainerConfigDeployShutdownSignalsItemSIGUSR1:
-		*s = StackContainerConfigDeployShutdownSignalsItemSIGUSR1
-		return nil
-	case StackContainerConfigDeployShutdownSignalsItemSIGUSR2:
-		*s = StackContainerConfigDeployShutdownSignalsItemSIGUSR2
-		return nil
-	case StackContainerConfigDeployShutdownSignalsItemSIGHUP:
-		*s = StackContainerConfigDeployShutdownSignalsItemSIGHUP
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
 type StackContainerConfigDeployStartup struct {
-	Delay OptFloat64 `json:"delay"`
+	// How long the platform will wait before sending the start signal to the given container.
+	Delay OptNilDuration `json:"delay"`
 }
 
 // GetDelay returns the value of Delay.
-func (s *StackContainerConfigDeployStartup) GetDelay() OptFloat64 {
+func (s *StackContainerConfigDeployStartup) GetDelay() OptNilDuration {
 	return s.Delay
 }
 
 // SetDelay sets the value of Delay.
-func (s *StackContainerConfigDeployStartup) SetDelay(val OptFloat64) {
+func (s *StackContainerConfigDeployStartup) SetDelay(val OptNilDuration) {
 	s.Delay = val
 }
 
 type StackContainerConfigDeployStateful struct {
-	Instances []StackContainerConfigDeployStatefulInstancesItem `json:"instances"`
+	Options NilStackContainerConfigDeployStatefulOptions `json:"options"`
 }
 
-// GetInstances returns the value of Instances.
-func (s *StackContainerConfigDeployStateful) GetInstances() []StackContainerConfigDeployStatefulInstancesItem {
-	return s.Instances
+// GetOptions returns the value of Options.
+func (s *StackContainerConfigDeployStateful) GetOptions() NilStackContainerConfigDeployStatefulOptions {
+	return s.Options
 }
 
-// SetInstances sets the value of Instances.
-func (s *StackContainerConfigDeployStateful) SetInstances(val []StackContainerConfigDeployStatefulInstancesItem) {
-	s.Instances = val
+// SetOptions sets the value of Options.
+func (s *StackContainerConfigDeployStateful) SetOptions(val NilStackContainerConfigDeployStatefulOptions) {
+	s.Options = val
 }
 
-type StackContainerConfigDeployStatefulInstancesItem struct {
-	Match      StackContainerConfigDeployStatefulInstancesItemMatch         `json:"match"`
-	FirstStart OptStackContainerConfigDeployStatefulInstancesItemFirstStart `json:"first_start"`
-	Start      OptStackContainerConfigDeployStatefulInstancesItemStart      `json:"start"`
+type StackContainerConfigDeployStatefulOptions struct {
+	UseBaseHostname OptNilBool `json:"use_base_hostname"`
 }
 
-// GetMatch returns the value of Match.
-func (s *StackContainerConfigDeployStatefulInstancesItem) GetMatch() StackContainerConfigDeployStatefulInstancesItemMatch {
-	return s.Match
+// GetUseBaseHostname returns the value of UseBaseHostname.
+func (s *StackContainerConfigDeployStatefulOptions) GetUseBaseHostname() OptNilBool {
+	return s.UseBaseHostname
 }
 
-// GetFirstStart returns the value of FirstStart.
-func (s *StackContainerConfigDeployStatefulInstancesItem) GetFirstStart() OptStackContainerConfigDeployStatefulInstancesItemFirstStart {
-	return s.FirstStart
-}
-
-// GetStart returns the value of Start.
-func (s *StackContainerConfigDeployStatefulInstancesItem) GetStart() OptStackContainerConfigDeployStatefulInstancesItemStart {
-	return s.Start
-}
-
-// SetMatch sets the value of Match.
-func (s *StackContainerConfigDeployStatefulInstancesItem) SetMatch(val StackContainerConfigDeployStatefulInstancesItemMatch) {
-	s.Match = val
-}
-
-// SetFirstStart sets the value of FirstStart.
-func (s *StackContainerConfigDeployStatefulInstancesItem) SetFirstStart(val OptStackContainerConfigDeployStatefulInstancesItemFirstStart) {
-	s.FirstStart = val
-}
-
-// SetStart sets the value of Start.
-func (s *StackContainerConfigDeployStatefulInstancesItem) SetStart(val OptStackContainerConfigDeployStatefulInstancesItemStart) {
-	s.Start = val
-}
-
-type StackContainerConfigDeployStatefulInstancesItemFirstStart struct {
-	Command         OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand         `json:"command"`
-	EnvironmentVars OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars `json:"environment_vars"`
-}
-
-// GetCommand returns the value of Command.
-func (s *StackContainerConfigDeployStatefulInstancesItemFirstStart) GetCommand() OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand {
-	return s.Command
-}
-
-// GetEnvironmentVars returns the value of EnvironmentVars.
-func (s *StackContainerConfigDeployStatefulInstancesItemFirstStart) GetEnvironmentVars() OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars {
-	return s.EnvironmentVars
-}
-
-// SetCommand sets the value of Command.
-func (s *StackContainerConfigDeployStatefulInstancesItemFirstStart) SetCommand(val OptStackContainerConfigDeployStatefulInstancesItemFirstStartCommand) {
-	s.Command = val
-}
-
-// SetEnvironmentVars sets the value of EnvironmentVars.
-func (s *StackContainerConfigDeployStatefulInstancesItemFirstStart) SetEnvironmentVars(val OptStackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) {
-	s.EnvironmentVars = val
-}
-
-type StackContainerConfigDeployStatefulInstancesItemFirstStartCommand struct {
-	Path OptString `json:"path"`
-	Args OptString `json:"args"`
-}
-
-// GetPath returns the value of Path.
-func (s *StackContainerConfigDeployStatefulInstancesItemFirstStartCommand) GetPath() OptString {
-	return s.Path
-}
-
-// GetArgs returns the value of Args.
-func (s *StackContainerConfigDeployStatefulInstancesItemFirstStartCommand) GetArgs() OptString {
-	return s.Args
-}
-
-// SetPath sets the value of Path.
-func (s *StackContainerConfigDeployStatefulInstancesItemFirstStartCommand) SetPath(val OptString) {
-	s.Path = val
-}
-
-// SetArgs sets the value of Args.
-func (s *StackContainerConfigDeployStatefulInstancesItemFirstStartCommand) SetArgs(val OptString) {
-	s.Args = val
-}
-
-type StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars map[string]string
-
-func (s *StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars) init() StackContainerConfigDeployStatefulInstancesItemFirstStartEnvironmentVars {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
-}
-
-type StackContainerConfigDeployStatefulInstancesItemMatch struct {
-	Hostname OptString `json:"hostname"`
-}
-
-// GetHostname returns the value of Hostname.
-func (s *StackContainerConfigDeployStatefulInstancesItemMatch) GetHostname() OptString {
-	return s.Hostname
-}
-
-// SetHostname sets the value of Hostname.
-func (s *StackContainerConfigDeployStatefulInstancesItemMatch) SetHostname(val OptString) {
-	s.Hostname = val
-}
-
-type StackContainerConfigDeployStatefulInstancesItemStart struct {
-	Command         OptStackContainerConfigDeployStatefulInstancesItemStartCommand         `json:"command"`
-	EnvironmentVars OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars `json:"environment_vars"`
-}
-
-// GetCommand returns the value of Command.
-func (s *StackContainerConfigDeployStatefulInstancesItemStart) GetCommand() OptStackContainerConfigDeployStatefulInstancesItemStartCommand {
-	return s.Command
-}
-
-// GetEnvironmentVars returns the value of EnvironmentVars.
-func (s *StackContainerConfigDeployStatefulInstancesItemStart) GetEnvironmentVars() OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars {
-	return s.EnvironmentVars
-}
-
-// SetCommand sets the value of Command.
-func (s *StackContainerConfigDeployStatefulInstancesItemStart) SetCommand(val OptStackContainerConfigDeployStatefulInstancesItemStartCommand) {
-	s.Command = val
-}
-
-// SetEnvironmentVars sets the value of EnvironmentVars.
-func (s *StackContainerConfigDeployStatefulInstancesItemStart) SetEnvironmentVars(val OptStackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) {
-	s.EnvironmentVars = val
-}
-
-type StackContainerConfigDeployStatefulInstancesItemStartCommand struct {
-	Path OptString `json:"path"`
-	Args OptString `json:"args"`
-}
-
-// GetPath returns the value of Path.
-func (s *StackContainerConfigDeployStatefulInstancesItemStartCommand) GetPath() OptString {
-	return s.Path
-}
-
-// GetArgs returns the value of Args.
-func (s *StackContainerConfigDeployStatefulInstancesItemStartCommand) GetArgs() OptString {
-	return s.Args
-}
-
-// SetPath sets the value of Path.
-func (s *StackContainerConfigDeployStatefulInstancesItemStartCommand) SetPath(val OptString) {
-	s.Path = val
-}
-
-// SetArgs sets the value of Args.
-func (s *StackContainerConfigDeployStatefulInstancesItemStartCommand) SetArgs(val OptString) {
-	s.Args = val
-}
-
-type StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars map[string]string
-
-func (s *StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars) init() StackContainerConfigDeployStatefulInstancesItemStartEnvironmentVars {
-	m := *s
-	if m == nil {
-		m = map[string]string{}
-		*s = m
-	}
-	return m
+// SetUseBaseHostname sets the value of UseBaseHostname.
+func (s *StackContainerConfigDeployStatefulOptions) SetUseBaseHostname(val OptNilBool) {
+	s.UseBaseHostname = val
 }
 
 type StackContainerConfigDeployStrategy string
@@ -68765,7 +71654,8 @@ const (
 	StackContainerConfigDeployStrategyManual           StackContainerConfigDeployStrategy = "manual"
 	StackContainerConfigDeployStrategyHighAvailability StackContainerConfigDeployStrategy = "high-availability"
 	StackContainerConfigDeployStrategyFirstAvailable   StackContainerConfigDeployStrategy = "first-available"
-	StackContainerConfigDeployStrategyEphemeral        StackContainerConfigDeployStrategy = "ephemeral"
+	StackContainerConfigDeployStrategyNode             StackContainerConfigDeployStrategy = "node"
+	StackContainerConfigDeployStrategyEdge             StackContainerConfigDeployStrategy = "edge"
 )
 
 // MarshalText implements encoding.TextMarshaler.
@@ -68779,7 +71669,9 @@ func (s StackContainerConfigDeployStrategy) MarshalText() ([]byte, error) {
 		return []byte(s), nil
 	case StackContainerConfigDeployStrategyFirstAvailable:
 		return []byte(s), nil
-	case StackContainerConfigDeployStrategyEphemeral:
+	case StackContainerConfigDeployStrategyNode:
+		return []byte(s), nil
+	case StackContainerConfigDeployStrategyEdge:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -68801,8 +71693,11 @@ func (s *StackContainerConfigDeployStrategy) UnmarshalText(data []byte) error {
 	case StackContainerConfigDeployStrategyFirstAvailable:
 		*s = StackContainerConfigDeployStrategyFirstAvailable
 		return nil
-	case StackContainerConfigDeployStrategyEphemeral:
-		*s = StackContainerConfigDeployStrategyEphemeral
+	case StackContainerConfigDeployStrategyNode:
+		*s = StackContainerConfigDeployStrategyNode
+		return nil
+	case StackContainerConfigDeployStrategyEdge:
+		*s = StackContainerConfigDeployStrategyEdge
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -68810,18 +71705,20 @@ func (s *StackContainerConfigDeployStrategy) UnmarshalText(data []byte) error {
 }
 
 type StackContainerConfigDeployTelemetry struct {
-	Retention float64 `json:"retention"`
-	Interval  float64 `json:"interval"`
-	Disable   bool    `json:"disable"`
+	// How long telemetry data should be retained.
+	Retention Duration `json:"retention"`
+	// The duration between samples.
+	Interval Duration `json:"interval"`
+	Disable  bool     `json:"disable"`
 }
 
 // GetRetention returns the value of Retention.
-func (s *StackContainerConfigDeployTelemetry) GetRetention() float64 {
+func (s *StackContainerConfigDeployTelemetry) GetRetention() Duration {
 	return s.Retention
 }
 
 // GetInterval returns the value of Interval.
-func (s *StackContainerConfigDeployTelemetry) GetInterval() float64 {
+func (s *StackContainerConfigDeployTelemetry) GetInterval() Duration {
 	return s.Interval
 }
 
@@ -68831,43 +71728,18 @@ func (s *StackContainerConfigDeployTelemetry) GetDisable() bool {
 }
 
 // SetRetention sets the value of Retention.
-func (s *StackContainerConfigDeployTelemetry) SetRetention(val float64) {
+func (s *StackContainerConfigDeployTelemetry) SetRetention(val Duration) {
 	s.Retention = val
 }
 
 // SetInterval sets the value of Interval.
-func (s *StackContainerConfigDeployTelemetry) SetInterval(val float64) {
+func (s *StackContainerConfigDeployTelemetry) SetInterval(val Duration) {
 	s.Interval = val
 }
 
 // SetDisable sets the value of Disable.
 func (s *StackContainerConfigDeployTelemetry) SetDisable(val bool) {
 	s.Disable = val
-}
-
-type StackContainerConfigDeployUpdate struct {
-	Parallelism float64 `json:"parallelism"`
-	Delay       float64 `json:"delay"`
-}
-
-// GetParallelism returns the value of Parallelism.
-func (s *StackContainerConfigDeployUpdate) GetParallelism() float64 {
-	return s.Parallelism
-}
-
-// GetDelay returns the value of Delay.
-func (s *StackContainerConfigDeployUpdate) GetDelay() float64 {
-	return s.Delay
-}
-
-// SetParallelism sets the value of Parallelism.
-func (s *StackContainerConfigDeployUpdate) SetParallelism(val float64) {
-	s.Parallelism = val
-}
-
-// SetDelay sets the value of Delay.
-func (s *StackContainerConfigDeployUpdate) SetDelay(val float64) {
-	s.Delay = val
 }
 
 // Ref: #/components/schemas/StackContainerConfigIntegrations
@@ -68919,13 +71791,15 @@ func (s *StackContainerConfigIntegrations) SetBackups(val OptStackContainerConfi
 }
 
 type StackContainerConfigIntegrationsBackups struct {
-	Destination StackContainerConfigIntegrationsBackupsDestination `json:"destination"`
-	Backup      StackContainerConfigIntegrationsBackupsBackup      `json:"backup"`
-	Restore     NilStackContainerConfigIntegrationsBackupsRestore  `json:"restore"`
+	Destination string                                            `json:"destination"`
+	Backup      StackContainerConfigIntegrationsBackupsBackup     `json:"backup"`
+	Restore     NilStackContainerConfigIntegrationsBackupsRestore `json:"restore"`
+	// How long the platform will keep backups. Default is 1 year.
+	Retention NilDuration `json:"retention"`
 }
 
 // GetDestination returns the value of Destination.
-func (s *StackContainerConfigIntegrationsBackups) GetDestination() StackContainerConfigIntegrationsBackupsDestination {
+func (s *StackContainerConfigIntegrationsBackups) GetDestination() string {
 	return s.Destination
 }
 
@@ -68939,8 +71813,13 @@ func (s *StackContainerConfigIntegrationsBackups) GetRestore() NilStackContainer
 	return s.Restore
 }
 
+// GetRetention returns the value of Retention.
+func (s *StackContainerConfigIntegrationsBackups) GetRetention() NilDuration {
+	return s.Retention
+}
+
 // SetDestination sets the value of Destination.
-func (s *StackContainerConfigIntegrationsBackups) SetDestination(val StackContainerConfigIntegrationsBackupsDestination) {
+func (s *StackContainerConfigIntegrationsBackups) SetDestination(val string) {
 	s.Destination = val
 }
 
@@ -68954,19 +71833,25 @@ func (s *StackContainerConfigIntegrationsBackups) SetRestore(val NilStackContain
 	s.Restore = val
 }
 
+// SetRetention sets the value of Retention.
+func (s *StackContainerConfigIntegrationsBackups) SetRetention(val NilDuration) {
+	s.Retention = val
+}
+
 type StackContainerConfigIntegrationsBackupsBackup struct {
-	Command    NilFloat64 `json:"command"`
-	Timeout    NilFloat64 `json:"timeout"`
-	CronString NilString  `json:"cron_string"`
+	Command string `json:"command"`
+	// How long the backup will attempt to run before timing out.
+	Timeout    NilDuration `json:"timeout"`
+	CronString NilString   `json:"cron_string"`
 }
 
 // GetCommand returns the value of Command.
-func (s *StackContainerConfigIntegrationsBackupsBackup) GetCommand() NilFloat64 {
+func (s *StackContainerConfigIntegrationsBackupsBackup) GetCommand() string {
 	return s.Command
 }
 
 // GetTimeout returns the value of Timeout.
-func (s *StackContainerConfigIntegrationsBackupsBackup) GetTimeout() NilFloat64 {
+func (s *StackContainerConfigIntegrationsBackupsBackup) GetTimeout() NilDuration {
 	return s.Timeout
 }
 
@@ -68976,12 +71861,12 @@ func (s *StackContainerConfigIntegrationsBackupsBackup) GetCronString() NilStrin
 }
 
 // SetCommand sets the value of Command.
-func (s *StackContainerConfigIntegrationsBackupsBackup) SetCommand(val NilFloat64) {
+func (s *StackContainerConfigIntegrationsBackupsBackup) SetCommand(val string) {
 	s.Command = val
 }
 
 // SetTimeout sets the value of Timeout.
-func (s *StackContainerConfigIntegrationsBackupsBackup) SetTimeout(val NilFloat64) {
+func (s *StackContainerConfigIntegrationsBackupsBackup) SetTimeout(val NilDuration) {
 	s.Timeout = val
 }
 
@@ -68990,36 +71875,10 @@ func (s *StackContainerConfigIntegrationsBackupsBackup) SetCronString(val NilStr
 	s.CronString = val
 }
 
-type StackContainerConfigIntegrationsBackupsDestination string
-
-const (
-	StackContainerConfigIntegrationsBackupsDestinationBackblazeB2 StackContainerConfigIntegrationsBackupsDestination = "backblaze-b2"
-)
-
-// MarshalText implements encoding.TextMarshaler.
-func (s StackContainerConfigIntegrationsBackupsDestination) MarshalText() ([]byte, error) {
-	switch s {
-	case StackContainerConfigIntegrationsBackupsDestinationBackblazeB2:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *StackContainerConfigIntegrationsBackupsDestination) UnmarshalText(data []byte) error {
-	switch StackContainerConfigIntegrationsBackupsDestination(data) {
-	case StackContainerConfigIntegrationsBackupsDestinationBackblazeB2:
-		*s = StackContainerConfigIntegrationsBackupsDestinationBackblazeB2
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
 type StackContainerConfigIntegrationsBackupsRestore struct {
-	Command string     `json:"command"`
-	Timeout NilFloat64 `json:"timeout"`
+	Command string `json:"command"`
+	// The time in seconds for the restore to attempt to complete before timing out.
+	Timeout NilDuration `json:"timeout"`
 }
 
 // GetCommand returns the value of Command.
@@ -69028,7 +71887,7 @@ func (s *StackContainerConfigIntegrationsBackupsRestore) GetCommand() string {
 }
 
 // GetTimeout returns the value of Timeout.
-func (s *StackContainerConfigIntegrationsBackupsRestore) GetTimeout() NilFloat64 {
+func (s *StackContainerConfigIntegrationsBackupsRestore) GetTimeout() NilDuration {
 	return s.Timeout
 }
 
@@ -69038,7 +71897,7 @@ func (s *StackContainerConfigIntegrationsBackupsRestore) SetCommand(val string) 
 }
 
 // SetTimeout sets the value of Timeout.
-func (s *StackContainerConfigIntegrationsBackupsRestore) SetTimeout(val NilFloat64) {
+func (s *StackContainerConfigIntegrationsBackupsRestore) SetTimeout(val NilDuration) {
 	s.Timeout = val
 }
 
@@ -69325,27 +72184,27 @@ func (s *StackContainerConfigResourcesCPU) SetCpus(val OptString) {
 }
 
 type StackContainerConfigResourcesCPUShares struct {
-	Limit   float64 `json:"limit"`
-	Reserve float64 `json:"reserve"`
+	Limit   int `json:"limit"`
+	Reserve int `json:"reserve"`
 }
 
 // GetLimit returns the value of Limit.
-func (s *StackContainerConfigResourcesCPUShares) GetLimit() float64 {
+func (s *StackContainerConfigResourcesCPUShares) GetLimit() int {
 	return s.Limit
 }
 
 // GetReserve returns the value of Reserve.
-func (s *StackContainerConfigResourcesCPUShares) GetReserve() float64 {
+func (s *StackContainerConfigResourcesCPUShares) GetReserve() int {
 	return s.Reserve
 }
 
 // SetLimit sets the value of Limit.
-func (s *StackContainerConfigResourcesCPUShares) SetLimit(val float64) {
+func (s *StackContainerConfigResourcesCPUShares) SetLimit(val int) {
 	s.Limit = val
 }
 
 // SetReserve sets the value of Reserve.
-func (s *StackContainerConfigResourcesCPUShares) SetReserve(val float64) {
+func (s *StackContainerConfigResourcesCPUShares) SetReserve(val int) {
 	s.Reserve = val
 }
 
@@ -69353,8 +72212,6 @@ type StackContainerConfigResourcesRAM struct {
 	Limit      OptString  `json:"limit"`
 	Reserve    OptString  `json:"reserve"`
 	Swappiness OptFloat64 `json:"swappiness"`
-	Kernel     OptString  `json:"kernel"`
-	KernelTCP  OptString  `json:"kernel_tcp"`
 }
 
 // GetLimit returns the value of Limit.
@@ -69372,16 +72229,6 @@ func (s *StackContainerConfigResourcesRAM) GetSwappiness() OptFloat64 {
 	return s.Swappiness
 }
 
-// GetKernel returns the value of Kernel.
-func (s *StackContainerConfigResourcesRAM) GetKernel() OptString {
-	return s.Kernel
-}
-
-// GetKernelTCP returns the value of KernelTCP.
-func (s *StackContainerConfigResourcesRAM) GetKernelTCP() OptString {
-	return s.KernelTCP
-}
-
 // SetLimit sets the value of Limit.
 func (s *StackContainerConfigResourcesRAM) SetLimit(val OptString) {
 	s.Limit = val
@@ -69397,16 +72244,6 @@ func (s *StackContainerConfigResourcesRAM) SetSwappiness(val OptFloat64) {
 	s.Swappiness = val
 }
 
-// SetKernel sets the value of Kernel.
-func (s *StackContainerConfigResourcesRAM) SetKernel(val OptString) {
-	s.Kernel = val
-}
-
-// SetKernelTCP sets the value of KernelTCP.
-func (s *StackContainerConfigResourcesRAM) SetKernelTCP(val OptString) {
-	s.KernelTCP = val
-}
-
 // Ref: #/components/schemas/StackContainerConfigRuntime
 type StackContainerConfigRuntime struct {
 	Workdir         OptString                                     `json:"workdir"`
@@ -69416,7 +72253,7 @@ type StackContainerConfigRuntime struct {
 	Sysctl          OptStackContainerConfigRuntimeSysctl          `json:"sysctl"`
 	Rlimits         OptStackContainerConfigRuntimeRlimits         `json:"rlimits"`
 	Seccomp         OptStackContainerConfigRuntimeSeccomp         `json:"seccomp"`
-	Privileged      OptBool                                       `json:"privileged"`
+	Privileged      bool                                          `json:"privileged"`
 	Capabilities    []StackContainerConfigRuntimeCapabilitiesItem `json:"capabilities"`
 	Rootfs          OptStackContainerConfigRuntimeRootfs          `json:"rootfs"`
 }
@@ -69457,7 +72294,7 @@ func (s *StackContainerConfigRuntime) GetSeccomp() OptStackContainerConfigRuntim
 }
 
 // GetPrivileged returns the value of Privileged.
-func (s *StackContainerConfigRuntime) GetPrivileged() OptBool {
+func (s *StackContainerConfigRuntime) GetPrivileged() bool {
 	return s.Privileged
 }
 
@@ -69507,7 +72344,7 @@ func (s *StackContainerConfigRuntime) SetSeccomp(val OptStackContainerConfigRunt
 }
 
 // SetPrivileged sets the value of Privileged.
-func (s *StackContainerConfigRuntime) SetPrivileged(val OptBool) {
+func (s *StackContainerConfigRuntime) SetPrivileged(val bool) {
 	s.Privileged = val
 }
 
@@ -69548,6 +72385,8 @@ const (
 	StackContainerConfigRuntimeCapabilitiesItemCAPSYSPTRACE      StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYS_PTRACE"
 	StackContainerConfigRuntimeCapabilitiesItemCAPSYSRAWIO       StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYS_RAWIO"
 	StackContainerConfigRuntimeCapabilitiesItemCAPSYSRESOURCE    StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYS_RESOURCE"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSYSBOOT        StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYS_BOOT"
+	StackContainerConfigRuntimeCapabilitiesItemCAPSYSTIME        StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYS_TIME"
 	StackContainerConfigRuntimeCapabilitiesItemCAPSYSTTYCONFIG   StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYS_TTY_CONFIG"
 	StackContainerConfigRuntimeCapabilitiesItemCAPSYSLOG         StackContainerConfigRuntimeCapabilitiesItem = "CAP_SYSLOG"
 	StackContainerConfigRuntimeCapabilitiesItemCAPAUDITCONTROL   StackContainerConfigRuntimeCapabilitiesItem = "CAP_AUDIT_CONTROL"
@@ -69558,6 +72397,8 @@ const (
 	StackContainerConfigRuntimeCapabilitiesItemCAPMACADMIN       StackContainerConfigRuntimeCapabilitiesItem = "CAP_MAC_ADMIN"
 	StackContainerConfigRuntimeCapabilitiesItemCAPMACOVERRIDE    StackContainerConfigRuntimeCapabilitiesItem = "CAP_MAC_OVERRIDE"
 	StackContainerConfigRuntimeCapabilitiesItemCAPBLOCKSUSPEND   StackContainerConfigRuntimeCapabilitiesItem = "CAP_BLOCK_SUSPEND"
+	StackContainerConfigRuntimeCapabilitiesItemCAPLEASE          StackContainerConfigRuntimeCapabilitiesItem = "CAP_LEASE"
+	StackContainerConfigRuntimeCapabilitiesItemCAPWAKEALARM      StackContainerConfigRuntimeCapabilitiesItem = "CAP_WAKE_ALARM"
 )
 
 // MarshalText implements encoding.TextMarshaler.
@@ -69611,6 +72452,10 @@ func (s StackContainerConfigRuntimeCapabilitiesItem) MarshalText() ([]byte, erro
 		return []byte(s), nil
 	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSRESOURCE:
 		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSBOOT:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSTIME:
+		return []byte(s), nil
 	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSTTYCONFIG:
 		return []byte(s), nil
 	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSLOG:
@@ -69630,6 +72475,10 @@ func (s StackContainerConfigRuntimeCapabilitiesItem) MarshalText() ([]byte, erro
 	case StackContainerConfigRuntimeCapabilitiesItemCAPMACOVERRIDE:
 		return []byte(s), nil
 	case StackContainerConfigRuntimeCapabilitiesItemCAPBLOCKSUSPEND:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPLEASE:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPWAKEALARM:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -69711,6 +72560,12 @@ func (s *StackContainerConfigRuntimeCapabilitiesItem) UnmarshalText(data []byte)
 	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSRESOURCE:
 		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSYSRESOURCE
 		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSBOOT:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSYSBOOT
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSTIME:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSYSTIME
+		return nil
 	case StackContainerConfigRuntimeCapabilitiesItemCAPSYSTTYCONFIG:
 		*s = StackContainerConfigRuntimeCapabilitiesItemCAPSYSTTYCONFIG
 		return nil
@@ -69741,33 +72596,39 @@ func (s *StackContainerConfigRuntimeCapabilitiesItem) UnmarshalText(data []byte)
 	case StackContainerConfigRuntimeCapabilitiesItemCAPBLOCKSUSPEND:
 		*s = StackContainerConfigRuntimeCapabilitiesItemCAPBLOCKSUSPEND
 		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPLEASE:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPLEASE
+		return nil
+	case StackContainerConfigRuntimeCapabilitiesItemCAPWAKEALARM:
+		*s = StackContainerConfigRuntimeCapabilitiesItemCAPWAKEALARM
+		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
 type StackContainerConfigRuntimeCommand struct {
-	Path string `json:"path"`
-	Args string `json:"args"`
+	Path OptString `json:"path"`
+	Args OptString `json:"args"`
 }
 
 // GetPath returns the value of Path.
-func (s *StackContainerConfigRuntimeCommand) GetPath() string {
+func (s *StackContainerConfigRuntimeCommand) GetPath() OptString {
 	return s.Path
 }
 
 // GetArgs returns the value of Args.
-func (s *StackContainerConfigRuntimeCommand) GetArgs() string {
+func (s *StackContainerConfigRuntimeCommand) GetArgs() OptString {
 	return s.Args
 }
 
 // SetPath sets the value of Path.
-func (s *StackContainerConfigRuntimeCommand) SetPath(val string) {
+func (s *StackContainerConfigRuntimeCommand) SetPath(val OptString) {
 	s.Path = val
 }
 
 // SetArgs sets the value of Args.
-func (s *StackContainerConfigRuntimeCommand) SetArgs(val string) {
+func (s *StackContainerConfigRuntimeCommand) SetArgs(val OptString) {
 	s.Args = val
 }
 
@@ -69791,6 +72652,7 @@ const (
 	StackContainerConfigRuntimeNamespacesItemNetwork StackContainerConfigRuntimeNamespacesItem = "network"
 	StackContainerConfigRuntimeNamespacesItemMount   StackContainerConfigRuntimeNamespacesItem = "mount"
 	StackContainerConfigRuntimeNamespacesItemUser    StackContainerConfigRuntimeNamespacesItem = "user"
+	StackContainerConfigRuntimeNamespacesItemCgroup  StackContainerConfigRuntimeNamespacesItem = "cgroup"
 )
 
 // MarshalText implements encoding.TextMarshaler.
@@ -69807,6 +72669,8 @@ func (s StackContainerConfigRuntimeNamespacesItem) MarshalText() ([]byte, error)
 	case StackContainerConfigRuntimeNamespacesItemMount:
 		return []byte(s), nil
 	case StackContainerConfigRuntimeNamespacesItemUser:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeNamespacesItemCgroup:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -69834,6 +72698,9 @@ func (s *StackContainerConfigRuntimeNamespacesItem) UnmarshalText(data []byte) e
 	case StackContainerConfigRuntimeNamespacesItemUser:
 		*s = StackContainerConfigRuntimeNamespacesItemUser
 		return nil
+	case StackContainerConfigRuntimeNamespacesItemCgroup:
+		*s = StackContainerConfigRuntimeNamespacesItemCgroup
+		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
@@ -69851,27 +72718,27 @@ func (s *StackContainerConfigRuntimeRlimits) init() StackContainerConfigRuntimeR
 }
 
 type StackContainerConfigRuntimeRlimitsItem struct {
-	Hard float64 `json:"hard"`
-	Soft float64 `json:"soft"`
+	Hard int `json:"hard"`
+	Soft int `json:"soft"`
 }
 
 // GetHard returns the value of Hard.
-func (s *StackContainerConfigRuntimeRlimitsItem) GetHard() float64 {
+func (s *StackContainerConfigRuntimeRlimitsItem) GetHard() int {
 	return s.Hard
 }
 
 // GetSoft returns the value of Soft.
-func (s *StackContainerConfigRuntimeRlimitsItem) GetSoft() float64 {
+func (s *StackContainerConfigRuntimeRlimitsItem) GetSoft() int {
 	return s.Soft
 }
 
 // SetHard sets the value of Hard.
-func (s *StackContainerConfigRuntimeRlimitsItem) SetHard(val float64) {
+func (s *StackContainerConfigRuntimeRlimitsItem) SetHard(val int) {
 	s.Hard = val
 }
 
 // SetSoft sets the value of Soft.
-func (s *StackContainerConfigRuntimeRlimitsItem) SetSoft(val float64) {
+func (s *StackContainerConfigRuntimeRlimitsItem) SetSoft(val int) {
 	s.Soft = val
 }
 
@@ -69916,7 +72783,7 @@ func (s *StackContainerConfigRuntimeSeccomp) SetRules(val []StackContainerConfig
 
 type StackContainerConfigRuntimeSeccompRulesItem struct {
 	Capabilities StackContainerConfigRuntimeSeccompRulesItemCapabilities `json:"capabilities"`
-	Specs        StackContainerConfigRuntimeSeccompRulesItemSpecs        `json:"specs"`
+	Syscall      StackContainerConfigRuntimeSeccompRulesItemSyscall      `json:"syscall"`
 }
 
 // GetCapabilities returns the value of Capabilities.
@@ -69924,9 +72791,9 @@ func (s *StackContainerConfigRuntimeSeccompRulesItem) GetCapabilities() StackCon
 	return s.Capabilities
 }
 
-// GetSpecs returns the value of Specs.
-func (s *StackContainerConfigRuntimeSeccompRulesItem) GetSpecs() StackContainerConfigRuntimeSeccompRulesItemSpecs {
-	return s.Specs
+// GetSyscall returns the value of Syscall.
+func (s *StackContainerConfigRuntimeSeccompRulesItem) GetSyscall() StackContainerConfigRuntimeSeccompRulesItemSyscall {
+	return s.Syscall
 }
 
 // SetCapabilities sets the value of Capabilities.
@@ -69934,9 +72801,9 @@ func (s *StackContainerConfigRuntimeSeccompRulesItem) SetCapabilities(val StackC
 	s.Capabilities = val
 }
 
-// SetSpecs sets the value of Specs.
-func (s *StackContainerConfigRuntimeSeccompRulesItem) SetSpecs(val StackContainerConfigRuntimeSeccompRulesItemSpecs) {
-	s.Specs = val
+// SetSyscall sets the value of Syscall.
+func (s *StackContainerConfigRuntimeSeccompRulesItem) SetSyscall(val StackContainerConfigRuntimeSeccompRulesItemSyscall) {
+	s.Syscall = val
 }
 
 type StackContainerConfigRuntimeSeccompRulesItemCapabilities struct {
@@ -69964,98 +72831,236 @@ func (s *StackContainerConfigRuntimeSeccompRulesItemCapabilities) SetExcludes(va
 	s.Excludes = val
 }
 
-type StackContainerConfigRuntimeSeccompRulesItemSpecs struct {
-	Names    []string                                                   `json:"names"`
-	Action   string                                                     `json:"action"`
-	ArrnoRet OptFloat64                                                 `json:"arrnoRet"`
-	Args     []StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem `json:"args"`
+type StackContainerConfigRuntimeSeccompRulesItemSyscall struct {
+	Names    []string                                                     `json:"names"`
+	Action   StackContainerConfigRuntimeSeccompRulesItemSyscallAction     `json:"action"`
+	ErrnoRet OptInt                                                       `json:"errnoRet"`
+	Args     []StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItem `json:"args"`
 }
 
 // GetNames returns the value of Names.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) GetNames() []string {
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscall) GetNames() []string {
 	return s.Names
 }
 
 // GetAction returns the value of Action.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) GetAction() string {
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscall) GetAction() StackContainerConfigRuntimeSeccompRulesItemSyscallAction {
 	return s.Action
 }
 
-// GetArrnoRet returns the value of ArrnoRet.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) GetArrnoRet() OptFloat64 {
-	return s.ArrnoRet
+// GetErrnoRet returns the value of ErrnoRet.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscall) GetErrnoRet() OptInt {
+	return s.ErrnoRet
 }
 
 // GetArgs returns the value of Args.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) GetArgs() []StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem {
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscall) GetArgs() []StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItem {
 	return s.Args
 }
 
 // SetNames sets the value of Names.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) SetNames(val []string) {
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscall) SetNames(val []string) {
 	s.Names = val
 }
 
 // SetAction sets the value of Action.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) SetAction(val string) {
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscall) SetAction(val StackContainerConfigRuntimeSeccompRulesItemSyscallAction) {
 	s.Action = val
 }
 
-// SetArrnoRet sets the value of ArrnoRet.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) SetArrnoRet(val OptFloat64) {
-	s.ArrnoRet = val
+// SetErrnoRet sets the value of ErrnoRet.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscall) SetErrnoRet(val OptInt) {
+	s.ErrnoRet = val
 }
 
 // SetArgs sets the value of Args.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecs) SetArgs(val []StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) {
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscall) SetArgs(val []StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItem) {
 	s.Args = val
 }
 
-type StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem struct {
-	Index    float64    `json:"index"`
-	Value    float64    `json:"value"`
-	Valuetwo OptFloat64 `json:"valuetwo"`
-	Op       string     `json:"op"`
+type StackContainerConfigRuntimeSeccompRulesItemSyscallAction string
+
+const (
+	StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTKILL        StackContainerConfigRuntimeSeccompRulesItemSyscallAction = "SCMP_ACT_KILL"
+	StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTKILLPROCESS StackContainerConfigRuntimeSeccompRulesItemSyscallAction = "SCMP_ACT_KILL_PROCESS"
+	StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTKILLTHREAD  StackContainerConfigRuntimeSeccompRulesItemSyscallAction = "SCMP_ACT_KILL_THREAD"
+	StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTTRAP        StackContainerConfigRuntimeSeccompRulesItemSyscallAction = "SCMP_ACT_TRAP"
+	StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTERRNO       StackContainerConfigRuntimeSeccompRulesItemSyscallAction = "SCMP_ACT_ERRNO"
+	StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTTRACE       StackContainerConfigRuntimeSeccompRulesItemSyscallAction = "SCMP_ACT_TRACE"
+	StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTALLOW       StackContainerConfigRuntimeSeccompRulesItemSyscallAction = "SCMP_ACT_ALLOW"
+	StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTLOG         StackContainerConfigRuntimeSeccompRulesItemSyscallAction = "SCMP_ACT_LOG"
+	StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTNOTIFY      StackContainerConfigRuntimeSeccompRulesItemSyscallAction = "SCMP_ACT_NOTIFY"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackContainerConfigRuntimeSeccompRulesItemSyscallAction) MarshalText() ([]byte, error) {
+	switch s {
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTKILL:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTKILLPROCESS:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTKILLTHREAD:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTTRAP:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTERRNO:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTTRACE:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTALLOW:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTLOG:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTNOTIFY:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscallAction) UnmarshalText(data []byte) error {
+	switch StackContainerConfigRuntimeSeccompRulesItemSyscallAction(data) {
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTKILL:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTKILL
+		return nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTKILLPROCESS:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTKILLPROCESS
+		return nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTKILLTHREAD:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTKILLTHREAD
+		return nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTTRAP:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTTRAP
+		return nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTERRNO:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTERRNO
+		return nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTTRACE:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTTRACE
+		return nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTALLOW:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTALLOW
+		return nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTLOG:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTLOG
+		return nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTNOTIFY:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallActionSCMPACTNOTIFY
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItem struct {
+	Index    int                                                          `json:"index"`
+	Value    int                                                          `json:"value"`
+	Valuetwo OptInt                                                       `json:"valuetwo"`
+	Op       StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp `json:"op"`
 }
 
 // GetIndex returns the value of Index.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) GetIndex() float64 {
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItem) GetIndex() int {
 	return s.Index
 }
 
 // GetValue returns the value of Value.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) GetValue() float64 {
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItem) GetValue() int {
 	return s.Value
 }
 
 // GetValuetwo returns the value of Valuetwo.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) GetValuetwo() OptFloat64 {
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItem) GetValuetwo() OptInt {
 	return s.Valuetwo
 }
 
 // GetOp returns the value of Op.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) GetOp() string {
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItem) GetOp() StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp {
 	return s.Op
 }
 
 // SetIndex sets the value of Index.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) SetIndex(val float64) {
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItem) SetIndex(val int) {
 	s.Index = val
 }
 
 // SetValue sets the value of Value.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) SetValue(val float64) {
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItem) SetValue(val int) {
 	s.Value = val
 }
 
 // SetValuetwo sets the value of Valuetwo.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) SetValuetwo(val OptFloat64) {
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItem) SetValuetwo(val OptInt) {
 	s.Valuetwo = val
 }
 
 // SetOp sets the value of Op.
-func (s *StackContainerConfigRuntimeSeccompRulesItemSpecsArgsItem) SetOp(val string) {
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItem) SetOp(val StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp) {
 	s.Op = val
+}
+
+type StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp string
+
+const (
+	StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPNE       StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp = "SCMP_CMP_NE"
+	StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPLT       StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp = "SCMP_CMP_LT"
+	StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPLE       StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp = "SCMP_CMP_LE"
+	StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPEQ       StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp = "SCMP_CMP_EQ"
+	StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPGE       StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp = "SCMP_CMP_GE"
+	StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPGT       StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp = "SCMP_CMP_GT"
+	StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPMASKEDEQ StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp = "SCMP_CMP_MASKED_EQ"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp) MarshalText() ([]byte, error) {
+	switch s {
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPNE:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPLT:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPLE:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPEQ:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPGE:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPGT:
+		return []byte(s), nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPMASKEDEQ:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp) UnmarshalText(data []byte) error {
+	switch StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp(data) {
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPNE:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPNE
+		return nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPLT:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPLT
+		return nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPLE:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPLE
+		return nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPEQ:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPEQ
+		return nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPGE:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPGE
+		return nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPGT:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPGT
+		return nil
+	case StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPMASKEDEQ:
+		*s = StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOpSCMPCMPMASKEDEQ
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 type StackContainerConfigRuntimeSysctl map[string]string
@@ -70110,27 +73115,27 @@ func (s *StackContainerConfigScalingAuto) SetRules(val OptStackContainerConfigSc
 }
 
 type StackContainerConfigScalingAutoInstances struct {
-	Min float64 `json:"min"`
-	Max float64 `json:"max"`
+	Min int `json:"min"`
+	Max int `json:"max"`
 }
 
 // GetMin returns the value of Min.
-func (s *StackContainerConfigScalingAutoInstances) GetMin() float64 {
+func (s *StackContainerConfigScalingAutoInstances) GetMin() int {
 	return s.Min
 }
 
 // GetMax returns the value of Max.
-func (s *StackContainerConfigScalingAutoInstances) GetMax() float64 {
+func (s *StackContainerConfigScalingAutoInstances) GetMax() int {
 	return s.Max
 }
 
 // SetMin sets the value of Min.
-func (s *StackContainerConfigScalingAutoInstances) SetMin(val float64) {
+func (s *StackContainerConfigScalingAutoInstances) SetMin(val int) {
 	s.Min = val
 }
 
 // SetMax sets the value of Max.
-func (s *StackContainerConfigScalingAutoInstances) SetMax(val float64) {
+func (s *StackContainerConfigScalingAutoInstances) SetMax(val int) {
 	s.Max = val
 }
 
@@ -70189,7 +73194,16 @@ func (s *StackContainerConfigScalingAutoRulesMetric) UnmarshalText(data []byte) 
 // Stacks container object.
 type StackContainerItem struct {
 	Name  string                  `json:"name"`
-	Image StackContainerItemImage `json:"image"`
+	Image StackSpecContainerImage `json:"image"`
+	// Additional meta info about the container.
+	Annotations StackContainerItemAnnotations   `json:"annotations"`
+	Stateful    bool                            `json:"stateful"`
+	Config      OptStackContainerItemConfig     `json:"config"`
+	Role        OptStackContainerItemRole       `json:"role"`
+	Pod         OptString                       `json:"pod"`
+	Volumes     []StackContainerItemVolumesItem `json:"volumes"`
+	Deprecate   OptBool                         `json:"deprecate"`
+	Lock        OptBool                         `json:"lock"`
 }
 
 // GetName returns the value of Name.
@@ -70198,8 +73212,48 @@ func (s *StackContainerItem) GetName() string {
 }
 
 // GetImage returns the value of Image.
-func (s *StackContainerItem) GetImage() StackContainerItemImage {
+func (s *StackContainerItem) GetImage() StackSpecContainerImage {
 	return s.Image
+}
+
+// GetAnnotations returns the value of Annotations.
+func (s *StackContainerItem) GetAnnotations() StackContainerItemAnnotations {
+	return s.Annotations
+}
+
+// GetStateful returns the value of Stateful.
+func (s *StackContainerItem) GetStateful() bool {
+	return s.Stateful
+}
+
+// GetConfig returns the value of Config.
+func (s *StackContainerItem) GetConfig() OptStackContainerItemConfig {
+	return s.Config
+}
+
+// GetRole returns the value of Role.
+func (s *StackContainerItem) GetRole() OptStackContainerItemRole {
+	return s.Role
+}
+
+// GetPod returns the value of Pod.
+func (s *StackContainerItem) GetPod() OptString {
+	return s.Pod
+}
+
+// GetVolumes returns the value of Volumes.
+func (s *StackContainerItem) GetVolumes() []StackContainerItemVolumesItem {
+	return s.Volumes
+}
+
+// GetDeprecate returns the value of Deprecate.
+func (s *StackContainerItem) GetDeprecate() OptBool {
+	return s.Deprecate
+}
+
+// GetLock returns the value of Lock.
+func (s *StackContainerItem) GetLock() OptBool {
+	return s.Lock
 }
 
 // SetName sets the value of Name.
@@ -70208,80 +73262,63 @@ func (s *StackContainerItem) SetName(val string) {
 }
 
 // SetImage sets the value of Image.
-func (s *StackContainerItem) SetImage(val StackContainerItemImage) {
+func (s *StackContainerItem) SetImage(val StackSpecContainerImage) {
 	s.Image = val
 }
 
-type StackContainerItemImage struct {
-	Name     string                           `json:"name"`
-	Origin   ImageOrigin                      `json:"origin"`
-	Stateful OptBool                          `json:"stateful"`
-	Config   OptStackContainerItemImageConfig `json:"config"`
-	Role     OptStackContainerItemImageRole   `json:"role"`
-	Volumes  []StackContainerVolume           `json:"volumes"`
-}
-
-// GetName returns the value of Name.
-func (s *StackContainerItemImage) GetName() string {
-	return s.Name
-}
-
-// GetOrigin returns the value of Origin.
-func (s *StackContainerItemImage) GetOrigin() ImageOrigin {
-	return s.Origin
-}
-
-// GetStateful returns the value of Stateful.
-func (s *StackContainerItemImage) GetStateful() OptBool {
-	return s.Stateful
-}
-
-// GetConfig returns the value of Config.
-func (s *StackContainerItemImage) GetConfig() OptStackContainerItemImageConfig {
-	return s.Config
-}
-
-// GetRole returns the value of Role.
-func (s *StackContainerItemImage) GetRole() OptStackContainerItemImageRole {
-	return s.Role
-}
-
-// GetVolumes returns the value of Volumes.
-func (s *StackContainerItemImage) GetVolumes() []StackContainerVolume {
-	return s.Volumes
-}
-
-// SetName sets the value of Name.
-func (s *StackContainerItemImage) SetName(val string) {
-	s.Name = val
-}
-
-// SetOrigin sets the value of Origin.
-func (s *StackContainerItemImage) SetOrigin(val ImageOrigin) {
-	s.Origin = val
+// SetAnnotations sets the value of Annotations.
+func (s *StackContainerItem) SetAnnotations(val StackContainerItemAnnotations) {
+	s.Annotations = val
 }
 
 // SetStateful sets the value of Stateful.
-func (s *StackContainerItemImage) SetStateful(val OptBool) {
+func (s *StackContainerItem) SetStateful(val bool) {
 	s.Stateful = val
 }
 
 // SetConfig sets the value of Config.
-func (s *StackContainerItemImage) SetConfig(val OptStackContainerItemImageConfig) {
+func (s *StackContainerItem) SetConfig(val OptStackContainerItemConfig) {
 	s.Config = val
 }
 
 // SetRole sets the value of Role.
-func (s *StackContainerItemImage) SetRole(val OptStackContainerItemImageRole) {
+func (s *StackContainerItem) SetRole(val OptStackContainerItemRole) {
 	s.Role = val
 }
 
+// SetPod sets the value of Pod.
+func (s *StackContainerItem) SetPod(val OptString) {
+	s.Pod = val
+}
+
 // SetVolumes sets the value of Volumes.
-func (s *StackContainerItemImage) SetVolumes(val []StackContainerVolume) {
+func (s *StackContainerItem) SetVolumes(val []StackContainerItemVolumesItem) {
 	s.Volumes = val
 }
 
-type StackContainerItemImageConfig struct {
+// SetDeprecate sets the value of Deprecate.
+func (s *StackContainerItem) SetDeprecate(val OptBool) {
+	s.Deprecate = val
+}
+
+// SetLock sets the value of Lock.
+func (s *StackContainerItem) SetLock(val OptBool) {
+	s.Lock = val
+}
+
+// Additional meta info about the container.
+type StackContainerItemAnnotations map[string]jx.Raw
+
+func (s *StackContainerItemAnnotations) init() StackContainerItemAnnotations {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+type StackContainerItemConfig struct {
 	Network      StackContainerConfigNetwork         `json:"network"`
 	Deploy       StackContainerConfigDeploy          `json:"deploy"`
 	Scaling      OptStackContainerConfigScaling      `json:"scaling"`
@@ -70291,75 +73328,75 @@ type StackContainerItemImageConfig struct {
 }
 
 // GetNetwork returns the value of Network.
-func (s *StackContainerItemImageConfig) GetNetwork() StackContainerConfigNetwork {
+func (s *StackContainerItemConfig) GetNetwork() StackContainerConfigNetwork {
 	return s.Network
 }
 
 // GetDeploy returns the value of Deploy.
-func (s *StackContainerItemImageConfig) GetDeploy() StackContainerConfigDeploy {
+func (s *StackContainerItemConfig) GetDeploy() StackContainerConfigDeploy {
 	return s.Deploy
 }
 
 // GetScaling returns the value of Scaling.
-func (s *StackContainerItemImageConfig) GetScaling() OptStackContainerConfigScaling {
+func (s *StackContainerItemConfig) GetScaling() OptStackContainerConfigScaling {
 	return s.Scaling
 }
 
 // GetRuntime returns the value of Runtime.
-func (s *StackContainerItemImageConfig) GetRuntime() OptStackContainerConfigRuntime {
+func (s *StackContainerItemConfig) GetRuntime() OptStackContainerConfigRuntime {
 	return s.Runtime
 }
 
 // GetResources returns the value of Resources.
-func (s *StackContainerItemImageConfig) GetResources() OptStackContainerConfigResources {
+func (s *StackContainerItemConfig) GetResources() OptStackContainerConfigResources {
 	return s.Resources
 }
 
 // GetIntegrations returns the value of Integrations.
-func (s *StackContainerItemImageConfig) GetIntegrations() OptStackContainerConfigIntegrations {
+func (s *StackContainerItemConfig) GetIntegrations() OptStackContainerConfigIntegrations {
 	return s.Integrations
 }
 
 // SetNetwork sets the value of Network.
-func (s *StackContainerItemImageConfig) SetNetwork(val StackContainerConfigNetwork) {
+func (s *StackContainerItemConfig) SetNetwork(val StackContainerConfigNetwork) {
 	s.Network = val
 }
 
 // SetDeploy sets the value of Deploy.
-func (s *StackContainerItemImageConfig) SetDeploy(val StackContainerConfigDeploy) {
+func (s *StackContainerItemConfig) SetDeploy(val StackContainerConfigDeploy) {
 	s.Deploy = val
 }
 
 // SetScaling sets the value of Scaling.
-func (s *StackContainerItemImageConfig) SetScaling(val OptStackContainerConfigScaling) {
+func (s *StackContainerItemConfig) SetScaling(val OptStackContainerConfigScaling) {
 	s.Scaling = val
 }
 
 // SetRuntime sets the value of Runtime.
-func (s *StackContainerItemImageConfig) SetRuntime(val OptStackContainerConfigRuntime) {
+func (s *StackContainerItemConfig) SetRuntime(val OptStackContainerConfigRuntime) {
 	s.Runtime = val
 }
 
 // SetResources sets the value of Resources.
-func (s *StackContainerItemImageConfig) SetResources(val OptStackContainerConfigResources) {
+func (s *StackContainerItemConfig) SetResources(val OptStackContainerConfigResources) {
 	s.Resources = val
 }
 
 // SetIntegrations sets the value of Integrations.
-func (s *StackContainerItemImageConfig) SetIntegrations(val OptStackContainerConfigIntegrations) {
+func (s *StackContainerItemConfig) SetIntegrations(val OptStackContainerConfigIntegrations) {
 	s.Integrations = val
 }
 
-type StackContainerItemImageRole string
+type StackContainerItemRole string
 
 const (
-	StackContainerItemImageRoleOrchestrator StackContainerItemImageRole = "orchestrator"
+	StackContainerItemRoleConductor StackContainerItemRole = "conductor"
 )
 
 // MarshalText implements encoding.TextMarshaler.
-func (s StackContainerItemImageRole) MarshalText() ([]byte, error) {
+func (s StackContainerItemRole) MarshalText() ([]byte, error) {
 	switch s {
-	case StackContainerItemImageRoleOrchestrator:
+	case StackContainerItemRoleConductor:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -70367,213 +73404,176 @@ func (s StackContainerItemImageRole) MarshalText() ([]byte, error) {
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *StackContainerItemImageRole) UnmarshalText(data []byte) error {
-	switch StackContainerItemImageRole(data) {
-	case StackContainerItemImageRoleOrchestrator:
-		*s = StackContainerItemImageRoleOrchestrator
+func (s *StackContainerItemRole) UnmarshalText(data []byte) error {
+	switch StackContainerItemRole(data) {
+	case StackContainerItemRoleConductor:
+		*s = StackContainerItemRoleConductor
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
 
-// Ref: #/components/schemas/StackContainerVolume
-type StackContainerVolume struct {
-	ReadOnly     bool                                `json:"read_only"`
-	Local        OptStackContainerVolumeLocal        `json:"local"`
-	Destination  string                              `json:"destination"`
-	RemoteAccess OptStackContainerVolumeRemoteAccess `json:"remote_access"`
-}
-
-// GetReadOnly returns the value of ReadOnly.
-func (s *StackContainerVolume) GetReadOnly() bool {
-	return s.ReadOnly
+type StackContainerItemVolumesItem struct {
+	Local        OptStackContainerItemVolumesItemLocal        `json:"local"`
+	Destination  string                                       `json:"destination"`
+	ReadOnly     bool                                         `json:"read_only"`
+	RemoteAccess OptStackContainerItemVolumesItemRemoteAccess `json:"remote_access"`
 }
 
 // GetLocal returns the value of Local.
-func (s *StackContainerVolume) GetLocal() OptStackContainerVolumeLocal {
+func (s *StackContainerItemVolumesItem) GetLocal() OptStackContainerItemVolumesItemLocal {
 	return s.Local
 }
 
 // GetDestination returns the value of Destination.
-func (s *StackContainerVolume) GetDestination() string {
+func (s *StackContainerItemVolumesItem) GetDestination() string {
 	return s.Destination
 }
 
+// GetReadOnly returns the value of ReadOnly.
+func (s *StackContainerItemVolumesItem) GetReadOnly() bool {
+	return s.ReadOnly
+}
+
 // GetRemoteAccess returns the value of RemoteAccess.
-func (s *StackContainerVolume) GetRemoteAccess() OptStackContainerVolumeRemoteAccess {
+func (s *StackContainerItemVolumesItem) GetRemoteAccess() OptStackContainerItemVolumesItemRemoteAccess {
 	return s.RemoteAccess
 }
 
-// SetReadOnly sets the value of ReadOnly.
-func (s *StackContainerVolume) SetReadOnly(val bool) {
-	s.ReadOnly = val
-}
-
 // SetLocal sets the value of Local.
-func (s *StackContainerVolume) SetLocal(val OptStackContainerVolumeLocal) {
+func (s *StackContainerItemVolumesItem) SetLocal(val OptStackContainerItemVolumesItemLocal) {
 	s.Local = val
 }
 
 // SetDestination sets the value of Destination.
-func (s *StackContainerVolume) SetDestination(val string) {
+func (s *StackContainerItemVolumesItem) SetDestination(val string) {
 	s.Destination = val
 }
 
+// SetReadOnly sets the value of ReadOnly.
+func (s *StackContainerItemVolumesItem) SetReadOnly(val bool) {
+	s.ReadOnly = val
+}
+
 // SetRemoteAccess sets the value of RemoteAccess.
-func (s *StackContainerVolume) SetRemoteAccess(val OptStackContainerVolumeRemoteAccess) {
+func (s *StackContainerItemVolumesItem) SetRemoteAccess(val OptStackContainerItemVolumesItemRemoteAccess) {
 	s.RemoteAccess = val
 }
 
-type StackContainerVolumeLocal struct {
-	MaxSize     string `json:"max_size"`
-	StoragePool bool   `json:"storage_pool"`
+type StackContainerItemVolumesItemLocal struct {
+	MaxSize     string  `json:"max_size"`
+	StoragePool OptBool `json:"storage_pool"`
 }
 
 // GetMaxSize returns the value of MaxSize.
-func (s *StackContainerVolumeLocal) GetMaxSize() string {
+func (s *StackContainerItemVolumesItemLocal) GetMaxSize() string {
 	return s.MaxSize
 }
 
 // GetStoragePool returns the value of StoragePool.
-func (s *StackContainerVolumeLocal) GetStoragePool() bool {
+func (s *StackContainerItemVolumesItemLocal) GetStoragePool() OptBool {
 	return s.StoragePool
 }
 
 // SetMaxSize sets the value of MaxSize.
-func (s *StackContainerVolumeLocal) SetMaxSize(val string) {
+func (s *StackContainerItemVolumesItemLocal) SetMaxSize(val string) {
 	s.MaxSize = val
 }
 
 // SetStoragePool sets the value of StoragePool.
-func (s *StackContainerVolumeLocal) SetStoragePool(val bool) {
+func (s *StackContainerItemVolumesItemLocal) SetStoragePool(val OptBool) {
 	s.StoragePool = val
 }
 
-type StackContainerVolumeRemoteAccess struct {
-	Enable   bool                                      `json:"enable"`
-	Ips      []StackContainerVolumeRemoteAccessIpsItem `json:"ips"`
-	WebHook  OptString                                 `json:"web_hook"`
-	Password StackContainerVolumeRemoteAccessPassword  `json:"password"`
+type StackContainerItemVolumesItemRemoteAccess struct {
+	Enable   bool                                              `json:"enable"`
+	Ips      []string                                          `json:"ips"`
+	WebHook  OptString                                         `json:"web_hook"`
+	Password StackContainerItemVolumesItemRemoteAccessPassword `json:"password"`
 }
 
 // GetEnable returns the value of Enable.
-func (s *StackContainerVolumeRemoteAccess) GetEnable() bool {
+func (s *StackContainerItemVolumesItemRemoteAccess) GetEnable() bool {
 	return s.Enable
 }
 
 // GetIps returns the value of Ips.
-func (s *StackContainerVolumeRemoteAccess) GetIps() []StackContainerVolumeRemoteAccessIpsItem {
+func (s *StackContainerItemVolumesItemRemoteAccess) GetIps() []string {
 	return s.Ips
 }
 
 // GetWebHook returns the value of WebHook.
-func (s *StackContainerVolumeRemoteAccess) GetWebHook() OptString {
+func (s *StackContainerItemVolumesItemRemoteAccess) GetWebHook() OptString {
 	return s.WebHook
 }
 
 // GetPassword returns the value of Password.
-func (s *StackContainerVolumeRemoteAccess) GetPassword() StackContainerVolumeRemoteAccessPassword {
+func (s *StackContainerItemVolumesItemRemoteAccess) GetPassword() StackContainerItemVolumesItemRemoteAccessPassword {
 	return s.Password
 }
 
 // SetEnable sets the value of Enable.
-func (s *StackContainerVolumeRemoteAccess) SetEnable(val bool) {
+func (s *StackContainerItemVolumesItemRemoteAccess) SetEnable(val bool) {
 	s.Enable = val
 }
 
 // SetIps sets the value of Ips.
-func (s *StackContainerVolumeRemoteAccess) SetIps(val []StackContainerVolumeRemoteAccessIpsItem) {
+func (s *StackContainerItemVolumesItemRemoteAccess) SetIps(val []string) {
 	s.Ips = val
 }
 
 // SetWebHook sets the value of WebHook.
-func (s *StackContainerVolumeRemoteAccess) SetWebHook(val OptString) {
+func (s *StackContainerItemVolumesItemRemoteAccess) SetWebHook(val OptString) {
 	s.WebHook = val
 }
 
 // SetPassword sets the value of Password.
-func (s *StackContainerVolumeRemoteAccess) SetPassword(val StackContainerVolumeRemoteAccessPassword) {
+func (s *StackContainerItemVolumesItemRemoteAccess) SetPassword(val StackContainerItemVolumesItemRemoteAccessPassword) {
 	s.Password = val
 }
 
-type StackContainerVolumeRemoteAccessIpsItem struct {
-	IP       string                                             `json:"ip"`
-	ReadOnly bool                                               `json:"read_only"`
-	Password NilStackContainerVolumeRemoteAccessIpsItemPassword `json:"password"`
-}
-
-// GetIP returns the value of IP.
-func (s *StackContainerVolumeRemoteAccessIpsItem) GetIP() string {
-	return s.IP
-}
-
-// GetReadOnly returns the value of ReadOnly.
-func (s *StackContainerVolumeRemoteAccessIpsItem) GetReadOnly() bool {
-	return s.ReadOnly
-}
-
-// GetPassword returns the value of Password.
-func (s *StackContainerVolumeRemoteAccessIpsItem) GetPassword() NilStackContainerVolumeRemoteAccessIpsItemPassword {
-	return s.Password
-}
-
-// SetIP sets the value of IP.
-func (s *StackContainerVolumeRemoteAccessIpsItem) SetIP(val string) {
-	s.IP = val
-}
-
-// SetReadOnly sets the value of ReadOnly.
-func (s *StackContainerVolumeRemoteAccessIpsItem) SetReadOnly(val bool) {
-	s.ReadOnly = val
-}
-
-// SetPassword sets the value of Password.
-func (s *StackContainerVolumeRemoteAccessIpsItem) SetPassword(val NilStackContainerVolumeRemoteAccessIpsItemPassword) {
-	s.Password = val
-}
-
-type StackContainerVolumeRemoteAccessIpsItemPassword struct {
-	Algorithm StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm `json:"algorithm"`
-	Data      string                                                   `json:"data"`
+type StackContainerItemVolumesItemRemoteAccessPassword struct {
+	Algorithm OptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm `json:"algorithm"`
+	Data      string                                                        `json:"data"`
 }
 
 // GetAlgorithm returns the value of Algorithm.
-func (s *StackContainerVolumeRemoteAccessIpsItemPassword) GetAlgorithm() StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm {
+func (s *StackContainerItemVolumesItemRemoteAccessPassword) GetAlgorithm() OptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm {
 	return s.Algorithm
 }
 
 // GetData returns the value of Data.
-func (s *StackContainerVolumeRemoteAccessIpsItemPassword) GetData() string {
+func (s *StackContainerItemVolumesItemRemoteAccessPassword) GetData() string {
 	return s.Data
 }
 
 // SetAlgorithm sets the value of Algorithm.
-func (s *StackContainerVolumeRemoteAccessIpsItemPassword) SetAlgorithm(val StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm) {
+func (s *StackContainerItemVolumesItemRemoteAccessPassword) SetAlgorithm(val OptStackContainerItemVolumesItemRemoteAccessPasswordAlgorithm) {
 	s.Algorithm = val
 }
 
 // SetData sets the value of Data.
-func (s *StackContainerVolumeRemoteAccessIpsItemPassword) SetData(val string) {
+func (s *StackContainerItemVolumesItemRemoteAccessPassword) SetData(val string) {
 	s.Data = val
 }
 
-type StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm string
+type StackContainerItemVolumesItemRemoteAccessPasswordAlgorithm string
 
 const (
-	StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmRaw    StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm = "raw"
-	StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmSha512 StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm = "sha512"
-	StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmMD5    StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm = "md5"
+	StackContainerItemVolumesItemRemoteAccessPasswordAlgorithmRaw    StackContainerItemVolumesItemRemoteAccessPasswordAlgorithm = "raw"
+	StackContainerItemVolumesItemRemoteAccessPasswordAlgorithmSha512 StackContainerItemVolumesItemRemoteAccessPasswordAlgorithm = "sha512"
+	StackContainerItemVolumesItemRemoteAccessPasswordAlgorithmMD5    StackContainerItemVolumesItemRemoteAccessPasswordAlgorithm = "md5"
 )
 
 // MarshalText implements encoding.TextMarshaler.
-func (s StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm) MarshalText() ([]byte, error) {
+func (s StackContainerItemVolumesItemRemoteAccessPasswordAlgorithm) MarshalText() ([]byte, error) {
 	switch s {
-	case StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmRaw:
+	case StackContainerItemVolumesItemRemoteAccessPasswordAlgorithmRaw:
 		return []byte(s), nil
-	case StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmSha512:
+	case StackContainerItemVolumesItemRemoteAccessPasswordAlgorithmSha512:
 		return []byte(s), nil
-	case StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmMD5:
+	case StackContainerItemVolumesItemRemoteAccessPasswordAlgorithmMD5:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -70581,80 +73581,16 @@ func (s StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm) MarshalText() 
 }
 
 // UnmarshalText implements encoding.TextUnmarshaler.
-func (s *StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm) UnmarshalText(data []byte) error {
-	switch StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithm(data) {
-	case StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmRaw:
-		*s = StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmRaw
+func (s *StackContainerItemVolumesItemRemoteAccessPasswordAlgorithm) UnmarshalText(data []byte) error {
+	switch StackContainerItemVolumesItemRemoteAccessPasswordAlgorithm(data) {
+	case StackContainerItemVolumesItemRemoteAccessPasswordAlgorithmRaw:
+		*s = StackContainerItemVolumesItemRemoteAccessPasswordAlgorithmRaw
 		return nil
-	case StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmSha512:
-		*s = StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmSha512
+	case StackContainerItemVolumesItemRemoteAccessPasswordAlgorithmSha512:
+		*s = StackContainerItemVolumesItemRemoteAccessPasswordAlgorithmSha512
 		return nil
-	case StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmMD5:
-		*s = StackContainerVolumeRemoteAccessIpsItemPasswordAlgorithmMD5
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
-}
-
-type StackContainerVolumeRemoteAccessPassword struct {
-	Algorithm StackContainerVolumeRemoteAccessPasswordAlgorithm `json:"algorithm"`
-	Data      string                                            `json:"data"`
-}
-
-// GetAlgorithm returns the value of Algorithm.
-func (s *StackContainerVolumeRemoteAccessPassword) GetAlgorithm() StackContainerVolumeRemoteAccessPasswordAlgorithm {
-	return s.Algorithm
-}
-
-// GetData returns the value of Data.
-func (s *StackContainerVolumeRemoteAccessPassword) GetData() string {
-	return s.Data
-}
-
-// SetAlgorithm sets the value of Algorithm.
-func (s *StackContainerVolumeRemoteAccessPassword) SetAlgorithm(val StackContainerVolumeRemoteAccessPasswordAlgorithm) {
-	s.Algorithm = val
-}
-
-// SetData sets the value of Data.
-func (s *StackContainerVolumeRemoteAccessPassword) SetData(val string) {
-	s.Data = val
-}
-
-type StackContainerVolumeRemoteAccessPasswordAlgorithm string
-
-const (
-	StackContainerVolumeRemoteAccessPasswordAlgorithmRaw    StackContainerVolumeRemoteAccessPasswordAlgorithm = "raw"
-	StackContainerVolumeRemoteAccessPasswordAlgorithmSha512 StackContainerVolumeRemoteAccessPasswordAlgorithm = "sha512"
-	StackContainerVolumeRemoteAccessPasswordAlgorithmMD5    StackContainerVolumeRemoteAccessPasswordAlgorithm = "md5"
-)
-
-// MarshalText implements encoding.TextMarshaler.
-func (s StackContainerVolumeRemoteAccessPasswordAlgorithm) MarshalText() ([]byte, error) {
-	switch s {
-	case StackContainerVolumeRemoteAccessPasswordAlgorithmRaw:
-		return []byte(s), nil
-	case StackContainerVolumeRemoteAccessPasswordAlgorithmSha512:
-		return []byte(s), nil
-	case StackContainerVolumeRemoteAccessPasswordAlgorithmMD5:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *StackContainerVolumeRemoteAccessPasswordAlgorithm) UnmarshalText(data []byte) error {
-	switch StackContainerVolumeRemoteAccessPasswordAlgorithm(data) {
-	case StackContainerVolumeRemoteAccessPasswordAlgorithmRaw:
-		*s = StackContainerVolumeRemoteAccessPasswordAlgorithmRaw
-		return nil
-	case StackContainerVolumeRemoteAccessPasswordAlgorithmSha512:
-		*s = StackContainerVolumeRemoteAccessPasswordAlgorithmSha512
-		return nil
-	case StackContainerVolumeRemoteAccessPasswordAlgorithmMD5:
-		*s = StackContainerVolumeRemoteAccessPasswordAlgorithmMD5
+	case StackContainerItemVolumesItemRemoteAccessPasswordAlgorithmMD5:
+		*s = StackContainerItemVolumesItemRemoteAccessPasswordAlgorithmMD5
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -70823,6 +73759,131 @@ func (s *StackGitCommitAuthor) SetEmail(val string) {
 	s.Email = val
 }
 
+// Ref: #/components/schemas/StackImageSourceType
+type StackImageSourceType struct {
+	Details  OptStackImageSourceTypeDetails  `json:"details"`
+	Override OptStackImageSourceTypeOverride `json:"override"`
+}
+
+// GetDetails returns the value of Details.
+func (s *StackImageSourceType) GetDetails() OptStackImageSourceTypeDetails {
+	return s.Details
+}
+
+// GetOverride returns the value of Override.
+func (s *StackImageSourceType) GetOverride() OptStackImageSourceTypeOverride {
+	return s.Override
+}
+
+// SetDetails sets the value of Details.
+func (s *StackImageSourceType) SetDetails(val OptStackImageSourceTypeDetails) {
+	s.Details = val
+}
+
+// SetOverride sets the value of Override.
+func (s *StackImageSourceType) SetOverride(val OptStackImageSourceTypeOverride) {
+	s.Override = val
+}
+
+type StackImageSourceTypeDetails struct {
+	ID         string       `json:"id"`
+	StackID    string       `json:"stack_id"`
+	Containers []Identifier `json:"containers"`
+	Origin     ImageOrigin  `json:"origin"`
+}
+
+// GetID returns the value of ID.
+func (s *StackImageSourceTypeDetails) GetID() string {
+	return s.ID
+}
+
+// GetStackID returns the value of StackID.
+func (s *StackImageSourceTypeDetails) GetStackID() string {
+	return s.StackID
+}
+
+// GetContainers returns the value of Containers.
+func (s *StackImageSourceTypeDetails) GetContainers() []Identifier {
+	return s.Containers
+}
+
+// GetOrigin returns the value of Origin.
+func (s *StackImageSourceTypeDetails) GetOrigin() ImageOrigin {
+	return s.Origin
+}
+
+// SetID sets the value of ID.
+func (s *StackImageSourceTypeDetails) SetID(val string) {
+	s.ID = val
+}
+
+// SetStackID sets the value of StackID.
+func (s *StackImageSourceTypeDetails) SetStackID(val string) {
+	s.StackID = val
+}
+
+// SetContainers sets the value of Containers.
+func (s *StackImageSourceTypeDetails) SetContainers(val []Identifier) {
+	s.Containers = val
+}
+
+// SetOrigin sets the value of Origin.
+func (s *StackImageSourceTypeDetails) SetOrigin(val ImageOrigin) {
+	s.Origin = val
+}
+
+type StackImageSourceTypeOverride struct {
+	Target   OptString `json:"target"`
+	TargzURL OptString `json:"targz_url"`
+}
+
+// GetTarget returns the value of Target.
+func (s *StackImageSourceTypeOverride) GetTarget() OptString {
+	return s.Target
+}
+
+// GetTargzURL returns the value of TargzURL.
+func (s *StackImageSourceTypeOverride) GetTargzURL() OptString {
+	return s.TargzURL
+}
+
+// SetTarget sets the value of Target.
+func (s *StackImageSourceTypeOverride) SetTarget(val OptString) {
+	s.Target = val
+}
+
+// SetTargzURL sets the value of TargzURL.
+func (s *StackImageSourceTypeOverride) SetTargzURL(val OptString) {
+	s.TargzURL = val
+}
+
+type StackImageSourceTypeType string
+
+const (
+	StackImageSourceTypeTypeStackBuild StackImageSourceTypeType = "stack-build"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackImageSourceTypeType) MarshalText() ([]byte, error) {
+	switch s {
+	case StackImageSourceTypeTypeStackBuild:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackImageSourceTypeType) UnmarshalText(data []byte) error {
+	switch StackImageSourceTypeType(data) {
+	case StackImageSourceTypeTypeStackBuild:
+		*s = StackImageSourceTypeTypeStackBuild
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // All includable resources linkable to the given stack.
 // Ref: #/components/schemas/StackInclude
 type StackInclude struct {
@@ -70879,140 +73940,443 @@ func (s *StackMeta) SetBuildsCount(val OptStateCountSummary) {
 	s.BuildsCount = val
 }
 
-// A source for a stack to be created from.
-// Ref: #/components/schemas/StackSource
-// StackSource represents sum type.
-type StackSource struct {
-	Type      StackSourceType // switch on this field
-	RepoSpec  RepoSpec
-	StackSpec StackSpec
-}
-
-// StackSourceType is oneOf type of StackSource.
-type StackSourceType string
-
-// Possible values for StackSourceType.
-const (
-	RepoSpecStackSource  StackSourceType = "RepoSpec"
-	StackSpecStackSource StackSourceType = "StackSpec"
-)
-
-// IsRepoSpec reports whether StackSource is RepoSpec.
-func (s StackSource) IsRepoSpec() bool { return s.Type == RepoSpecStackSource }
-
-// IsStackSpec reports whether StackSource is StackSpec.
-func (s StackSource) IsStackSpec() bool { return s.Type == StackSpecStackSource }
-
-// SetRepoSpec sets StackSource to RepoSpec.
-func (s *StackSource) SetRepoSpec(v RepoSpec) {
-	s.Type = RepoSpecStackSource
-	s.RepoSpec = v
-}
-
-// GetRepoSpec returns RepoSpec and true boolean if StackSource is RepoSpec.
-func (s StackSource) GetRepoSpec() (v RepoSpec, ok bool) {
-	if !s.IsRepoSpec() {
-		return v, false
-	}
-	return s.RepoSpec, true
-}
-
-// NewRepoSpecStackSource returns new StackSource from RepoSpec.
-func NewRepoSpecStackSource(v RepoSpec) StackSource {
-	var s StackSource
-	s.SetRepoSpec(v)
-	return s
-}
-
-// SetStackSpec sets StackSource to StackSpec.
-func (s *StackSource) SetStackSpec(v StackSpec) {
-	s.Type = StackSpecStackSource
-	s.StackSpec = v
-}
-
-// GetStackSpec returns StackSpec and true boolean if StackSource is StackSpec.
-func (s StackSource) GetStackSpec() (v StackSpec, ok bool) {
-	if !s.IsStackSpec() {
-		return v, false
-	}
-	return s.StackSpec, true
-}
-
-// NewStackSpecStackSource returns new StackSource from StackSpec.
-func NewStackSpecStackSource(v StackSpec) StackSource {
-	var s StackSource
-	s.SetStackSpec(v)
-	return s
-}
-
 // A stack spec resource.
-// Ref: #/components/schemas/StackSpec
-type StackSpec struct {
-	Details StackSpecDetails `json:"details"`
+// Ref: #/components/schemas/StackRawSource
+type StackRawSource struct {
+	Details StackSpec `json:"details"`
 }
 
 // GetDetails returns the value of Details.
-func (s *StackSpec) GetDetails() StackSpecDetails {
+func (s *StackRawSource) GetDetails() StackSpec {
 	return s.Details
 }
 
 // SetDetails sets the value of Details.
-func (s *StackSpec) SetDetails(val StackSpecDetails) {
+func (s *StackRawSource) SetDetails(val StackSpec) {
 	s.Details = val
 }
 
-type StackSpecDetails struct {
+type StackRawSourceType string
+
+const (
+	StackRawSourceTypeRaw StackRawSourceType = "raw"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackRawSourceType) MarshalText() ([]byte, error) {
+	switch s {
+	case StackRawSourceTypeRaw:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackRawSourceType) UnmarshalText(data []byte) error {
+	switch StackRawSourceType(data) {
+	case StackRawSourceTypeRaw:
+		*s = StackRawSourceTypeRaw
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A repo source type for a stack.
+// Ref: #/components/schemas/StackRepoSource
+type StackRepoSource struct {
+	Details StackRepoSourceDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *StackRepoSource) GetDetails() StackRepoSourceDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *StackRepoSource) SetDetails(val StackRepoSourceDetails) {
+	s.Details = val
+}
+
+type StackRepoSourceDetails struct {
+	// The URL of the repository.
+	URL string `json:"url"`
+	// An optional branch arguement.  Default value is `master`.
+	Branch OptString `json:"branch"`
+	// Authentication information for the repository.
+	Auth OptStackRepoSourceDetailsAuth `json:"auth"`
+	// Repository reference information.
+	Ref OptStackRepoSourceDetailsRef `json:"ref"`
+}
+
+// GetURL returns the value of URL.
+func (s *StackRepoSourceDetails) GetURL() string {
+	return s.URL
+}
+
+// GetBranch returns the value of Branch.
+func (s *StackRepoSourceDetails) GetBranch() OptString {
+	return s.Branch
+}
+
+// GetAuth returns the value of Auth.
+func (s *StackRepoSourceDetails) GetAuth() OptStackRepoSourceDetailsAuth {
+	return s.Auth
+}
+
+// GetRef returns the value of Ref.
+func (s *StackRepoSourceDetails) GetRef() OptStackRepoSourceDetailsRef {
+	return s.Ref
+}
+
+// SetURL sets the value of URL.
+func (s *StackRepoSourceDetails) SetURL(val string) {
+	s.URL = val
+}
+
+// SetBranch sets the value of Branch.
+func (s *StackRepoSourceDetails) SetBranch(val OptString) {
+	s.Branch = val
+}
+
+// SetAuth sets the value of Auth.
+func (s *StackRepoSourceDetails) SetAuth(val OptStackRepoSourceDetailsAuth) {
+	s.Auth = val
+}
+
+// SetRef sets the value of Ref.
+func (s *StackRepoSourceDetails) SetRef(val OptStackRepoSourceDetailsRef) {
+	s.Ref = val
+}
+
+// Authentication information for the repository.
+type StackRepoSourceDetailsAuth struct {
+	OneOf StackRepoSourceDetailsAuthSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *StackRepoSourceDetailsAuth) GetOneOf() StackRepoSourceDetailsAuthSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *StackRepoSourceDetailsAuth) SetOneOf(val StackRepoSourceDetailsAuthSum) {
+	s.OneOf = val
+}
+
+// StackRepoSourceDetailsAuthSum represents sum type.
+type StackRepoSourceDetailsAuthSum struct {
+	Type            StackRepoSourceDetailsAuthSumType // switch on this field
+	CredentialsHTTP CredentialsHTTP
+	CredentialsSSH  CredentialsSSH
+}
+
+// StackRepoSourceDetailsAuthSumType is oneOf type of StackRepoSourceDetailsAuthSum.
+type StackRepoSourceDetailsAuthSumType string
+
+// Possible values for StackRepoSourceDetailsAuthSumType.
+const (
+	CredentialsHTTPStackRepoSourceDetailsAuthSum StackRepoSourceDetailsAuthSumType = "http"
+	CredentialsSSHStackRepoSourceDetailsAuthSum  StackRepoSourceDetailsAuthSumType = "ssh"
+)
+
+// IsCredentialsHTTP reports whether StackRepoSourceDetailsAuthSum is CredentialsHTTP.
+func (s StackRepoSourceDetailsAuthSum) IsCredentialsHTTP() bool {
+	return s.Type == CredentialsHTTPStackRepoSourceDetailsAuthSum
+}
+
+// IsCredentialsSSH reports whether StackRepoSourceDetailsAuthSum is CredentialsSSH.
+func (s StackRepoSourceDetailsAuthSum) IsCredentialsSSH() bool {
+	return s.Type == CredentialsSSHStackRepoSourceDetailsAuthSum
+}
+
+// SetCredentialsHTTP sets StackRepoSourceDetailsAuthSum to CredentialsHTTP.
+func (s *StackRepoSourceDetailsAuthSum) SetCredentialsHTTP(v CredentialsHTTP) {
+	s.Type = CredentialsHTTPStackRepoSourceDetailsAuthSum
+	s.CredentialsHTTP = v
+}
+
+// GetCredentialsHTTP returns CredentialsHTTP and true boolean if StackRepoSourceDetailsAuthSum is CredentialsHTTP.
+func (s StackRepoSourceDetailsAuthSum) GetCredentialsHTTP() (v CredentialsHTTP, ok bool) {
+	if !s.IsCredentialsHTTP() {
+		return v, false
+	}
+	return s.CredentialsHTTP, true
+}
+
+// NewCredentialsHTTPStackRepoSourceDetailsAuthSum returns new StackRepoSourceDetailsAuthSum from CredentialsHTTP.
+func NewCredentialsHTTPStackRepoSourceDetailsAuthSum(v CredentialsHTTP) StackRepoSourceDetailsAuthSum {
+	var s StackRepoSourceDetailsAuthSum
+	s.SetCredentialsHTTP(v)
+	return s
+}
+
+// SetCredentialsSSH sets StackRepoSourceDetailsAuthSum to CredentialsSSH.
+func (s *StackRepoSourceDetailsAuthSum) SetCredentialsSSH(v CredentialsSSH) {
+	s.Type = CredentialsSSHStackRepoSourceDetailsAuthSum
+	s.CredentialsSSH = v
+}
+
+// GetCredentialsSSH returns CredentialsSSH and true boolean if StackRepoSourceDetailsAuthSum is CredentialsSSH.
+func (s StackRepoSourceDetailsAuthSum) GetCredentialsSSH() (v CredentialsSSH, ok bool) {
+	if !s.IsCredentialsSSH() {
+		return v, false
+	}
+	return s.CredentialsSSH, true
+}
+
+// NewCredentialsSSHStackRepoSourceDetailsAuthSum returns new StackRepoSourceDetailsAuthSum from CredentialsSSH.
+func NewCredentialsSSHStackRepoSourceDetailsAuthSum(v CredentialsSSH) StackRepoSourceDetailsAuthSum {
+	var s StackRepoSourceDetailsAuthSum
+	s.SetCredentialsSSH(v)
+	return s
+}
+
+// Repository reference information.
+type StackRepoSourceDetailsRef struct {
+	// The type of reference being used.
+	Type StackRepoSourceDetailsRefType `json:"type"`
+	// The value for the given reference type.
+	Value string `json:"value"`
+}
+
+// GetType returns the value of Type.
+func (s *StackRepoSourceDetailsRef) GetType() StackRepoSourceDetailsRefType {
+	return s.Type
+}
+
+// GetValue returns the value of Value.
+func (s *StackRepoSourceDetailsRef) GetValue() string {
+	return s.Value
+}
+
+// SetType sets the value of Type.
+func (s *StackRepoSourceDetailsRef) SetType(val StackRepoSourceDetailsRefType) {
+	s.Type = val
+}
+
+// SetValue sets the value of Value.
+func (s *StackRepoSourceDetailsRef) SetValue(val string) {
+	s.Value = val
+}
+
+// The type of reference being used.
+type StackRepoSourceDetailsRefType string
+
+const (
+	StackRepoSourceDetailsRefTypeHash StackRepoSourceDetailsRefType = "hash"
+	StackRepoSourceDetailsRefTypeTag  StackRepoSourceDetailsRefType = "tag"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackRepoSourceDetailsRefType) MarshalText() ([]byte, error) {
+	switch s {
+	case StackRepoSourceDetailsRefTypeHash:
+		return []byte(s), nil
+	case StackRepoSourceDetailsRefTypeTag:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackRepoSourceDetailsRefType) UnmarshalText(data []byte) error {
+	switch StackRepoSourceDetailsRefType(data) {
+	case StackRepoSourceDetailsRefTypeHash:
+		*s = StackRepoSourceDetailsRefTypeHash
+		return nil
+	case StackRepoSourceDetailsRefTypeTag:
+		*s = StackRepoSourceDetailsRefTypeTag
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type StackRepoSourceType string
+
+const (
+	StackRepoSourceTypeGitRepo StackRepoSourceType = "git-repo"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackRepoSourceType) MarshalText() ([]byte, error) {
+	switch s {
+	case StackRepoSourceTypeGitRepo:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackRepoSourceType) UnmarshalText(data []byte) error {
+	switch StackRepoSourceType(data) {
+	case StackRepoSourceTypeGitRepo:
+		*s = StackRepoSourceTypeGitRepo
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A source for a stack to be created from.
+// Ref: #/components/schemas/StackSource
+type StackSource struct {
+	OneOf StackSourceSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *StackSource) GetOneOf() StackSourceSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *StackSource) SetOneOf(val StackSourceSum) {
+	s.OneOf = val
+}
+
+// StackSourceSum represents sum type.
+type StackSourceSum struct {
+	Type            StackSourceSumType // switch on this field
+	StackRepoSource StackRepoSource
+	StackRawSource  StackRawSource
+}
+
+// StackSourceSumType is oneOf type of StackSourceSum.
+type StackSourceSumType string
+
+// Possible values for StackSourceSumType.
+const (
+	StackRepoSourceStackSourceSum StackSourceSumType = "git-repo"
+	StackRawSourceStackSourceSum  StackSourceSumType = "raw"
+)
+
+// IsStackRepoSource reports whether StackSourceSum is StackRepoSource.
+func (s StackSourceSum) IsStackRepoSource() bool { return s.Type == StackRepoSourceStackSourceSum }
+
+// IsStackRawSource reports whether StackSourceSum is StackRawSource.
+func (s StackSourceSum) IsStackRawSource() bool { return s.Type == StackRawSourceStackSourceSum }
+
+// SetStackRepoSource sets StackSourceSum to StackRepoSource.
+func (s *StackSourceSum) SetStackRepoSource(v StackRepoSource) {
+	s.Type = StackRepoSourceStackSourceSum
+	s.StackRepoSource = v
+}
+
+// GetStackRepoSource returns StackRepoSource and true boolean if StackSourceSum is StackRepoSource.
+func (s StackSourceSum) GetStackRepoSource() (v StackRepoSource, ok bool) {
+	if !s.IsStackRepoSource() {
+		return v, false
+	}
+	return s.StackRepoSource, true
+}
+
+// NewStackRepoSourceStackSourceSum returns new StackSourceSum from StackRepoSource.
+func NewStackRepoSourceStackSourceSum(v StackRepoSource) StackSourceSum {
+	var s StackSourceSum
+	s.SetStackRepoSource(v)
+	return s
+}
+
+// SetStackRawSource sets StackSourceSum to StackRawSource.
+func (s *StackSourceSum) SetStackRawSource(v StackRawSource) {
+	s.Type = StackRawSourceStackSourceSum
+	s.StackRawSource = v
+}
+
+// GetStackRawSource returns StackRawSource and true boolean if StackSourceSum is StackRawSource.
+func (s StackSourceSum) GetStackRawSource() (v StackRawSource, ok bool) {
+	if !s.IsStackRawSource() {
+		return v, false
+	}
+	return s.StackRawSource, true
+}
+
+// NewStackRawSourceStackSourceSum returns new StackSourceSum from StackRawSource.
+func NewStackRawSourceStackSourceSum(v StackRawSource) StackSourceSum {
+	var s StackSourceSum
+	s.SetStackRawSource(v)
+	return s
+}
+
+// Ref: #/components/schemas/StackSpec
+type StackSpec struct {
 	// A string defining the version of the stack spec.
 	Version string `json:"version"`
 	// Information about the stack.
-	About      OptStackSpecDetailsAbout `json:"about"`
-	Containers []StackContainer         `json:"containers"`
+	About      OptStackSpecAbout        `json:"about"`
+	Tests      []StackSpecTestContainer `json:"tests"`
+	Containers StackContainer           `json:"containers"`
+	Services   OptStackSpecServices     `json:"services"`
 	// Additional meta info about the stack.
-	Annotations OptStackSpecDetailsAnnotations `json:"annotations"`
+	Annotations OptStackSpecAnnotations `json:"annotations"`
 }
 
 // GetVersion returns the value of Version.
-func (s *StackSpecDetails) GetVersion() string {
+func (s *StackSpec) GetVersion() string {
 	return s.Version
 }
 
 // GetAbout returns the value of About.
-func (s *StackSpecDetails) GetAbout() OptStackSpecDetailsAbout {
+func (s *StackSpec) GetAbout() OptStackSpecAbout {
 	return s.About
 }
 
+// GetTests returns the value of Tests.
+func (s *StackSpec) GetTests() []StackSpecTestContainer {
+	return s.Tests
+}
+
 // GetContainers returns the value of Containers.
-func (s *StackSpecDetails) GetContainers() []StackContainer {
+func (s *StackSpec) GetContainers() StackContainer {
 	return s.Containers
 }
 
+// GetServices returns the value of Services.
+func (s *StackSpec) GetServices() OptStackSpecServices {
+	return s.Services
+}
+
 // GetAnnotations returns the value of Annotations.
-func (s *StackSpecDetails) GetAnnotations() OptStackSpecDetailsAnnotations {
+func (s *StackSpec) GetAnnotations() OptStackSpecAnnotations {
 	return s.Annotations
 }
 
 // SetVersion sets the value of Version.
-func (s *StackSpecDetails) SetVersion(val string) {
+func (s *StackSpec) SetVersion(val string) {
 	s.Version = val
 }
 
 // SetAbout sets the value of About.
-func (s *StackSpecDetails) SetAbout(val OptStackSpecDetailsAbout) {
+func (s *StackSpec) SetAbout(val OptStackSpecAbout) {
 	s.About = val
 }
 
+// SetTests sets the value of Tests.
+func (s *StackSpec) SetTests(val []StackSpecTestContainer) {
+	s.Tests = val
+}
+
 // SetContainers sets the value of Containers.
-func (s *StackSpecDetails) SetContainers(val []StackContainer) {
+func (s *StackSpec) SetContainers(val StackContainer) {
 	s.Containers = val
 }
 
+// SetServices sets the value of Services.
+func (s *StackSpec) SetServices(val OptStackSpecServices) {
+	s.Services = val
+}
+
 // SetAnnotations sets the value of Annotations.
-func (s *StackSpecDetails) SetAnnotations(val OptStackSpecDetailsAnnotations) {
+func (s *StackSpec) SetAnnotations(val OptStackSpecAnnotations) {
 	s.Annotations = val
 }
 
 // Information about the stack.
-type StackSpecDetailsAbout struct {
+type StackSpecAbout struct {
 	// Internal version information set by the user.
 	Version string `json:"version"`
 	// Information describing the stack.
@@ -71020,29 +74384,91 @@ type StackSpecDetailsAbout struct {
 }
 
 // GetVersion returns the value of Version.
-func (s *StackSpecDetailsAbout) GetVersion() string {
+func (s *StackSpecAbout) GetVersion() string {
 	return s.Version
 }
 
 // GetDescription returns the value of Description.
-func (s *StackSpecDetailsAbout) GetDescription() string {
+func (s *StackSpecAbout) GetDescription() string {
 	return s.Description
 }
 
 // SetVersion sets the value of Version.
-func (s *StackSpecDetailsAbout) SetVersion(val string) {
+func (s *StackSpecAbout) SetVersion(val string) {
 	s.Version = val
 }
 
 // SetDescription sets the value of Description.
-func (s *StackSpecDetailsAbout) SetDescription(val string) {
+func (s *StackSpecAbout) SetDescription(val string) {
 	s.Description = val
 }
 
 // Additional meta info about the stack.
-type StackSpecDetailsAnnotations map[string]string
+type StackSpecAnnotations map[string]jx.Raw
 
-func (s *StackSpecDetailsAnnotations) init() StackSpecDetailsAnnotations {
+func (s *StackSpecAnnotations) init() StackSpecAnnotations {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+// Ref: #/components/schemas/StackSpecContainerImage
+type StackSpecContainerImage struct {
+	Name   NilString                       `json:"name"`
+	Origin ImageOrigin                     `json:"origin"`
+	Build  OptStackSpecContainerImageBuild `json:"build"`
+}
+
+// GetName returns the value of Name.
+func (s *StackSpecContainerImage) GetName() NilString {
+	return s.Name
+}
+
+// GetOrigin returns the value of Origin.
+func (s *StackSpecContainerImage) GetOrigin() ImageOrigin {
+	return s.Origin
+}
+
+// GetBuild returns the value of Build.
+func (s *StackSpecContainerImage) GetBuild() OptStackSpecContainerImageBuild {
+	return s.Build
+}
+
+// SetName sets the value of Name.
+func (s *StackSpecContainerImage) SetName(val NilString) {
+	s.Name = val
+}
+
+// SetOrigin sets the value of Origin.
+func (s *StackSpecContainerImage) SetOrigin(val ImageOrigin) {
+	s.Origin = val
+}
+
+// SetBuild sets the value of Build.
+func (s *StackSpecContainerImage) SetBuild(val OptStackSpecContainerImageBuild) {
+	s.Build = val
+}
+
+type StackSpecContainerImageBuild struct {
+	Args StackSpecContainerImageBuildArgs `json:"args"`
+}
+
+// GetArgs returns the value of Args.
+func (s *StackSpecContainerImageBuild) GetArgs() StackSpecContainerImageBuildArgs {
+	return s.Args
+}
+
+// SetArgs sets the value of Args.
+func (s *StackSpecContainerImageBuild) SetArgs(val StackSpecContainerImageBuildArgs) {
+	s.Args = val
+}
+
+type StackSpecContainerImageBuildArgs map[string]string
+
+func (s *StackSpecContainerImageBuildArgs) init() StackSpecContainerImageBuildArgs {
 	m := *s
 	if m == nil {
 		m = map[string]string{}
@@ -71051,31 +74477,264 @@ func (s *StackSpecDetailsAnnotations) init() StackSpecDetailsAnnotations {
 	return m
 }
 
-type StackSpecType string
-
-const (
-	StackSpecTypeRaw StackSpecType = "raw"
-)
-
-// MarshalText implements encoding.TextMarshaler.
-func (s StackSpecType) MarshalText() ([]byte, error) {
-	switch s {
-	case StackSpecTypeRaw:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
+// The config object for the loadbalancer service.
+// Ref: #/components/schemas/StackSpecLoadBalancerConfig
+type StackSpecLoadBalancerConfig struct {
+	OneOf StackSpecLoadBalancerConfigSum
 }
 
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *StackSpecType) UnmarshalText(data []byte) error {
-	switch StackSpecType(data) {
-	case StackSpecTypeRaw:
-		*s = StackSpecTypeRaw
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
+// GetOneOf returns the value of OneOf.
+func (s *StackSpecLoadBalancerConfig) GetOneOf() StackSpecLoadBalancerConfigSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *StackSpecLoadBalancerConfig) SetOneOf(val StackSpecLoadBalancerConfigSum) {
+	s.OneOf = val
+}
+
+// StackSpecLoadBalancerConfigSum represents sum type.
+type StackSpecLoadBalancerConfigSum struct {
+	Type          StackSpecLoadBalancerConfigSumType // switch on this field
+	HaProxyLbType HaProxyLbType
+	V1LbType      V1LbType
+	DefaultLbType DefaultLbType
+}
+
+// StackSpecLoadBalancerConfigSumType is oneOf type of StackSpecLoadBalancerConfigSum.
+type StackSpecLoadBalancerConfigSumType string
+
+// Possible values for StackSpecLoadBalancerConfigSumType.
+const (
+	HaProxyLbTypeStackSpecLoadBalancerConfigSum StackSpecLoadBalancerConfigSumType = "haproxy"
+	V1LbTypeStackSpecLoadBalancerConfigSum      StackSpecLoadBalancerConfigSumType = "v1"
+	DefaultLbTypeStackSpecLoadBalancerConfigSum StackSpecLoadBalancerConfigSumType = "default"
+)
+
+// IsHaProxyLbType reports whether StackSpecLoadBalancerConfigSum is HaProxyLbType.
+func (s StackSpecLoadBalancerConfigSum) IsHaProxyLbType() bool {
+	return s.Type == HaProxyLbTypeStackSpecLoadBalancerConfigSum
+}
+
+// IsV1LbType reports whether StackSpecLoadBalancerConfigSum is V1LbType.
+func (s StackSpecLoadBalancerConfigSum) IsV1LbType() bool {
+	return s.Type == V1LbTypeStackSpecLoadBalancerConfigSum
+}
+
+// IsDefaultLbType reports whether StackSpecLoadBalancerConfigSum is DefaultLbType.
+func (s StackSpecLoadBalancerConfigSum) IsDefaultLbType() bool {
+	return s.Type == DefaultLbTypeStackSpecLoadBalancerConfigSum
+}
+
+// SetHaProxyLbType sets StackSpecLoadBalancerConfigSum to HaProxyLbType.
+func (s *StackSpecLoadBalancerConfigSum) SetHaProxyLbType(v HaProxyLbType) {
+	s.Type = HaProxyLbTypeStackSpecLoadBalancerConfigSum
+	s.HaProxyLbType = v
+}
+
+// GetHaProxyLbType returns HaProxyLbType and true boolean if StackSpecLoadBalancerConfigSum is HaProxyLbType.
+func (s StackSpecLoadBalancerConfigSum) GetHaProxyLbType() (v HaProxyLbType, ok bool) {
+	if !s.IsHaProxyLbType() {
+		return v, false
 	}
+	return s.HaProxyLbType, true
+}
+
+// NewHaProxyLbTypeStackSpecLoadBalancerConfigSum returns new StackSpecLoadBalancerConfigSum from HaProxyLbType.
+func NewHaProxyLbTypeStackSpecLoadBalancerConfigSum(v HaProxyLbType) StackSpecLoadBalancerConfigSum {
+	var s StackSpecLoadBalancerConfigSum
+	s.SetHaProxyLbType(v)
+	return s
+}
+
+// SetV1LbType sets StackSpecLoadBalancerConfigSum to V1LbType.
+func (s *StackSpecLoadBalancerConfigSum) SetV1LbType(v V1LbType) {
+	s.Type = V1LbTypeStackSpecLoadBalancerConfigSum
+	s.V1LbType = v
+}
+
+// GetV1LbType returns V1LbType and true boolean if StackSpecLoadBalancerConfigSum is V1LbType.
+func (s StackSpecLoadBalancerConfigSum) GetV1LbType() (v V1LbType, ok bool) {
+	if !s.IsV1LbType() {
+		return v, false
+	}
+	return s.V1LbType, true
+}
+
+// NewV1LbTypeStackSpecLoadBalancerConfigSum returns new StackSpecLoadBalancerConfigSum from V1LbType.
+func NewV1LbTypeStackSpecLoadBalancerConfigSum(v V1LbType) StackSpecLoadBalancerConfigSum {
+	var s StackSpecLoadBalancerConfigSum
+	s.SetV1LbType(v)
+	return s
+}
+
+// SetDefaultLbType sets StackSpecLoadBalancerConfigSum to DefaultLbType.
+func (s *StackSpecLoadBalancerConfigSum) SetDefaultLbType(v DefaultLbType) {
+	s.Type = DefaultLbTypeStackSpecLoadBalancerConfigSum
+	s.DefaultLbType = v
+}
+
+// GetDefaultLbType returns DefaultLbType and true boolean if StackSpecLoadBalancerConfigSum is DefaultLbType.
+func (s StackSpecLoadBalancerConfigSum) GetDefaultLbType() (v DefaultLbType, ok bool) {
+	if !s.IsDefaultLbType() {
+		return v, false
+	}
+	return s.DefaultLbType, true
+}
+
+// NewDefaultLbTypeStackSpecLoadBalancerConfigSum returns new StackSpecLoadBalancerConfigSum from DefaultLbType.
+func NewDefaultLbTypeStackSpecLoadBalancerConfigSum(v DefaultLbType) StackSpecLoadBalancerConfigSum {
+	var s StackSpecLoadBalancerConfigSum
+	s.SetDefaultLbType(v)
+	return s
+}
+
+type StackSpecServices struct {
+	Loadbalancer OptStackSpecLoadBalancerConfig `json:"loadbalancer"`
+	Vpn          OptStackSpecServicesVpn        `json:"vpn"`
+}
+
+// GetLoadbalancer returns the value of Loadbalancer.
+func (s *StackSpecServices) GetLoadbalancer() OptStackSpecLoadBalancerConfig {
+	return s.Loadbalancer
+}
+
+// GetVpn returns the value of Vpn.
+func (s *StackSpecServices) GetVpn() OptStackSpecServicesVpn {
+	return s.Vpn
+}
+
+// SetLoadbalancer sets the value of Loadbalancer.
+func (s *StackSpecServices) SetLoadbalancer(val OptStackSpecLoadBalancerConfig) {
+	s.Loadbalancer = val
+}
+
+// SetVpn sets the value of Vpn.
+func (s *StackSpecServices) SetVpn(val OptStackSpecServicesVpn) {
+	s.Vpn = val
+}
+
+type StackSpecServicesVpn struct {
+	Auth          StackSpecServicesVpnAuth `json:"auth"`
+	AllowInternet bool                     `json:"allow_internet"`
+}
+
+// GetAuth returns the value of Auth.
+func (s *StackSpecServicesVpn) GetAuth() StackSpecServicesVpnAuth {
+	return s.Auth
+}
+
+// GetAllowInternet returns the value of AllowInternet.
+func (s *StackSpecServicesVpn) GetAllowInternet() bool {
+	return s.AllowInternet
+}
+
+// SetAuth sets the value of Auth.
+func (s *StackSpecServicesVpn) SetAuth(val StackSpecServicesVpnAuth) {
+	s.Auth = val
+}
+
+// SetAllowInternet sets the value of AllowInternet.
+func (s *StackSpecServicesVpn) SetAllowInternet(val bool) {
+	s.AllowInternet = val
+}
+
+type StackSpecServicesVpnAuth struct {
+	Webhook       OptString `json:"webhook"`
+	CycleAccounts bool      `json:"cycle_accounts"`
+	VpnAccounts   bool      `json:"vpn_accounts"`
+}
+
+// GetWebhook returns the value of Webhook.
+func (s *StackSpecServicesVpnAuth) GetWebhook() OptString {
+	return s.Webhook
+}
+
+// GetCycleAccounts returns the value of CycleAccounts.
+func (s *StackSpecServicesVpnAuth) GetCycleAccounts() bool {
+	return s.CycleAccounts
+}
+
+// GetVpnAccounts returns the value of VpnAccounts.
+func (s *StackSpecServicesVpnAuth) GetVpnAccounts() bool {
+	return s.VpnAccounts
+}
+
+// SetWebhook sets the value of Webhook.
+func (s *StackSpecServicesVpnAuth) SetWebhook(val OptString) {
+	s.Webhook = val
+}
+
+// SetCycleAccounts sets the value of CycleAccounts.
+func (s *StackSpecServicesVpnAuth) SetCycleAccounts(val bool) {
+	s.CycleAccounts = val
+}
+
+// SetVpnAccounts sets the value of VpnAccounts.
+func (s *StackSpecServicesVpnAuth) SetVpnAccounts(val bool) {
+	s.VpnAccounts = val
+}
+
+// Ref: #/components/schemas/StackSpecTestContainer
+type StackSpecTestContainer struct {
+	Name   string                          `json:"name"`
+	Image  NilStackSpecContainerImage      `json:"image"`
+	Config NilStackSpecTestContainerConfig `json:"config"`
+}
+
+// GetName returns the value of Name.
+func (s *StackSpecTestContainer) GetName() string {
+	return s.Name
+}
+
+// GetImage returns the value of Image.
+func (s *StackSpecTestContainer) GetImage() NilStackSpecContainerImage {
+	return s.Image
+}
+
+// GetConfig returns the value of Config.
+func (s *StackSpecTestContainer) GetConfig() NilStackSpecTestContainerConfig {
+	return s.Config
+}
+
+// SetName sets the value of Name.
+func (s *StackSpecTestContainer) SetName(val string) {
+	s.Name = val
+}
+
+// SetImage sets the value of Image.
+func (s *StackSpecTestContainer) SetImage(val NilStackSpecContainerImage) {
+	s.Image = val
+}
+
+// SetConfig sets the value of Config.
+func (s *StackSpecTestContainer) SetConfig(val NilStackSpecTestContainerConfig) {
+	s.Config = val
+}
+
+type StackSpecTestContainerConfig struct {
+	Runtime   OptNilStackContainerConfigRuntime   `json:"runtime"`
+	Resources OptNilStackContainerConfigResources `json:"resources"`
+}
+
+// GetRuntime returns the value of Runtime.
+func (s *StackSpecTestContainerConfig) GetRuntime() OptNilStackContainerConfigRuntime {
+	return s.Runtime
+}
+
+// GetResources returns the value of Resources.
+func (s *StackSpecTestContainerConfig) GetResources() OptNilStackContainerConfigResources {
+	return s.Resources
+}
+
+// SetRuntime sets the value of Runtime.
+func (s *StackSpecTestContainerConfig) SetRuntime(val OptNilStackContainerConfigRuntime) {
+	s.Runtime = val
+}
+
+// SetResources sets the value of Resources.
+func (s *StackSpecTestContainerConfig) SetResources(val OptNilStackContainerConfigResources) {
+	s.Resources = val
 }
 
 // Merged schema.
@@ -71635,6 +75294,128 @@ func (s *TaskDescriptorJob) SetAccepted(val bool) {
 // SetQueue sets the value of Queue.
 func (s *TaskDescriptorJob) SetQueue(val string) {
 	s.Queue = val
+}
+
+// Additional configuration options for TCP mode routers.
+// Ref: #/components/schemas/TcpRouterConfig
+type TcpRouterConfig struct {
+	Details TcpRouterConfigDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *TcpRouterConfig) GetDetails() TcpRouterConfigDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *TcpRouterConfig) SetDetails(val TcpRouterConfigDetails) {
+	s.Details = val
+}
+
+type TcpRouterConfigDetails map[string]jx.Raw
+
+func (s *TcpRouterConfigDetails) init() TcpRouterConfigDetails {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+type TcpRouterConfigType string
+
+const (
+	TcpRouterConfigTypeTCP TcpRouterConfigType = "tcp"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s TcpRouterConfigType) MarshalText() ([]byte, error) {
+	switch s {
+	case TcpRouterConfigTypeTCP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *TcpRouterConfigType) UnmarshalText(data []byte) error {
+	switch TcpRouterConfigType(data) {
+	case TcpRouterConfigTypeTCP:
+		*s = TcpRouterConfigTypeTCP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Additional configuration options for the TCP transport mode.
+// Ref: #/components/schemas/TcpTransportConfig
+type TcpTransportConfig struct {
+	Details TcpTransportConfigDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *TcpTransportConfig) GetDetails() TcpTransportConfigDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *TcpTransportConfig) SetDetails(val TcpTransportConfigDetails) {
+	s.Details = val
+}
+
+type TcpTransportConfigDetails struct {
+	Connections TcpTransportConfigDetailsConnections `json:"connections"`
+}
+
+// GetConnections returns the value of Connections.
+func (s *TcpTransportConfigDetails) GetConnections() TcpTransportConfigDetailsConnections {
+	return s.Connections
+}
+
+// SetConnections sets the value of Connections.
+func (s *TcpTransportConfigDetails) SetConnections(val TcpTransportConfigDetailsConnections) {
+	s.Connections = val
+}
+
+type TcpTransportConfigDetailsConnections map[string]jx.Raw
+
+func (s *TcpTransportConfigDetailsConnections) init() TcpTransportConfigDetailsConnections {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+type TcpTransportConfigType string
+
+const (
+	TcpTransportConfigTypeTCP TcpTransportConfigType = "tcp"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s TcpTransportConfigType) MarshalText() ([]byte, error) {
+	switch s {
+	case TcpTransportConfigTypeTCP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *TcpTransportConfigType) UnmarshalText(data []byte) error {
+	switch TcpTransportConfigType(data) {
+	case TcpTransportConfigTypeTCP:
+		*s = TcpTransportConfigTypeTCP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // A summary of report requests and when they occured.
@@ -72455,7 +76236,8 @@ func (s *UpdateAccountOK) SetData(val OptAccount) {
 // Parameters for updating an account.
 type UpdateAccountReq struct {
 	// The name for the account.
-	Name OptUpdateAccountReqName `json:"name"`
+	Name              OptUpdateAccountReqName `json:"name"`
+	AllowSupportLogin OptBool                 `json:"allow_support_login"`
 }
 
 // GetName returns the value of Name.
@@ -72463,16 +76245,25 @@ func (s *UpdateAccountReq) GetName() OptUpdateAccountReqName {
 	return s.Name
 }
 
+// GetAllowSupportLogin returns the value of AllowSupportLogin.
+func (s *UpdateAccountReq) GetAllowSupportLogin() OptBool {
+	return s.AllowSupportLogin
+}
+
 // SetName sets the value of Name.
 func (s *UpdateAccountReq) SetName(val OptUpdateAccountReqName) {
 	s.Name = val
 }
 
+// SetAllowSupportLogin sets the value of AllowSupportLogin.
+func (s *UpdateAccountReq) SetAllowSupportLogin(val OptBool) {
+	s.AllowSupportLogin = val
+}
+
 // The name for the account.
 type UpdateAccountReqName struct {
-	First             OptString `json:"first"`
-	Last              OptString `json:"last"`
-	AllowSupportLogin OptBool   `json:"allow_support_login"`
+	First OptString `json:"first"`
+	Last  OptString `json:"last"`
 }
 
 // GetFirst returns the value of First.
@@ -72485,11 +76276,6 @@ func (s *UpdateAccountReqName) GetLast() OptString {
 	return s.Last
 }
 
-// GetAllowSupportLogin returns the value of AllowSupportLogin.
-func (s *UpdateAccountReqName) GetAllowSupportLogin() OptBool {
-	return s.AllowSupportLogin
-}
-
 // SetFirst sets the value of First.
 func (s *UpdateAccountReqName) SetFirst(val OptString) {
 	s.First = val
@@ -72498,11 +76284,6 @@ func (s *UpdateAccountReqName) SetFirst(val OptString) {
 // SetLast sets the value of Last.
 func (s *UpdateAccountReqName) SetLast(val OptString) {
 	s.Last = val
-}
-
-// SetAllowSupportLogin sets the value of AllowSupportLogin.
-func (s *UpdateAccountReqName) SetAllowSupportLogin(val OptBool) {
-	s.AllowSupportLogin = val
 }
 
 type UpdateApiKeyOK struct {
@@ -72758,6 +76539,8 @@ type UpdateContainerReq struct {
 	Identifier OptString `json:"identifier"`
 	// Sets whether container should be deprecated.
 	Deprecate OptBool `json:"deprecate"`
+	// When set to true, prevents this container from being deleted.
+	Lock OptBool `json:"lock"`
 	// User meta data for the container.
 	Annotation OptUpdateContainerReqAnnotation `json:"annotation"`
 }
@@ -72775,6 +76558,11 @@ func (s *UpdateContainerReq) GetIdentifier() OptString {
 // GetDeprecate returns the value of Deprecate.
 func (s *UpdateContainerReq) GetDeprecate() OptBool {
 	return s.Deprecate
+}
+
+// GetLock returns the value of Lock.
+func (s *UpdateContainerReq) GetLock() OptBool {
+	return s.Lock
 }
 
 // GetAnnotation returns the value of Annotation.
@@ -72795,6 +76583,11 @@ func (s *UpdateContainerReq) SetIdentifier(val OptString) {
 // SetDeprecate sets the value of Deprecate.
 func (s *UpdateContainerReq) SetDeprecate(val OptBool) {
 	s.Deprecate = val
+}
+
+// SetLock sets the value of Lock.
+func (s *UpdateContainerReq) SetLock(val OptBool) {
+	s.Lock = val
 }
 
 // SetAnnotation sets the value of Annotation.
@@ -72948,6 +76741,91 @@ func (s *UpdateEnvironmentReq) SetAbout(val OptEnvironmentAbout) {
 	s.About = val
 }
 
+type UpdateGlobalLoadBalancerIncludeItem string
+
+const (
+	UpdateGlobalLoadBalancerIncludeItemCreators     UpdateGlobalLoadBalancerIncludeItem = "creators"
+	UpdateGlobalLoadBalancerIncludeItemEnvironments UpdateGlobalLoadBalancerIncludeItem = "environments"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s UpdateGlobalLoadBalancerIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case UpdateGlobalLoadBalancerIncludeItemCreators:
+		return []byte(s), nil
+	case UpdateGlobalLoadBalancerIncludeItemEnvironments:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *UpdateGlobalLoadBalancerIncludeItem) UnmarshalText(data []byte) error {
+	switch UpdateGlobalLoadBalancerIncludeItem(data) {
+	case UpdateGlobalLoadBalancerIncludeItemCreators:
+		*s = UpdateGlobalLoadBalancerIncludeItemCreators
+		return nil
+	case UpdateGlobalLoadBalancerIncludeItemEnvironments:
+		*s = UpdateGlobalLoadBalancerIncludeItemEnvironments
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type UpdateGlobalLoadBalancerOK struct {
+	Data     OptGlobalLoadBalancer         `json:"data"`
+	Includes OptGlobalLoadBalancerIncludes `json:"includes"`
+}
+
+// GetData returns the value of Data.
+func (s *UpdateGlobalLoadBalancerOK) GetData() OptGlobalLoadBalancer {
+	return s.Data
+}
+
+// GetIncludes returns the value of Includes.
+func (s *UpdateGlobalLoadBalancerOK) GetIncludes() OptGlobalLoadBalancerIncludes {
+	return s.Includes
+}
+
+// SetData sets the value of Data.
+func (s *UpdateGlobalLoadBalancerOK) SetData(val OptGlobalLoadBalancer) {
+	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *UpdateGlobalLoadBalancerOK) SetIncludes(val OptGlobalLoadBalancerIncludes) {
+	s.Includes = val
+}
+
+type UpdateGlobalLoadBalancerReq struct {
+	// A new name for this global load balancer.
+	Name OptString `json:"name"`
+	// A new identifier for this global load balancer.
+	Identifier OptString `json:"identifier"`
+}
+
+// GetName returns the value of Name.
+func (s *UpdateGlobalLoadBalancerReq) GetName() OptString {
+	return s.Name
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *UpdateGlobalLoadBalancerReq) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// SetName sets the value of Name.
+func (s *UpdateGlobalLoadBalancerReq) SetName(val OptString) {
+	s.Name = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *UpdateGlobalLoadBalancerReq) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
 type UpdateHubMemberOK struct {
 	Data OptHubMembership `json:"data"`
 }
@@ -73052,8 +76930,7 @@ type UpdateHubReq struct {
 	// A name for the hub.
 	Name         OptString          `json:"name"`
 	Integrations OptHubIntegrations `json:"integrations"`
-	// All hub webhooks for the given hub.
-	Webhooks OptUpdateHubReqWebhooks `json:"webhooks"`
+	Webhooks     OptHubWebhooks     `json:"webhooks"`
 }
 
 // GetName returns the value of Name.
@@ -73067,7 +76944,7 @@ func (s *UpdateHubReq) GetIntegrations() OptHubIntegrations {
 }
 
 // GetWebhooks returns the value of Webhooks.
-func (s *UpdateHubReq) GetWebhooks() OptUpdateHubReqWebhooks {
+func (s *UpdateHubReq) GetWebhooks() OptHubWebhooks {
 	return s.Webhooks
 }
 
@@ -73082,24 +76959,8 @@ func (s *UpdateHubReq) SetIntegrations(val OptHubIntegrations) {
 }
 
 // SetWebhooks sets the value of Webhooks.
-func (s *UpdateHubReq) SetWebhooks(val OptUpdateHubReqWebhooks) {
+func (s *UpdateHubReq) SetWebhooks(val OptHubWebhooks) {
 	s.Webhooks = val
-}
-
-// All hub webhooks for the given hub.
-type UpdateHubReqWebhooks struct {
-	// A webahook to report information to each time a server is deployed on the given hub.
-	ServerDeployed NilString `json:"server_deployed"`
-}
-
-// GetServerDeployed returns the value of ServerDeployed.
-func (s *UpdateHubReqWebhooks) GetServerDeployed() NilString {
-	return s.ServerDeployed
-}
-
-// SetServerDeployed sets the value of ServerDeployed.
-func (s *UpdateHubReqWebhooks) SetServerDeployed(val NilString) {
-	s.ServerDeployed = val
 }
 
 type UpdateImageOK struct {
@@ -73416,25 +77277,67 @@ func (s *UpdateProviderReqIntegrationNative) SetAuth(val IALAuth) {
 	s.Auth = val
 }
 
+type UpdateSDNNetworkIncludeItem string
+
+const (
+	UpdateSDNNetworkIncludeItemCreators     UpdateSDNNetworkIncludeItem = "creators"
+	UpdateSDNNetworkIncludeItemEnvironments UpdateSDNNetworkIncludeItem = "environments"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s UpdateSDNNetworkIncludeItem) MarshalText() ([]byte, error) {
+	switch s {
+	case UpdateSDNNetworkIncludeItemCreators:
+		return []byte(s), nil
+	case UpdateSDNNetworkIncludeItemEnvironments:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *UpdateSDNNetworkIncludeItem) UnmarshalText(data []byte) error {
+	switch UpdateSDNNetworkIncludeItem(data) {
+	case UpdateSDNNetworkIncludeItemCreators:
+		*s = UpdateSDNNetworkIncludeItemCreators
+		return nil
+	case UpdateSDNNetworkIncludeItemEnvironments:
+		*s = UpdateSDNNetworkIncludeItemEnvironments
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type UpdateSDNNetworkOK struct {
-	Data OptSDNNetwork `json:"data"`
+	Data     OptNetwork         `json:"data"`
+	Includes OptNetworkIncludes `json:"includes"`
 }
 
 // GetData returns the value of Data.
-func (s *UpdateSDNNetworkOK) GetData() OptSDNNetwork {
+func (s *UpdateSDNNetworkOK) GetData() OptNetwork {
 	return s.Data
 }
 
+// GetIncludes returns the value of Includes.
+func (s *UpdateSDNNetworkOK) GetIncludes() OptNetworkIncludes {
+	return s.Includes
+}
+
 // SetData sets the value of Data.
-func (s *UpdateSDNNetworkOK) SetData(val OptSDNNetwork) {
+func (s *UpdateSDNNetworkOK) SetData(val OptNetwork) {
 	s.Data = val
+}
+
+// SetIncludes sets the value of Includes.
+func (s *UpdateSDNNetworkOK) SetIncludes(val OptNetworkIncludes) {
+	s.Includes = val
 }
 
 type UpdateSDNNetworkReq struct {
 	// The name of the network.
 	Name OptString `json:"name"`
-	// A network identifier used to construct http calls that specifically use this network over another.
-	Identifier OptString `json:"identifier"`
 }
 
 // GetName returns the value of Name.
@@ -73442,19 +77345,9 @@ func (s *UpdateSDNNetworkReq) GetName() OptString {
 	return s.Name
 }
 
-// GetIdentifier returns the value of Identifier.
-func (s *UpdateSDNNetworkReq) GetIdentifier() OptString {
-	return s.Identifier
-}
-
 // SetName sets the value of Name.
 func (s *UpdateSDNNetworkReq) SetName(val OptString) {
 	s.Name = val
-}
-
-// SetIdentifier sets the value of Identifier.
-func (s *UpdateSDNNetworkReq) SetIdentifier(val OptString) {
-	s.Identifier = val
 }
 
 type UpdateScopedVariableOK struct {
@@ -73551,70 +77444,84 @@ func (s *UpdateScopedVariableReqSecret) SetHint(val OptString) {
 }
 
 // The source or value of the scoped variable.
-// UpdateScopedVariableReqSource represents sum type.
 type UpdateScopedVariableReqSource struct {
-	Type      UpdateScopedVariableReqSourceType // switch on this field
+	OneOf UpdateScopedVariableReqSourceSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *UpdateScopedVariableReqSource) GetOneOf() UpdateScopedVariableReqSourceSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *UpdateScopedVariableReqSource) SetOneOf(val UpdateScopedVariableReqSourceSum) {
+	s.OneOf = val
+}
+
+// UpdateScopedVariableReqSourceSum represents sum type.
+type UpdateScopedVariableReqSourceSum struct {
+	Type      UpdateScopedVariableReqSourceSumType // switch on this field
 	RawSource RawSource
 	URLSource URLSource
 }
 
-// UpdateScopedVariableReqSourceType is oneOf type of UpdateScopedVariableReqSource.
-type UpdateScopedVariableReqSourceType string
+// UpdateScopedVariableReqSourceSumType is oneOf type of UpdateScopedVariableReqSourceSum.
+type UpdateScopedVariableReqSourceSumType string
 
-// Possible values for UpdateScopedVariableReqSourceType.
+// Possible values for UpdateScopedVariableReqSourceSumType.
 const (
-	RawSourceUpdateScopedVariableReqSource UpdateScopedVariableReqSourceType = "RawSource"
-	URLSourceUpdateScopedVariableReqSource UpdateScopedVariableReqSourceType = "URLSource"
+	RawSourceUpdateScopedVariableReqSourceSum UpdateScopedVariableReqSourceSumType = "raw"
+	URLSourceUpdateScopedVariableReqSourceSum UpdateScopedVariableReqSourceSumType = "url"
 )
 
-// IsRawSource reports whether UpdateScopedVariableReqSource is RawSource.
-func (s UpdateScopedVariableReqSource) IsRawSource() bool {
-	return s.Type == RawSourceUpdateScopedVariableReqSource
+// IsRawSource reports whether UpdateScopedVariableReqSourceSum is RawSource.
+func (s UpdateScopedVariableReqSourceSum) IsRawSource() bool {
+	return s.Type == RawSourceUpdateScopedVariableReqSourceSum
 }
 
-// IsURLSource reports whether UpdateScopedVariableReqSource is URLSource.
-func (s UpdateScopedVariableReqSource) IsURLSource() bool {
-	return s.Type == URLSourceUpdateScopedVariableReqSource
+// IsURLSource reports whether UpdateScopedVariableReqSourceSum is URLSource.
+func (s UpdateScopedVariableReqSourceSum) IsURLSource() bool {
+	return s.Type == URLSourceUpdateScopedVariableReqSourceSum
 }
 
-// SetRawSource sets UpdateScopedVariableReqSource to RawSource.
-func (s *UpdateScopedVariableReqSource) SetRawSource(v RawSource) {
-	s.Type = RawSourceUpdateScopedVariableReqSource
+// SetRawSource sets UpdateScopedVariableReqSourceSum to RawSource.
+func (s *UpdateScopedVariableReqSourceSum) SetRawSource(v RawSource) {
+	s.Type = RawSourceUpdateScopedVariableReqSourceSum
 	s.RawSource = v
 }
 
-// GetRawSource returns RawSource and true boolean if UpdateScopedVariableReqSource is RawSource.
-func (s UpdateScopedVariableReqSource) GetRawSource() (v RawSource, ok bool) {
+// GetRawSource returns RawSource and true boolean if UpdateScopedVariableReqSourceSum is RawSource.
+func (s UpdateScopedVariableReqSourceSum) GetRawSource() (v RawSource, ok bool) {
 	if !s.IsRawSource() {
 		return v, false
 	}
 	return s.RawSource, true
 }
 
-// NewRawSourceUpdateScopedVariableReqSource returns new UpdateScopedVariableReqSource from RawSource.
-func NewRawSourceUpdateScopedVariableReqSource(v RawSource) UpdateScopedVariableReqSource {
-	var s UpdateScopedVariableReqSource
+// NewRawSourceUpdateScopedVariableReqSourceSum returns new UpdateScopedVariableReqSourceSum from RawSource.
+func NewRawSourceUpdateScopedVariableReqSourceSum(v RawSource) UpdateScopedVariableReqSourceSum {
+	var s UpdateScopedVariableReqSourceSum
 	s.SetRawSource(v)
 	return s
 }
 
-// SetURLSource sets UpdateScopedVariableReqSource to URLSource.
-func (s *UpdateScopedVariableReqSource) SetURLSource(v URLSource) {
-	s.Type = URLSourceUpdateScopedVariableReqSource
+// SetURLSource sets UpdateScopedVariableReqSourceSum to URLSource.
+func (s *UpdateScopedVariableReqSourceSum) SetURLSource(v URLSource) {
+	s.Type = URLSourceUpdateScopedVariableReqSourceSum
 	s.URLSource = v
 }
 
-// GetURLSource returns URLSource and true boolean if UpdateScopedVariableReqSource is URLSource.
-func (s UpdateScopedVariableReqSource) GetURLSource() (v URLSource, ok bool) {
+// GetURLSource returns URLSource and true boolean if UpdateScopedVariableReqSourceSum is URLSource.
+func (s UpdateScopedVariableReqSourceSum) GetURLSource() (v URLSource, ok bool) {
 	if !s.IsURLSource() {
 		return v, false
 	}
 	return s.URLSource, true
 }
 
-// NewURLSourceUpdateScopedVariableReqSource returns new UpdateScopedVariableReqSource from URLSource.
-func NewURLSourceUpdateScopedVariableReqSource(v URLSource) UpdateScopedVariableReqSource {
-	var s UpdateScopedVariableReqSource
+// NewURLSourceUpdateScopedVariableReqSourceSum returns new UpdateScopedVariableReqSourceSum from URLSource.
+func NewURLSourceUpdateScopedVariableReqSourceSum(v URLSource) UpdateScopedVariableReqSourceSum {
+	var s UpdateScopedVariableReqSourceSum
 	s.SetURLSource(v)
 	return s
 }
@@ -73883,6 +77790,758 @@ func (s *UserScopeType) UnmarshalText(data []byte) error {
 		return nil
 	case UserScopeTypeVisitor:
 		*s = UserScopeTypeVisitor
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/V1LbConfig
+type V1LbConfig struct {
+	// A configuration for a specific port.
+	Controllers V1LbConfigControllers `json:"controllers"`
+}
+
+// GetControllers returns the value of Controllers.
+func (s *V1LbConfig) GetControllers() V1LbConfigControllers {
+	return s.Controllers
+}
+
+// SetControllers sets the value of Controllers.
+func (s *V1LbConfig) SetControllers(val V1LbConfigControllers) {
+	s.Controllers = val
+}
+
+// A configuration for a specific port.
+type V1LbConfigControllers map[string]V1LbConfigControllersItem
+
+func (s *V1LbConfigControllers) init() V1LbConfigControllers {
+	m := *s
+	if m == nil {
+		m = map[string]V1LbConfigControllersItem{}
+		*s = m
+	}
+	return m
+}
+
+type V1LbConfigControllersItem struct {
+	// A human-readable identifier for this controller. It will default to the port, i.e. `port-443`, but
+	// can be renamed to anything, such as the service this controller represents.
+	Identifier string `json:"identifier"`
+	// Defines how traffic comes in to the load balancer, and how the load balancer handles it.
+	Transport V1LbConfigControllersItemTransport `json:"transport"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *V1LbConfigControllersItem) GetIdentifier() string {
+	return s.Identifier
+}
+
+// GetTransport returns the value of Transport.
+func (s *V1LbConfigControllersItem) GetTransport() V1LbConfigControllersItemTransport {
+	return s.Transport
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *V1LbConfigControllersItem) SetIdentifier(val string) {
+	s.Identifier = val
+}
+
+// SetTransport sets the value of Transport.
+func (s *V1LbConfigControllersItem) SetTransport(val V1LbConfigControllersItemTransport) {
+	s.Transport = val
+}
+
+// Defines how traffic comes in to the load balancer, and how the load balancer handles it.
+type V1LbConfigControllersItemTransport struct {
+	// The kind of traffic (http/tcp) that will be sent to the load balancer.
+	Mode V1LbConfigControllersItemTransportMode `json:"mode"`
+	// Defines how the transport for this controller operates.
+	Config V1LbConfigControllersItemTransportConfig `json:"config"`
+	// Defines where traffic is sent. Many can be defined per controller.
+	Routers []V1LbConfigRouter `json:"routers"`
+}
+
+// GetMode returns the value of Mode.
+func (s *V1LbConfigControllersItemTransport) GetMode() V1LbConfigControllersItemTransportMode {
+	return s.Mode
+}
+
+// GetConfig returns the value of Config.
+func (s *V1LbConfigControllersItemTransport) GetConfig() V1LbConfigControllersItemTransportConfig {
+	return s.Config
+}
+
+// GetRouters returns the value of Routers.
+func (s *V1LbConfigControllersItemTransport) GetRouters() []V1LbConfigRouter {
+	return s.Routers
+}
+
+// SetMode sets the value of Mode.
+func (s *V1LbConfigControllersItemTransport) SetMode(val V1LbConfigControllersItemTransportMode) {
+	s.Mode = val
+}
+
+// SetConfig sets the value of Config.
+func (s *V1LbConfigControllersItemTransport) SetConfig(val V1LbConfigControllersItemTransportConfig) {
+	s.Config = val
+}
+
+// SetRouters sets the value of Routers.
+func (s *V1LbConfigControllersItemTransport) SetRouters(val []V1LbConfigRouter) {
+	s.Routers = val
+}
+
+// Defines how the transport for this controller operates.
+type V1LbConfigControllersItemTransportConfig struct {
+	// Enable/disable performance mode. If enabled, some telemetry will be disabled to dedicate full
+	// processing to handling requests.
+	// You will not see per-request breakdowns or URL logging if performance mode is enabled.
+	Performance bool `json:"performance"`
+	// Defines how traffic gets into the load balancer.
+	Ingress V1LbConfigControllersItemTransportConfigIngress `json:"ingress"`
+	// Defines settings for various types of timeouts.
+	Timeouts V1LbConfigControllersItemTransportConfigTimeouts `json:"timeouts"`
+	// Extended configurations for the specified transport mode (http/tcp).
+	Extension OptV1LbConfigControllersItemTransportConfigExtension `json:"extension"`
+}
+
+// GetPerformance returns the value of Performance.
+func (s *V1LbConfigControllersItemTransportConfig) GetPerformance() bool {
+	return s.Performance
+}
+
+// GetIngress returns the value of Ingress.
+func (s *V1LbConfigControllersItemTransportConfig) GetIngress() V1LbConfigControllersItemTransportConfigIngress {
+	return s.Ingress
+}
+
+// GetTimeouts returns the value of Timeouts.
+func (s *V1LbConfigControllersItemTransportConfig) GetTimeouts() V1LbConfigControllersItemTransportConfigTimeouts {
+	return s.Timeouts
+}
+
+// GetExtension returns the value of Extension.
+func (s *V1LbConfigControllersItemTransportConfig) GetExtension() OptV1LbConfigControllersItemTransportConfigExtension {
+	return s.Extension
+}
+
+// SetPerformance sets the value of Performance.
+func (s *V1LbConfigControllersItemTransportConfig) SetPerformance(val bool) {
+	s.Performance = val
+}
+
+// SetIngress sets the value of Ingress.
+func (s *V1LbConfigControllersItemTransportConfig) SetIngress(val V1LbConfigControllersItemTransportConfigIngress) {
+	s.Ingress = val
+}
+
+// SetTimeouts sets the value of Timeouts.
+func (s *V1LbConfigControllersItemTransportConfig) SetTimeouts(val V1LbConfigControllersItemTransportConfigTimeouts) {
+	s.Timeouts = val
+}
+
+// SetExtension sets the value of Extension.
+func (s *V1LbConfigControllersItemTransportConfig) SetExtension(val OptV1LbConfigControllersItemTransportConfigExtension) {
+	s.Extension = val
+}
+
+// Extended configurations for the specified transport mode (http/tcp).
+type V1LbConfigControllersItemTransportConfigExtension struct {
+	OneOf V1LbConfigControllersItemTransportConfigExtensionSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *V1LbConfigControllersItemTransportConfigExtension) GetOneOf() V1LbConfigControllersItemTransportConfigExtensionSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *V1LbConfigControllersItemTransportConfigExtension) SetOneOf(val V1LbConfigControllersItemTransportConfigExtensionSum) {
+	s.OneOf = val
+}
+
+// V1LbConfigControllersItemTransportConfigExtensionSum represents sum type.
+type V1LbConfigControllersItemTransportConfigExtensionSum struct {
+	Type                V1LbConfigControllersItemTransportConfigExtensionSumType // switch on this field
+	TcpTransportConfig  TcpTransportConfig
+	HttpTransportConfig HttpTransportConfig
+}
+
+// V1LbConfigControllersItemTransportConfigExtensionSumType is oneOf type of V1LbConfigControllersItemTransportConfigExtensionSum.
+type V1LbConfigControllersItemTransportConfigExtensionSumType string
+
+// Possible values for V1LbConfigControllersItemTransportConfigExtensionSumType.
+const (
+	TcpTransportConfigV1LbConfigControllersItemTransportConfigExtensionSum  V1LbConfigControllersItemTransportConfigExtensionSumType = "tcp"
+	HttpTransportConfigV1LbConfigControllersItemTransportConfigExtensionSum V1LbConfigControllersItemTransportConfigExtensionSumType = "http"
+)
+
+// IsTcpTransportConfig reports whether V1LbConfigControllersItemTransportConfigExtensionSum is TcpTransportConfig.
+func (s V1LbConfigControllersItemTransportConfigExtensionSum) IsTcpTransportConfig() bool {
+	return s.Type == TcpTransportConfigV1LbConfigControllersItemTransportConfigExtensionSum
+}
+
+// IsHttpTransportConfig reports whether V1LbConfigControllersItemTransportConfigExtensionSum is HttpTransportConfig.
+func (s V1LbConfigControllersItemTransportConfigExtensionSum) IsHttpTransportConfig() bool {
+	return s.Type == HttpTransportConfigV1LbConfigControllersItemTransportConfigExtensionSum
+}
+
+// SetTcpTransportConfig sets V1LbConfigControllersItemTransportConfigExtensionSum to TcpTransportConfig.
+func (s *V1LbConfigControllersItemTransportConfigExtensionSum) SetTcpTransportConfig(v TcpTransportConfig) {
+	s.Type = TcpTransportConfigV1LbConfigControllersItemTransportConfigExtensionSum
+	s.TcpTransportConfig = v
+}
+
+// GetTcpTransportConfig returns TcpTransportConfig and true boolean if V1LbConfigControllersItemTransportConfigExtensionSum is TcpTransportConfig.
+func (s V1LbConfigControllersItemTransportConfigExtensionSum) GetTcpTransportConfig() (v TcpTransportConfig, ok bool) {
+	if !s.IsTcpTransportConfig() {
+		return v, false
+	}
+	return s.TcpTransportConfig, true
+}
+
+// NewTcpTransportConfigV1LbConfigControllersItemTransportConfigExtensionSum returns new V1LbConfigControllersItemTransportConfigExtensionSum from TcpTransportConfig.
+func NewTcpTransportConfigV1LbConfigControllersItemTransportConfigExtensionSum(v TcpTransportConfig) V1LbConfigControllersItemTransportConfigExtensionSum {
+	var s V1LbConfigControllersItemTransportConfigExtensionSum
+	s.SetTcpTransportConfig(v)
+	return s
+}
+
+// SetHttpTransportConfig sets V1LbConfigControllersItemTransportConfigExtensionSum to HttpTransportConfig.
+func (s *V1LbConfigControllersItemTransportConfigExtensionSum) SetHttpTransportConfig(v HttpTransportConfig) {
+	s.Type = HttpTransportConfigV1LbConfigControllersItemTransportConfigExtensionSum
+	s.HttpTransportConfig = v
+}
+
+// GetHttpTransportConfig returns HttpTransportConfig and true boolean if V1LbConfigControllersItemTransportConfigExtensionSum is HttpTransportConfig.
+func (s V1LbConfigControllersItemTransportConfigExtensionSum) GetHttpTransportConfig() (v HttpTransportConfig, ok bool) {
+	if !s.IsHttpTransportConfig() {
+		return v, false
+	}
+	return s.HttpTransportConfig, true
+}
+
+// NewHttpTransportConfigV1LbConfigControllersItemTransportConfigExtensionSum returns new V1LbConfigControllersItemTransportConfigExtensionSum from HttpTransportConfig.
+func NewHttpTransportConfigV1LbConfigControllersItemTransportConfigExtensionSum(v HttpTransportConfig) V1LbConfigControllersItemTransportConfigExtensionSum {
+	var s V1LbConfigControllersItemTransportConfigExtensionSum
+	s.SetHttpTransportConfig(v)
+	return s
+}
+
+// Defines how traffic gets into the load balancer.
+type V1LbConfigControllersItemTransportConfigIngress struct {
+	// The port inbound trafic is accepted on.
+	Port int `json:"port"`
+	// TLS termination configuration. If null, the platform will use the default configuration. Port 443
+	// by default has TLS termination enabled.
+	TLS NilV1LbConfigControllersItemTransportConfigIngressTLS `json:"tls"`
+}
+
+// GetPort returns the value of Port.
+func (s *V1LbConfigControllersItemTransportConfigIngress) GetPort() int {
+	return s.Port
+}
+
+// GetTLS returns the value of TLS.
+func (s *V1LbConfigControllersItemTransportConfigIngress) GetTLS() NilV1LbConfigControllersItemTransportConfigIngressTLS {
+	return s.TLS
+}
+
+// SetPort sets the value of Port.
+func (s *V1LbConfigControllersItemTransportConfigIngress) SetPort(val int) {
+	s.Port = val
+}
+
+// SetTLS sets the value of TLS.
+func (s *V1LbConfigControllersItemTransportConfigIngress) SetTLS(val NilV1LbConfigControllersItemTransportConfigIngressTLS) {
+	s.TLS = val
+}
+
+// TLS termination configuration. If null, the platform will use the default configuration. Port 443
+// by default has TLS termination enabled.
+type V1LbConfigControllersItemTransportConfigIngressTLS struct {
+	// Allow TLS connections and enable TLS termination.
+	Enable bool `json:"enable"`
+	// [Advanced] Change the domain the controller listens on.
+	ServerName NilString `json:"server_name"`
+	// If enabled, accept TLS traffic with an invalid certificate. This is usually done for
+	// development/testing, and is not recommended for production use.
+	AllowInsecure bool `json:"allow_insecure"`
+	// Defines how to validate the connecting TLS certificate.
+	// `none`: Do not require a TLS certificate to be sent
+	// `request`: Asks the client to send a TLS certificate, but does not require nor validate it.
+	// `require`: Requires a certificate be sent for the request to be valid, but does not validate the
+	// certificate.
+	// `require-verify`: Requires both that the client send a certificate, and that the certificate is
+	// valid. This is required when using https.
+	ClientAuth V1LbConfigControllersItemTransportConfigIngressTLSClientAuth `json:"client_auth"`
+}
+
+// GetEnable returns the value of Enable.
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) GetEnable() bool {
+	return s.Enable
+}
+
+// GetServerName returns the value of ServerName.
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) GetServerName() NilString {
+	return s.ServerName
+}
+
+// GetAllowInsecure returns the value of AllowInsecure.
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) GetAllowInsecure() bool {
+	return s.AllowInsecure
+}
+
+// GetClientAuth returns the value of ClientAuth.
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) GetClientAuth() V1LbConfigControllersItemTransportConfigIngressTLSClientAuth {
+	return s.ClientAuth
+}
+
+// SetEnable sets the value of Enable.
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) SetEnable(val bool) {
+	s.Enable = val
+}
+
+// SetServerName sets the value of ServerName.
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) SetServerName(val NilString) {
+	s.ServerName = val
+}
+
+// SetAllowInsecure sets the value of AllowInsecure.
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) SetAllowInsecure(val bool) {
+	s.AllowInsecure = val
+}
+
+// SetClientAuth sets the value of ClientAuth.
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) SetClientAuth(val V1LbConfigControllersItemTransportConfigIngressTLSClientAuth) {
+	s.ClientAuth = val
+}
+
+// Defines how to validate the connecting TLS certificate.
+// `none`: Do not require a TLS certificate to be sent
+// `request`: Asks the client to send a TLS certificate, but does not require nor validate it.
+// `require`: Requires a certificate be sent for the request to be valid, but does not validate the
+// certificate.
+// `require-verify`: Requires both that the client send a certificate, and that the certificate is
+// valid. This is required when using https.
+type V1LbConfigControllersItemTransportConfigIngressTLSClientAuth string
+
+const (
+	V1LbConfigControllersItemTransportConfigIngressTLSClientAuthNone          V1LbConfigControllersItemTransportConfigIngressTLSClientAuth = "none"
+	V1LbConfigControllersItemTransportConfigIngressTLSClientAuthRequest       V1LbConfigControllersItemTransportConfigIngressTLSClientAuth = "request"
+	V1LbConfigControllersItemTransportConfigIngressTLSClientAuthRequire       V1LbConfigControllersItemTransportConfigIngressTLSClientAuth = "require"
+	V1LbConfigControllersItemTransportConfigIngressTLSClientAuthRequireVerify V1LbConfigControllersItemTransportConfigIngressTLSClientAuth = "require-verify"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s V1LbConfigControllersItemTransportConfigIngressTLSClientAuth) MarshalText() ([]byte, error) {
+	switch s {
+	case V1LbConfigControllersItemTransportConfigIngressTLSClientAuthNone:
+		return []byte(s), nil
+	case V1LbConfigControllersItemTransportConfigIngressTLSClientAuthRequest:
+		return []byte(s), nil
+	case V1LbConfigControllersItemTransportConfigIngressTLSClientAuthRequire:
+		return []byte(s), nil
+	case V1LbConfigControllersItemTransportConfigIngressTLSClientAuthRequireVerify:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *V1LbConfigControllersItemTransportConfigIngressTLSClientAuth) UnmarshalText(data []byte) error {
+	switch V1LbConfigControllersItemTransportConfigIngressTLSClientAuth(data) {
+	case V1LbConfigControllersItemTransportConfigIngressTLSClientAuthNone:
+		*s = V1LbConfigControllersItemTransportConfigIngressTLSClientAuthNone
+		return nil
+	case V1LbConfigControllersItemTransportConfigIngressTLSClientAuthRequest:
+		*s = V1LbConfigControllersItemTransportConfigIngressTLSClientAuthRequest
+		return nil
+	case V1LbConfigControllersItemTransportConfigIngressTLSClientAuthRequire:
+		*s = V1LbConfigControllersItemTransportConfigIngressTLSClientAuthRequire
+		return nil
+	case V1LbConfigControllersItemTransportConfigIngressTLSClientAuthRequireVerify:
+		*s = V1LbConfigControllersItemTransportConfigIngressTLSClientAuthRequireVerify
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Defines settings for various types of timeouts.
+type V1LbConfigControllersItemTransportConfigTimeouts struct {
+	// The total amount of time a connection can be idle before being killed.
+	Idle Duration `json:"idle"`
+}
+
+// GetIdle returns the value of Idle.
+func (s *V1LbConfigControllersItemTransportConfigTimeouts) GetIdle() Duration {
+	return s.Idle
+}
+
+// SetIdle sets the value of Idle.
+func (s *V1LbConfigControllersItemTransportConfigTimeouts) SetIdle(val Duration) {
+	s.Idle = val
+}
+
+// The kind of traffic (http/tcp) that will be sent to the load balancer.
+type V1LbConfigControllersItemTransportMode string
+
+const (
+	V1LbConfigControllersItemTransportModeTCP  V1LbConfigControllersItemTransportMode = "tcp"
+	V1LbConfigControllersItemTransportModeHTTP V1LbConfigControllersItemTransportMode = "http"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s V1LbConfigControllersItemTransportMode) MarshalText() ([]byte, error) {
+	switch s {
+	case V1LbConfigControllersItemTransportModeTCP:
+		return []byte(s), nil
+	case V1LbConfigControllersItemTransportModeHTTP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *V1LbConfigControllersItemTransportMode) UnmarshalText(data []byte) error {
+	switch V1LbConfigControllersItemTransportMode(data) {
+	case V1LbConfigControllersItemTransportModeTCP:
+		*s = V1LbConfigControllersItemTransportModeTCP
+		return nil
+	case V1LbConfigControllersItemTransportModeHTTP:
+		*s = V1LbConfigControllersItemTransportModeHTTP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A specific router configuration that describes how traffic matching the rule is handled.
+// Ref: #/components/schemas/V1LbConfigRouter
+type V1LbConfigRouter struct {
+	// The ruleset for this router to be selected. If both `domains`` and `internal_port` are null, then
+	// this match acts as a wildcard and will match all.
+	Match V1LbConfigRouterMatch `json:"match"`
+	// How to route the traffic to the destination.
+	// `random`: Pick a valid destination at random.
+	// `round-robin`: Send each request to the 'next' destination on the list, restarting from the
+	// beginning when the last destination is used.
+	Mode   V1LbConfigRouterMode   `json:"mode"`
+	Config V1LbConfigRouterConfig `json:"config"`
+}
+
+// GetMatch returns the value of Match.
+func (s *V1LbConfigRouter) GetMatch() V1LbConfigRouterMatch {
+	return s.Match
+}
+
+// GetMode returns the value of Mode.
+func (s *V1LbConfigRouter) GetMode() V1LbConfigRouterMode {
+	return s.Mode
+}
+
+// GetConfig returns the value of Config.
+func (s *V1LbConfigRouter) GetConfig() V1LbConfigRouterConfig {
+	return s.Config
+}
+
+// SetMatch sets the value of Match.
+func (s *V1LbConfigRouter) SetMatch(val V1LbConfigRouterMatch) {
+	s.Match = val
+}
+
+// SetMode sets the value of Mode.
+func (s *V1LbConfigRouter) SetMode(val V1LbConfigRouterMode) {
+	s.Mode = val
+}
+
+// SetConfig sets the value of Config.
+func (s *V1LbConfigRouter) SetConfig(val V1LbConfigRouterConfig) {
+	s.Config = val
+}
+
+type V1LbConfigRouterConfig struct {
+	// If a request comes in from the same origin, ensure it hits the same destination.
+	StickySessions bool `json:"sticky_sessions"`
+	// If a destination is unavailable, retry up to [x] times, instead of immediately failing with a
+	// 503/504 error.
+	DestinationRetries int `json:"destination_retries"`
+	// Defines how the length of various sorts of timeouts when communicating with the destination.
+	Timeouts V1LbConfigRouterConfigTimeouts `json:"timeouts"`
+	// Additional configuration options specific to the selected mode (tcp/http).
+	Extension OptV1LbConfigRouterConfigExtension `json:"extension"`
+}
+
+// GetStickySessions returns the value of StickySessions.
+func (s *V1LbConfigRouterConfig) GetStickySessions() bool {
+	return s.StickySessions
+}
+
+// GetDestinationRetries returns the value of DestinationRetries.
+func (s *V1LbConfigRouterConfig) GetDestinationRetries() int {
+	return s.DestinationRetries
+}
+
+// GetTimeouts returns the value of Timeouts.
+func (s *V1LbConfigRouterConfig) GetTimeouts() V1LbConfigRouterConfigTimeouts {
+	return s.Timeouts
+}
+
+// GetExtension returns the value of Extension.
+func (s *V1LbConfigRouterConfig) GetExtension() OptV1LbConfigRouterConfigExtension {
+	return s.Extension
+}
+
+// SetStickySessions sets the value of StickySessions.
+func (s *V1LbConfigRouterConfig) SetStickySessions(val bool) {
+	s.StickySessions = val
+}
+
+// SetDestinationRetries sets the value of DestinationRetries.
+func (s *V1LbConfigRouterConfig) SetDestinationRetries(val int) {
+	s.DestinationRetries = val
+}
+
+// SetTimeouts sets the value of Timeouts.
+func (s *V1LbConfigRouterConfig) SetTimeouts(val V1LbConfigRouterConfigTimeouts) {
+	s.Timeouts = val
+}
+
+// SetExtension sets the value of Extension.
+func (s *V1LbConfigRouterConfig) SetExtension(val OptV1LbConfigRouterConfigExtension) {
+	s.Extension = val
+}
+
+// Additional configuration options specific to the selected mode (tcp/http).
+type V1LbConfigRouterConfigExtension struct {
+	OneOf V1LbConfigRouterConfigExtensionSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *V1LbConfigRouterConfigExtension) GetOneOf() V1LbConfigRouterConfigExtensionSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *V1LbConfigRouterConfigExtension) SetOneOf(val V1LbConfigRouterConfigExtensionSum) {
+	s.OneOf = val
+}
+
+// V1LbConfigRouterConfigExtensionSum represents sum type.
+type V1LbConfigRouterConfigExtensionSum struct {
+	Type             V1LbConfigRouterConfigExtensionSumType // switch on this field
+	TcpRouterConfig  TcpRouterConfig
+	HttpRouterConfig HttpRouterConfig
+}
+
+// V1LbConfigRouterConfigExtensionSumType is oneOf type of V1LbConfigRouterConfigExtensionSum.
+type V1LbConfigRouterConfigExtensionSumType string
+
+// Possible values for V1LbConfigRouterConfigExtensionSumType.
+const (
+	TcpRouterConfigV1LbConfigRouterConfigExtensionSum  V1LbConfigRouterConfigExtensionSumType = "tcp"
+	HttpRouterConfigV1LbConfigRouterConfigExtensionSum V1LbConfigRouterConfigExtensionSumType = "http"
+)
+
+// IsTcpRouterConfig reports whether V1LbConfigRouterConfigExtensionSum is TcpRouterConfig.
+func (s V1LbConfigRouterConfigExtensionSum) IsTcpRouterConfig() bool {
+	return s.Type == TcpRouterConfigV1LbConfigRouterConfigExtensionSum
+}
+
+// IsHttpRouterConfig reports whether V1LbConfigRouterConfigExtensionSum is HttpRouterConfig.
+func (s V1LbConfigRouterConfigExtensionSum) IsHttpRouterConfig() bool {
+	return s.Type == HttpRouterConfigV1LbConfigRouterConfigExtensionSum
+}
+
+// SetTcpRouterConfig sets V1LbConfigRouterConfigExtensionSum to TcpRouterConfig.
+func (s *V1LbConfigRouterConfigExtensionSum) SetTcpRouterConfig(v TcpRouterConfig) {
+	s.Type = TcpRouterConfigV1LbConfigRouterConfigExtensionSum
+	s.TcpRouterConfig = v
+}
+
+// GetTcpRouterConfig returns TcpRouterConfig and true boolean if V1LbConfigRouterConfigExtensionSum is TcpRouterConfig.
+func (s V1LbConfigRouterConfigExtensionSum) GetTcpRouterConfig() (v TcpRouterConfig, ok bool) {
+	if !s.IsTcpRouterConfig() {
+		return v, false
+	}
+	return s.TcpRouterConfig, true
+}
+
+// NewTcpRouterConfigV1LbConfigRouterConfigExtensionSum returns new V1LbConfigRouterConfigExtensionSum from TcpRouterConfig.
+func NewTcpRouterConfigV1LbConfigRouterConfigExtensionSum(v TcpRouterConfig) V1LbConfigRouterConfigExtensionSum {
+	var s V1LbConfigRouterConfigExtensionSum
+	s.SetTcpRouterConfig(v)
+	return s
+}
+
+// SetHttpRouterConfig sets V1LbConfigRouterConfigExtensionSum to HttpRouterConfig.
+func (s *V1LbConfigRouterConfigExtensionSum) SetHttpRouterConfig(v HttpRouterConfig) {
+	s.Type = HttpRouterConfigV1LbConfigRouterConfigExtensionSum
+	s.HttpRouterConfig = v
+}
+
+// GetHttpRouterConfig returns HttpRouterConfig and true boolean if V1LbConfigRouterConfigExtensionSum is HttpRouterConfig.
+func (s V1LbConfigRouterConfigExtensionSum) GetHttpRouterConfig() (v HttpRouterConfig, ok bool) {
+	if !s.IsHttpRouterConfig() {
+		return v, false
+	}
+	return s.HttpRouterConfig, true
+}
+
+// NewHttpRouterConfigV1LbConfigRouterConfigExtensionSum returns new V1LbConfigRouterConfigExtensionSum from HttpRouterConfig.
+func NewHttpRouterConfigV1LbConfigRouterConfigExtensionSum(v HttpRouterConfig) V1LbConfigRouterConfigExtensionSum {
+	var s V1LbConfigRouterConfigExtensionSum
+	s.SetHttpRouterConfig(v)
+	return s
+}
+
+// Defines how the length of various sorts of timeouts when communicating with the destination.
+type V1LbConfigRouterConfigTimeouts struct {
+	// The duration the load balancer will wait before timing out while attempting to connect to the
+	// destination.
+	DestinationConnection Duration `json:"destination_connection"`
+}
+
+// GetDestinationConnection returns the value of DestinationConnection.
+func (s *V1LbConfigRouterConfigTimeouts) GetDestinationConnection() Duration {
+	return s.DestinationConnection
+}
+
+// SetDestinationConnection sets the value of DestinationConnection.
+func (s *V1LbConfigRouterConfigTimeouts) SetDestinationConnection(val Duration) {
+	s.DestinationConnection = val
+}
+
+// The ruleset for this router to be selected. If both `domains“ and `internal_port` are null, then
+// this match acts as a wildcard and will match all.
+type V1LbConfigRouterMatch struct {
+	// The specific domains to match against.
+	Domains []string `json:"domains"`
+	// The specific ports to match against.
+	InternalPort []int `json:"internal_port"`
+}
+
+// GetDomains returns the value of Domains.
+func (s *V1LbConfigRouterMatch) GetDomains() []string {
+	return s.Domains
+}
+
+// GetInternalPort returns the value of InternalPort.
+func (s *V1LbConfigRouterMatch) GetInternalPort() []int {
+	return s.InternalPort
+}
+
+// SetDomains sets the value of Domains.
+func (s *V1LbConfigRouterMatch) SetDomains(val []string) {
+	s.Domains = val
+}
+
+// SetInternalPort sets the value of InternalPort.
+func (s *V1LbConfigRouterMatch) SetInternalPort(val []int) {
+	s.InternalPort = val
+}
+
+// How to route the traffic to the destination.
+// `random`: Pick a valid destination at random.
+// `round-robin`: Send each request to the 'next' destination on the list, restarting from the
+// beginning when the last destination is used.
+type V1LbConfigRouterMode string
+
+const (
+	V1LbConfigRouterModeRandom     V1LbConfigRouterMode = "random"
+	V1LbConfigRouterModeRoundRobin V1LbConfigRouterMode = "round-robin"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s V1LbConfigRouterMode) MarshalText() ([]byte, error) {
+	switch s {
+	case V1LbConfigRouterModeRandom:
+		return []byte(s), nil
+	case V1LbConfigRouterModeRoundRobin:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *V1LbConfigRouterMode) UnmarshalText(data []byte) error {
+	switch V1LbConfigRouterMode(data) {
+	case V1LbConfigRouterModeRandom:
+		*s = V1LbConfigRouterModeRandom
+		return nil
+	case V1LbConfigRouterModeRoundRobin:
+		*s = V1LbConfigRouterModeRoundRobin
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/V1LbType
+type V1LbType struct {
+	// Allow / disallow traffic to be routed via IPv4.
+	Ipv4 bool `json:"ipv4"`
+	// Allow / disallow traffic to be routed via IPv6.
+	Ipv6    bool          `json:"ipv6"`
+	Details NilV1LbConfig `json:"details"`
+}
+
+// GetIpv4 returns the value of Ipv4.
+func (s *V1LbType) GetIpv4() bool {
+	return s.Ipv4
+}
+
+// GetIpv6 returns the value of Ipv6.
+func (s *V1LbType) GetIpv6() bool {
+	return s.Ipv6
+}
+
+// GetDetails returns the value of Details.
+func (s *V1LbType) GetDetails() NilV1LbConfig {
+	return s.Details
+}
+
+// SetIpv4 sets the value of Ipv4.
+func (s *V1LbType) SetIpv4(val bool) {
+	s.Ipv4 = val
+}
+
+// SetIpv6 sets the value of Ipv6.
+func (s *V1LbType) SetIpv6(val bool) {
+	s.Ipv6 = val
+}
+
+// SetDetails sets the value of Details.
+func (s *V1LbType) SetDetails(val NilV1LbConfig) {
+	s.Details = val
+}
+
+type V1LbTypeType string
+
+const (
+	V1LbTypeTypeV1 V1LbTypeType = "v1"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s V1LbTypeType) MarshalText() ([]byte, error) {
+	switch s {
+	case V1LbTypeTypeV1:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *V1LbTypeType) UnmarshalText(data []byte) error {
+	switch V1LbTypeType(data) {
+	case V1LbTypeTypeV1:
+		*s = V1LbTypeTypeV1
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -74281,6 +78940,184 @@ func (s *VpnEnvironmentServiceConfigAuth) SetVpnAccounts(val OptBool) {
 	s.VpnAccounts = val
 }
 
+// Ref: #/components/schemas/VpnReconfigureTask
+type VpnReconfigureTask struct {
+	// Additional information the platform needs to create this job.
+	Contents VpnReconfigureTaskContents `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *VpnReconfigureTask) GetContents() VpnReconfigureTaskContents {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *VpnReconfigureTask) SetContents(val VpnReconfigureTaskContents) {
+	s.Contents = val
+}
+
+// The action to take.
+type VpnReconfigureTaskAction string
+
+const (
+	VpnReconfigureTaskActionReconfigure VpnReconfigureTaskAction = "reconfigure"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VpnReconfigureTaskAction) MarshalText() ([]byte, error) {
+	switch s {
+	case VpnReconfigureTaskActionReconfigure:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VpnReconfigureTaskAction) UnmarshalText(data []byte) error {
+	switch VpnReconfigureTaskAction(data) {
+	case VpnReconfigureTaskActionReconfigure:
+		*s = VpnReconfigureTaskActionReconfigure
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Additional information the platform needs to create this job.
+type VpnReconfigureTaskContents struct {
+	// A boolean where true means the VPN service is enabled.
+	Enable OptBool `json:"enable"`
+	// The config object for the VPN service, in this case without the required fields normally found in
+	// a VPN config object.
+	Config OptNilVpnReconfigureTaskContentsConfig `json:"config"`
+}
+
+// GetEnable returns the value of Enable.
+func (s *VpnReconfigureTaskContents) GetEnable() OptBool {
+	return s.Enable
+}
+
+// GetConfig returns the value of Config.
+func (s *VpnReconfigureTaskContents) GetConfig() OptNilVpnReconfigureTaskContentsConfig {
+	return s.Config
+}
+
+// SetEnable sets the value of Enable.
+func (s *VpnReconfigureTaskContents) SetEnable(val OptBool) {
+	s.Enable = val
+}
+
+// SetConfig sets the value of Config.
+func (s *VpnReconfigureTaskContents) SetConfig(val OptNilVpnReconfigureTaskContentsConfig) {
+	s.Config = val
+}
+
+// The config object for the VPN service, in this case without the required fields normally found in
+// a VPN config object.
+type VpnReconfigureTaskContentsConfig struct {
+	// If true, routes all traffic through the VPN, even non-Cycle traffic.
+	AllowInternet OptBool `json:"allow_internet"`
+	// Auth configuration for the VPN.
+	Auth OptVpnReconfigureTaskContentsConfigAuth `json:"auth"`
+}
+
+// GetAllowInternet returns the value of AllowInternet.
+func (s *VpnReconfigureTaskContentsConfig) GetAllowInternet() OptBool {
+	return s.AllowInternet
+}
+
+// GetAuth returns the value of Auth.
+func (s *VpnReconfigureTaskContentsConfig) GetAuth() OptVpnReconfigureTaskContentsConfigAuth {
+	return s.Auth
+}
+
+// SetAllowInternet sets the value of AllowInternet.
+func (s *VpnReconfigureTaskContentsConfig) SetAllowInternet(val OptBool) {
+	s.AllowInternet = val
+}
+
+// SetAuth sets the value of Auth.
+func (s *VpnReconfigureTaskContentsConfig) SetAuth(val OptVpnReconfigureTaskContentsConfigAuth) {
+	s.Auth = val
+}
+
+// Auth configuration for the VPN.
+type VpnReconfigureTaskContentsConfigAuth struct {
+	// A webhook endpoint to hit. Will be passed the login credentials provided to the user, and should
+	// return a 200 status if the login is permitted.
+	Webhook NilString `json:"webhook"`
+	// If true, allows any Cycle account with access to the environment to log in to the VPN using their
+	// Cycle email and password.
+	CycleAccounts bool `json:"cycle_accounts"`
+	// If true, allows the custom VPN accounts to log in to the VPN.
+	VpnAccounts OptBool `json:"vpn_accounts"`
+}
+
+// GetWebhook returns the value of Webhook.
+func (s *VpnReconfigureTaskContentsConfigAuth) GetWebhook() NilString {
+	return s.Webhook
+}
+
+// GetCycleAccounts returns the value of CycleAccounts.
+func (s *VpnReconfigureTaskContentsConfigAuth) GetCycleAccounts() bool {
+	return s.CycleAccounts
+}
+
+// GetVpnAccounts returns the value of VpnAccounts.
+func (s *VpnReconfigureTaskContentsConfigAuth) GetVpnAccounts() OptBool {
+	return s.VpnAccounts
+}
+
+// SetWebhook sets the value of Webhook.
+func (s *VpnReconfigureTaskContentsConfigAuth) SetWebhook(val NilString) {
+	s.Webhook = val
+}
+
+// SetCycleAccounts sets the value of CycleAccounts.
+func (s *VpnReconfigureTaskContentsConfigAuth) SetCycleAccounts(val bool) {
+	s.CycleAccounts = val
+}
+
+// SetVpnAccounts sets the value of VpnAccounts.
+func (s *VpnReconfigureTaskContentsConfigAuth) SetVpnAccounts(val OptBool) {
+	s.VpnAccounts = val
+}
+
+// This will reset the VPN certificates and restart the container. Should be done when the
+// certificates expire, every 1000 days. Then, you will need to redownload the VPN config in order to
+// connect.
+// Ref: #/components/schemas/VpnResetTask
+type VpnResetTask struct{}
+
+// The name of the action to perform.
+type VpnResetTaskAction string
+
+const (
+	VpnResetTaskActionReset VpnResetTaskAction = "reset"
+)
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VpnResetTaskAction) MarshalText() ([]byte, error) {
+	switch s {
+	case VpnResetTaskActionReset:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VpnResetTaskAction) UnmarshalText(data []byte) error {
+	switch VpnResetTaskAction(data) {
+	case VpnResetTaskActionReset:
+		*s = VpnResetTaskActionReset
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // An action describing a webhook post. The webhook will post the full body of the resource
 // referenced by the step - for example if you were to reference a step creating a container, you
 // would receive that container object in the post body.
@@ -74353,7 +79190,8 @@ func (s *WebhookPostStepAction) UnmarshalText(data []byte) error {
 // Merged schema.
 type WebhookPostStepDetails struct {
 	// The url to post to.
-	URL string `json:"url"`
+	URL   string `json:"url"`
+	OneOf WebhookPostStepDetailsSum
 }
 
 // GetURL returns the value of URL.
@@ -74361,9 +79199,145 @@ func (s *WebhookPostStepDetails) GetURL() string {
 	return s.URL
 }
 
+// GetOneOf returns the value of OneOf.
+func (s *WebhookPostStepDetails) GetOneOf() WebhookPostStepDetailsSum {
+	return s.OneOf
+}
+
 // SetURL sets the value of URL.
 func (s *WebhookPostStepDetails) SetURL(val string) {
 	s.URL = val
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *WebhookPostStepDetails) SetOneOf(val WebhookPostStepDetailsSum) {
+	s.OneOf = val
+}
+
+// WebhookPostStepDetailsSum represents sum type.
+type WebhookPostStepDetailsSum struct {
+	Type                       WebhookPostStepDetailsSumType // switch on this field
+	WebhookPostStepDetailsSum0 WebhookPostStepDetailsSum0
+	WebhookPostStepDetailsSum1 WebhookPostStepDetailsSum1
+}
+
+// WebhookPostStepDetailsSumType is oneOf type of WebhookPostStepDetailsSum.
+type WebhookPostStepDetailsSumType string
+
+// Possible values for WebhookPostStepDetailsSumType.
+const (
+	WebhookPostStepDetailsSum0WebhookPostStepDetailsSum WebhookPostStepDetailsSumType = "WebhookPostStepDetailsSum0"
+	WebhookPostStepDetailsSum1WebhookPostStepDetailsSum WebhookPostStepDetailsSumType = "WebhookPostStepDetailsSum1"
+)
+
+// IsWebhookPostStepDetailsSum0 reports whether WebhookPostStepDetailsSum is WebhookPostStepDetailsSum0.
+func (s WebhookPostStepDetailsSum) IsWebhookPostStepDetailsSum0() bool {
+	return s.Type == WebhookPostStepDetailsSum0WebhookPostStepDetailsSum
+}
+
+// IsWebhookPostStepDetailsSum1 reports whether WebhookPostStepDetailsSum is WebhookPostStepDetailsSum1.
+func (s WebhookPostStepDetailsSum) IsWebhookPostStepDetailsSum1() bool {
+	return s.Type == WebhookPostStepDetailsSum1WebhookPostStepDetailsSum
+}
+
+// SetWebhookPostStepDetailsSum0 sets WebhookPostStepDetailsSum to WebhookPostStepDetailsSum0.
+func (s *WebhookPostStepDetailsSum) SetWebhookPostStepDetailsSum0(v WebhookPostStepDetailsSum0) {
+	s.Type = WebhookPostStepDetailsSum0WebhookPostStepDetailsSum
+	s.WebhookPostStepDetailsSum0 = v
+}
+
+// GetWebhookPostStepDetailsSum0 returns WebhookPostStepDetailsSum0 and true boolean if WebhookPostStepDetailsSum is WebhookPostStepDetailsSum0.
+func (s WebhookPostStepDetailsSum) GetWebhookPostStepDetailsSum0() (v WebhookPostStepDetailsSum0, ok bool) {
+	if !s.IsWebhookPostStepDetailsSum0() {
+		return v, false
+	}
+	return s.WebhookPostStepDetailsSum0, true
+}
+
+// NewWebhookPostStepDetailsSum0WebhookPostStepDetailsSum returns new WebhookPostStepDetailsSum from WebhookPostStepDetailsSum0.
+func NewWebhookPostStepDetailsSum0WebhookPostStepDetailsSum(v WebhookPostStepDetailsSum0) WebhookPostStepDetailsSum {
+	var s WebhookPostStepDetailsSum
+	s.SetWebhookPostStepDetailsSum0(v)
+	return s
+}
+
+// SetWebhookPostStepDetailsSum1 sets WebhookPostStepDetailsSum to WebhookPostStepDetailsSum1.
+func (s *WebhookPostStepDetailsSum) SetWebhookPostStepDetailsSum1(v WebhookPostStepDetailsSum1) {
+	s.Type = WebhookPostStepDetailsSum1WebhookPostStepDetailsSum
+	s.WebhookPostStepDetailsSum1 = v
+}
+
+// GetWebhookPostStepDetailsSum1 returns WebhookPostStepDetailsSum1 and true boolean if WebhookPostStepDetailsSum is WebhookPostStepDetailsSum1.
+func (s WebhookPostStepDetailsSum) GetWebhookPostStepDetailsSum1() (v WebhookPostStepDetailsSum1, ok bool) {
+	if !s.IsWebhookPostStepDetailsSum1() {
+		return v, false
+	}
+	return s.WebhookPostStepDetailsSum1, true
+}
+
+// NewWebhookPostStepDetailsSum1WebhookPostStepDetailsSum returns new WebhookPostStepDetailsSum from WebhookPostStepDetailsSum1.
+func NewWebhookPostStepDetailsSum1WebhookPostStepDetailsSum(v WebhookPostStepDetailsSum1) WebhookPostStepDetailsSum {
+	var s WebhookPostStepDetailsSum
+	s.SetWebhookPostStepDetailsSum1(v)
+	return s
+}
+
+type WebhookPostStepDetailsSum0 struct {
+	// The ID of an existing resource that exists before the pipeline is run.
+	ID string `json:"id"`
+}
+
+// GetID returns the value of ID.
+func (s *WebhookPostStepDetailsSum0) GetID() string {
+	return s.ID
+}
+
+// SetID sets the value of ID.
+func (s *WebhookPostStepDetailsSum0) SetID(val string) {
+	s.ID = val
+}
+
+type WebhookPostStepDetailsSum1 struct {
+	// The stage and step to report on.
+	From WebhookPostStepDetailsSum1From `json:"from"`
+}
+
+// GetFrom returns the value of From.
+func (s *WebhookPostStepDetailsSum1) GetFrom() WebhookPostStepDetailsSum1From {
+	return s.From
+}
+
+// SetFrom sets the value of From.
+func (s *WebhookPostStepDetailsSum1) SetFrom(val WebhookPostStepDetailsSum1From) {
+	s.From = val
+}
+
+// The stage and step to report on.
+type WebhookPostStepDetailsSum1From struct {
+	// An identifier for the stage the step being reported on resides in.
+	Stage OptString `json:"stage"`
+	// An identifier for the step to be reported on.
+	Step string `json:"step"`
+}
+
+// GetStage returns the value of Stage.
+func (s *WebhookPostStepDetailsSum1From) GetStage() OptString {
+	return s.Stage
+}
+
+// GetStep returns the value of Step.
+func (s *WebhookPostStepDetailsSum1From) GetStep() string {
+	return s.Step
+}
+
+// SetStage sets the value of Stage.
+func (s *WebhookPostStepDetailsSum1From) SetStage(val OptString) {
+	s.Stage = val
+}
+
+// SetStep sets the value of Step.
+func (s *WebhookPostStepDetailsSum1From) SetStep(val string) {
+	s.Step = val
 }
 
 type WebhookPostStepOptions struct {
