@@ -142545,7 +142545,7 @@ func (s *V1LbConfigControllersItemTransportConfigIngressTLS) encodeFields(e *jx.
 	}
 	{
 		e.FieldStart("allow_insecure")
-		e.Bool(s.AllowInsecure)
+		s.AllowInsecure.Encode(e)
 	}
 	{
 		e.FieldStart("client_auth")
@@ -142594,9 +142594,7 @@ func (s *V1LbConfigControllersItemTransportConfigIngressTLS) Decode(d *jx.Decode
 		case "allow_insecure":
 			requiredBitSet[0] |= 1 << 2
 			if err := func() error {
-				v, err := d.Bool()
-				s.AllowInsecure = bool(v)
-				if err != nil {
+				if err := s.AllowInsecure.Decode(d); err != nil {
 					return err
 				}
 				return nil

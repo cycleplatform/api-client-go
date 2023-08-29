@@ -78139,7 +78139,7 @@ type V1LbConfigControllersItemTransportConfigIngressTLS struct {
 	ServerName NilString `json:"server_name"`
 	// If enabled, accept TLS traffic with an invalid certificate. This is usually done for
 	// development/testing, and is not recommended for production use.
-	AllowInsecure bool `json:"allow_insecure"`
+	AllowInsecure NilBool `json:"allow_insecure"`
 	// Defines how to validate the connecting TLS certificate.
 	// `none`: Do not require a TLS certificate to be sent
 	// `request`: Asks the client to send a TLS certificate, but does not require nor validate it.
@@ -78161,7 +78161,7 @@ func (s *V1LbConfigControllersItemTransportConfigIngressTLS) GetServerName() Nil
 }
 
 // GetAllowInsecure returns the value of AllowInsecure.
-func (s *V1LbConfigControllersItemTransportConfigIngressTLS) GetAllowInsecure() bool {
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) GetAllowInsecure() NilBool {
 	return s.AllowInsecure
 }
 
@@ -78181,7 +78181,7 @@ func (s *V1LbConfigControllersItemTransportConfigIngressTLS) SetServerName(val N
 }
 
 // SetAllowInsecure sets the value of AllowInsecure.
-func (s *V1LbConfigControllersItemTransportConfigIngressTLS) SetAllowInsecure(val bool) {
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) SetAllowInsecure(val NilBool) {
 	s.AllowInsecure = val
 }
 
