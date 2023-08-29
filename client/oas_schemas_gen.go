@@ -34641,6 +34641,51 @@ func (o NilV1LbConfigControllersItemTransportConfigIngressTLS) Or(d V1LbConfigCo
 	return d
 }
 
+// NewNilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth returns new NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth with value set to v.
+func NewNilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth(v V1LbConfigControllersItemTransportConfigIngressTLSClientAuth) NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth {
+	return NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth{
+		Value: v,
+	}
+}
+
+// NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth is nullable V1LbConfigControllersItemTransportConfigIngressTLSClientAuth.
+type NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth struct {
+	Value V1LbConfigControllersItemTransportConfigIngressTLSClientAuth
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) SetTo(v V1LbConfigControllersItemTransportConfigIngressTLSClientAuth) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) SetToNull() {
+	o.Null = true
+	var v V1LbConfigControllersItemTransportConfigIngressTLSClientAuth
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) Get() (v V1LbConfigControllersItemTransportConfigIngressTLSClientAuth, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) Or(d V1LbConfigControllersItemTransportConfigIngressTLSClientAuth) V1LbConfigControllersItemTransportConfigIngressTLSClientAuth {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewNilVpnEnvironmentService returns new NilVpnEnvironmentService with value set to v.
 func NewNilVpnEnvironmentService(v VpnEnvironmentService) NilVpnEnvironmentService {
 	return NilVpnEnvironmentService{
@@ -78147,7 +78192,7 @@ type V1LbConfigControllersItemTransportConfigIngressTLS struct {
 	// certificate.
 	// `require-verify`: Requires both that the client send a certificate, and that the certificate is
 	// valid. This is required when using https.
-	ClientAuth V1LbConfigControllersItemTransportConfigIngressTLSClientAuth `json:"client_auth"`
+	ClientAuth NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth `json:"client_auth"`
 }
 
 // GetEnable returns the value of Enable.
@@ -78166,7 +78211,7 @@ func (s *V1LbConfigControllersItemTransportConfigIngressTLS) GetAllowInsecure() 
 }
 
 // GetClientAuth returns the value of ClientAuth.
-func (s *V1LbConfigControllersItemTransportConfigIngressTLS) GetClientAuth() V1LbConfigControllersItemTransportConfigIngressTLSClientAuth {
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) GetClientAuth() NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth {
 	return s.ClientAuth
 }
 
@@ -78186,7 +78231,7 @@ func (s *V1LbConfigControllersItemTransportConfigIngressTLS) SetAllowInsecure(va
 }
 
 // SetClientAuth sets the value of ClientAuth.
-func (s *V1LbConfigControllersItemTransportConfigIngressTLS) SetClientAuth(val V1LbConfigControllersItemTransportConfigIngressTLSClientAuth) {
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) SetClientAuth(val NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) {
 	s.ClientAuth = val
 }
 

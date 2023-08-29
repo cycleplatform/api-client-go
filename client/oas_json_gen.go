@@ -76437,6 +76437,50 @@ func (s *NilV1LbConfigControllersItemTransportConfigIngressTLS) UnmarshalJSON(da
 	return s.Decode(d)
 }
 
+// Encode encodes V1LbConfigControllersItemTransportConfigIngressTLSClientAuth as json.
+func (o NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) Encode(e *jx.Encoder) {
+	if o.Null {
+		e.Null()
+		return
+	}
+	e.Str(string(o.Value))
+}
+
+// Decode decodes V1LbConfigControllersItemTransportConfigIngressTLSClientAuth from json.
+func (o *NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth to nil")
+	}
+	if d.Next() == jx.Null {
+		if err := d.Null(); err != nil {
+			return err
+		}
+
+		var v V1LbConfigControllersItemTransportConfigIngressTLSClientAuth
+		o.Value = v
+		o.Null = true
+		return nil
+	}
+	o.Null = false
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
 // Encode encodes VpnEnvironmentService as json.
 func (o NilVpnEnvironmentService) Encode(e *jx.Encoder) {
 	if o.Null {
