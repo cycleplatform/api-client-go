@@ -1,0 +1,1 @@
+go run github.com/ogen-go/ogen/cmd/ogen@v0.73.0 --debug.noerr  --target client --no-server --clean ./api-spec/dist/public-api.yml
