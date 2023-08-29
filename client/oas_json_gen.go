@@ -31857,10 +31857,8 @@ func (s *DiscoveryEnvironmentService) encodeFields(e *jx.Encoder) {
 		e.Bool(s.HighAvailability)
 	}
 	{
-		e.FieldStart("config")
-		if s.Config == nil {
-			e.Null()
-		} else {
+		if s.Config.Set {
+			e.FieldStart("config")
 			s.Config.Encode(e)
 		}
 	}
@@ -31919,14 +31917,11 @@ func (s *DiscoveryEnvironmentService) Decode(d *jx.Decoder) error {
 				return errors.Wrap(err, "decode field \"high_availability\"")
 			}
 		case "config":
-			requiredBitSet[0] |= 1 << 3
 			if err := func() error {
-				s.Config = nil
-				var elem DiscoveryEnvironmentServiceConfig
-				if err := elem.Decode(d); err != nil {
+				s.Config.Reset()
+				if err := s.Config.Decode(d); err != nil {
 					return err
 				}
-				s.Config = &elem
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"config\"")
@@ -31941,7 +31936,7 @@ func (s *DiscoveryEnvironmentService) Decode(d *jx.Decoder) error {
 	// Validate required fields.
 	var failures []validate.FieldError
 	for i, mask := range [1]uint8{
-		0b00001111,
+		0b00000111,
 	} {
 		if result := (requiredBitSet[i] & mask) ^ mask; result != 0 {
 			// Mask only required fields and check equality to mask using XOR.
@@ -31988,29 +31983,43 @@ func (s *DiscoveryEnvironmentService) UnmarshalJSON(data []byte) error {
 }
 
 // Encode implements json.Marshaler.
-func (s *DiscoveryEnvironmentServiceConfig) Encode(e *jx.Encoder) {
+func (s DiscoveryEnvironmentServiceConfig) Encode(e *jx.Encoder) {
 	e.ObjStart()
 	s.encodeFields(e)
 	e.ObjEnd()
 }
 
-// encodeFields encodes fields.
-func (s *DiscoveryEnvironmentServiceConfig) encodeFields(e *jx.Encoder) {
-}
+// encodeFields implements json.Marshaler.
+func (s DiscoveryEnvironmentServiceConfig) encodeFields(e *jx.Encoder) {
+	for k, elem := range s {
+		e.FieldStart(k)
 
-var jsonFieldsNameOfDiscoveryEnvironmentServiceConfig = [0]string{}
+		if len(elem) != 0 {
+			e.Raw(elem)
+		}
+	}
+}
 
 // Decode decodes DiscoveryEnvironmentServiceConfig from json.
 func (s *DiscoveryEnvironmentServiceConfig) Decode(d *jx.Decoder) error {
 	if s == nil {
 		return errors.New("invalid: unable to decode DiscoveryEnvironmentServiceConfig to nil")
 	}
-
+	m := s.init()
 	if err := d.ObjBytes(func(d *jx.Decoder, k []byte) error {
-		switch string(k) {
-		default:
-			return d.Skip()
+		var elem jx.Raw
+		if err := func() error {
+			v, err := d.RawAppend(nil)
+			elem = jx.Raw(v)
+			if err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			return errors.Wrapf(err, "decode field %q", k)
 		}
+		m[string(k)] = elem
+		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode DiscoveryEnvironmentServiceConfig")
 	}
@@ -32019,7 +32028,7 @@ func (s *DiscoveryEnvironmentServiceConfig) Decode(d *jx.Decoder) error {
 }
 
 // MarshalJSON implements stdjson.Marshaler.
-func (s *DiscoveryEnvironmentServiceConfig) MarshalJSON() ([]byte, error) {
+func (s DiscoveryEnvironmentServiceConfig) MarshalJSON() ([]byte, error) {
 	e := jx.Encoder{}
 	s.Encode(&e)
 	return e.Bytes(), nil
@@ -85234,6 +85243,56 @@ func (s OptNilDiscoveryEnvironmentService) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON implements stdjson.Unmarshaler.
 func (s *OptNilDiscoveryEnvironmentService) UnmarshalJSON(data []byte) error {
+	d := jx.DecodeBytes(data)
+	return s.Decode(d)
+}
+
+// Encode encodes DiscoveryEnvironmentServiceConfig as json.
+func (o OptNilDiscoveryEnvironmentServiceConfig) Encode(e *jx.Encoder) {
+	if !o.Set {
+		return
+	}
+	if o.Null {
+		e.Null()
+		return
+	}
+	o.Value.Encode(e)
+}
+
+// Decode decodes DiscoveryEnvironmentServiceConfig from json.
+func (o *OptNilDiscoveryEnvironmentServiceConfig) Decode(d *jx.Decoder) error {
+	if o == nil {
+		return errors.New("invalid: unable to decode OptNilDiscoveryEnvironmentServiceConfig to nil")
+	}
+	if d.Next() == jx.Null {
+		if err := d.Null(); err != nil {
+			return err
+		}
+
+		var v DiscoveryEnvironmentServiceConfig
+		o.Value = v
+		o.Set = true
+		o.Null = true
+		return nil
+	}
+	o.Set = true
+	o.Null = false
+	o.Value = make(DiscoveryEnvironmentServiceConfig)
+	if err := o.Value.Decode(d); err != nil {
+		return err
+	}
+	return nil
+}
+
+// MarshalJSON implements stdjson.Marshaler.
+func (s OptNilDiscoveryEnvironmentServiceConfig) MarshalJSON() ([]byte, error) {
+	e := jx.Encoder{}
+	s.Encode(&e)
+	return e.Bytes(), nil
+}
+
+// UnmarshalJSON implements stdjson.Unmarshaler.
+func (s *OptNilDiscoveryEnvironmentServiceConfig) UnmarshalJSON(data []byte) error {
 	d := jx.DecodeBytes(data)
 	return s.Decode(d)
 }

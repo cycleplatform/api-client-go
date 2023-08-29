@@ -12674,7 +12674,7 @@ type DiscoveryEnvironmentService struct {
 	// A boolean representing if this service container is set to high availability mode or not.
 	HighAvailability bool `json:"high_availability"`
 	// The config object for the discovery service.
-	Config *DiscoveryEnvironmentServiceConfig `json:"config"`
+	Config OptNilDiscoveryEnvironmentServiceConfig `json:"config"`
 }
 
 // GetEnable returns the value of Enable.
@@ -12693,7 +12693,7 @@ func (s *DiscoveryEnvironmentService) GetHighAvailability() bool {
 }
 
 // GetConfig returns the value of Config.
-func (s *DiscoveryEnvironmentService) GetConfig() *DiscoveryEnvironmentServiceConfig {
+func (s *DiscoveryEnvironmentService) GetConfig() OptNilDiscoveryEnvironmentServiceConfig {
 	return s.Config
 }
 
@@ -12713,12 +12713,21 @@ func (s *DiscoveryEnvironmentService) SetHighAvailability(val bool) {
 }
 
 // SetConfig sets the value of Config.
-func (s *DiscoveryEnvironmentService) SetConfig(val *DiscoveryEnvironmentServiceConfig) {
+func (s *DiscoveryEnvironmentService) SetConfig(val OptNilDiscoveryEnvironmentServiceConfig) {
 	s.Config = val
 }
 
 // The config object for the discovery service.
-type DiscoveryEnvironmentServiceConfig struct{}
+type DiscoveryEnvironmentServiceConfig map[string]jx.Raw
+
+func (s *DiscoveryEnvironmentServiceConfig) init() DiscoveryEnvironmentServiceConfig {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
 
 // A DNS TLS certificate.
 // Ref: #/components/schemas/DnsTlsCertificate
@@ -49575,6 +49584,69 @@ func (o OptNilDiscoveryEnvironmentService) Get() (v DiscoveryEnvironmentService,
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilDiscoveryEnvironmentService) Or(d DiscoveryEnvironmentService) DiscoveryEnvironmentService {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilDiscoveryEnvironmentServiceConfig returns new OptNilDiscoveryEnvironmentServiceConfig with value set to v.
+func NewOptNilDiscoveryEnvironmentServiceConfig(v DiscoveryEnvironmentServiceConfig) OptNilDiscoveryEnvironmentServiceConfig {
+	return OptNilDiscoveryEnvironmentServiceConfig{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilDiscoveryEnvironmentServiceConfig is optional nullable DiscoveryEnvironmentServiceConfig.
+type OptNilDiscoveryEnvironmentServiceConfig struct {
+	Value DiscoveryEnvironmentServiceConfig
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilDiscoveryEnvironmentServiceConfig was set.
+func (o OptNilDiscoveryEnvironmentServiceConfig) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilDiscoveryEnvironmentServiceConfig) Reset() {
+	var v DiscoveryEnvironmentServiceConfig
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilDiscoveryEnvironmentServiceConfig) SetTo(v DiscoveryEnvironmentServiceConfig) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilDiscoveryEnvironmentServiceConfig) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilDiscoveryEnvironmentServiceConfig) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v DiscoveryEnvironmentServiceConfig
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilDiscoveryEnvironmentServiceConfig) Get() (v DiscoveryEnvironmentServiceConfig, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilDiscoveryEnvironmentServiceConfig) Or(d DiscoveryEnvironmentServiceConfig) DiscoveryEnvironmentServiceConfig {
 	if v, ok := o.Get(); ok {
 		return v
 	}
