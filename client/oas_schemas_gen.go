@@ -12873,8 +12873,8 @@ func (s *DockerFileOrigin) SetDetails(val DockerFileOriginDetails) {
 }
 
 type DockerFileOriginDetails struct {
-	Existing OptExistingSource `json:"existing"`
-	Repo     OptRepoType       `json:"repo"`
+	Existing OptNilExistingSource `json:"existing"`
+	Repo     OptRepoType          `json:"repo"`
 	// An endpoint that serves the tar file.
 	TargzURL OptString `json:"targz_url"`
 	// The path to the directory to use as the context when building the image.
@@ -12885,7 +12885,7 @@ type DockerFileOriginDetails struct {
 }
 
 // GetExisting returns the value of Existing.
-func (s *DockerFileOriginDetails) GetExisting() OptExistingSource {
+func (s *DockerFileOriginDetails) GetExisting() OptNilExistingSource {
 	return s.Existing
 }
 
@@ -12915,7 +12915,7 @@ func (s *DockerFileOriginDetails) GetCredentials() DockerfileCredentials {
 }
 
 // SetExisting sets the value of Existing.
-func (s *DockerFileOriginDetails) SetExisting(val OptExistingSource) {
+func (s *DockerFileOriginDetails) SetExisting(val OptNilExistingSource) {
 	s.Existing = val
 }
 
@@ -12988,7 +12988,7 @@ func (s *DockerHubOrigin) SetDetails(val DockerHubOriginDetails) {
 }
 
 type DockerHubOriginDetails struct {
-	Existing OptExistingSource `json:"existing"`
+	Existing OptNilExistingSource `json:"existing"`
 	// The DockerHub target string. ex - `mysql:5.7`.
 	Target string `json:"target"`
 	// For authentication, a username.
@@ -12998,7 +12998,7 @@ type DockerHubOriginDetails struct {
 }
 
 // GetExisting returns the value of Existing.
-func (s *DockerHubOriginDetails) GetExisting() OptExistingSource {
+func (s *DockerHubOriginDetails) GetExisting() OptNilExistingSource {
 	return s.Existing
 }
 
@@ -13018,7 +13018,7 @@ func (s *DockerHubOriginDetails) GetToken() OptString {
 }
 
 // SetExisting sets the value of Existing.
-func (s *DockerHubOriginDetails) SetExisting(val OptExistingSource) {
+func (s *DockerHubOriginDetails) SetExisting(val OptNilExistingSource) {
 	s.Existing = val
 }
 
@@ -13081,7 +13081,7 @@ func (s *DockerRegistryOrigin) SetDetails(val DockerRegistryOriginDetails) {
 }
 
 type DockerRegistryOriginDetails struct {
-	Existing OptExistingSource `json:"existing"`
+	Existing OptNilExistingSource `json:"existing"`
 	// The image name on the registry.
 	Target string `json:"target"`
 	// The url of the remote registry.
@@ -13095,7 +13095,7 @@ type DockerRegistryOriginDetails struct {
 }
 
 // GetExisting returns the value of Existing.
-func (s *DockerRegistryOriginDetails) GetExisting() OptExistingSource {
+func (s *DockerRegistryOriginDetails) GetExisting() OptNilExistingSource {
 	return s.Existing
 }
 
@@ -13125,7 +13125,7 @@ func (s *DockerRegistryOriginDetails) GetPassword() OptString {
 }
 
 // SetExisting sets the value of Existing.
-func (s *DockerRegistryOriginDetails) SetExisting(val OptExistingSource) {
+func (s *DockerRegistryOriginDetails) SetExisting(val OptNilExistingSource) {
 	s.Existing = val
 }
 
@@ -35052,7 +35052,7 @@ func (s *OciRegistryOrigin) SetDetails(val OciRegistryOriginDetails) {
 }
 
 type OciRegistryOriginDetails struct {
-	Existing OptExistingSource `json:"existing"`
+	Existing OptNilExistingSource `json:"existing"`
 	// The image name on the registry.
 	Target string `json:"target"`
 	// The url of the remote registry.
@@ -35061,7 +35061,7 @@ type OciRegistryOriginDetails struct {
 }
 
 // GetExisting returns the value of Existing.
-func (s *OciRegistryOriginDetails) GetExisting() OptExistingSource {
+func (s *OciRegistryOriginDetails) GetExisting() OptNilExistingSource {
 	return s.Existing
 }
 
@@ -35081,7 +35081,7 @@ func (s *OciRegistryOriginDetails) GetAuth() NilRegistryAuth {
 }
 
 // SetExisting sets the value of Existing.
-func (s *OciRegistryOriginDetails) SetExisting(val OptExistingSource) {
+func (s *OciRegistryOriginDetails) SetExisting(val OptNilExistingSource) {
 	s.Existing = val
 }
 
@@ -41239,52 +41239,6 @@ func (o OptErrorStatus) Get() (v ErrorStatus, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptErrorStatus) Or(d ErrorStatus) ErrorStatus {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptExistingSource returns new OptExistingSource with value set to v.
-func NewOptExistingSource(v ExistingSource) OptExistingSource {
-	return OptExistingSource{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptExistingSource is optional ExistingSource.
-type OptExistingSource struct {
-	Value ExistingSource
-	Set   bool
-}
-
-// IsSet returns true if OptExistingSource was set.
-func (o OptExistingSource) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptExistingSource) Reset() {
-	var v ExistingSource
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptExistingSource) SetTo(v ExistingSource) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptExistingSource) Get() (v ExistingSource, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptExistingSource) Or(d ExistingSource) ExistingSource {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -49482,6 +49436,69 @@ func (o OptNilEnvironmentStateError) Get() (v EnvironmentStateError, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilEnvironmentStateError) Or(d EnvironmentStateError) EnvironmentStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilExistingSource returns new OptNilExistingSource with value set to v.
+func NewOptNilExistingSource(v ExistingSource) OptNilExistingSource {
+	return OptNilExistingSource{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilExistingSource is optional nullable ExistingSource.
+type OptNilExistingSource struct {
+	Value ExistingSource
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilExistingSource was set.
+func (o OptNilExistingSource) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilExistingSource) Reset() {
+	var v ExistingSource
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilExistingSource) SetTo(v ExistingSource) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilExistingSource) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilExistingSource) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ExistingSource
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilExistingSource) Get() (v ExistingSource, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilExistingSource) Or(d ExistingSource) ExistingSource {
 	if v, ok := o.Get(); ok {
 		return v
 	}
