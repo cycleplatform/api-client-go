@@ -2089,10 +2089,10 @@ func decodeCreatePipelineResponse(resp *http.Response) (res *CreatePipelineCreat
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeCreatePipelineJobResponse(resp *http.Response) (res *CreatePipelineJobOK, _ error) {
+func decodeCreatePipelineJobResponse(resp *http.Response) (res *CreatePipelineJobAccepted, _ error) {
 	switch resp.StatusCode {
-	case 200:
-		// Code 200.
+	case 202:
+		// Code 202.
 		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
 		if err != nil {
 			return res, errors.Wrap(err, "parse media type")
@@ -2105,7 +2105,7 @@ func decodeCreatePipelineJobResponse(resp *http.Response) (res *CreatePipelineJo
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response CreatePipelineJobOK
+			var response CreatePipelineJobAccepted
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -2919,10 +2919,10 @@ func decodeCreateStackBuildResponse(resp *http.Response) (res *CreateStackBuildC
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeCreateStackBuildJobResponse(resp *http.Response) (res *CreateStackBuildJobOK, _ error) {
+func decodeCreateStackBuildJobResponse(resp *http.Response) (res *CreateStackBuildJobAccepted, _ error) {
 	switch resp.StatusCode {
-	case 200:
-		// Code 200.
+	case 202:
+		// Code 202.
 		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
 		if err != nil {
 			return res, errors.Wrap(err, "parse media type")
@@ -2935,7 +2935,7 @@ func decodeCreateStackBuildJobResponse(resp *http.Response) (res *CreateStackBui
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response CreateStackBuildJobOK
+			var response CreateStackBuildJobAccepted
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -3002,10 +3002,10 @@ func decodeCreateStackBuildJobResponse(resp *http.Response) (res *CreateStackBui
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeCreateStackJobResponse(resp *http.Response) (res *CreateStackJobOK, _ error) {
+func decodeCreateStackJobResponse(resp *http.Response) (res *CreateStackJobAccepted, _ error) {
 	switch resp.StatusCode {
-	case 200:
-		// Code 200.
+	case 202:
+		// Code 202.
 		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
 		if err != nil {
 			return res, errors.Wrap(err, "parse media type")
@@ -3018,7 +3018,7 @@ func decodeCreateStackJobResponse(resp *http.Response) (res *CreateStackJobOK, _
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response CreateStackJobOK
+			var response CreateStackJobAccepted
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err

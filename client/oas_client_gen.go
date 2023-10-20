@@ -182,7 +182,7 @@ type Invoker interface {
 	// Requires the `pipelines-manage` capability.
 	//
 	// POST /v1/pipelines/{pipelineId}/tasks
-	CreatePipelineJob(ctx context.Context, request OptCreatePipelineJobReq, params CreatePipelineJobParams) (*CreatePipelineJobOK, error)
+	CreatePipelineJob(ctx context.Context, request OptCreatePipelineJobReq, params CreatePipelineJobParams) (*CreatePipelineJobAccepted, error)
 	// CreatePipelineTriggerKey invokes createPipelineTriggerKey operation.
 	//
 	// Requires the `pipelines-manage` capability.
@@ -242,13 +242,13 @@ type Invoker interface {
 	// Requires the `stacks-manage` capability.
 	//
 	// POST /v1/stacks/{stackId}/builds/{buildId}/tasks
-	CreateStackBuildJob(ctx context.Context, request OptCreateStackBuildJobReq, params CreateStackBuildJobParams) (*CreateStackBuildJobOK, error)
+	CreateStackBuildJob(ctx context.Context, request OptCreateStackBuildJobReq, params CreateStackBuildJobParams) (*CreateStackBuildJobAccepted, error)
 	// CreateStackJob invokes createStackJob operation.
 	//
 	// Requires the `stacks-manage` capability.
 	//
 	// POST /v1/stacks/{stackId}/tasks
-	CreateStackJob(ctx context.Context, request OptCreateStackJobReq, params CreateStackJobParams) (*CreateStackJobOK, error)
+	CreateStackJob(ctx context.Context, request OptCreateStackJobReq, params CreateStackJobParams) (*CreateStackJobAccepted, error)
 	// CreateVPNUser invokes createVPNUser operation.
 	//
 	// Requires the `environments-vpn-manage` capability.
@@ -4868,12 +4868,12 @@ func (c *Client) sendCreatePipeline(ctx context.Context, request OptCreatePipeli
 // Requires the `pipelines-manage` capability.
 //
 // POST /v1/pipelines/{pipelineId}/tasks
-func (c *Client) CreatePipelineJob(ctx context.Context, request OptCreatePipelineJobReq, params CreatePipelineJobParams) (*CreatePipelineJobOK, error) {
+func (c *Client) CreatePipelineJob(ctx context.Context, request OptCreatePipelineJobReq, params CreatePipelineJobParams) (*CreatePipelineJobAccepted, error) {
 	res, err := c.sendCreatePipelineJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreatePipelineJob(ctx context.Context, request OptCreatePipelineJobReq, params CreatePipelineJobParams) (res *CreatePipelineJobOK, err error) {
+func (c *Client) sendCreatePipelineJob(ctx context.Context, request OptCreatePipelineJobReq, params CreatePipelineJobParams) (res *CreatePipelineJobAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createPipelineJob"),
 		semconv.HTTPMethodKey.String("POST"),
@@ -6311,12 +6311,12 @@ func (c *Client) sendCreateStackBuild(ctx context.Context, request OptCreateStac
 // Requires the `stacks-manage` capability.
 //
 // POST /v1/stacks/{stackId}/builds/{buildId}/tasks
-func (c *Client) CreateStackBuildJob(ctx context.Context, request OptCreateStackBuildJobReq, params CreateStackBuildJobParams) (*CreateStackBuildJobOK, error) {
+func (c *Client) CreateStackBuildJob(ctx context.Context, request OptCreateStackBuildJobReq, params CreateStackBuildJobParams) (*CreateStackBuildJobAccepted, error) {
 	res, err := c.sendCreateStackBuildJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateStackBuildJob(ctx context.Context, request OptCreateStackBuildJobReq, params CreateStackBuildJobParams) (res *CreateStackBuildJobOK, err error) {
+func (c *Client) sendCreateStackBuildJob(ctx context.Context, request OptCreateStackBuildJobReq, params CreateStackBuildJobParams) (res *CreateStackBuildJobAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createStackBuildJob"),
 		semconv.HTTPMethodKey.String("POST"),
@@ -6484,12 +6484,12 @@ func (c *Client) sendCreateStackBuildJob(ctx context.Context, request OptCreateS
 // Requires the `stacks-manage` capability.
 //
 // POST /v1/stacks/{stackId}/tasks
-func (c *Client) CreateStackJob(ctx context.Context, request OptCreateStackJobReq, params CreateStackJobParams) (*CreateStackJobOK, error) {
+func (c *Client) CreateStackJob(ctx context.Context, request OptCreateStackJobReq, params CreateStackJobParams) (*CreateStackJobAccepted, error) {
 	res, err := c.sendCreateStackJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateStackJob(ctx context.Context, request OptCreateStackJobReq, params CreateStackJobParams) (res *CreateStackJobOK, err error) {
+func (c *Client) sendCreateStackJob(ctx context.Context, request OptCreateStackJobReq, params CreateStackJobParams) (res *CreateStackJobAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createStackJob"),
 		semconv.HTTPMethodKey.String("POST"),

@@ -11052,17 +11052,17 @@ func (s *CreatePipelineCreated) SetData(val OptPipeline) {
 	s.Data = val
 }
 
-type CreatePipelineJobOK struct {
+type CreatePipelineJobAccepted struct {
 	Data OptTaskDescriptor `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *CreatePipelineJobOK) GetData() OptTaskDescriptor {
+func (s *CreatePipelineJobAccepted) GetData() OptTaskDescriptor {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *CreatePipelineJobOK) SetData(val OptTaskDescriptor) {
+func (s *CreatePipelineJobAccepted) SetData(val OptTaskDescriptor) {
 	s.Data = val
 }
 
@@ -12002,17 +12002,17 @@ func (s *CreateStackBuildCreated) SetData(val OptStackBuild) {
 	s.Data = val
 }
 
-type CreateStackBuildJobOK struct {
+type CreateStackBuildJobAccepted struct {
 	Data OptTaskDescriptor `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *CreateStackBuildJobOK) GetData() OptTaskDescriptor {
+func (s *CreateStackBuildJobAccepted) GetData() OptTaskDescriptor {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *CreateStackBuildJobOK) SetData(val OptTaskDescriptor) {
+func (s *CreateStackBuildJobAccepted) SetData(val OptTaskDescriptor) {
 	s.Data = val
 }
 
@@ -12123,17 +12123,17 @@ func (s *CreateStackCreated) SetData(val OptStack) {
 	s.Data = val
 }
 
-type CreateStackJobOK struct {
+type CreateStackJobAccepted struct {
 	Data OptTaskDescriptor `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *CreateStackJobOK) GetData() OptTaskDescriptor {
+func (s *CreateStackJobAccepted) GetData() OptTaskDescriptor {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *CreateStackJobOK) SetData(val OptTaskDescriptor) {
+func (s *CreateStackJobAccepted) SetData(val OptTaskDescriptor) {
 	s.Data = val
 }
 
@@ -14080,7 +14080,7 @@ type DiscoveryEnvironmentService struct {
 	// A boolean representing if this service container is set to high availability mode or not.
 	HighAvailability bool `json:"high_availability"`
 	// The config object for the discovery service.
-	Config *DiscoveryEnvironmentServiceConfig `json:"config"`
+	Config jx.Raw `json:"config"`
 }
 
 // GetEnable returns the value of Enable.
@@ -14099,7 +14099,7 @@ func (s *DiscoveryEnvironmentService) GetHighAvailability() bool {
 }
 
 // GetConfig returns the value of Config.
-func (s *DiscoveryEnvironmentService) GetConfig() *DiscoveryEnvironmentServiceConfig {
+func (s *DiscoveryEnvironmentService) GetConfig() jx.Raw {
 	return s.Config
 }
 
@@ -14119,12 +14119,9 @@ func (s *DiscoveryEnvironmentService) SetHighAvailability(val bool) {
 }
 
 // SetConfig sets the value of Config.
-func (s *DiscoveryEnvironmentService) SetConfig(val *DiscoveryEnvironmentServiceConfig) {
+func (s *DiscoveryEnvironmentService) SetConfig(val jx.Raw) {
 	s.Config = val
 }
-
-// The config object for the discovery service.
-type DiscoveryEnvironmentServiceConfig struct{}
 
 // A DNS TLS certificate.
 // Ref: #/components/schemas/DnsTlsCertificate
@@ -14392,7 +14389,7 @@ func (s *DockerHubOrigin) SetDetails(val DockerHubOriginDetails) {
 }
 
 type DockerHubOriginDetails struct {
-	Existing OptExistingSource `json:"existing"`
+	Existing NilExistingSource `json:"existing"`
 	// The DockerHub target string. ex - `mysql:5.7`.
 	Target string `json:"target"`
 	// For authentication, a username.
@@ -14402,7 +14399,7 @@ type DockerHubOriginDetails struct {
 }
 
 // GetExisting returns the value of Existing.
-func (s *DockerHubOriginDetails) GetExisting() OptExistingSource {
+func (s *DockerHubOriginDetails) GetExisting() NilExistingSource {
 	return s.Existing
 }
 
@@ -14422,7 +14419,7 @@ func (s *DockerHubOriginDetails) GetToken() OptString {
 }
 
 // SetExisting sets the value of Existing.
-func (s *DockerHubOriginDetails) SetExisting(val OptExistingSource) {
+func (s *DockerHubOriginDetails) SetExisting(val NilExistingSource) {
 	s.Existing = val
 }
 
@@ -14492,7 +14489,7 @@ func (s *DockerRegistryOrigin) SetDetails(val DockerRegistryOriginDetails) {
 }
 
 type DockerRegistryOriginDetails struct {
-	Existing OptExistingSource `json:"existing"`
+	Existing NilExistingSource `json:"existing"`
 	// The image name on the registry.
 	Target string `json:"target"`
 	// The url of the remote registry.
@@ -14506,7 +14503,7 @@ type DockerRegistryOriginDetails struct {
 }
 
 // GetExisting returns the value of Existing.
-func (s *DockerRegistryOriginDetails) GetExisting() OptExistingSource {
+func (s *DockerRegistryOriginDetails) GetExisting() NilExistingSource {
 	return s.Existing
 }
 
@@ -14536,7 +14533,7 @@ func (s *DockerRegistryOriginDetails) GetPassword() OptString {
 }
 
 // SetExisting sets the value of Existing.
-func (s *DockerRegistryOriginDetails) SetExisting(val OptExistingSource) {
+func (s *DockerRegistryOriginDetails) SetExisting(val NilExistingSource) {
 	s.Existing = val
 }
 
@@ -35636,6 +35633,51 @@ func (o NilDuration) Or(d Duration) Duration {
 	return d
 }
 
+// NewNilExistingSource returns new NilExistingSource with value set to v.
+func NewNilExistingSource(v ExistingSource) NilExistingSource {
+	return NilExistingSource{
+		Value: v,
+	}
+}
+
+// NilExistingSource is nullable ExistingSource.
+type NilExistingSource struct {
+	Value ExistingSource
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilExistingSource) SetTo(v ExistingSource) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilExistingSource) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilExistingSource) SetToNull() {
+	o.Null = true
+	var v ExistingSource
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilExistingSource) Get() (v ExistingSource, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilExistingSource) Or(d ExistingSource) ExistingSource {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewNilFloat64 returns new NilFloat64 with value set to v.
 func NewNilFloat64(v float64) NilFloat64 {
 	return NilFloat64{
@@ -37528,6 +37570,51 @@ func (o NilV1LbConfigControllersItemTransportConfigIngressTLS) Or(d V1LbConfigCo
 	return d
 }
 
+// NewNilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth returns new NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth with value set to v.
+func NewNilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth(v V1LbConfigControllersItemTransportConfigIngressTLSClientAuth) NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth {
+	return NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth{
+		Value: v,
+	}
+}
+
+// NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth is nullable V1LbConfigControllersItemTransportConfigIngressTLSClientAuth.
+type NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth struct {
+	Value V1LbConfigControllersItemTransportConfigIngressTLSClientAuth
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) SetTo(v V1LbConfigControllersItemTransportConfigIngressTLSClientAuth) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) SetToNull() {
+	o.Null = true
+	var v V1LbConfigControllersItemTransportConfigIngressTLSClientAuth
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) Get() (v V1LbConfigControllersItemTransportConfigIngressTLSClientAuth, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) Or(d V1LbConfigControllersItemTransportConfigIngressTLSClientAuth) V1LbConfigControllersItemTransportConfigIngressTLSClientAuth {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewNilVpnEnvironmentService returns new NilVpnEnvironmentService with value set to v.
 func NewNilVpnEnvironmentService(v VpnEnvironmentService) NilVpnEnvironmentService {
 	return NilVpnEnvironmentService{
@@ -37913,7 +38000,7 @@ func (s *OciRegistryOrigin) SetDetails(val OciRegistryOriginDetails) {
 }
 
 type OciRegistryOriginDetails struct {
-	Existing OptExistingSource `json:"existing"`
+	Existing NilExistingSource `json:"existing"`
 	// The image name on the registry.
 	Target string `json:"target"`
 	// The url of the remote registry.
@@ -37922,7 +38009,7 @@ type OciRegistryOriginDetails struct {
 }
 
 // GetExisting returns the value of Existing.
-func (s *OciRegistryOriginDetails) GetExisting() OptExistingSource {
+func (s *OciRegistryOriginDetails) GetExisting() NilExistingSource {
 	return s.Existing
 }
 
@@ -37942,7 +38029,7 @@ func (s *OciRegistryOriginDetails) GetAuth() NilRegistryAuth {
 }
 
 // SetExisting sets the value of Existing.
-func (s *OciRegistryOriginDetails) SetExisting(val OptExistingSource) {
+func (s *OciRegistryOriginDetails) SetExisting(val NilExistingSource) {
 	s.Existing = val
 }
 
@@ -83835,7 +83922,7 @@ type V1LbConfigControllersItemTransportConfigIngressTLS struct {
 	ServerName NilString `json:"server_name"`
 	// If enabled, accept TLS traffic with an invalid certificate. This is usually done for
 	// development/testing, and is not recommended for production use.
-	AllowInsecure bool `json:"allow_insecure"`
+	AllowInsecure NilBool `json:"allow_insecure"`
 	// Defines how to validate the connecting TLS certificate.
 	// `none`: Do not require a TLS certificate to be sent
 	// `request`: Asks the client to send a TLS certificate, but does not require nor validate it.
@@ -83843,7 +83930,7 @@ type V1LbConfigControllersItemTransportConfigIngressTLS struct {
 	// certificate.
 	// `require-verify`: Requires both that the client send a certificate, and that the certificate is
 	// valid. This is required when using https.
-	ClientAuth V1LbConfigControllersItemTransportConfigIngressTLSClientAuth `json:"client_auth"`
+	ClientAuth NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth `json:"client_auth"`
 }
 
 // GetEnable returns the value of Enable.
@@ -83857,12 +83944,12 @@ func (s *V1LbConfigControllersItemTransportConfigIngressTLS) GetServerName() Nil
 }
 
 // GetAllowInsecure returns the value of AllowInsecure.
-func (s *V1LbConfigControllersItemTransportConfigIngressTLS) GetAllowInsecure() bool {
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) GetAllowInsecure() NilBool {
 	return s.AllowInsecure
 }
 
 // GetClientAuth returns the value of ClientAuth.
-func (s *V1LbConfigControllersItemTransportConfigIngressTLS) GetClientAuth() V1LbConfigControllersItemTransportConfigIngressTLSClientAuth {
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) GetClientAuth() NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth {
 	return s.ClientAuth
 }
 
@@ -83877,12 +83964,12 @@ func (s *V1LbConfigControllersItemTransportConfigIngressTLS) SetServerName(val N
 }
 
 // SetAllowInsecure sets the value of AllowInsecure.
-func (s *V1LbConfigControllersItemTransportConfigIngressTLS) SetAllowInsecure(val bool) {
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) SetAllowInsecure(val NilBool) {
 	s.AllowInsecure = val
 }
 
 // SetClientAuth sets the value of ClientAuth.
-func (s *V1LbConfigControllersItemTransportConfigIngressTLS) SetClientAuth(val V1LbConfigControllersItemTransportConfigIngressTLSClientAuth) {
+func (s *V1LbConfigControllersItemTransportConfigIngressTLS) SetClientAuth(val NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth) {
 	s.ClientAuth = val
 }
 
