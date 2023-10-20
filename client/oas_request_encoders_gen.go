@@ -31,6 +31,26 @@ func encodeCreateApiKeyRequest(
 	return nil
 }
 
+func encodeCreateAutoScaleGroupRequest(
+	req OptCreateAutoScaleGroupReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeCreateBillingMethodRequest(
 	req OptCreateBillingMethodReq,
 	r *http.Request,
@@ -971,6 +991,26 @@ func encodeUpdateApiKeyRequest(
 	return nil
 }
 
+func encodeUpdateAutoScaleGroupRequest(
+	req OptUpdateAutoScaleGroupReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeUpdateBillingMethodRequest(
 	req OptUpdateBillingMethodReq,
 	r *http.Request,
@@ -1173,6 +1213,26 @@ func encodeUpdateImageRequest(
 
 func encodeUpdateImageSourceRequest(
 	req OptUpdateImageSourceReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := jx.GetEncoder()
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdatePasswordRequest(
+	req OptUpdatePasswordReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

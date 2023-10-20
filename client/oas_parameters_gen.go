@@ -253,6 +253,33 @@ type GetApiKeysParams struct {
 	Page OptGetApiKeysPage
 }
 
+// GetAutoScaleGroupParams is parameters of getAutoScaleGroup operation.
+type GetAutoScaleGroupParams struct {
+	// The ID for the given auto-scale group.
+	GroupId string
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetAutoScaleGroupIncludeItem
+}
+
+// GetAutoScaleGroupsParams is parameters of getAutoScaleGroups operation.
+type GetAutoScaleGroupsParams struct {
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetAutoScaleGroupsPage
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetAutoScaleGroupsIncludeItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetAutoScaleGroupsFilter
+}
+
 // GetBackupParams is parameters of getBackup operation.
 type GetBackupParams struct {
 	// The ID of the requested container.
@@ -773,6 +800,11 @@ type GetInstancesParams struct {
 type GetInvoiceParams struct {
 	// The ID of the invoice.
 	InvoiceId string
+	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
+	// In the case of applying a meta to a collection of resources, each resource will have it's own
+	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
+	// in the root document. These will be clearly labeled.
+	Meta []GetInvoiceMetaItem
 }
 
 // GetInvoicesParams is parameters of getInvoices operation.
@@ -982,7 +1014,7 @@ type GetProviderParams struct {
 
 // GetProviderLocationsParams is parameters of getProviderLocations operation.
 type GetProviderLocationsParams struct {
-	// The ID for the given provider.
+	// The identifier for the given provider. Can be `aws`, `gcp`, `equinix-metal`, `vultr`.
 	ProviderId string
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
@@ -993,7 +1025,7 @@ type GetProviderLocationsParams struct {
 
 // GetProviderServersParams is parameters of getProviderServers operation.
 type GetProviderServersParams struct {
-	// The ID for the given provider.
+	// The identifier for the given provider. Can be `aws`, `gcp`, `equinix-metal`, `vultr`.
 	ProviderId string
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
@@ -1078,19 +1110,19 @@ type GetServerTagsParams struct {
 	Filter OptGetServerTagsFilter
 }
 
-// GetServerTelemeteryParams is parameters of getServerTelemetery operation.
-type GetServerTelemeteryParams struct {
+// GetServerTelemetryParams is parameters of getServerTelemetry operation.
+type GetServerTelemetryParams struct {
 	// The ID for the given server.
 	ServerId string
 	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
-	Filter OptGetServerTelemeteryFilter
+	Filter OptGetServerTelemetryFilter
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptGetServerTelemeteryPage
+	Page OptGetServerTelemetryPage
 }
 
 // GetServerUsageParams is parameters of GetServerUsage operation.
@@ -1358,6 +1390,12 @@ type RemoveApiKeyParams struct {
 	ApikeyId string
 }
 
+// RemoveAutoScaleGroupParams is parameters of removeAutoScaleGroup operation.
+type RemoveAutoScaleGroupParams struct {
+	// The ID for the given autoscale group.
+	GroupId string
+}
+
 // RemoveBackupParams is parameters of removeBackup operation.
 type RemoveBackupParams struct {
 	// The ID of the requested container.
@@ -1528,6 +1566,12 @@ type UpdateAccountInviteParams struct {
 type UpdateApiKeyParams struct {
 	// The ID of the API Key.
 	ApikeyId string
+}
+
+// UpdateAutoScaleGroupParams is parameters of updateAutoScaleGroup operation.
+type UpdateAutoScaleGroupParams struct {
+	// The ID for the given auto-scale group.
+	GroupId string
 }
 
 // UpdateBillingMethodParams is parameters of updateBillingMethod operation.

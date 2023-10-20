@@ -12,6 +12,7 @@ import (
 	"go.opentelemetry.io/otel/attribute"
 	"go.opentelemetry.io/otel/codes"
 	"go.opentelemetry.io/otel/metric"
+	semconv "go.opentelemetry.io/otel/semconv/v1.19.0"
 	"go.opentelemetry.io/otel/trace"
 
 	"github.com/ogen-go/ogen/conv"
@@ -20,6 +21,1259 @@ import (
 	"github.com/ogen-go/ogen/otelogen"
 	"github.com/ogen-go/ogen/uri"
 )
+
+// Invoker invokes operations described by OpenAPI v3 specification.
+type Invoker interface {
+	// ContainersListServers invokes ContainersListServers operation.
+	//
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/containers/{containerId}/servers
+	ContainersListServers(ctx context.Context, params ContainersListServersParams) (*ContainersListServersOK, error)
+	// CreateApiKey invokes createApiKey operation.
+	//
+	// Requires the `api-keys-manage` capability.
+	//
+	// POST /v1/hubs/current/api-keys
+	CreateApiKey(ctx context.Context, request OptCreateApiKeyReq) (*CreateApiKeyCreated, error)
+	// CreateAutoScaleGroup invokes createAutoScaleGroup operation.
+	//
+	// Requires the 'autoscale-groups-manage'.
+	//
+	// POST /v1/infrastructure/auto-scale/groups
+	CreateAutoScaleGroup(ctx context.Context, request OptCreateAutoScaleGroupReq) (*CreateAutoScaleGroupCreated, error)
+	// CreateBillingMethod invokes createBillingMethod operation.
+	//
+	// Requires the `billing-methods-manage` capability.
+	//
+	// POST /v1/billing/methods
+	CreateBillingMethod(ctx context.Context, request OptCreateBillingMethodReq) (*CreateBillingMethodOK, error)
+	// CreateContainer invokes createContainer operation.
+	//
+	// Requires the `containers-deploy` capability.
+	//
+	// POST /v1/containers
+	CreateContainer(ctx context.Context, request OptCreateContainerReq) (*CreateContainerCreated, error)
+	// CreateContainerInstance invokes createContainerInstance operation.
+	//
+	// Requires the `containers-update` capability.
+	//
+	// POST /v1/containers/{containerId}/instances
+	CreateContainerInstance(ctx context.Context, request []CreateContainerInstanceReqItem, params CreateContainerInstanceParams) (*CreateContainerInstanceAccepted, error)
+	// CreateContainerInstanceJob invokes createContainerInstanceJob operation.
+	//
+	// Used to perform different actions on a given container instance, requries
+	// `containers-instance-migrate` capability.
+	//
+	// POST /v1/containers/{containerId}/instances/{instanceId}/tasks
+	CreateContainerInstanceJob(ctx context.Context, request OptCreateContainerInstanceJobReq, params CreateContainerInstanceJobParams) (*CreateContainerInstanceJobAccepted, error)
+	// CreateContainerJob invokes createContainerJob operation.
+	//
+	// Used to perform different actions on a given container. Requires the `containers-state`,
+	// `containers-update`, or `containers-volumes-manage` capability (respectively).
+	//
+	// POST /v1/containers/{containerId}/tasks
+	CreateContainerJob(ctx context.Context, request OptCreateContainerJobReq, params CreateContainerJobParams) (*CreateContainerJobAccepted, error)
+	// CreateDNSRecord invokes createDNSRecord operation.
+	//
+	// Requires the `dns-manage` capability.
+	//
+	// POST /v1/dns/zones/{zoneId}/records
+	CreateDNSRecord(ctx context.Context, request OptCreateDNSRecordReq, params CreateDNSRecordParams) (*CreateDNSRecordCreated, error)
+	// CreateDNSZone invokes createDNSZone operation.
+	//
+	// Requires the `dns-manage` capability.
+	//
+	// POST /v1/dns/zones
+	CreateDNSZone(ctx context.Context, request OptCreateDNSZoneReq) (*CreateDNSZoneCreated, error)
+	// CreateEnvironment invokes createEnvironment operation.
+	//
+	// Requires the `environments-create` capability.
+	//
+	// POST /v1/environments
+	CreateEnvironment(ctx context.Context, request OptCreateEnvironmentReq) (*CreateEnvironmentCreated, error)
+	// CreateEnvironmentJob invokes createEnvironmentJob operation.
+	//
+	// Used to `start`, `stop`, or `delete` an environment. Requires the `environments-state` capability.
+	//
+	// POST /v1/environments/{environmentId}/tasks
+	CreateEnvironmentJob(ctx context.Context, request OptCreateEnvironmentJobReq, params CreateEnvironmentJobParams) (*CreateEnvironmentJobAccepted, error)
+	// CreateEnvironmentVpnTask invokes createEnvironmentVpnTask operation.
+	//
+	// Used to reconfigure or reset the environment VPN. Requires the `environments-vpn-manage`
+	// capability.
+	//
+	// POST /v1/environments/{environmentId}/services/vpn/tasks
+	CreateEnvironmentVpnTask(ctx context.Context, request OptCreateEnvironmentVpnTaskReq, params CreateEnvironmentVpnTaskParams) (*CreateEnvironmentVpnTaskAccepted, error)
+	// CreateGlobalLoadBalancer invokes createGlobalLoadBalancer operation.
+	//
+	// Requires the `sdn-global-lbs-manage` capability.
+	//
+	// POST /v1/sdn/global-lbs
+	CreateGlobalLoadBalancer(ctx context.Context, request OptCreateGlobalLoadBalancerReq, params CreateGlobalLoadBalancerParams) (*CreateGlobalLoadBalancerCreated, error)
+	// CreateHub invokes createHub operation.
+	//
+	// Create a hub resource.
+	//
+	// POST /v1/hubs
+	CreateHub(ctx context.Context, request OptCreateHubReq) (*CreateHubOK, error)
+	// CreateHubInvite invokes createHubInvite operation.
+	//
+	// Requires the `hubs-invites-send` capability.
+	//
+	// POST /v1/hubs/current/invites
+	CreateHubInvite(ctx context.Context, request OptCreateHubInviteReq) (*CreateHubInviteCreated, error)
+	// CreateImage invokes createImage operation.
+	//
+	// Requires the `images-import` capability.
+	//
+	// POST /v1/images
+	CreateImage(ctx context.Context, request OptCreateImageReq) (*CreateImageCreated, error)
+	// CreateImageCollectionJob invokes createImageCollectionJob operation.
+	//
+	// Used to perform different actions on a given image. Requires the `images-delete` capability.
+	//
+	// POST /v1/images/tasks
+	CreateImageCollectionJob(ctx context.Context, request OptCreateImageCollectionJobReq) (*CreateImageCollectionJobAccepted, error)
+	// CreateImageJob invokes createImageJob operation.
+	//
+	// Used to perform different actions on a given image.  Requires the `images-import` capabiltiy.
+	//
+	// POST /v1/images/{imageId}/tasks
+	CreateImageJob(ctx context.Context, request OptCreateImageJobReq, params CreateImageJobParams) (*CreateImageJobOK, error)
+	// CreateImageSource invokes createImageSource operation.
+	//
+	// Requires the `images-import` capability.
+	//
+	// POST /v1/images/sources
+	CreateImageSource(ctx context.Context, request OptCreateImageSourceReq) (*CreateImageSourceCreated, error)
+	// CreateInvoiceJob invokes createInvoiceJob operation.
+	//
+	// Requires the `billing-invoices-pay` capability.
+	//
+	// POST /v1/billing/invoices/{invoiceId}/tasks
+	CreateInvoiceJob(ctx context.Context, request OptCreateInvoiceJobReq, params CreateInvoiceJobParams) (*CreateInvoiceJobOK, error)
+	// CreateNetworkJob invokes createNetworkJob operation.
+	//
+	// Requires the `sdn-networks-manage` capability.
+	//
+	// POST /v1/sdn/networks/{networkId}/tasks
+	CreateNetworkJob(ctx context.Context, request OptCreateNetworkJobReq, params CreateNetworkJobParams) (*CreateNetworkJobOK, error)
+	// CreateOrder invokes createOrder operation.
+	//
+	// Requires TODO capability.
+	//
+	// POST /v1/billing/orders
+	CreateOrder(ctx context.Context, request OptCreateOrderReq) (*CreateOrderCreated, error)
+	// CreateOrderJob invokes createOrderJob operation.
+	//
+	// Used to confirm an order.
+	//
+	// POST /v1/billing/orders/{orderId}/tasks
+	CreateOrderJob(ctx context.Context, request OptCreateOrderJobReq, params CreateOrderJobParams) (*CreateOrderJobAccepted, error)
+	// CreatePipeline invokes createPipeline operation.
+	//
+	// Requires the `pipelines-manage` capability.
+	//
+	// POST /v1/pipelines
+	CreatePipeline(ctx context.Context, request OptCreatePipelineReq) (*CreatePipelineCreated, error)
+	// CreatePipelineJob invokes createPipelineJob operation.
+	//
+	// Requires the `pipelines-manage` capability.
+	//
+	// POST /v1/pipelines/{pipelineId}/tasks
+	CreatePipelineJob(ctx context.Context, request OptCreatePipelineJobReq, params CreatePipelineJobParams) (*CreatePipelineJobOK, error)
+	// CreatePipelineTriggerKey invokes createPipelineTriggerKey operation.
+	//
+	// Requires the `pipelines-manage` capability.
+	//
+	// POST /v1/pipelines/{pipelineId}/keys
+	CreatePipelineTriggerKey(ctx context.Context, request OptCreatePipelineTriggerKeyReq, params CreatePipelineTriggerKeyParams) (*CreatePipelineTriggerKeyCreated, error)
+	// CreateProvider invokes createProvider operation.
+	//
+	// Requires the `infrastructure-providers-manage` capability.
+	//
+	// POST /v1/infrastructure/providers
+	CreateProvider(ctx context.Context, request OptCreateProviderReq) (*CreateProviderCreated, error)
+	// CreateProviderJob invokes createProviderJob operation.
+	//
+	// Requires the `infrastructure-providers-manage` capability.
+	//
+	// POST /v1/infrastructure/providers/{providerId}/tasks
+	CreateProviderJob(ctx context.Context, request OptCreateProviderJobReq, params CreateProviderJobParams) (*CreateProviderJobAccepted, error)
+	// CreateSDNNetwork invokes createSDNNetwork operation.
+	//
+	// Requires the `sdn-networks-manage` capability.
+	//
+	// POST /v1/sdn/networks
+	CreateSDNNetwork(ctx context.Context, request OptCreateSDNNetworkReq, params CreateSDNNetworkParams) (*CreateSDNNetworkCreated, error)
+	// CreateScopedVariable invokes createScopedVariable operation.
+	//
+	// Requires the `scoped-variables-manage` capability.
+	//
+	// POST /v1/environments/{environmentId}/scoped-variables
+	CreateScopedVariable(ctx context.Context, request OptCreateScopedVariableReq, params CreateScopedVariableParams) (*CreateScopedVariableCreated, error)
+	// CreateServer invokes createServer operation.
+	//
+	// Requires the `servers-provision` capability.
+	//
+	// POST /v1/infrastructure/servers
+	CreateServer(ctx context.Context, request OptCreateServerReq) (*CreateServerCreated, error)
+	// CreateServerJob invokes createServerJob operation.
+	//
+	// Used to perform different actions on a given server. Requires the `servers-state` capability.
+	//
+	// POST /v1/infrastructure/servers/{serverId}/tasks
+	CreateServerJob(ctx context.Context, request OptCreateServerJobReq, params CreateServerJobParams) (*CreateServerJobOK, error)
+	// CreateStack invokes createStack operation.
+	//
+	// Requires the `stacks-manage` capability.
+	//
+	// POST /v1/stacks
+	CreateStack(ctx context.Context, request OptCreateStackReq) (*CreateStackCreated, error)
+	// CreateStackBuild invokes createStackBuild operation.
+	//
+	// Requires the `stacks-manage` capability.
+	//
+	// POST /v1/stacks/{stackId}/builds
+	CreateStackBuild(ctx context.Context, request OptCreateStackBuildReq, params CreateStackBuildParams) (*CreateStackBuildCreated, error)
+	// CreateStackBuildJob invokes createStackBuildJob operation.
+	//
+	// Requires the `stacks-manage` capability.
+	//
+	// POST /v1/stacks/{stackId}/builds/{buildId}/tasks
+	CreateStackBuildJob(ctx context.Context, request OptCreateStackBuildJobReq, params CreateStackBuildJobParams) (*CreateStackBuildJobOK, error)
+	// CreateStackJob invokes createStackJob operation.
+	//
+	// Requires the `stacks-manage` capability.
+	//
+	// POST /v1/stacks/{stackId}/tasks
+	CreateStackJob(ctx context.Context, request OptCreateStackJobReq, params CreateStackJobParams) (*CreateStackJobOK, error)
+	// CreateVPNUser invokes createVPNUser operation.
+	//
+	// Requires the `environments-vpn-manage` capability.
+	//
+	// POST /v1/environments/{environmentId}/services/vpn/users
+	CreateVPNUser(ctx context.Context, request OptCreateVPNUserReq, params CreateVPNUserParams) (*CreateVPNUserCreated, error)
+	// DNSRecordTask invokes DNSRecordTask operation.
+	//
+	// Used to perform different actionson a given DNS record, requires the `dns-manage` capability.
+	//
+	// POST /v1/dns/zones/{zoneId}/records/{recordId}/tasks
+	DNSRecordTask(ctx context.Context, request OptDNSRecordTaskReq, params DNSRecordTaskParams) (*DNSRecordTaskAccepted, error)
+	// DNSTLSAttempts invokes DNSTLSAttempts operation.
+	//
+	// Requires the `dns-view` capability.
+	//
+	// GET /v1/dns/tls/attempts
+	DNSTLSAttempts(ctx context.Context, params DNSTLSAttemptsParams) (*DNSTLSAttemptsOK, error)
+	// DNSZoneTask invokes DNSZoneTask operation.
+	//
+	// Used to perform different actions on a given DNS zone, requires the `dns-manage` capability.
+	//
+	// POST /v1/dns/zones/{zoneId}/tasks
+	DNSZoneTask(ctx context.Context, request OptDNSZoneTaskReq, params DNSZoneTaskParams) (*DNSZoneTaskAccepted, error)
+	// DisableTwoFa invokes disableTwoFa operation.
+	//
+	// Disable TwoFa for an account.
+	//
+	// POST /v1/account/2fa/disable
+	DisableTwoFa(ctx context.Context, request OptDisableTwoFaReq) (*DisableTwoFaOK, error)
+	// ExpireInstanceSSHTokens invokes expireInstanceSSHTokens operation.
+	//
+	// Requires the `containers-ssh` capability.
+	//
+	// DELETE /v1/containers/{containerId}/instances/{instanceId}/ssh
+	ExpireInstanceSSHTokens(ctx context.Context, params ExpireInstanceSSHTokensParams) (*ExpireInstanceSSHTokensOK, error)
+	// FetchScopedVariable invokes fetchScopedVariable operation.
+	//
+	// Requires the `scoped-variables-view` capability.
+	//
+	// GET /v1/environments/{environmentId}/scoped-variables/{scopedVariableId}
+	FetchScopedVariable(ctx context.Context, params FetchScopedVariableParams) (*FetchScopedVariableOK, error)
+	// GetAccount invokes getAccount operation.
+	//
+	// Gets the account associated with the authenticated user token.
+	//
+	// GET /v1/account
+	GetAccount(ctx context.Context) (*GetAccountOK, error)
+	// GetAccountInvites invokes getAccountInvites operation.
+	//
+	// Lists invites associated with a given account.
+	//
+	// GET /v1/account/invites
+	GetAccountInvites(ctx context.Context, params GetAccountInvitesParams) (*GetAccountInvitesOK, error)
+	// GetAccountLogins invokes getAccountLogins operation.
+	//
+	// Lists logins associated with a given account.
+	//
+	// GET /v1/account/logins
+	GetAccountLogins(ctx context.Context, params GetAccountLoginsParams) (*GetAccountLoginsOK, error)
+	// GetAccountMemberships invokes getAccountMemberships operation.
+	//
+	// Lists the memberships for a given account.
+	//
+	// GET /v1/account/memberships
+	GetAccountMemberships(ctx context.Context) (*GetAccountMembershipsOK, error)
+	// GetAnnouncementsList invokes getAnnouncementsList operation.
+	//
+	// Lists any important updates posted by the Cycle team.
+	//
+	// GET /v1/announcements
+	GetAnnouncementsList(ctx context.Context, params GetAnnouncementsListParams) (*GetAnnouncementsListOK, error)
+	// GetApiKey invokes getApiKey operation.
+	//
+	// Requries the `api-keys-manage` capability.
+	//
+	// GET /v1/hubs/current/api-keys/{apikeyId}
+	GetApiKey(ctx context.Context, params GetApiKeyParams) (*GetApiKeyOK, error)
+	// GetApiKeys invokes getApiKeys operation.
+	//
+	// Requires the `api-keys-manage` capability.
+	//
+	// GET /v1/hubs/current/api-keys
+	GetApiKeys(ctx context.Context, params GetApiKeysParams) (*GetApiKeysOK, error)
+	// GetAutoScaleGroup invokes getAutoScaleGroup operation.
+	//
+	// Requires the `autoscale-groups-view` capability.
+	//
+	// GET /v1/infrastructure/auto-scale/groups/{groupId}
+	GetAutoScaleGroup(ctx context.Context, params GetAutoScaleGroupParams) (*GetAutoScaleGroupOK, error)
+	// GetAutoScaleGroups invokes getAutoScaleGroups operation.
+	//
+	// Requires the `autoscale-groups-manage` capability.
+	//
+	// GET /v1/infrastructure/auto-scale/groups
+	GetAutoScaleGroups(ctx context.Context, params GetAutoScaleGroupsParams) (*GetAutoScaleGroupsOK, error)
+	// GetBackup invokes getBackup operation.
+	//
+	// Requires the `containers-backups-view` capability.
+	//
+	// GET /v1/containers/{containerId}/backups/{backupId}
+	GetBackup(ctx context.Context, params GetBackupParams) (*GetBackupOK, error)
+	// GetBackupLogs invokes getBackupLogs operation.
+	//
+	// Requires the `containers-backups-view` capability.
+	//
+	// GET /v1/containers/{containerId}/backups/{backupId}/logs
+	GetBackupLogs(ctx context.Context, params GetBackupLogsParams) (*GetBackupLogsOK, error)
+	// GetBackupsCollection invokes getBackupsCollection operation.
+	//
+	// Requires the `containers-backups-view` capability.
+	//
+	// GET /v1/containers/{containerId}/backups
+	GetBackupsCollection(ctx context.Context, params GetBackupsCollectionParams) (*GetBackupsCollectionOK, error)
+	// GetBillingMethod invokes getBillingMethod operation.
+	//
+	// Requires the `billing-methods-manage` capability.
+	//
+	// GET /v1/billing/methods/{methodId}
+	GetBillingMethod(ctx context.Context, params GetBillingMethodParams) (*GetBillingMethodOK, error)
+	// GetBillingMethods invokes getBillingMethods operation.
+	//
+	// Requires the `billing-methods-manage` capability.
+	//
+	// GET /v1/billing/methods
+	GetBillingMethods(ctx context.Context, params GetBillingMethodsParams) (*GetBillingMethodsOK, error)
+	// GetBillingOrder invokes getBillingOrder operation.
+	//
+	// Requires the `billing-orders-manage` capability.
+	//
+	// GET /v1/billing/orders/{orderId}
+	GetBillingOrder(ctx context.Context, params GetBillingOrderParams) (*GetBillingOrderOK, error)
+	// GetBillingOverages invokes getBillingOverages operation.
+	//
+	// Doesn't require a specific capability.
+	//
+	// GET /v1/billing/services/overages
+	GetBillingOverages(ctx context.Context, params GetBillingOveragesParams) (*GetBillingOveragesOK, error)
+	// GetBillingService invokes getBillingService operation.
+	//
+	// Requries the `billing-services-view` capability.
+	//
+	// GET /v1/billing/services/{servicesId}
+	GetBillingService(ctx context.Context, params GetBillingServiceParams) (*GetBillingServiceOK, error)
+	// GetBillingServices invokes getBillingServices operation.
+	//
+	// Requries the `billing-services-view` capability.
+	//
+	// GET /v1/billing/services
+	GetBillingServices(ctx context.Context, params GetBillingServicesParams) (*GetBillingServicesOK, error)
+	// GetBillingSupportPlans invokes getBillingSupportPlans operation.
+	//
+	// Doesn't require a specific capability to call.
+	//
+	// GET /v1/billing/plans/support
+	GetBillingSupportPlans(ctx context.Context, params GetBillingSupportPlansParams) (*GetBillingSupportPlansOK, error)
+	// GetCompatibleImages invokes getCompatibleImages operation.
+	//
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/containers/{containerId}/compatible-images
+	GetCompatibleImages(ctx context.Context, params GetCompatibleImagesParams) (*GetCompatibleImagesOK, error)
+	// GetContainerById invokes getContainerById operation.
+	//
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/containers/{containerId}
+	GetContainerById(ctx context.Context, params GetContainerByIdParams) (*GetContainerByIdOK, error)
+	// GetContainerInstance invokes getContainerInstance operation.
+	//
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/containers/{containerId}/instances/{instanceId}
+	GetContainerInstance(ctx context.Context, params GetContainerInstanceParams) (*GetContainerInstanceOK, error)
+	// GetContainerInstanceVolumes invokes getContainerInstanceVolumes operation.
+	//
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/containers/{containerId}/instances/{instanceId}/volumes
+	GetContainerInstanceVolumes(ctx context.Context, params GetContainerInstanceVolumesParams) (*GetContainerInstanceVolumesOK, error)
+	// GetContainerInstancesTelemetry invokes getContainerInstancesTelemetry operation.
+	//
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/containers/{containerId}/telemetry/instances
+	GetContainerInstancesTelemetry(ctx context.Context, params GetContainerInstancesTelemetryParams) (*GetContainerInstancesTelemetryOK, error)
+	// GetContainerSummary invokes getContainerSummary operation.
+	//
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/containers/{containerId}/summary
+	GetContainerSummary(ctx context.Context, params GetContainerSummaryParams) (*GetContainerSummaryOK, error)
+	// GetContainers invokes getContainers operation.
+	//
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/containers
+	GetContainers(ctx context.Context, params GetContainersParams) (*GetContainersOK, error)
+	// GetCredit invokes getCredit operation.
+	//
+	// Requires the `billing-credits-view` capability.
+	//
+	// GET /v1/billing/credits/{creditsId}
+	GetCredit(ctx context.Context, params GetCreditParams) (*GetCreditOK, error)
+	// GetCredits invokes getCredits operation.
+	//
+	// Requires the `billing-credits-view` capability.
+	//
+	// GET /v1/billing/credits
+	GetCredits(ctx context.Context, params GetCreditsParams) (*GetCreditsOK, error)
+	// GetDNSZone invokes getDNSZone operation.
+	//
+	// Requires the `dns-view` capability.
+	//
+	// GET /v1/dns/zones/{zoneId}
+	GetDNSZone(ctx context.Context, params GetDNSZoneParams) (*GetDNSZoneOK, error)
+	// GetDeploymentStrategies invokes getDeploymentStrategies operation.
+	//
+	// This endpoint returns available container deployment strategies.
+	//
+	// GET /v1/infrastructure/deployment-strategies
+	GetDeploymentStrategies(ctx context.Context) (*GetDeploymentStrategiesOK, error)
+	// GetEnvironmentById invokes getEnvironmentById operation.
+	//
+	// Requires the `environments-view` capability.
+	//
+	// GET /v1/environments/{environmentId}
+	GetEnvironmentById(ctx context.Context, params GetEnvironmentByIdParams) (*GetEnvironmentByIdOK, error)
+	// GetEnvironmentInstancesTelemetry invokes getEnvironmentInstancesTelemetry operation.
+	//
+	// Requires the `environments-view` capability.
+	//
+	// GET /v1/environments/{environmentId}/telemetry/instances
+	GetEnvironmentInstancesTelemetry(ctx context.Context, params GetEnvironmentInstancesTelemetryParams) (*GetEnvironmentInstancesTelemetryOK, error)
+	// GetEnvironmentSummary invokes getEnvironmentSummary operation.
+	//
+	// Fetches a single summary object for a specific environment. Contains useful and relevant
+	// data/statistics that would otherwise be several separate API calls.  Requires the
+	// `environments-view` capability.
+	//
+	// GET /v1/environments/{environmentId}/summary
+	GetEnvironmentSummary(ctx context.Context, params GetEnvironmentSummaryParams) (*GetEnvironmentSummaryOK, error)
+	// GetEnvironments invokes getEnvironments operation.
+	//
+	// Requires the `environments-view` capability.
+	//
+	// GET /v1/environments
+	GetEnvironments(ctx context.Context, params GetEnvironmentsParams) (*GetEnvironmentsOK, error)
+	// GetGlobalLoadBalancer invokes getGlobalLoadBalancer operation.
+	//
+	// Requires the `sdn-global-lbs-view` capability.
+	//
+	// GET /v1/sdn/global-lbs/{lbId}
+	GetGlobalLoadBalancer(ctx context.Context, params GetGlobalLoadBalancerParams) (*GetGlobalLoadBalancerOK, error)
+	// GetGlobalLoadBalancers invokes getGlobalLoadBalancers operation.
+	//
+	// Requires the `sdn-global-lbs-view` capability.
+	//
+	// GET /v1/sdn/global-lbs
+	GetGlobalLoadBalancers(ctx context.Context, params GetGlobalLoadBalancersParams) (*GetGlobalLoadBalancersOK, error)
+	// GetHub invokes getHub operation.
+	//
+	// Requires the `hubs-view` capability.
+	//
+	// GET /v1/hubs/current
+	GetHub(ctx context.Context, params GetHubParams) (*GetHubOK, error)
+	// GetHubCapabilities invokes getHubCapabilities operation.
+	//
+	// Does not require a capability.
+	//
+	// GET /v1/hubs/capabilities
+	GetHubCapabilities(ctx context.Context) (*GetHubCapabilitiesOK, error)
+	// GetHubInvites invokes getHubInvites operation.
+	//
+	// Requires the `hubs-invites-manage` capability.
+	//
+	// GET /v1/hubs/current/invites
+	GetHubInvites(ctx context.Context, params GetHubInvitesParams) (*GetHubInvitesOK, error)
+	// GetHubMember invokes getHubMember operation.
+	//
+	// Requires the `hubs-members-view` capability.
+	//
+	// GET /v1/hubs/current/members/{memberId}
+	GetHubMember(ctx context.Context, params GetHubMemberParams) (*GetHubMemberOK, error)
+	// GetHubMembers invokes getHubMembers operation.
+	//
+	// Requires the `hubs-members-view` capability.
+	//
+	// GET /v1/hubs/current/members
+	GetHubMembers(ctx context.Context, params GetHubMembersParams) (*GetHubMembersOK, error)
+	// GetHubMembersAccount invokes getHubMembersAccount operation.
+	//
+	// Requires the `hubs-members-view` capability.
+	//
+	// GET /v1/hubs/current/members/account/{accountId}
+	GetHubMembersAccount(ctx context.Context, params GetHubMembersAccountParams) (*GetHubMembersAccountOK, error)
+	// GetHubMembership invokes getHubMembership operation.
+	//
+	// Gets the membership information for the current hub for the requesting account.
+	//
+	// GET /v1/hubs/current/membership
+	GetHubMembership(ctx context.Context, params GetHubMembershipParams) (*GetHubMembershipOK, error)
+	// GetHubUsage invokes getHubUsage operation.
+	//
+	// Requires the `hubs-view` capability.
+	//
+	// GET /v1/hubs/current/usage
+	GetHubUsage(ctx context.Context, params GetHubUsageParams) (*GetHubUsageOK, error)
+	// GetHubs invokes getHubs operation.
+	//
+	// Lists all associated hubs.
+	//
+	// GET /v1/hubs
+	GetHubs(ctx context.Context, params GetHubsParams) (*GetHubsOK, error)
+	// GetImage invokes getImage operation.
+	//
+	// Requires the `images-view` capability.
+	//
+	// GET /v1/images/{imageId}
+	GetImage(ctx context.Context, params GetImageParams) (*GetImageOK, error)
+	// GetImageBuildLog invokes getImageBuildLog operation.
+	//
+	// Requires the `images-view` capability.
+	//
+	// GET /v1/images/{imageId}/build-log
+	GetImageBuildLog(ctx context.Context, params GetImageBuildLogParams) (*GetImageBuildLogOK, error)
+	// GetImages invokes getImages operation.
+	//
+	// Requires the `images-view` capability.
+	//
+	// GET /v1/images
+	GetImages(ctx context.Context, params GetImagesParams) (*GetImagesOK, error)
+	// GetInfrastructureIPPool invokes getInfrastructureIPPool operation.
+	//
+	// Requires the `infrastructure-ips-manage` capability.
+	//
+	// GET /v1/infrastructure/ips/pools/{poolId}
+	GetInfrastructureIPPool(ctx context.Context, params GetInfrastructureIPPoolParams) (*GetInfrastructureIPPoolOK, error)
+	// GetInfrastructureIPPools invokes getInfrastructureIPPools operation.
+	//
+	// Requires the `infrastructure-ips-manage` capability.
+	//
+	// GET /v1/infrastructure/ips/pools
+	GetInfrastructureIPPools(ctx context.Context, params GetInfrastructureIPPoolsParams) (*GetInfrastructureIPPoolsOK, error)
+	// GetInfrastructureSummary invokes getInfrastructureSummary operation.
+	//
+	// Requires the `infrastructure-servers-view` capability.
+	//
+	// GET /v1/infrastructure/summary
+	GetInfrastructureSummary(ctx context.Context, params GetInfrastructureSummaryParams) (*GetInfrastructureSummaryOK, error)
+	// GetInstanceResourcesTelemetryReport invokes getInstanceResourcesTelemetryReport operation.
+	//
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/containers/{containerId}/instances/{instanceId}/telemetry/resources/report
+	GetInstanceResourcesTelemetryReport(ctx context.Context, params GetInstanceResourcesTelemetryReportParams) (*GetInstanceResourcesTelemetryReportOK, error)
+	// GetInstanceResourcesTelemetryStream invokes getInstanceResourcesTelemetryStream operation.
+	//
+	// Requires the `containers-view` capability. Retrieves an access token and URL to open a websocket
+	// to for streaming instance telemetry live. This connects directly to the compute layer on the
+	// server the instance is hosted on, and streams telemetry in real time.
+	//
+	// GET /v1/containers/{containerId}/instances/{instanceId}/telemetry/resources/stream
+	GetInstanceResourcesTelemetryStream(ctx context.Context, params GetInstanceResourcesTelemetryStreamParams) (*GetInstanceResourcesTelemetryStreamOK, error)
+	// GetInstances invokes getInstances operation.
+	//
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/containers/{containerId}/instances
+	GetInstances(ctx context.Context, params GetInstancesParams) (*GetInstancesOK, error)
+	// GetInvoice invokes getInvoice operation.
+	//
+	// Requires the `billing-invoices-view` capability.
+	//
+	// GET /v1/billing/invoices/{invoiceId}
+	GetInvoice(ctx context.Context, params GetInvoiceParams) (*GetInvoiceOK, error)
+	// GetInvoices invokes getInvoices operation.
+	//
+	// Requires the `billing-invoices-view` capability.
+	//
+	// GET /v1/billing/invoices
+	GetInvoices(ctx context.Context, params GetInvoicesParams) (*GetInvoicesOK, error)
+	// GetJob invokes getJob operation.
+	//
+	// Requires the `jobs-view` permission.
+	//
+	// GET /v1/jobs/{jobId}
+	GetJob(ctx context.Context, params GetJobParams) (*GetJobOK, error)
+	// GetJobs invokes getJobs operation.
+	//
+	// Requires the `jobs-view` permission.
+	//
+	// GET /v1/jobs
+	GetJobs(ctx context.Context, params GetJobsParams) (*GetJobsOK, error)
+	// GetLatestJobs invokes getLatestJobs operation.
+	//
+	// Requires the `jobs-view` permission.
+	//
+	// GET /v1/jobs/latest
+	GetLatestJobs(ctx context.Context) (*GetLatestJobsOK, error)
+	// GetLoadBalancerInfo invokes getLoadBalancerInfo operation.
+	//
+	// Requires the `environments-view` capability.
+	//
+	// GET /v1/environments/{environmentId}/services/lb
+	GetLoadBalancerInfo(ctx context.Context, params GetLoadBalancerInfoParams) (*GetLoadBalancerInfoOK, error)
+	// GetLoadBalancerLatestTelemetryReport invokes getLoadBalancerLatestTelemetryReport operation.
+	//
+	// ## Permissions
+	// Requires the `environments-view` capability. Also requires the user to have access specifically to
+	// the requested environment.
+	// ## Details
+	// Fetches the latest telemetry report for Cycle's native load balancer. Provides detailed
+	// information on a per-instance basis.
+	//
+	// GET /v1/environments/{environmentId}/services/lb/telemetry/latest
+	GetLoadBalancerLatestTelemetryReport(ctx context.Context, params GetLoadBalancerLatestTelemetryReportParams) (*GetLoadBalancerLatestTelemetryReportOK, error)
+	// GetLoadBalancerTelemetryReport invokes getLoadBalancerTelemetryReport operation.
+	//
+	// ## Permissions
+	// Requires the `environments-view` capability. Also requires the user to have access specifically to
+	// the requested environment.
+	// ## Details
+	// Fetches a telemetry report for Cycle's native load balancer for the specified range.
+	//
+	// GET /v1/environments/{environmentId}/services/lb/telemetry/report
+	GetLoadBalancerTelemetryReport(ctx context.Context, params GetLoadBalancerTelemetryReportParams) (*GetLoadBalancerTelemetryReportOK, error)
+	// GetNativeProviders invokes getNativeProviders operation.
+	//
+	// No capability required, public information.
+	//
+	// GET /v1/infrastructure/providers/native
+	GetNativeProviders(ctx context.Context, params GetNativeProvidersParams) (*GetNativeProvidersOK, error)
+	// GetNetwork invokes getNetwork operation.
+	//
+	// Requires the `sdn-networks-view` capability.
+	//
+	// GET /v1/sdn/networks/{networkId}
+	GetNetwork(ctx context.Context, params GetNetworkParams) (*GetNetworkOK, error)
+	// GetNetworks invokes getNetworks operation.
+	//
+	// Requires the `sdn-networks-view` capability.
+	//
+	// GET /v1/sdn/networks
+	GetNetworks(ctx context.Context, params GetNetworksParams) (*GetNetworksOK, error)
+	// GetOrders invokes getOrders operation.
+	//
+	// Requires the `billing-orders-manage` capability.
+	//
+	// GET /v1/billing/orders
+	GetOrders(ctx context.Context, params GetOrdersParams) (*GetOrdersOK, error)
+	// GetPipeline invokes getPipeline operation.
+	//
+	// Requires the `pieplines-view` capability.
+	//
+	// GET /v1/pipelines/{pipelineId}
+	GetPipeline(ctx context.Context, params GetPipelineParams) (*GetPipelineOK, error)
+	// GetPipelineRuns invokes getPipelineRuns operation.
+	//
+	// Requires the `pieplines-view` capability.
+	//
+	// GET /v1/pipelines/{pipelineId}/runs
+	GetPipelineRuns(ctx context.Context, params GetPipelineRunsParams) (*GetPipelineRunsOK, error)
+	// GetPipelineTriggerKey invokes getPipelineTriggerKey operation.
+	//
+	// Requires the `pipelines-manage` capability.
+	//
+	// GET /v1/pipelines/{pipelineId}/keys/{triggerKeyId}
+	GetPipelineTriggerKey(ctx context.Context, params GetPipelineTriggerKeyParams) (*GetPipelineTriggerKeyOK, error)
+	// GetPipelineTriggerKeys invokes getPipelineTriggerKeys operation.
+	//
+	// Requires the `pipelines-manage` capability.
+	//
+	// GET /v1/pipelines/{pipelineId}/keys
+	GetPipelineTriggerKeys(ctx context.Context, params GetPipelineTriggerKeysParams) (*GetPipelineTriggerKeysOK, error)
+	// GetPipelines invokes getPipelines operation.
+	//
+	// Requires the `pipelines-view` capability.
+	//
+	// GET /v1/pipelines
+	GetPipelines(ctx context.Context, params GetPipelinesParams) (*GetPipelinesOK, error)
+	// GetPoolsIPs invokes getPoolsIPs operation.
+	//
+	// Requires the `infrastructure-ips-manage` capability.
+	//
+	// GET /v1/infrastructure/ips/pools/{poolId}/ips
+	GetPoolsIPs(ctx context.Context, params GetPoolsIPsParams) (*GetPoolsIPsOK, error)
+	// GetProvider invokes getProvider operation.
+	//
+	// Requires the `infrastructure-providers-view` capability.
+	//
+	// GET /v1/infrastructure/providers/{providerId}
+	GetProvider(ctx context.Context, params GetProviderParams) (*GetProviderOK, error)
+	// GetProviderLocations invokes getProviderLocations operation.
+	//
+	// No capability required, public information (datacenter locations).
+	//
+	// GET /v1/infrastructure/providers/{providerId}/locations
+	GetProviderLocations(ctx context.Context, params GetProviderLocationsParams) (*GetProviderLocationsOK, error)
+	// GetProviderServers invokes getProviderServers operation.
+	//
+	// Requires the `infrastructure-providers-view` capability.
+	//
+	// GET /v1/infrastructure/providers/{providerId}/servers
+	GetProviderServers(ctx context.Context, params GetProviderServersParams) (*GetProviderServersOK, error)
+	// GetProviders invokes getProviders operation.
+	//
+	// Requires the `infrastructure-providers-view` capability.
+	//
+	// GET /v1/infrastructure/providers
+	GetProviders(ctx context.Context, params GetProvidersParams) (*GetProvidersOK, error)
+	// GetRecordsCollection invokes getRecordsCollection operation.
+	//
+	// Requires the `dns-view` capability.
+	//
+	// GET /v1/dns/zones/{zoneId}/records
+	GetRecordsCollection(ctx context.Context, params GetRecordsCollectionParams) (*GetRecordsCollectionOK, error)
+	// GetSSHConnection invokes getSSHConnection operation.
+	//
+	// Requires the `containers-ssh` capability.
+	//
+	// GET /v1/containers/{containerId}/instances/{instanceId}/ssh
+	GetSSHConnection(ctx context.Context, params GetSSHConnectionParams) (*GetSSHConnectionOK, error)
+	// GetSearchIndex invokes getSearchIndex operation.
+	//
+	// Requires the view capability for each returned segment.
+	//
+	// GET /v1/search/index
+	GetSearchIndex(ctx context.Context) (*GetSearchIndexOK, error)
+	// GetSecurityReport invokes getSecurityReport operation.
+	//
+	// Returns a report detailing incidents logged by the platform around security related events.
+	//
+	// GET /v1/security/report
+	GetSecurityReport(ctx context.Context, params GetSecurityReportParams) (*GetSecurityReportOK, error)
+	// GetServerInstances invokes getServerInstances operation.
+	//
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/infrastructure/servers/{serverId}/instances
+	GetServerInstances(ctx context.Context, params GetServerInstancesParams) (*GetServerInstancesOK, error)
+	// GetServerTags invokes getServerTags operation.
+	//
+	// Requires the `servers-view` capability.
+	//
+	// GET /v1/infrastructure/servers/tags
+	GetServerTags(ctx context.Context, params GetServerTagsParams) (*ServerTags, error)
+	// GetServerTelemetry invokes getServerTelemetry operation.
+	//
+	// Requires the `servers-view` capability. This call requires the filter query be used.
+	//
+	// GET /v1/infrastructure/servers/{serverId}/telemetry
+	GetServerTelemetry(ctx context.Context, params GetServerTelemetryParams) (*GetServerTelemetryOK, error)
+	// GetServerUsage invokes GetServerUsage operation.
+	//
+	// Requires the `servers-view` capability.
+	//
+	// GET /v1/infrastructure/servers/{serverId}/usage
+	GetServerUsage(ctx context.Context, params GetServerUsageParams) (*GetServerUsageOK, error)
+	// GetServersClusters invokes GetServersClusters operation.
+	//
+	// Requires the `servers-view` capability.
+	//
+	// GET /v1/infrastructure/servers/clusters
+	GetServersClusters(ctx context.Context) (*GetServersClustersOK, error)
+	// GetServersCollection invokes getServersCollection operation.
+	//
+	// Requires the `servers-view` capability.
+	//
+	// GET /v1/infrastructure/servers
+	GetServersCollection(ctx context.Context, params GetServersCollectionParams) (*GetServersCollectionOK, error)
+	// GetSingleServer invokes getSingleServer operation.
+	//
+	// Requires the `servers-view` capability.
+	//
+	// GET /v1/infrastructure/servers/{serverId}
+	GetSingleServer(ctx context.Context, params GetSingleServerParams) (*GetSingleServerOK, error)
+	// GetSource invokes getSource operation.
+	//
+	// Requires the `images-view` capability.
+	//
+	// GET /v1/images/sources/{sourceId}
+	GetSource(ctx context.Context, params GetSourceParams) (*GetSourceOK, error)
+	// GetSourcesCollection invokes getSourcesCollection operation.
+	//
+	// Requires the `images-view` capability.
+	//
+	// GET /v1/images/sources
+	GetSourcesCollection(ctx context.Context, params GetSourcesCollectionParams) (*GetSourcesCollectionOK, error)
+	// GetStack invokes getStack operation.
+	//
+	// Requires the `stacks-view` capability.
+	//
+	// GET /v1/stacks/{stackId}
+	GetStack(ctx context.Context, params GetStackParams) (*GetStackOK, error)
+	// GetStackBuild invokes getStackBuild operation.
+	//
+	// Requires the `stacks-view` capability.
+	//
+	// GET /v1/stacks/{stackId}/builds/{buildId}
+	GetStackBuild(ctx context.Context, params GetStackBuildParams) (*GetStackBuildOK, error)
+	// GetStackBuildLookup invokes getStackBuildLookup operation.
+	//
+	// Requires the `stacks-view` capability.
+	//
+	// GET /v1/stacks/builds/{buildId}
+	GetStackBuildLookup(ctx context.Context, params GetStackBuildLookupParams) (*GetStackBuildLookupOK, error)
+	// GetStackBuilds invokes getStackBuilds operation.
+	//
+	// Requires the `stacks-view` capability.
+	//
+	// GET /v1/stacks/{stackId}/builds
+	GetStackBuilds(ctx context.Context, params GetStackBuildsParams) (*GetStackBuildsOK, error)
+	// GetStacks invokes getStacks operation.
+	//
+	// Requires the `stacks-view` permission.
+	//
+	// GET /v1/stacks
+	GetStacks(ctx context.Context, params GetStacksParams) (*GetStacksOK, error)
+	// GetTiers invokes getTiers operation.
+	//
+	// Returns list of availiable tiers.
+	//
+	// GET /v1/billing/plans/tiers
+	GetTiers(ctx context.Context) (*GetTiersOK, error)
+	// GetTwoFaInfo invokes getTwoFaInfo operation.
+	//
+	// Get barcode and secret for TwoFa authentication.
+	//
+	// GET /v1/account/2fa/setup
+	GetTwoFaInfo(ctx context.Context) (*GetTwoFaInfoOK, error)
+	// GetUsableServers invokes getUsableServers operation.
+	//
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/containers/{containerId}/servers/usable
+	GetUsableServers(ctx context.Context, params GetUsableServersParams) (*GetUsableServersOK, error)
+	// GetVPNInfo invokes getVPNInfo operation.
+	//
+	// Requires the `environments-vpn` capability.
+	//
+	// GET /v1/environments/{environmentId}/services/vpn
+	GetVPNInfo(ctx context.Context, params GetVPNInfoParams) (*GetVPNInfoOK, error)
+	// GetVPNUsers invokes getVPNUsers operation.
+	//
+	// Requires the `environments-vpn-manage` capability.
+	//
+	// GET /v1/environments/{environmentId}/services/vpn/users
+	GetVPNUsers(ctx context.Context, params GetVPNUsersParams) (*GetVPNUsersOK, error)
+	// GetVpnLogins invokes getVpnLogins operation.
+	//
+	// Requires the `environments-vpn` capability.
+	//
+	// GET /v1/environments/{environmentId}/services/vpn/logins
+	GetVpnLogins(ctx context.Context, params GetVpnLoginsParams) (*GetVpnLoginsOK, error)
+	// GetZonesCollection invokes getZonesCollection operation.
+	//
+	// Requires the `dns-view` capability.
+	//
+	// GET /v1/dns/zones
+	GetZonesCollection(ctx context.Context, params GetZonesCollectionParams) (*GetZonesCollectionOK, error)
+	// InstanceConsoleAuth invokes instanceConsoleAuth operation.
+	//
+	// Requires the `contaiers-console` capability.
+	//
+	// GET /v1/containers/{containerId}/instances/{instanceId}/console
+	InstanceConsoleAuth(ctx context.Context, params InstanceConsoleAuthParams) (*InstanceConsoleAuthOK, error)
+	// ListScopedVariables invokes listScopedVariables operation.
+	//
+	// Requires the `scoped-variables-view` capability.
+	//
+	// GET /v1/environments/{environmentId}/scoped-variables
+	ListScopedVariables(ctx context.Context, params ListScopedVariablesParams) (*ListScopedVariablesOK, error)
+	// LookupDnsCertificate invokes lookupDnsCertificate operation.
+	//
+	// Requires the `dns-view` capability.
+	//
+	// GET /v1/dns/tls/certificates/lookup
+	LookupDnsCertificate(ctx context.Context, params LookupDnsCertificateParams) (*LookupDnsCertificateOK, error)
+	// PipelineAuth invokes pipelineAuth operation.
+	//
+	// Requires the `hubs-notifications-listen` capability.
+	//
+	// GET /v1/hubs/current/notifications
+	PipelineAuth(ctx context.Context) (*PipelineAuthOK, error)
+	// ReconfigureDiscovery invokes reconfigureDiscovery operation.
+	//
+	// Creates a task that will update the discovery service's configuration.
+	//
+	// POST /v1/environments/{environmentId}/services/discovery/tasks
+	ReconfigureDiscovery(ctx context.Context, request OptReconfigureDiscoveryReq, params ReconfigureDiscoveryParams) (*ReconfigureDiscoveryAccepted, error)
+	// ReconfigureLoadBalancer invokes reconfigureLoadBalancer operation.
+	//
+	// Creates a task that will update the load balancer's configuration.
+	//
+	// POST /v1/environments/{environmentId}/services/lb/tasks
+	ReconfigureLoadBalancer(ctx context.Context, request OptReconfigureLoadBalancerReq, params ReconfigureLoadBalancerParams) (*ReconfigureLoadBalancerAccepted, error)
+	// RecoverTwoFa invokes recoverTwoFa operation.
+	//
+	// Disable TwoFa for an account.
+	//
+	// POST /v1/account/2fa/recover
+	RecoverTwoFa(ctx context.Context, request OptRecoverTwoFaReq) (*RecoverTwoFaOK, error)
+	// RemoveAccount invokes removeAccount operation.
+	//
+	// Deletes the current account.
+	//
+	// DELETE /v1/account
+	RemoveAccount(ctx context.Context) (*RemoveAccountOK, error)
+	// RemoveApiKey invokes removeApiKey operation.
+	//
+	// Requires the 'api-keys-delete' capability.
+	//
+	// DELETE /v1/hubs/current/api-keys/{apikeyId}
+	RemoveApiKey(ctx context.Context, params RemoveApiKeyParams) (*RemoveApiKeyOK, error)
+	// RemoveAutoScaleGroup invokes removeAutoScaleGroup operation.
+	//
+	// Requires the `autoscale-group-manage` capability.
+	//
+	// DELETE /v1/infrastructure/auto-scale/groups/{groupId}
+	RemoveAutoScaleGroup(ctx context.Context, params RemoveAutoScaleGroupParams) (*RemoveAutoScaleGroupAccepted, error)
+	// RemoveBackup invokes removeBackup operation.
+	//
+	// Requires the `containers-backups-manage` capability.
+	//
+	// DELETE /v1/containers/{containerId}/backups/{backupId}
+	RemoveBackup(ctx context.Context, params RemoveBackupParams) (*RemoveBackupAccepted, error)
+	// RemoveBillingMethod invokes removeBillingMethod operation.
+	//
+	// Requires the `billing-methods-manage` capability.
+	//
+	// DELETE /v1/billing/methods/{methodId}
+	RemoveBillingMethod(ctx context.Context, params RemoveBillingMethodParams) (*RemoveBillingMethodOK, error)
+	// RemoveContainer invokes removeContainer operation.
+	//
+	// Requires the `contianers-update` capability.
+	//
+	// DELETE /v1/containers/{containerId}
+	RemoveContainer(ctx context.Context, params RemoveContainerParams) (*RemoveContainerOK, error)
+	// RemoveContainerInstance invokes removeContainerInstance operation.
+	//
+	// Requires the `containers-update` capability.
+	//
+	// DELETE /v1/containers/{containerId}/instances/{instanceId}
+	RemoveContainerInstance(ctx context.Context, params RemoveContainerInstanceParams) (*RemoveContainerInstanceOK, error)
+	// RemoveDNSRecord invokes removeDNSRecord operation.
+	//
+	// Requires the `dns-manage` capability.
+	//
+	// DELETE /v1/dns/zones/{zoneId}/records/{recordId}
+	RemoveDNSRecord(ctx context.Context, params RemoveDNSRecordParams) (*RemoveDNSRecordOK, error)
+	// RemoveDNSZone invokes removeDNSZone operation.
+	//
+	// Requires the `dns-manage` capability.
+	//
+	// DELETE /v1/dns/zones/{zoneId}
+	RemoveDNSZone(ctx context.Context, params RemoveDNSZoneParams) (*RemoveDNSZoneOK, error)
+	// RemoveEnvironment invokes removeEnvironment operation.
+	//
+	// Requires the `environments-update` capability.
+	//
+	// DELETE /v1/environments/{environmentId}
+	RemoveEnvironment(ctx context.Context, params RemoveEnvironmentParams) (*RemoveEnvironmentAccepted, error)
+	// RemoveGlobalLoadBalancer invokes removeGlobalLoadBalancer operation.
+	//
+	// Requires the `sdn-global-lbs-manage` capability.
+	//
+	// DELETE /v1/sdn/global-lbs/{lbId}
+	RemoveGlobalLoadBalancer(ctx context.Context, params RemoveGlobalLoadBalancerParams) (*RemoveGlobalLoadBalancerOK, error)
+	// RemoveHub invokes removeHub operation.
+	//
+	// Requires the `hubs-delete` capability. This can only be aquired by being the hub owner.
+	//
+	// DELETE /v1/hubs/current
+	RemoveHub(ctx context.Context) (*RemoveHubAccepted, error)
+	// RemoveHubInvite invokes removeHubInvite operation.
+	//
+	// Requires the `hub-invites-manage` capability.
+	//
+	// DELETE /v1/hubs/current/invites/{inviteId}
+	RemoveHubInvite(ctx context.Context, params RemoveHubInviteParams) (*RemoveHubInviteOK, error)
+	// RemoveHubMember invokes removeHubMember operation.
+	//
+	// Requires the `hubs-members-manage` capability.
+	//
+	// DELETE /v1/hubs/current/members/{memberId}
+	RemoveHubMember(ctx context.Context, params RemoveHubMemberParams) (*RemoveHubMemberAccepted, error)
+	// RemoveImage invokes removeImage operation.
+	//
+	// Requires the `images-updae` capability.
+	//
+	// DELETE /v1/images/{imageId}
+	RemoveImage(ctx context.Context, params RemoveImageParams) (*RemoveImageOK, error)
+	// RemoveImageSource invokes removeImageSource operation.
+	//
+	// Requires the `images-import` capability.
+	//
+	// DELETE /v1/images/sources/{sourceId}
+	RemoveImageSource(ctx context.Context, params RemoveImageSourceParams) (*RemoveImageSourceAccepted, error)
+	// RemoveIpPool invokes removeIpPool operation.
+	//
+	// Requires the `infrastructure-ips-manage` capability.
+	//
+	// DELETE /v1/infrastructure/ips/pools/{poolId}
+	RemoveIpPool(ctx context.Context, params RemoveIpPoolParams) (*RemoveIpPoolAccepted, error)
+	// RemoveMultipleContainerInstances invokes removeMultipleContainerInstances operation.
+	//
+	// Requires the `containers-update` capability.
+	//
+	// DELETE /v1/containers/{containerId}/instances
+	RemoveMultipleContainerInstances(ctx context.Context, params RemoveMultipleContainerInstancesParams) (*RemoveMultipleContainerInstancesOK, error)
+	// RemovePipeline invokes removePipeline operation.
+	//
+	// Requires the `pipelines-manage` capability.
+	//
+	// DELETE /v1/pipelines/{pipelineId}
+	RemovePipeline(ctx context.Context, params RemovePipelineParams) (*RemovePipelineOK, error)
+	// RemovePipelineTriggerKey invokes removePipelineTriggerKey operation.
+	//
+	// Requires the `pipelines-manage` capability.
+	//
+	// DELETE /v1/pipelines/{pipelineId}/keys/{triggerKeyId}
+	RemovePipelineTriggerKey(ctx context.Context, params RemovePipelineTriggerKeyParams) (*RemovePipelineTriggerKeyOK, error)
+	// RemoveProvider invokes removeProvider operation.
+	//
+	// Requires the `infrastructure-providers-manage` capability.
+	//
+	// DELETE /v1/infrastructure/providers/{providerId}
+	RemoveProvider(ctx context.Context, params RemoveProviderParams) (*RemoveProviderAccepted, error)
+	// RemoveSDNNetwork invokes removeSDNNetwork operation.
+	//
+	// Requires the `sdn-networks-manage` capability.
+	//
+	// DELETE /v1/sdn/networks/{networkId}
+	RemoveSDNNetwork(ctx context.Context, params RemoveSDNNetworkParams) (*RemoveSDNNetworkOK, error)
+	// RemoveScopedVariableById invokes removeScopedVariableById operation.
+	//
+	// Requires the `scoped-variables-manage` capability.
+	//
+	// DELETE /v1/environments/{environmentId}/scoped-variables/{scopedVariableId}
+	RemoveScopedVariableById(ctx context.Context, params RemoveScopedVariableByIdParams) (*RemoveScopedVariableByIdAccepted, error)
+	// RemoveServer invokes removeServer operation.
+	//
+	// Requires the `servers-update` capability.
+	//
+	// DELETE /v1/infrastructure/servers/{serverId}
+	RemoveServer(ctx context.Context, params RemoveServerParams) (*RemoveServerOK, error)
+	// RemoveStack invokes removeStack operation.
+	//
+	// Requires the `stacks-manage` capability.
+	//
+	// DELETE /v1/stacks/{stackId}
+	RemoveStack(ctx context.Context, params RemoveStackParams) (*RemoveStackOK, error)
+	// RemoveStackBuild invokes removeStackBuild operation.
+	//
+	// Requires the `stacks-manage` capability.
+	//
+	// DELETE /v1/stacks/{stackId}/builds/{buildId}
+	RemoveStackBuild(ctx context.Context, params RemoveStackBuildParams) (*RemoveStackBuildOK, error)
+	// RemoveVPNUser invokes removeVPNUser operation.
+	//
+	// Requires the `environments-vpn-manage` capability.
+	//
+	// DELETE /v1/environments/{environmentId}/services/vpn/users/{userId}
+	RemoveVPNUser(ctx context.Context, params RemoveVPNUserParams) (*RemoveVPNUserOK, error)
+	// ResetPassword invokes resetPassword operation.
+	//
+	// Update a given invite.
+	//
+	// POST /v1/account/reset-password
+	ResetPassword(ctx context.Context, request OptResetPasswordReq) (*ResetPasswordOK, error)
+	// RestoreBackupJob invokes restoreBackupJob operation.
+	//
+	// Used to restore a backup for a given container instance. Requires the `containers-backups-manage`
+	// capability.
+	//
+	// POST /v1/containers/{containerId}/backups/{backupId}/tasks
+	RestoreBackupJob(ctx context.Context, request OptRestoreBackupJobReq, params RestoreBackupJobParams) (*RestoreBackupJobAccepted, error)
+	// SetupTwoFa invokes setupTwoFa operation.
+	//
+	// Setup TwoFa for an account.
+	//
+	// POST /v1/account/2fa/setup
+	SetupTwoFa(ctx context.Context, request OptSetupTwoFaReq) (*SetupTwoFaOK, error)
+	// UpdateAccount invokes updateAccount operation.
+	//
+	// Updates the current account.
+	//
+	// PATCH /v1/account
+	UpdateAccount(ctx context.Context, request OptUpdateAccountReq) (*UpdateAccountOK, error)
+	// UpdateAccountInvite invokes updateAccountInvite operation.
+	//
+	// Update a given invite.
+	//
+	// PATCH /v1/account/invites/{inviteId}
+	UpdateAccountInvite(ctx context.Context, request OptUpdateAccountInviteReq, params UpdateAccountInviteParams) (*UpdateAccountInviteOK, error)
+	// UpdateApiKey invokes updateApiKey operation.
+	//
+	// Requires the `api-keys-manage` capability.
+	//
+	// PATCH /v1/hubs/current/api-keys/{apikeyId}
+	UpdateApiKey(ctx context.Context, request OptUpdateApiKeyReq, params UpdateApiKeyParams) (*UpdateApiKeyOK, error)
+	// UpdateAutoScaleGroup invokes updateAutoScaleGroup operation.
+	//
+	// Requires the `autoscale-groups-manage` capability.
+	//
+	// PATCH /v1/infrastructure/auto-scale/groups/{groupId}
+	UpdateAutoScaleGroup(ctx context.Context, request OptUpdateAutoScaleGroupReq, params UpdateAutoScaleGroupParams) (*UpdateAutoScaleGroupOK, error)
+	// UpdateBillingMethod invokes updateBillingMethod operation.
+	//
+	// Requires the `billing-methods-manage` capability.
+	//
+	// PATCH /v1/billing/methods/{methodId}
+	UpdateBillingMethod(ctx context.Context, request OptUpdateBillingMethodReq, params UpdateBillingMethodParams) (*UpdateBillingMethodOK, error)
+	// UpdateBillingOrder invokes updateBillingOrder operation.
+	//
+	// Requires the `billing-orders-manage` capability.
+	//
+	// PATCH /v1/billing/orders/{orderId}
+	UpdateBillingOrder(ctx context.Context, request OptUpdateBillingOrderReq, params UpdateBillingOrderParams) (*UpdateBillingOrderOK, error)
+	// UpdateContainer invokes updateContainer operation.
+	//
+	// Updates the specified container, setting the values of the parameters passed.  If any parameters
+	// are omitted, they will be left unchanged. Requires the `contianers-update` capability.
+	//
+	// PATCH /v1/containers/{containerId}
+	UpdateContainer(ctx context.Context, request OptUpdateContainerReq, params UpdateContainerParams) (*UpdateContainerOK, error)
+	// UpdateDNSRecord invokes updateDNSRecord operation.
+	//
+	// Requires the `dns-manage` capability.
+	//
+	// PATCH /v1/dns/zones/{zoneId}/records/{recordId}
+	UpdateDNSRecord(ctx context.Context, request OptUpdateDNSRecordReq, params UpdateDNSRecordParams) (*UpdateDNSRecordOK, error)
+	// UpdateDNSZone invokes updateDNSZone operation.
+	//
+	// Requires the `dns-manage` capability.
+	//
+	// PATCH /v1/dns/zones/{zoneId}
+	UpdateDNSZone(ctx context.Context, request OptUpdateDNSZoneReq, params UpdateDNSZoneParams) (*UpdateDNSZoneOK, error)
+	// UpdateEnvironment invokes updateEnvironment operation.
+	//
+	// Updates the specificed environment, setting the values of the parameters passed. If any parameters
+	// are omitted, they will be left unchanged. Requires the `environments-update` capability.
+	//
+	// PATCH /v1/environments/{environmentId}
+	UpdateEnvironment(ctx context.Context, request OptUpdateEnvironmentReq, params UpdateEnvironmentParams) (*UpdateEnvironmentOK, error)
+	// UpdateGlobalLoadBalancer invokes updateGlobalLoadBalancer operation.
+	//
+	// Requires the `sdn-global-lbs-manage` capability.
+	//
+	// PATCH /v1/sdn/global-lbs/{lbId}
+	UpdateGlobalLoadBalancer(ctx context.Context, request OptUpdateGlobalLoadBalancerReq, params UpdateGlobalLoadBalancerParams) (*UpdateGlobalLoadBalancerOK, error)
+	// UpdateHub invokes updateHub operation.
+	//
+	// Updates the specified hub, setting the values of the parameters passed.
+	//
+	// PATCH /v1/hubs/current
+	UpdateHub(ctx context.Context, request OptUpdateHubReq) (*UpdateHubOK, error)
+	// UpdateHubMember invokes updateHubMember operation.
+	//
+	// Update a Hub Member.
+	//
+	// PATCH /v1/hubs/current/members/{memberId}
+	UpdateHubMember(ctx context.Context, request OptUpdateHubMemberReq, params UpdateHubMemberParams) (*UpdateHubMemberOK, error)
+	// UpdateImage invokes updateImage operation.
+	//
+	// Requires the `images-updae` capability.
+	//
+	// PATCH /v1/images/{imageId}
+	UpdateImage(ctx context.Context, request OptUpdateImageReq, params UpdateImageParams) (*UpdateImageOK, error)
+	// UpdateImageSource invokes updateImageSource operation.
+	//
+	// Requires the `images-import` capability.
+	//
+	// PATCH /v1/images/sources/{sourceId}
+	UpdateImageSource(ctx context.Context, request OptUpdateImageSourceReq, params UpdateImageSourceParams) (*UpdateImageSourceOK, error)
+	// UpdatePassword invokes updatePassword operation.
+	//
+	// Update a given invite.
+	//
+	// PATCH /v1/account/password
+	UpdatePassword(ctx context.Context, request OptUpdatePasswordReq) (*UpdatePasswordOK, error)
+	// UpdatePipeline invokes updatePipeline operation.
+	//
+	// Requires the `pipelines-manage` capability.
+	//
+	// PATCH /v1/pipelines/{pipelineId}
+	UpdatePipeline(ctx context.Context, request OptUpdatePipelineReq, params UpdatePipelineParams) (*UpdatePipelineOK, error)
+	// UpdatePipelineTriggerKey invokes updatePipelineTriggerKey operation.
+	//
+	// Requires the `pipelines-manage` capability.
+	//
+	// PATCH /v1/pipelines/{pipelineId}/keys/{triggerKeyId}
+	UpdatePipelineTriggerKey(ctx context.Context, request OptUpdatePipelineTriggerKeyReq, params UpdatePipelineTriggerKeyParams) (*UpdatePipelineTriggerKeyOK, error)
+	// UpdateProvider invokes updateProvider operation.
+	//
+	// Requires the `infrastructure-providers-manage` capability.
+	//
+	// PATCH /v1/infrastructure/providers/{providerId}
+	UpdateProvider(ctx context.Context, request OptUpdateProviderReq, params UpdateProviderParams) (*UpdateProviderOK, error)
+	// UpdateSDNNetwork invokes updateSDNNetwork operation.
+	//
+	// Requires the `sdn-networks-manage` capability.
+	//
+	// PATCH /v1/sdn/networks/{networkId}
+	UpdateSDNNetwork(ctx context.Context, request OptUpdateSDNNetworkReq, params UpdateSDNNetworkParams) (*UpdateSDNNetworkOK, error)
+	// UpdateScopedVariable invokes updateScopedVariable operation.
+	//
+	// Requires the `scoped-variables-manage` capability.
+	//
+	// PATCH /v1/environments/{environmentId}/scoped-variables/{scopedVariableId}
+	UpdateScopedVariable(ctx context.Context, request OptUpdateScopedVariableReq, params UpdateScopedVariableParams) (*UpdateScopedVariableOK, error)
+	// UpdateServer invokes updateServer operation.
+	//
+	// Requires the `servers-update` capability.
+	//
+	// PATCH /v1/infrastructure/servers/{serverId}
+	UpdateServer(ctx context.Context, request OptUpdateServerReq, params UpdateServerParams) (*UpdateServerOK, error)
+	// UpdateStack invokes updateStack operation.
+	//
+	// Requires the `stacks-manage` capability.
+	//
+	// PATCH /v1/stacks/{stackId}
+	UpdateStack(ctx context.Context, request OptUpdateStackReq, params UpdateStackParams) (*UpdateStackOK, error)
+}
 
 // Client implements OAS client.
 type Client struct {
@@ -74,13 +1328,14 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 // GET /v1/containers/{containerId}/servers
 func (c *Client) ContainersListServers(ctx context.Context, params ContainersListServersParams) (*ContainersListServersOK, error) {
 	res, err := c.sendContainersListServers(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendContainersListServers(ctx context.Context, params ContainersListServersParams) (res *ContainersListServersOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("ContainersListServers"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/servers"),
 	}
 
 	// Run stopwatch.
@@ -275,13 +1530,14 @@ func (c *Client) sendContainersListServers(ctx context.Context, params Container
 // POST /v1/hubs/current/api-keys
 func (c *Client) CreateApiKey(ctx context.Context, request OptCreateApiKeyReq) (*CreateApiKeyCreated, error) {
 	res, err := c.sendCreateApiKey(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateApiKey(ctx context.Context, request OptCreateApiKeyReq) (res *CreateApiKeyCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createApiKey"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/api-keys"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -402,6 +1658,141 @@ func (c *Client) sendCreateApiKey(ctx context.Context, request OptCreateApiKeyRe
 	return result, nil
 }
 
+// CreateAutoScaleGroup invokes createAutoScaleGroup operation.
+//
+// Requires the 'autoscale-groups-manage'.
+//
+// POST /v1/infrastructure/auto-scale/groups
+func (c *Client) CreateAutoScaleGroup(ctx context.Context, request OptCreateAutoScaleGroupReq) (*CreateAutoScaleGroupCreated, error) {
+	res, err := c.sendCreateAutoScaleGroup(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateAutoScaleGroup(ctx context.Context, request OptCreateAutoScaleGroupReq) (res *CreateAutoScaleGroupCreated, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("createAutoScaleGroup"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/auto-scale/groups"),
+	}
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, "CreateAutoScaleGroup",
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/infrastructure/auto-scale/groups"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateAutoScaleGroupRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+			stage = "Security:BearerAuth"
+			switch err := c.securityBearerAuth(ctx, "CreateAutoScaleGroup", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+			stage = "Security:HubAuth"
+			switch err := c.securityHubAuth(ctx, "CreateAutoScaleGroup", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeCreateAutoScaleGroupResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // CreateBillingMethod invokes createBillingMethod operation.
 //
 // Requires the `billing-methods-manage` capability.
@@ -409,13 +1800,14 @@ func (c *Client) sendCreateApiKey(ctx context.Context, request OptCreateApiKeyRe
 // POST /v1/billing/methods
 func (c *Client) CreateBillingMethod(ctx context.Context, request OptCreateBillingMethodReq) (*CreateBillingMethodOK, error) {
 	res, err := c.sendCreateBillingMethod(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateBillingMethod(ctx context.Context, request OptCreateBillingMethodReq) (res *CreateBillingMethodOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createBillingMethod"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/billing/methods"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -543,13 +1935,14 @@ func (c *Client) sendCreateBillingMethod(ctx context.Context, request OptCreateB
 // POST /v1/containers
 func (c *Client) CreateContainer(ctx context.Context, request OptCreateContainerReq) (*CreateContainerCreated, error) {
 	res, err := c.sendCreateContainer(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateContainer(ctx context.Context, request OptCreateContainerReq) (res *CreateContainerCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createContainer"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/containers"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -677,13 +2070,14 @@ func (c *Client) sendCreateContainer(ctx context.Context, request OptCreateConta
 // POST /v1/containers/{containerId}/instances
 func (c *Client) CreateContainerInstance(ctx context.Context, request []CreateContainerInstanceReqItem, params CreateContainerInstanceParams) (*CreateContainerInstanceAccepted, error) {
 	res, err := c.sendCreateContainerInstance(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateContainerInstance(ctx context.Context, request []CreateContainerInstanceReqItem, params CreateContainerInstanceParams) (res *CreateContainerInstanceAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createContainerInstance"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/instances"),
 	}
 
 	// Run stopwatch.
@@ -815,13 +2209,14 @@ func (c *Client) sendCreateContainerInstance(ctx context.Context, request []Crea
 // POST /v1/containers/{containerId}/instances/{instanceId}/tasks
 func (c *Client) CreateContainerInstanceJob(ctx context.Context, request OptCreateContainerInstanceJobReq, params CreateContainerInstanceJobParams) (*CreateContainerInstanceJobAccepted, error) {
 	res, err := c.sendCreateContainerInstanceJob(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateContainerInstanceJob(ctx context.Context, request OptCreateContainerInstanceJobReq, params CreateContainerInstanceJobParams) (res *CreateContainerInstanceJobAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createContainerInstanceJob"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/instances/{instanceId}/tasks"),
 	}
 
 	// Run stopwatch.
@@ -972,13 +2367,14 @@ func (c *Client) sendCreateContainerInstanceJob(ctx context.Context, request Opt
 // POST /v1/containers/{containerId}/tasks
 func (c *Client) CreateContainerJob(ctx context.Context, request OptCreateContainerJobReq, params CreateContainerJobParams) (*CreateContainerJobAccepted, error) {
 	res, err := c.sendCreateContainerJob(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateContainerJob(ctx context.Context, request OptCreateContainerJobReq, params CreateContainerJobParams) (res *CreateContainerJobAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createContainerJob"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -1125,13 +2521,14 @@ func (c *Client) sendCreateContainerJob(ctx context.Context, request OptCreateCo
 // POST /v1/dns/zones/{zoneId}/records
 func (c *Client) CreateDNSRecord(ctx context.Context, request OptCreateDNSRecordReq, params CreateDNSRecordParams) (*CreateDNSRecordCreated, error) {
 	res, err := c.sendCreateDNSRecord(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateDNSRecord(ctx context.Context, request OptCreateDNSRecordReq, params CreateDNSRecordParams) (res *CreateDNSRecordCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createDNSRecord"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/dns/zones/{zoneId}/records"),
 	}
 
 	// Run stopwatch.
@@ -1262,13 +2659,14 @@ func (c *Client) sendCreateDNSRecord(ctx context.Context, request OptCreateDNSRe
 // POST /v1/dns/zones
 func (c *Client) CreateDNSZone(ctx context.Context, request OptCreateDNSZoneReq) (*CreateDNSZoneCreated, error) {
 	res, err := c.sendCreateDNSZone(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateDNSZone(ctx context.Context, request OptCreateDNSZoneReq) (res *CreateDNSZoneCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createDNSZone"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/dns/zones"),
 	}
 
 	// Run stopwatch.
@@ -1380,13 +2778,14 @@ func (c *Client) sendCreateDNSZone(ctx context.Context, request OptCreateDNSZone
 // POST /v1/environments
 func (c *Client) CreateEnvironment(ctx context.Context, request OptCreateEnvironmentReq) (*CreateEnvironmentCreated, error) {
 	res, err := c.sendCreateEnvironment(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateEnvironment(ctx context.Context, request OptCreateEnvironmentReq) (res *CreateEnvironmentCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createEnvironment"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/environments"),
 	}
 
 	// Run stopwatch.
@@ -1498,13 +2897,14 @@ func (c *Client) sendCreateEnvironment(ctx context.Context, request OptCreateEnv
 // POST /v1/environments/{environmentId}/tasks
 func (c *Client) CreateEnvironmentJob(ctx context.Context, request OptCreateEnvironmentJobReq, params CreateEnvironmentJobParams) (*CreateEnvironmentJobAccepted, error) {
 	res, err := c.sendCreateEnvironmentJob(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateEnvironmentJob(ctx context.Context, request OptCreateEnvironmentJobReq, params CreateEnvironmentJobParams) (res *CreateEnvironmentJobAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createEnvironmentJob"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -1652,13 +3052,14 @@ func (c *Client) sendCreateEnvironmentJob(ctx context.Context, request OptCreate
 // POST /v1/environments/{environmentId}/services/vpn/tasks
 func (c *Client) CreateEnvironmentVpnTask(ctx context.Context, request OptCreateEnvironmentVpnTaskReq, params CreateEnvironmentVpnTaskParams) (*CreateEnvironmentVpnTaskAccepted, error) {
 	res, err := c.sendCreateEnvironmentVpnTask(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateEnvironmentVpnTask(ctx context.Context, request OptCreateEnvironmentVpnTaskReq, params CreateEnvironmentVpnTaskParams) (res *CreateEnvironmentVpnTaskAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createEnvironmentVpnTask"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/services/vpn/tasks"),
 	}
 
 	// Run stopwatch.
@@ -1789,13 +3190,14 @@ func (c *Client) sendCreateEnvironmentVpnTask(ctx context.Context, request OptCr
 // POST /v1/sdn/global-lbs
 func (c *Client) CreateGlobalLoadBalancer(ctx context.Context, request OptCreateGlobalLoadBalancerReq, params CreateGlobalLoadBalancerParams) (*CreateGlobalLoadBalancerCreated, error) {
 	res, err := c.sendCreateGlobalLoadBalancer(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateGlobalLoadBalancer(ctx context.Context, request OptCreateGlobalLoadBalancerReq, params CreateGlobalLoadBalancerParams) (res *CreateGlobalLoadBalancerCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createGlobalLoadBalancer"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/sdn/global-lbs"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -1950,13 +3352,14 @@ func (c *Client) sendCreateGlobalLoadBalancer(ctx context.Context, request OptCr
 // POST /v1/hubs
 func (c *Client) CreateHub(ctx context.Context, request OptCreateHubReq) (*CreateHubOK, error) {
 	res, err := c.sendCreateHub(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateHub(ctx context.Context, request OptCreateHubReq) (res *CreateHubOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createHub"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/hubs"),
 	}
 
 	// Run stopwatch.
@@ -2057,13 +3460,14 @@ func (c *Client) sendCreateHub(ctx context.Context, request OptCreateHubReq) (re
 // POST /v1/hubs/current/invites
 func (c *Client) CreateHubInvite(ctx context.Context, request OptCreateHubInviteReq) (*CreateHubInviteCreated, error) {
 	res, err := c.sendCreateHubInvite(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateHubInvite(ctx context.Context, request OptCreateHubInviteReq) (res *CreateHubInviteCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createHubInvite"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/invites"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -2191,13 +3595,14 @@ func (c *Client) sendCreateHubInvite(ctx context.Context, request OptCreateHubIn
 // POST /v1/images
 func (c *Client) CreateImage(ctx context.Context, request OptCreateImageReq) (*CreateImageCreated, error) {
 	res, err := c.sendCreateImage(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateImage(ctx context.Context, request OptCreateImageReq) (res *CreateImageCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createImage"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/images"),
 	}
 
 	// Run stopwatch.
@@ -2309,13 +3714,14 @@ func (c *Client) sendCreateImage(ctx context.Context, request OptCreateImageReq)
 // POST /v1/images/tasks
 func (c *Client) CreateImageCollectionJob(ctx context.Context, request OptCreateImageCollectionJobReq) (*CreateImageCollectionJobAccepted, error) {
 	res, err := c.sendCreateImageCollectionJob(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateImageCollectionJob(ctx context.Context, request OptCreateImageCollectionJobReq) (res *CreateImageCollectionJobAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createImageCollectionJob"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/images/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -2443,13 +3849,14 @@ func (c *Client) sendCreateImageCollectionJob(ctx context.Context, request OptCr
 // POST /v1/images/{imageId}/tasks
 func (c *Client) CreateImageJob(ctx context.Context, request OptCreateImageJobReq, params CreateImageJobParams) (*CreateImageJobOK, error) {
 	res, err := c.sendCreateImageJob(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateImageJob(ctx context.Context, request OptCreateImageJobReq, params CreateImageJobParams) (res *CreateImageJobOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createImageJob"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/images/{imageId}/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -2596,13 +4003,14 @@ func (c *Client) sendCreateImageJob(ctx context.Context, request OptCreateImageJ
 // POST /v1/images/sources
 func (c *Client) CreateImageSource(ctx context.Context, request OptCreateImageSourceReq) (*CreateImageSourceCreated, error) {
 	res, err := c.sendCreateImageSource(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateImageSource(ctx context.Context, request OptCreateImageSourceReq) (res *CreateImageSourceCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createImageSource"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/images/sources"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -2730,13 +4138,14 @@ func (c *Client) sendCreateImageSource(ctx context.Context, request OptCreateIma
 // POST /v1/billing/invoices/{invoiceId}/tasks
 func (c *Client) CreateInvoiceJob(ctx context.Context, request OptCreateInvoiceJobReq, params CreateInvoiceJobParams) (*CreateInvoiceJobOK, error) {
 	res, err := c.sendCreateInvoiceJob(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateInvoiceJob(ctx context.Context, request OptCreateInvoiceJobReq, params CreateInvoiceJobParams) (res *CreateInvoiceJobOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createInvoiceJob"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/billing/invoices/{invoiceId}/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -2883,13 +4292,14 @@ func (c *Client) sendCreateInvoiceJob(ctx context.Context, request OptCreateInvo
 // POST /v1/sdn/networks/{networkId}/tasks
 func (c *Client) CreateNetworkJob(ctx context.Context, request OptCreateNetworkJobReq, params CreateNetworkJobParams) (*CreateNetworkJobOK, error) {
 	res, err := c.sendCreateNetworkJob(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateNetworkJob(ctx context.Context, request OptCreateNetworkJobReq, params CreateNetworkJobParams) (res *CreateNetworkJobOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createNetworkJob"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/sdn/networks/{networkId}/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -3036,13 +4446,14 @@ func (c *Client) sendCreateNetworkJob(ctx context.Context, request OptCreateNetw
 // POST /v1/billing/orders
 func (c *Client) CreateOrder(ctx context.Context, request OptCreateOrderReq) (*CreateOrderCreated, error) {
 	res, err := c.sendCreateOrder(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateOrder(ctx context.Context, request OptCreateOrderReq) (res *CreateOrderCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createOrder"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/billing/orders"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -3170,13 +4581,14 @@ func (c *Client) sendCreateOrder(ctx context.Context, request OptCreateOrderReq)
 // POST /v1/billing/orders/{orderId}/tasks
 func (c *Client) CreateOrderJob(ctx context.Context, request OptCreateOrderJobReq, params CreateOrderJobParams) (*CreateOrderJobAccepted, error) {
 	res, err := c.sendCreateOrderJob(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateOrderJob(ctx context.Context, request OptCreateOrderJobReq, params CreateOrderJobParams) (res *CreateOrderJobAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createOrderJob"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/billing/orders/{orderId}/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -3323,13 +4735,14 @@ func (c *Client) sendCreateOrderJob(ctx context.Context, request OptCreateOrderJ
 // POST /v1/pipelines
 func (c *Client) CreatePipeline(ctx context.Context, request OptCreatePipelineReq) (*CreatePipelineCreated, error) {
 	res, err := c.sendCreatePipeline(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreatePipeline(ctx context.Context, request OptCreatePipelineReq) (res *CreatePipelineCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createPipeline"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/pipelines"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -3457,13 +4870,14 @@ func (c *Client) sendCreatePipeline(ctx context.Context, request OptCreatePipeli
 // POST /v1/pipelines/{pipelineId}/tasks
 func (c *Client) CreatePipelineJob(ctx context.Context, request OptCreatePipelineJobReq, params CreatePipelineJobParams) (*CreatePipelineJobOK, error) {
 	res, err := c.sendCreatePipelineJob(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreatePipelineJob(ctx context.Context, request OptCreatePipelineJobReq, params CreatePipelineJobParams) (res *CreatePipelineJobOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createPipelineJob"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/pipelines/{pipelineId}/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -3610,13 +5024,14 @@ func (c *Client) sendCreatePipelineJob(ctx context.Context, request OptCreatePip
 // POST /v1/pipelines/{pipelineId}/keys
 func (c *Client) CreatePipelineTriggerKey(ctx context.Context, request OptCreatePipelineTriggerKeyReq, params CreatePipelineTriggerKeyParams) (*CreatePipelineTriggerKeyCreated, error) {
 	res, err := c.sendCreatePipelineTriggerKey(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreatePipelineTriggerKey(ctx context.Context, request OptCreatePipelineTriggerKeyReq, params CreatePipelineTriggerKeyParams) (res *CreatePipelineTriggerKeyCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createPipelineTriggerKey"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/pipelines/{pipelineId}/keys"),
 	}
 
 	// Run stopwatch.
@@ -3747,13 +5162,14 @@ func (c *Client) sendCreatePipelineTriggerKey(ctx context.Context, request OptCr
 // POST /v1/infrastructure/providers
 func (c *Client) CreateProvider(ctx context.Context, request OptCreateProviderReq) (*CreateProviderCreated, error) {
 	res, err := c.sendCreateProvider(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateProvider(ctx context.Context, request OptCreateProviderReq) (res *CreateProviderCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createProvider"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/providers"),
 	}
 
 	// Run stopwatch.
@@ -3865,13 +5281,14 @@ func (c *Client) sendCreateProvider(ctx context.Context, request OptCreateProvid
 // POST /v1/infrastructure/providers/{providerId}/tasks
 func (c *Client) CreateProviderJob(ctx context.Context, request OptCreateProviderJobReq, params CreateProviderJobParams) (*CreateProviderJobAccepted, error) {
 	res, err := c.sendCreateProviderJob(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateProviderJob(ctx context.Context, request OptCreateProviderJobReq, params CreateProviderJobParams) (res *CreateProviderJobAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createProviderJob"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerId}/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -4018,13 +5435,14 @@ func (c *Client) sendCreateProviderJob(ctx context.Context, request OptCreatePro
 // POST /v1/sdn/networks
 func (c *Client) CreateSDNNetwork(ctx context.Context, request OptCreateSDNNetworkReq, params CreateSDNNetworkParams) (*CreateSDNNetworkCreated, error) {
 	res, err := c.sendCreateSDNNetwork(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateSDNNetwork(ctx context.Context, request OptCreateSDNNetworkReq, params CreateSDNNetworkParams) (res *CreateSDNNetworkCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createSDNNetwork"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/sdn/networks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -4179,13 +5597,14 @@ func (c *Client) sendCreateSDNNetwork(ctx context.Context, request OptCreateSDNN
 // POST /v1/environments/{environmentId}/scoped-variables
 func (c *Client) CreateScopedVariable(ctx context.Context, request OptCreateScopedVariableReq, params CreateScopedVariableParams) (*CreateScopedVariableCreated, error) {
 	res, err := c.sendCreateScopedVariable(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateScopedVariable(ctx context.Context, request OptCreateScopedVariableReq, params CreateScopedVariableParams) (res *CreateScopedVariableCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createScopedVariable"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/scoped-variables"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -4332,13 +5751,14 @@ func (c *Client) sendCreateScopedVariable(ctx context.Context, request OptCreate
 // POST /v1/infrastructure/servers
 func (c *Client) CreateServer(ctx context.Context, request OptCreateServerReq) (*CreateServerCreated, error) {
 	res, err := c.sendCreateServer(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateServer(ctx context.Context, request OptCreateServerReq) (res *CreateServerCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createServer"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/servers"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -4466,13 +5886,14 @@ func (c *Client) sendCreateServer(ctx context.Context, request OptCreateServerRe
 // POST /v1/infrastructure/servers/{serverId}/tasks
 func (c *Client) CreateServerJob(ctx context.Context, request OptCreateServerJobReq, params CreateServerJobParams) (*CreateServerJobOK, error) {
 	res, err := c.sendCreateServerJob(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateServerJob(ctx context.Context, request OptCreateServerJobReq, params CreateServerJobParams) (res *CreateServerJobOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createServerJob"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/servers/{serverId}/tasks"),
 	}
 
 	// Run stopwatch.
@@ -4603,13 +6024,14 @@ func (c *Client) sendCreateServerJob(ctx context.Context, request OptCreateServe
 // POST /v1/stacks
 func (c *Client) CreateStack(ctx context.Context, request OptCreateStackReq) (*CreateStackCreated, error) {
 	res, err := c.sendCreateStack(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateStack(ctx context.Context, request OptCreateStackReq) (res *CreateStackCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createStack"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/stacks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -4737,13 +6159,14 @@ func (c *Client) sendCreateStack(ctx context.Context, request OptCreateStackReq)
 // POST /v1/stacks/{stackId}/builds
 func (c *Client) CreateStackBuild(ctx context.Context, request OptCreateStackBuildReq, params CreateStackBuildParams) (*CreateStackBuildCreated, error) {
 	res, err := c.sendCreateStackBuild(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateStackBuild(ctx context.Context, request OptCreateStackBuildReq, params CreateStackBuildParams) (res *CreateStackBuildCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createStackBuild"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/stacks/{stackId}/builds"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -4890,13 +6313,14 @@ func (c *Client) sendCreateStackBuild(ctx context.Context, request OptCreateStac
 // POST /v1/stacks/{stackId}/builds/{buildId}/tasks
 func (c *Client) CreateStackBuildJob(ctx context.Context, request OptCreateStackBuildJobReq, params CreateStackBuildJobParams) (*CreateStackBuildJobOK, error) {
 	res, err := c.sendCreateStackBuildJob(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateStackBuildJob(ctx context.Context, request OptCreateStackBuildJobReq, params CreateStackBuildJobParams) (res *CreateStackBuildJobOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createStackBuildJob"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/stacks/{stackId}/builds/{buildId}/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -5062,13 +6486,14 @@ func (c *Client) sendCreateStackBuildJob(ctx context.Context, request OptCreateS
 // POST /v1/stacks/{stackId}/tasks
 func (c *Client) CreateStackJob(ctx context.Context, request OptCreateStackJobReq, params CreateStackJobParams) (*CreateStackJobOK, error) {
 	res, err := c.sendCreateStackJob(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateStackJob(ctx context.Context, request OptCreateStackJobReq, params CreateStackJobParams) (res *CreateStackJobOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createStackJob"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/stacks/{stackId}/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -5215,13 +6640,14 @@ func (c *Client) sendCreateStackJob(ctx context.Context, request OptCreateStackJ
 // POST /v1/environments/{environmentId}/services/vpn/users
 func (c *Client) CreateVPNUser(ctx context.Context, request OptCreateVPNUserReq, params CreateVPNUserParams) (*CreateVPNUserCreated, error) {
 	res, err := c.sendCreateVPNUser(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendCreateVPNUser(ctx context.Context, request OptCreateVPNUserReq, params CreateVPNUserParams) (res *CreateVPNUserCreated, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createVPNUser"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/services/vpn/users"),
 	}
 
 	// Run stopwatch.
@@ -5352,13 +6778,14 @@ func (c *Client) sendCreateVPNUser(ctx context.Context, request OptCreateVPNUser
 // POST /v1/dns/zones/{zoneId}/records/{recordId}/tasks
 func (c *Client) DNSRecordTask(ctx context.Context, request OptDNSRecordTaskReq, params DNSRecordTaskParams) (*DNSRecordTaskAccepted, error) {
 	res, err := c.sendDNSRecordTask(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendDNSRecordTask(ctx context.Context, request OptDNSRecordTaskReq, params DNSRecordTaskParams) (res *DNSRecordTaskAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("DNSRecordTask"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/dns/zones/{zoneId}/records/{recordId}/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -5524,13 +6951,14 @@ func (c *Client) sendDNSRecordTask(ctx context.Context, request OptDNSRecordTask
 // GET /v1/dns/tls/attempts
 func (c *Client) DNSTLSAttempts(ctx context.Context, params DNSTLSAttemptsParams) (*DNSTLSAttemptsOK, error) {
 	res, err := c.sendDNSTLSAttempts(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendDNSTLSAttempts(ctx context.Context, params DNSTLSAttemptsParams) (res *DNSTLSAttemptsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("DNSTLSAttempts"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/dns/tls/attempts"),
 	}
 
 	// Run stopwatch.
@@ -5700,13 +7128,14 @@ func (c *Client) sendDNSTLSAttempts(ctx context.Context, params DNSTLSAttemptsPa
 // POST /v1/dns/zones/{zoneId}/tasks
 func (c *Client) DNSZoneTask(ctx context.Context, request OptDNSZoneTaskReq, params DNSZoneTaskParams) (*DNSZoneTaskAccepted, error) {
 	res, err := c.sendDNSZoneTask(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendDNSZoneTask(ctx context.Context, request OptDNSZoneTaskReq, params DNSZoneTaskParams) (res *DNSZoneTaskAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("DNSZoneTask"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/dns/zones/{zoneId}/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -5853,13 +7282,14 @@ func (c *Client) sendDNSZoneTask(ctx context.Context, request OptDNSZoneTaskReq,
 // POST /v1/account/2fa/disable
 func (c *Client) DisableTwoFa(ctx context.Context, request OptDisableTwoFaReq) (*DisableTwoFaOK, error) {
 	res, err := c.sendDisableTwoFa(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendDisableTwoFa(ctx context.Context, request OptDisableTwoFaReq) (res *DisableTwoFaOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("disableTwoFa"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/account/2fa/disable"),
 	}
 
 	// Run stopwatch.
@@ -5971,13 +7401,14 @@ func (c *Client) sendDisableTwoFa(ctx context.Context, request OptDisableTwoFaRe
 // DELETE /v1/containers/{containerId}/instances/{instanceId}/ssh
 func (c *Client) ExpireInstanceSSHTokens(ctx context.Context, params ExpireInstanceSSHTokensParams) (*ExpireInstanceSSHTokensOK, error) {
 	res, err := c.sendExpireInstanceSSHTokens(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendExpireInstanceSSHTokens(ctx context.Context, params ExpireInstanceSSHTokensParams) (res *ExpireInstanceSSHTokensOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("expireInstanceSSHTokens"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/instances/{instanceId}/ssh"),
 	}
 
 	// Run stopwatch.
@@ -6124,13 +7555,14 @@ func (c *Client) sendExpireInstanceSSHTokens(ctx context.Context, params ExpireI
 // GET /v1/environments/{environmentId}/scoped-variables/{scopedVariableId}
 func (c *Client) FetchScopedVariable(ctx context.Context, params FetchScopedVariableParams) (*FetchScopedVariableOK, error) {
 	res, err := c.sendFetchScopedVariable(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendFetchScopedVariable(ctx context.Context, params FetchScopedVariableParams) (res *FetchScopedVariableOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("fetchScopedVariable"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/scoped-variables/{scopedVariableId}"),
 	}
 
 	// Run stopwatch.
@@ -6276,13 +7708,14 @@ func (c *Client) sendFetchScopedVariable(ctx context.Context, params FetchScoped
 // GET /v1/account
 func (c *Client) GetAccount(ctx context.Context) (*GetAccountOK, error) {
 	res, err := c.sendGetAccount(ctx)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetAccount(ctx context.Context) (res *GetAccountOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getAccount"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/account"),
 	}
 
 	// Run stopwatch.
@@ -6380,13 +7813,14 @@ func (c *Client) sendGetAccount(ctx context.Context) (res *GetAccountOK, err err
 // GET /v1/account/invites
 func (c *Client) GetAccountInvites(ctx context.Context, params GetAccountInvitesParams) (*GetAccountInvitesOK, error) {
 	res, err := c.sendGetAccountInvites(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetAccountInvites(ctx context.Context, params GetAccountInvitesParams) (res *GetAccountInvitesOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getAccountInvites"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/account/invites"),
 	}
 
 	// Run stopwatch.
@@ -6591,13 +8025,14 @@ func (c *Client) sendGetAccountInvites(ctx context.Context, params GetAccountInv
 // GET /v1/account/logins
 func (c *Client) GetAccountLogins(ctx context.Context, params GetAccountLoginsParams) (*GetAccountLoginsOK, error) {
 	res, err := c.sendGetAccountLogins(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetAccountLogins(ctx context.Context, params GetAccountLoginsParams) (res *GetAccountLoginsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getAccountLogins"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/account/logins"),
 	}
 
 	// Run stopwatch.
@@ -6756,13 +8191,14 @@ func (c *Client) sendGetAccountLogins(ctx context.Context, params GetAccountLogi
 // GET /v1/account/memberships
 func (c *Client) GetAccountMemberships(ctx context.Context) (*GetAccountMembershipsOK, error) {
 	res, err := c.sendGetAccountMemberships(ctx)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetAccountMemberships(ctx context.Context) (res *GetAccountMembershipsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getAccountMemberships"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/account/memberships"),
 	}
 
 	// Run stopwatch.
@@ -6860,13 +8296,14 @@ func (c *Client) sendGetAccountMemberships(ctx context.Context) (res *GetAccount
 // GET /v1/announcements
 func (c *Client) GetAnnouncementsList(ctx context.Context, params GetAnnouncementsListParams) (*GetAnnouncementsListOK, error) {
 	res, err := c.sendGetAnnouncementsList(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetAnnouncementsList(ctx context.Context, params GetAnnouncementsListParams) (res *GetAnnouncementsListOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getAnnouncementsList"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/announcements"),
 	}
 
 	// Run stopwatch.
@@ -7025,13 +8462,14 @@ func (c *Client) sendGetAnnouncementsList(ctx context.Context, params GetAnnounc
 // GET /v1/hubs/current/api-keys/{apikeyId}
 func (c *Client) GetApiKey(ctx context.Context, params GetApiKeyParams) (*GetApiKeyOK, error) {
 	res, err := c.sendGetApiKey(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetApiKey(ctx context.Context, params GetApiKeyParams) (res *GetApiKeyOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getApiKey"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/api-keys/{apikeyId}"),
 	}
 
 	// Run stopwatch.
@@ -7158,13 +8596,14 @@ func (c *Client) sendGetApiKey(ctx context.Context, params GetApiKeyParams) (res
 // GET /v1/hubs/current/api-keys
 func (c *Client) GetApiKeys(ctx context.Context, params GetApiKeysParams) (*GetApiKeysOK, error) {
 	res, err := c.sendGetApiKeys(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetApiKeys(ctx context.Context, params GetApiKeysParams) (res *GetApiKeysOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getApiKeys"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/api-keys"),
 	}
 
 	// Run stopwatch.
@@ -7327,6 +8766,344 @@ func (c *Client) sendGetApiKeys(ctx context.Context, params GetApiKeysParams) (r
 	return result, nil
 }
 
+// GetAutoScaleGroup invokes getAutoScaleGroup operation.
+//
+// Requires the `autoscale-groups-view` capability.
+//
+// GET /v1/infrastructure/auto-scale/groups/{groupId}
+func (c *Client) GetAutoScaleGroup(ctx context.Context, params GetAutoScaleGroupParams) (*GetAutoScaleGroupOK, error) {
+	res, err := c.sendGetAutoScaleGroup(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetAutoScaleGroup(ctx context.Context, params GetAutoScaleGroupParams) (res *GetAutoScaleGroupOK, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("getAutoScaleGroup"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/auto-scale/groups/{groupId}"),
+	}
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, "GetAutoScaleGroup",
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/infrastructure/auto-scale/groups/"
+	{
+		// Encode "groupId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "groupId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.GroupId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+			stage = "Security:BearerAuth"
+			switch err := c.securityBearerAuth(ctx, "GetAutoScaleGroup", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+			stage = "Security:HubAuth"
+			switch err := c.securityHubAuth(ctx, "GetAutoScaleGroup", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeGetAutoScaleGroupResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetAutoScaleGroups invokes getAutoScaleGroups operation.
+//
+// Requires the `autoscale-groups-manage` capability.
+//
+// GET /v1/infrastructure/auto-scale/groups
+func (c *Client) GetAutoScaleGroups(ctx context.Context, params GetAutoScaleGroupsParams) (*GetAutoScaleGroupsOK, error) {
+	res, err := c.sendGetAutoScaleGroups(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetAutoScaleGroups(ctx context.Context, params GetAutoScaleGroupsParams) (res *GetAutoScaleGroupsOK, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("getAutoScaleGroups"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/auto-scale/groups"),
+	}
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, "GetAutoScaleGroups",
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/infrastructure/auto-scale/groups"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+			stage = "Security:BearerAuth"
+			switch err := c.securityBearerAuth(ctx, "GetAutoScaleGroups", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+			stage = "Security:HubAuth"
+			switch err := c.securityHubAuth(ctx, "GetAutoScaleGroups", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeGetAutoScaleGroupsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetBackup invokes getBackup operation.
 //
 // Requires the `containers-backups-view` capability.
@@ -7334,13 +9111,14 @@ func (c *Client) sendGetApiKeys(ctx context.Context, params GetApiKeysParams) (r
 // GET /v1/containers/{containerId}/backups/{backupId}
 func (c *Client) GetBackup(ctx context.Context, params GetBackupParams) (*GetBackupOK, error) {
 	res, err := c.sendGetBackup(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetBackup(ctx context.Context, params GetBackupParams) (res *GetBackupOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getBackup"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/backups/{backupId}"),
 	}
 
 	// Run stopwatch.
@@ -7486,13 +9264,14 @@ func (c *Client) sendGetBackup(ctx context.Context, params GetBackupParams) (res
 // GET /v1/containers/{containerId}/backups/{backupId}/logs
 func (c *Client) GetBackupLogs(ctx context.Context, params GetBackupLogsParams) (*GetBackupLogsOK, error) {
 	res, err := c.sendGetBackupLogs(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetBackupLogs(ctx context.Context, params GetBackupLogsParams) (res *GetBackupLogsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getBackupLogs"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/backups/{backupId}/logs"),
 	}
 
 	// Run stopwatch.
@@ -7639,13 +9418,14 @@ func (c *Client) sendGetBackupLogs(ctx context.Context, params GetBackupLogsPara
 // GET /v1/containers/{containerId}/backups
 func (c *Client) GetBackupsCollection(ctx context.Context, params GetBackupsCollectionParams) (*GetBackupsCollectionOK, error) {
 	res, err := c.sendGetBackupsCollection(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetBackupsCollection(ctx context.Context, params GetBackupsCollectionParams) (res *GetBackupsCollectionOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getBackupsCollection"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/backups"),
 	}
 
 	// Run stopwatch.
@@ -7817,13 +9597,14 @@ func (c *Client) sendGetBackupsCollection(ctx context.Context, params GetBackups
 // GET /v1/billing/methods/{methodId}
 func (c *Client) GetBillingMethod(ctx context.Context, params GetBillingMethodParams) (*GetBillingMethodOK, error) {
 	res, err := c.sendGetBillingMethod(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetBillingMethod(ctx context.Context, params GetBillingMethodParams) (res *GetBillingMethodOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getBillingMethod"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/billing/methods/{methodId}"),
 	}
 
 	// Run stopwatch.
@@ -7950,13 +9731,14 @@ func (c *Client) sendGetBillingMethod(ctx context.Context, params GetBillingMeth
 // GET /v1/billing/methods
 func (c *Client) GetBillingMethods(ctx context.Context, params GetBillingMethodsParams) (*GetBillingMethodsOK, error) {
 	res, err := c.sendGetBillingMethods(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetBillingMethods(ctx context.Context, params GetBillingMethodsParams) (res *GetBillingMethodsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getBillingMethods"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/billing/methods"),
 	}
 
 	// Run stopwatch.
@@ -8126,13 +9908,14 @@ func (c *Client) sendGetBillingMethods(ctx context.Context, params GetBillingMet
 // GET /v1/billing/orders/{orderId}
 func (c *Client) GetBillingOrder(ctx context.Context, params GetBillingOrderParams) (*GetBillingOrderOK, error) {
 	res, err := c.sendGetBillingOrder(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetBillingOrder(ctx context.Context, params GetBillingOrderParams) (res *GetBillingOrderOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getBillingOrder"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/billing/orders/{orderId}"),
 	}
 
 	// Run stopwatch.
@@ -8259,13 +10042,14 @@ func (c *Client) sendGetBillingOrder(ctx context.Context, params GetBillingOrder
 // GET /v1/billing/services/overages
 func (c *Client) GetBillingOverages(ctx context.Context, params GetBillingOveragesParams) (*GetBillingOveragesOK, error) {
 	res, err := c.sendGetBillingOverages(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetBillingOverages(ctx context.Context, params GetBillingOveragesParams) (res *GetBillingOveragesOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getBillingOverages"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/billing/services/overages"),
 	}
 
 	// Run stopwatch.
@@ -8435,13 +10219,14 @@ func (c *Client) sendGetBillingOverages(ctx context.Context, params GetBillingOv
 // GET /v1/billing/services/{servicesId}
 func (c *Client) GetBillingService(ctx context.Context, params GetBillingServiceParams) (*GetBillingServiceOK, error) {
 	res, err := c.sendGetBillingService(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetBillingService(ctx context.Context, params GetBillingServiceParams) (res *GetBillingServiceOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getBillingService"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/billing/services/{servicesId}"),
 	}
 
 	// Run stopwatch.
@@ -8568,13 +10353,14 @@ func (c *Client) sendGetBillingService(ctx context.Context, params GetBillingSer
 // GET /v1/billing/services
 func (c *Client) GetBillingServices(ctx context.Context, params GetBillingServicesParams) (*GetBillingServicesOK, error) {
 	res, err := c.sendGetBillingServices(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetBillingServices(ctx context.Context, params GetBillingServicesParams) (res *GetBillingServicesOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getBillingServices"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/billing/services"),
 	}
 
 	// Run stopwatch.
@@ -8744,13 +10530,14 @@ func (c *Client) sendGetBillingServices(ctx context.Context, params GetBillingSe
 // GET /v1/billing/plans/support
 func (c *Client) GetBillingSupportPlans(ctx context.Context, params GetBillingSupportPlansParams) (*GetBillingSupportPlansOK, error) {
 	res, err := c.sendGetBillingSupportPlans(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetBillingSupportPlans(ctx context.Context, params GetBillingSupportPlansParams) (res *GetBillingSupportPlansOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getBillingSupportPlans"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/billing/plans/support"),
 	}
 
 	// Run stopwatch.
@@ -8920,13 +10707,14 @@ func (c *Client) sendGetBillingSupportPlans(ctx context.Context, params GetBilli
 // GET /v1/containers/{containerId}/compatible-images
 func (c *Client) GetCompatibleImages(ctx context.Context, params GetCompatibleImagesParams) (*GetCompatibleImagesOK, error) {
 	res, err := c.sendGetCompatibleImages(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetCompatibleImages(ctx context.Context, params GetCompatibleImagesParams) (res *GetCompatibleImagesOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getCompatibleImages"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/compatible-images"),
 	}
 
 	// Run stopwatch.
@@ -9098,13 +10886,14 @@ func (c *Client) sendGetCompatibleImages(ctx context.Context, params GetCompatib
 // GET /v1/containers/{containerId}
 func (c *Client) GetContainerById(ctx context.Context, params GetContainerByIdParams) (*GetContainerByIdOK, error) {
 	res, err := c.sendGetContainerById(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetContainerById(ctx context.Context, params GetContainerByIdParams) (res *GetContainerByIdOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getContainerById"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}"),
 	}
 
 	// Run stopwatch.
@@ -9281,13 +11070,14 @@ func (c *Client) sendGetContainerById(ctx context.Context, params GetContainerBy
 // GET /v1/containers/{containerId}/instances/{instanceId}
 func (c *Client) GetContainerInstance(ctx context.Context, params GetContainerInstanceParams) (*GetContainerInstanceOK, error) {
 	res, err := c.sendGetContainerInstance(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetContainerInstance(ctx context.Context, params GetContainerInstanceParams) (res *GetContainerInstanceOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getContainerInstance"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/instances/{instanceId}"),
 	}
 
 	// Run stopwatch.
@@ -9460,13 +11250,14 @@ func (c *Client) sendGetContainerInstance(ctx context.Context, params GetContain
 // GET /v1/containers/{containerId}/instances/{instanceId}/volumes
 func (c *Client) GetContainerInstanceVolumes(ctx context.Context, params GetContainerInstanceVolumesParams) (*GetContainerInstanceVolumesOK, error) {
 	res, err := c.sendGetContainerInstanceVolumes(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetContainerInstanceVolumes(ctx context.Context, params GetContainerInstanceVolumesParams) (res *GetContainerInstanceVolumesOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getContainerInstanceVolumes"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/instances/{instanceId}/volumes"),
 	}
 
 	// Run stopwatch.
@@ -9657,13 +11448,14 @@ func (c *Client) sendGetContainerInstanceVolumes(ctx context.Context, params Get
 // GET /v1/containers/{containerId}/telemetry/instances
 func (c *Client) GetContainerInstancesTelemetry(ctx context.Context, params GetContainerInstancesTelemetryParams) (*GetContainerInstancesTelemetryOK, error) {
 	res, err := c.sendGetContainerInstancesTelemetry(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetContainerInstancesTelemetry(ctx context.Context, params GetContainerInstancesTelemetryParams) (res *GetContainerInstancesTelemetryOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getContainerInstancesTelemetry"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/telemetry/instances"),
 	}
 
 	// Run stopwatch.
@@ -9812,13 +11604,14 @@ func (c *Client) sendGetContainerInstancesTelemetry(ctx context.Context, params 
 // GET /v1/containers/{containerId}/summary
 func (c *Client) GetContainerSummary(ctx context.Context, params GetContainerSummaryParams) (*GetContainerSummaryOK, error) {
 	res, err := c.sendGetContainerSummary(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetContainerSummary(ctx context.Context, params GetContainerSummaryParams) (res *GetContainerSummaryOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getContainerSummary"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/summary"),
 	}
 
 	// Run stopwatch.
@@ -9946,13 +11739,14 @@ func (c *Client) sendGetContainerSummary(ctx context.Context, params GetContaine
 // GET /v1/containers
 func (c *Client) GetContainers(ctx context.Context, params GetContainersParams) (*GetContainersOK, error) {
 	res, err := c.sendGetContainers(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetContainers(ctx context.Context, params GetContainersParams) (res *GetContainersOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getContainers"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers"),
 	}
 
 	// Run stopwatch.
@@ -10168,13 +11962,14 @@ func (c *Client) sendGetContainers(ctx context.Context, params GetContainersPara
 // GET /v1/billing/credits/{creditsId}
 func (c *Client) GetCredit(ctx context.Context, params GetCreditParams) (*GetCreditOK, error) {
 	res, err := c.sendGetCredit(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetCredit(ctx context.Context, params GetCreditParams) (res *GetCreditOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getCredit"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/billing/credits/{creditsId}"),
 	}
 
 	// Run stopwatch.
@@ -10301,13 +12096,14 @@ func (c *Client) sendGetCredit(ctx context.Context, params GetCreditParams) (res
 // GET /v1/billing/credits
 func (c *Client) GetCredits(ctx context.Context, params GetCreditsParams) (*GetCreditsOK, error) {
 	res, err := c.sendGetCredits(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetCredits(ctx context.Context, params GetCreditsParams) (res *GetCreditsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getCredits"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/billing/credits"),
 	}
 
 	// Run stopwatch.
@@ -10477,13 +12273,14 @@ func (c *Client) sendGetCredits(ctx context.Context, params GetCreditsParams) (r
 // GET /v1/dns/zones/{zoneId}
 func (c *Client) GetDNSZone(ctx context.Context, params GetDNSZoneParams) (*GetDNSZoneOK, error) {
 	res, err := c.sendGetDNSZone(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetDNSZone(ctx context.Context, params GetDNSZoneParams) (res *GetDNSZoneOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getDNSZone"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/dns/zones/{zoneId}"),
 	}
 
 	// Run stopwatch.
@@ -10610,13 +12407,14 @@ func (c *Client) sendGetDNSZone(ctx context.Context, params GetDNSZoneParams) (r
 // GET /v1/infrastructure/deployment-strategies
 func (c *Client) GetDeploymentStrategies(ctx context.Context) (*GetDeploymentStrategiesOK, error) {
 	res, err := c.sendGetDeploymentStrategies(ctx)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetDeploymentStrategies(ctx context.Context) (res *GetDeploymentStrategiesOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getDeploymentStrategies"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/deployment-strategies"),
 	}
 
 	// Run stopwatch.
@@ -10725,13 +12523,14 @@ func (c *Client) sendGetDeploymentStrategies(ctx context.Context) (res *GetDeplo
 // GET /v1/environments/{environmentId}
 func (c *Client) GetEnvironmentById(ctx context.Context, params GetEnvironmentByIdParams) (*GetEnvironmentByIdOK, error) {
 	res, err := c.sendGetEnvironmentById(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetEnvironmentById(ctx context.Context, params GetEnvironmentByIdParams) (res *GetEnvironmentByIdOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getEnvironmentById"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}"),
 	}
 
 	// Run stopwatch.
@@ -10908,13 +12707,14 @@ func (c *Client) sendGetEnvironmentById(ctx context.Context, params GetEnvironme
 // GET /v1/environments/{environmentId}/telemetry/instances
 func (c *Client) GetEnvironmentInstancesTelemetry(ctx context.Context, params GetEnvironmentInstancesTelemetryParams) (*GetEnvironmentInstancesTelemetryOK, error) {
 	res, err := c.sendGetEnvironmentInstancesTelemetry(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetEnvironmentInstancesTelemetry(ctx context.Context, params GetEnvironmentInstancesTelemetryParams) (res *GetEnvironmentInstancesTelemetryOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getEnvironmentInstancesTelemetry"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/telemetry/instances"),
 	}
 
 	// Run stopwatch.
@@ -11065,13 +12865,14 @@ func (c *Client) sendGetEnvironmentInstancesTelemetry(ctx context.Context, param
 // GET /v1/environments/{environmentId}/summary
 func (c *Client) GetEnvironmentSummary(ctx context.Context, params GetEnvironmentSummaryParams) (*GetEnvironmentSummaryOK, error) {
 	res, err := c.sendGetEnvironmentSummary(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetEnvironmentSummary(ctx context.Context, params GetEnvironmentSummaryParams) (res *GetEnvironmentSummaryOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getEnvironmentSummary"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/summary"),
 	}
 
 	// Run stopwatch.
@@ -11199,13 +13000,14 @@ func (c *Client) sendGetEnvironmentSummary(ctx context.Context, params GetEnviro
 // GET /v1/environments
 func (c *Client) GetEnvironments(ctx context.Context, params GetEnvironmentsParams) (*GetEnvironmentsOK, error) {
 	res, err := c.sendGetEnvironments(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetEnvironments(ctx context.Context, params GetEnvironmentsParams) (res *GetEnvironmentsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getEnvironments"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/environments"),
 	}
 
 	// Run stopwatch.
@@ -11421,13 +13223,14 @@ func (c *Client) sendGetEnvironments(ctx context.Context, params GetEnvironments
 // GET /v1/sdn/global-lbs/{lbId}
 func (c *Client) GetGlobalLoadBalancer(ctx context.Context, params GetGlobalLoadBalancerParams) (*GetGlobalLoadBalancerOK, error) {
 	res, err := c.sendGetGlobalLoadBalancer(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetGlobalLoadBalancer(ctx context.Context, params GetGlobalLoadBalancerParams) (res *GetGlobalLoadBalancerOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getGlobalLoadBalancer"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/sdn/global-lbs/{lbId}"),
 	}
 
 	// Run stopwatch.
@@ -11581,13 +13384,14 @@ func (c *Client) sendGetGlobalLoadBalancer(ctx context.Context, params GetGlobal
 // GET /v1/sdn/global-lbs
 func (c *Client) GetGlobalLoadBalancers(ctx context.Context, params GetGlobalLoadBalancersParams) (*GetGlobalLoadBalancersOK, error) {
 	res, err := c.sendGetGlobalLoadBalancers(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetGlobalLoadBalancers(ctx context.Context, params GetGlobalLoadBalancersParams) (res *GetGlobalLoadBalancersOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getGlobalLoadBalancers"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/sdn/global-lbs"),
 	}
 
 	// Run stopwatch.
@@ -11780,13 +13584,14 @@ func (c *Client) sendGetGlobalLoadBalancers(ctx context.Context, params GetGloba
 // GET /v1/hubs/current
 func (c *Client) GetHub(ctx context.Context, params GetHubParams) (*GetHubOK, error) {
 	res, err := c.sendGetHub(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetHub(ctx context.Context, params GetHubParams) (res *GetHubOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getHub"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current"),
 	}
 
 	// Run stopwatch.
@@ -11911,13 +13716,14 @@ func (c *Client) sendGetHub(ctx context.Context, params GetHubParams) (res *GetH
 // GET /v1/hubs/capabilities
 func (c *Client) GetHubCapabilities(ctx context.Context) (*GetHubCapabilitiesOK, error) {
 	res, err := c.sendGetHubCapabilities(ctx)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetHubCapabilities(ctx context.Context) (res *GetHubCapabilitiesOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getHubCapabilities"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/hubs/capabilities"),
 	}
 
 	// Run stopwatch.
@@ -11982,13 +13788,14 @@ func (c *Client) sendGetHubCapabilities(ctx context.Context) (res *GetHubCapabil
 // GET /v1/hubs/current/invites
 func (c *Client) GetHubInvites(ctx context.Context, params GetHubInvitesParams) (*GetHubInvitesOK, error) {
 	res, err := c.sendGetHubInvites(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetHubInvites(ctx context.Context, params GetHubInvitesParams) (res *GetHubInvitesOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getHubInvites"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/invites"),
 	}
 
 	// Run stopwatch.
@@ -12193,13 +14000,14 @@ func (c *Client) sendGetHubInvites(ctx context.Context, params GetHubInvitesPara
 // GET /v1/hubs/current/members/{memberId}
 func (c *Client) GetHubMember(ctx context.Context, params GetHubMemberParams) (*GetHubMemberOK, error) {
 	res, err := c.sendGetHubMember(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetHubMember(ctx context.Context, params GetHubMemberParams) (res *GetHubMemberOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getHubMember"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/members/{memberId}"),
 	}
 
 	// Run stopwatch.
@@ -12342,13 +14150,14 @@ func (c *Client) sendGetHubMember(ctx context.Context, params GetHubMemberParams
 // GET /v1/hubs/current/members
 func (c *Client) GetHubMembers(ctx context.Context, params GetHubMembersParams) (*GetHubMembersOK, error) {
 	res, err := c.sendGetHubMembers(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetHubMembers(ctx context.Context, params GetHubMembersParams) (res *GetHubMembersOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getHubMembers"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/members"),
 	}
 
 	// Run stopwatch.
@@ -12553,13 +14362,14 @@ func (c *Client) sendGetHubMembers(ctx context.Context, params GetHubMembersPara
 // GET /v1/hubs/current/members/account/{accountId}
 func (c *Client) GetHubMembersAccount(ctx context.Context, params GetHubMembersAccountParams) (*GetHubMembersAccountOK, error) {
 	res, err := c.sendGetHubMembersAccount(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetHubMembersAccount(ctx context.Context, params GetHubMembersAccountParams) (res *GetHubMembersAccountOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getHubMembersAccount"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/members/account/{accountId}"),
 	}
 
 	// Run stopwatch.
@@ -12736,13 +14546,14 @@ func (c *Client) sendGetHubMembersAccount(ctx context.Context, params GetHubMemb
 // GET /v1/hubs/current/membership
 func (c *Client) GetHubMembership(ctx context.Context, params GetHubMembershipParams) (*GetHubMembershipOK, error) {
 	res, err := c.sendGetHubMembership(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetHubMembership(ctx context.Context, params GetHubMembershipParams) (res *GetHubMembershipOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getHubMembership"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/membership"),
 	}
 
 	// Run stopwatch.
@@ -12947,13 +14758,14 @@ func (c *Client) sendGetHubMembership(ctx context.Context, params GetHubMembersh
 // GET /v1/hubs/current/usage
 func (c *Client) GetHubUsage(ctx context.Context, params GetHubUsageParams) (*GetHubUsageOK, error) {
 	res, err := c.sendGetHubUsage(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetHubUsage(ctx context.Context, params GetHubUsageParams) (res *GetHubUsageOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getHubUsage"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/usage"),
 	}
 
 	// Run stopwatch.
@@ -13072,13 +14884,14 @@ func (c *Client) sendGetHubUsage(ctx context.Context, params GetHubUsageParams) 
 // GET /v1/hubs
 func (c *Client) GetHubs(ctx context.Context, params GetHubsParams) (*GetHubsOK, error) {
 	res, err := c.sendGetHubs(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetHubs(ctx context.Context, params GetHubsParams) (res *GetHubsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getHubs"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/hubs"),
 	}
 
 	// Run stopwatch.
@@ -13214,13 +15027,14 @@ func (c *Client) sendGetHubs(ctx context.Context, params GetHubsParams) (res *Ge
 // GET /v1/images/{imageId}
 func (c *Client) GetImage(ctx context.Context, params GetImageParams) (*GetImageOK, error) {
 	res, err := c.sendGetImage(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetImage(ctx context.Context, params GetImageParams) (res *GetImageOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getImage"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/images/{imageId}"),
 	}
 
 	// Run stopwatch.
@@ -13437,13 +15251,14 @@ func (c *Client) sendGetImage(ctx context.Context, params GetImageParams) (res *
 // GET /v1/images/{imageId}/build-log
 func (c *Client) GetImageBuildLog(ctx context.Context, params GetImageBuildLogParams) (*GetImageBuildLogOK, error) {
 	res, err := c.sendGetImageBuildLog(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetImageBuildLog(ctx context.Context, params GetImageBuildLogParams) (res *GetImageBuildLogOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getImageBuildLog"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/images/{imageId}/build-log"),
 	}
 
 	// Run stopwatch.
@@ -13571,13 +15386,14 @@ func (c *Client) sendGetImageBuildLog(ctx context.Context, params GetImageBuildL
 // GET /v1/images
 func (c *Client) GetImages(ctx context.Context, params GetImagesParams) (*GetImagesOK, error) {
 	res, err := c.sendGetImages(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetImages(ctx context.Context, params GetImagesParams) (res *GetImagesOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getImages"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/images"),
 	}
 
 	// Run stopwatch.
@@ -13793,13 +15609,14 @@ func (c *Client) sendGetImages(ctx context.Context, params GetImagesParams) (res
 // GET /v1/infrastructure/ips/pools/{poolId}
 func (c *Client) GetInfrastructureIPPool(ctx context.Context, params GetInfrastructureIPPoolParams) (*GetInfrastructureIPPoolOK, error) {
 	res, err := c.sendGetInfrastructureIPPool(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetInfrastructureIPPool(ctx context.Context, params GetInfrastructureIPPoolParams) (res *GetInfrastructureIPPoolOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getInfrastructureIPPool"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/ips/pools/{poolId}"),
 	}
 
 	// Run stopwatch.
@@ -13953,13 +15770,14 @@ func (c *Client) sendGetInfrastructureIPPool(ctx context.Context, params GetInfr
 // GET /v1/infrastructure/ips/pools
 func (c *Client) GetInfrastructureIPPools(ctx context.Context, params GetInfrastructureIPPoolsParams) (*GetInfrastructureIPPoolsOK, error) {
 	res, err := c.sendGetInfrastructureIPPools(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetInfrastructureIPPools(ctx context.Context, params GetInfrastructureIPPoolsParams) (res *GetInfrastructureIPPoolsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getInfrastructureIPPools"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/ips/pools"),
 	}
 
 	// Run stopwatch.
@@ -14112,13 +15930,14 @@ func (c *Client) sendGetInfrastructureIPPools(ctx context.Context, params GetInf
 // GET /v1/infrastructure/summary
 func (c *Client) GetInfrastructureSummary(ctx context.Context, params GetInfrastructureSummaryParams) (*GetInfrastructureSummaryOK, error) {
 	res, err := c.sendGetInfrastructureSummary(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetInfrastructureSummary(ctx context.Context, params GetInfrastructureSummaryParams) (res *GetInfrastructureSummaryOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getInfrastructureSummary"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/summary"),
 	}
 
 	// Run stopwatch.
@@ -14248,13 +16067,14 @@ func (c *Client) sendGetInfrastructureSummary(ctx context.Context, params GetInf
 // GET /v1/containers/{containerId}/instances/{instanceId}/telemetry/resources/report
 func (c *Client) GetInstanceResourcesTelemetryReport(ctx context.Context, params GetInstanceResourcesTelemetryReportParams) (*GetInstanceResourcesTelemetryReportOK, error) {
 	res, err := c.sendGetInstanceResourcesTelemetryReport(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetInstanceResourcesTelemetryReport(ctx context.Context, params GetInstanceResourcesTelemetryReportParams) (res *GetInstanceResourcesTelemetryReportOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getInstanceResourcesTelemetryReport"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/instances/{instanceId}/telemetry/resources/report"),
 	}
 
 	// Run stopwatch.
@@ -14424,13 +16244,14 @@ func (c *Client) sendGetInstanceResourcesTelemetryReport(ctx context.Context, pa
 // GET /v1/containers/{containerId}/instances/{instanceId}/telemetry/resources/stream
 func (c *Client) GetInstanceResourcesTelemetryStream(ctx context.Context, params GetInstanceResourcesTelemetryStreamParams) (*GetInstanceResourcesTelemetryStreamOK, error) {
 	res, err := c.sendGetInstanceResourcesTelemetryStream(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetInstanceResourcesTelemetryStream(ctx context.Context, params GetInstanceResourcesTelemetryStreamParams) (res *GetInstanceResourcesTelemetryStreamOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getInstanceResourcesTelemetryStream"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/instances/{instanceId}/telemetry/resources/stream"),
 	}
 
 	// Run stopwatch.
@@ -14577,13 +16398,14 @@ func (c *Client) sendGetInstanceResourcesTelemetryStream(ctx context.Context, pa
 // GET /v1/containers/{containerId}/instances
 func (c *Client) GetInstances(ctx context.Context, params GetInstancesParams) (*GetInstancesOK, error) {
 	res, err := c.sendGetInstances(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetInstances(ctx context.Context, params GetInstancesParams) (res *GetInstancesOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getInstances"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/instances"),
 	}
 
 	// Run stopwatch.
@@ -14795,13 +16617,14 @@ func (c *Client) sendGetInstances(ctx context.Context, params GetInstancesParams
 // GET /v1/billing/invoices/{invoiceId}
 func (c *Client) GetInvoice(ctx context.Context, params GetInvoiceParams) (*GetInvoiceOK, error) {
 	res, err := c.sendGetInvoice(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetInvoice(ctx context.Context, params GetInvoiceParams) (res *GetInvoiceOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getInvoice"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/billing/invoices/{invoiceId}"),
 	}
 
 	// Run stopwatch.
@@ -14854,6 +16677,33 @@ func (c *Client) sendGetInvoice(ctx context.Context, params GetInvoiceParams) (r
 		pathParts[1] = encoded
 	}
 	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Meta {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	stage = "EncodeRequest"
 	r, err := ht.NewRequest(ctx, "GET", u)
@@ -14928,13 +16778,14 @@ func (c *Client) sendGetInvoice(ctx context.Context, params GetInvoiceParams) (r
 // GET /v1/billing/invoices
 func (c *Client) GetInvoices(ctx context.Context, params GetInvoicesParams) (*GetInvoicesOK, error) {
 	res, err := c.sendGetInvoices(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetInvoices(ctx context.Context, params GetInvoicesParams) (res *GetInvoicesOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getInvoices"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/billing/invoices"),
 	}
 
 	// Run stopwatch.
@@ -15127,13 +16978,14 @@ func (c *Client) sendGetInvoices(ctx context.Context, params GetInvoicesParams) 
 // GET /v1/jobs/{jobId}
 func (c *Client) GetJob(ctx context.Context, params GetJobParams) (*GetJobOK, error) {
 	res, err := c.sendGetJob(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetJob(ctx context.Context, params GetJobParams) (res *GetJobOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getJob"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/jobs/{jobId}"),
 	}
 
 	// Run stopwatch.
@@ -15260,13 +17112,14 @@ func (c *Client) sendGetJob(ctx context.Context, params GetJobParams) (res *GetJ
 // GET /v1/jobs
 func (c *Client) GetJobs(ctx context.Context, params GetJobsParams) (*GetJobsOK, error) {
 	res, err := c.sendGetJobs(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetJobs(ctx context.Context, params GetJobsParams) (res *GetJobsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getJobs"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/jobs"),
 	}
 
 	// Run stopwatch.
@@ -15459,13 +17312,14 @@ func (c *Client) sendGetJobs(ctx context.Context, params GetJobsParams) (res *Ge
 // GET /v1/jobs/latest
 func (c *Client) GetLatestJobs(ctx context.Context) (*GetLatestJobsOK, error) {
 	res, err := c.sendGetLatestJobs(ctx)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetLatestJobs(ctx context.Context) (res *GetLatestJobsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getLatestJobs"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/jobs/latest"),
 	}
 
 	// Run stopwatch.
@@ -15574,13 +17428,14 @@ func (c *Client) sendGetLatestJobs(ctx context.Context) (res *GetLatestJobsOK, e
 // GET /v1/environments/{environmentId}/services/lb
 func (c *Client) GetLoadBalancerInfo(ctx context.Context, params GetLoadBalancerInfoParams) (*GetLoadBalancerInfoOK, error) {
 	res, err := c.sendGetLoadBalancerInfo(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetLoadBalancerInfo(ctx context.Context, params GetLoadBalancerInfoParams) (res *GetLoadBalancerInfoOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getLoadBalancerInfo"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/services/lb"),
 	}
 
 	// Run stopwatch.
@@ -15713,13 +17568,14 @@ func (c *Client) sendGetLoadBalancerInfo(ctx context.Context, params GetLoadBala
 // GET /v1/environments/{environmentId}/services/lb/telemetry/latest
 func (c *Client) GetLoadBalancerLatestTelemetryReport(ctx context.Context, params GetLoadBalancerLatestTelemetryReportParams) (*GetLoadBalancerLatestTelemetryReportOK, error) {
 	res, err := c.sendGetLoadBalancerLatestTelemetryReport(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetLoadBalancerLatestTelemetryReport(ctx context.Context, params GetLoadBalancerLatestTelemetryReportParams) (res *GetLoadBalancerLatestTelemetryReportOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getLoadBalancerLatestTelemetryReport"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/services/lb/telemetry/latest"),
 	}
 
 	// Run stopwatch.
@@ -15851,13 +17707,14 @@ func (c *Client) sendGetLoadBalancerLatestTelemetryReport(ctx context.Context, p
 // GET /v1/environments/{environmentId}/services/lb/telemetry/report
 func (c *Client) GetLoadBalancerTelemetryReport(ctx context.Context, params GetLoadBalancerTelemetryReportParams) (*GetLoadBalancerTelemetryReportOK, error) {
 	res, err := c.sendGetLoadBalancerTelemetryReport(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetLoadBalancerTelemetryReport(ctx context.Context, params GetLoadBalancerTelemetryReportParams) (res *GetLoadBalancerTelemetryReportOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getLoadBalancerTelemetryReport"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/services/lb/telemetry/report"),
 	}
 
 	// Run stopwatch.
@@ -16006,13 +17863,14 @@ func (c *Client) sendGetLoadBalancerTelemetryReport(ctx context.Context, params 
 // GET /v1/infrastructure/providers/native
 func (c *Client) GetNativeProviders(ctx context.Context, params GetNativeProvidersParams) (*GetNativeProvidersOK, error) {
 	res, err := c.sendGetNativeProviders(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetNativeProviders(ctx context.Context, params GetNativeProvidersParams) (res *GetNativeProvidersOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getNativeProviders"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/native"),
 	}
 
 	// Run stopwatch.
@@ -16205,13 +18063,14 @@ func (c *Client) sendGetNativeProviders(ctx context.Context, params GetNativePro
 // GET /v1/sdn/networks/{networkId}
 func (c *Client) GetNetwork(ctx context.Context, params GetNetworkParams) (*GetNetworkOK, error) {
 	res, err := c.sendGetNetwork(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetNetwork(ctx context.Context, params GetNetworkParams) (res *GetNetworkOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getNetwork"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/sdn/networks/{networkId}"),
 	}
 
 	// Run stopwatch.
@@ -16365,13 +18224,14 @@ func (c *Client) sendGetNetwork(ctx context.Context, params GetNetworkParams) (r
 // GET /v1/sdn/networks
 func (c *Client) GetNetworks(ctx context.Context, params GetNetworksParams) (*GetNetworksOK, error) {
 	res, err := c.sendGetNetworks(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetNetworks(ctx context.Context, params GetNetworksParams) (res *GetNetworksOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getNetworks"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/sdn/networks"),
 	}
 
 	// Run stopwatch.
@@ -16564,13 +18424,14 @@ func (c *Client) sendGetNetworks(ctx context.Context, params GetNetworksParams) 
 // GET /v1/billing/orders
 func (c *Client) GetOrders(ctx context.Context, params GetOrdersParams) (*GetOrdersOK, error) {
 	res, err := c.sendGetOrders(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetOrders(ctx context.Context, params GetOrdersParams) (res *GetOrdersOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getOrders"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/billing/orders"),
 	}
 
 	// Run stopwatch.
@@ -16786,13 +18647,14 @@ func (c *Client) sendGetOrders(ctx context.Context, params GetOrdersParams) (res
 // GET /v1/pipelines/{pipelineId}
 func (c *Client) GetPipeline(ctx context.Context, params GetPipelineParams) (*GetPipelineOK, error) {
 	res, err := c.sendGetPipeline(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetPipeline(ctx context.Context, params GetPipelineParams) (res *GetPipelineOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getPipeline"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/pipelines/{pipelineId}"),
 	}
 
 	// Run stopwatch.
@@ -16946,13 +18808,14 @@ func (c *Client) sendGetPipeline(ctx context.Context, params GetPipelineParams) 
 // GET /v1/pipelines/{pipelineId}/runs
 func (c *Client) GetPipelineRuns(ctx context.Context, params GetPipelineRunsParams) (*GetPipelineRunsOK, error) {
 	res, err := c.sendGetPipelineRuns(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetPipelineRuns(ctx context.Context, params GetPipelineRunsParams) (res *GetPipelineRunsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getPipelineRuns"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/pipelines/{pipelineId}/runs"),
 	}
 
 	// Run stopwatch.
@@ -17130,13 +18993,14 @@ func (c *Client) sendGetPipelineRuns(ctx context.Context, params GetPipelineRuns
 // GET /v1/pipelines/{pipelineId}/keys/{triggerKeyId}
 func (c *Client) GetPipelineTriggerKey(ctx context.Context, params GetPipelineTriggerKeyParams) (*GetPipelineTriggerKeyOK, error) {
 	res, err := c.sendGetPipelineTriggerKey(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetPipelineTriggerKey(ctx context.Context, params GetPipelineTriggerKeyParams) (res *GetPipelineTriggerKeyOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getPipelineTriggerKey"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/pipelines/{pipelineId}/keys/{triggerKeyId}"),
 	}
 
 	// Run stopwatch.
@@ -17282,13 +19146,14 @@ func (c *Client) sendGetPipelineTriggerKey(ctx context.Context, params GetPipeli
 // GET /v1/pipelines/{pipelineId}/keys
 func (c *Client) GetPipelineTriggerKeys(ctx context.Context, params GetPipelineTriggerKeysParams) (*GetPipelineTriggerKeysOK, error) {
 	res, err := c.sendGetPipelineTriggerKeys(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetPipelineTriggerKeys(ctx context.Context, params GetPipelineTriggerKeysParams) (res *GetPipelineTriggerKeysOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getPipelineTriggerKeys"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/pipelines/{pipelineId}/keys"),
 	}
 
 	// Run stopwatch.
@@ -17477,13 +19342,14 @@ func (c *Client) sendGetPipelineTriggerKeys(ctx context.Context, params GetPipel
 // GET /v1/pipelines
 func (c *Client) GetPipelines(ctx context.Context, params GetPipelinesParams) (*GetPipelinesOK, error) {
 	res, err := c.sendGetPipelines(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetPipelines(ctx context.Context, params GetPipelinesParams) (res *GetPipelinesOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getPipelines"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/pipelines"),
 	}
 
 	// Run stopwatch.
@@ -17676,13 +19542,14 @@ func (c *Client) sendGetPipelines(ctx context.Context, params GetPipelinesParams
 // GET /v1/infrastructure/ips/pools/{poolId}/ips
 func (c *Client) GetPoolsIPs(ctx context.Context, params GetPoolsIPsParams) (*GetPoolsIPsOK, error) {
 	res, err := c.sendGetPoolsIPs(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetPoolsIPs(ctx context.Context, params GetPoolsIPsParams) (res *GetPoolsIPsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getPoolsIPs"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/ips/pools/{poolId}/ips"),
 	}
 
 	// Run stopwatch.
@@ -17810,13 +19677,14 @@ func (c *Client) sendGetPoolsIPs(ctx context.Context, params GetPoolsIPsParams) 
 // GET /v1/infrastructure/providers/{providerId}
 func (c *Client) GetProvider(ctx context.Context, params GetProviderParams) (*GetProviderOK, error) {
 	res, err := c.sendGetProvider(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetProvider(ctx context.Context, params GetProviderParams) (res *GetProviderOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getProvider"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerId}"),
 	}
 
 	// Run stopwatch.
@@ -17943,13 +19811,14 @@ func (c *Client) sendGetProvider(ctx context.Context, params GetProviderParams) 
 // GET /v1/infrastructure/providers/{providerId}/locations
 func (c *Client) GetProviderLocations(ctx context.Context, params GetProviderLocationsParams) (*GetProviderLocationsOK, error) {
 	res, err := c.sendGetProviderLocations(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetProviderLocations(ctx context.Context, params GetProviderLocationsParams) (res *GetProviderLocationsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getProviderLocations"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerId}/locations"),
 	}
 
 	// Run stopwatch.
@@ -18121,13 +19990,14 @@ func (c *Client) sendGetProviderLocations(ctx context.Context, params GetProvide
 // GET /v1/infrastructure/providers/{providerId}/servers
 func (c *Client) GetProviderServers(ctx context.Context, params GetProviderServersParams) (*GetProviderServersOK, error) {
 	res, err := c.sendGetProviderServers(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetProviderServers(ctx context.Context, params GetProviderServersParams) (res *GetProviderServersOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getProviderServers"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerId}/servers"),
 	}
 
 	// Run stopwatch.
@@ -18299,13 +20169,14 @@ func (c *Client) sendGetProviderServers(ctx context.Context, params GetProviderS
 // GET /v1/infrastructure/providers
 func (c *Client) GetProviders(ctx context.Context, params GetProvidersParams) (*GetProvidersOK, error) {
 	res, err := c.sendGetProviders(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetProviders(ctx context.Context, params GetProvidersParams) (res *GetProvidersOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getProviders"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/providers"),
 	}
 
 	// Run stopwatch.
@@ -18498,13 +20369,14 @@ func (c *Client) sendGetProviders(ctx context.Context, params GetProvidersParams
 // GET /v1/dns/zones/{zoneId}/records
 func (c *Client) GetRecordsCollection(ctx context.Context, params GetRecordsCollectionParams) (*GetRecordsCollectionOK, error) {
 	res, err := c.sendGetRecordsCollection(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetRecordsCollection(ctx context.Context, params GetRecordsCollectionParams) (res *GetRecordsCollectionOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getRecordsCollection"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/dns/zones/{zoneId}/records"),
 	}
 
 	// Run stopwatch.
@@ -18716,13 +20588,14 @@ func (c *Client) sendGetRecordsCollection(ctx context.Context, params GetRecords
 // GET /v1/containers/{containerId}/instances/{instanceId}/ssh
 func (c *Client) GetSSHConnection(ctx context.Context, params GetSSHConnectionParams) (*GetSSHConnectionOK, error) {
 	res, err := c.sendGetSSHConnection(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetSSHConnection(ctx context.Context, params GetSSHConnectionParams) (res *GetSSHConnectionOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getSSHConnection"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/instances/{instanceId}/ssh"),
 	}
 
 	// Run stopwatch.
@@ -18869,13 +20742,14 @@ func (c *Client) sendGetSSHConnection(ctx context.Context, params GetSSHConnecti
 // GET /v1/search/index
 func (c *Client) GetSearchIndex(ctx context.Context) (*GetSearchIndexOK, error) {
 	res, err := c.sendGetSearchIndex(ctx)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetSearchIndex(ctx context.Context) (res *GetSearchIndexOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getSearchIndex"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/search/index"),
 	}
 
 	// Run stopwatch.
@@ -18973,13 +20847,14 @@ func (c *Client) sendGetSearchIndex(ctx context.Context) (res *GetSearchIndexOK,
 // GET /v1/security/report
 func (c *Client) GetSecurityReport(ctx context.Context, params GetSecurityReportParams) (*GetSecurityReportOK, error) {
 	res, err := c.sendGetSecurityReport(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetSecurityReport(ctx context.Context, params GetSecurityReportParams) (res *GetSecurityReportOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getSecurityReport"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/security/report"),
 	}
 
 	// Run stopwatch.
@@ -19109,13 +20984,14 @@ func (c *Client) sendGetSecurityReport(ctx context.Context, params GetSecurityRe
 // GET /v1/infrastructure/servers/{serverId}/instances
 func (c *Client) GetServerInstances(ctx context.Context, params GetServerInstancesParams) (*GetServerInstancesOK, error) {
 	res, err := c.sendGetServerInstances(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetServerInstances(ctx context.Context, params GetServerInstancesParams) (res *GetServerInstancesOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getServerInstances"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/servers/{serverId}/instances"),
 	}
 
 	// Run stopwatch.
@@ -19287,13 +21163,14 @@ func (c *Client) sendGetServerInstances(ctx context.Context, params GetServerIns
 // GET /v1/infrastructure/servers/tags
 func (c *Client) GetServerTags(ctx context.Context, params GetServerTagsParams) (*ServerTags, error) {
 	res, err := c.sendGetServerTags(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetServerTags(ctx context.Context, params GetServerTagsParams) (res *ServerTags, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getServerTags"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/servers/tags"),
 	}
 
 	// Run stopwatch.
@@ -19416,20 +21293,21 @@ func (c *Client) sendGetServerTags(ctx context.Context, params GetServerTagsPara
 	return result, nil
 }
 
-// GetServerTelemetery invokes getServerTelemetery operation.
+// GetServerTelemetry invokes getServerTelemetry operation.
 //
 // Requires the `servers-view` capability. This call requires the filter query be used.
 //
 // GET /v1/infrastructure/servers/{serverId}/telemetry
-func (c *Client) GetServerTelemetery(ctx context.Context, params GetServerTelemeteryParams) (*GetServerTelemeteryOK, error) {
-	res, err := c.sendGetServerTelemetery(ctx, params)
-	_ = res
+func (c *Client) GetServerTelemetry(ctx context.Context, params GetServerTelemetryParams) (*GetServerTelemetryOK, error) {
+	res, err := c.sendGetServerTelemetry(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetServerTelemetery(ctx context.Context, params GetServerTelemeteryParams) (res *GetServerTelemeteryOK, err error) {
+func (c *Client) sendGetServerTelemetry(ctx context.Context, params GetServerTelemetryParams) (res *GetServerTelemetryOK, err error) {
 	otelAttrs := []attribute.KeyValue{
-		otelogen.OperationID("getServerTelemetery"),
+		otelogen.OperationID("getServerTelemetry"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/servers/{serverId}/telemetry"),
 	}
 
 	// Run stopwatch.
@@ -19444,7 +21322,7 @@ func (c *Client) sendGetServerTelemetery(ctx context.Context, params GetServerTe
 	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
 
 	// Start a span for this request.
-	ctx, span := c.cfg.Tracer.Start(ctx, "GetServerTelemetery",
+	ctx, span := c.cfg.Tracer.Start(ctx, "GetServerTelemetry",
 		trace.WithAttributes(otelAttrs...),
 		clientSpanKind,
 	)
@@ -19556,7 +21434,7 @@ func (c *Client) sendGetServerTelemetery(ctx context.Context, params GetServerTe
 		var satisfied bitset
 		{
 			stage = "Security:BearerAuth"
-			switch err := c.securityBearerAuth(ctx, "GetServerTelemetery", r); {
+			switch err := c.securityBearerAuth(ctx, "GetServerTelemetry", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -19567,7 +21445,7 @@ func (c *Client) sendGetServerTelemetery(ctx context.Context, params GetServerTe
 		}
 		{
 			stage = "Security:HubAuth"
-			switch err := c.securityHubAuth(ctx, "GetServerTelemetery", r); {
+			switch err := c.securityHubAuth(ctx, "GetServerTelemetry", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -19603,7 +21481,7 @@ func (c *Client) sendGetServerTelemetery(ctx context.Context, params GetServerTe
 	defer resp.Body.Close()
 
 	stage = "DecodeResponse"
-	result, err := decodeGetServerTelemeteryResponse(resp)
+	result, err := decodeGetServerTelemetryResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -19618,13 +21496,14 @@ func (c *Client) sendGetServerTelemetery(ctx context.Context, params GetServerTe
 // GET /v1/infrastructure/servers/{serverId}/usage
 func (c *Client) GetServerUsage(ctx context.Context, params GetServerUsageParams) (*GetServerUsageOK, error) {
 	res, err := c.sendGetServerUsage(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetServerUsage(ctx context.Context, params GetServerUsageParams) (res *GetServerUsageOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("GetServerUsage"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/servers/{serverId}/usage"),
 	}
 
 	// Run stopwatch.
@@ -19752,13 +21631,14 @@ func (c *Client) sendGetServerUsage(ctx context.Context, params GetServerUsagePa
 // GET /v1/infrastructure/servers/clusters
 func (c *Client) GetServersClusters(ctx context.Context) (*GetServersClustersOK, error) {
 	res, err := c.sendGetServersClusters(ctx)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetServersClusters(ctx context.Context) (res *GetServersClustersOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("GetServersClusters"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/servers/clusters"),
 	}
 
 	// Run stopwatch.
@@ -19867,13 +21747,14 @@ func (c *Client) sendGetServersClusters(ctx context.Context) (res *GetServersClu
 // GET /v1/infrastructure/servers
 func (c *Client) GetServersCollection(ctx context.Context, params GetServersCollectionParams) (*GetServersCollectionOK, error) {
 	res, err := c.sendGetServersCollection(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetServersCollection(ctx context.Context, params GetServersCollectionParams) (res *GetServersCollectionOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getServersCollection"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/servers"),
 	}
 
 	// Run stopwatch.
@@ -20089,13 +21970,14 @@ func (c *Client) sendGetServersCollection(ctx context.Context, params GetServers
 // GET /v1/infrastructure/servers/{serverId}
 func (c *Client) GetSingleServer(ctx context.Context, params GetSingleServerParams) (*GetSingleServerOK, error) {
 	res, err := c.sendGetSingleServer(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetSingleServer(ctx context.Context, params GetSingleServerParams) (res *GetSingleServerOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getSingleServer"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/servers/{serverId}"),
 	}
 
 	// Run stopwatch.
@@ -20272,13 +22154,14 @@ func (c *Client) sendGetSingleServer(ctx context.Context, params GetSingleServer
 // GET /v1/images/sources/{sourceId}
 func (c *Client) GetSource(ctx context.Context, params GetSourceParams) (*GetSourceOK, error) {
 	res, err := c.sendGetSource(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetSource(ctx context.Context, params GetSourceParams) (res *GetSourceOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getSource"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/images/sources/{sourceId}"),
 	}
 
 	// Run stopwatch.
@@ -20455,13 +22338,14 @@ func (c *Client) sendGetSource(ctx context.Context, params GetSourceParams) (res
 // GET /v1/images/sources
 func (c *Client) GetSourcesCollection(ctx context.Context, params GetSourcesCollectionParams) (*GetSourcesCollectionOK, error) {
 	res, err := c.sendGetSourcesCollection(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetSourcesCollection(ctx context.Context, params GetSourcesCollectionParams) (res *GetSourcesCollectionOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getSourcesCollection"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/images/sources"),
 	}
 
 	// Run stopwatch.
@@ -20677,13 +22561,14 @@ func (c *Client) sendGetSourcesCollection(ctx context.Context, params GetSources
 // GET /v1/stacks/{stackId}
 func (c *Client) GetStack(ctx context.Context, params GetStackParams) (*GetStackOK, error) {
 	res, err := c.sendGetStack(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetStack(ctx context.Context, params GetStackParams) (res *GetStackOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getStack"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/stacks/{stackId}"),
 	}
 
 	// Run stopwatch.
@@ -20810,13 +22695,14 @@ func (c *Client) sendGetStack(ctx context.Context, params GetStackParams) (res *
 // GET /v1/stacks/{stackId}/builds/{buildId}
 func (c *Client) GetStackBuild(ctx context.Context, params GetStackBuildParams) (*GetStackBuildOK, error) {
 	res, err := c.sendGetStackBuild(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetStackBuild(ctx context.Context, params GetStackBuildParams) (res *GetStackBuildOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getStackBuild"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/stacks/{stackId}/builds/{buildId}"),
 	}
 
 	// Run stopwatch.
@@ -20962,13 +22848,14 @@ func (c *Client) sendGetStackBuild(ctx context.Context, params GetStackBuildPara
 // GET /v1/stacks/builds/{buildId}
 func (c *Client) GetStackBuildLookup(ctx context.Context, params GetStackBuildLookupParams) (*GetStackBuildLookupOK, error) {
 	res, err := c.sendGetStackBuildLookup(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetStackBuildLookup(ctx context.Context, params GetStackBuildLookupParams) (res *GetStackBuildLookupOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getStackBuildLookup"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/stacks/builds/{buildId}"),
 	}
 
 	// Run stopwatch.
@@ -21095,13 +22982,14 @@ func (c *Client) sendGetStackBuildLookup(ctx context.Context, params GetStackBui
 // GET /v1/stacks/{stackId}/builds
 func (c *Client) GetStackBuilds(ctx context.Context, params GetStackBuildsParams) (*GetStackBuildsOK, error) {
 	res, err := c.sendGetStackBuilds(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetStackBuilds(ctx context.Context, params GetStackBuildsParams) (res *GetStackBuildsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getStackBuilds"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/stacks/{stackId}/builds"),
 	}
 
 	// Run stopwatch.
@@ -21336,13 +23224,14 @@ func (c *Client) sendGetStackBuilds(ctx context.Context, params GetStackBuildsPa
 // GET /v1/stacks
 func (c *Client) GetStacks(ctx context.Context, params GetStacksParams) (*GetStacksOK, error) {
 	res, err := c.sendGetStacks(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetStacks(ctx context.Context, params GetStacksParams) (res *GetStacksOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getStacks"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/stacks"),
 	}
 
 	// Run stopwatch.
@@ -21558,13 +23447,14 @@ func (c *Client) sendGetStacks(ctx context.Context, params GetStacksParams) (res
 // GET /v1/billing/plans/tiers
 func (c *Client) GetTiers(ctx context.Context) (*GetTiersOK, error) {
 	res, err := c.sendGetTiers(ctx)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetTiers(ctx context.Context) (res *GetTiersOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getTiers"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/billing/plans/tiers"),
 	}
 
 	// Run stopwatch.
@@ -21673,13 +23563,14 @@ func (c *Client) sendGetTiers(ctx context.Context) (res *GetTiersOK, err error) 
 // GET /v1/account/2fa/setup
 func (c *Client) GetTwoFaInfo(ctx context.Context) (*GetTwoFaInfoOK, error) {
 	res, err := c.sendGetTwoFaInfo(ctx)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetTwoFaInfo(ctx context.Context) (res *GetTwoFaInfoOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getTwoFaInfo"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/account/2fa/setup"),
 	}
 
 	// Run stopwatch.
@@ -21788,13 +23679,14 @@ func (c *Client) sendGetTwoFaInfo(ctx context.Context) (res *GetTwoFaInfoOK, err
 // GET /v1/containers/{containerId}/servers/usable
 func (c *Client) GetUsableServers(ctx context.Context, params GetUsableServersParams) (*GetUsableServersOK, error) {
 	res, err := c.sendGetUsableServers(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetUsableServers(ctx context.Context, params GetUsableServersParams) (res *GetUsableServersOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getUsableServers"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/servers/usable"),
 	}
 
 	// Run stopwatch.
@@ -22012,13 +23904,14 @@ func (c *Client) sendGetUsableServers(ctx context.Context, params GetUsableServe
 // GET /v1/environments/{environmentId}/services/vpn
 func (c *Client) GetVPNInfo(ctx context.Context, params GetVPNInfoParams) (*GetVPNInfoOK, error) {
 	res, err := c.sendGetVPNInfo(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetVPNInfo(ctx context.Context, params GetVPNInfoParams) (res *GetVPNInfoOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getVPNInfo"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/services/vpn"),
 	}
 
 	// Run stopwatch.
@@ -22146,13 +24039,14 @@ func (c *Client) sendGetVPNInfo(ctx context.Context, params GetVPNInfoParams) (r
 // GET /v1/environments/{environmentId}/services/vpn/users
 func (c *Client) GetVPNUsers(ctx context.Context, params GetVPNUsersParams) (*GetVPNUsersOK, error) {
 	res, err := c.sendGetVPNUsers(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetVPNUsers(ctx context.Context, params GetVPNUsersParams) (res *GetVPNUsersOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getVPNUsers"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/services/vpn/users"),
 	}
 
 	// Run stopwatch.
@@ -22280,13 +24174,14 @@ func (c *Client) sendGetVPNUsers(ctx context.Context, params GetVPNUsersParams) 
 // GET /v1/environments/{environmentId}/services/vpn/logins
 func (c *Client) GetVpnLogins(ctx context.Context, params GetVpnLoginsParams) (*GetVpnLoginsOK, error) {
 	res, err := c.sendGetVpnLogins(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetVpnLogins(ctx context.Context, params GetVpnLoginsParams) (res *GetVpnLoginsOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getVpnLogins"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/services/vpn/logins"),
 	}
 
 	// Run stopwatch.
@@ -22458,13 +24353,14 @@ func (c *Client) sendGetVpnLogins(ctx context.Context, params GetVpnLoginsParams
 // GET /v1/dns/zones
 func (c *Client) GetZonesCollection(ctx context.Context, params GetZonesCollectionParams) (*GetZonesCollectionOK, error) {
 	res, err := c.sendGetZonesCollection(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendGetZonesCollection(ctx context.Context, params GetZonesCollectionParams) (res *GetZonesCollectionOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getZonesCollection"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/dns/zones"),
 	}
 
 	// Run stopwatch.
@@ -22657,13 +24553,14 @@ func (c *Client) sendGetZonesCollection(ctx context.Context, params GetZonesColl
 // GET /v1/containers/{containerId}/instances/{instanceId}/console
 func (c *Client) InstanceConsoleAuth(ctx context.Context, params InstanceConsoleAuthParams) (*InstanceConsoleAuthOK, error) {
 	res, err := c.sendInstanceConsoleAuth(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendInstanceConsoleAuth(ctx context.Context, params InstanceConsoleAuthParams) (res *InstanceConsoleAuthOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("instanceConsoleAuth"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/instances/{instanceId}/console"),
 	}
 
 	// Run stopwatch.
@@ -22810,13 +24707,14 @@ func (c *Client) sendInstanceConsoleAuth(ctx context.Context, params InstanceCon
 // GET /v1/environments/{environmentId}/scoped-variables
 func (c *Client) ListScopedVariables(ctx context.Context, params ListScopedVariablesParams) (*ListScopedVariablesOK, error) {
 	res, err := c.sendListScopedVariables(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendListScopedVariables(ctx context.Context, params ListScopedVariablesParams) (res *ListScopedVariablesOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("listScopedVariables"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/scoped-variables"),
 	}
 
 	// Run stopwatch.
@@ -23005,13 +24903,14 @@ func (c *Client) sendListScopedVariables(ctx context.Context, params ListScopedV
 // GET /v1/dns/tls/certificates/lookup
 func (c *Client) LookupDnsCertificate(ctx context.Context, params LookupDnsCertificateParams) (*LookupDnsCertificateOK, error) {
 	res, err := c.sendLookupDnsCertificate(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendLookupDnsCertificate(ctx context.Context, params LookupDnsCertificateParams) (res *LookupDnsCertificateOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("lookupDnsCertificate"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/dns/tls/certificates/lookup"),
 	}
 
 	// Run stopwatch.
@@ -23155,13 +25054,14 @@ func (c *Client) sendLookupDnsCertificate(ctx context.Context, params LookupDnsC
 // GET /v1/hubs/current/notifications
 func (c *Client) PipelineAuth(ctx context.Context) (*PipelineAuthOK, error) {
 	res, err := c.sendPipelineAuth(ctx)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendPipelineAuth(ctx context.Context) (res *PipelineAuthOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("pipelineAuth"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/notifications"),
 	}
 
 	// Run stopwatch.
@@ -23270,13 +25170,14 @@ func (c *Client) sendPipelineAuth(ctx context.Context) (res *PipelineAuthOK, err
 // POST /v1/environments/{environmentId}/services/discovery/tasks
 func (c *Client) ReconfigureDiscovery(ctx context.Context, request OptReconfigureDiscoveryReq, params ReconfigureDiscoveryParams) (*ReconfigureDiscoveryAccepted, error) {
 	res, err := c.sendReconfigureDiscovery(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendReconfigureDiscovery(ctx context.Context, request OptReconfigureDiscoveryReq, params ReconfigureDiscoveryParams) (res *ReconfigureDiscoveryAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("reconfigureDiscovery"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/services/discovery/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -23423,13 +25324,14 @@ func (c *Client) sendReconfigureDiscovery(ctx context.Context, request OptReconf
 // POST /v1/environments/{environmentId}/services/lb/tasks
 func (c *Client) ReconfigureLoadBalancer(ctx context.Context, request OptReconfigureLoadBalancerReq, params ReconfigureLoadBalancerParams) (*ReconfigureLoadBalancerAccepted, error) {
 	res, err := c.sendReconfigureLoadBalancer(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendReconfigureLoadBalancer(ctx context.Context, request OptReconfigureLoadBalancerReq, params ReconfigureLoadBalancerParams) (res *ReconfigureLoadBalancerAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("reconfigureLoadBalancer"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/services/lb/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -23576,13 +25478,14 @@ func (c *Client) sendReconfigureLoadBalancer(ctx context.Context, request OptRec
 // POST /v1/account/2fa/recover
 func (c *Client) RecoverTwoFa(ctx context.Context, request OptRecoverTwoFaReq) (*RecoverTwoFaOK, error) {
 	res, err := c.sendRecoverTwoFa(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRecoverTwoFa(ctx context.Context, request OptRecoverTwoFaReq) (res *RecoverTwoFaOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("recoverTwoFa"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/account/2fa/recover"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -23710,13 +25613,14 @@ func (c *Client) sendRecoverTwoFa(ctx context.Context, request OptRecoverTwoFaRe
 // DELETE /v1/account
 func (c *Client) RemoveAccount(ctx context.Context) (*RemoveAccountOK, error) {
 	res, err := c.sendRemoveAccount(ctx)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveAccount(ctx context.Context) (res *RemoveAccountOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeAccount"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/account"),
 	}
 
 	// Run stopwatch.
@@ -23825,13 +25729,14 @@ func (c *Client) sendRemoveAccount(ctx context.Context) (res *RemoveAccountOK, e
 // DELETE /v1/hubs/current/api-keys/{apikeyId}
 func (c *Client) RemoveApiKey(ctx context.Context, params RemoveApiKeyParams) (*RemoveApiKeyOK, error) {
 	res, err := c.sendRemoveApiKey(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveApiKey(ctx context.Context, params RemoveApiKeyParams) (res *RemoveApiKeyOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeApiKey"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/api-keys/{apikeyId}"),
 	}
 
 	// Run stopwatch.
@@ -23951,6 +25856,140 @@ func (c *Client) sendRemoveApiKey(ctx context.Context, params RemoveApiKeyParams
 	return result, nil
 }
 
+// RemoveAutoScaleGroup invokes removeAutoScaleGroup operation.
+//
+// Requires the `autoscale-group-manage` capability.
+//
+// DELETE /v1/infrastructure/auto-scale/groups/{groupId}
+func (c *Client) RemoveAutoScaleGroup(ctx context.Context, params RemoveAutoScaleGroupParams) (*RemoveAutoScaleGroupAccepted, error) {
+	res, err := c.sendRemoveAutoScaleGroup(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendRemoveAutoScaleGroup(ctx context.Context, params RemoveAutoScaleGroupParams) (res *RemoveAutoScaleGroupAccepted, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("removeAutoScaleGroup"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/auto-scale/groups/{groupId}"),
+	}
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, "RemoveAutoScaleGroup",
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/infrastructure/auto-scale/groups/"
+	{
+		// Encode "groupId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "groupId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.GroupId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+			stage = "Security:BearerAuth"
+			switch err := c.securityBearerAuth(ctx, "RemoveAutoScaleGroup", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+			stage = "Security:HubAuth"
+			switch err := c.securityHubAuth(ctx, "RemoveAutoScaleGroup", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeRemoveAutoScaleGroupResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // RemoveBackup invokes removeBackup operation.
 //
 // Requires the `containers-backups-manage` capability.
@@ -23958,13 +25997,14 @@ func (c *Client) sendRemoveApiKey(ctx context.Context, params RemoveApiKeyParams
 // DELETE /v1/containers/{containerId}/backups/{backupId}
 func (c *Client) RemoveBackup(ctx context.Context, params RemoveBackupParams) (*RemoveBackupAccepted, error) {
 	res, err := c.sendRemoveBackup(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveBackup(ctx context.Context, params RemoveBackupParams) (res *RemoveBackupAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeBackup"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/backups/{backupId}"),
 	}
 
 	// Run stopwatch.
@@ -24110,13 +26150,14 @@ func (c *Client) sendRemoveBackup(ctx context.Context, params RemoveBackupParams
 // DELETE /v1/billing/methods/{methodId}
 func (c *Client) RemoveBillingMethod(ctx context.Context, params RemoveBillingMethodParams) (*RemoveBillingMethodOK, error) {
 	res, err := c.sendRemoveBillingMethod(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveBillingMethod(ctx context.Context, params RemoveBillingMethodParams) (res *RemoveBillingMethodOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeBillingMethod"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/billing/methods/{methodId}"),
 	}
 
 	// Run stopwatch.
@@ -24243,13 +26284,14 @@ func (c *Client) sendRemoveBillingMethod(ctx context.Context, params RemoveBilli
 // DELETE /v1/containers/{containerId}
 func (c *Client) RemoveContainer(ctx context.Context, params RemoveContainerParams) (*RemoveContainerOK, error) {
 	res, err := c.sendRemoveContainer(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveContainer(ctx context.Context, params RemoveContainerParams) (res *RemoveContainerOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeContainer"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}"),
 	}
 
 	// Run stopwatch.
@@ -24376,13 +26418,14 @@ func (c *Client) sendRemoveContainer(ctx context.Context, params RemoveContainer
 // DELETE /v1/containers/{containerId}/instances/{instanceId}
 func (c *Client) RemoveContainerInstance(ctx context.Context, params RemoveContainerInstanceParams) (*RemoveContainerInstanceOK, error) {
 	res, err := c.sendRemoveContainerInstance(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveContainerInstance(ctx context.Context, params RemoveContainerInstanceParams) (res *RemoveContainerInstanceOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeContainerInstance"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/instances/{instanceId}"),
 	}
 
 	// Run stopwatch.
@@ -24528,13 +26571,14 @@ func (c *Client) sendRemoveContainerInstance(ctx context.Context, params RemoveC
 // DELETE /v1/dns/zones/{zoneId}/records/{recordId}
 func (c *Client) RemoveDNSRecord(ctx context.Context, params RemoveDNSRecordParams) (*RemoveDNSRecordOK, error) {
 	res, err := c.sendRemoveDNSRecord(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveDNSRecord(ctx context.Context, params RemoveDNSRecordParams) (res *RemoveDNSRecordOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeDNSRecord"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/dns/zones/{zoneId}/records/{recordId}"),
 	}
 
 	// Run stopwatch.
@@ -24680,13 +26724,14 @@ func (c *Client) sendRemoveDNSRecord(ctx context.Context, params RemoveDNSRecord
 // DELETE /v1/dns/zones/{zoneId}
 func (c *Client) RemoveDNSZone(ctx context.Context, params RemoveDNSZoneParams) (*RemoveDNSZoneOK, error) {
 	res, err := c.sendRemoveDNSZone(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveDNSZone(ctx context.Context, params RemoveDNSZoneParams) (res *RemoveDNSZoneOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeDNSZone"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/dns/zones/{zoneId}"),
 	}
 
 	// Run stopwatch.
@@ -24813,13 +26858,14 @@ func (c *Client) sendRemoveDNSZone(ctx context.Context, params RemoveDNSZonePara
 // DELETE /v1/environments/{environmentId}
 func (c *Client) RemoveEnvironment(ctx context.Context, params RemoveEnvironmentParams) (*RemoveEnvironmentAccepted, error) {
 	res, err := c.sendRemoveEnvironment(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveEnvironment(ctx context.Context, params RemoveEnvironmentParams) (res *RemoveEnvironmentAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeEnvironment"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}"),
 	}
 
 	// Run stopwatch.
@@ -24946,13 +26992,14 @@ func (c *Client) sendRemoveEnvironment(ctx context.Context, params RemoveEnviron
 // DELETE /v1/sdn/global-lbs/{lbId}
 func (c *Client) RemoveGlobalLoadBalancer(ctx context.Context, params RemoveGlobalLoadBalancerParams) (*RemoveGlobalLoadBalancerOK, error) {
 	res, err := c.sendRemoveGlobalLoadBalancer(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveGlobalLoadBalancer(ctx context.Context, params RemoveGlobalLoadBalancerParams) (res *RemoveGlobalLoadBalancerOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeGlobalLoadBalancer"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/sdn/global-lbs/{lbId}"),
 	}
 
 	// Run stopwatch.
@@ -25079,13 +27126,14 @@ func (c *Client) sendRemoveGlobalLoadBalancer(ctx context.Context, params Remove
 // DELETE /v1/hubs/current
 func (c *Client) RemoveHub(ctx context.Context) (*RemoveHubAccepted, error) {
 	res, err := c.sendRemoveHub(ctx)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveHub(ctx context.Context) (res *RemoveHubAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeHub"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current"),
 	}
 
 	// Run stopwatch.
@@ -25183,13 +27231,14 @@ func (c *Client) sendRemoveHub(ctx context.Context) (res *RemoveHubAccepted, err
 // DELETE /v1/hubs/current/invites/{inviteId}
 func (c *Client) RemoveHubInvite(ctx context.Context, params RemoveHubInviteParams) (*RemoveHubInviteOK, error) {
 	res, err := c.sendRemoveHubInvite(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveHubInvite(ctx context.Context, params RemoveHubInviteParams) (res *RemoveHubInviteOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeHubInvite"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/invites/{inviteId}"),
 	}
 
 	// Run stopwatch.
@@ -25305,13 +27354,14 @@ func (c *Client) sendRemoveHubInvite(ctx context.Context, params RemoveHubInvite
 // DELETE /v1/hubs/current/members/{memberId}
 func (c *Client) RemoveHubMember(ctx context.Context, params RemoveHubMemberParams) (*RemoveHubMemberAccepted, error) {
 	res, err := c.sendRemoveHubMember(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveHubMember(ctx context.Context, params RemoveHubMemberParams) (res *RemoveHubMemberAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeHubMember"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/members/{memberId}"),
 	}
 
 	// Run stopwatch.
@@ -25427,13 +27477,14 @@ func (c *Client) sendRemoveHubMember(ctx context.Context, params RemoveHubMember
 // DELETE /v1/images/{imageId}
 func (c *Client) RemoveImage(ctx context.Context, params RemoveImageParams) (*RemoveImageOK, error) {
 	res, err := c.sendRemoveImage(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveImage(ctx context.Context, params RemoveImageParams) (res *RemoveImageOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeImage"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/images/{imageId}"),
 	}
 
 	// Run stopwatch.
@@ -25560,13 +27611,14 @@ func (c *Client) sendRemoveImage(ctx context.Context, params RemoveImageParams) 
 // DELETE /v1/images/sources/{sourceId}
 func (c *Client) RemoveImageSource(ctx context.Context, params RemoveImageSourceParams) (*RemoveImageSourceAccepted, error) {
 	res, err := c.sendRemoveImageSource(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveImageSource(ctx context.Context, params RemoveImageSourceParams) (res *RemoveImageSourceAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeImageSource"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/images/sources/{sourceId}"),
 	}
 
 	// Run stopwatch.
@@ -25693,13 +27745,14 @@ func (c *Client) sendRemoveImageSource(ctx context.Context, params RemoveImageSo
 // DELETE /v1/infrastructure/ips/pools/{poolId}
 func (c *Client) RemoveIpPool(ctx context.Context, params RemoveIpPoolParams) (*RemoveIpPoolAccepted, error) {
 	res, err := c.sendRemoveIpPool(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveIpPool(ctx context.Context, params RemoveIpPoolParams) (res *RemoveIpPoolAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeIpPool"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/ips/pools/{poolId}"),
 	}
 
 	// Run stopwatch.
@@ -25826,13 +27879,14 @@ func (c *Client) sendRemoveIpPool(ctx context.Context, params RemoveIpPoolParams
 // DELETE /v1/containers/{containerId}/instances
 func (c *Client) RemoveMultipleContainerInstances(ctx context.Context, params RemoveMultipleContainerInstancesParams) (*RemoveMultipleContainerInstancesOK, error) {
 	res, err := c.sendRemoveMultipleContainerInstances(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveMultipleContainerInstances(ctx context.Context, params RemoveMultipleContainerInstancesParams) (res *RemoveMultipleContainerInstancesOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeMultipleContainerInstances"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/instances"),
 	}
 
 	// Run stopwatch.
@@ -25960,13 +28014,14 @@ func (c *Client) sendRemoveMultipleContainerInstances(ctx context.Context, param
 // DELETE /v1/pipelines/{pipelineId}
 func (c *Client) RemovePipeline(ctx context.Context, params RemovePipelineParams) (*RemovePipelineOK, error) {
 	res, err := c.sendRemovePipeline(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemovePipeline(ctx context.Context, params RemovePipelineParams) (res *RemovePipelineOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removePipeline"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/pipelines/{pipelineId}"),
 	}
 
 	// Run stopwatch.
@@ -26093,13 +28148,14 @@ func (c *Client) sendRemovePipeline(ctx context.Context, params RemovePipelinePa
 // DELETE /v1/pipelines/{pipelineId}/keys/{triggerKeyId}
 func (c *Client) RemovePipelineTriggerKey(ctx context.Context, params RemovePipelineTriggerKeyParams) (*RemovePipelineTriggerKeyOK, error) {
 	res, err := c.sendRemovePipelineTriggerKey(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemovePipelineTriggerKey(ctx context.Context, params RemovePipelineTriggerKeyParams) (res *RemovePipelineTriggerKeyOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removePipelineTriggerKey"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/pipelines/{pipelineId}/keys/{triggerKeyId}"),
 	}
 
 	// Run stopwatch.
@@ -26245,13 +28301,14 @@ func (c *Client) sendRemovePipelineTriggerKey(ctx context.Context, params Remove
 // DELETE /v1/infrastructure/providers/{providerId}
 func (c *Client) RemoveProvider(ctx context.Context, params RemoveProviderParams) (*RemoveProviderAccepted, error) {
 	res, err := c.sendRemoveProvider(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveProvider(ctx context.Context, params RemoveProviderParams) (res *RemoveProviderAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeProvider"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerId}"),
 	}
 
 	// Run stopwatch.
@@ -26378,13 +28435,14 @@ func (c *Client) sendRemoveProvider(ctx context.Context, params RemoveProviderPa
 // DELETE /v1/sdn/networks/{networkId}
 func (c *Client) RemoveSDNNetwork(ctx context.Context, params RemoveSDNNetworkParams) (*RemoveSDNNetworkOK, error) {
 	res, err := c.sendRemoveSDNNetwork(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveSDNNetwork(ctx context.Context, params RemoveSDNNetworkParams) (res *RemoveSDNNetworkOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeSDNNetwork"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/sdn/networks/{networkId}"),
 	}
 
 	// Run stopwatch.
@@ -26511,13 +28569,14 @@ func (c *Client) sendRemoveSDNNetwork(ctx context.Context, params RemoveSDNNetwo
 // DELETE /v1/environments/{environmentId}/scoped-variables/{scopedVariableId}
 func (c *Client) RemoveScopedVariableById(ctx context.Context, params RemoveScopedVariableByIdParams) (*RemoveScopedVariableByIdAccepted, error) {
 	res, err := c.sendRemoveScopedVariableById(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveScopedVariableById(ctx context.Context, params RemoveScopedVariableByIdParams) (res *RemoveScopedVariableByIdAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeScopedVariableById"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/scoped-variables/{scopedVariableId}"),
 	}
 
 	// Run stopwatch.
@@ -26663,13 +28722,14 @@ func (c *Client) sendRemoveScopedVariableById(ctx context.Context, params Remove
 // DELETE /v1/infrastructure/servers/{serverId}
 func (c *Client) RemoveServer(ctx context.Context, params RemoveServerParams) (*RemoveServerOK, error) {
 	res, err := c.sendRemoveServer(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveServer(ctx context.Context, params RemoveServerParams) (res *RemoveServerOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeServer"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/servers/{serverId}"),
 	}
 
 	// Run stopwatch.
@@ -26796,13 +28856,14 @@ func (c *Client) sendRemoveServer(ctx context.Context, params RemoveServerParams
 // DELETE /v1/stacks/{stackId}
 func (c *Client) RemoveStack(ctx context.Context, params RemoveStackParams) (*RemoveStackOK, error) {
 	res, err := c.sendRemoveStack(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveStack(ctx context.Context, params RemoveStackParams) (res *RemoveStackOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeStack"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/stacks/{stackId}"),
 	}
 
 	// Run stopwatch.
@@ -26929,13 +28990,14 @@ func (c *Client) sendRemoveStack(ctx context.Context, params RemoveStackParams) 
 // DELETE /v1/stacks/{stackId}/builds/{buildId}
 func (c *Client) RemoveStackBuild(ctx context.Context, params RemoveStackBuildParams) (*RemoveStackBuildOK, error) {
 	res, err := c.sendRemoveStackBuild(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveStackBuild(ctx context.Context, params RemoveStackBuildParams) (res *RemoveStackBuildOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeStackBuild"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/stacks/{stackId}/builds/{buildId}"),
 	}
 
 	// Run stopwatch.
@@ -27081,13 +29143,14 @@ func (c *Client) sendRemoveStackBuild(ctx context.Context, params RemoveStackBui
 // DELETE /v1/environments/{environmentId}/services/vpn/users/{userId}
 func (c *Client) RemoveVPNUser(ctx context.Context, params RemoveVPNUserParams) (*RemoveVPNUserOK, error) {
 	res, err := c.sendRemoveVPNUser(ctx, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRemoveVPNUser(ctx context.Context, params RemoveVPNUserParams) (res *RemoveVPNUserOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeVPNUser"),
+		semconv.HTTPMethodKey.String("DELETE"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/services/vpn/users/{userId}"),
 	}
 
 	// Run stopwatch.
@@ -27230,16 +29293,17 @@ func (c *Client) sendRemoveVPNUser(ctx context.Context, params RemoveVPNUserPara
 //
 // Update a given invite.
 //
-// PATCH /v1/account/password
+// POST /v1/account/reset-password
 func (c *Client) ResetPassword(ctx context.Context, request OptResetPasswordReq) (*ResetPasswordOK, error) {
 	res, err := c.sendResetPassword(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendResetPassword(ctx context.Context, request OptResetPasswordReq) (res *ResetPasswordOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("resetPassword"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/account/reset-password"),
 	}
 
 	// Run stopwatch.
@@ -27272,11 +29336,11 @@ func (c *Client) sendResetPassword(ctx context.Context, request OptResetPassword
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
-	pathParts[0] = "/v1/account/password"
+	pathParts[0] = "/v1/account/reset-password"
 	uri.AddPathParts(u, pathParts[:]...)
 
 	stage = "EncodeRequest"
-	r, err := ht.NewRequest(ctx, "PATCH", u)
+	r, err := ht.NewRequest(ctx, "POST", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
@@ -27341,13 +29405,14 @@ func (c *Client) sendResetPassword(ctx context.Context, request OptResetPassword
 // POST /v1/containers/{containerId}/backups/{backupId}/tasks
 func (c *Client) RestoreBackupJob(ctx context.Context, request OptRestoreBackupJobReq, params RestoreBackupJobParams) (*RestoreBackupJobAccepted, error) {
 	res, err := c.sendRestoreBackupJob(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendRestoreBackupJob(ctx context.Context, request OptRestoreBackupJobReq, params RestoreBackupJobParams) (res *RestoreBackupJobAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("restoreBackupJob"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}/backups/{backupId}/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -27513,13 +29578,14 @@ func (c *Client) sendRestoreBackupJob(ctx context.Context, request OptRestoreBac
 // POST /v1/account/2fa/setup
 func (c *Client) SetupTwoFa(ctx context.Context, request OptSetupTwoFaReq) (*SetupTwoFaOK, error) {
 	res, err := c.sendSetupTwoFa(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendSetupTwoFa(ctx context.Context, request OptSetupTwoFaReq) (res *SetupTwoFaOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("setupTwoFa"),
+		semconv.HTTPMethodKey.String("POST"),
+		semconv.HTTPRouteKey.String("/v1/account/2fa/setup"),
 	}
 
 	// Run stopwatch.
@@ -27631,13 +29697,14 @@ func (c *Client) sendSetupTwoFa(ctx context.Context, request OptSetupTwoFaReq) (
 // PATCH /v1/account
 func (c *Client) UpdateAccount(ctx context.Context, request OptUpdateAccountReq) (*UpdateAccountOK, error) {
 	res, err := c.sendUpdateAccount(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateAccount(ctx context.Context, request OptUpdateAccountReq) (res *UpdateAccountOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateAccount"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/account"),
 	}
 
 	// Run stopwatch.
@@ -27749,13 +29816,14 @@ func (c *Client) sendUpdateAccount(ctx context.Context, request OptUpdateAccount
 // PATCH /v1/account/invites/{inviteId}
 func (c *Client) UpdateAccountInvite(ctx context.Context, request OptUpdateAccountInviteReq, params UpdateAccountInviteParams) (*UpdateAccountInviteOK, error) {
 	res, err := c.sendUpdateAccountInvite(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateAccountInvite(ctx context.Context, request OptUpdateAccountInviteReq, params UpdateAccountInviteParams) (res *UpdateAccountInviteOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateAccountInvite"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/account/invites/{inviteId}"),
 	}
 
 	// Run stopwatch.
@@ -27874,13 +29942,14 @@ func (c *Client) sendUpdateAccountInvite(ctx context.Context, request OptUpdateA
 // PATCH /v1/hubs/current/api-keys/{apikeyId}
 func (c *Client) UpdateApiKey(ctx context.Context, request OptUpdateApiKeyReq, params UpdateApiKeyParams) (*UpdateApiKeyOK, error) {
 	res, err := c.sendUpdateApiKey(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateApiKey(ctx context.Context, request OptUpdateApiKeyReq, params UpdateApiKeyParams) (res *UpdateApiKeyOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateApiKey"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/api-keys/{apikeyId}"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -28019,6 +30088,159 @@ func (c *Client) sendUpdateApiKey(ctx context.Context, request OptUpdateApiKeyRe
 	return result, nil
 }
 
+// UpdateAutoScaleGroup invokes updateAutoScaleGroup operation.
+//
+// Requires the `autoscale-groups-manage` capability.
+//
+// PATCH /v1/infrastructure/auto-scale/groups/{groupId}
+func (c *Client) UpdateAutoScaleGroup(ctx context.Context, request OptUpdateAutoScaleGroupReq, params UpdateAutoScaleGroupParams) (*UpdateAutoScaleGroupOK, error) {
+	res, err := c.sendUpdateAutoScaleGroup(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateAutoScaleGroup(ctx context.Context, request OptUpdateAutoScaleGroupReq, params UpdateAutoScaleGroupParams) (res *UpdateAutoScaleGroupOK, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("updateAutoScaleGroup"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/auto-scale/groups/{groupId}"),
+	}
+	// Validate request before sending.
+	if err := func() error {
+		if value, ok := request.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		return res, errors.Wrap(err, "validate")
+	}
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, "UpdateAutoScaleGroup",
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/infrastructure/auto-scale/groups/"
+	{
+		// Encode "groupId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "groupId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.GroupId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateAutoScaleGroupRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+			stage = "Security:BearerAuth"
+			switch err := c.securityBearerAuth(ctx, "UpdateAutoScaleGroup", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+			stage = "Security:HubAuth"
+			switch err := c.securityHubAuth(ctx, "UpdateAutoScaleGroup", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeUpdateAutoScaleGroupResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // UpdateBillingMethod invokes updateBillingMethod operation.
 //
 // Requires the `billing-methods-manage` capability.
@@ -28026,13 +30248,14 @@ func (c *Client) sendUpdateApiKey(ctx context.Context, request OptUpdateApiKeyRe
 // PATCH /v1/billing/methods/{methodId}
 func (c *Client) UpdateBillingMethod(ctx context.Context, request OptUpdateBillingMethodReq, params UpdateBillingMethodParams) (*UpdateBillingMethodOK, error) {
 	res, err := c.sendUpdateBillingMethod(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateBillingMethod(ctx context.Context, request OptUpdateBillingMethodReq, params UpdateBillingMethodParams) (res *UpdateBillingMethodOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateBillingMethod"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/billing/methods/{methodId}"),
 	}
 
 	// Run stopwatch.
@@ -28162,13 +30385,14 @@ func (c *Client) sendUpdateBillingMethod(ctx context.Context, request OptUpdateB
 // PATCH /v1/billing/orders/{orderId}
 func (c *Client) UpdateBillingOrder(ctx context.Context, request OptUpdateBillingOrderReq, params UpdateBillingOrderParams) (*UpdateBillingOrderOK, error) {
 	res, err := c.sendUpdateBillingOrder(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateBillingOrder(ctx context.Context, request OptUpdateBillingOrderReq, params UpdateBillingOrderParams) (res *UpdateBillingOrderOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateBillingOrder"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/billing/orders/{orderId}"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -28315,13 +30539,14 @@ func (c *Client) sendUpdateBillingOrder(ctx context.Context, request OptUpdateBi
 // PATCH /v1/containers/{containerId}
 func (c *Client) UpdateContainer(ctx context.Context, request OptUpdateContainerReq, params UpdateContainerParams) (*UpdateContainerOK, error) {
 	res, err := c.sendUpdateContainer(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateContainer(ctx context.Context, request OptUpdateContainerReq, params UpdateContainerParams) (res *UpdateContainerOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateContainer"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/containers/{containerId}"),
 	}
 
 	// Run stopwatch.
@@ -28451,13 +30676,14 @@ func (c *Client) sendUpdateContainer(ctx context.Context, request OptUpdateConta
 // PATCH /v1/dns/zones/{zoneId}/records/{recordId}
 func (c *Client) UpdateDNSRecord(ctx context.Context, request OptUpdateDNSRecordReq, params UpdateDNSRecordParams) (*UpdateDNSRecordOK, error) {
 	res, err := c.sendUpdateDNSRecord(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateDNSRecord(ctx context.Context, request OptUpdateDNSRecordReq, params UpdateDNSRecordParams) (res *UpdateDNSRecordOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateDNSRecord"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/dns/zones/{zoneId}/records/{recordId}"),
 	}
 
 	// Run stopwatch.
@@ -28606,13 +30832,14 @@ func (c *Client) sendUpdateDNSRecord(ctx context.Context, request OptUpdateDNSRe
 // PATCH /v1/dns/zones/{zoneId}
 func (c *Client) UpdateDNSZone(ctx context.Context, request OptUpdateDNSZoneReq, params UpdateDNSZoneParams) (*UpdateDNSZoneOK, error) {
 	res, err := c.sendUpdateDNSZone(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateDNSZone(ctx context.Context, request OptUpdateDNSZoneReq, params UpdateDNSZoneParams) (res *UpdateDNSZoneOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateDNSZone"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/dns/zones/{zoneId}"),
 	}
 
 	// Run stopwatch.
@@ -28770,13 +30997,14 @@ func (c *Client) sendUpdateDNSZone(ctx context.Context, request OptUpdateDNSZone
 // PATCH /v1/environments/{environmentId}
 func (c *Client) UpdateEnvironment(ctx context.Context, request OptUpdateEnvironmentReq, params UpdateEnvironmentParams) (*UpdateEnvironmentOK, error) {
 	res, err := c.sendUpdateEnvironment(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateEnvironment(ctx context.Context, request OptUpdateEnvironmentReq, params UpdateEnvironmentParams) (res *UpdateEnvironmentOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateEnvironment"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}"),
 	}
 
 	// Run stopwatch.
@@ -28906,13 +31134,14 @@ func (c *Client) sendUpdateEnvironment(ctx context.Context, request OptUpdateEnv
 // PATCH /v1/sdn/global-lbs/{lbId}
 func (c *Client) UpdateGlobalLoadBalancer(ctx context.Context, request OptUpdateGlobalLoadBalancerReq, params UpdateGlobalLoadBalancerParams) (*UpdateGlobalLoadBalancerOK, error) {
 	res, err := c.sendUpdateGlobalLoadBalancer(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateGlobalLoadBalancer(ctx context.Context, request OptUpdateGlobalLoadBalancerReq, params UpdateGlobalLoadBalancerParams) (res *UpdateGlobalLoadBalancerOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateGlobalLoadBalancer"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/sdn/global-lbs/{lbId}"),
 	}
 
 	// Run stopwatch.
@@ -29069,13 +31298,14 @@ func (c *Client) sendUpdateGlobalLoadBalancer(ctx context.Context, request OptUp
 // PATCH /v1/hubs/current
 func (c *Client) UpdateHub(ctx context.Context, request OptUpdateHubReq) (*UpdateHubOK, error) {
 	res, err := c.sendUpdateHub(ctx, request)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateHub(ctx context.Context, request OptUpdateHubReq) (res *UpdateHubOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateHub"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current"),
 	}
 
 	// Run stopwatch.
@@ -29187,13 +31417,14 @@ func (c *Client) sendUpdateHub(ctx context.Context, request OptUpdateHubReq) (re
 // PATCH /v1/hubs/current/members/{memberId}
 func (c *Client) UpdateHubMember(ctx context.Context, request OptUpdateHubMemberReq, params UpdateHubMemberParams) (*UpdateHubMemberOK, error) {
 	res, err := c.sendUpdateHubMember(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateHubMember(ctx context.Context, request OptUpdateHubMemberReq, params UpdateHubMemberParams) (res *UpdateHubMemberOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateHubMember"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/hubs/current/members/{memberId}"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -29328,13 +31559,14 @@ func (c *Client) sendUpdateHubMember(ctx context.Context, request OptUpdateHubMe
 // PATCH /v1/images/{imageId}
 func (c *Client) UpdateImage(ctx context.Context, request OptUpdateImageReq, params UpdateImageParams) (*UpdateImageOK, error) {
 	res, err := c.sendUpdateImage(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateImage(ctx context.Context, request OptUpdateImageReq, params UpdateImageParams) (res *UpdateImageOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateImage"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/images/{imageId}"),
 	}
 
 	// Run stopwatch.
@@ -29464,13 +31696,14 @@ func (c *Client) sendUpdateImage(ctx context.Context, request OptUpdateImageReq,
 // PATCH /v1/images/sources/{sourceId}
 func (c *Client) UpdateImageSource(ctx context.Context, request OptUpdateImageSourceReq, params UpdateImageSourceParams) (*UpdateImageSourceOK, error) {
 	res, err := c.sendUpdateImageSource(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateImageSource(ctx context.Context, request OptUpdateImageSourceReq, params UpdateImageSourceParams) (res *UpdateImageSourceOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateImageSource"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/images/sources/{sourceId}"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -29609,6 +31842,114 @@ func (c *Client) sendUpdateImageSource(ctx context.Context, request OptUpdateIma
 	return result, nil
 }
 
+// UpdatePassword invokes updatePassword operation.
+//
+// Update a given invite.
+//
+// PATCH /v1/account/password
+func (c *Client) UpdatePassword(ctx context.Context, request OptUpdatePasswordReq) (*UpdatePasswordOK, error) {
+	res, err := c.sendUpdatePassword(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendUpdatePassword(ctx context.Context, request OptUpdatePasswordReq) (res *UpdatePasswordOK, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("updatePassword"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/account/password"),
+	}
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, "UpdatePassword",
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/account/password"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdatePasswordRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+			stage = "Security:BearerAuth"
+			switch err := c.securityBearerAuth(ctx, "UpdatePassword", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeUpdatePasswordResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // UpdatePipeline invokes updatePipeline operation.
 //
 // Requires the `pipelines-manage` capability.
@@ -29616,13 +31957,14 @@ func (c *Client) sendUpdateImageSource(ctx context.Context, request OptUpdateIma
 // PATCH /v1/pipelines/{pipelineId}
 func (c *Client) UpdatePipeline(ctx context.Context, request OptUpdatePipelineReq, params UpdatePipelineParams) (*UpdatePipelineOK, error) {
 	res, err := c.sendUpdatePipeline(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdatePipeline(ctx context.Context, request OptUpdatePipelineReq, params UpdatePipelineParams) (res *UpdatePipelineOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updatePipeline"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/pipelines/{pipelineId}"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -29768,13 +32110,14 @@ func (c *Client) sendUpdatePipeline(ctx context.Context, request OptUpdatePipeli
 // PATCH /v1/pipelines/{pipelineId}/keys/{triggerKeyId}
 func (c *Client) UpdatePipelineTriggerKey(ctx context.Context, request OptUpdatePipelineTriggerKeyReq, params UpdatePipelineTriggerKeyParams) (*UpdatePipelineTriggerKeyOK, error) {
 	res, err := c.sendUpdatePipelineTriggerKey(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdatePipelineTriggerKey(ctx context.Context, request OptUpdatePipelineTriggerKeyReq, params UpdatePipelineTriggerKeyParams) (res *UpdatePipelineTriggerKeyOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updatePipelineTriggerKey"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/pipelines/{pipelineId}/keys/{triggerKeyId}"),
 	}
 
 	// Run stopwatch.
@@ -29923,13 +32266,14 @@ func (c *Client) sendUpdatePipelineTriggerKey(ctx context.Context, request OptUp
 // PATCH /v1/infrastructure/providers/{providerId}
 func (c *Client) UpdateProvider(ctx context.Context, request OptUpdateProviderReq, params UpdateProviderParams) (*UpdateProviderOK, error) {
 	res, err := c.sendUpdateProvider(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateProvider(ctx context.Context, request OptUpdateProviderReq, params UpdateProviderParams) (res *UpdateProviderOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateProvider"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerId}"),
 	}
 
 	// Run stopwatch.
@@ -30059,13 +32403,14 @@ func (c *Client) sendUpdateProvider(ctx context.Context, request OptUpdateProvid
 // PATCH /v1/sdn/networks/{networkId}
 func (c *Client) UpdateSDNNetwork(ctx context.Context, request OptUpdateSDNNetworkReq, params UpdateSDNNetworkParams) (*UpdateSDNNetworkOK, error) {
 	res, err := c.sendUpdateSDNNetwork(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateSDNNetwork(ctx context.Context, request OptUpdateSDNNetworkReq, params UpdateSDNNetworkParams) (res *UpdateSDNNetworkOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateSDNNetwork"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/sdn/networks/{networkId}"),
 	}
 
 	// Run stopwatch.
@@ -30222,13 +32567,14 @@ func (c *Client) sendUpdateSDNNetwork(ctx context.Context, request OptUpdateSDNN
 // PATCH /v1/environments/{environmentId}/scoped-variables/{scopedVariableId}
 func (c *Client) UpdateScopedVariable(ctx context.Context, request OptUpdateScopedVariableReq, params UpdateScopedVariableParams) (*UpdateScopedVariableOK, error) {
 	res, err := c.sendUpdateScopedVariable(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateScopedVariable(ctx context.Context, request OptUpdateScopedVariableReq, params UpdateScopedVariableParams) (res *UpdateScopedVariableOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateScopedVariable"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/environments/{environmentId}/scoped-variables/{scopedVariableId}"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -30393,13 +32739,14 @@ func (c *Client) sendUpdateScopedVariable(ctx context.Context, request OptUpdate
 // PATCH /v1/infrastructure/servers/{serverId}
 func (c *Client) UpdateServer(ctx context.Context, request OptUpdateServerReq, params UpdateServerParams) (*UpdateServerOK, error) {
 	res, err := c.sendUpdateServer(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateServer(ctx context.Context, request OptUpdateServerReq, params UpdateServerParams) (res *UpdateServerOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateServer"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/servers/{serverId}"),
 	}
 
 	// Run stopwatch.
@@ -30529,13 +32876,14 @@ func (c *Client) sendUpdateServer(ctx context.Context, request OptUpdateServerRe
 // PATCH /v1/stacks/{stackId}
 func (c *Client) UpdateStack(ctx context.Context, request OptUpdateStackReq, params UpdateStackParams) (*UpdateStackOK, error) {
 	res, err := c.sendUpdateStack(ctx, request, params)
-	_ = res
 	return res, err
 }
 
 func (c *Client) sendUpdateStack(ctx context.Context, request OptUpdateStackReq, params UpdateStackParams) (res *UpdateStackOK, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateStack"),
+		semconv.HTTPMethodKey.String("PATCH"),
+		semconv.HTTPRouteKey.String("/v1/stacks/{stackId}"),
 	}
 	// Validate request before sending.
 	if err := func() error {
