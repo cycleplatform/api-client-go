@@ -2587,10 +2587,10 @@ func decodeCreateScopedVariableResponse(resp *http.Response) (res *CreateScopedV
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeCreateServerResponse(resp *http.Response) (res *CreateServerCreated, _ error) {
+func decodeCreateServerResponse(resp *http.Response) (res *CreateServerAccepted, _ error) {
 	switch resp.StatusCode {
-	case 201:
-		// Code 201.
+	case 202:
+		// Code 202.
 		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
 		if err != nil {
 			return res, errors.Wrap(err, "parse media type")
@@ -2603,7 +2603,7 @@ func decodeCreateServerResponse(resp *http.Response) (res *CreateServerCreated, 
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response CreateServerCreated
+			var response CreateServerAccepted
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err
@@ -12232,6 +12232,89 @@ func decodeLookupDnsCertificateResponse(resp *http.Response) (res *LookupDnsCert
 			d := jx.DecodeBytes(buf)
 
 			var response LookupDnsCertificateOK
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &response, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}
+	// Convenient error response.
+	defRes, err := func() (res *ErrorEnvelopeStatusCode, err error) {
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response ErrorEnvelope
+			if err := func() error {
+				if err := response.Decode(d); err != nil {
+					return err
+				}
+				if err := d.Skip(); err != io.EOF {
+					return errors.New("unexpected trailing data")
+				}
+				return nil
+			}(); err != nil {
+				err = &ogenerrors.DecodeBodyError{
+					ContentType: ct,
+					Body:        buf,
+					Err:         err,
+				}
+				return res, err
+			}
+			return &ErrorEnvelopeStatusCode{
+				StatusCode: resp.StatusCode,
+				Response:   response,
+			}, nil
+		default:
+			return res, validate.InvalidContentType(ct)
+		}
+	}()
+	if err != nil {
+		return res, errors.Wrapf(err, "default (code %d)", resp.StatusCode)
+	}
+	return res, errors.Wrap(defRes, "error")
+}
+
+func decodeLookupIdentifierResponse(resp *http.Response) (res *LookupIdentifierOK, _ error) {
+	switch resp.StatusCode {
+	case 200:
+		// Code 200.
+		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
+		if err != nil {
+			return res, errors.Wrap(err, "parse media type")
+		}
+		switch {
+		case ct == "application/json":
+			buf, err := io.ReadAll(resp.Body)
+			if err != nil {
+				return res, err
+			}
+			d := jx.DecodeBytes(buf)
+
+			var response LookupIdentifierOK
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err

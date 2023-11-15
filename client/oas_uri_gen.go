@@ -1935,20 +1935,44 @@ func (s *GetContainersFilter) EncodeURI(e uri.Encoder) error {
 	}); err != nil {
 		return errors.Wrap(err, "encode field \"stack\"")
 	}
+	if err := e.EncodeField("range-start", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusStart.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-start\"")
+	}
+	if err := e.EncodeField("range-end", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusEnd.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-end\"")
+	}
 	return nil
 }
 
-var uriFieldsNameOfGetContainersFilter = [10]string{
-	0: "creator",
-	1: "identifier",
-	2: "search",
-	3: "state",
-	4: "service",
-	5: "public_network",
-	6: "image",
-	7: "environment",
-	8: "tags",
-	9: "stack",
+var uriFieldsNameOfGetContainersFilter = [12]string{
+	0:  "creator",
+	1:  "identifier",
+	2:  "search",
+	3:  "state",
+	4:  "service",
+	5:  "public_network",
+	6:  "image",
+	7:  "environment",
+	8:  "tags",
+	9:  "stack",
+	10: "range-start",
+	11: "range-end",
 }
 
 // DecodeURI decodes GetContainersFilter from URI form.
@@ -2199,6 +2223,68 @@ func (s *GetContainersFilter) DecodeURI(d uri.Decoder) error {
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"stack\"")
 			}
+		case "range-start":
+			if err := func() error {
+				var sDotRangeMinusStartVal DateTime
+				if err := func() error {
+					var sDotRangeMinusStartValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusStartValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusStartVal = DateTime(sDotRangeMinusStartValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusStart.SetTo(sDotRangeMinusStartVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-start\"")
+			}
+		case "range-end":
+			if err := func() error {
+				var sDotRangeMinusEndVal DateTime
+				if err := func() error {
+					var sDotRangeMinusEndValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusEndValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusEndVal = DateTime(sDotRangeMinusEndValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusEnd.SetTo(sDotRangeMinusEndVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-end\"")
+			}
 		default:
 			return nil
 		}
@@ -2305,10 +2391,44 @@ func (s *GetContainersPage) DecodeURI(d uri.Decoder) error {
 
 // EncodeURI encodes GetCreditsFilter as URI form.
 func (s *GetCreditsFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	if err := e.EncodeField("range-start", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusStart.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-start\"")
+	}
+	if err := e.EncodeField("range-end", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusEnd.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-end\"")
+	}
 	return nil
 }
 
-var uriFieldsNameOfGetCreditsFilter = [0]string{}
+var uriFieldsNameOfGetCreditsFilter = [3]string{
+	0: "state",
+	1: "range-start",
+	2: "range-end",
+}
 
 // DecodeURI decodes GetCreditsFilter from URI form.
 func (s *GetCreditsFilter) DecodeURI(d uri.Decoder) error {
@@ -2318,6 +2438,92 @@ func (s *GetCreditsFilter) DecodeURI(d uri.Decoder) error {
 
 	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
 		switch k {
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		case "range-start":
+			if err := func() error {
+				var sDotRangeMinusStartVal DateTime
+				if err := func() error {
+					var sDotRangeMinusStartValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusStartValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusStartVal = DateTime(sDotRangeMinusStartValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusStart.SetTo(sDotRangeMinusStartVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-start\"")
+			}
+		case "range-end":
+			if err := func() error {
+				var sDotRangeMinusEndVal DateTime
+				if err := func() error {
+					var sDotRangeMinusEndValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusEndValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusEndVal = DateTime(sDotRangeMinusEndValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusEnd.SetTo(sDotRangeMinusEndVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-end\"")
+			}
 		default:
 			return nil
 		}
@@ -4311,13 +4517,37 @@ func (s *GetInstancesFilter) EncodeURI(e uri.Encoder) error {
 	}); err != nil {
 		return errors.Wrap(err, "encode field \"server\"")
 	}
+	if err := e.EncodeField("range-start", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusStart.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-start\"")
+	}
+	if err := e.EncodeField("range-end", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusEnd.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-end\"")
+	}
 	return nil
 }
 
-var uriFieldsNameOfGetInstancesFilter = [3]string{
+var uriFieldsNameOfGetInstancesFilter = [5]string{
 	0: "state",
 	1: "search",
 	2: "server",
+	3: "range-start",
+	4: "range-end",
 }
 
 // DecodeURI decodes GetInstancesFilter from URI form.
@@ -4399,6 +4629,68 @@ func (s *GetInstancesFilter) DecodeURI(d uri.Decoder) error {
 				return nil
 			}(); err != nil {
 				return errors.Wrap(err, "decode field \"server\"")
+			}
+		case "range-start":
+			if err := func() error {
+				var sDotRangeMinusStartVal DateTime
+				if err := func() error {
+					var sDotRangeMinusStartValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusStartValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusStartVal = DateTime(sDotRangeMinusStartValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusStart.SetTo(sDotRangeMinusStartVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-start\"")
+			}
+		case "range-end":
+			if err := func() error {
+				var sDotRangeMinusEndVal DateTime
+				if err := func() error {
+					var sDotRangeMinusEndValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusEndValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusEndVal = DateTime(sDotRangeMinusEndValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusEnd.SetTo(sDotRangeMinusEndVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-end\"")
 			}
 		default:
 			return nil
@@ -4506,10 +4798,44 @@ func (s *GetInstancesPage) DecodeURI(d uri.Decoder) error {
 
 // EncodeURI encodes GetInvoicesFilter as URI form.
 func (s *GetInvoicesFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("state", func(e uri.Encoder) error {
+		if val, ok := s.State.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"state\"")
+	}
+	if err := e.EncodeField("range-start", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusStart.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-start\"")
+	}
+	if err := e.EncodeField("range-end", func(e uri.Encoder) error {
+		if val, ok := s.RangeMinusEnd.Get(); ok {
+			if unwrapped := time.Time(val); true {
+				return e.EncodeValue(conv.DateTimeToString(unwrapped))
+			}
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"range-end\"")
+	}
 	return nil
 }
 
-var uriFieldsNameOfGetInvoicesFilter = [0]string{}
+var uriFieldsNameOfGetInvoicesFilter = [3]string{
+	0: "state",
+	1: "range-start",
+	2: "range-end",
+}
 
 // DecodeURI decodes GetInvoicesFilter from URI form.
 func (s *GetInvoicesFilter) DecodeURI(d uri.Decoder) error {
@@ -4519,6 +4845,92 @@ func (s *GetInvoicesFilter) DecodeURI(d uri.Decoder) error {
 
 	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
 		switch k {
+		case "state":
+			if err := func() error {
+				var sDotStateVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotStateVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.State.SetTo(sDotStateVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"state\"")
+			}
+		case "range-start":
+			if err := func() error {
+				var sDotRangeMinusStartVal DateTime
+				if err := func() error {
+					var sDotRangeMinusStartValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusStartValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusStartVal = DateTime(sDotRangeMinusStartValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusStart.SetTo(sDotRangeMinusStartVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-start\"")
+			}
+		case "range-end":
+			if err := func() error {
+				var sDotRangeMinusEndVal DateTime
+				if err := func() error {
+					var sDotRangeMinusEndValVal time.Time
+					if err := func() error {
+						val, err := d.DecodeValue()
+						if err != nil {
+							return err
+						}
+
+						c, err := conv.ToDateTime(val)
+						if err != nil {
+							return err
+						}
+
+						sDotRangeMinusEndValVal = c
+						return nil
+					}(); err != nil {
+						return err
+					}
+					sDotRangeMinusEndVal = DateTime(sDotRangeMinusEndValVal)
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.RangeMinusEnd.SetTo(sDotRangeMinusEndVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"range-end\"")
+			}
 		default:
 			return nil
 		}
@@ -5959,6 +6371,66 @@ func (s *GetProviderLocationsPage) DecodeURI(d uri.Decoder) error {
 		return nil
 	}); err != nil {
 		return errors.Wrap(err, "decode GetProviderLocationsPage")
+	}
+
+	return nil
+}
+
+// EncodeURI encodes GetProviderServersFilter as URI form.
+func (s *GetProviderServersFilter) EncodeURI(e uri.Encoder) error {
+	if err := e.EncodeField("location_ids", func(e uri.Encoder) error {
+		if val, ok := s.LocationIds.Get(); ok {
+			return e.EncodeValue(conv.StringToString(val))
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "encode field \"location_ids\"")
+	}
+	return nil
+}
+
+var uriFieldsNameOfGetProviderServersFilter = [1]string{
+	0: "location_ids",
+}
+
+// DecodeURI decodes GetProviderServersFilter from URI form.
+func (s *GetProviderServersFilter) DecodeURI(d uri.Decoder) error {
+	if s == nil {
+		return errors.New("invalid: unable to decode GetProviderServersFilter to nil")
+	}
+
+	if err := d.DecodeFields(func(k string, d uri.Decoder) error {
+		switch k {
+		case "location_ids":
+			if err := func() error {
+				var sDotLocationIdsVal string
+				if err := func() error {
+					val, err := d.DecodeValue()
+					if err != nil {
+						return err
+					}
+
+					c, err := conv.ToString(val)
+					if err != nil {
+						return err
+					}
+
+					sDotLocationIdsVal = c
+					return nil
+				}(); err != nil {
+					return err
+				}
+				s.LocationIds.SetTo(sDotLocationIdsVal)
+				return nil
+			}(); err != nil {
+				return errors.Wrap(err, "decode field \"location_ids\"")
+			}
+		default:
+			return nil
+		}
+		return nil
+	}); err != nil {
+		return errors.Wrap(err, "decode GetProviderServersFilter")
 	}
 
 	return nil

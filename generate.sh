@@ -1,1 +1,1 @@
-go run github.com/ogen-go/ogen/cmd/ogen@v0.76.0 --debug.noerr  --target client --no-server --clean ./api-spec/dist/public-api.yml
+go run github.com/ogen-go/ogen/cmd/ogen@v0.76.0 --debug.noerr  --target client --no-server  --clean ./api-spec/dist/public-api.yml

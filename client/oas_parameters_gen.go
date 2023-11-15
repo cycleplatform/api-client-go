@@ -103,8 +103,9 @@ type CreatePipelineTriggerKeyParams struct {
 
 // CreateProviderJobParams is parameters of createProviderJob operation.
 type CreateProviderJobParams struct {
-	// The ID for the given provider.
-	ProviderId string
+	// The identifier for the given provider. Example `gcp`, `equinix-metal`, `a-<abstract-provider-id>`,
+	// etc.
+	ProviderIdentifier string
 }
 
 // CreateSDNNetworkParams is parameters of createSDNNetwork operation.
@@ -466,8 +467,11 @@ type GetCreditParams struct {
 // GetCreditsParams is parameters of getCredits operation.
 type GetCreditsParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort   []string
-	Filter *GetCreditsFilter
+	Sort []string
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetCreditsFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetCreditsPage
@@ -810,8 +814,7 @@ type GetInvoiceParams struct {
 // GetInvoicesParams is parameters of getInvoices operation.
 type GetInvoicesParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort   []string
-	Filter *GetInvoicesFilter
+	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetInvoicesPage
@@ -820,6 +823,10 @@ type GetInvoicesParams struct {
 	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
 	// in the root document. These will be clearly labeled.
 	Meta []GetInvoicesMetaItem
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetInvoicesFilter
 }
 
 // GetJobParams is parameters of getJob operation.
@@ -1008,14 +1015,21 @@ type GetPoolsIPsParams struct {
 
 // GetProviderParams is parameters of getProvider operation.
 type GetProviderParams struct {
-	// The ID for the given provider.
-	ProviderId string
+	// The identifier for the given provider. Example `gcp`, `equinix-metal`, `a-<abstract-provider-id>`,
+	// etc.
+	ProviderIdentifier string
+	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
+	// In the case of applying a meta to a collection of resources, each resource will have it's own
+	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
+	// in the root document. These will be clearly labeled.
+	Meta []GetProviderMetaItem
 }
 
 // GetProviderLocationsParams is parameters of getProviderLocations operation.
 type GetProviderLocationsParams struct {
-	// The identifier for the given provider. Can be `aws`, `gcp`, `equinix-metal`, `vultr`.
-	ProviderId string
+	// The identifier for the given provider. Example `gcp`, `equinix-metal`, `a-<abstract-provider-id>`,
+	// etc.
+	ProviderIdentifier string
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
@@ -1025,13 +1039,18 @@ type GetProviderLocationsParams struct {
 
 // GetProviderServersParams is parameters of getProviderServers operation.
 type GetProviderServersParams struct {
-	// The identifier for the given provider. Can be `aws`, `gcp`, `equinix-metal`, `vultr`.
-	ProviderId string
+	// The identifier for the given provider. Example `gcp`, `exuinix-metal`, `a-<abstract-provider-id>`,
+	// etc.
+	ProviderIdentifier string
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetProviderServersPage
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetProviderServersFilter
 }
 
 // GetProvidersParams is parameters of getProviders operation.
@@ -1372,6 +1391,14 @@ type LookupDnsCertificateParams struct {
 	Wildcard OptBool
 }
 
+// LookupIdentifierParams is parameters of lookupIdentifier operation.
+type LookupIdentifierParams struct {
+	// A base64 encoded resource identifier string.
+	Identifier string
+	// The type of resource to lookup from the identifier string.
+	DesiredComponent LookupIdentifierDesiredComponent
+}
+
 // ReconfigureDiscoveryParams is parameters of reconfigureDiscovery operation.
 type ReconfigureDiscoveryParams struct {
 	// The ID of the environment where this discovery service resides.
@@ -1502,8 +1529,9 @@ type RemovePipelineTriggerKeyParams struct {
 
 // RemoveProviderParams is parameters of removeProvider operation.
 type RemoveProviderParams struct {
-	// The ID for the given provider.
-	ProviderId string
+	// The identifier for the given provider. Example `gcp`, `equinix-metal`, `a-<abstract-provider-id>`,
+	// etc.
+	ProviderIdentifier string
 }
 
 // RemoveSDNNetworkParams is parameters of removeSDNNetwork operation.
@@ -1662,8 +1690,9 @@ type UpdatePipelineTriggerKeyParams struct {
 
 // UpdateProviderParams is parameters of updateProvider operation.
 type UpdateProviderParams struct {
-	// The ID for the given provider.
-	ProviderId string
+	// The identifier for the given provider. Example `gcp`, `equinix-metal`, `a-<abstract-provider-id>`,
+	// etc.
+	ProviderIdentifier string
 }
 
 // UpdateSDNNetworkParams is parameters of updateSDNNetwork operation.

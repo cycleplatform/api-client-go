@@ -199,7 +199,7 @@ type Invoker interface {
 	//
 	// Requires the `infrastructure-providers-manage` capability.
 	//
-	// POST /v1/infrastructure/providers/{providerId}/tasks
+	// POST /v1/infrastructure/providers/{providerIdentifier}/tasks
 	CreateProviderJob(ctx context.Context, request OptCreateProviderJobReq, params CreateProviderJobParams) (*CreateProviderJobAccepted, error)
 	// CreateSDNNetwork invokes createSDNNetwork operation.
 	//
@@ -218,7 +218,7 @@ type Invoker interface {
 	// Requires the `servers-provision` capability.
 	//
 	// POST /v1/infrastructure/servers
-	CreateServer(ctx context.Context, request OptCreateServerReq) (*CreateServerCreated, error)
+	CreateServer(ctx context.Context, request OptCreateServerReq) (*CreateServerAccepted, error)
 	// CreateServerJob invokes createServerJob operation.
 	//
 	// Used to perform different actions on a given server. Requires the `servers-state` capability.
@@ -680,7 +680,7 @@ type Invoker interface {
 	//
 	// No capability required, public information.
 	//
-	// GET /v1/infrastructure/providers/native
+	// GET /v1/infrastructure/native-providers
 	GetNativeProviders(ctx context.Context, params GetNativeProvidersParams) (*GetNativeProvidersOK, error)
 	// GetNetwork invokes getNetwork operation.
 	//
@@ -740,19 +740,19 @@ type Invoker interface {
 	//
 	// Requires the `infrastructure-providers-view` capability.
 	//
-	// GET /v1/infrastructure/providers/{providerId}
+	// GET /v1/infrastructure/providers/{providerIdentifier}
 	GetProvider(ctx context.Context, params GetProviderParams) (*GetProviderOK, error)
 	// GetProviderLocations invokes getProviderLocations operation.
 	//
 	// No capability required, public information (datacenter locations).
 	//
-	// GET /v1/infrastructure/providers/{providerId}/locations
+	// GET /v1/infrastructure/providers/{providerIdentifier}/locations
 	GetProviderLocations(ctx context.Context, params GetProviderLocationsParams) (*GetProviderLocationsOK, error)
 	// GetProviderServers invokes getProviderServers operation.
 	//
 	// Requires the `infrastructure-providers-view` capability.
 	//
-	// GET /v1/infrastructure/providers/{providerId}/servers
+	// GET /v1/infrastructure/providers/{providerIdentifier}/servers
 	GetProviderServers(ctx context.Context, params GetProviderServersParams) (*GetProviderServersOK, error)
 	// GetProviders invokes getProviders operation.
 	//
@@ -928,6 +928,12 @@ type Invoker interface {
 	//
 	// GET /v1/dns/tls/certificates/lookup
 	LookupDnsCertificate(ctx context.Context, params LookupDnsCertificateParams) (*LookupDnsCertificateOK, error)
+	// LookupIdentifier invokes lookupIdentifier operation.
+	//
+	// Given a (base64) resource identifier string, returns the ID of the targeted resource.
+	//
+	// GET /v1/utils/resource/lookup
+	LookupIdentifier(ctx context.Context, params LookupIdentifierParams) (*LookupIdentifierOK, error)
 	// PipelineAuth invokes pipelineAuth operation.
 	//
 	// Requires the `hubs-notifications-listen` capability.
@@ -1076,7 +1082,7 @@ type Invoker interface {
 	//
 	// Requires the `infrastructure-providers-manage` capability.
 	//
-	// DELETE /v1/infrastructure/providers/{providerId}
+	// DELETE /v1/infrastructure/providers/{providerIdentifier}
 	RemoveProvider(ctx context.Context, params RemoveProviderParams) (*RemoveProviderAccepted, error)
 	// RemoveSDNNetwork invokes removeSDNNetwork operation.
 	//
@@ -1247,7 +1253,7 @@ type Invoker interface {
 	//
 	// Requires the `infrastructure-providers-manage` capability.
 	//
-	// PATCH /v1/infrastructure/providers/{providerId}
+	// PATCH /v1/infrastructure/providers/{providerIdentifier}
 	UpdateProvider(ctx context.Context, request OptUpdateProviderReq, params UpdateProviderParams) (*UpdateProviderOK, error)
 	// UpdateSDNNetwork invokes updateSDNNetwork operation.
 	//
@@ -5278,7 +5284,7 @@ func (c *Client) sendCreateProvider(ctx context.Context, request OptCreateProvid
 //
 // Requires the `infrastructure-providers-manage` capability.
 //
-// POST /v1/infrastructure/providers/{providerId}/tasks
+// POST /v1/infrastructure/providers/{providerIdentifier}/tasks
 func (c *Client) CreateProviderJob(ctx context.Context, request OptCreateProviderJobReq, params CreateProviderJobParams) (*CreateProviderJobAccepted, error) {
 	res, err := c.sendCreateProviderJob(ctx, request, params)
 	return res, err
@@ -5288,7 +5294,7 @@ func (c *Client) sendCreateProviderJob(ctx context.Context, request OptCreatePro
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createProviderJob"),
 		semconv.HTTPMethodKey.String("POST"),
-		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerId}/tasks"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerIdentifier}/tasks"),
 	}
 	// Validate request before sending.
 	if err := func() error {
@@ -5339,14 +5345,14 @@ func (c *Client) sendCreateProviderJob(ctx context.Context, request OptCreatePro
 	var pathParts [3]string
 	pathParts[0] = "/v1/infrastructure/providers/"
 	{
-		// Encode "providerId" parameter.
+		// Encode "providerIdentifier" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "providerId",
+			Param:   "providerIdentifier",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ProviderId))
+			return e.EncodeValue(conv.StringToString(params.ProviderIdentifier))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -5749,12 +5755,12 @@ func (c *Client) sendCreateScopedVariable(ctx context.Context, request OptCreate
 // Requires the `servers-provision` capability.
 //
 // POST /v1/infrastructure/servers
-func (c *Client) CreateServer(ctx context.Context, request OptCreateServerReq) (*CreateServerCreated, error) {
+func (c *Client) CreateServer(ctx context.Context, request OptCreateServerReq) (*CreateServerAccepted, error) {
 	res, err := c.sendCreateServer(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendCreateServer(ctx context.Context, request OptCreateServerReq) (res *CreateServerCreated, err error) {
+func (c *Client) sendCreateServer(ctx context.Context, request OptCreateServerReq) (res *CreateServerAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("createServer"),
 		semconv.HTTPMethodKey.String("POST"),
@@ -12173,8 +12179,8 @@ func (c *Client) sendGetCredits(ctx context.Context, params GetCreditsParams) (r
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if v := params.Filter; v != nil {
-				return (*v).EncodeURI(e)
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
 			}
 			return nil
 		}); err != nil {
@@ -16847,23 +16853,6 @@ func (c *Client) sendGetInvoices(ctx context.Context, params GetInvoicesParams) 
 		}
 	}
 	{
-		// Encode "filter" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "filter",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if v := params.Filter; v != nil {
-				return (*v).EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
 		// Encode "page" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "page",
@@ -16899,6 +16888,23 @@ func (c *Client) sendGetInvoices(ctx context.Context, params GetInvoicesParams) 
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -17860,7 +17866,7 @@ func (c *Client) sendGetLoadBalancerTelemetryReport(ctx context.Context, params 
 //
 // No capability required, public information.
 //
-// GET /v1/infrastructure/providers/native
+// GET /v1/infrastructure/native-providers
 func (c *Client) GetNativeProviders(ctx context.Context, params GetNativeProvidersParams) (*GetNativeProvidersOK, error) {
 	res, err := c.sendGetNativeProviders(ctx, params)
 	return res, err
@@ -17870,7 +17876,7 @@ func (c *Client) sendGetNativeProviders(ctx context.Context, params GetNativePro
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getNativeProviders"),
 		semconv.HTTPMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/native"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/native-providers"),
 	}
 
 	// Run stopwatch.
@@ -17903,7 +17909,7 @@ func (c *Client) sendGetNativeProviders(ctx context.Context, params GetNativePro
 	stage = "BuildURL"
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
-	pathParts[0] = "/v1/infrastructure/providers/native"
+	pathParts[0] = "/v1/infrastructure/native-providers"
 	uri.AddPathParts(u, pathParts[:]...)
 
 	stage = "EncodeQueryParams"
@@ -19674,7 +19680,7 @@ func (c *Client) sendGetPoolsIPs(ctx context.Context, params GetPoolsIPsParams) 
 //
 // Requires the `infrastructure-providers-view` capability.
 //
-// GET /v1/infrastructure/providers/{providerId}
+// GET /v1/infrastructure/providers/{providerIdentifier}
 func (c *Client) GetProvider(ctx context.Context, params GetProviderParams) (*GetProviderOK, error) {
 	res, err := c.sendGetProvider(ctx, params)
 	return res, err
@@ -19684,7 +19690,7 @@ func (c *Client) sendGetProvider(ctx context.Context, params GetProviderParams) 
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getProvider"),
 		semconv.HTTPMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerId}"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerIdentifier}"),
 	}
 
 	// Run stopwatch.
@@ -19719,14 +19725,14 @@ func (c *Client) sendGetProvider(ctx context.Context, params GetProviderParams) 
 	var pathParts [2]string
 	pathParts[0] = "/v1/infrastructure/providers/"
 	{
-		// Encode "providerId" parameter.
+		// Encode "providerIdentifier" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "providerId",
+			Param:   "providerIdentifier",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ProviderId))
+			return e.EncodeValue(conv.StringToString(params.ProviderIdentifier))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -19737,6 +19743,33 @@ func (c *Client) sendGetProvider(ctx context.Context, params GetProviderParams) 
 		pathParts[1] = encoded
 	}
 	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Meta {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	stage = "EncodeRequest"
 	r, err := ht.NewRequest(ctx, "GET", u)
@@ -19808,7 +19841,7 @@ func (c *Client) sendGetProvider(ctx context.Context, params GetProviderParams) 
 //
 // No capability required, public information (datacenter locations).
 //
-// GET /v1/infrastructure/providers/{providerId}/locations
+// GET /v1/infrastructure/providers/{providerIdentifier}/locations
 func (c *Client) GetProviderLocations(ctx context.Context, params GetProviderLocationsParams) (*GetProviderLocationsOK, error) {
 	res, err := c.sendGetProviderLocations(ctx, params)
 	return res, err
@@ -19818,7 +19851,7 @@ func (c *Client) sendGetProviderLocations(ctx context.Context, params GetProvide
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getProviderLocations"),
 		semconv.HTTPMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerId}/locations"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerIdentifier}/locations"),
 	}
 
 	// Run stopwatch.
@@ -19853,14 +19886,14 @@ func (c *Client) sendGetProviderLocations(ctx context.Context, params GetProvide
 	var pathParts [3]string
 	pathParts[0] = "/v1/infrastructure/providers/"
 	{
-		// Encode "providerId" parameter.
+		// Encode "providerIdentifier" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "providerId",
+			Param:   "providerIdentifier",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ProviderId))
+			return e.EncodeValue(conv.StringToString(params.ProviderIdentifier))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -19987,7 +20020,7 @@ func (c *Client) sendGetProviderLocations(ctx context.Context, params GetProvide
 //
 // Requires the `infrastructure-providers-view` capability.
 //
-// GET /v1/infrastructure/providers/{providerId}/servers
+// GET /v1/infrastructure/providers/{providerIdentifier}/servers
 func (c *Client) GetProviderServers(ctx context.Context, params GetProviderServersParams) (*GetProviderServersOK, error) {
 	res, err := c.sendGetProviderServers(ctx, params)
 	return res, err
@@ -19997,7 +20030,7 @@ func (c *Client) sendGetProviderServers(ctx context.Context, params GetProviderS
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("getProviderServers"),
 		semconv.HTTPMethodKey.String("GET"),
-		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerId}/servers"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerIdentifier}/servers"),
 	}
 
 	// Run stopwatch.
@@ -20032,14 +20065,14 @@ func (c *Client) sendGetProviderServers(ctx context.Context, params GetProviderS
 	var pathParts [3]string
 	pathParts[0] = "/v1/infrastructure/providers/"
 	{
-		// Encode "providerId" parameter.
+		// Encode "providerIdentifier" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "providerId",
+			Param:   "providerIdentifier",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ProviderId))
+			return e.EncodeValue(conv.StringToString(params.ProviderIdentifier))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -20087,6 +20120,23 @@ func (c *Client) sendGetProviderServers(ctx context.Context, params GetProviderS
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Page.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
 				return val.EncodeURI(e)
 			}
 			return nil
@@ -25047,6 +25097,154 @@ func (c *Client) sendLookupDnsCertificate(ctx context.Context, params LookupDnsC
 	return result, nil
 }
 
+// LookupIdentifier invokes lookupIdentifier operation.
+//
+// Given a (base64) resource identifier string, returns the ID of the targeted resource.
+//
+// GET /v1/utils/resource/lookup
+func (c *Client) LookupIdentifier(ctx context.Context, params LookupIdentifierParams) (*LookupIdentifierOK, error) {
+	res, err := c.sendLookupIdentifier(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendLookupIdentifier(ctx context.Context, params LookupIdentifierParams) (res *LookupIdentifierOK, err error) {
+	otelAttrs := []attribute.KeyValue{
+		otelogen.OperationID("lookupIdentifier"),
+		semconv.HTTPMethodKey.String("GET"),
+		semconv.HTTPRouteKey.String("/v1/utils/resource/lookup"),
+	}
+
+	// Run stopwatch.
+	startTime := time.Now()
+	defer func() {
+		// Use floating point division here for higher precision (instead of Millisecond method).
+		elapsedDuration := time.Since(startTime)
+		c.duration.Record(ctx, float64(float64(elapsedDuration)/float64(time.Millisecond)), metric.WithAttributes(otelAttrs...))
+	}()
+
+	// Increment request counter.
+	c.requests.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+
+	// Start a span for this request.
+	ctx, span := c.cfg.Tracer.Start(ctx, "LookupIdentifier",
+		trace.WithAttributes(otelAttrs...),
+		clientSpanKind,
+	)
+	// Track stage for error reporting.
+	var stage string
+	defer func() {
+		if err != nil {
+			span.RecordError(err)
+			span.SetStatus(codes.Error, stage)
+			c.errors.Add(ctx, 1, metric.WithAttributes(otelAttrs...))
+		}
+		span.End()
+	}()
+
+	stage = "BuildURL"
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/utils/resource/lookup"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	stage = "EncodeQueryParams"
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "identifier" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "identifier",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(params.Identifier))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "desired-component" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "desired-component",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(string(params.DesiredComponent)))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	stage = "EncodeRequest"
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+			stage = "Security:BearerAuth"
+			switch err := c.securityBearerAuth(ctx, "LookupIdentifier", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+			stage = "Security:HubAuth"
+			switch err := c.securityHubAuth(ctx, "LookupIdentifier", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	stage = "SendRequest"
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	stage = "DecodeResponse"
+	result, err := decodeLookupIdentifierResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // PipelineAuth invokes pipelineAuth operation.
 //
 // Requires the `hubs-notifications-listen` capability.
@@ -28298,7 +28496,7 @@ func (c *Client) sendRemovePipelineTriggerKey(ctx context.Context, params Remove
 //
 // Requires the `infrastructure-providers-manage` capability.
 //
-// DELETE /v1/infrastructure/providers/{providerId}
+// DELETE /v1/infrastructure/providers/{providerIdentifier}
 func (c *Client) RemoveProvider(ctx context.Context, params RemoveProviderParams) (*RemoveProviderAccepted, error) {
 	res, err := c.sendRemoveProvider(ctx, params)
 	return res, err
@@ -28308,7 +28506,7 @@ func (c *Client) sendRemoveProvider(ctx context.Context, params RemoveProviderPa
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeProvider"),
 		semconv.HTTPMethodKey.String("DELETE"),
-		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerId}"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerIdentifier}"),
 	}
 
 	// Run stopwatch.
@@ -28343,14 +28541,14 @@ func (c *Client) sendRemoveProvider(ctx context.Context, params RemoveProviderPa
 	var pathParts [2]string
 	pathParts[0] = "/v1/infrastructure/providers/"
 	{
-		// Encode "providerId" parameter.
+		// Encode "providerIdentifier" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "providerId",
+			Param:   "providerIdentifier",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ProviderId))
+			return e.EncodeValue(conv.StringToString(params.ProviderIdentifier))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -32263,7 +32461,7 @@ func (c *Client) sendUpdatePipelineTriggerKey(ctx context.Context, request OptUp
 //
 // Requires the `infrastructure-providers-manage` capability.
 //
-// PATCH /v1/infrastructure/providers/{providerId}
+// PATCH /v1/infrastructure/providers/{providerIdentifier}
 func (c *Client) UpdateProvider(ctx context.Context, request OptUpdateProviderReq, params UpdateProviderParams) (*UpdateProviderOK, error) {
 	res, err := c.sendUpdateProvider(ctx, request, params)
 	return res, err
@@ -32273,7 +32471,7 @@ func (c *Client) sendUpdateProvider(ctx context.Context, request OptUpdateProvid
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("updateProvider"),
 		semconv.HTTPMethodKey.String("PATCH"),
-		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerId}"),
+		semconv.HTTPRouteKey.String("/v1/infrastructure/providers/{providerIdentifier}"),
 	}
 
 	// Run stopwatch.
@@ -32308,14 +32506,14 @@ func (c *Client) sendUpdateProvider(ctx context.Context, request OptUpdateProvid
 	var pathParts [2]string
 	pathParts[0] = "/v1/infrastructure/providers/"
 	{
-		// Encode "providerId" parameter.
+		// Encode "providerIdentifier" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "providerId",
+			Param:   "providerIdentifier",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ProviderId))
+			return e.EncodeValue(conv.StringToString(params.ProviderIdentifier))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}

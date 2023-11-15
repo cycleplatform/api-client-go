@@ -4382,32 +4382,6 @@ func (s *CreateScopedVariableReq) Validate() error {
 	return nil
 }
 
-func (s *CreateServerCreated) Validate() error {
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Data.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "data",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
 func (s *CreateServerReq) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -10685,6 +10659,15 @@ func (s *GetProviderLocationsPage) Validate() error {
 	return nil
 }
 
+func (s GetProviderMetaItem) Validate() error {
+	switch s {
+	case "identifier":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *GetProviderOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
@@ -10795,6 +10778,8 @@ func (s GetProvidersMetaItem) Validate() error {
 	case "instances_count":
 		return nil
 	case "locations":
+		return nil
+	case "identifier":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -12549,88 +12534,6 @@ func (s *HaProxyLbType) Validate() error {
 func (s HaProxyLbTypeType) Validate() error {
 	switch s {
 	case "haproxy":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s *HttpRouterConfig) Validate() error {
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Details.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "details",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *HttpRouterConfigDetails) Validate() error {
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Forward.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "forward",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *HttpRouterConfigDetailsForward) Validate() error {
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Scheme.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "scheme",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s HttpRouterConfigDetailsForwardScheme) Validate() error {
-	switch s {
-	case "tcp":
-		return nil
-	case "http":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -14915,6 +14818,23 @@ func (s *Job) Validate() error {
 		if s.Tasks == nil {
 			return errors.New("nil is invalid value")
 		}
+		var failures []validate.FieldError
+		for i, elem := range s.Tasks {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
@@ -15014,6 +14934,36 @@ func (s JobStateCurrent) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
+}
+
+func (s *JobTask) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Steps == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "steps",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.State.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "state",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 
 func (s *ListScopedVariablesOK) Validate() error {
@@ -15283,6 +15233,25 @@ func (s *LookupDnsCertificateOK) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
+}
+
+func (s LookupIdentifierDesiredComponent) Validate() error {
+	switch s {
+	case "cluster":
+		return nil
+	case "environment":
+		return nil
+	case "image-source":
+		return nil
+	case "stack":
+		return nil
+	case "server":
+		return nil
+	case "container":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
 }
 
 func (s *MembershipState) Validate() error {
@@ -21489,6 +21458,47 @@ func (s TargetDestination) Validate() error {
 	}
 }
 
+func (s *TaskState) Validate() error {
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Current.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "current",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s TaskStateCurrent) Validate() error {
+	switch s {
+	case "pending":
+		return nil
+	case "error":
+		return nil
+	case "running":
+		return nil
+	case "completed":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s TcpRouterConfigType) Validate() error {
 	switch s {
 	case "tcp":
@@ -22916,6 +22926,17 @@ func (s *V1LbConfigControllersItemTransportConfig) Validate() error {
 			Error: err,
 		})
 	}
+	if err := func() error {
+		if err := s.Verbosity.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "verbosity",
+			Error: err,
+		})
+	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
 	}
@@ -22989,6 +23010,21 @@ func (s V1LbConfigControllersItemTransportConfigIngressTLSClientAuth) Validate()
 	}
 }
 
+func (s V1LbConfigControllersItemTransportConfigVerbosity) Validate() error {
+	switch s {
+	case "low":
+		return nil
+	case "normal":
+		return nil
+	case "high":
+		return nil
+	case "debug":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s V1LbConfigControllersItemTransportMode) Validate() error {
 	switch s {
 	case "tcp":
@@ -23013,80 +23049,10 @@ func (s *V1LbConfigRouter) Validate() error {
 			Error: err,
 		})
 	}
-	if err := func() error {
-		if err := s.Config.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "config",
-			Error: err,
-		})
-	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
-}
-
-func (s *V1LbConfigRouterConfig) Validate() error {
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Extension.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "extension",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *V1LbConfigRouterConfigExtension) Validate() error {
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s V1LbConfigRouterConfigExtensionSum) Validate() error {
-	switch s.Type {
-	case TcpRouterConfigV1LbConfigRouterConfigExtensionSum:
-		return nil // no validation needed
-	case HttpRouterConfigV1LbConfigRouterConfigExtensionSum:
-		if err := s.HttpRouterConfig.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
 }
 
 func (s V1LbConfigRouterMode) Validate() error {

@@ -6259,7 +6259,8 @@ type ContainerIntegrations struct {
 	// Configuration settings to embed a TLS certificate in the container.
 	LetsEncrypt OptContainerIntegrationsLetsEncrypt `json:"lets_encrypt"`
 	// Automated backups configuration for the given container.
-	Backups OptContainerIntegrationsBackups `json:"backups"`
+	Backups           OptContainerIntegrationsBackups              `json:"backups"`
+	SharedDirectories OptNilContainerIntegrationsSharedDirectories `json:"shared_directories"`
 }
 
 // GetWebhooks returns the value of Webhooks.
@@ -6282,6 +6283,11 @@ func (s *ContainerIntegrations) GetBackups() OptContainerIntegrationsBackups {
 	return s.Backups
 }
 
+// GetSharedDirectories returns the value of SharedDirectories.
+func (s *ContainerIntegrations) GetSharedDirectories() OptNilContainerIntegrationsSharedDirectories {
+	return s.SharedDirectories
+}
+
 // SetWebhooks sets the value of Webhooks.
 func (s *ContainerIntegrations) SetWebhooks(val OptContainerIntegrationsWebhooks) {
 	s.Webhooks = val
@@ -6300,6 +6306,11 @@ func (s *ContainerIntegrations) SetLetsEncrypt(val OptContainerIntegrationsLetsE
 // SetBackups sets the value of Backups.
 func (s *ContainerIntegrations) SetBackups(val OptContainerIntegrationsBackups) {
 	s.Backups = val
+}
+
+// SetSharedDirectories sets the value of SharedDirectories.
+func (s *ContainerIntegrations) SetSharedDirectories(val OptNilContainerIntegrationsSharedDirectories) {
+	s.SharedDirectories = val
 }
 
 // Automated backups configuration for the given container.
@@ -6560,6 +6571,42 @@ func (s *ContainerIntegrationsLetsEncrypt) SetBundlePath(val OptString) {
 // SetAdditionalCertsPath sets the value of AdditionalCertsPath.
 func (s *ContainerIntegrationsLetsEncrypt) SetAdditionalCertsPath(val OptString) {
 	s.AdditionalCertsPath = val
+}
+
+type ContainerIntegrationsSharedDirectories map[string]ContainerIntegrationsSharedDirectoriesItem
+
+func (s *ContainerIntegrationsSharedDirectories) init() ContainerIntegrationsSharedDirectories {
+	m := *s
+	if m == nil {
+		m = map[string]ContainerIntegrationsSharedDirectoriesItem{}
+		*s = m
+	}
+	return m
+}
+
+type ContainerIntegrationsSharedDirectoriesItem struct {
+	Writable   bool   `json:"writable"`
+	MountPoint string `json:"mount_point"`
+}
+
+// GetWritable returns the value of Writable.
+func (s *ContainerIntegrationsSharedDirectoriesItem) GetWritable() bool {
+	return s.Writable
+}
+
+// GetMountPoint returns the value of MountPoint.
+func (s *ContainerIntegrationsSharedDirectoriesItem) GetMountPoint() string {
+	return s.MountPoint
+}
+
+// SetWritable sets the value of Writable.
+func (s *ContainerIntegrationsSharedDirectoriesItem) SetWritable(val bool) {
+	s.Writable = val
+}
+
+// SetMountPoint sets the value of MountPoint.
+func (s *ContainerIntegrationsSharedDirectoriesItem) SetMountPoint(val string) {
+	s.MountPoint = val
 }
 
 // Webhooks that can be set for specific event reporting and advanced container configurations.
@@ -7243,6 +7290,7 @@ type ContainerRuntime struct {
 	// A record of rlimits and their values.
 	Rlimits OptContainerRuntimeRlimits `json:"rlimits"`
 	Seccomp NilContainerRuntimeSeccomp `json:"seccomp"`
+	Host    OptNilContainerRuntimeHost `json:"host"`
 	Rootfs  OptContainerRuntimeRootfs  `json:"rootfs"`
 }
 
@@ -7289,6 +7337,11 @@ func (s *ContainerRuntime) GetRlimits() OptContainerRuntimeRlimits {
 // GetSeccomp returns the value of Seccomp.
 func (s *ContainerRuntime) GetSeccomp() NilContainerRuntimeSeccomp {
 	return s.Seccomp
+}
+
+// GetHost returns the value of Host.
+func (s *ContainerRuntime) GetHost() OptNilContainerRuntimeHost {
+	return s.Host
 }
 
 // GetRootfs returns the value of Rootfs.
@@ -7339,6 +7392,11 @@ func (s *ContainerRuntime) SetRlimits(val OptContainerRuntimeRlimits) {
 // SetSeccomp sets the value of Seccomp.
 func (s *ContainerRuntime) SetSeccomp(val NilContainerRuntimeSeccomp) {
 	s.Seccomp = val
+}
+
+// SetHost sets the value of Host.
+func (s *ContainerRuntime) SetHost(val OptNilContainerRuntimeHost) {
+	s.Host = val
 }
 
 // SetRootfs sets the value of Rootfs.
@@ -7677,6 +7735,20 @@ func (s *ContainerRuntimeEnvironmentVars) init() ContainerRuntimeEnvironmentVars
 		*s = m
 	}
 	return m
+}
+
+type ContainerRuntimeHost struct {
+	ExposeProc OptNilBool `json:"expose_proc"`
+}
+
+// GetExposeProc returns the value of ExposeProc.
+func (s *ContainerRuntimeHost) GetExposeProc() OptNilBool {
+	return s.ExposeProc
+}
+
+// SetExposeProc sets the value of ExposeProc.
+func (s *ContainerRuntimeHost) SetExposeProc(val OptNilBool) {
+	s.ExposeProc = val
 }
 
 type ContainerRuntimeNamespacesItem string
@@ -11687,17 +11759,17 @@ func NewURLSourceCreateScopedVariableReqSourceSum(v URLSource) CreateScopedVaria
 	return s
 }
 
-type CreateServerCreated struct {
-	Data OptInfraServer `json:"data"`
+type CreateServerAccepted struct {
+	Data OptTaskDescriptor `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *CreateServerCreated) GetData() OptInfraServer {
+func (s *CreateServerAccepted) GetData() OptTaskDescriptor {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *CreateServerCreated) SetData(val OptInfraServer) {
+func (s *CreateServerAccepted) SetData(val OptTaskDescriptor) {
 	s.Data = val
 }
 
@@ -14389,7 +14461,7 @@ func (s *DockerHubOrigin) SetDetails(val DockerHubOriginDetails) {
 }
 
 type DockerHubOriginDetails struct {
-	Existing NilExistingSource `json:"existing"`
+	Existing OptExistingSource `json:"existing"`
 	// The DockerHub target string. ex - `mysql:5.7`.
 	Target string `json:"target"`
 	// For authentication, a username.
@@ -14399,7 +14471,7 @@ type DockerHubOriginDetails struct {
 }
 
 // GetExisting returns the value of Existing.
-func (s *DockerHubOriginDetails) GetExisting() NilExistingSource {
+func (s *DockerHubOriginDetails) GetExisting() OptExistingSource {
 	return s.Existing
 }
 
@@ -14419,7 +14491,7 @@ func (s *DockerHubOriginDetails) GetToken() OptString {
 }
 
 // SetExisting sets the value of Existing.
-func (s *DockerHubOriginDetails) SetExisting(val NilExistingSource) {
+func (s *DockerHubOriginDetails) SetExisting(val OptExistingSource) {
 	s.Existing = val
 }
 
@@ -14489,7 +14561,7 @@ func (s *DockerRegistryOrigin) SetDetails(val DockerRegistryOriginDetails) {
 }
 
 type DockerRegistryOriginDetails struct {
-	Existing NilExistingSource `json:"existing"`
+	Existing OptExistingSource `json:"existing"`
 	// The image name on the registry.
 	Target string `json:"target"`
 	// The url of the remote registry.
@@ -14503,7 +14575,7 @@ type DockerRegistryOriginDetails struct {
 }
 
 // GetExisting returns the value of Existing.
-func (s *DockerRegistryOriginDetails) GetExisting() NilExistingSource {
+func (s *DockerRegistryOriginDetails) GetExisting() OptExistingSource {
 	return s.Existing
 }
 
@@ -14533,7 +14605,7 @@ func (s *DockerRegistryOriginDetails) GetPassword() OptString {
 }
 
 // SetExisting sets the value of Existing.
-func (s *DockerRegistryOriginDetails) SetExisting(val NilExistingSource) {
+func (s *DockerRegistryOriginDetails) SetExisting(val OptExistingSource) {
 	s.Existing = val
 }
 
@@ -16858,8 +16930,6 @@ func (s *ErrorCode) UnmarshalText(data []byte) error {
 // Ref: #/components/schemas/ErrorEnvelope
 type ErrorEnvelope struct {
 	Error Error `json:"error"`
-	// Data will always be `null` here.
-	Data *ErrorEnvelopeData `json:"data"`
 }
 
 // GetError returns the value of Error.
@@ -16867,23 +16937,10 @@ func (s *ErrorEnvelope) GetError() Error {
 	return s.Error
 }
 
-// GetData returns the value of Data.
-func (s *ErrorEnvelope) GetData() *ErrorEnvelopeData {
-	return s.Data
-}
-
 // SetError sets the value of Error.
 func (s *ErrorEnvelope) SetError(val Error) {
 	s.Error = val
 }
-
-// SetData sets the value of Data.
-func (s *ErrorEnvelope) SetData(val *ErrorEnvelopeData) {
-	s.Data = val
-}
-
-// Data will always be `null` here.
-type ErrorEnvelopeData struct{}
 
 // ErrorEnvelopeStatusCode wraps ErrorEnvelope with StatusCode.
 type ErrorEnvelopeStatusCode struct {
@@ -18507,6 +18564,10 @@ type GetContainersFilter struct {
 	// `filter[stack]=ID` stack filtering by ID.  Submit the ID of the stack you wish to filter for and
 	// the return will be any containers deployed associated with 'containers' from the stack.
 	Stack OptString `json:"stack"`
+	// The start date from when to pull the containers.
+	RangeMinusStart OptDateTime `json:"range-start"`
+	// The end date from when to pull the containers.
+	RangeMinusEnd OptDateTime `json:"range-end"`
 }
 
 // GetCreator returns the value of Creator.
@@ -18559,6 +18620,16 @@ func (s *GetContainersFilter) GetStack() OptString {
 	return s.Stack
 }
 
+// GetRangeMinusStart returns the value of RangeMinusStart.
+func (s *GetContainersFilter) GetRangeMinusStart() OptDateTime {
+	return s.RangeMinusStart
+}
+
+// GetRangeMinusEnd returns the value of RangeMinusEnd.
+func (s *GetContainersFilter) GetRangeMinusEnd() OptDateTime {
+	return s.RangeMinusEnd
+}
+
 // SetCreator sets the value of Creator.
 func (s *GetContainersFilter) SetCreator(val OptString) {
 	s.Creator = val
@@ -18607,6 +18678,16 @@ func (s *GetContainersFilter) SetTags(val OptString) {
 // SetStack sets the value of Stack.
 func (s *GetContainersFilter) SetStack(val OptString) {
 	s.Stack = val
+}
+
+// SetRangeMinusStart sets the value of RangeMinusStart.
+func (s *GetContainersFilter) SetRangeMinusStart(val OptDateTime) {
+	s.RangeMinusStart = val
+}
+
+// SetRangeMinusEnd sets the value of RangeMinusEnd.
+func (s *GetContainersFilter) SetRangeMinusEnd(val OptDateTime) {
+	s.RangeMinusEnd = val
 }
 
 type GetContainersIncludeItem string
@@ -18792,7 +18873,45 @@ func (s *GetCreditOK) SetData(val OptCredit) {
 	s.Data = val
 }
 
-type GetCreditsFilter struct{}
+type GetCreditsFilter struct {
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the credit's current
+	// state.
+	State OptString `json:"state"`
+	// The start date from when to pull the credits.
+	RangeMinusStart OptDateTime `json:"range-start"`
+	// The end date from when to pull the credits.
+	RangeMinusEnd OptDateTime `json:"range-end"`
+}
+
+// GetState returns the value of State.
+func (s *GetCreditsFilter) GetState() OptString {
+	return s.State
+}
+
+// GetRangeMinusStart returns the value of RangeMinusStart.
+func (s *GetCreditsFilter) GetRangeMinusStart() OptDateTime {
+	return s.RangeMinusStart
+}
+
+// GetRangeMinusEnd returns the value of RangeMinusEnd.
+func (s *GetCreditsFilter) GetRangeMinusEnd() OptDateTime {
+	return s.RangeMinusEnd
+}
+
+// SetState sets the value of State.
+func (s *GetCreditsFilter) SetState(val OptString) {
+	s.State = val
+}
+
+// SetRangeMinusStart sets the value of RangeMinusStart.
+func (s *GetCreditsFilter) SetRangeMinusStart(val OptDateTime) {
+	s.RangeMinusStart = val
+}
+
+// SetRangeMinusEnd sets the value of RangeMinusEnd.
+func (s *GetCreditsFilter) SetRangeMinusEnd(val OptDateTime) {
+	s.RangeMinusEnd = val
+}
 
 type GetCreditsOK struct {
 	Data []Credit `json:"data"`
@@ -20932,6 +21051,10 @@ type GetInstancesFilter struct {
 	// `filter[server]=ID` server filtering by ID. Submit the ID of the server you wish to filter for and
 	// the return will be any instances of the container currently deployed to the given server.
 	Server OptString `json:"server"`
+	// The start date from when to pull the instances.
+	RangeMinusStart OptDateTime `json:"range-start"`
+	// The end date from when to pull the instances.
+	RangeMinusEnd OptDateTime `json:"range-end"`
 }
 
 // GetState returns the value of State.
@@ -20949,6 +21072,16 @@ func (s *GetInstancesFilter) GetServer() OptString {
 	return s.Server
 }
 
+// GetRangeMinusStart returns the value of RangeMinusStart.
+func (s *GetInstancesFilter) GetRangeMinusStart() OptDateTime {
+	return s.RangeMinusStart
+}
+
+// GetRangeMinusEnd returns the value of RangeMinusEnd.
+func (s *GetInstancesFilter) GetRangeMinusEnd() OptDateTime {
+	return s.RangeMinusEnd
+}
+
 // SetState sets the value of State.
 func (s *GetInstancesFilter) SetState(val OptString) {
 	s.State = val
@@ -20962,6 +21095,16 @@ func (s *GetInstancesFilter) SetSearch(val OptString) {
 // SetServer sets the value of Server.
 func (s *GetInstancesFilter) SetServer(val OptString) {
 	s.Server = val
+}
+
+// SetRangeMinusStart sets the value of RangeMinusStart.
+func (s *GetInstancesFilter) SetRangeMinusStart(val OptDateTime) {
+	s.RangeMinusStart = val
+}
+
+// SetRangeMinusEnd sets the value of RangeMinusEnd.
+func (s *GetInstancesFilter) SetRangeMinusEnd(val OptDateTime) {
+	s.RangeMinusEnd = val
 }
 
 type GetInstancesIncludeItem string
@@ -21133,7 +21276,45 @@ func (s *GetInvoiceOK) SetData(val OptInvoice) {
 	s.Data = val
 }
 
-type GetInvoicesFilter struct{}
+type GetInvoicesFilter struct {
+	// `filter[state]=value1,value2` state filtering will allow you to filter by the invoice's current
+	// state.
+	State OptString `json:"state"`
+	// The start date from when to pull the invoices.
+	RangeMinusStart OptDateTime `json:"range-start"`
+	// The end date from when to pull the invoices.
+	RangeMinusEnd OptDateTime `json:"range-end"`
+}
+
+// GetState returns the value of State.
+func (s *GetInvoicesFilter) GetState() OptString {
+	return s.State
+}
+
+// GetRangeMinusStart returns the value of RangeMinusStart.
+func (s *GetInvoicesFilter) GetRangeMinusStart() OptDateTime {
+	return s.RangeMinusStart
+}
+
+// GetRangeMinusEnd returns the value of RangeMinusEnd.
+func (s *GetInvoicesFilter) GetRangeMinusEnd() OptDateTime {
+	return s.RangeMinusEnd
+}
+
+// SetState sets the value of State.
+func (s *GetInvoicesFilter) SetState(val OptString) {
+	s.State = val
+}
+
+// SetRangeMinusStart sets the value of RangeMinusStart.
+func (s *GetInvoicesFilter) SetRangeMinusStart(val OptDateTime) {
+	s.RangeMinusStart = val
+}
+
+// SetRangeMinusEnd sets the value of RangeMinusEnd.
+func (s *GetInvoicesFilter) SetRangeMinusEnd(val OptDateTime) {
+	s.RangeMinusEnd = val
+}
 
 type GetInvoicesMetaItem string
 
@@ -22383,6 +22564,40 @@ func (s *GetProviderLocationsPage) SetSize(val OptFloat64) {
 	s.Size = val
 }
 
+type GetProviderMetaItem string
+
+const (
+	GetProviderMetaItemIdentifier GetProviderMetaItem = "identifier"
+)
+
+// AllValues returns all GetProviderMetaItem values.
+func (GetProviderMetaItem) AllValues() []GetProviderMetaItem {
+	return []GetProviderMetaItem{
+		GetProviderMetaItemIdentifier,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GetProviderMetaItem) MarshalText() ([]byte, error) {
+	switch s {
+	case GetProviderMetaItemIdentifier:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GetProviderMetaItem) UnmarshalText(data []byte) error {
+	switch GetProviderMetaItem(data) {
+	case GetProviderMetaItemIdentifier:
+		*s = GetProviderMetaItemIdentifier
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type GetProviderOK struct {
 	Data OptProvider `json:"data"`
 }
@@ -22395,6 +22610,22 @@ func (s *GetProviderOK) GetData() OptProvider {
 // SetData sets the value of Data.
 func (s *GetProviderOK) SetData(val OptProvider) {
 	s.Data = val
+}
+
+type GetProviderServersFilter struct {
+	// `filter[location_ids]=value` List only those provider servers matching this location. May return
+	// multiple results.
+	LocationIds OptString `json:"location_ids"`
+}
+
+// GetLocationIds returns the value of LocationIds.
+func (s *GetProviderServersFilter) GetLocationIds() OptString {
+	return s.LocationIds
+}
+
+// SetLocationIds sets the value of LocationIds.
+func (s *GetProviderServersFilter) SetLocationIds(val OptString) {
+	s.LocationIds = val
 }
 
 type GetProviderServersOK struct {
@@ -22472,6 +22703,7 @@ const (
 	GetProvidersMetaItemNode           GetProvidersMetaItem = "node"
 	GetProvidersMetaItemInstancesCount GetProvidersMetaItem = "instances_count"
 	GetProvidersMetaItemLocations      GetProvidersMetaItem = "locations"
+	GetProvidersMetaItemIdentifier     GetProvidersMetaItem = "identifier"
 )
 
 // AllValues returns all GetProvidersMetaItem values.
@@ -22480,6 +22712,7 @@ func (GetProvidersMetaItem) AllValues() []GetProvidersMetaItem {
 		GetProvidersMetaItemNode,
 		GetProvidersMetaItemInstancesCount,
 		GetProvidersMetaItemLocations,
+		GetProvidersMetaItemIdentifier,
 	}
 }
 
@@ -22491,6 +22724,8 @@ func (s GetProvidersMetaItem) MarshalText() ([]byte, error) {
 	case GetProvidersMetaItemInstancesCount:
 		return []byte(s), nil
 	case GetProvidersMetaItemLocations:
+		return []byte(s), nil
+	case GetProvidersMetaItemIdentifier:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -22508,6 +22743,9 @@ func (s *GetProvidersMetaItem) UnmarshalText(data []byte) error {
 		return nil
 	case GetProvidersMetaItemLocations:
 		*s = GetProvidersMetaItemLocations
+		return nil
+	case GetProvidersMetaItemIdentifier:
+		*s = GetProvidersMetaItemIdentifier
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -25147,58 +25385,17 @@ func (s *HttpRouterConfigDetails) SetForward(val NilHttpRouterConfigDetailsForwa
 }
 
 type HttpRouterConfigDetailsForward struct {
-	Scheme NilHttpRouterConfigDetailsForwardScheme `json:"scheme"`
+	Scheme NilString `json:"scheme"`
 }
 
 // GetScheme returns the value of Scheme.
-func (s *HttpRouterConfigDetailsForward) GetScheme() NilHttpRouterConfigDetailsForwardScheme {
+func (s *HttpRouterConfigDetailsForward) GetScheme() NilString {
 	return s.Scheme
 }
 
 // SetScheme sets the value of Scheme.
-func (s *HttpRouterConfigDetailsForward) SetScheme(val NilHttpRouterConfigDetailsForwardScheme) {
+func (s *HttpRouterConfigDetailsForward) SetScheme(val NilString) {
 	s.Scheme = val
-}
-
-type HttpRouterConfigDetailsForwardScheme string
-
-const (
-	HttpRouterConfigDetailsForwardSchemeTCP  HttpRouterConfigDetailsForwardScheme = "tcp"
-	HttpRouterConfigDetailsForwardSchemeHTTP HttpRouterConfigDetailsForwardScheme = "http"
-)
-
-// AllValues returns all HttpRouterConfigDetailsForwardScheme values.
-func (HttpRouterConfigDetailsForwardScheme) AllValues() []HttpRouterConfigDetailsForwardScheme {
-	return []HttpRouterConfigDetailsForwardScheme{
-		HttpRouterConfigDetailsForwardSchemeTCP,
-		HttpRouterConfigDetailsForwardSchemeHTTP,
-	}
-}
-
-// MarshalText implements encoding.TextMarshaler.
-func (s HttpRouterConfigDetailsForwardScheme) MarshalText() ([]byte, error) {
-	switch s {
-	case HttpRouterConfigDetailsForwardSchemeTCP:
-		return []byte(s), nil
-	case HttpRouterConfigDetailsForwardSchemeHTTP:
-		return []byte(s), nil
-	default:
-		return nil, errors.Errorf("invalid value: %q", s)
-	}
-}
-
-// UnmarshalText implements encoding.TextUnmarshaler.
-func (s *HttpRouterConfigDetailsForwardScheme) UnmarshalText(data []byte) error {
-	switch HttpRouterConfigDetailsForwardScheme(data) {
-	case HttpRouterConfigDetailsForwardSchemeTCP:
-		*s = HttpRouterConfigDetailsForwardSchemeTCP
-		return nil
-	case HttpRouterConfigDetailsForwardSchemeHTTP:
-		*s = HttpRouterConfigDetailsForwardSchemeHTTP
-		return nil
-	default:
-		return errors.Errorf("invalid value: %q", data)
-	}
 }
 
 // Defines a built-in redirect for HTTP mode routers.
@@ -31993,7 +32190,7 @@ type Job struct {
 	// A timestamp of when the job was scheduled.
 	Schedule DateTime `json:"schedule"`
 	// An array of job tasks.
-	Tasks []JobTasks `json:"tasks"`
+	Tasks []JobTask `json:"tasks"`
 	// A timestamp for when the job expires.
 	Expires DateTime `json:"expires"`
 	// A combination of the individual task details and job details.
@@ -32036,7 +32233,7 @@ func (s *Job) GetSchedule() DateTime {
 }
 
 // GetTasks returns the value of Tasks.
-func (s *Job) GetTasks() []JobTasks {
+func (s *Job) GetTasks() []JobTask {
 	return s.Tasks
 }
 
@@ -32096,7 +32293,7 @@ func (s *Job) SetSchedule(val DateTime) {
 }
 
 // SetTasks sets the value of Tasks.
-func (s *Job) SetTasks(val []JobTasks) {
+func (s *Job) SetTasks(val []JobTask) {
 	s.Tasks = val
 }
 
@@ -32180,14 +32377,13 @@ func (s *JobIncludes) SetCreators(val OptCreatorInclude) {
 	s.Creators = val
 }
 
-// Merged schema.
 // Ref: #/components/schemas/JobState
 type JobState struct {
 	// The current state of the job.
 	Current JobStateCurrent `json:"current"`
-	Changed DateTime        `json:"changed"`
-	// An error, if any, that has occurred for this resource.
-	Error OptJobStateError `json:"error"`
+	Changed OptDateTime     `json:"changed"`
+	// An error, if any, that has occurred for this job.
+	Error NilJobStateError `json:"error"`
 }
 
 // GetCurrent returns the value of Current.
@@ -32196,12 +32392,12 @@ func (s *JobState) GetCurrent() JobStateCurrent {
 }
 
 // GetChanged returns the value of Changed.
-func (s *JobState) GetChanged() DateTime {
+func (s *JobState) GetChanged() OptDateTime {
 	return s.Changed
 }
 
 // GetError returns the value of Error.
-func (s *JobState) GetError() OptJobStateError {
+func (s *JobState) GetError() NilJobStateError {
 	return s.Error
 }
 
@@ -32211,12 +32407,12 @@ func (s *JobState) SetCurrent(val JobStateCurrent) {
 }
 
 // SetChanged sets the value of Changed.
-func (s *JobState) SetChanged(val DateTime) {
+func (s *JobState) SetChanged(val OptDateTime) {
 	s.Changed = val
 }
 
 // SetError sets the value of Error.
-func (s *JobState) SetError(val OptJobStateError) {
+func (s *JobState) SetError(val NilJobStateError) {
 	s.Error = val
 }
 
@@ -32297,12 +32493,10 @@ func (s *JobStateCurrent) UnmarshalText(data []byte) error {
 	}
 }
 
-// An error, if any, that has occurred for this resource.
+// An error, if any, that has occurred for this job.
 type JobStateError struct {
 	// Details about the error that has occurred.
 	Message OptString `json:"message"`
-	// The timestamp of when the error was encountered.
-	Time OptDateTime `json:"time"`
 }
 
 // GetMessage returns the value of Message.
@@ -32310,22 +32504,201 @@ func (s *JobStateError) GetMessage() OptString {
 	return s.Message
 }
 
-// GetTime returns the value of Time.
-func (s *JobStateError) GetTime() OptDateTime {
-	return s.Time
-}
-
 // SetMessage sets the value of Message.
 func (s *JobStateError) SetMessage(val OptString) {
 	s.Message = val
 }
 
-// SetTime sets the value of Time.
-func (s *JobStateError) SetTime(val OptDateTime) {
-	s.Time = val
+// Information about a job task.
+// Ref: #/components/schemas/JobTask
+type JobTask struct {
+	ID ID `json:"id"`
+	// A short description of the task.
+	Caption string `json:"caption"`
+	// The API function called.
+	Header string `json:"header"`
+	// A collection of timestamps for each event in the job's lifetime.
+	Events JobTaskEvents `json:"events"`
+	// An array of job task steps.
+	Steps []TaskStep `json:"steps"`
+	State TaskState  `json:"state"`
+	// Input information used for the job tasks.
+	Input JobTaskInput `json:"input"`
+	// Output informaiton used for the job tasks.
+	Output NilJobTaskOutput `json:"output"`
+	// An error object describing issues with the job.
+	Error NilJobTaskError `json:"error"`
 }
 
-type JobTasks jx.Raw
+// GetID returns the value of ID.
+func (s *JobTask) GetID() ID {
+	return s.ID
+}
+
+// GetCaption returns the value of Caption.
+func (s *JobTask) GetCaption() string {
+	return s.Caption
+}
+
+// GetHeader returns the value of Header.
+func (s *JobTask) GetHeader() string {
+	return s.Header
+}
+
+// GetEvents returns the value of Events.
+func (s *JobTask) GetEvents() JobTaskEvents {
+	return s.Events
+}
+
+// GetSteps returns the value of Steps.
+func (s *JobTask) GetSteps() []TaskStep {
+	return s.Steps
+}
+
+// GetState returns the value of State.
+func (s *JobTask) GetState() TaskState {
+	return s.State
+}
+
+// GetInput returns the value of Input.
+func (s *JobTask) GetInput() JobTaskInput {
+	return s.Input
+}
+
+// GetOutput returns the value of Output.
+func (s *JobTask) GetOutput() NilJobTaskOutput {
+	return s.Output
+}
+
+// GetError returns the value of Error.
+func (s *JobTask) GetError() NilJobTaskError {
+	return s.Error
+}
+
+// SetID sets the value of ID.
+func (s *JobTask) SetID(val ID) {
+	s.ID = val
+}
+
+// SetCaption sets the value of Caption.
+func (s *JobTask) SetCaption(val string) {
+	s.Caption = val
+}
+
+// SetHeader sets the value of Header.
+func (s *JobTask) SetHeader(val string) {
+	s.Header = val
+}
+
+// SetEvents sets the value of Events.
+func (s *JobTask) SetEvents(val JobTaskEvents) {
+	s.Events = val
+}
+
+// SetSteps sets the value of Steps.
+func (s *JobTask) SetSteps(val []TaskStep) {
+	s.Steps = val
+}
+
+// SetState sets the value of State.
+func (s *JobTask) SetState(val TaskState) {
+	s.State = val
+}
+
+// SetInput sets the value of Input.
+func (s *JobTask) SetInput(val JobTaskInput) {
+	s.Input = val
+}
+
+// SetOutput sets the value of Output.
+func (s *JobTask) SetOutput(val NilJobTaskOutput) {
+	s.Output = val
+}
+
+// SetError sets the value of Error.
+func (s *JobTask) SetError(val NilJobTaskError) {
+	s.Error = val
+}
+
+// An error object describing issues with the job.
+type JobTaskError struct {
+	// An error message.
+	Message string `json:"message"`
+}
+
+// GetMessage returns the value of Message.
+func (s *JobTaskError) GetMessage() string {
+	return s.Message
+}
+
+// SetMessage sets the value of Message.
+func (s *JobTaskError) SetMessage(val string) {
+	s.Message = val
+}
+
+// A collection of timestamps for each event in the job's lifetime.
+type JobTaskEvents struct {
+	// The timestamp of when the task was queued.
+	Queued DateTime `json:"queued"`
+	// The timestamp of when the task was completed.
+	Completed DateTime `json:"completed"`
+	// The timestamp of when the task was started.
+	Started DateTime `json:"started"`
+}
+
+// GetQueued returns the value of Queued.
+func (s *JobTaskEvents) GetQueued() DateTime {
+	return s.Queued
+}
+
+// GetCompleted returns the value of Completed.
+func (s *JobTaskEvents) GetCompleted() DateTime {
+	return s.Completed
+}
+
+// GetStarted returns the value of Started.
+func (s *JobTaskEvents) GetStarted() DateTime {
+	return s.Started
+}
+
+// SetQueued sets the value of Queued.
+func (s *JobTaskEvents) SetQueued(val DateTime) {
+	s.Queued = val
+}
+
+// SetCompleted sets the value of Completed.
+func (s *JobTaskEvents) SetCompleted(val DateTime) {
+	s.Completed = val
+}
+
+// SetStarted sets the value of Started.
+func (s *JobTaskEvents) SetStarted(val DateTime) {
+	s.Started = val
+}
+
+// Input information used for the job tasks.
+type JobTaskInput map[string]string
+
+func (s *JobTaskInput) init() JobTaskInput {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+// Output informaiton used for the job tasks.
+type JobTaskOutput map[string]string
+
+func (s *JobTaskOutput) init() JobTaskOutput {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
 
 // A late fee, applied to an invoice.
 // Ref: #/components/schemas/LateFee
@@ -33692,6 +34065,103 @@ func (s *LookupDnsCertificateOK) GetData() OptDnsTlsCertificate {
 // SetData sets the value of Data.
 func (s *LookupDnsCertificateOK) SetData(val OptDnsTlsCertificate) {
 	s.Data = val
+}
+
+type LookupIdentifierDesiredComponent string
+
+const (
+	LookupIdentifierDesiredComponentCluster     LookupIdentifierDesiredComponent = "cluster"
+	LookupIdentifierDesiredComponentEnvironment LookupIdentifierDesiredComponent = "environment"
+	LookupIdentifierDesiredComponentImageSource LookupIdentifierDesiredComponent = "image-source"
+	LookupIdentifierDesiredComponentStack       LookupIdentifierDesiredComponent = "stack"
+	LookupIdentifierDesiredComponentServer      LookupIdentifierDesiredComponent = "server"
+	LookupIdentifierDesiredComponentContainer   LookupIdentifierDesiredComponent = "container"
+)
+
+// AllValues returns all LookupIdentifierDesiredComponent values.
+func (LookupIdentifierDesiredComponent) AllValues() []LookupIdentifierDesiredComponent {
+	return []LookupIdentifierDesiredComponent{
+		LookupIdentifierDesiredComponentCluster,
+		LookupIdentifierDesiredComponentEnvironment,
+		LookupIdentifierDesiredComponentImageSource,
+		LookupIdentifierDesiredComponentStack,
+		LookupIdentifierDesiredComponentServer,
+		LookupIdentifierDesiredComponentContainer,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s LookupIdentifierDesiredComponent) MarshalText() ([]byte, error) {
+	switch s {
+	case LookupIdentifierDesiredComponentCluster:
+		return []byte(s), nil
+	case LookupIdentifierDesiredComponentEnvironment:
+		return []byte(s), nil
+	case LookupIdentifierDesiredComponentImageSource:
+		return []byte(s), nil
+	case LookupIdentifierDesiredComponentStack:
+		return []byte(s), nil
+	case LookupIdentifierDesiredComponentServer:
+		return []byte(s), nil
+	case LookupIdentifierDesiredComponentContainer:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *LookupIdentifierDesiredComponent) UnmarshalText(data []byte) error {
+	switch LookupIdentifierDesiredComponent(data) {
+	case LookupIdentifierDesiredComponentCluster:
+		*s = LookupIdentifierDesiredComponentCluster
+		return nil
+	case LookupIdentifierDesiredComponentEnvironment:
+		*s = LookupIdentifierDesiredComponentEnvironment
+		return nil
+	case LookupIdentifierDesiredComponentImageSource:
+		*s = LookupIdentifierDesiredComponentImageSource
+		return nil
+	case LookupIdentifierDesiredComponentStack:
+		*s = LookupIdentifierDesiredComponentStack
+		return nil
+	case LookupIdentifierDesiredComponentServer:
+		*s = LookupIdentifierDesiredComponentServer
+		return nil
+	case LookupIdentifierDesiredComponentContainer:
+		*s = LookupIdentifierDesiredComponentContainer
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type LookupIdentifierOK struct {
+	Data LookupIdentifierOKData `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *LookupIdentifierOK) GetData() LookupIdentifierOKData {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *LookupIdentifierOK) SetData(val LookupIdentifierOKData) {
+	s.Data = val
+}
+
+type LookupIdentifierOKData struct {
+	ID string `json:"id"`
+}
+
+// GetID returns the value of ID.
+func (s *LookupIdentifierOKData) GetID() string {
+	return s.ID
+}
+
+// SetID sets the value of ID.
+func (s *LookupIdentifierOKData) SetID(val string) {
+	s.ID = val
 }
 
 // Merged schema.
@@ -35633,51 +36103,6 @@ func (o NilDuration) Or(d Duration) Duration {
 	return d
 }
 
-// NewNilExistingSource returns new NilExistingSource with value set to v.
-func NewNilExistingSource(v ExistingSource) NilExistingSource {
-	return NilExistingSource{
-		Value: v,
-	}
-}
-
-// NilExistingSource is nullable ExistingSource.
-type NilExistingSource struct {
-	Value ExistingSource
-	Null  bool
-}
-
-// SetTo sets value to v.
-func (o *NilExistingSource) SetTo(v ExistingSource) {
-	o.Null = false
-	o.Value = v
-}
-
-// IsSet returns true if value is Null.
-func (o NilExistingSource) IsNull() bool { return o.Null }
-
-// SetNull sets value to null.
-func (o *NilExistingSource) SetToNull() {
-	o.Null = true
-	var v ExistingSource
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o NilExistingSource) Get() (v ExistingSource, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o NilExistingSource) Or(d ExistingSource) ExistingSource {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewNilFloat64 returns new NilFloat64 with value set to v.
 func NewNilFloat64(v float64) NilFloat64 {
 	return NilFloat64{
@@ -35897,51 +36322,6 @@ func (o NilHttpRouterConfigDetailsForward) Get() (v HttpRouterConfigDetailsForwa
 
 // Or returns value if set, or given parameter if does not.
 func (o NilHttpRouterConfigDetailsForward) Or(d HttpRouterConfigDetailsForward) HttpRouterConfigDetailsForward {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewNilHttpRouterConfigDetailsForwardScheme returns new NilHttpRouterConfigDetailsForwardScheme with value set to v.
-func NewNilHttpRouterConfigDetailsForwardScheme(v HttpRouterConfigDetailsForwardScheme) NilHttpRouterConfigDetailsForwardScheme {
-	return NilHttpRouterConfigDetailsForwardScheme{
-		Value: v,
-	}
-}
-
-// NilHttpRouterConfigDetailsForwardScheme is nullable HttpRouterConfigDetailsForwardScheme.
-type NilHttpRouterConfigDetailsForwardScheme struct {
-	Value HttpRouterConfigDetailsForwardScheme
-	Null  bool
-}
-
-// SetTo sets value to v.
-func (o *NilHttpRouterConfigDetailsForwardScheme) SetTo(v HttpRouterConfigDetailsForwardScheme) {
-	o.Null = false
-	o.Value = v
-}
-
-// IsSet returns true if value is Null.
-func (o NilHttpRouterConfigDetailsForwardScheme) IsNull() bool { return o.Null }
-
-// SetNull sets value to null.
-func (o *NilHttpRouterConfigDetailsForwardScheme) SetToNull() {
-	o.Null = true
-	var v HttpRouterConfigDetailsForwardScheme
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o NilHttpRouterConfigDetailsForwardScheme) Get() (v HttpRouterConfigDetailsForwardScheme, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o NilHttpRouterConfigDetailsForwardScheme) Or(d HttpRouterConfigDetailsForwardScheme) HttpRouterConfigDetailsForwardScheme {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -36707,6 +37087,141 @@ func (o NilInt) Get() (v int, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o NilInt) Or(d int) int {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilJobStateError returns new NilJobStateError with value set to v.
+func NewNilJobStateError(v JobStateError) NilJobStateError {
+	return NilJobStateError{
+		Value: v,
+	}
+}
+
+// NilJobStateError is nullable JobStateError.
+type NilJobStateError struct {
+	Value JobStateError
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilJobStateError) SetTo(v JobStateError) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilJobStateError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilJobStateError) SetToNull() {
+	o.Null = true
+	var v JobStateError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilJobStateError) Get() (v JobStateError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilJobStateError) Or(d JobStateError) JobStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilJobTaskError returns new NilJobTaskError with value set to v.
+func NewNilJobTaskError(v JobTaskError) NilJobTaskError {
+	return NilJobTaskError{
+		Value: v,
+	}
+}
+
+// NilJobTaskError is nullable JobTaskError.
+type NilJobTaskError struct {
+	Value JobTaskError
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilJobTaskError) SetTo(v JobTaskError) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilJobTaskError) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilJobTaskError) SetToNull() {
+	o.Null = true
+	var v JobTaskError
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilJobTaskError) Get() (v JobTaskError, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilJobTaskError) Or(d JobTaskError) JobTaskError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilJobTaskOutput returns new NilJobTaskOutput with value set to v.
+func NewNilJobTaskOutput(v JobTaskOutput) NilJobTaskOutput {
+	return NilJobTaskOutput{
+		Value: v,
+	}
+}
+
+// NilJobTaskOutput is nullable JobTaskOutput.
+type NilJobTaskOutput struct {
+	Value JobTaskOutput
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilJobTaskOutput) SetTo(v JobTaskOutput) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilJobTaskOutput) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilJobTaskOutput) SetToNull() {
+	o.Null = true
+	var v JobTaskOutput
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilJobTaskOutput) Get() (v JobTaskOutput, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilJobTaskOutput) Or(d JobTaskOutput) JobTaskOutput {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -37525,51 +38040,6 @@ func (o NilV1LbConfig) Or(d V1LbConfig) V1LbConfig {
 	return d
 }
 
-// NewNilV1LbConfigControllersItemTransportConfigIngressTLS returns new NilV1LbConfigControllersItemTransportConfigIngressTLS with value set to v.
-func NewNilV1LbConfigControllersItemTransportConfigIngressTLS(v V1LbConfigControllersItemTransportConfigIngressTLS) NilV1LbConfigControllersItemTransportConfigIngressTLS {
-	return NilV1LbConfigControllersItemTransportConfigIngressTLS{
-		Value: v,
-	}
-}
-
-// NilV1LbConfigControllersItemTransportConfigIngressTLS is nullable V1LbConfigControllersItemTransportConfigIngressTLS.
-type NilV1LbConfigControllersItemTransportConfigIngressTLS struct {
-	Value V1LbConfigControllersItemTransportConfigIngressTLS
-	Null  bool
-}
-
-// SetTo sets value to v.
-func (o *NilV1LbConfigControllersItemTransportConfigIngressTLS) SetTo(v V1LbConfigControllersItemTransportConfigIngressTLS) {
-	o.Null = false
-	o.Value = v
-}
-
-// IsSet returns true if value is Null.
-func (o NilV1LbConfigControllersItemTransportConfigIngressTLS) IsNull() bool { return o.Null }
-
-// SetNull sets value to null.
-func (o *NilV1LbConfigControllersItemTransportConfigIngressTLS) SetToNull() {
-	o.Null = true
-	var v V1LbConfigControllersItemTransportConfigIngressTLS
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o NilV1LbConfigControllersItemTransportConfigIngressTLS) Get() (v V1LbConfigControllersItemTransportConfigIngressTLS, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o NilV1LbConfigControllersItemTransportConfigIngressTLS) Or(d V1LbConfigControllersItemTransportConfigIngressTLS) V1LbConfigControllersItemTransportConfigIngressTLS {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewNilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth returns new NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth with value set to v.
 func NewNilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth(v V1LbConfigControllersItemTransportConfigIngressTLSClientAuth) NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth {
 	return NilV1LbConfigControllersItemTransportConfigIngressTLSClientAuth{
@@ -38000,7 +38470,7 @@ func (s *OciRegistryOrigin) SetDetails(val OciRegistryOriginDetails) {
 }
 
 type OciRegistryOriginDetails struct {
-	Existing NilExistingSource `json:"existing"`
+	Existing OptExistingSource `json:"existing"`
 	// The image name on the registry.
 	Target string `json:"target"`
 	// The url of the remote registry.
@@ -38009,7 +38479,7 @@ type OciRegistryOriginDetails struct {
 }
 
 // GetExisting returns the value of Existing.
-func (s *OciRegistryOriginDetails) GetExisting() NilExistingSource {
+func (s *OciRegistryOriginDetails) GetExisting() OptExistingSource {
 	return s.Existing
 }
 
@@ -38029,7 +38499,7 @@ func (s *OciRegistryOriginDetails) GetAuth() NilRegistryAuth {
 }
 
 // SetExisting sets the value of Existing.
-func (s *OciRegistryOriginDetails) SetExisting(val NilExistingSource) {
+func (s *OciRegistryOriginDetails) SetExisting(val OptExistingSource) {
 	s.Existing = val
 }
 
@@ -46132,6 +46602,52 @@ func (o OptGetContainersPage) Or(d GetContainersPage) GetContainersPage {
 	return d
 }
 
+// NewOptGetCreditsFilter returns new OptGetCreditsFilter with value set to v.
+func NewOptGetCreditsFilter(v GetCreditsFilter) OptGetCreditsFilter {
+	return OptGetCreditsFilter{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetCreditsFilter is optional GetCreditsFilter.
+type OptGetCreditsFilter struct {
+	Value GetCreditsFilter
+	Set   bool
+}
+
+// IsSet returns true if OptGetCreditsFilter was set.
+func (o OptGetCreditsFilter) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetCreditsFilter) Reset() {
+	var v GetCreditsFilter
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetCreditsFilter) SetTo(v GetCreditsFilter) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetCreditsFilter) Get() (v GetCreditsFilter, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetCreditsFilter) Or(d GetCreditsFilter) GetCreditsFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptGetCreditsPage returns new OptGetCreditsPage with value set to v.
 func NewOptGetCreditsPage(v GetCreditsPage) OptGetCreditsPage {
 	return OptGetCreditsPage{
@@ -47190,6 +47706,52 @@ func (o OptGetInstancesPage) Or(d GetInstancesPage) GetInstancesPage {
 	return d
 }
 
+// NewOptGetInvoicesFilter returns new OptGetInvoicesFilter with value set to v.
+func NewOptGetInvoicesFilter(v GetInvoicesFilter) OptGetInvoicesFilter {
+	return OptGetInvoicesFilter{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetInvoicesFilter is optional GetInvoicesFilter.
+type OptGetInvoicesFilter struct {
+	Value GetInvoicesFilter
+	Set   bool
+}
+
+// IsSet returns true if OptGetInvoicesFilter was set.
+func (o OptGetInvoicesFilter) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetInvoicesFilter) Reset() {
+	var v GetInvoicesFilter
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetInvoicesFilter) SetTo(v GetInvoicesFilter) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetInvoicesFilter) Get() (v GetInvoicesFilter, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetInvoicesFilter) Or(d GetInvoicesFilter) GetInvoicesFilter {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptGetInvoicesPage returns new OptGetInvoicesPage with value set to v.
 func NewOptGetInvoicesPage(v GetInvoicesPage) OptGetInvoicesPage {
 	return OptGetInvoicesPage{
@@ -47966,6 +48528,52 @@ func (o OptGetProviderLocationsPage) Get() (v GetProviderLocationsPage, ok bool)
 
 // Or returns value if set, or given parameter if does not.
 func (o OptGetProviderLocationsPage) Or(d GetProviderLocationsPage) GetProviderLocationsPage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptGetProviderServersFilter returns new OptGetProviderServersFilter with value set to v.
+func NewOptGetProviderServersFilter(v GetProviderServersFilter) OptGetProviderServersFilter {
+	return OptGetProviderServersFilter{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptGetProviderServersFilter is optional GetProviderServersFilter.
+type OptGetProviderServersFilter struct {
+	Value GetProviderServersFilter
+	Set   bool
+}
+
+// IsSet returns true if OptGetProviderServersFilter was set.
+func (o OptGetProviderServersFilter) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptGetProviderServersFilter) Reset() {
+	var v GetProviderServersFilter
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptGetProviderServersFilter) SetTo(v GetProviderServersFilter) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptGetProviderServersFilter) Get() (v GetProviderServersFilter, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptGetProviderServersFilter) Or(d GetProviderServersFilter) GetProviderServersFilter {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -51744,52 +52352,6 @@ func (o OptJobIncludes) Or(d JobIncludes) JobIncludes {
 	return d
 }
 
-// NewOptJobStateError returns new OptJobStateError with value set to v.
-func NewOptJobStateError(v JobStateError) OptJobStateError {
-	return OptJobStateError{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptJobStateError is optional JobStateError.
-type OptJobStateError struct {
-	Value JobStateError
-	Set   bool
-}
-
-// IsSet returns true if OptJobStateError was set.
-func (o OptJobStateError) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptJobStateError) Reset() {
-	var v JobStateError
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptJobStateError) SetTo(v JobStateError) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptJobStateError) Get() (v JobStateError, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptJobStateError) Or(d JobStateError) JobStateError {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptListScopedVariablesFilter returns new OptListScopedVariablesFilter with value set to v.
 func NewOptListScopedVariablesFilter(v ListScopedVariablesFilter) OptListScopedVariablesFilter {
 	return OptListScopedVariablesFilter{
@@ -52953,6 +53515,69 @@ func (o OptNilContainerDeployStatefulOptions) Or(d ContainerDeployStatefulOption
 	return d
 }
 
+// NewOptNilContainerIntegrationsSharedDirectories returns new OptNilContainerIntegrationsSharedDirectories with value set to v.
+func NewOptNilContainerIntegrationsSharedDirectories(v ContainerIntegrationsSharedDirectories) OptNilContainerIntegrationsSharedDirectories {
+	return OptNilContainerIntegrationsSharedDirectories{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilContainerIntegrationsSharedDirectories is optional nullable ContainerIntegrationsSharedDirectories.
+type OptNilContainerIntegrationsSharedDirectories struct {
+	Value ContainerIntegrationsSharedDirectories
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilContainerIntegrationsSharedDirectories was set.
+func (o OptNilContainerIntegrationsSharedDirectories) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilContainerIntegrationsSharedDirectories) Reset() {
+	var v ContainerIntegrationsSharedDirectories
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilContainerIntegrationsSharedDirectories) SetTo(v ContainerIntegrationsSharedDirectories) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilContainerIntegrationsSharedDirectories) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilContainerIntegrationsSharedDirectories) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ContainerIntegrationsSharedDirectories
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilContainerIntegrationsSharedDirectories) Get() (v ContainerIntegrationsSharedDirectories, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilContainerIntegrationsSharedDirectories) Or(d ContainerIntegrationsSharedDirectories) ContainerIntegrationsSharedDirectories {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilContainerRole returns new OptNilContainerRole with value set to v.
 func NewOptNilContainerRole(v ContainerRole) OptNilContainerRole {
 	return OptNilContainerRole{
@@ -53010,6 +53635,69 @@ func (o OptNilContainerRole) Get() (v ContainerRole, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilContainerRole) Or(d ContainerRole) ContainerRole {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilContainerRuntimeHost returns new OptNilContainerRuntimeHost with value set to v.
+func NewOptNilContainerRuntimeHost(v ContainerRuntimeHost) OptNilContainerRuntimeHost {
+	return OptNilContainerRuntimeHost{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilContainerRuntimeHost is optional nullable ContainerRuntimeHost.
+type OptNilContainerRuntimeHost struct {
+	Value ContainerRuntimeHost
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilContainerRuntimeHost was set.
+func (o OptNilContainerRuntimeHost) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilContainerRuntimeHost) Reset() {
+	var v ContainerRuntimeHost
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilContainerRuntimeHost) SetTo(v ContainerRuntimeHost) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilContainerRuntimeHost) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilContainerRuntimeHost) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ContainerRuntimeHost
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilContainerRuntimeHost) Get() (v ContainerRuntimeHost, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilContainerRuntimeHost) Or(d ContainerRuntimeHost) ContainerRuntimeHost {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -53646,6 +54334,69 @@ func (o OptNilLogsError) Or(d LogsError) LogsError {
 	return d
 }
 
+// NewOptNilStackContainerConfigIntegrationsSharedDirectories returns new OptNilStackContainerConfigIntegrationsSharedDirectories with value set to v.
+func NewOptNilStackContainerConfigIntegrationsSharedDirectories(v StackContainerConfigIntegrationsSharedDirectories) OptNilStackContainerConfigIntegrationsSharedDirectories {
+	return OptNilStackContainerConfigIntegrationsSharedDirectories{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStackContainerConfigIntegrationsSharedDirectories is optional nullable StackContainerConfigIntegrationsSharedDirectories.
+type OptNilStackContainerConfigIntegrationsSharedDirectories struct {
+	Value StackContainerConfigIntegrationsSharedDirectories
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStackContainerConfigIntegrationsSharedDirectories was set.
+func (o OptNilStackContainerConfigIntegrationsSharedDirectories) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStackContainerConfigIntegrationsSharedDirectories) Reset() {
+	var v StackContainerConfigIntegrationsSharedDirectories
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStackContainerConfigIntegrationsSharedDirectories) SetTo(v StackContainerConfigIntegrationsSharedDirectories) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilStackContainerConfigIntegrationsSharedDirectories) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilStackContainerConfigIntegrationsSharedDirectories) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v StackContainerConfigIntegrationsSharedDirectories
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStackContainerConfigIntegrationsSharedDirectories) Get() (v StackContainerConfigIntegrationsSharedDirectories, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStackContainerConfigIntegrationsSharedDirectories) Or(d StackContainerConfigIntegrationsSharedDirectories) StackContainerConfigIntegrationsSharedDirectories {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilStackContainerConfigResources returns new OptNilStackContainerConfigResources with value set to v.
 func NewOptNilStackContainerConfigResources(v StackContainerConfigResources) OptNilStackContainerConfigResources {
 	return OptNilStackContainerConfigResources{
@@ -53772,6 +54523,69 @@ func (o OptNilStackContainerConfigRuntime) Or(d StackContainerConfigRuntime) Sta
 	return d
 }
 
+// NewOptNilStackContainerConfigRuntimeHost returns new OptNilStackContainerConfigRuntimeHost with value set to v.
+func NewOptNilStackContainerConfigRuntimeHost(v StackContainerConfigRuntimeHost) OptNilStackContainerConfigRuntimeHost {
+	return OptNilStackContainerConfigRuntimeHost{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStackContainerConfigRuntimeHost is optional nullable StackContainerConfigRuntimeHost.
+type OptNilStackContainerConfigRuntimeHost struct {
+	Value StackContainerConfigRuntimeHost
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStackContainerConfigRuntimeHost was set.
+func (o OptNilStackContainerConfigRuntimeHost) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStackContainerConfigRuntimeHost) Reset() {
+	var v StackContainerConfigRuntimeHost
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStackContainerConfigRuntimeHost) SetTo(v StackContainerConfigRuntimeHost) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilStackContainerConfigRuntimeHost) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilStackContainerConfigRuntimeHost) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v StackContainerConfigRuntimeHost
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStackContainerConfigRuntimeHost) Get() (v StackContainerConfigRuntimeHost, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStackContainerConfigRuntimeHost) Or(d StackContainerConfigRuntimeHost) StackContainerConfigRuntimeHost {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilStringArray returns new OptNilStringArray with value set to v.
 func NewOptNilStringArray(v []string) OptNilStringArray {
 	return OptNilStringArray{
@@ -53892,6 +54706,69 @@ func (o OptNilUpdateScopedVariableReqSecret) Get() (v UpdateScopedVariableReqSec
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilUpdateScopedVariableReqSecret) Or(d UpdateScopedVariableReqSecret) UpdateScopedVariableReqSecret {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilV1LbConfigControllersItemTransportConfigIngressTLS returns new OptNilV1LbConfigControllersItemTransportConfigIngressTLS with value set to v.
+func NewOptNilV1LbConfigControllersItemTransportConfigIngressTLS(v V1LbConfigControllersItemTransportConfigIngressTLS) OptNilV1LbConfigControllersItemTransportConfigIngressTLS {
+	return OptNilV1LbConfigControllersItemTransportConfigIngressTLS{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilV1LbConfigControllersItemTransportConfigIngressTLS is optional nullable V1LbConfigControllersItemTransportConfigIngressTLS.
+type OptNilV1LbConfigControllersItemTransportConfigIngressTLS struct {
+	Value V1LbConfigControllersItemTransportConfigIngressTLS
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilV1LbConfigControllersItemTransportConfigIngressTLS was set.
+func (o OptNilV1LbConfigControllersItemTransportConfigIngressTLS) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilV1LbConfigControllersItemTransportConfigIngressTLS) Reset() {
+	var v V1LbConfigControllersItemTransportConfigIngressTLS
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilV1LbConfigControllersItemTransportConfigIngressTLS) SetTo(v V1LbConfigControllersItemTransportConfigIngressTLS) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilV1LbConfigControllersItemTransportConfigIngressTLS) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilV1LbConfigControllersItemTransportConfigIngressTLS) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v V1LbConfigControllersItemTransportConfigIngressTLS
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilV1LbConfigControllersItemTransportConfigIngressTLS) Get() (v V1LbConfigControllersItemTransportConfigIngressTLS, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilV1LbConfigControllersItemTransportConfigIngressTLS) Or(d V1LbConfigControllersItemTransportConfigIngressTLS) V1LbConfigControllersItemTransportConfigIngressTLS {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -60694,6 +61571,52 @@ func (o OptTaskDescriptorJob) Or(d TaskDescriptorJob) TaskDescriptorJob {
 	return d
 }
 
+// NewOptTaskStateCurrent returns new OptTaskStateCurrent with value set to v.
+func NewOptTaskStateCurrent(v TaskStateCurrent) OptTaskStateCurrent {
+	return OptTaskStateCurrent{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTaskStateCurrent is optional TaskStateCurrent.
+type OptTaskStateCurrent struct {
+	Value TaskStateCurrent
+	Set   bool
+}
+
+// IsSet returns true if OptTaskStateCurrent was set.
+func (o OptTaskStateCurrent) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTaskStateCurrent) Reset() {
+	var v TaskStateCurrent
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTaskStateCurrent) SetTo(v TaskStateCurrent) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTaskStateCurrent) Get() (v TaskStateCurrent, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTaskStateCurrent) Or(d TaskStateCurrent) TaskStateCurrent {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptTriggerKey returns new OptTriggerKey with value set to v.
 func NewOptTriggerKey(v TriggerKey) OptTriggerKey {
 	return OptTriggerKey{
@@ -65673,7 +66596,8 @@ func (s *ProviderEvents) SetLastProvision(val DateTime) {
 // A list of meta fields that can be applied to a provider.
 // Ref: #/components/schemas/ProviderMeta
 type ProviderMeta struct {
-	Locations []InfrastructureProviderLocation `json:"locations"`
+	Locations  []InfrastructureProviderLocation `json:"locations"`
+	Identifier OptString                        `json:"identifier"`
 }
 
 // GetLocations returns the value of Locations.
@@ -65681,9 +66605,19 @@ func (s *ProviderMeta) GetLocations() []InfrastructureProviderLocation {
 	return s.Locations
 }
 
+// GetIdentifier returns the value of Identifier.
+func (s *ProviderMeta) GetIdentifier() OptString {
+	return s.Identifier
+}
+
 // SetLocations sets the value of Locations.
 func (s *ProviderMeta) SetLocations(val []InfrastructureProviderLocation) {
 	s.Locations = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ProviderMeta) SetIdentifier(val OptString) {
+	s.Identifier = val
 }
 
 // A server from a provider.
@@ -76735,10 +77669,11 @@ func (s *StackContainerConfigDeployUpdate) SetStagger(val OptDuration) {
 
 // Ref: #/components/schemas/StackContainerConfigIntegrations
 type StackContainerConfigIntegrations struct {
-	Webhooks    OptStackContainerConfigIntegrationsWebhooks    `json:"webhooks"`
-	LetsEncrypt OptStackContainerConfigIntegrationsLetsEncrypt `json:"lets_encrypt"`
-	Files       []StackContainerConfigIntegrationsFilesItem    `json:"files"`
-	Backups     OptStackContainerConfigIntegrationsBackups     `json:"backups"`
+	Webhooks          OptStackContainerConfigIntegrationsWebhooks             `json:"webhooks"`
+	LetsEncrypt       OptStackContainerConfigIntegrationsLetsEncrypt          `json:"lets_encrypt"`
+	Files             []StackContainerConfigIntegrationsFilesItem             `json:"files"`
+	Backups           OptStackContainerConfigIntegrationsBackups              `json:"backups"`
+	SharedDirectories OptNilStackContainerConfigIntegrationsSharedDirectories `json:"shared_directories"`
 }
 
 // GetWebhooks returns the value of Webhooks.
@@ -76761,6 +77696,11 @@ func (s *StackContainerConfigIntegrations) GetBackups() OptStackContainerConfigI
 	return s.Backups
 }
 
+// GetSharedDirectories returns the value of SharedDirectories.
+func (s *StackContainerConfigIntegrations) GetSharedDirectories() OptNilStackContainerConfigIntegrationsSharedDirectories {
+	return s.SharedDirectories
+}
+
 // SetWebhooks sets the value of Webhooks.
 func (s *StackContainerConfigIntegrations) SetWebhooks(val OptStackContainerConfigIntegrationsWebhooks) {
 	s.Webhooks = val
@@ -76779,6 +77719,11 @@ func (s *StackContainerConfigIntegrations) SetFiles(val []StackContainerConfigIn
 // SetBackups sets the value of Backups.
 func (s *StackContainerConfigIntegrations) SetBackups(val OptStackContainerConfigIntegrationsBackups) {
 	s.Backups = val
+}
+
+// SetSharedDirectories sets the value of SharedDirectories.
+func (s *StackContainerConfigIntegrations) SetSharedDirectories(val OptNilStackContainerConfigIntegrationsSharedDirectories) {
+	s.SharedDirectories = val
 }
 
 type StackContainerConfigIntegrationsBackups struct {
@@ -76984,6 +77929,42 @@ func (s *StackContainerConfigIntegrationsLetsEncrypt) SetBundlePath(val OptStrin
 // SetAdditionalCertsPath sets the value of AdditionalCertsPath.
 func (s *StackContainerConfigIntegrationsLetsEncrypt) SetAdditionalCertsPath(val OptString) {
 	s.AdditionalCertsPath = val
+}
+
+type StackContainerConfigIntegrationsSharedDirectories map[string]StackContainerConfigIntegrationsSharedDirectoriesItem
+
+func (s *StackContainerConfigIntegrationsSharedDirectories) init() StackContainerConfigIntegrationsSharedDirectories {
+	m := *s
+	if m == nil {
+		m = map[string]StackContainerConfigIntegrationsSharedDirectoriesItem{}
+		*s = m
+	}
+	return m
+}
+
+type StackContainerConfigIntegrationsSharedDirectoriesItem struct {
+	Writable   bool   `json:"writable"`
+	MountPoint string `json:"mount_point"`
+}
+
+// GetWritable returns the value of Writable.
+func (s *StackContainerConfigIntegrationsSharedDirectoriesItem) GetWritable() bool {
+	return s.Writable
+}
+
+// GetMountPoint returns the value of MountPoint.
+func (s *StackContainerConfigIntegrationsSharedDirectoriesItem) GetMountPoint() string {
+	return s.MountPoint
+}
+
+// SetWritable sets the value of Writable.
+func (s *StackContainerConfigIntegrationsSharedDirectoriesItem) SetWritable(val bool) {
+	s.Writable = val
+}
+
+// SetMountPoint sets the value of MountPoint.
+func (s *StackContainerConfigIntegrationsSharedDirectoriesItem) SetMountPoint(val string) {
+	s.MountPoint = val
 }
 
 type StackContainerConfigIntegrationsWebhooks struct {
@@ -77253,6 +78234,7 @@ type StackContainerConfigRuntime struct {
 	Sysctl          OptStackContainerConfigRuntimeSysctl          `json:"sysctl"`
 	Rlimits         OptStackContainerConfigRuntimeRlimits         `json:"rlimits"`
 	Seccomp         OptStackContainerConfigRuntimeSeccomp         `json:"seccomp"`
+	Host            OptNilStackContainerConfigRuntimeHost         `json:"host"`
 	Privileged      bool                                          `json:"privileged"`
 	Capabilities    []StackContainerConfigRuntimeCapabilitiesItem `json:"capabilities"`
 	Rootfs          OptStackContainerConfigRuntimeRootfs          `json:"rootfs"`
@@ -77291,6 +78273,11 @@ func (s *StackContainerConfigRuntime) GetRlimits() OptStackContainerConfigRuntim
 // GetSeccomp returns the value of Seccomp.
 func (s *StackContainerConfigRuntime) GetSeccomp() OptStackContainerConfigRuntimeSeccomp {
 	return s.Seccomp
+}
+
+// GetHost returns the value of Host.
+func (s *StackContainerConfigRuntime) GetHost() OptNilStackContainerConfigRuntimeHost {
+	return s.Host
 }
 
 // GetPrivileged returns the value of Privileged.
@@ -77341,6 +78328,11 @@ func (s *StackContainerConfigRuntime) SetRlimits(val OptStackContainerConfigRunt
 // SetSeccomp sets the value of Seccomp.
 func (s *StackContainerConfigRuntime) SetSeccomp(val OptStackContainerConfigRuntimeSeccomp) {
 	s.Seccomp = val
+}
+
+// SetHost sets the value of Host.
+func (s *StackContainerConfigRuntime) SetHost(val OptNilStackContainerConfigRuntimeHost) {
+	s.Host = val
 }
 
 // SetPrivileged sets the value of Privileged.
@@ -77685,6 +78677,20 @@ func (s *StackContainerConfigRuntimeEnvironmentVars) init() StackContainerConfig
 		*s = m
 	}
 	return m
+}
+
+type StackContainerConfigRuntimeHost struct {
+	ExposeProc OptNilBool `json:"expose_proc"`
+}
+
+// GetExposeProc returns the value of ExposeProc.
+func (s *StackContainerConfigRuntimeHost) GetExposeProc() OptNilBool {
+	return s.ExposeProc
+}
+
+// SetExposeProc sets the value of ExposeProc.
+func (s *StackContainerConfigRuntimeHost) SetExposeProc(val OptNilBool) {
+	s.ExposeProc = val
 }
 
 type StackContainerConfigRuntimeNamespacesItem string
@@ -80922,6 +81928,142 @@ func (s *TaskDescriptorJob) SetQueue(val string) {
 	s.Queue = val
 }
 
+// Ref: #/components/schemas/TaskState
+type TaskState struct {
+	Changed OptDateTime `json:"changed"`
+	// The current state of the task.
+	Current OptTaskStateCurrent `json:"current"`
+}
+
+// GetChanged returns the value of Changed.
+func (s *TaskState) GetChanged() OptDateTime {
+	return s.Changed
+}
+
+// GetCurrent returns the value of Current.
+func (s *TaskState) GetCurrent() OptTaskStateCurrent {
+	return s.Current
+}
+
+// SetChanged sets the value of Changed.
+func (s *TaskState) SetChanged(val OptDateTime) {
+	s.Changed = val
+}
+
+// SetCurrent sets the value of Current.
+func (s *TaskState) SetCurrent(val OptTaskStateCurrent) {
+	s.Current = val
+}
+
+// The current state of the task.
+type TaskStateCurrent string
+
+const (
+	TaskStateCurrentPending   TaskStateCurrent = "pending"
+	TaskStateCurrentError     TaskStateCurrent = "error"
+	TaskStateCurrentRunning   TaskStateCurrent = "running"
+	TaskStateCurrentCompleted TaskStateCurrent = "completed"
+)
+
+// AllValues returns all TaskStateCurrent values.
+func (TaskStateCurrent) AllValues() []TaskStateCurrent {
+	return []TaskStateCurrent{
+		TaskStateCurrentPending,
+		TaskStateCurrentError,
+		TaskStateCurrentRunning,
+		TaskStateCurrentCompleted,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s TaskStateCurrent) MarshalText() ([]byte, error) {
+	switch s {
+	case TaskStateCurrentPending:
+		return []byte(s), nil
+	case TaskStateCurrentError:
+		return []byte(s), nil
+	case TaskStateCurrentRunning:
+		return []byte(s), nil
+	case TaskStateCurrentCompleted:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *TaskStateCurrent) UnmarshalText(data []byte) error {
+	switch TaskStateCurrent(data) {
+	case TaskStateCurrentPending:
+		*s = TaskStateCurrentPending
+		return nil
+	case TaskStateCurrentError:
+		*s = TaskStateCurrentError
+		return nil
+	case TaskStateCurrentRunning:
+		*s = TaskStateCurrentRunning
+		return nil
+	case TaskStateCurrentCompleted:
+		*s = TaskStateCurrentCompleted
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A step for a given job task.
+// Ref: #/components/schemas/TaskStep
+type TaskStep struct {
+	// A short description of the step.
+	Caption string `json:"caption"`
+	// A more verbose description.
+	Description string `json:"description"`
+	// A timestamp for when the step started.
+	Started DateTime `json:"started"`
+	// A timestamp for when the step completed.
+	Completed DateTime `json:"completed"`
+}
+
+// GetCaption returns the value of Caption.
+func (s *TaskStep) GetCaption() string {
+	return s.Caption
+}
+
+// GetDescription returns the value of Description.
+func (s *TaskStep) GetDescription() string {
+	return s.Description
+}
+
+// GetStarted returns the value of Started.
+func (s *TaskStep) GetStarted() DateTime {
+	return s.Started
+}
+
+// GetCompleted returns the value of Completed.
+func (s *TaskStep) GetCompleted() DateTime {
+	return s.Completed
+}
+
+// SetCaption sets the value of Caption.
+func (s *TaskStep) SetCaption(val string) {
+	s.Caption = val
+}
+
+// SetDescription sets the value of Description.
+func (s *TaskStep) SetDescription(val string) {
+	s.Description = val
+}
+
+// SetStarted sets the value of Started.
+func (s *TaskStep) SetStarted(val DateTime) {
+	s.Started = val
+}
+
+// SetCompleted sets the value of Completed.
+func (s *TaskStep) SetCompleted(val DateTime) {
+	s.Completed = val
+}
+
 // Additional configuration options for TCP mode routers.
 // Ref: #/components/schemas/TcpRouterConfig
 type TcpRouterConfig struct {
@@ -83757,6 +84899,8 @@ type V1LbConfigControllersItemTransportConfig struct {
 	Ingress V1LbConfigControllersItemTransportConfigIngress `json:"ingress"`
 	// Defines settings for various types of timeouts.
 	Timeouts V1LbConfigControllersItemTransportConfigTimeouts `json:"timeouts"`
+	// Verbosity describes the level of logging detail for the controller.
+	Verbosity V1LbConfigControllersItemTransportConfigVerbosity `json:"verbosity"`
 	// Extended configurations for the specified transport mode (http/tcp).
 	Extension OptV1LbConfigControllersItemTransportConfigExtension `json:"extension"`
 }
@@ -83774,6 +84918,11 @@ func (s *V1LbConfigControllersItemTransportConfig) GetIngress() V1LbConfigContro
 // GetTimeouts returns the value of Timeouts.
 func (s *V1LbConfigControllersItemTransportConfig) GetTimeouts() V1LbConfigControllersItemTransportConfigTimeouts {
 	return s.Timeouts
+}
+
+// GetVerbosity returns the value of Verbosity.
+func (s *V1LbConfigControllersItemTransportConfig) GetVerbosity() V1LbConfigControllersItemTransportConfigVerbosity {
+	return s.Verbosity
 }
 
 // GetExtension returns the value of Extension.
@@ -83794,6 +84943,11 @@ func (s *V1LbConfigControllersItemTransportConfig) SetIngress(val V1LbConfigCont
 // SetTimeouts sets the value of Timeouts.
 func (s *V1LbConfigControllersItemTransportConfig) SetTimeouts(val V1LbConfigControllersItemTransportConfigTimeouts) {
 	s.Timeouts = val
+}
+
+// SetVerbosity sets the value of Verbosity.
+func (s *V1LbConfigControllersItemTransportConfig) SetVerbosity(val V1LbConfigControllersItemTransportConfigVerbosity) {
+	s.Verbosity = val
 }
 
 // SetExtension sets the value of Extension.
@@ -83890,7 +85044,7 @@ type V1LbConfigControllersItemTransportConfigIngress struct {
 	Port int `json:"port"`
 	// TLS termination configuration. If null, the platform will use the default configuration. Port 443
 	// by default has TLS termination enabled.
-	TLS NilV1LbConfigControllersItemTransportConfigIngressTLS `json:"tls"`
+	TLS OptNilV1LbConfigControllersItemTransportConfigIngressTLS `json:"tls"`
 }
 
 // GetPort returns the value of Port.
@@ -83899,7 +85053,7 @@ func (s *V1LbConfigControllersItemTransportConfigIngress) GetPort() int {
 }
 
 // GetTLS returns the value of TLS.
-func (s *V1LbConfigControllersItemTransportConfigIngress) GetTLS() NilV1LbConfigControllersItemTransportConfigIngressTLS {
+func (s *V1LbConfigControllersItemTransportConfigIngress) GetTLS() OptNilV1LbConfigControllersItemTransportConfigIngressTLS {
 	return s.TLS
 }
 
@@ -83909,7 +85063,7 @@ func (s *V1LbConfigControllersItemTransportConfigIngress) SetPort(val int) {
 }
 
 // SetTLS sets the value of TLS.
-func (s *V1LbConfigControllersItemTransportConfigIngress) SetTLS(val NilV1LbConfigControllersItemTransportConfigIngressTLS) {
+func (s *V1LbConfigControllersItemTransportConfigIngress) SetTLS(val OptNilV1LbConfigControllersItemTransportConfigIngressTLS) {
 	s.TLS = val
 }
 
@@ -84049,6 +85203,62 @@ func (s *V1LbConfigControllersItemTransportConfigTimeouts) GetIdle() Duration {
 // SetIdle sets the value of Idle.
 func (s *V1LbConfigControllersItemTransportConfigTimeouts) SetIdle(val Duration) {
 	s.Idle = val
+}
+
+// Verbosity describes the level of logging detail for the controller.
+type V1LbConfigControllersItemTransportConfigVerbosity string
+
+const (
+	V1LbConfigControllersItemTransportConfigVerbosityLow    V1LbConfigControllersItemTransportConfigVerbosity = "low"
+	V1LbConfigControllersItemTransportConfigVerbosityNormal V1LbConfigControllersItemTransportConfigVerbosity = "normal"
+	V1LbConfigControllersItemTransportConfigVerbosityHigh   V1LbConfigControllersItemTransportConfigVerbosity = "high"
+	V1LbConfigControllersItemTransportConfigVerbosityDebug  V1LbConfigControllersItemTransportConfigVerbosity = "debug"
+)
+
+// AllValues returns all V1LbConfigControllersItemTransportConfigVerbosity values.
+func (V1LbConfigControllersItemTransportConfigVerbosity) AllValues() []V1LbConfigControllersItemTransportConfigVerbosity {
+	return []V1LbConfigControllersItemTransportConfigVerbosity{
+		V1LbConfigControllersItemTransportConfigVerbosityLow,
+		V1LbConfigControllersItemTransportConfigVerbosityNormal,
+		V1LbConfigControllersItemTransportConfigVerbosityHigh,
+		V1LbConfigControllersItemTransportConfigVerbosityDebug,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s V1LbConfigControllersItemTransportConfigVerbosity) MarshalText() ([]byte, error) {
+	switch s {
+	case V1LbConfigControllersItemTransportConfigVerbosityLow:
+		return []byte(s), nil
+	case V1LbConfigControllersItemTransportConfigVerbosityNormal:
+		return []byte(s), nil
+	case V1LbConfigControllersItemTransportConfigVerbosityHigh:
+		return []byte(s), nil
+	case V1LbConfigControllersItemTransportConfigVerbosityDebug:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *V1LbConfigControllersItemTransportConfigVerbosity) UnmarshalText(data []byte) error {
+	switch V1LbConfigControllersItemTransportConfigVerbosity(data) {
+	case V1LbConfigControllersItemTransportConfigVerbosityLow:
+		*s = V1LbConfigControllersItemTransportConfigVerbosityLow
+		return nil
+	case V1LbConfigControllersItemTransportConfigVerbosityNormal:
+		*s = V1LbConfigControllersItemTransportConfigVerbosityNormal
+		return nil
+	case V1LbConfigControllersItemTransportConfigVerbosityHigh:
+		*s = V1LbConfigControllersItemTransportConfigVerbosityHigh
+		return nil
+	case V1LbConfigControllersItemTransportConfigVerbosityDebug:
+		*s = V1LbConfigControllersItemTransportConfigVerbosityDebug
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // The kind of traffic (http/tcp) that will be sent to the load balancer.
