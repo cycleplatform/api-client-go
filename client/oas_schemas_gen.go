@@ -5630,7 +5630,7 @@ type ContainerDeployHealthCheck struct {
 	Retries int `json:"retries"`
 	// How long to wait before performing an initial health check when the instance starts. The `state.
 	// health.healthy` field of the instance will be `null`` until the first check is performed.
-	Delay OptDuration `json:"delay"`
+	Delay NilDuration `json:"delay"`
 	// How long to wait between restarts.
 	Interval Duration `json:"interval"`
 	// How long before a health check attempt times out.
@@ -5650,7 +5650,7 @@ func (s *ContainerDeployHealthCheck) GetRetries() int {
 }
 
 // GetDelay returns the value of Delay.
-func (s *ContainerDeployHealthCheck) GetDelay() OptDuration {
+func (s *ContainerDeployHealthCheck) GetDelay() NilDuration {
 	return s.Delay
 }
 
@@ -5680,7 +5680,7 @@ func (s *ContainerDeployHealthCheck) SetRetries(val int) {
 }
 
 // SetDelay sets the value of Delay.
-func (s *ContainerDeployHealthCheck) SetDelay(val OptDuration) {
+func (s *ContainerDeployHealthCheck) SetDelay(val NilDuration) {
 	s.Delay = val
 }
 
@@ -7288,10 +7288,10 @@ type ContainerRuntime struct {
 	// A record of sysctl fields and values for a given container.
 	Sysctl OptContainerRuntimeSysctl `json:"sysctl"`
 	// A record of rlimits and their values.
-	Rlimits OptContainerRuntimeRlimits `json:"rlimits"`
-	Seccomp NilContainerRuntimeSeccomp `json:"seccomp"`
-	Host    OptNilContainerRuntimeHost `json:"host"`
-	Rootfs  OptContainerRuntimeRootfs  `json:"rootfs"`
+	Rlimits OptContainerRuntimeRlimits    `json:"rlimits"`
+	Seccomp OptNilContainerRuntimeSeccomp `json:"seccomp"`
+	Host    OptNilContainerRuntimeHost    `json:"host"`
+	Rootfs  OptContainerRuntimeRootfs     `json:"rootfs"`
 }
 
 // GetCommand returns the value of Command.
@@ -7335,7 +7335,7 @@ func (s *ContainerRuntime) GetRlimits() OptContainerRuntimeRlimits {
 }
 
 // GetSeccomp returns the value of Seccomp.
-func (s *ContainerRuntime) GetSeccomp() NilContainerRuntimeSeccomp {
+func (s *ContainerRuntime) GetSeccomp() OptNilContainerRuntimeSeccomp {
 	return s.Seccomp
 }
 
@@ -7390,7 +7390,7 @@ func (s *ContainerRuntime) SetRlimits(val OptContainerRuntimeRlimits) {
 }
 
 // SetSeccomp sets the value of Seccomp.
-func (s *ContainerRuntime) SetSeccomp(val NilContainerRuntimeSeccomp) {
+func (s *ContainerRuntime) SetSeccomp(val OptNilContainerRuntimeSeccomp) {
 	s.Seccomp = val
 }
 
@@ -18319,8 +18319,8 @@ func (s *GetContainerByIdMetaItem) UnmarshalText(data []byte) error {
 }
 
 type GetContainerByIdOK struct {
-	Data     OptContainer        `json:"data"`
-	Includes OptInstanceIncludes `json:"includes"`
+	Data     OptContainer         `json:"data"`
+	Includes OptContainerIncludes `json:"includes"`
 }
 
 // GetData returns the value of Data.
@@ -18329,7 +18329,7 @@ func (s *GetContainerByIdOK) GetData() OptContainer {
 }
 
 // GetIncludes returns the value of Includes.
-func (s *GetContainerByIdOK) GetIncludes() OptInstanceIncludes {
+func (s *GetContainerByIdOK) GetIncludes() OptContainerIncludes {
 	return s.Includes
 }
 
@@ -18339,7 +18339,7 @@ func (s *GetContainerByIdOK) SetData(val OptContainer) {
 }
 
 // SetIncludes sets the value of Includes.
-func (s *GetContainerByIdOK) SetIncludes(val OptInstanceIncludes) {
+func (s *GetContainerByIdOK) SetIncludes(val OptContainerIncludes) {
 	s.Includes = val
 }
 
@@ -21686,16 +21686,16 @@ func (s *GetLoadBalancerInfoOKDataDefaultType) UnmarshalText(data []byte) error 
 }
 
 type GetLoadBalancerLatestTelemetryReportOK struct {
-	Data LoadBalancerLatestTelemetry `json:"data"`
+	Data OptLoadBalancerLatestTelemetry `json:"data"`
 }
 
 // GetData returns the value of Data.
-func (s *GetLoadBalancerLatestTelemetryReportOK) GetData() LoadBalancerLatestTelemetry {
+func (s *GetLoadBalancerLatestTelemetryReportOK) GetData() OptLoadBalancerLatestTelemetry {
 	return s.Data
 }
 
 // SetData sets the value of Data.
-func (s *GetLoadBalancerLatestTelemetryReportOK) SetData(val LoadBalancerLatestTelemetry) {
+func (s *GetLoadBalancerLatestTelemetryReportOK) SetData(val OptLoadBalancerLatestTelemetry) {
 	s.Data = val
 }
 
@@ -33024,46 +33024,73 @@ func (s *LoadBalancerEnvironmentService) SetConfig(val NilLoadBalancerConfig) {
 	s.Config = val
 }
 
-type LoadBalancerLatestTelemetry []LoadBalancerLatestTelemetryItem
+// Snapshots of the latest load balancer telemetry.
+// Ref: #/components/schemas/LoadBalancerLatestTelemetry
+type LoadBalancerLatestTelemetry struct {
+	Created     DateTime                                `json:"created"`
+	Controllers []LoadBalancerLatestTelemetryController `json:"controllers"`
+}
 
-type LoadBalancerLatestTelemetryItem struct {
-	Time       DateTime                                       `json:"time"`
-	Controller Identifier                                     `json:"controller"`
-	Instances  []LoadBalancerLatestTelemetryItemInstancesItem `json:"instances"`
+// GetCreated returns the value of Created.
+func (s *LoadBalancerLatestTelemetry) GetCreated() DateTime {
+	return s.Created
+}
+
+// GetControllers returns the value of Controllers.
+func (s *LoadBalancerLatestTelemetry) GetControllers() []LoadBalancerLatestTelemetryController {
+	return s.Controllers
+}
+
+// SetCreated sets the value of Created.
+func (s *LoadBalancerLatestTelemetry) SetCreated(val DateTime) {
+	s.Created = val
+}
+
+// SetControllers sets the value of Controllers.
+func (s *LoadBalancerLatestTelemetry) SetControllers(val []LoadBalancerLatestTelemetryController) {
+	s.Controllers = val
+}
+
+// Ref: #/components/schemas/LoadBalancerLatestTelemetryController
+type LoadBalancerLatestTelemetryController struct {
+	Time       DateTime                              `json:"time"`
+	Controller Identifier                            `json:"controller"`
+	Instances  []LoadBalancerLatestTelemetryInstance `json:"instances"`
 }
 
 // GetTime returns the value of Time.
-func (s *LoadBalancerLatestTelemetryItem) GetTime() DateTime {
+func (s *LoadBalancerLatestTelemetryController) GetTime() DateTime {
 	return s.Time
 }
 
 // GetController returns the value of Controller.
-func (s *LoadBalancerLatestTelemetryItem) GetController() Identifier {
+func (s *LoadBalancerLatestTelemetryController) GetController() Identifier {
 	return s.Controller
 }
 
 // GetInstances returns the value of Instances.
-func (s *LoadBalancerLatestTelemetryItem) GetInstances() []LoadBalancerLatestTelemetryItemInstancesItem {
+func (s *LoadBalancerLatestTelemetryController) GetInstances() []LoadBalancerLatestTelemetryInstance {
 	return s.Instances
 }
 
 // SetTime sets the value of Time.
-func (s *LoadBalancerLatestTelemetryItem) SetTime(val DateTime) {
+func (s *LoadBalancerLatestTelemetryController) SetTime(val DateTime) {
 	s.Time = val
 }
 
 // SetController sets the value of Controller.
-func (s *LoadBalancerLatestTelemetryItem) SetController(val Identifier) {
+func (s *LoadBalancerLatestTelemetryController) SetController(val Identifier) {
 	s.Controller = val
 }
 
 // SetInstances sets the value of Instances.
-func (s *LoadBalancerLatestTelemetryItem) SetInstances(val []LoadBalancerLatestTelemetryItemInstancesItem) {
+func (s *LoadBalancerLatestTelemetryController) SetInstances(val []LoadBalancerLatestTelemetryInstance) {
 	s.Instances = val
 }
 
 // Detailed telemetry for a load balancer instance at a point in time.
-type LoadBalancerLatestTelemetryItemInstancesItem struct {
+// Ref: #/components/schemas/LoadBalancerLatestTelemetryInstance
+type LoadBalancerLatestTelemetryInstance struct {
 	ID            ID                                  `json:"id"`
 	HubID         HubID                               `json:"hub_id"`
 	EnvironmentID ID                                  `json:"environment_id"`
@@ -33078,112 +33105,112 @@ type LoadBalancerLatestTelemetryItemInstancesItem struct {
 }
 
 // GetID returns the value of ID.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetID() ID {
+func (s *LoadBalancerLatestTelemetryInstance) GetID() ID {
 	return s.ID
 }
 
 // GetHubID returns the value of HubID.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetHubID() HubID {
+func (s *LoadBalancerLatestTelemetryInstance) GetHubID() HubID {
 	return s.HubID
 }
 
 // GetEnvironmentID returns the value of EnvironmentID.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetEnvironmentID() ID {
+func (s *LoadBalancerLatestTelemetryInstance) GetEnvironmentID() ID {
 	return s.EnvironmentID
 }
 
 // GetContainerID returns the value of ContainerID.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetContainerID() ID {
+func (s *LoadBalancerLatestTelemetryInstance) GetContainerID() ID {
 	return s.ContainerID
 }
 
 // GetInstanceID returns the value of InstanceID.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetInstanceID() ID {
+func (s *LoadBalancerLatestTelemetryInstance) GetInstanceID() ID {
 	return s.InstanceID
 }
 
 // GetServerID returns the value of ServerID.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetServerID() ID {
+func (s *LoadBalancerLatestTelemetryInstance) GetServerID() ID {
 	return s.ServerID
 }
 
 // GetCluster returns the value of Cluster.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetCluster() Identifier {
+func (s *LoadBalancerLatestTelemetryInstance) GetCluster() Identifier {
 	return s.Cluster
 }
 
 // GetTime returns the value of Time.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetTime() DateTime {
+func (s *LoadBalancerLatestTelemetryInstance) GetTime() DateTime {
 	return s.Time
 }
 
 // GetController returns the value of Controller.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetController() Identifier {
+func (s *LoadBalancerLatestTelemetryInstance) GetController() Identifier {
 	return s.Controller
 }
 
 // GetLatest returns the value of Latest.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetLatest() OptNilLoadBalancerTelemetrySnapshot {
+func (s *LoadBalancerLatestTelemetryInstance) GetLatest() OptNilLoadBalancerTelemetrySnapshot {
 	return s.Latest
 }
 
 // GetSnapshots returns the value of Snapshots.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) GetSnapshots() []LoadBalancerTelemetrySnapshot {
+func (s *LoadBalancerLatestTelemetryInstance) GetSnapshots() []LoadBalancerTelemetrySnapshot {
 	return s.Snapshots
 }
 
 // SetID sets the value of ID.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetID(val ID) {
+func (s *LoadBalancerLatestTelemetryInstance) SetID(val ID) {
 	s.ID = val
 }
 
 // SetHubID sets the value of HubID.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetHubID(val HubID) {
+func (s *LoadBalancerLatestTelemetryInstance) SetHubID(val HubID) {
 	s.HubID = val
 }
 
 // SetEnvironmentID sets the value of EnvironmentID.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetEnvironmentID(val ID) {
+func (s *LoadBalancerLatestTelemetryInstance) SetEnvironmentID(val ID) {
 	s.EnvironmentID = val
 }
 
 // SetContainerID sets the value of ContainerID.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetContainerID(val ID) {
+func (s *LoadBalancerLatestTelemetryInstance) SetContainerID(val ID) {
 	s.ContainerID = val
 }
 
 // SetInstanceID sets the value of InstanceID.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetInstanceID(val ID) {
+func (s *LoadBalancerLatestTelemetryInstance) SetInstanceID(val ID) {
 	s.InstanceID = val
 }
 
 // SetServerID sets the value of ServerID.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetServerID(val ID) {
+func (s *LoadBalancerLatestTelemetryInstance) SetServerID(val ID) {
 	s.ServerID = val
 }
 
 // SetCluster sets the value of Cluster.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetCluster(val Identifier) {
+func (s *LoadBalancerLatestTelemetryInstance) SetCluster(val Identifier) {
 	s.Cluster = val
 }
 
 // SetTime sets the value of Time.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetTime(val DateTime) {
+func (s *LoadBalancerLatestTelemetryInstance) SetTime(val DateTime) {
 	s.Time = val
 }
 
 // SetController sets the value of Controller.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetController(val Identifier) {
+func (s *LoadBalancerLatestTelemetryInstance) SetController(val Identifier) {
 	s.Controller = val
 }
 
 // SetLatest sets the value of Latest.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetLatest(val OptNilLoadBalancerTelemetrySnapshot) {
+func (s *LoadBalancerLatestTelemetryInstance) SetLatest(val OptNilLoadBalancerTelemetrySnapshot) {
 	s.Latest = val
 }
 
 // SetSnapshots sets the value of Snapshots.
-func (s *LoadBalancerLatestTelemetryItemInstancesItem) SetSnapshots(val []LoadBalancerTelemetrySnapshot) {
+func (s *LoadBalancerLatestTelemetryInstance) SetSnapshots(val []LoadBalancerTelemetrySnapshot) {
 	s.Snapshots = val
 }
 
@@ -35827,51 +35854,6 @@ func (o NilContainerIntegrationsBackupsRestore) Get() (v ContainerIntegrationsBa
 
 // Or returns value if set, or given parameter if does not.
 func (o NilContainerIntegrationsBackupsRestore) Or(d ContainerIntegrationsBackupsRestore) ContainerIntegrationsBackupsRestore {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewNilContainerRuntimeSeccomp returns new NilContainerRuntimeSeccomp with value set to v.
-func NewNilContainerRuntimeSeccomp(v ContainerRuntimeSeccomp) NilContainerRuntimeSeccomp {
-	return NilContainerRuntimeSeccomp{
-		Value: v,
-	}
-}
-
-// NilContainerRuntimeSeccomp is nullable ContainerRuntimeSeccomp.
-type NilContainerRuntimeSeccomp struct {
-	Value ContainerRuntimeSeccomp
-	Null  bool
-}
-
-// SetTo sets value to v.
-func (o *NilContainerRuntimeSeccomp) SetTo(v ContainerRuntimeSeccomp) {
-	o.Null = false
-	o.Value = v
-}
-
-// IsSet returns true if value is Null.
-func (o NilContainerRuntimeSeccomp) IsNull() bool { return o.Null }
-
-// SetNull sets value to null.
-func (o *NilContainerRuntimeSeccomp) SetToNull() {
-	o.Null = true
-	var v ContainerRuntimeSeccomp
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o NilContainerRuntimeSeccomp) Get() (v ContainerRuntimeSeccomp, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o NilContainerRuntimeSeccomp) Or(d ContainerRuntimeSeccomp) ContainerRuntimeSeccomp {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -52444,6 +52426,52 @@ func (o OptListScopedVariablesPage) Or(d ListScopedVariablesPage) ListScopedVari
 	return d
 }
 
+// NewOptLoadBalancerLatestTelemetry returns new OptLoadBalancerLatestTelemetry with value set to v.
+func NewOptLoadBalancerLatestTelemetry(v LoadBalancerLatestTelemetry) OptLoadBalancerLatestTelemetry {
+	return OptLoadBalancerLatestTelemetry{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptLoadBalancerLatestTelemetry is optional LoadBalancerLatestTelemetry.
+type OptLoadBalancerLatestTelemetry struct {
+	Value LoadBalancerLatestTelemetry
+	Set   bool
+}
+
+// IsSet returns true if OptLoadBalancerLatestTelemetry was set.
+func (o OptLoadBalancerLatestTelemetry) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptLoadBalancerLatestTelemetry) Reset() {
+	var v LoadBalancerLatestTelemetry
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptLoadBalancerLatestTelemetry) SetTo(v LoadBalancerLatestTelemetry) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptLoadBalancerLatestTelemetry) Get() (v LoadBalancerLatestTelemetry, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptLoadBalancerLatestTelemetry) Or(d LoadBalancerLatestTelemetry) LoadBalancerLatestTelemetry {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptLoadBalancerTelemetryReport returns new OptLoadBalancerTelemetryReport with value set to v.
 func NewOptLoadBalancerTelemetryReport(v LoadBalancerTelemetryReport) OptLoadBalancerTelemetryReport {
 	return OptLoadBalancerTelemetryReport{
@@ -53698,6 +53726,69 @@ func (o OptNilContainerRuntimeHost) Get() (v ContainerRuntimeHost, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilContainerRuntimeHost) Or(d ContainerRuntimeHost) ContainerRuntimeHost {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilContainerRuntimeSeccomp returns new OptNilContainerRuntimeSeccomp with value set to v.
+func NewOptNilContainerRuntimeSeccomp(v ContainerRuntimeSeccomp) OptNilContainerRuntimeSeccomp {
+	return OptNilContainerRuntimeSeccomp{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilContainerRuntimeSeccomp is optional nullable ContainerRuntimeSeccomp.
+type OptNilContainerRuntimeSeccomp struct {
+	Value ContainerRuntimeSeccomp
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilContainerRuntimeSeccomp was set.
+func (o OptNilContainerRuntimeSeccomp) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilContainerRuntimeSeccomp) Reset() {
+	var v ContainerRuntimeSeccomp
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilContainerRuntimeSeccomp) SetTo(v ContainerRuntimeSeccomp) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilContainerRuntimeSeccomp) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilContainerRuntimeSeccomp) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ContainerRuntimeSeccomp
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilContainerRuntimeSeccomp) Get() (v ContainerRuntimeSeccomp, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilContainerRuntimeSeccomp) Or(d ContainerRuntimeSeccomp) ContainerRuntimeSeccomp {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -67406,6 +67497,9 @@ type ReconfigureDiscoveryReqContents struct {
 	// A boolean where `true` represents the desire to run the environment discovery service in high
 	// availability mode.
 	HighAvailability OptBool `json:"high_availability"`
+	// A boolean where `true` represents the desire to automatically update the environment discovery
+	// service.
+	AutoUpdate OptBool `json:"auto_update"`
 }
 
 // GetHighAvailability returns the value of HighAvailability.
@@ -67413,9 +67507,19 @@ func (s *ReconfigureDiscoveryReqContents) GetHighAvailability() OptBool {
 	return s.HighAvailability
 }
 
+// GetAutoUpdate returns the value of AutoUpdate.
+func (s *ReconfigureDiscoveryReqContents) GetAutoUpdate() OptBool {
+	return s.AutoUpdate
+}
+
 // SetHighAvailability sets the value of HighAvailability.
 func (s *ReconfigureDiscoveryReqContents) SetHighAvailability(val OptBool) {
 	s.HighAvailability = val
+}
+
+// SetAutoUpdate sets the value of AutoUpdate.
+func (s *ReconfigureDiscoveryReqContents) SetAutoUpdate(val OptBool) {
+	s.AutoUpdate = val
 }
 
 type ReconfigureLoadBalancerAccepted struct {
@@ -84796,37 +84900,31 @@ func (s *UserScopeType) UnmarshalText(data []byte) error {
 // Ref: #/components/schemas/V1LbConfig
 type V1LbConfig struct {
 	// A configuration for a specific port.
-	Controllers V1LbConfigControllers `json:"controllers"`
+	Controllers []V1LbConfigControllersItem `json:"controllers"`
 }
 
 // GetControllers returns the value of Controllers.
-func (s *V1LbConfig) GetControllers() V1LbConfigControllers {
+func (s *V1LbConfig) GetControllers() []V1LbConfigControllersItem {
 	return s.Controllers
 }
 
 // SetControllers sets the value of Controllers.
-func (s *V1LbConfig) SetControllers(val V1LbConfigControllers) {
+func (s *V1LbConfig) SetControllers(val []V1LbConfigControllersItem) {
 	s.Controllers = val
 }
 
-// A configuration for a specific port.
-type V1LbConfigControllers map[string]V1LbConfigControllersItem
-
-func (s *V1LbConfigControllers) init() V1LbConfigControllers {
-	m := *s
-	if m == nil {
-		m = map[string]V1LbConfigControllersItem{}
-		*s = m
-	}
-	return m
-}
-
 type V1LbConfigControllersItem struct {
+	Default bool `json:"default"`
 	// A human-readable identifier for this controller. It will default to the port, i.e. `port-443`, but
 	// can be renamed to anything, such as the service this controller represents.
 	Identifier string `json:"identifier"`
 	// Defines how traffic comes in to the load balancer, and how the load balancer handles it.
 	Transport V1LbConfigControllersItemTransport `json:"transport"`
+}
+
+// GetDefault returns the value of Default.
+func (s *V1LbConfigControllersItem) GetDefault() bool {
+	return s.Default
 }
 
 // GetIdentifier returns the value of Identifier.
@@ -84837,6 +84935,11 @@ func (s *V1LbConfigControllersItem) GetIdentifier() string {
 // GetTransport returns the value of Transport.
 func (s *V1LbConfigControllersItem) GetTransport() V1LbConfigControllersItemTransport {
 	return s.Transport
+}
+
+// SetDefault sets the value of Default.
+func (s *V1LbConfigControllersItem) SetDefault(val bool) {
+	s.Default = val
 }
 
 // SetIdentifier sets the value of Identifier.

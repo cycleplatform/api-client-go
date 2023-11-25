@@ -9819,8 +9819,15 @@ func (s GetLoadBalancerInfoOKDataDefaultType) Validate() error {
 func (s *GetLoadBalancerLatestTelemetryReportOK) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.Data.Validate(); err != nil {
-			return err
+		if value, ok := s.Data.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
@@ -15113,24 +15120,35 @@ func (s *LoadBalancerEnvironmentService) Validate() error {
 	return nil
 }
 
-func (s LoadBalancerLatestTelemetry) Validate() error {
-	alias := ([]LoadBalancerLatestTelemetryItem)(s)
-	if alias == nil {
-		return errors.New("nil is invalid value")
-	}
+func (s *LoadBalancerLatestTelemetry) Validate() error {
 	var failures []validate.FieldError
-	for i, elem := range alias {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  fmt.Sprintf("[%d]", i),
-				Error: err,
-			})
+	if err := func() error {
+		if s.Controllers == nil {
+			return errors.New("nil is invalid value")
 		}
+		var failures []validate.FieldError
+		for i, elem := range s.Controllers {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "controllers",
+			Error: err,
+		})
 	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
@@ -15138,7 +15156,7 @@ func (s LoadBalancerLatestTelemetry) Validate() error {
 	return nil
 }
 
-func (s *LoadBalancerLatestTelemetryItem) Validate() error {
+func (s *LoadBalancerLatestTelemetryController) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Instances == nil {
@@ -22798,8 +22816,25 @@ func (s UserScopeType) Validate() error {
 func (s *V1LbConfig) Validate() error {
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.Controllers.Validate(); err != nil {
-			return err
+		if s.Controllers == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Controllers {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
 		}
 		return nil
 	}(); err != nil {
@@ -22808,28 +22843,6 @@ func (s *V1LbConfig) Validate() error {
 			Error: err,
 		})
 	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s V1LbConfigControllers) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
 	}
