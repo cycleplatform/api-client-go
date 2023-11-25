@@ -13128,10 +13128,10 @@ func decodeRemoveBillingMethodResponse(resp *http.Response) (res *RemoveBillingM
 	return res, errors.Wrap(defRes, "error")
 }
 
-func decodeRemoveContainerResponse(resp *http.Response) (res *RemoveContainerOK, _ error) {
+func decodeRemoveContainerResponse(resp *http.Response) (res *RemoveContainerAccepted, _ error) {
 	switch resp.StatusCode {
-	case 200:
-		// Code 200.
+	case 202:
+		// Code 202.
 		ct, _, err := mime.ParseMediaType(resp.Header.Get("Content-Type"))
 		if err != nil {
 			return res, errors.Wrap(err, "parse media type")
@@ -13144,7 +13144,7 @@ func decodeRemoveContainerResponse(resp *http.Response) (res *RemoveContainerOK,
 			}
 			d := jx.DecodeBytes(buf)
 
-			var response RemoveContainerOK
+			var response RemoveContainerAccepted
 			if err := func() error {
 				if err := response.Decode(d); err != nil {
 					return err

@@ -990,10 +990,10 @@ type Invoker interface {
 	RemoveBillingMethod(ctx context.Context, params RemoveBillingMethodParams) (*RemoveBillingMethodOK, error)
 	// RemoveContainer invokes removeContainer operation.
 	//
-	// Requires the `contianers-update` capability.
+	// Requires the `containers-update` capability.
 	//
 	// DELETE /v1/containers/{containerId}
-	RemoveContainer(ctx context.Context, params RemoveContainerParams) (*RemoveContainerOK, error)
+	RemoveContainer(ctx context.Context, params RemoveContainerParams) (*RemoveContainerAccepted, error)
 	// RemoveContainerInstance invokes removeContainerInstance operation.
 	//
 	// Requires the `containers-update` capability.
@@ -26477,15 +26477,15 @@ func (c *Client) sendRemoveBillingMethod(ctx context.Context, params RemoveBilli
 
 // RemoveContainer invokes removeContainer operation.
 //
-// Requires the `contianers-update` capability.
+// Requires the `containers-update` capability.
 //
 // DELETE /v1/containers/{containerId}
-func (c *Client) RemoveContainer(ctx context.Context, params RemoveContainerParams) (*RemoveContainerOK, error) {
+func (c *Client) RemoveContainer(ctx context.Context, params RemoveContainerParams) (*RemoveContainerAccepted, error) {
 	res, err := c.sendRemoveContainer(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendRemoveContainer(ctx context.Context, params RemoveContainerParams) (res *RemoveContainerOK, err error) {
+func (c *Client) sendRemoveContainer(ctx context.Context, params RemoveContainerParams) (res *RemoveContainerAccepted, err error) {
 	otelAttrs := []attribute.KeyValue{
 		otelogen.OperationID("removeContainer"),
 		semconv.HTTPMethodKey.String("DELETE"),

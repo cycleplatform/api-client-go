@@ -69287,6 +69287,20 @@ func (s *RemoveBillingMethodOK) SetData(val OptTaskDescriptor) {
 	s.Data = val
 }
 
+type RemoveContainerAccepted struct {
+	Data OptTaskDescriptor `json:"data"`
+}
+
+// GetData returns the value of Data.
+func (s *RemoveContainerAccepted) GetData() OptTaskDescriptor {
+	return s.Data
+}
+
+// SetData sets the value of Data.
+func (s *RemoveContainerAccepted) SetData(val OptTaskDescriptor) {
+	s.Data = val
+}
+
 type RemoveContainerInstanceOK struct {
 	Data OptTaskDescriptor `json:"data"`
 }
@@ -69298,20 +69312,6 @@ func (s *RemoveContainerInstanceOK) GetData() OptTaskDescriptor {
 
 // SetData sets the value of Data.
 func (s *RemoveContainerInstanceOK) SetData(val OptTaskDescriptor) {
-	s.Data = val
-}
-
-type RemoveContainerOK struct {
-	Data OptTaskDescriptor `json:"data"`
-}
-
-// GetData returns the value of Data.
-func (s *RemoveContainerOK) GetData() OptTaskDescriptor {
-	return s.Data
-}
-
-// SetData sets the value of Data.
-func (s *RemoveContainerOK) SetData(val OptTaskDescriptor) {
 	s.Data = val
 }
 
