@@ -7,50 +7,50 @@ jobs:
   generate-and-tag:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        token: ${{ secrets.API_SPEC_PAT }}
-        submodules: true
-        
-    - name: Git Submodule Update
-      run: |
-        git pull --recurse-submodules
-        git submodule update --remote --recursive
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.API_SPEC_PAT }}
+          submodules: true
 
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.19.4
+      - name: Git Submodule Update
+        run: |
+          git pull --recurse-submodules
+          git submodule update --remote --recursive
 
-    - name: Install Ogen
-      run: go install -v github.com/ogen-go/ogen/cmd/ogen@latest
-      
-    - name: Go Update Ogen
-      run: go get github.com/ogen-go/ogen/cmd/ogen@latest
-      
-    - name: Build Spec
-      run: (cd api-spec; npm run build:public && npm run build:internal)
+      - name: Set up Go
+        uses: actions/setup-go@v3
+        with:
+          go-version: 1.19.4
 
-    - name: Generate Client
-      run: go generate ./...
-    
-    - name: Commit changes
-      run: |
-        git config --global user.name 'Git bot'
-        git config --global user.email 'bot@noreply.github.com'
-        git remote set-url origin https://x-access-token:${{ secrets.API_SPEC_PAT }}@github.com/${{ github.repository }}
-        git commit -am "Auto generate pre-release client from latest API spec" && git push || echo "No changes to commit"
-    
-    - name: Update repo to include latest commit
-      run: |
-        git pull --recurse-submodules
-        git submodule update --remote --recursive
-        
-    - name: Update 'edge' tag and create prerelease
-      uses: "marvinpinto/action-automatic-releases@latest"
-      with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        automatic_release_tag: "edge"
-        prerelease: true
-        title: "Development Build"
+      - name: Install Ogen
+        run: go install -v github.com/ogen-go/ogen/cmd/ogen@v0.76.0
+
+      - name: Go Update Ogen
+        run: go get github.com/ogen-go/ogen/cmd/ogen@v0.76.0
+
+      - name: Build Spec
+        run: (cd api-spec; npm run build:public && npm run build:internal)
+
+      - name: Generate Client
+        run: go generate ./...
+
+      - name: Commit changes
+        run: |
+          git config --global user.name 'Git bot'
+          git config --global user.email 'bot@noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.API_SPEC_PAT }}@github.com/${{ github.repository }}
+          git commit -am "Auto generate pre-release client from latest API spec" && git push || echo "No changes to commit"
+
+      - name: Update repo to include latest commit
+        run: |
+          git pull --recurse-submodules
+          git submodule update --remote --recursive
+
+      - name: Update 'edge' tag and create prerelease
+        uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "edge"
+          prerelease: true
+          title: "Development Build"
