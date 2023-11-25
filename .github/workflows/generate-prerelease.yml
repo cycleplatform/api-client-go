@@ -26,14 +26,14 @@ jobs:
       - name: Install Ogen
         run: go install -v github.com/ogen-go/ogen/cmd/ogen@v0.76.0
 
-      - name: Go Update Ogen
-        run: go get github.com/ogen-go/ogen/cmd/ogen@v0.76.0
+      # - name: Go Update Ogen
+      #   run: go get github.com/ogen-go/ogen/cmd/ogen@v0.76.0
 
       - name: Build Spec
         run: (cd api-spec; npm run build:public && npm run build:internal)
 
       - name: Generate Client
-        run: go generate ./...
+        run: ./generate.sh
 
       - name: Commit changes
         run: |
