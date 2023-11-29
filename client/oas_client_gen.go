@@ -16473,7 +16473,7 @@ func (c *Client) sendGetInstances(ctx context.Context, params GetInstancesParams
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "include",
 			Style:   uri.QueryStyleForm,
-			Explode: true,
+			Explode: false,
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {

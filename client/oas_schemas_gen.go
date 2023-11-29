@@ -7923,7 +7923,7 @@ func (s *ContainerRuntimeSysctl) init() ContainerRuntimeSysctl {
 // Ref: #/components/schemas/ContainerScale
 type ContainerScale struct {
 	// The autoscaling group describes which servers should be deployed.
-	AutoscaleGroup string `json:"autoscale_group"`
+	AutoscaleGroup NilString `json:"autoscale_group"`
 	// Describes how many instances should be running.
 	Instances ContainerScaleInstances `json:"instances"`
 	// Duration in which the auto-scaler will watch for changes.
@@ -7933,7 +7933,7 @@ type ContainerScale struct {
 }
 
 // GetAutoscaleGroup returns the value of AutoscaleGroup.
-func (s *ContainerScale) GetAutoscaleGroup() string {
+func (s *ContainerScale) GetAutoscaleGroup() NilString {
 	return s.AutoscaleGroup
 }
 
@@ -7953,7 +7953,7 @@ func (s *ContainerScale) GetThresholds() []ScaleThresholdMetric {
 }
 
 // SetAutoscaleGroup sets the value of AutoscaleGroup.
-func (s *ContainerScale) SetAutoscaleGroup(val string) {
+func (s *ContainerScale) SetAutoscaleGroup(val NilString) {
 	s.AutoscaleGroup = val
 }
 
@@ -13904,6 +13904,7 @@ const (
 	DeploymentStrategyNameNode             DeploymentStrategyName = "node"
 	DeploymentStrategyNameEdge             DeploymentStrategyName = "edge"
 	DeploymentStrategyNameManual           DeploymentStrategyName = "manual"
+	DeploymentStrategyNameFunction         DeploymentStrategyName = "function"
 )
 
 // AllValues returns all DeploymentStrategyName values.
@@ -13915,6 +13916,7 @@ func (DeploymentStrategyName) AllValues() []DeploymentStrategyName {
 		DeploymentStrategyNameNode,
 		DeploymentStrategyNameEdge,
 		DeploymentStrategyNameManual,
+		DeploymentStrategyNameFunction,
 	}
 }
 
@@ -13932,6 +13934,8 @@ func (s DeploymentStrategyName) MarshalText() ([]byte, error) {
 	case DeploymentStrategyNameEdge:
 		return []byte(s), nil
 	case DeploymentStrategyNameManual:
+		return []byte(s), nil
+	case DeploymentStrategyNameFunction:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -13958,6 +13962,9 @@ func (s *DeploymentStrategyName) UnmarshalText(data []byte) error {
 		return nil
 	case DeploymentStrategyNameManual:
 		*s = DeploymentStrategyNameManual
+		return nil
+	case DeploymentStrategyNameFunction:
+		*s = DeploymentStrategyNameFunction
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -18989,6 +18996,7 @@ type GetDeploymentStrategiesOKData struct {
 	Node                  OptDeploymentStrategy `json:"node"`
 	Edge                  OptDeploymentStrategy `json:"edge"`
 	Manual                OptDeploymentStrategy `json:"manual"`
+	Function              OptDeploymentStrategy `json:"function"`
 }
 
 // GetResourceMinusDensity returns the value of ResourceMinusDensity.
@@ -19021,6 +19029,11 @@ func (s *GetDeploymentStrategiesOKData) GetManual() OptDeploymentStrategy {
 	return s.Manual
 }
 
+// GetFunction returns the value of Function.
+func (s *GetDeploymentStrategiesOKData) GetFunction() OptDeploymentStrategy {
+	return s.Function
+}
+
 // SetResourceMinusDensity sets the value of ResourceMinusDensity.
 func (s *GetDeploymentStrategiesOKData) SetResourceMinusDensity(val OptDeploymentStrategy) {
 	s.ResourceMinusDensity = val
@@ -19049,6 +19062,11 @@ func (s *GetDeploymentStrategiesOKData) SetEdge(val OptDeploymentStrategy) {
 // SetManual sets the value of Manual.
 func (s *GetDeploymentStrategiesOKData) SetManual(val OptDeploymentStrategy) {
 	s.Manual = val
+}
+
+// SetFunction sets the value of Function.
+func (s *GetDeploymentStrategiesOKData) SetFunction(val OptDeploymentStrategy) {
+	s.Function = val
 }
 
 type GetEnvironmentByIdIncludeItem string
@@ -30374,7 +30392,7 @@ type Instance struct {
 	// the instance was moved to and the instance ID.
 	Migration NilInstanceMigration `json:"migration"`
 	// If the instance was purged, the timestamp of when that happened.
-	PurgeTime OptDateTime `json:"purge_time"`
+	PurgeTime NilDateTime `json:"purge_time"`
 	// If the instance is an instance of a service container that will be denoted here.
 	Service   NilInstanceService   `json:"service"`
 	State     InstanceState        `json:"state"`
@@ -30439,7 +30457,7 @@ func (s *Instance) GetMigration() NilInstanceMigration {
 }
 
 // GetPurgeTime returns the value of PurgeTime.
-func (s *Instance) GetPurgeTime() OptDateTime {
+func (s *Instance) GetPurgeTime() NilDateTime {
 	return s.PurgeTime
 }
 
@@ -30519,7 +30537,7 @@ func (s *Instance) SetMigration(val NilInstanceMigration) {
 }
 
 // SetPurgeTime sets the value of PurgeTime.
-func (s *Instance) SetPurgeTime(val OptDateTime) {
+func (s *Instance) SetPurgeTime(val NilDateTime) {
 	s.PurgeTime = val
 }
 
@@ -30733,12 +30751,12 @@ func (s *InstanceEnvironmentLegacy) SetIpv4(val IPNet) {
 // A resource associated with an instance.
 // Ref: #/components/schemas/InstanceIncludes
 type InstanceIncludes struct {
-	Creators     OptCreatorInclude   `json:"creators"`
-	Servers      ServersIncludes     `json:"servers"`
-	Locations    LocationsIncludes   `json:"locations"`
-	Providers    ProvidersIncludes   `json:"providers"`
-	Containers   ContainersIncludes  `json:"containers"`
-	Environments EnvironmentIncludes `json:"environments"`
+	Creators     OptCreatorInclude      `json:"creators"`
+	Servers      OptServersIncludes     `json:"servers"`
+	Locations    OptLocationsIncludes   `json:"locations"`
+	Providers    OptProvidersIncludes   `json:"providers"`
+	Containers   OptContainersIncludes  `json:"containers"`
+	Environments OptEnvironmentIncludes `json:"environments"`
 }
 
 // GetCreators returns the value of Creators.
@@ -30747,27 +30765,27 @@ func (s *InstanceIncludes) GetCreators() OptCreatorInclude {
 }
 
 // GetServers returns the value of Servers.
-func (s *InstanceIncludes) GetServers() ServersIncludes {
+func (s *InstanceIncludes) GetServers() OptServersIncludes {
 	return s.Servers
 }
 
 // GetLocations returns the value of Locations.
-func (s *InstanceIncludes) GetLocations() LocationsIncludes {
+func (s *InstanceIncludes) GetLocations() OptLocationsIncludes {
 	return s.Locations
 }
 
 // GetProviders returns the value of Providers.
-func (s *InstanceIncludes) GetProviders() ProvidersIncludes {
+func (s *InstanceIncludes) GetProviders() OptProvidersIncludes {
 	return s.Providers
 }
 
 // GetContainers returns the value of Containers.
-func (s *InstanceIncludes) GetContainers() ContainersIncludes {
+func (s *InstanceIncludes) GetContainers() OptContainersIncludes {
 	return s.Containers
 }
 
 // GetEnvironments returns the value of Environments.
-func (s *InstanceIncludes) GetEnvironments() EnvironmentIncludes {
+func (s *InstanceIncludes) GetEnvironments() OptEnvironmentIncludes {
 	return s.Environments
 }
 
@@ -30777,27 +30795,27 @@ func (s *InstanceIncludes) SetCreators(val OptCreatorInclude) {
 }
 
 // SetServers sets the value of Servers.
-func (s *InstanceIncludes) SetServers(val ServersIncludes) {
+func (s *InstanceIncludes) SetServers(val OptServersIncludes) {
 	s.Servers = val
 }
 
 // SetLocations sets the value of Locations.
-func (s *InstanceIncludes) SetLocations(val LocationsIncludes) {
+func (s *InstanceIncludes) SetLocations(val OptLocationsIncludes) {
 	s.Locations = val
 }
 
 // SetProviders sets the value of Providers.
-func (s *InstanceIncludes) SetProviders(val ProvidersIncludes) {
+func (s *InstanceIncludes) SetProviders(val OptProvidersIncludes) {
 	s.Providers = val
 }
 
 // SetContainers sets the value of Containers.
-func (s *InstanceIncludes) SetContainers(val ContainersIncludes) {
+func (s *InstanceIncludes) SetContainers(val OptContainersIncludes) {
 	s.Containers = val
 }
 
 // SetEnvironments sets the value of Environments.
-func (s *InstanceIncludes) SetEnvironments(val EnvironmentIncludes) {
+func (s *InstanceIncludes) SetEnvironments(val OptEnvironmentIncludes) {
 	s.Environments = val
 }
 
@@ -33456,7 +33474,9 @@ func (s *LoadBalancerTelemetryRouterMetricsDestinations) init() LoadBalancerTele
 type LoadBalancerTelemetryRouterMetricsDestinationsItem struct {
 	Connections NilLoadBalancerTelemetryRouterMetricsDestinationsItemConnections `json:"connections"`
 	Requests    NilLoadBalancerTelemetryRouterMetricsDestinationsItemRequests    `json:"requests"`
-	Latency     []int                                                            `json:"latency"`
+	LatencyMs   []int                                                            `json:"latency_ms"`
+	InstanceID  string                                                           `json:"instance_id"`
+	ContainerID string                                                           `json:"container_id"`
 }
 
 // GetConnections returns the value of Connections.
@@ -33469,9 +33489,19 @@ func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) GetRequests() NilLo
 	return s.Requests
 }
 
-// GetLatency returns the value of Latency.
-func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) GetLatency() []int {
-	return s.Latency
+// GetLatencyMs returns the value of LatencyMs.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) GetLatencyMs() []int {
+	return s.LatencyMs
+}
+
+// GetInstanceID returns the value of InstanceID.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) GetInstanceID() string {
+	return s.InstanceID
+}
+
+// GetContainerID returns the value of ContainerID.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) GetContainerID() string {
+	return s.ContainerID
 }
 
 // SetConnections sets the value of Connections.
@@ -33484,20 +33514,32 @@ func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) SetRequests(val Nil
 	s.Requests = val
 }
 
-// SetLatency sets the value of Latency.
-func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) SetLatency(val []int) {
-	s.Latency = val
+// SetLatencyMs sets the value of LatencyMs.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) SetLatencyMs(val []int) {
+	s.LatencyMs = val
+}
+
+// SetInstanceID sets the value of InstanceID.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) SetInstanceID(val string) {
+	s.InstanceID = val
+}
+
+// SetContainerID sets the value of ContainerID.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItem) SetContainerID(val string) {
+	s.ContainerID = val
 }
 
 type LoadBalancerTelemetryRouterMetricsDestinationsItemConnections struct {
-	Sucess      OptInt                                                                 `json:"sucess"`
-	Unavailable int                                                                    `json:"unavailable"`
-	Errors      OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors `json:"errors"`
+	Success          int                                                                    `json:"success"`
+	Unavailable      int                                                                    `json:"unavailable"`
+	Errors           OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors `json:"errors"`
+	BytesTransmitted OptInt                                                                 `json:"bytes_transmitted"`
+	BytesReceived    OptInt                                                                 `json:"bytes_received"`
 }
 
-// GetSucess returns the value of Sucess.
-func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) GetSucess() OptInt {
-	return s.Sucess
+// GetSuccess returns the value of Success.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) GetSuccess() int {
+	return s.Success
 }
 
 // GetUnavailable returns the value of Unavailable.
@@ -33510,9 +33552,19 @@ func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) GetError
 	return s.Errors
 }
 
-// SetSucess sets the value of Sucess.
-func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) SetSucess(val OptInt) {
-	s.Sucess = val
+// GetBytesTransmitted returns the value of BytesTransmitted.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) GetBytesTransmitted() OptInt {
+	return s.BytesTransmitted
+}
+
+// GetBytesReceived returns the value of BytesReceived.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) GetBytesReceived() OptInt {
+	return s.BytesReceived
+}
+
+// SetSuccess sets the value of Success.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) SetSuccess(val int) {
+	s.Success = val
 }
 
 // SetUnavailable sets the value of Unavailable.
@@ -33523,6 +33575,16 @@ func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) SetUnava
 // SetErrors sets the value of Errors.
 func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) SetErrors(val OptLoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors) {
 	s.Errors = val
+}
+
+// SetBytesTransmitted sets the value of BytesTransmitted.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) SetBytesTransmitted(val OptInt) {
+	s.BytesTransmitted = val
+}
+
+// SetBytesReceived sets the value of BytesReceived.
+func (s *LoadBalancerTelemetryRouterMetricsDestinationsItemConnections) SetBytesReceived(val OptInt) {
+	s.BytesReceived = val
 }
 
 type LoadBalancerTelemetryRouterMetricsDestinationsItemConnectionsErrors map[string]int
@@ -35989,6 +36051,51 @@ func (o NilCreditExpires) Get() (v CreditExpires, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o NilCreditExpires) Or(d CreditExpires) CreditExpires {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilDateTime returns new NilDateTime with value set to v.
+func NewNilDateTime(v DateTime) NilDateTime {
+	return NilDateTime{
+		Value: v,
+	}
+}
+
+// NilDateTime is nullable DateTime.
+type NilDateTime struct {
+	Value DateTime
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilDateTime) SetTo(v DateTime) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilDateTime) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilDateTime) SetToNull() {
+	o.Null = true
+	var v DateTime
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilDateTime) Get() (v DateTime, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilDateTime) Or(d DateTime) DateTime {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -54236,6 +54343,69 @@ func (o OptNilInstanceStateHealth) Or(d InstanceStateHealth) InstanceStateHealth
 	return d
 }
 
+// NewOptNilInt returns new OptNilInt with value set to v.
+func NewOptNilInt(v int) OptNilInt {
+	return OptNilInt{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilInt is optional nullable int.
+type OptNilInt struct {
+	Value int
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilInt was set.
+func (o OptNilInt) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilInt) Reset() {
+	var v int
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilInt) SetTo(v int) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilInt) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilInt) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v int
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilInt) Get() (v int, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilInt) Or(d int) int {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilLoadBalancerConfig returns new OptNilLoadBalancerConfig with value set to v.
 func NewOptNilLoadBalancerConfig(v LoadBalancerConfig) OptNilLoadBalancerConfig {
 	return OptNilLoadBalancerConfig{
@@ -54671,6 +54841,69 @@ func (o OptNilStackContainerConfigRuntimeHost) Get() (v StackContainerConfigRunt
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilStackContainerConfigRuntimeHost) Or(d StackContainerConfigRuntimeHost) StackContainerConfigRuntimeHost {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilString returns new OptNilString with value set to v.
+func NewOptNilString(v string) OptNilString {
+	return OptNilString{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilString is optional nullable string.
+type OptNilString struct {
+	Value string
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilString was set.
+func (o OptNilString) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilString) Reset() {
+	var v string
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilString) SetTo(v string) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilString) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilString) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v string
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilString) Get() (v string, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilString) Or(d string) string {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -57976,6 +58209,52 @@ func (o OptServerStatsNetworkInterfaces) Get() (v ServerStatsNetworkInterfaces, 
 
 // Or returns value if set, or given parameter if does not.
 func (o OptServerStatsNetworkInterfaces) Or(d ServerStatsNetworkInterfaces) ServerStatsNetworkInterfaces {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptServersIncludes returns new OptServersIncludes with value set to v.
+func NewOptServersIncludes(v ServersIncludes) OptServersIncludes {
+	return OptServersIncludes{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptServersIncludes is optional ServersIncludes.
+type OptServersIncludes struct {
+	Value ServersIncludes
+	Set   bool
+}
+
+// IsSet returns true if OptServersIncludes was set.
+func (o OptServersIncludes) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptServersIncludes) Reset() {
+	var v ServersIncludes
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptServersIncludes) SetTo(v ServersIncludes) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptServersIncludes) Get() (v ServersIncludes, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptServersIncludes) Or(d ServersIncludes) ServersIncludes {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -73171,7 +73450,7 @@ type ServerFeatures struct {
 	// integration.
 	Sftp bool `json:"sftp"`
 	// The size of the base volume (where Cycle stores container images on this server).
-	BaseVolumeGB OptInt `json:"base_volume_gb"`
+	BaseVolumeGB OptNilInt `json:"base_volume_gb"`
 }
 
 // GetSftp returns the value of Sftp.
@@ -73180,7 +73459,7 @@ func (s *ServerFeatures) GetSftp() bool {
 }
 
 // GetBaseVolumeGB returns the value of BaseVolumeGB.
-func (s *ServerFeatures) GetBaseVolumeGB() OptInt {
+func (s *ServerFeatures) GetBaseVolumeGB() OptNilInt {
 	return s.BaseVolumeGB
 }
 
@@ -73190,7 +73469,7 @@ func (s *ServerFeatures) SetSftp(val bool) {
 }
 
 // SetBaseVolumeGB sets the value of BaseVolumeGB.
-func (s *ServerFeatures) SetBaseVolumeGB(val OptInt) {
+func (s *ServerFeatures) SetBaseVolumeGB(val OptNilInt) {
 	s.BaseVolumeGB = val
 }
 
@@ -77656,6 +77935,7 @@ const (
 	StackContainerConfigDeployStrategyFirstAvailable   StackContainerConfigDeployStrategy = "first-available"
 	StackContainerConfigDeployStrategyNode             StackContainerConfigDeployStrategy = "node"
 	StackContainerConfigDeployStrategyEdge             StackContainerConfigDeployStrategy = "edge"
+	StackContainerConfigDeployStrategyFunction         StackContainerConfigDeployStrategy = "function"
 )
 
 // AllValues returns all StackContainerConfigDeployStrategy values.
@@ -77667,6 +77947,7 @@ func (StackContainerConfigDeployStrategy) AllValues() []StackContainerConfigDepl
 		StackContainerConfigDeployStrategyFirstAvailable,
 		StackContainerConfigDeployStrategyNode,
 		StackContainerConfigDeployStrategyEdge,
+		StackContainerConfigDeployStrategyFunction,
 	}
 }
 
@@ -77684,6 +77965,8 @@ func (s StackContainerConfigDeployStrategy) MarshalText() ([]byte, error) {
 	case StackContainerConfigDeployStrategyNode:
 		return []byte(s), nil
 	case StackContainerConfigDeployStrategyEdge:
+		return []byte(s), nil
+	case StackContainerConfigDeployStrategyFunction:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -77710,6 +77993,9 @@ func (s *StackContainerConfigDeployStrategy) UnmarshalText(data []byte) error {
 		return nil
 	case StackContainerConfigDeployStrategyEdge:
 		*s = StackContainerConfigDeployStrategyEdge
+		return nil
+	case StackContainerConfigDeployStrategyFunction:
+		*s = StackContainerConfigDeployStrategyFunction
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -79273,7 +79559,7 @@ func (s *StackContainerConfigRuntimeSysctl) init() StackContainerConfigRuntimeSy
 // Ref: #/components/schemas/StackContainerConfigScaling
 type StackContainerConfigScaling struct {
 	// The autoscaling group describes which servers should be deployed.
-	AutoscaleGroup string `json:"autoscale_group"`
+	AutoscaleGroup NilString `json:"autoscale_group"`
 	// Describes how many instances should be running.
 	Instances StackContainerConfigScalingInstances `json:"instances"`
 	// Duration in which the auto-scaler will watch for changes.
@@ -79283,7 +79569,7 @@ type StackContainerConfigScaling struct {
 }
 
 // GetAutoscaleGroup returns the value of AutoscaleGroup.
-func (s *StackContainerConfigScaling) GetAutoscaleGroup() string {
+func (s *StackContainerConfigScaling) GetAutoscaleGroup() NilString {
 	return s.AutoscaleGroup
 }
 
@@ -79303,7 +79589,7 @@ func (s *StackContainerConfigScaling) GetThresholds() []StackContainerScaleThres
 }
 
 // SetAutoscaleGroup sets the value of AutoscaleGroup.
-func (s *StackContainerConfigScaling) SetAutoscaleGroup(val string) {
+func (s *StackContainerConfigScaling) SetAutoscaleGroup(val NilString) {
 	s.AutoscaleGroup = val
 }
 
@@ -81999,7 +82285,10 @@ type TaskDescriptorJob struct {
 	// Describes if the job has been accepted.
 	Accepted bool `json:"accepted"`
 	// Describes the queue this job is a part of.
-	Queue string `json:"queue"`
+	Queue    string                       `json:"queue"`
+	Schedule DateTime                     `json:"schedule"`
+	Parallel TaskDescriptorJobParallel    `json:"parallel"`
+	Tasks    []TaskDescriptorJobTasksItem `json:"tasks"`
 }
 
 // GetID returns the value of ID.
@@ -82017,6 +82306,21 @@ func (s *TaskDescriptorJob) GetQueue() string {
 	return s.Queue
 }
 
+// GetSchedule returns the value of Schedule.
+func (s *TaskDescriptorJob) GetSchedule() DateTime {
+	return s.Schedule
+}
+
+// GetParallel returns the value of Parallel.
+func (s *TaskDescriptorJob) GetParallel() TaskDescriptorJobParallel {
+	return s.Parallel
+}
+
+// GetTasks returns the value of Tasks.
+func (s *TaskDescriptorJob) GetTasks() []TaskDescriptorJobTasksItem {
+	return s.Tasks
+}
+
 // SetID sets the value of ID.
 func (s *TaskDescriptorJob) SetID(val string) {
 	s.ID = val
@@ -82030,6 +82334,109 @@ func (s *TaskDescriptorJob) SetAccepted(val bool) {
 // SetQueue sets the value of Queue.
 func (s *TaskDescriptorJob) SetQueue(val string) {
 	s.Queue = val
+}
+
+// SetSchedule sets the value of Schedule.
+func (s *TaskDescriptorJob) SetSchedule(val DateTime) {
+	s.Schedule = val
+}
+
+// SetParallel sets the value of Parallel.
+func (s *TaskDescriptorJob) SetParallel(val TaskDescriptorJobParallel) {
+	s.Parallel = val
+}
+
+// SetTasks sets the value of Tasks.
+func (s *TaskDescriptorJob) SetTasks(val []TaskDescriptorJobTasksItem) {
+	s.Tasks = val
+}
+
+type TaskDescriptorJobParallel struct {
+	SubQueue OptNilString `json:"sub_queue"`
+	Tasks    bool         `json:"tasks"`
+}
+
+// GetSubQueue returns the value of SubQueue.
+func (s *TaskDescriptorJobParallel) GetSubQueue() OptNilString {
+	return s.SubQueue
+}
+
+// GetTasks returns the value of Tasks.
+func (s *TaskDescriptorJobParallel) GetTasks() bool {
+	return s.Tasks
+}
+
+// SetSubQueue sets the value of SubQueue.
+func (s *TaskDescriptorJobParallel) SetSubQueue(val OptNilString) {
+	s.SubQueue = val
+}
+
+// SetTasks sets the value of Tasks.
+func (s *TaskDescriptorJobParallel) SetTasks(val bool) {
+	s.Tasks = val
+}
+
+type TaskDescriptorJobTasksItem struct {
+	// A short description of the task.
+	Caption string `json:"caption"`
+	// The API function called.
+	Header string `json:"header"`
+	// An array of job task steps.
+	Steps []TaskStep `json:"steps"`
+	// Input information used for the job tasks.
+	Input TaskDescriptorJobTasksItemInput `json:"input"`
+}
+
+// GetCaption returns the value of Caption.
+func (s *TaskDescriptorJobTasksItem) GetCaption() string {
+	return s.Caption
+}
+
+// GetHeader returns the value of Header.
+func (s *TaskDescriptorJobTasksItem) GetHeader() string {
+	return s.Header
+}
+
+// GetSteps returns the value of Steps.
+func (s *TaskDescriptorJobTasksItem) GetSteps() []TaskStep {
+	return s.Steps
+}
+
+// GetInput returns the value of Input.
+func (s *TaskDescriptorJobTasksItem) GetInput() TaskDescriptorJobTasksItemInput {
+	return s.Input
+}
+
+// SetCaption sets the value of Caption.
+func (s *TaskDescriptorJobTasksItem) SetCaption(val string) {
+	s.Caption = val
+}
+
+// SetHeader sets the value of Header.
+func (s *TaskDescriptorJobTasksItem) SetHeader(val string) {
+	s.Header = val
+}
+
+// SetSteps sets the value of Steps.
+func (s *TaskDescriptorJobTasksItem) SetSteps(val []TaskStep) {
+	s.Steps = val
+}
+
+// SetInput sets the value of Input.
+func (s *TaskDescriptorJobTasksItem) SetInput(val TaskDescriptorJobTasksItemInput) {
+	s.Input = val
+}
+
+// Input information used for the job tasks.
+type TaskDescriptorJobTasksItemInput map[string]string
+
+func (s *TaskDescriptorJobTasksItemInput) init() TaskDescriptorJobTasksItemInput {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
 }
 
 // Ref: #/components/schemas/TaskState

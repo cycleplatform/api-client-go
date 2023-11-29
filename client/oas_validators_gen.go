@@ -5200,6 +5200,8 @@ func (s DeploymentStrategyName) Validate() error {
 		return nil
 	case "manual":
 		return nil
+	case "function":
+		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
@@ -14449,8 +14451,15 @@ func (s *InstanceIncludes) Validate() error {
 		})
 	}
 	if err := func() error {
-		if err := s.Servers.Validate(); err != nil {
-			return err
+		if value, ok := s.Servers.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
@@ -14460,8 +14469,15 @@ func (s *InstanceIncludes) Validate() error {
 		})
 	}
 	if err := func() error {
-		if err := s.Locations.Validate(); err != nil {
-			return err
+		if value, ok := s.Locations.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
@@ -14471,8 +14487,15 @@ func (s *InstanceIncludes) Validate() error {
 		})
 	}
 	if err := func() error {
-		if err := s.Providers.Validate(); err != nil {
-			return err
+		if value, ok := s.Providers.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
@@ -14482,8 +14505,15 @@ func (s *InstanceIncludes) Validate() error {
 		})
 	}
 	if err := func() error {
-		if err := s.Containers.Validate(); err != nil {
-			return err
+		if value, ok := s.Containers.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
@@ -14493,8 +14523,15 @@ func (s *InstanceIncludes) Validate() error {
 		})
 	}
 	if err := func() error {
-		if err := s.Environments.Validate(); err != nil {
-			return err
+		if value, ok := s.Environments.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
@@ -14945,17 +14982,6 @@ func (s JobStateCurrent) Validate() error {
 
 func (s *JobTask) Validate() error {
 	var failures []validate.FieldError
-	if err := func() error {
-		if s.Steps == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "steps",
-			Error: err,
-		})
-	}
 	if err := func() error {
 		if err := s.State.Validate(); err != nil {
 			return err
@@ -20141,6 +20167,8 @@ func (s StackContainerConfigDeployStrategy) Validate() error {
 	case "node":
 		return nil
 	case "edge":
+		return nil
+	case "function":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
