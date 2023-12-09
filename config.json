@@ -1,0 +1,11 @@
+{
+    "generator": {
+        "ignore_not_implemented": ["sum types with same names", "object with additionalProperties"], 
+        "features": {
+            "disable": [
+                "paths/server",
+                "ogen/otel"
+            ]
+        }
+    }
+}

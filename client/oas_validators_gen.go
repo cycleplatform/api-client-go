@@ -11,6 +11,10 @@ import (
 )
 
 func (s *Account) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.State.Validate(); err != nil {
@@ -30,6 +34,10 @@ func (s *Account) Validate() error {
 }
 
 func (s *AccountState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -68,6 +76,10 @@ func (s AccountStateCurrent) Validate() error {
 }
 
 func (s *Announcement) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Updates == nil {
@@ -143,6 +155,10 @@ func (s AnnouncementPriority) Validate() error {
 }
 
 func (s *AnnouncementState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -175,6 +191,10 @@ func (s AnnouncementStateCurrent) Validate() error {
 }
 
 func (s *ApiKey) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -227,6 +247,10 @@ func (s *ApiKey) Validate() error {
 }
 
 func (s *ApiKeyCapabilities) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Specific == nil {
@@ -263,6 +287,10 @@ func (s *ApiKeyCapabilities) Validate() error {
 }
 
 func (s *ApiKeyCreator) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Permissions.Validate(); err != nil {
@@ -304,6 +332,10 @@ func (s *ApiKeyCreator) Validate() error {
 }
 
 func (s *ApiKeyCreatorCapabilities) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Specific == nil {
@@ -323,6 +355,10 @@ func (s *ApiKeyCreatorCapabilities) Validate() error {
 }
 
 func (s *ApiKeyCreatorState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -355,6 +391,10 @@ func (s ApiKeyCreatorStateCurrent) Validate() error {
 }
 
 func (s *ApiKeyPermissions) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Environments == nil {
@@ -374,6 +414,10 @@ func (s *ApiKeyPermissions) Validate() error {
 }
 
 func (s *ApiKeyState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -412,6 +456,10 @@ func (s ApiKeyStateCurrent) Validate() error {
 }
 
 func (s *Attempt) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Domains == nil {
@@ -431,6 +479,10 @@ func (s *Attempt) Validate() error {
 }
 
 func (s *AutoScaleGroup) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -490,6 +542,10 @@ func (s *AutoScaleGroup) Validate() error {
 }
 
 func (s *AutoScaleGroupIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Providers.Get(); ok {
@@ -552,6 +608,10 @@ func (s *AutoScaleGroupIncludes) Validate() error {
 }
 
 func (s *AutoScaleGroupInfrastructure) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Models == nil {
@@ -588,6 +648,10 @@ func (s *AutoScaleGroupInfrastructure) Validate() error {
 }
 
 func (s *AutoScaleGroupInfrastructureModelsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Locations == nil {
@@ -624,6 +688,10 @@ func (s *AutoScaleGroupInfrastructureModelsItem) Validate() error {
 }
 
 func (s *AutoScaleGroupInfrastructureModelsItemLocationsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.AvailabilityZones == nil {
@@ -643,6 +711,10 @@ func (s *AutoScaleGroupInfrastructureModelsItemLocationsItem) Validate() error {
 }
 
 func (s *AutoScaleGroupScale) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Down.Get(); ok {
@@ -669,6 +741,10 @@ func (s *AutoScaleGroupScale) Validate() error {
 }
 
 func (s *AutoScaleGroupScaleDown) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Method.Get(); ok {
@@ -706,6 +782,10 @@ func (s AutoScaleGroupScaleDownMethod) Validate() error {
 }
 
 func (s *AutoScaleGroupState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -740,6 +820,10 @@ func (s AutoScaleGroupStateCurrent) Validate() error {
 }
 
 func (s *Backup) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Target.Validate(); err != nil {
@@ -770,6 +854,10 @@ func (s *Backup) Validate() error {
 }
 
 func (s *BackupState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -804,6 +892,10 @@ func (s BackupStateCurrent) Validate() error {
 }
 
 func (s *BillingAmount) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Term.Validate(); err != nil {
@@ -836,6 +928,10 @@ func (s BillingAmountTerm) Validate() error {
 }
 
 func (s *BillingBuilds) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Parallel)); err != nil {
@@ -895,6 +991,10 @@ func (s *BillingBuilds) Validate() error {
 }
 
 func (s *BillingImageStorage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.IncludedGB)); err != nil {
@@ -925,6 +1025,10 @@ func (s *BillingImageStorage) Validate() error {
 }
 
 func (s *BillingImageStorageAdditionalGB) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Mills)); err != nil {
@@ -968,6 +1072,10 @@ func (s BillingImageStorageAdditionalGBTerm) Validate() error {
 }
 
 func (s *BillingMembers) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Included)); err != nil {
@@ -998,6 +1106,10 @@ func (s *BillingMembers) Validate() error {
 }
 
 func (s *BillingMembersAdditional) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Mills)); err != nil {
@@ -1041,6 +1153,10 @@ func (s BillingMembersAdditionalTerm) Validate() error {
 }
 
 func (s *BillingOrder) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -1110,6 +1226,10 @@ func (s *BillingOrder) Validate() error {
 }
 
 func (s *BillingOrderState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -1144,6 +1264,10 @@ func (s BillingOrderStateCurrent) Validate() error {
 }
 
 func (s *BillingRam) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.IncludedGB)); err != nil {
@@ -1174,6 +1298,10 @@ func (s *BillingRam) Validate() error {
 }
 
 func (s *BillingRamAdditionalGB) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Mills)); err != nil {
@@ -1217,6 +1345,10 @@ func (s BillingRamAdditionalGBTerm) Validate() error {
 }
 
 func (s *BillingServers) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Included)); err != nil {
@@ -1247,6 +1379,10 @@ func (s *BillingServers) Validate() error {
 }
 
 func (s *BillingServersAdditional) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Mills)); err != nil {
@@ -1290,6 +1426,10 @@ func (s BillingServersAdditionalTerm) Validate() error {
 }
 
 func (s *BillingServiceState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -1318,6 +1458,10 @@ func (s BillingServiceStateCurrent) Validate() error {
 }
 
 func (s *BillingSummary) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Type.Validate(); err != nil {
@@ -1359,6 +1503,10 @@ func (s BillingSummaryType) Validate() error {
 }
 
 func (s *BucketImageSourceType) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Details.Get(); ok {
@@ -1385,6 +1533,10 @@ func (s *BucketImageSourceType) Validate() error {
 }
 
 func (s *BucketImageSourceTypeDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Origin.Validate(); err != nil {
@@ -1413,6 +1565,10 @@ func (s BucketImageSourceTypeType) Validate() error {
 }
 
 func (s *CPUSnapshot) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Usage.Validate(); err != nil {
@@ -1432,6 +1588,10 @@ func (s *CPUSnapshot) Validate() error {
 }
 
 func (s *CPUSnapshotUsage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.PerCore == nil {
@@ -1615,6 +1775,10 @@ func (s Capability) Validate() error {
 }
 
 func (s *ClusterVersionServerCount) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Agent.Validate(); err != nil {
@@ -1755,6 +1919,10 @@ func (s ClusterVersionServerCountComputeMinusSpawner) Validate() error {
 }
 
 func (s *Component) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.ContextBlobs == nil {
@@ -1774,6 +1942,10 @@ func (s *Component) Validate() error {
 }
 
 func (s *Config) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Network.Validate(); err != nil {
@@ -1858,6 +2030,10 @@ func (s *Config) Validate() error {
 }
 
 func (s *Container) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -1971,6 +2147,10 @@ func (s *Container) Validate() error {
 }
 
 func (s *ContainerCreateStep) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Details.Validate(); err != nil {
@@ -1999,6 +2179,10 @@ func (s ContainerCreateStepAction) Validate() error {
 }
 
 func (s *ContainerCreateStepDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Config.Validate(); err != nil {
@@ -2055,6 +2239,10 @@ func (s ContainerDeleteStepAction) Validate() error {
 }
 
 func (s *ContainerDeploy) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Strategy.Get(); ok {
@@ -2117,6 +2305,10 @@ func (s *ContainerDeploy) Validate() error {
 }
 
 func (s *ContainerDeployRestart) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Condition.Validate(); err != nil {
@@ -2149,6 +2341,10 @@ func (s ContainerDeployRestartCondition) Validate() error {
 }
 
 func (s *ContainerDeployShutdown) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Signals == nil {
@@ -2204,6 +2400,10 @@ func (s ContainerDeployShutdownSignalsItem) Validate() error {
 }
 
 func (s *ContainerImageSummary) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Service.Get(); ok {
@@ -2243,6 +2443,10 @@ func (s ContainerImageSummaryService) Validate() error {
 }
 
 func (s *ContainerIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Creators.Get(); ok {
@@ -2341,6 +2545,10 @@ func (s *ContainerIncludes) Validate() error {
 }
 
 func (s *ContainerIntegrations) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Backups.Get(); ok {
@@ -2367,6 +2575,10 @@ func (s *ContainerIntegrations) Validate() error {
 }
 
 func (s *ContainerIntegrationsBackups) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Destination.Validate(); err != nil {
@@ -2395,6 +2607,10 @@ func (s ContainerIntegrationsBackupsDestination) Validate() error {
 }
 
 func (s *ContainerNetwork) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Public.Validate(); err != nil {
@@ -2454,6 +2670,10 @@ func (s ContainerRole) Validate() error {
 }
 
 func (s *ContainerRuntime) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -2634,6 +2854,10 @@ func (s ContainerRuntimeNamespacesItem) Validate() error {
 }
 
 func (s *ContainerRuntimeSeccomp) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -2667,6 +2891,10 @@ func (s *ContainerRuntimeSeccomp) Validate() error {
 }
 
 func (s *ContainerScale) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Thresholds == nil {
@@ -2704,6 +2932,10 @@ func (s ContainerStartStepAction) Validate() error {
 }
 
 func (s *ContainerState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -2801,6 +3033,10 @@ func (s ContainerStopStepAction) Validate() error {
 }
 
 func (s *ContainerSummary) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.State.Validate(); err != nil {
@@ -2831,6 +3067,10 @@ func (s *ContainerSummary) Validate() error {
 }
 
 func (s *ContainerVolume) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.RemoteAccess.Get(); ok {
@@ -2857,6 +3097,10 @@ func (s *ContainerVolume) Validate() error {
 }
 
 func (s *ContainerVolumeRemoteAccess) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Password.Get(); ok {
@@ -2883,6 +3127,10 @@ func (s *ContainerVolumeRemoteAccess) Validate() error {
 }
 
 func (s *ContainerVolumeRemoteAccessPassword) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Algorithm.Validate(); err != nil {
@@ -2946,6 +3194,10 @@ func (s ContainersListServersMetaItem) Validate() error {
 }
 
 func (s *ContainersListServersPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -2990,6 +3242,10 @@ func (s *ContainersListServersPage) Validate() error {
 }
 
 func (s *ContainersMeta) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -3048,6 +3304,10 @@ func (s *ContainersMeta) Validate() error {
 }
 
 func (s *ContainersMetaDomainsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Record.Validate(); err != nil {
@@ -3067,6 +3327,10 @@ func (s *ContainersMetaDomainsItem) Validate() error {
 }
 
 func (s *CreateApiKeyCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -3093,6 +3357,10 @@ func (s *CreateApiKeyCreated) Validate() error {
 }
 
 func (s *CreateApiKeyReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Permissions.Get(); ok {
@@ -3155,6 +3423,10 @@ func (s *CreateApiKeyReq) Validate() error {
 }
 
 func (s *CreateApiKeyReqCapabilities) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Specific == nil {
@@ -3191,6 +3463,10 @@ func (s *CreateApiKeyReqCapabilities) Validate() error {
 }
 
 func (s *CreateAutoScaleGroupCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -3217,6 +3493,10 @@ func (s *CreateAutoScaleGroupCreated) Validate() error {
 }
 
 func (s *CreateAutoScaleGroupReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Scale.Validate(); err != nil {
@@ -3247,6 +3527,10 @@ func (s *CreateAutoScaleGroupReq) Validate() error {
 }
 
 func (s *CreateBillingMethodOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -3273,6 +3557,10 @@ func (s *CreateBillingMethodOK) Validate() error {
 }
 
 func (s *CreateBillingMethodReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.CreditCard.Validate(); err != nil {
@@ -3292,6 +3580,10 @@ func (s *CreateBillingMethodReq) Validate() error {
 }
 
 func (s *CreateBillingMethodReqCreditCard) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Expiration.Validate(); err != nil {
@@ -3311,6 +3603,10 @@ func (s *CreateBillingMethodReqCreditCard) Validate() error {
 }
 
 func (s *CreateBillingMethodReqCreditCardExpiration) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Month)); err != nil {
@@ -3341,6 +3637,10 @@ func (s *CreateBillingMethodReqCreditCardExpiration) Validate() error {
 }
 
 func (s *CreateContainerCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -3392,6 +3692,10 @@ func (s CreateContainerJobReq) Validate() error {
 }
 
 func (s *CreateContainerReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Config.Validate(); err != nil {
@@ -3436,6 +3740,10 @@ func (s *CreateContainerReq) Validate() error {
 }
 
 func (s *CreateDNSRecordCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -3462,6 +3770,10 @@ func (s *CreateDNSRecordCreated) Validate() error {
 }
 
 func (s *CreateDNSZoneCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -3488,6 +3800,10 @@ func (s *CreateDNSZoneCreated) Validate() error {
 }
 
 func (s *CreateEnvironmentCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -3514,6 +3830,10 @@ func (s *CreateEnvironmentCreated) Validate() error {
 }
 
 func (s *CreateEnvironmentJobReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Action.Validate(); err != nil {
@@ -3546,6 +3866,10 @@ func (s CreateEnvironmentJobReqAction) Validate() error {
 }
 
 func (s *CreateGlobalLoadBalancerCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -3601,6 +3925,10 @@ func (s CreateGlobalLoadBalancerIncludeItem) Validate() error {
 }
 
 func (s *CreateGlobalLoadBalancerReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Environments == nil {
@@ -3620,6 +3948,10 @@ func (s *CreateGlobalLoadBalancerReq) Validate() error {
 }
 
 func (s *CreateHubInviteCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -3646,6 +3978,10 @@ func (s *CreateHubInviteCreated) Validate() error {
 }
 
 func (s *CreateHubInviteReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Role.Get(); ok {
@@ -3690,6 +4026,10 @@ func (s *CreateHubInviteReq) Validate() error {
 }
 
 func (s *CreateHubInviteReqPermissions) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Environments == nil {
@@ -3724,6 +4064,10 @@ func (s CreateHubInviteReqRole) Validate() error {
 }
 
 func (s *CreateHubOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -3750,6 +4094,10 @@ func (s *CreateHubOK) Validate() error {
 }
 
 func (s *CreateImageCollectionJobReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Action.Validate(); err != nil {
@@ -3789,6 +4137,10 @@ func (s CreateImageCollectionJobReqAction) Validate() error {
 }
 
 func (s *CreateImageCollectionJobReqContents) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.SourceIds == nil {
@@ -3808,6 +4160,10 @@ func (s *CreateImageCollectionJobReqContents) Validate() error {
 }
 
 func (s *CreateImageCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -3834,6 +4190,10 @@ func (s *CreateImageCreated) Validate() error {
 }
 
 func (s *CreateImageJobReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Action.Validate(); err != nil {
@@ -3862,6 +4222,10 @@ func (s CreateImageJobReqAction) Validate() error {
 }
 
 func (s *CreateImageSourceCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -3888,6 +4252,10 @@ func (s *CreateImageSourceCreated) Validate() error {
 }
 
 func (s *CreateImageSourceReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Type.Validate(); err != nil {
@@ -3918,6 +4286,10 @@ func (s *CreateImageSourceReq) Validate() error {
 }
 
 func (s *CreateInvoiceJobReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Action.Validate(); err != nil {
@@ -3946,6 +4318,10 @@ func (s CreateInvoiceJobReqAction) Validate() error {
 }
 
 func (s *CreateNetworkJobReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Action.Validate(); err != nil {
@@ -3985,6 +4361,10 @@ func (s CreateNetworkJobReqAction) Validate() error {
 }
 
 func (s *CreateNetworkJobReqContents) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.EnvironmentIds == nil {
@@ -4004,6 +4384,10 @@ func (s *CreateNetworkJobReqContents) Validate() error {
 }
 
 func (s *CreateOrderCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -4030,6 +4414,10 @@ func (s *CreateOrderCreated) Validate() error {
 }
 
 func (s *CreateOrderJobReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Action.Validate(); err != nil {
@@ -4058,6 +4446,10 @@ func (s CreateOrderJobReqAction) Validate() error {
 }
 
 func (s *CreateOrderReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.TermLength.Get(); ok {
@@ -4097,6 +4489,10 @@ func (s CreateOrderReqTermLength) Validate() error {
 }
 
 func (s *CreatePipelineCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -4123,6 +4519,10 @@ func (s *CreatePipelineCreated) Validate() error {
 }
 
 func (s *CreatePipelineJobReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Action.Validate(); err != nil {
@@ -4151,6 +4551,10 @@ func (s CreatePipelineJobReqAction) Validate() error {
 }
 
 func (s *CreatePipelineReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -4184,6 +4588,10 @@ func (s *CreatePipelineReq) Validate() error {
 }
 
 func (s *CreatePipelineTriggerKeyCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -4210,6 +4618,10 @@ func (s *CreatePipelineTriggerKeyCreated) Validate() error {
 }
 
 func (s *CreateProviderCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -4236,6 +4648,10 @@ func (s *CreateProviderCreated) Validate() error {
 }
 
 func (s *CreateProviderJobReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Action.Validate(); err != nil {
@@ -4264,6 +4680,10 @@ func (s CreateProviderJobReqAction) Validate() error {
 }
 
 func (s *CreateSDNNetworkCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -4319,6 +4739,10 @@ func (s CreateSDNNetworkIncludeItem) Validate() error {
 }
 
 func (s *CreateSDNNetworkReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Environments == nil {
@@ -4338,6 +4762,10 @@ func (s *CreateSDNNetworkReq) Validate() error {
 }
 
 func (s *CreateScopedVariableCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -4364,6 +4792,10 @@ func (s *CreateScopedVariableCreated) Validate() error {
 }
 
 func (s *CreateScopedVariableReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Scope.Validate(); err != nil {
@@ -4383,6 +4815,10 @@ func (s *CreateScopedVariableReq) Validate() error {
 }
 
 func (s *CreateServerReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Servers == nil {
@@ -4419,6 +4855,10 @@ func (s *CreateServerReq) Validate() error {
 }
 
 func (s *CreateServerReqServersItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -4452,6 +4892,10 @@ func (s *CreateServerReqServersItem) Validate() error {
 }
 
 func (s *CreateServerReqServersItemAdvancedItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.ProvisionOptions.Get(); ok {
@@ -4478,6 +4922,10 @@ func (s *CreateServerReqServersItemAdvancedItem) Validate() error {
 }
 
 func (s *CreateServerReqServersItemAdvancedItemProvisionOptions) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.AttachedStorageSize.Get(); ok {
@@ -4504,6 +4952,10 @@ func (s *CreateServerReqServersItemAdvancedItemProvisionOptions) Validate() erro
 }
 
 func (s *CreateStackBuildCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -4544,6 +4996,10 @@ func (s CreateStackBuildJobReq) Validate() error {
 }
 
 func (s *CreateStackBuildReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Instructions.Get(); ok {
@@ -4570,6 +5026,10 @@ func (s *CreateStackBuildReq) Validate() error {
 }
 
 func (s *CreateStackCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -4596,6 +5056,10 @@ func (s *CreateStackCreated) Validate() error {
 }
 
 func (s *CreateStackJobReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Action.Validate(); err != nil {
@@ -4624,6 +5088,10 @@ func (s CreateStackJobReqAction) Validate() error {
 }
 
 func (s *CreateStackReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Source.Validate(); err != nil {
@@ -4643,6 +5111,10 @@ func (s *CreateStackReq) Validate() error {
 }
 
 func (s *CreateVPNUserCreated) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -4669,6 +5141,10 @@ func (s *CreateVPNUserCreated) Validate() error {
 }
 
 func (s *Creator) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Type.Get(); ok {
@@ -4695,6 +5171,10 @@ func (s *Creator) Validate() error {
 }
 
 func (s *CreatorInclude) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Environments.Get(); ok {
@@ -4783,6 +5263,10 @@ func (s CreatorIncludeEnvironments) Validate() error {
 }
 
 func (s *CreatorScope) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Type.Validate(); err != nil {
@@ -4860,6 +5344,10 @@ func (s CredentialsSSHType) Validate() error {
 }
 
 func (s *Credit) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.State.Validate(); err != nil {
@@ -4879,6 +5367,10 @@ func (s *Credit) Validate() error {
 }
 
 func (s *CreditState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -4929,6 +5421,10 @@ func (s CycleUploadOriginType) Validate() error {
 }
 
 func (s *DNSRecordTaskReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Action.Validate(); err != nil {
@@ -4957,6 +5453,10 @@ func (s DNSRecordTaskReqAction) Validate() error {
 }
 
 func (s *DNSTLSAttemptsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -4990,6 +5490,10 @@ func (s *DNSTLSAttemptsOK) Validate() error {
 }
 
 func (s *DNSTLSAttemptsPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -5034,6 +5538,10 @@ func (s *DNSTLSAttemptsPage) Validate() error {
 }
 
 func (s *DNSZoneTaskReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Action.Validate(); err != nil {
@@ -5062,6 +5570,10 @@ func (s DNSZoneTaskReqAction) Validate() error {
 }
 
 func (s *DefaultLbType) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Details.Get(); ok {
@@ -5088,6 +5600,10 @@ func (s *DefaultLbType) Validate() error {
 }
 
 func (s *DefaultLbTypeDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.OneOf.Validate(); err != nil {
@@ -5133,6 +5649,10 @@ func (s DefaultLbTypeType) Validate() error {
 }
 
 func (s *DeployStackBuildAction) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Contents.Validate(); err != nil {
@@ -5161,6 +5681,10 @@ func (s DeployStackBuildActionAction) Validate() error {
 }
 
 func (s *DeployStackBuildActionContents) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Update.Get(); ok {
@@ -5208,6 +5732,10 @@ func (s DeploymentStrategyName) Validate() error {
 }
 
 func (s *DirectImageSourceType) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Details.Get(); ok {
@@ -5234,6 +5762,10 @@ func (s *DirectImageSourceType) Validate() error {
 }
 
 func (s *DirectImageSourceTypeDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Origin.Validate(); err != nil {
@@ -5262,6 +5794,10 @@ func (s DirectImageSourceTypeType) Validate() error {
 }
 
 func (s *Discount) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Amount.Validate(); err != nil {
@@ -5281,6 +5817,10 @@ func (s *Discount) Validate() error {
 }
 
 func (s *DnsTlsCertificate) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Domains == nil {
@@ -5300,6 +5840,10 @@ func (s *DnsTlsCertificate) Validate() error {
 }
 
 func (s *DockerFileOrigin) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Details.Validate(); err != nil {
@@ -5319,6 +5863,10 @@ func (s *DockerFileOrigin) Validate() error {
 }
 
 func (s *DockerFileOriginDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Repo.Get(); ok {
@@ -5335,17 +5883,6 @@ func (s *DockerFileOriginDetails) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "repo",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if err := s.Credentials.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "credentials",
 			Error: err,
 		})
 	}
@@ -5382,15 +5919,11 @@ func (s DockerRegistryOriginType) Validate() error {
 	}
 }
 
-func (s DockerfileCredentials) Validate() error {
-	alias := ([]DockerfileCredentialsItem)(s)
-	if alias == nil {
-		return errors.New("nil is invalid value")
-	}
-	return nil
-}
-
 func (s *EmployeeLogin) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.State.Validate(); err != nil {
@@ -5432,6 +5965,10 @@ func (s EmployeeLoginType) Validate() error {
 }
 
 func (s *Environment) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -5531,6 +6068,10 @@ func (s EnvironmentIncludes) Validate() error {
 }
 
 func (s *EnvironmentMeta) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -5564,6 +6105,10 @@ func (s *EnvironmentMeta) Validate() error {
 }
 
 func (s *EnvironmentServiceContainerSummary) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.State.Validate(); err != nil {
@@ -5583,6 +6128,10 @@ func (s *EnvironmentServiceContainerSummary) Validate() error {
 }
 
 func (s *EnvironmentServices) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Loadbalancer.Get(); ok {
@@ -5618,6 +6167,10 @@ func (s EnvironmentStartStepAction) Validate() error {
 }
 
 func (s *EnvironmentState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -5663,6 +6216,10 @@ func (s EnvironmentStopStepAction) Validate() error {
 }
 
 func (s *EnvironmentSummary) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.State.Validate(); err != nil {
@@ -5693,6 +6250,10 @@ func (s *EnvironmentSummary) Validate() error {
 }
 
 func (s *EnvironmentSummaryServices) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Loadbalancer.Validate(); err != nil {
@@ -5734,6 +6295,10 @@ func (s *EnvironmentSummaryServices) Validate() error {
 }
 
 func (s *Error) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Status.Get(); ok {
@@ -5969,6 +6534,10 @@ func (s ErrorCode) Validate() error {
 }
 
 func (s *ErrorEnvelope) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Error.Validate(); err != nil {
@@ -5988,6 +6557,10 @@ func (s *ErrorEnvelope) Validate() error {
 }
 
 func (s *ErrorEnvelopeStatusCode) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Response.Validate(); err != nil {
@@ -6030,6 +6603,10 @@ func (s ErrorStatus) Validate() error {
 }
 
 func (s *FetchScopedVariableOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -6087,6 +6664,10 @@ func (s GetAccountInvitesMetaItem) Validate() error {
 }
 
 func (s *GetAccountInvitesOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -6138,6 +6719,10 @@ func (s *GetAccountInvitesOK) Validate() error {
 }
 
 func (s *GetAccountInvitesPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -6182,6 +6767,10 @@ func (s *GetAccountInvitesPage) Validate() error {
 }
 
 func (s *GetAccountLoginsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -6232,6 +6821,10 @@ func (s GetAccountLoginsOKDataItem) Validate() error {
 }
 
 func (s *GetAccountLoginsPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -6276,6 +6869,10 @@ func (s *GetAccountLoginsPage) Validate() error {
 }
 
 func (s *GetAccountMembershipsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -6309,6 +6906,10 @@ func (s *GetAccountMembershipsOK) Validate() error {
 }
 
 func (s *GetAccountOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -6335,6 +6936,10 @@ func (s *GetAccountOK) Validate() error {
 }
 
 func (s *GetAnnouncementsListOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -6368,6 +6973,10 @@ func (s *GetAnnouncementsListOK) Validate() error {
 }
 
 func (s *GetAnnouncementsListPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -6412,6 +7021,10 @@ func (s *GetAnnouncementsListPage) Validate() error {
 }
 
 func (s *GetApiKeyOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -6438,6 +7051,10 @@ func (s *GetApiKeyOK) Validate() error {
 }
 
 func (s *GetApiKeysOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -6471,6 +7088,10 @@ func (s *GetApiKeysOK) Validate() error {
 }
 
 func (s *GetApiKeysPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -6528,6 +7149,10 @@ func (s GetAutoScaleGroupIncludeItem) Validate() error {
 }
 
 func (s *GetAutoScaleGroupOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -6585,6 +7210,10 @@ func (s GetAutoScaleGroupsIncludeItem) Validate() error {
 }
 
 func (s *GetAutoScaleGroupsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -6636,6 +7265,10 @@ func (s *GetAutoScaleGroupsOK) Validate() error {
 }
 
 func (s *GetAutoScaleGroupsPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -6680,6 +7313,10 @@ func (s *GetAutoScaleGroupsPage) Validate() error {
 }
 
 func (s *GetBackupLogsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -6713,6 +7350,10 @@ func (s *GetBackupLogsOK) Validate() error {
 }
 
 func (s *GetBackupOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -6739,6 +7380,10 @@ func (s *GetBackupOK) Validate() error {
 }
 
 func (s *GetBackupsCollectionOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -6772,6 +7417,10 @@ func (s *GetBackupsCollectionOK) Validate() error {
 }
 
 func (s *GetBackupsCollectionPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -6816,6 +7465,10 @@ func (s *GetBackupsCollectionPage) Validate() error {
 }
 
 func (s *GetBillingMethodOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -6842,6 +7495,10 @@ func (s *GetBillingMethodOK) Validate() error {
 }
 
 func (s *GetBillingMethodsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -6875,6 +7532,10 @@ func (s *GetBillingMethodsOK) Validate() error {
 }
 
 func (s *GetBillingMethodsPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -6919,6 +7580,10 @@ func (s *GetBillingMethodsPage) Validate() error {
 }
 
 func (s *GetBillingOrderOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -6945,6 +7610,10 @@ func (s *GetBillingOrderOK) Validate() error {
 }
 
 func (s *GetBillingOveragesOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -6978,6 +7647,10 @@ func (s *GetBillingOveragesOK) Validate() error {
 }
 
 func (s *GetBillingOveragesPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -7022,6 +7695,10 @@ func (s *GetBillingOveragesPage) Validate() error {
 }
 
 func (s *GetBillingServiceOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -7048,6 +7725,10 @@ func (s *GetBillingServiceOK) Validate() error {
 }
 
 func (s *GetBillingServicesOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -7081,6 +7762,10 @@ func (s *GetBillingServicesOK) Validate() error {
 }
 
 func (s *GetBillingServicesPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -7125,6 +7810,10 @@ func (s *GetBillingServicesPage) Validate() error {
 }
 
 func (s *GetBillingSupportPlansOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -7158,6 +7847,10 @@ func (s *GetBillingSupportPlansOK) Validate() error {
 }
 
 func (s *GetBillingSupportPlansPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -7202,6 +7895,10 @@ func (s *GetBillingSupportPlansPage) Validate() error {
 }
 
 func (s *GetCompatibleImagesOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -7235,6 +7932,10 @@ func (s *GetCompatibleImagesOK) Validate() error {
 }
 
 func (s *GetCompatibleImagesPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -7311,6 +8012,10 @@ func (s GetContainerByIdMetaItem) Validate() error {
 }
 
 func (s *GetContainerByIdOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -7374,6 +8079,10 @@ func (s GetContainerInstanceIncludeItem) Validate() error {
 }
 
 func (s *GetContainerInstanceOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -7418,6 +8127,10 @@ func (s *GetContainerInstanceOK) Validate() error {
 }
 
 func (s *GetContainerInstanceVolumesOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -7451,6 +8164,10 @@ func (s *GetContainerInstanceVolumesOK) Validate() error {
 }
 
 func (s *GetContainerInstanceVolumesPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -7495,6 +8212,10 @@ func (s *GetContainerInstanceVolumesPage) Validate() error {
 }
 
 func (s *GetContainerSummaryOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -7553,6 +8274,10 @@ func (s GetContainersMetaItem) Validate() error {
 }
 
 func (s *GetContainersOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -7604,6 +8329,10 @@ func (s *GetContainersOK) Validate() error {
 }
 
 func (s *GetContainersPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -7648,6 +8377,10 @@ func (s *GetContainersPage) Validate() error {
 }
 
 func (s *GetCreditOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -7674,6 +8407,10 @@ func (s *GetCreditOK) Validate() error {
 }
 
 func (s *GetCreditsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -7707,6 +8444,10 @@ func (s *GetCreditsOK) Validate() error {
 }
 
 func (s *GetCreditsPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -7751,6 +8492,10 @@ func (s *GetCreditsPage) Validate() error {
 }
 
 func (s *GetDNSZoneOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -7801,6 +8546,10 @@ func (s GetEnvironmentByIdMetaItem) Validate() error {
 }
 
 func (s *GetEnvironmentByIdOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -7845,6 +8594,10 @@ func (s *GetEnvironmentByIdOK) Validate() error {
 }
 
 func (s *GetEnvironmentByIdOKIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Creators.Get(); ok {
@@ -7871,6 +8624,10 @@ func (s *GetEnvironmentByIdOKIncludes) Validate() error {
 }
 
 func (s *GetEnvironmentSummaryOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -7921,6 +8678,10 @@ func (s GetEnvironmentsMetaItem) Validate() error {
 }
 
 func (s *GetEnvironmentsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Data == nil {
@@ -7975,6 +8736,10 @@ func (s *GetEnvironmentsOK) Validate() error {
 }
 
 func (s *GetEnvironmentsOKIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Creators.Get(); ok {
@@ -8001,6 +8766,10 @@ func (s *GetEnvironmentsOKIncludes) Validate() error {
 }
 
 func (s *GetEnvironmentsPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -8056,6 +8825,10 @@ func (s GetGlobalLoadBalancerIncludeItem) Validate() error {
 }
 
 func (s *GetGlobalLoadBalancerOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -8111,6 +8884,10 @@ func (s GetGlobalLoadBalancersIncludeItem) Validate() error {
 }
 
 func (s *GetGlobalLoadBalancersOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -8162,6 +8939,10 @@ func (s *GetGlobalLoadBalancersOK) Validate() error {
 }
 
 func (s *GetGlobalLoadBalancersPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -8206,6 +8987,10 @@ func (s *GetGlobalLoadBalancersPage) Validate() error {
 }
 
 func (s *GetHubCapabilitiesOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -8261,6 +9046,10 @@ func (s GetHubInvitesMetaItem) Validate() error {
 }
 
 func (s *GetHubInvitesOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -8312,6 +9101,10 @@ func (s *GetHubInvitesOK) Validate() error {
 }
 
 func (s *GetHubInvitesPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -8369,6 +9162,10 @@ func (s GetHubMemberIncludeItem) Validate() error {
 }
 
 func (s *GetHubMemberOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -8435,6 +9232,10 @@ func (s GetHubMembersAccountMetaItem) Validate() error {
 }
 
 func (s *GetHubMembersAccountOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -8501,6 +9302,10 @@ func (s GetHubMembersMetaItem) Validate() error {
 }
 
 func (s *GetHubMembersOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -8552,6 +9357,10 @@ func (s *GetHubMembersOK) Validate() error {
 }
 
 func (s *GetHubMembersPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -8614,6 +9423,10 @@ func (s GetHubMembershipMetaItem) Validate() error {
 }
 
 func (s *GetHubMembershipOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -8658,6 +9471,10 @@ func (s *GetHubMembershipOK) Validate() error {
 }
 
 func (s *GetHubMembershipPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -8711,6 +9528,10 @@ func (s GetHubMetaItem) Validate() error {
 }
 
 func (s *GetHubOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -8737,6 +9558,10 @@ func (s *GetHubOK) Validate() error {
 }
 
 func (s *GetHubUsageOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -8770,6 +9595,10 @@ func (s *GetHubUsageOK) Validate() error {
 }
 
 func (s *GetHubsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -8803,6 +9632,10 @@ func (s *GetHubsOK) Validate() error {
 }
 
 func (s *GetHubsPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -8871,6 +9704,10 @@ func (s GetImageMetaItem) Validate() error {
 }
 
 func (s *GetImageOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -8915,6 +9752,10 @@ func (s *GetImageOK) Validate() error {
 }
 
 func (s *GetImagePage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -8983,6 +9824,10 @@ func (s GetImagesMetaItem) Validate() error {
 }
 
 func (s *GetImagesOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -9034,6 +9879,10 @@ func (s *GetImagesOK) Validate() error {
 }
 
 func (s *GetImagesPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -9093,6 +9942,10 @@ func (s GetInfrastructureIPPoolIncludeItem) Validate() error {
 }
 
 func (s *GetInfrastructureIPPoolOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -9152,6 +10005,10 @@ func (s GetInfrastructureIPPoolsIncludeItem) Validate() error {
 }
 
 func (s *GetInfrastructureIPPoolsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -9185,6 +10042,10 @@ func (s *GetInfrastructureIPPoolsOK) Validate() error {
 }
 
 func (s *GetInfrastructureIPPoolsPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -9229,6 +10090,10 @@ func (s *GetInfrastructureIPPoolsPage) Validate() error {
 }
 
 func (s *GetInfrastructureSummaryOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -9255,6 +10120,10 @@ func (s *GetInfrastructureSummaryOK) Validate() error {
 }
 
 func (s *GetInstanceResourcesTelemetryReportOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -9300,6 +10169,10 @@ func (s GetInstancesIncludeItem) Validate() error {
 }
 
 func (s *GetInstancesOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -9351,6 +10224,10 @@ func (s *GetInstancesOK) Validate() error {
 }
 
 func (s *GetInstancesPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -9404,6 +10281,10 @@ func (s GetInvoiceMetaItem) Validate() error {
 }
 
 func (s *GetInvoiceOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -9439,6 +10320,10 @@ func (s GetInvoicesMetaItem) Validate() error {
 }
 
 func (s *GetInvoicesOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -9472,6 +10357,10 @@ func (s *GetInvoicesOK) Validate() error {
 }
 
 func (s *GetInvoicesPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -9516,6 +10405,10 @@ func (s *GetInvoicesPage) Validate() error {
 }
 
 func (s *GetJobOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -9551,6 +10444,10 @@ func (s GetJobsIncludeItem) Validate() error {
 }
 
 func (s *GetJobsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -9602,6 +10499,10 @@ func (s *GetJobsOK) Validate() error {
 }
 
 func (s *GetJobsPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -9646,6 +10547,10 @@ func (s *GetJobsPage) Validate() error {
 }
 
 func (s *GetLatestJobsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -9679,6 +10584,10 @@ func (s *GetLatestJobsOK) Validate() error {
 }
 
 func (s *GetLoadBalancerInfoOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -9705,6 +10614,10 @@ func (s *GetLoadBalancerInfoOK) Validate() error {
 }
 
 func (s *GetLoadBalancerInfoOKData) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.DefaultConfig.Get(); ok {
@@ -9778,6 +10691,10 @@ func (s *GetLoadBalancerInfoOKData) Validate() error {
 }
 
 func (s *GetLoadBalancerInfoOKDataBaseConfigs) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Haproxy.Validate(); err != nil {
@@ -9819,6 +10736,10 @@ func (s GetLoadBalancerInfoOKDataDefaultType) Validate() error {
 }
 
 func (s *GetLoadBalancerLatestTelemetryReportOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -9854,6 +10775,10 @@ func (s GetNativeProvidersMetaItem) Validate() error {
 }
 
 func (s *GetNativeProvidersOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -9887,6 +10812,10 @@ func (s *GetNativeProvidersOK) Validate() error {
 }
 
 func (s *GetNativeProvidersPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -9942,6 +10871,10 @@ func (s GetNetworkIncludeItem) Validate() error {
 }
 
 func (s *GetNetworkOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -9997,6 +10930,10 @@ func (s GetNetworksIncludeItem) Validate() error {
 }
 
 func (s *GetNetworksOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -10048,6 +10985,10 @@ func (s *GetNetworksOK) Validate() error {
 }
 
 func (s *GetNetworksPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -10110,6 +11051,10 @@ func (s GetOrdersMetaItem) Validate() error {
 }
 
 func (s *GetOrdersOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -10161,6 +11106,10 @@ func (s *GetOrdersOK) Validate() error {
 }
 
 func (s *GetOrdersPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -10218,6 +11167,10 @@ func (s GetPipelineIncludeItem) Validate() error {
 }
 
 func (s *GetPipelineOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -10271,6 +11224,10 @@ func (s GetPipelineRunsIncludeItem) Validate() error {
 }
 
 func (s *GetPipelineRunsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -10322,6 +11279,10 @@ func (s *GetPipelineRunsOK) Validate() error {
 }
 
 func (s *GetPipelineRunsOKIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Creators.Get(); ok {
@@ -10348,6 +11309,10 @@ func (s *GetPipelineRunsOKIncludes) Validate() error {
 }
 
 func (s *GetPipelineTriggerKeyOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -10374,6 +11339,10 @@ func (s *GetPipelineTriggerKeyOK) Validate() error {
 }
 
 func (s *GetPipelineTriggerKeysOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -10407,6 +11376,10 @@ func (s *GetPipelineTriggerKeysOK) Validate() error {
 }
 
 func (s *GetPipelineTriggerKeysPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -10464,6 +11437,10 @@ func (s GetPipelinesIncludeItem) Validate() error {
 }
 
 func (s *GetPipelinesOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -10515,6 +11492,10 @@ func (s *GetPipelinesOK) Validate() error {
 }
 
 func (s *GetPipelinesPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -10559,6 +11540,10 @@ func (s *GetPipelinesPage) Validate() error {
 }
 
 func (s *GetPoolsIPsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -10592,6 +11577,10 @@ func (s *GetPoolsIPsOK) Validate() error {
 }
 
 func (s *GetProviderLocationsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -10625,6 +11614,10 @@ func (s *GetProviderLocationsOK) Validate() error {
 }
 
 func (s *GetProviderLocationsPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -10678,6 +11671,10 @@ func (s GetProviderMetaItem) Validate() error {
 }
 
 func (s *GetProviderOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -10704,6 +11701,10 @@ func (s *GetProviderOK) Validate() error {
 }
 
 func (s *GetProviderServersOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -10737,6 +11738,10 @@ func (s *GetProviderServersOK) Validate() error {
 }
 
 func (s *GetProviderServersPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -10796,6 +11801,10 @@ func (s GetProvidersMetaItem) Validate() error {
 }
 
 func (s *GetProvidersOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -10829,6 +11838,10 @@ func (s *GetProvidersOK) Validate() error {
 }
 
 func (s *GetProvidersPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -10884,6 +11897,10 @@ func (s GetRecordsCollectionIncludeItem) Validate() error {
 }
 
 func (s *GetRecordsCollectionOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -10935,6 +11952,10 @@ func (s *GetRecordsCollectionOK) Validate() error {
 }
 
 func (s *GetRecordsCollectionPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -10979,6 +12000,10 @@ func (s *GetRecordsCollectionPage) Validate() error {
 }
 
 func (s *GetSSHConnectionOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -11005,6 +12030,10 @@ func (s *GetSSHConnectionOK) Validate() error {
 }
 
 func (s *GetSearchIndexOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -11031,6 +12060,10 @@ func (s *GetSearchIndexOK) Validate() error {
 }
 
 func (s *GetSecurityReportOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -11076,6 +12109,10 @@ func (s GetServerInstancesIncludeItem) Validate() error {
 }
 
 func (s *GetServerInstancesOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -11127,6 +12164,10 @@ func (s *GetServerInstancesOK) Validate() error {
 }
 
 func (s *GetServerInstancesPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -11171,6 +12212,10 @@ func (s *GetServerInstancesPage) Validate() error {
 }
 
 func (s *GetServerTelemetryOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -11204,6 +12249,10 @@ func (s *GetServerTelemetryOK) Validate() error {
 }
 
 func (s *GetServerTelemetryPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -11272,6 +12321,10 @@ func (s GetServersCollectionMetaItem) Validate() error {
 }
 
 func (s *GetServersCollectionOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -11323,6 +12376,10 @@ func (s *GetServersCollectionOK) Validate() error {
 }
 
 func (s *GetServersCollectionPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -11391,6 +12448,10 @@ func (s GetSingleServerMetaItem) Validate() error {
 }
 
 func (s *GetSingleServerOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -11453,6 +12514,10 @@ func (s GetSourceMetaItem) Validate() error {
 }
 
 func (s *GetSourceOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -11515,6 +12580,10 @@ func (s GetSourcesCollectionMetaItem) Validate() error {
 }
 
 func (s *GetSourcesCollectionOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -11566,6 +12635,10 @@ func (s *GetSourcesCollectionOK) Validate() error {
 }
 
 func (s *GetSourcesCollectionPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -11610,6 +12683,10 @@ func (s *GetSourcesCollectionPage) Validate() error {
 }
 
 func (s *GetStackBuildLookupOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -11636,6 +12713,10 @@ func (s *GetStackBuildLookupOK) Validate() error {
 }
 
 func (s *GetStackBuildOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -11690,6 +12771,10 @@ func (s GetStackBuildsMetaItem) Validate() error {
 }
 
 func (s *GetStackBuildsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -11741,6 +12826,10 @@ func (s *GetStackBuildsOK) Validate() error {
 }
 
 func (s *GetStackBuildsPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -11785,6 +12874,10 @@ func (s *GetStackBuildsPage) Validate() error {
 }
 
 func (s *GetStackOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -11831,6 +12924,10 @@ func (s GetStacksMetaItem) Validate() error {
 }
 
 func (s *GetStacksOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -11882,6 +12979,10 @@ func (s *GetStacksOK) Validate() error {
 }
 
 func (s *GetStacksPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -11926,6 +13027,10 @@ func (s *GetStacksPage) Validate() error {
 }
 
 func (s *GetTiersOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -11983,6 +13088,10 @@ func (s GetUsableServersMetaItem) Validate() error {
 }
 
 func (s *GetUsableServersOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -12034,6 +13143,10 @@ func (s *GetUsableServersOK) Validate() error {
 }
 
 func (s *GetUsableServersPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -12078,6 +13191,10 @@ func (s *GetUsableServersPage) Validate() error {
 }
 
 func (s *GetVPNUsersOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -12111,6 +13228,10 @@ func (s *GetVPNUsersOK) Validate() error {
 }
 
 func (s *GetVpnLoginsPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -12164,6 +13285,10 @@ func (s GetZonesCollectionIncludeItem) Validate() error {
 }
 
 func (s *GetZonesCollectionOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -12215,6 +13340,10 @@ func (s *GetZonesCollectionOK) Validate() error {
 }
 
 func (s *GetZonesCollectionPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -12259,6 +13388,10 @@ func (s *GetZonesCollectionPage) Validate() error {
 }
 
 func (s *GlobalLoadBalancer) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -12289,6 +13422,10 @@ func (s *GlobalLoadBalancer) Validate() error {
 }
 
 func (s *GlobalLoadBalancerIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Creators.Get(); ok {
@@ -12333,6 +13470,10 @@ func (s *GlobalLoadBalancerIncludes) Validate() error {
 }
 
 func (s *GlobalLoadBalancerState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -12367,6 +13508,10 @@ func (s GlobalLoadBalancerStateCurrent) Validate() error {
 }
 
 func (s *HaProxyConfig) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Default.Validate(); err != nil {
@@ -12419,6 +13564,10 @@ func (s HaProxyConfigPorts) Validate() error {
 }
 
 func (s *HaProxyConfigSet) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Frontend.Validate(); err != nil {
@@ -12449,6 +13598,10 @@ func (s *HaProxyConfigSet) Validate() error {
 }
 
 func (s *HaProxyConfigSetBackend) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Balance.Validate(); err != nil {
@@ -12485,6 +13638,10 @@ func (s HaProxyConfigSetBackendBalance) Validate() error {
 }
 
 func (s *HaProxyConfigSetFrontend) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Mode.Validate(); err != nil {
@@ -12515,6 +13672,10 @@ func (s HaProxyConfigSetFrontendMode) Validate() error {
 }
 
 func (s *HaProxyLbType) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Details.Get(); ok {
@@ -12568,6 +13729,10 @@ func (s HttpTransportConfigType) Validate() error {
 }
 
 func (s *Hub) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -12634,6 +13799,10 @@ func (s *Hub) Validate() error {
 }
 
 func (s *HubBilling) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Term.Validate(); err != nil {
@@ -12653,6 +13822,10 @@ func (s *HubBilling) Validate() error {
 }
 
 func (s *HubMembership) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Permissions.Validate(); err != nil {
@@ -12701,6 +13874,10 @@ func (s *HubMembership) Validate() error {
 }
 
 func (s *HubMembershipIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Hubs.Get(); ok {
@@ -12749,6 +13926,10 @@ func (s HubMembershipIncludesHubs) Validate() error {
 }
 
 func (s *HubMembershipMeta) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -12782,6 +13963,10 @@ func (s *HubMembershipMeta) Validate() error {
 }
 
 func (s *HubMembershipPermissions) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Environments == nil {
@@ -12801,6 +13986,10 @@ func (s *HubMembershipPermissions) Validate() error {
 }
 
 func (s *HubMeta) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Membership.Get(); ok {
@@ -12827,6 +14016,10 @@ func (s *HubMeta) Validate() error {
 }
 
 func (s *HubState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -12865,6 +14058,10 @@ func (s HubStateCurrent) Validate() error {
 }
 
 func (s *HubUsageDatum) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Servers)); err != nil {
@@ -12917,6 +14114,10 @@ func (s *HubUsageDatum) Validate() error {
 }
 
 func (s *IP) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Kind.Validate(); err != nil {
@@ -12958,6 +14159,10 @@ func (s IPKind) Validate() error {
 }
 
 func (s *Image) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Config.Validate(); err != nil {
@@ -13024,6 +14229,10 @@ func (s *Image) Validate() error {
 }
 
 func (s *ImageConfig) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Ports == nil {
@@ -13110,6 +14319,10 @@ func (s *ImageConfig) Validate() error {
 }
 
 func (s *ImageConfigPortsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Host)); err != nil {
@@ -13140,6 +14353,10 @@ func (s *ImageConfigPortsItem) Validate() error {
 }
 
 func (s *ImageConfigVolumesItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Mode.Get(); ok {
@@ -13195,6 +14412,10 @@ func (s ImageImportStepAction) Validate() error {
 }
 
 func (s *ImageIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Creators.Get(); ok {
@@ -13275,6 +14496,10 @@ func (s *ImageIncludes) Validate() error {
 }
 
 func (s *ImageOrigin) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.OneOf.Validate(); err != nil {
@@ -13321,6 +14546,10 @@ func (s ImageOriginSum) Validate() error {
 }
 
 func (s *ImageSource) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Type.Validate(); err != nil {
@@ -13391,6 +14620,10 @@ func (s *ImageSource) Validate() error {
 }
 
 func (s *ImageSourceCreateStep) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Details.Validate(); err != nil {
@@ -13419,6 +14652,10 @@ func (s ImageSourceCreateStepAction) Validate() error {
 }
 
 func (s *ImageSourceCreateStepDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Origin.Validate(); err != nil {
@@ -13438,6 +14675,10 @@ func (s *ImageSourceCreateStepDetails) Validate() error {
 }
 
 func (s *ImageSourceDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.OneOf.Validate(); err != nil {
@@ -13501,6 +14742,10 @@ func (s ImageSourceIncludes) Validate() error {
 }
 
 func (s *ImageSourceMeta) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.ImagesCount.Get(); ok {
@@ -13527,6 +14772,10 @@ func (s *ImageSourceMeta) Validate() error {
 }
 
 func (s *ImageSourceMetaImagesCount) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Total)); err != nil {
@@ -13557,6 +14806,10 @@ func (s *ImageSourceMetaImagesCount) Validate() error {
 }
 
 func (s *ImageSourceMetaImagesCountState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.New)); err != nil {
@@ -13642,6 +14895,10 @@ func (s *ImageSourceMetaImagesCountState) Validate() error {
 }
 
 func (s *ImageSourceState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -13687,6 +14944,10 @@ func (s ImageSourceType) Validate() error {
 }
 
 func (s *ImageState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -13731,6 +14992,10 @@ func (s ImageStateCurrent) Validate() error {
 }
 
 func (s *ImageSummary) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Service.Get(); ok {
@@ -13792,6 +15057,10 @@ func (s ImagesIncludes) Validate() error {
 }
 
 func (s *ImagesPruneStep) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Details.Validate(); err != nil {
@@ -13820,6 +15089,10 @@ func (s ImagesPruneStepAction) Validate() error {
 }
 
 func (s *ImagesPruneStepDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.SourceIds == nil {
@@ -13839,6 +15112,10 @@ func (s *ImagesPruneStepDetails) Validate() error {
 }
 
 func (s *Index) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Containers.Validate(); err != nil {
@@ -14045,6 +15322,10 @@ func (s IndexStacks) Validate() error {
 }
 
 func (s *InfraServer) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -14115,6 +15396,10 @@ func (s *InfraServer) Validate() error {
 }
 
 func (s *InfrastructureProviderLocation) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Features.Validate(); err != nil {
@@ -14134,6 +15419,10 @@ func (s *InfrastructureProviderLocation) Validate() error {
 }
 
 func (s *InfrastructureProviderLocationFeatures) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Available == nil {
@@ -14164,6 +15453,10 @@ func (s *InfrastructureProviderLocationFeatures) Validate() error {
 }
 
 func (s *InfrastructureSummary) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Servers)); err != nil {
@@ -14216,6 +15509,10 @@ func (s InfrastructureSummaryClusters) Validate() error {
 }
 
 func (s *InfrastructureSummaryClustersItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Versions.Validate(); err != nil {
@@ -14246,6 +15543,10 @@ func (s *InfrastructureSummaryClustersItem) Validate() error {
 }
 
 func (s *InfrastructureSummaryClustersItemServers) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Count)); err != nil {
@@ -14298,6 +15599,10 @@ func (s InfrastructureSummaryClustersItemServersProviders) Validate() error {
 }
 
 func (s *InfrastructureSummaryClustersItemServersProvidersItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Count)); err != nil {
@@ -14383,6 +15688,10 @@ func (s InfrastructureSummaryClustersItemServersProvidersItemModels) Validate() 
 }
 
 func (s *Instance) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.ReadyState.Validate(); err != nil {
@@ -14431,6 +15740,10 @@ func (s *Instance) Validate() error {
 }
 
 func (s *InstanceIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Creators.Get(); ok {
@@ -14573,6 +15886,10 @@ func (s InstanceService) Validate() error {
 }
 
 func (s *InstanceState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -14619,6 +15936,10 @@ func (s InstanceStateCurrent) Validate() error {
 }
 
 func (s *InstanceTelemetryReport) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Snapshots == nil {
@@ -14655,6 +15976,10 @@ func (s *InstanceTelemetryReport) Validate() error {
 }
 
 func (s *InstanceVolume) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Config.Validate(); err != nil {
@@ -14685,6 +16010,10 @@ func (s *InstanceVolume) Validate() error {
 }
 
 func (s *Invoice) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Services == nil {
@@ -14771,6 +16100,10 @@ func (s *Invoice) Validate() error {
 }
 
 func (s *InvoiceState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -14823,6 +16156,10 @@ func (s InvoiceStateCurrent) Validate() error {
 }
 
 func (s *IpState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -14857,6 +16194,10 @@ func (s IpStateCurrent) Validate() error {
 }
 
 func (s *Job) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Tasks == nil {
@@ -14915,6 +16256,10 @@ func (s *Job) Validate() error {
 }
 
 func (s *JobIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Creators.Get(); ok {
@@ -14941,6 +16286,10 @@ func (s *JobIncludes) Validate() error {
 }
 
 func (s *JobState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -14981,6 +16330,10 @@ func (s JobStateCurrent) Validate() error {
 }
 
 func (s *JobTask) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.State.Validate(); err != nil {
@@ -15000,6 +16353,10 @@ func (s *JobTask) Validate() error {
 }
 
 func (s *ListScopedVariablesOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Data == nil {
@@ -15036,6 +16393,10 @@ func (s *ListScopedVariablesOK) Validate() error {
 }
 
 func (s *ListScopedVariablesPage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Number.Get(); ok {
@@ -15080,6 +16441,10 @@ func (s *ListScopedVariablesPage) Validate() error {
 }
 
 func (s *LoadBalancerConfig) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.OneOf.Validate(); err != nil {
@@ -15121,6 +16486,10 @@ func (s LoadBalancerConfigSum) Validate() error {
 }
 
 func (s *LoadBalancerEnvironmentService) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Config.Get(); ok {
@@ -15147,6 +16516,10 @@ func (s *LoadBalancerEnvironmentService) Validate() error {
 }
 
 func (s *LoadBalancerLatestTelemetry) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Controllers == nil {
@@ -15183,6 +16556,10 @@ func (s *LoadBalancerLatestTelemetry) Validate() error {
 }
 
 func (s *LoadBalancerLatestTelemetryController) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Instances == nil {
@@ -15224,6 +16601,10 @@ func (s LocationsIncludes) Validate() error {
 }
 
 func (s *Logs) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Type.Validate(); err != nil {
@@ -15254,6 +16635,10 @@ func (s LogsType) Validate() error {
 }
 
 func (s *LookupDnsCertificateOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -15299,6 +16684,10 @@ func (s LookupIdentifierDesiredComponent) Validate() error {
 }
 
 func (s *MembershipState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -15335,6 +16724,10 @@ func (s MembershipStateCurrent) Validate() error {
 }
 
 func (s *MemoryData) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Usage.Get(); ok {
@@ -15415,6 +16808,10 @@ func (s *MemoryData) Validate() error {
 }
 
 func (s *MemorySnapshot) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Cache.Get(); ok {
@@ -15513,6 +16910,10 @@ func (s *MemorySnapshot) Validate() error {
 }
 
 func (s *Method) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -15543,6 +16944,10 @@ func (s *Method) Validate() error {
 }
 
 func (s *MethodState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -15584,6 +16989,10 @@ func (s MigrateAction) Validate() error {
 }
 
 func (s *NativeProvider) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Features == nil {
@@ -15603,6 +17012,10 @@ func (s *NativeProvider) Validate() error {
 }
 
 func (s *Network) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -15644,6 +17057,10 @@ func (s *Network) Validate() error {
 }
 
 func (s *NetworkIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Creators.Get(); ok {
@@ -15688,6 +17105,10 @@ func (s *NetworkIncludes) Validate() error {
 }
 
 func (s *NetworkSnapshot) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Interfaces == nil {
@@ -15707,6 +17128,10 @@ func (s *NetworkSnapshot) Validate() error {
 }
 
 func (s *NetworkSpec) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Scope.Validate(); err != nil {
@@ -15739,6 +17164,10 @@ func (s NetworkSpecScope) Validate() error {
 }
 
 func (s *NetworkState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -15771,6 +17200,10 @@ func (s NetworkStateCurrent) Validate() error {
 }
 
 func (s *NodeMetaStats) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Uptime.Validate(); err != nil {
@@ -15812,6 +17245,10 @@ func (s *NodeMetaStats) Validate() error {
 }
 
 func (s *NodeState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -15857,6 +17294,10 @@ func (s NoneOriginType) Validate() error {
 }
 
 func (s *OciRegistryOrigin) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Details.Validate(); err != nil {
@@ -15876,6 +17317,10 @@ func (s *OciRegistryOrigin) Validate() error {
 }
 
 func (s *OciRegistryOriginDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Auth.Get(); ok {
@@ -15911,6 +17356,10 @@ func (s OciRegistryOriginType) Validate() error {
 }
 
 func (s *Order) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -15991,6 +17440,10 @@ func (s *Order) Validate() error {
 }
 
 func (s *OrderIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.PromoCodes.Get(); ok {
@@ -16017,6 +17470,10 @@ func (s *OrderIncludes) Validate() error {
 }
 
 func (s *OrderItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Service.Validate(); err != nil {
@@ -16076,6 +17533,10 @@ func (s *OrderItem) Validate() error {
 }
 
 func (s *OrderItemDiscount) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Amount.Validate(); err != nil {
@@ -16095,6 +17556,10 @@ func (s *OrderItemDiscount) Validate() error {
 }
 
 func (s *OrderState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -16129,6 +17594,10 @@ func (s OrderStateCurrent) Validate() error {
 }
 
 func (s *Overage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Term.Validate(); err != nil {
@@ -16148,6 +17617,10 @@ func (s *Overage) Validate() error {
 }
 
 func (s *PasswordLogin) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Type.Validate(); err != nil {
@@ -16176,6 +17649,10 @@ func (s PasswordLoginType) Validate() error {
 }
 
 func (s *Payment) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Refunds == nil {
@@ -16232,6 +17709,10 @@ func (s PaymentGateway) Validate() error {
 }
 
 func (s *Permissions) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Environments == nil {
@@ -16251,6 +17732,10 @@ func (s *Permissions) Validate() error {
 }
 
 func (s *Pipeline) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -16306,6 +17791,10 @@ func (s *Pipeline) Validate() error {
 }
 
 func (s *PipelineIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Creators.Get(); ok {
@@ -16409,6 +17898,10 @@ func (s PipelineIncludesComponentsItem) Validate() error {
 }
 
 func (s *PipelineStage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Steps == nil {
@@ -16445,6 +17938,10 @@ func (s *PipelineStage) Validate() error {
 }
 
 func (s *PipelineState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -16539,6 +18036,10 @@ func (s PipelineSteps) Validate() error {
 }
 
 func (s *Pool) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Kind.Validate(); err != nil {
@@ -16580,6 +18081,10 @@ func (s *Pool) Validate() error {
 }
 
 func (s *PoolIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creators.Validate(); err != nil {
@@ -16643,6 +18148,10 @@ func (s PoolKind) Validate() error {
 }
 
 func (s *PoolProvider) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Identifier.Validate(); err != nil {
@@ -16675,6 +18184,10 @@ func (s PoolProviderIdentifier) Validate() error {
 }
 
 func (s *PoolState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -16707,6 +18220,10 @@ func (s PoolStateCurrent) Validate() error {
 }
 
 func (s *ProcessesSnapshot) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Current.Get(); ok {
@@ -16751,6 +18268,10 @@ func (s *ProcessesSnapshot) Validate() error {
 }
 
 func (s *PromoCode) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Credit.Get(); ok {
@@ -16810,6 +18331,10 @@ func (s PromoCodeCredit) Validate() error {
 }
 
 func (s *PromoCodeCreditItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Amount.Get(); ok {
@@ -16858,6 +18383,10 @@ func (s PromoCodeInclude) Validate() error {
 }
 
 func (s *PromoCodeState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -16888,6 +18417,10 @@ func (s PromoCodeStateCurrent) Validate() error {
 }
 
 func (s *Provider) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -16936,6 +18469,10 @@ func (s *Provider) Validate() error {
 }
 
 func (s *ProviderMeta) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -16969,6 +18506,10 @@ func (s *ProviderMeta) Validate() error {
 }
 
 func (s *ProviderServer) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Specs.Validate(); err != nil {
@@ -17021,6 +18562,10 @@ func (s *ProviderServer) Validate() error {
 }
 
 func (s *ProviderServerSpec) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Locations == nil {
@@ -17102,6 +18647,10 @@ func (s ProviderServersServerIncludes) Validate() error {
 }
 
 func (s *ProviderState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -17169,6 +18718,10 @@ func (s RawSourceType) Validate() error {
 }
 
 func (s *ReconfigureContainer) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Contents.Validate(); err != nil {
@@ -17197,6 +18750,10 @@ func (s ReconfigureContainerAction) Validate() error {
 }
 
 func (s *ReconfigureDiscoveryReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Action.Validate(); err != nil {
@@ -17225,6 +18782,10 @@ func (s ReconfigureDiscoveryReqAction) Validate() error {
 }
 
 func (s *ReconfigureLoadBalancerReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Action.Validate(); err != nil {
@@ -17264,6 +18825,10 @@ func (s ReconfigureLoadBalancerReqAction) Validate() error {
 }
 
 func (s *ReconfigureLoadBalancerReqContents) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Config.Get(); ok {
@@ -17299,6 +18864,10 @@ func (s ReconfigureServerAction) Validate() error {
 }
 
 func (s *ReconfigureVolumes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Contents == nil {
@@ -17344,6 +18913,10 @@ func (s ReconfigureVolumesAction) Validate() error {
 }
 
 func (s *Record) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -17374,6 +18947,10 @@ func (s *Record) Validate() error {
 }
 
 func (s *RecordIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Creators.Get(); ok {
@@ -17418,6 +18995,10 @@ func (s *RecordIncludes) Validate() error {
 }
 
 func (s *RecordState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -17452,6 +19033,10 @@ func (s RecordStateCurrent) Validate() error {
 }
 
 func (s *RecoverTwoFaReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.RecoveryCodes == nil {
@@ -17471,6 +19056,10 @@ func (s *RecoverTwoFaReq) Validate() error {
 }
 
 func (s *Refund) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Gateway.Validate(); err != nil {
@@ -17490,6 +19079,10 @@ func (s *Refund) Validate() error {
 }
 
 func (s *RegistryAuth) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.OneOf.Validate(); err != nil {
@@ -17509,6 +19102,10 @@ func (s *RegistryAuth) Validate() error {
 }
 
 func (s *RegistryAuthProvider) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Details.Validate(); err != nil {
@@ -17528,6 +19125,10 @@ func (s *RegistryAuthProvider) Validate() error {
 }
 
 func (s *RegistryAuthProviderDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Flavor.Validate(); err != nil {
@@ -17608,6 +19209,10 @@ func (s ReimageAction) Validate() error {
 }
 
 func (s *RemoveAccountOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -17634,6 +19239,10 @@ func (s *RemoveAccountOK) Validate() error {
 }
 
 func (s *RemoveApiKeyOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -17660,6 +19269,10 @@ func (s *RemoveApiKeyOK) Validate() error {
 }
 
 func (s *RemoveHubInviteOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -17686,6 +19299,10 @@ func (s *RemoveHubInviteOK) Validate() error {
 }
 
 func (s *RepoType) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Ref.Get(); ok {
@@ -17712,6 +19329,10 @@ func (s *RepoType) Validate() error {
 }
 
 func (s *RepoTypeRef) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Type.Validate(); err != nil {
@@ -17742,6 +19363,10 @@ func (s RepoTypeRefType) Validate() error {
 }
 
 func (s *ResourceSnapshot) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.CPU.Validate(); err != nil {
@@ -17821,6 +19446,10 @@ func (s RestartServerAction) Validate() error {
 }
 
 func (s *RestoreBackupJobReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Action.Validate(); err != nil {
@@ -17858,6 +19487,10 @@ func (s RevertMigrationAction) Validate() error {
 }
 
 func (s *Run) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -17916,6 +19549,10 @@ func (s *Run) Validate() error {
 }
 
 func (s *RunStagesItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Steps == nil {
@@ -17952,6 +19589,10 @@ func (s *RunStagesItem) Validate() error {
 }
 
 func (s *RunStagesItemStepsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Action.Validate(); err != nil {
@@ -18016,6 +19657,10 @@ func (s RunStagesItemStepsItemAction) Validate() error {
 }
 
 func (s *RunState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -18052,6 +19697,10 @@ func (s RunStateCurrent) Validate() error {
 }
 
 func (s *SFTP) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Port)); err != nil {
@@ -18082,6 +19731,10 @@ func (s *SFTP) Validate() error {
 }
 
 func (s *SFTPPassword) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Algorithm.Validate(); err != nil {
@@ -18114,6 +19767,10 @@ func (s SFTPPasswordAlgorithm) Validate() error {
 }
 
 func (s *SSHResponse) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Token.Validate(); err != nil {
@@ -18133,6 +19790,10 @@ func (s *SSHResponse) Validate() error {
 }
 
 func (s *SSHToken) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -18206,6 +19867,10 @@ func (s ScaleThresholdMetricRamType) Validate() error {
 }
 
 func (s *ScopedVariable) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -18247,6 +19912,10 @@ func (s *ScopedVariable) Validate() error {
 }
 
 func (s *ScopedVariableScope) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Containers.Validate(); err != nil {
@@ -18266,6 +19935,10 @@ func (s *ScopedVariableScope) Validate() error {
 }
 
 func (s *ScopedVariableScopeContainers) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Ids == nil {
@@ -18296,6 +19969,10 @@ func (s *ScopedVariableScopeContainers) Validate() error {
 }
 
 func (s *ScopedVariableState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -18328,6 +20005,10 @@ func (s ScopedVariableStateCurrent) Validate() error {
 }
 
 func (s *SeccompRule) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Syscall.Get(); ok {
@@ -18354,6 +20035,10 @@ func (s *SeccompRule) Validate() error {
 }
 
 func (s *SeccompRuleSyscall) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Names == nil {
@@ -18373,6 +20058,10 @@ func (s *SeccompRuleSyscall) Validate() error {
 }
 
 func (s *SecurityIncident) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Risk.Validate(); err != nil {
@@ -18495,6 +20184,10 @@ func (s SecurityIncidentSurface) Validate() error {
 }
 
 func (s *SecurityReport) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Summary.Validate(); err != nil {
@@ -18525,6 +20218,10 @@ func (s *SecurityReport) Validate() error {
 }
 
 func (s *SecurityReportSummary) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Incidents == nil {
@@ -18561,6 +20258,10 @@ func (s *SecurityReportSummary) Validate() error {
 }
 
 func (s *ServerConstraints) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Tags == nil {
@@ -18580,6 +20281,10 @@ func (s *ServerConstraints) Validate() error {
 }
 
 func (s *ServerIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Locations.Validate(); err != nil {
@@ -18621,6 +20326,10 @@ func (s *ServerIncludes) Validate() error {
 }
 
 func (s *ServerMeta) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Node.Get(); ok {
@@ -18647,6 +20356,10 @@ func (s *ServerMeta) Validate() error {
 }
 
 func (s *ServerMetaNode) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Drivers == nil {
@@ -18710,6 +20423,10 @@ func (s ServerModelsIncludes) Validate() error {
 }
 
 func (s *ServerProvider) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.ProvisionOptions.Get(); ok {
@@ -18736,6 +20453,10 @@ func (s *ServerProvider) Validate() error {
 }
 
 func (s *ServerProviderProvisionOptions) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.AttachesdStorageSize.Get(); ok {
@@ -18762,6 +20483,10 @@ func (s *ServerProviderProvisionOptions) Validate() error {
 }
 
 func (s *ServerSpecs) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Storage == nil {
@@ -18809,6 +20534,10 @@ func (s *ServerSpecs) Validate() error {
 }
 
 func (s *ServerState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -18847,6 +20576,10 @@ func (s ServerStateCurrent) Validate() error {
 }
 
 func (s *ServerStatsCpuUsageTelemetry) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.User.Get(); ok {
@@ -19035,6 +20768,10 @@ func (s *ServerStatsCpuUsageTelemetry) Validate() error {
 }
 
 func (s *ServerStatsLoad) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Avg1m)); err != nil {
@@ -19076,6 +20813,10 @@ func (s *ServerStatsLoad) Validate() error {
 }
 
 func (s *ServerStatsRamTelemetry) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Available)); err != nil {
@@ -19117,6 +20858,10 @@ func (s *ServerStatsRamTelemetry) Validate() error {
 }
 
 func (s *ServerStatsTelemetry) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.CPUUsage.Get(); ok {
@@ -19176,6 +20921,10 @@ func (s *ServerStatsTelemetry) Validate() error {
 }
 
 func (s *ServerStatsTelemetryStoragePool) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.DataPercent)); err != nil {
@@ -19217,6 +20966,10 @@ func (s *ServerStatsTelemetryStoragePool) Validate() error {
 }
 
 func (s *ServerStatsUptime) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Seconds.Get(); ok {
@@ -19261,6 +21014,10 @@ func (s *ServerStatsUptime) Validate() error {
 }
 
 func (s *ServerStatsVersions) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Services.Validate(); err != nil {
@@ -19361,6 +21118,10 @@ func (s ServersIncludes) Validate() error {
 }
 
 func (s *Service) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -19446,6 +21207,10 @@ func (s *Service) Validate() error {
 }
 
 func (s *ServiceItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Tier.Get(); ok {
@@ -19472,6 +21237,10 @@ func (s *ServiceItem) Validate() error {
 }
 
 func (s *ServiceItemTier) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Price.Validate(); err != nil {
@@ -19491,6 +21260,10 @@ func (s *ServiceItemTier) Validate() error {
 }
 
 func (s *SetupTwoFaOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -19526,6 +21299,10 @@ func (s SleepStepAction) Validate() error {
 }
 
 func (s *SourceIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Creators.Get(); ok {
@@ -19552,6 +21329,10 @@ func (s *SourceIncludes) Validate() error {
 }
 
 func (s *Stack) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -19593,6 +21374,10 @@ func (s *Stack) Validate() error {
 }
 
 func (s *StackBuild) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Spec.Validate(); err != nil {
@@ -19634,6 +21419,10 @@ func (s *StackBuild) Validate() error {
 }
 
 func (s *StackBuildContainerUpdate) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Containers.Validate(); err != nil {
@@ -19662,6 +21451,10 @@ func (s StackBuildContainerUpdateContainers) Validate() error {
 }
 
 func (s *StackBuildCreateStep) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Details.Validate(); err != nil {
@@ -19690,6 +21483,10 @@ func (s StackBuildCreateStepAction) Validate() error {
 }
 
 func (s *StackBuildCreateStepDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Instructions.Get(); ok {
@@ -19716,6 +21513,10 @@ func (s *StackBuildCreateStepDetails) Validate() error {
 }
 
 func (s *StackBuildDeployStep) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Details.Validate(); err != nil {
@@ -19744,6 +21545,10 @@ func (s StackBuildDeployStepAction) Validate() error {
 }
 
 func (s *StackBuildDeployStepDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Update.Get(); ok {
@@ -19779,6 +21584,10 @@ func (s StackBuildGenerateStepAction) Validate() error {
 }
 
 func (s *StackBuildInclude) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Instructions.Get(); ok {
@@ -19823,6 +21632,10 @@ func (s *StackBuildInclude) Validate() error {
 }
 
 func (s *StackBuildIncludeInstructions) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Git.Get(); ok {
@@ -19849,6 +21662,10 @@ func (s *StackBuildIncludeInstructions) Validate() error {
 }
 
 func (s *StackBuildIncludeInstructionsGit) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Type.Validate(); err != nil {
@@ -19901,6 +21718,10 @@ func (s StackBuildIncludes) Validate() error {
 }
 
 func (s *StackBuildInstructions) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Git.Get(); ok {
@@ -19927,6 +21748,10 @@ func (s *StackBuildInstructions) Validate() error {
 }
 
 func (s *StackBuildInstructionsDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Git.Get(); ok {
@@ -19953,6 +21778,10 @@ func (s *StackBuildInstructionsDetails) Validate() error {
 }
 
 func (s *StackBuildInstructionsDetailsGit) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Type.Validate(); err != nil {
@@ -19983,6 +21812,10 @@ func (s StackBuildInstructionsDetailsGitType) Validate() error {
 }
 
 func (s *StackBuildInstructionsGit) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Type.Validate(); err != nil {
@@ -20013,6 +21846,10 @@ func (s StackBuildInstructionsGitType) Validate() error {
 }
 
 func (s *StackBuildState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -20079,6 +21916,10 @@ func (s StackContainer) Validate() error {
 }
 
 func (s *StackContainerConfigDeploy) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Strategy.Get(); ok {
@@ -20123,6 +21964,10 @@ func (s *StackContainerConfigDeploy) Validate() error {
 }
 
 func (s *StackContainerConfigDeployRestart) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Condition.Validate(); err != nil {
@@ -20176,6 +22021,10 @@ func (s StackContainerConfigDeployStrategy) Validate() error {
 }
 
 func (s *StackContainerConfigNetwork) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Public.Validate(); err != nil {
@@ -20208,6 +22057,10 @@ func (s StackContainerConfigNetworkPublic) Validate() error {
 }
 
 func (s *StackContainerConfigResources) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.RAM.Validate(); err != nil {
@@ -20227,6 +22080,10 @@ func (s *StackContainerConfigResources) Validate() error {
 }
 
 func (s *StackContainerConfigResourcesRAM) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Swappiness.Get(); ok {
@@ -20253,6 +22110,10 @@ func (s *StackContainerConfigResourcesRAM) Validate() error {
 }
 
 func (s *StackContainerConfigRuntime) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -20433,6 +22294,10 @@ func (s StackContainerConfigRuntimeNamespacesItem) Validate() error {
 }
 
 func (s *StackContainerConfigRuntimeSeccomp) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Rules == nil {
@@ -20469,6 +22334,10 @@ func (s *StackContainerConfigRuntimeSeccomp) Validate() error {
 }
 
 func (s *StackContainerConfigRuntimeSeccompRulesItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Syscall.Validate(); err != nil {
@@ -20488,6 +22357,10 @@ func (s *StackContainerConfigRuntimeSeccompRulesItem) Validate() error {
 }
 
 func (s *StackContainerConfigRuntimeSeccompRulesItemSyscall) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Names == nil {
@@ -20568,6 +22441,10 @@ func (s StackContainerConfigRuntimeSeccompRulesItemSyscallAction) Validate() err
 }
 
 func (s *StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Op.Validate(); err != nil {
@@ -20608,6 +22485,10 @@ func (s StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp) Validate()
 }
 
 func (s *StackContainerConfigScaling) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Thresholds == nil {
@@ -20627,6 +22508,10 @@ func (s *StackContainerConfigScaling) Validate() error {
 }
 
 func (s *StackContainerItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Image.Validate(); err != nil {
@@ -20640,15 +22525,8 @@ func (s *StackContainerItem) Validate() error {
 		})
 	}
 	if err := func() error {
-		if value, ok := s.Config.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
+		if err := s.Config.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -20707,6 +22585,10 @@ func (s *StackContainerItem) Validate() error {
 }
 
 func (s *StackContainerItemConfig) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Network.Validate(); err != nil {
@@ -20800,6 +22682,10 @@ func (s StackContainerItemRole) Validate() error {
 }
 
 func (s *StackContainerItemVolumesItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.RemoteAccess.Get(); ok {
@@ -20826,6 +22712,10 @@ func (s *StackContainerItemVolumesItem) Validate() error {
 }
 
 func (s *StackContainerItemVolumesItemRemoteAccess) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Password.Validate(); err != nil {
@@ -20845,6 +22735,10 @@ func (s *StackContainerItemVolumesItemRemoteAccess) Validate() error {
 }
 
 func (s *StackContainerItemVolumesItemRemoteAccessPassword) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Algorithm.Get(); ok {
@@ -20929,6 +22823,10 @@ func (s StackContainerScaleThresholdRamType) Validate() error {
 }
 
 func (s *StackImageSourceType) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Details.Get(); ok {
@@ -20955,6 +22853,10 @@ func (s *StackImageSourceType) Validate() error {
 }
 
 func (s *StackImageSourceTypeDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Containers == nil {
@@ -20994,6 +22896,10 @@ func (s StackImageSourceTypeType) Validate() error {
 }
 
 func (s *StackInclude) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Creators.Get(); ok {
@@ -21042,10 +22948,21 @@ func (s StackIncludes) Validate() error {
 }
 
 func (s *StackRawSource) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.Details.Validate(); err != nil {
-			return err
+		if value, ok := s.Details.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
@@ -21070,6 +22987,10 @@ func (s StackRawSourceType) Validate() error {
 }
 
 func (s *StackRepoSource) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Details.Validate(); err != nil {
@@ -21089,6 +23010,10 @@ func (s *StackRepoSource) Validate() error {
 }
 
 func (s *StackRepoSourceDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Ref.Get(); ok {
@@ -21115,6 +23040,10 @@ func (s *StackRepoSourceDetails) Validate() error {
 }
 
 func (s *StackRepoSourceDetailsRef) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Type.Validate(); err != nil {
@@ -21139,6 +23068,8 @@ func (s StackRepoSourceDetailsRefType) Validate() error {
 		return nil
 	case "tag":
 		return nil
+	case "":
+		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
@@ -21154,6 +23085,10 @@ func (s StackRepoSourceType) Validate() error {
 }
 
 func (s *StackSource) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.OneOf.Validate(); err != nil {
@@ -21190,6 +23125,10 @@ func (s StackSourceSum) Validate() error {
 }
 
 func (s *StackSpec) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -21213,6 +23152,41 @@ func (s *StackSpec) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "tests",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.ScopedVariables.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				var failures []validate.FieldError
+				for i, elem := range value {
+					if err := func() error {
+						if err := elem.Validate(); err != nil {
+							return err
+						}
+						return nil
+					}(); err != nil {
+						failures = append(failures, validate.FieldError{
+							Name:  fmt.Sprintf("[%d]", i),
+							Error: err,
+						})
+					}
+				}
+				if len(failures) > 0 {
+					return &validate.Error{Fields: failures}
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "scoped_variables",
 			Error: err,
 		})
 	}
@@ -21252,6 +23226,10 @@ func (s *StackSpec) Validate() error {
 }
 
 func (s *StackSpecContainerImage) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Origin.Validate(); err != nil {
@@ -21271,6 +23249,10 @@ func (s *StackSpecContainerImage) Validate() error {
 }
 
 func (s *StackSpecLoadBalancerConfig) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.OneOf.Validate(); err != nil {
@@ -21311,7 +23293,123 @@ func (s StackSpecLoadBalancerConfigSum) Validate() error {
 	}
 }
 
+func (s *StackSpecScopedVariable) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Scope.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "scope",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s StackSpecScopedVariableRawSourceType) Validate() error {
+	switch s {
+	case "raw":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *StackSpecScopedVariableScope) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Containers.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "containers",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackSpecScopedVariableScopeContainers) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Ids.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ids",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Identifiers.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "identifiers",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s StackSpecScopedVariableUrlSourceType) Validate() error {
+	switch s {
+	case "url":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *StackSpecServices) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Loadbalancer.Get(); ok {
@@ -21338,6 +23436,10 @@ func (s *StackSpecServices) Validate() error {
 }
 
 func (s *StackSpecTestContainer) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Image.Get(); ok {
@@ -21382,6 +23484,10 @@ func (s *StackSpecTestContainer) Validate() error {
 }
 
 func (s *StackSpecTestContainerConfig) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Runtime.Get(); ok {
@@ -21426,6 +23532,10 @@ func (s *StackSpecTestContainerConfig) Validate() error {
 }
 
 func (s *StackState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -21458,6 +23568,10 @@ func (s StackStateCurrent) Validate() error {
 }
 
 func (s *SupportPlan) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Price.Validate(); err != nil {
@@ -21477,6 +23591,10 @@ func (s *SupportPlan) Validate() error {
 }
 
 func (s *Target) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Destination.Validate(); err != nil {
@@ -21505,6 +23623,10 @@ func (s TargetDestination) Validate() error {
 }
 
 func (s *TaskState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Current.Get(); ok {
@@ -21564,6 +23686,10 @@ func (s TcpTransportConfigType) Validate() error {
 }
 
 func (s *Term) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Renew.Get(); ok {
@@ -21603,6 +23729,10 @@ func (s TermRenew) Validate() error {
 }
 
 func (s *TierPlan) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := (validate.Float{}).Validate(float64(s.Generation)); err != nil {
@@ -21742,6 +23872,10 @@ func (s *TierPlan) Validate() error {
 }
 
 func (s *TriggerKey) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -21783,6 +23917,10 @@ func (s *TriggerKey) Validate() error {
 }
 
 func (s *TriggerKeyState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {
@@ -21815,6 +23953,10 @@ func (s TriggerKeyStateCurrent) Validate() error {
 }
 
 func (s *TwoFaSetupResponse) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.RecoveryCodes == nil {
@@ -21843,6 +23985,10 @@ func (s URLSourceType) Validate() error {
 }
 
 func (s *Update) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -21862,6 +24008,10 @@ func (s *Update) Validate() error {
 }
 
 func (s *UpdateAccountInviteOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -21888,6 +24038,10 @@ func (s *UpdateAccountInviteOK) Validate() error {
 }
 
 func (s *UpdateAccountOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -21914,6 +24068,10 @@ func (s *UpdateAccountOK) Validate() error {
 }
 
 func (s *UpdateApiKeyOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -21940,6 +24098,10 @@ func (s *UpdateApiKeyOK) Validate() error {
 }
 
 func (s *UpdateApiKeyReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Permissions.Get(); ok {
@@ -21984,6 +24146,10 @@ func (s *UpdateApiKeyReq) Validate() error {
 }
 
 func (s *UpdateAutoScaleGroupOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22010,6 +24176,10 @@ func (s *UpdateAutoScaleGroupOK) Validate() error {
 }
 
 func (s *UpdateAutoScaleGroupReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Scale.Validate(); err != nil {
@@ -22040,6 +24210,10 @@ func (s *UpdateAutoScaleGroupReq) Validate() error {
 }
 
 func (s *UpdateBillingMethodOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22066,6 +24240,10 @@ func (s *UpdateBillingMethodOK) Validate() error {
 }
 
 func (s *UpdateBillingOrderOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22092,6 +24270,10 @@ func (s *UpdateBillingOrderOK) Validate() error {
 }
 
 func (s *UpdateBillingOrderReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.TermLength.Get(); ok {
@@ -22131,6 +24313,10 @@ func (s UpdateBillingOrderReqTermLength) Validate() error {
 }
 
 func (s *UpdateContainerOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22157,6 +24343,10 @@ func (s *UpdateContainerOK) Validate() error {
 }
 
 func (s *UpdateDNSRecordOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22192,6 +24382,10 @@ func (s UpdateDNSZoneIncludeItem) Validate() error {
 }
 
 func (s *UpdateDNSZoneOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22236,6 +24430,10 @@ func (s *UpdateDNSZoneOK) Validate() error {
 }
 
 func (s *UpdateEnvironmentOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22273,6 +24471,10 @@ func (s UpdateGlobalLoadBalancerIncludeItem) Validate() error {
 }
 
 func (s *UpdateGlobalLoadBalancerOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22317,6 +24519,10 @@ func (s *UpdateGlobalLoadBalancerOK) Validate() error {
 }
 
 func (s *UpdateHubMemberOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22343,6 +24549,10 @@ func (s *UpdateHubMemberOK) Validate() error {
 }
 
 func (s *UpdateHubMemberReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Role.Get(); ok {
@@ -22402,6 +24612,10 @@ func (s UpdateHubMemberReqRole) Validate() error {
 }
 
 func (s *UpdateHubOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22428,6 +24642,10 @@ func (s *UpdateHubOK) Validate() error {
 }
 
 func (s *UpdateImageOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22454,6 +24672,10 @@ func (s *UpdateImageOK) Validate() error {
 }
 
 func (s *UpdateImageSourceOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22480,6 +24702,10 @@ func (s *UpdateImageSourceOK) Validate() error {
 }
 
 func (s *UpdateImageSourceReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Origin.Get(); ok {
@@ -22506,6 +24732,10 @@ func (s *UpdateImageSourceReq) Validate() error {
 }
 
 func (s *UpdatePasswordOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22532,6 +24762,10 @@ func (s *UpdatePasswordOK) Validate() error {
 }
 
 func (s *UpdatePipelineOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22558,6 +24792,10 @@ func (s *UpdatePipelineOK) Validate() error {
 }
 
 func (s *UpdatePipelineReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		var failures []validate.FieldError
@@ -22591,6 +24829,10 @@ func (s *UpdatePipelineReq) Validate() error {
 }
 
 func (s *UpdateProviderOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22628,6 +24870,10 @@ func (s UpdateSDNNetworkIncludeItem) Validate() error {
 }
 
 func (s *UpdateSDNNetworkOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22672,6 +24918,10 @@ func (s *UpdateSDNNetworkOK) Validate() error {
 }
 
 func (s *UpdateScopedVariableOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22698,6 +24948,10 @@ func (s *UpdateScopedVariableOK) Validate() error {
 }
 
 func (s *UpdateScopedVariableReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Scope.Get(); ok {
@@ -22724,6 +24978,10 @@ func (s *UpdateScopedVariableReq) Validate() error {
 }
 
 func (s *UpdateServerOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22750,6 +25008,10 @@ func (s *UpdateServerOK) Validate() error {
 }
 
 func (s *UpdateStackOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Data.Get(); ok {
@@ -22776,6 +25038,10 @@ func (s *UpdateStackOK) Validate() error {
 }
 
 func (s *UpdateStackReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Source.Get(); ok {
@@ -22802,6 +25068,10 @@ func (s *UpdateStackReq) Validate() error {
 }
 
 func (s *UserScope) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Type.Validate(); err != nil {
@@ -22842,6 +25112,10 @@ func (s UserScopeType) Validate() error {
 }
 
 func (s *V1LbConfig) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if s.Controllers == nil {
@@ -22878,6 +25152,10 @@ func (s *V1LbConfig) Validate() error {
 }
 
 func (s *V1LbConfigControllersItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Transport.Validate(); err != nil {
@@ -22897,6 +25175,10 @@ func (s *V1LbConfigControllersItem) Validate() error {
 }
 
 func (s *V1LbConfigControllersItemTransport) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Mode.Validate(); err != nil {
@@ -22955,6 +25237,10 @@ func (s *V1LbConfigControllersItemTransport) Validate() error {
 }
 
 func (s *V1LbConfigControllersItemTransportConfig) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Ingress.Validate(); err != nil {
@@ -22985,6 +25271,10 @@ func (s *V1LbConfigControllersItemTransportConfig) Validate() error {
 }
 
 func (s *V1LbConfigControllersItemTransportConfigIngress) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.TLS.Get(); ok {
@@ -23011,6 +25301,10 @@ func (s *V1LbConfigControllersItemTransportConfigIngress) Validate() error {
 }
 
 func (s *V1LbConfigControllersItemTransportConfigIngressTLS) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.ClientAuth.Get(); ok {
@@ -23078,6 +25372,10 @@ func (s V1LbConfigControllersItemTransportMode) Validate() error {
 }
 
 func (s *V1LbConfigRouter) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Mode.Validate(); err != nil {
@@ -23108,6 +25406,10 @@ func (s V1LbConfigRouterMode) Validate() error {
 }
 
 func (s *V1LbType) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Details.Get(); ok {
@@ -23143,6 +25445,10 @@ func (s V1LbTypeType) Validate() error {
 }
 
 func (s *VPNUsers) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -23162,6 +25468,10 @@ func (s *VPNUsers) Validate() error {
 }
 
 func (s *VolumeSummary) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Config.Validate(); err != nil {
@@ -23208,6 +25518,10 @@ func (s WebhookPostStepAction) Validate() error {
 }
 
 func (s *Zone) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Creator.Validate(); err != nil {
@@ -23238,6 +25552,10 @@ func (s *Zone) Validate() error {
 }
 
 func (s *ZoneIncludes) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if value, ok := s.Creators.Get(); ok {
@@ -23264,6 +25582,10 @@ func (s *ZoneIncludes) Validate() error {
 }
 
 func (s *ZoneState) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
 	var failures []validate.FieldError
 	if err := func() error {
 		if err := s.Current.Validate(); err != nil {

@@ -11600,10 +11600,9 @@ func (s *CreateScopedVariableCreated) SetData(val OptScopedVariable) {
 type CreateScopedVariableReq struct {
 	// An identifier, similar to a key in an environment variable.  Its used when envoking the scoped
 	// variable.
-	Identifier string `json:"identifier"`
-	// An object with information about the encryption of the scoped variable.
-	Secret OptNilCreateScopedVariableReqSecret `json:"secret"`
-	Scope  ScopedVariableScope                 `json:"scope"`
+	Identifier string                  `json:"identifier"`
+	Scope      ScopedVariableScope     `json:"scope"`
+	Access     OptScopedVariableAccess `json:"access"`
 	// The source or value of the scoped variable.
 	Source CreateScopedVariableReqSource `json:"source"`
 }
@@ -11613,14 +11612,14 @@ func (s *CreateScopedVariableReq) GetIdentifier() string {
 	return s.Identifier
 }
 
-// GetSecret returns the value of Secret.
-func (s *CreateScopedVariableReq) GetSecret() OptNilCreateScopedVariableReqSecret {
-	return s.Secret
-}
-
 // GetScope returns the value of Scope.
 func (s *CreateScopedVariableReq) GetScope() ScopedVariableScope {
 	return s.Scope
+}
+
+// GetAccess returns the value of Access.
+func (s *CreateScopedVariableReq) GetAccess() OptScopedVariableAccess {
+	return s.Access
 }
 
 // GetSource returns the value of Source.
@@ -11633,47 +11632,19 @@ func (s *CreateScopedVariableReq) SetIdentifier(val string) {
 	s.Identifier = val
 }
 
-// SetSecret sets the value of Secret.
-func (s *CreateScopedVariableReq) SetSecret(val OptNilCreateScopedVariableReqSecret) {
-	s.Secret = val
-}
-
 // SetScope sets the value of Scope.
 func (s *CreateScopedVariableReq) SetScope(val ScopedVariableScope) {
 	s.Scope = val
 }
 
+// SetAccess sets the value of Access.
+func (s *CreateScopedVariableReq) SetAccess(val OptScopedVariableAccess) {
+	s.Access = val
+}
+
 // SetSource sets the value of Source.
 func (s *CreateScopedVariableReq) SetSource(val CreateScopedVariableReqSource) {
 	s.Source = val
-}
-
-// An object with information about the encryption of the scoped variable.
-type CreateScopedVariableReqSecret struct {
-	// A boolean where true means the scoped variables value is encrypted.
-	Encrypted bool `json:"encrypted"`
-	// A hint for the decryption password.
-	Hint OptString `json:"hint"`
-}
-
-// GetEncrypted returns the value of Encrypted.
-func (s *CreateScopedVariableReqSecret) GetEncrypted() bool {
-	return s.Encrypted
-}
-
-// GetHint returns the value of Hint.
-func (s *CreateScopedVariableReqSecret) GetHint() OptString {
-	return s.Hint
-}
-
-// SetEncrypted sets the value of Encrypted.
-func (s *CreateScopedVariableReqSecret) SetEncrypted(val bool) {
-	s.Encrypted = val
-}
-
-// SetHint sets the value of Hint.
-func (s *CreateScopedVariableReqSecret) SetHint(val OptString) {
-	s.Hint = val
 }
 
 // The source or value of the scoped variable.
@@ -14158,6 +14129,9 @@ type DiscoveryEnvironmentService struct {
 	ContainerID string `json:"container_id"`
 	// A boolean representing if this service container is set to high availability mode or not.
 	HighAvailability bool `json:"high_availability"`
+	// A boolean where `true` represents the desire to automatically update the environment discovery
+	// service.
+	AutoUpdate OptBool `json:"auto_update"`
 	// The config object for the discovery service.
 	Config jx.Raw `json:"config"`
 }
@@ -14175,6 +14149,11 @@ func (s *DiscoveryEnvironmentService) GetContainerID() string {
 // GetHighAvailability returns the value of HighAvailability.
 func (s *DiscoveryEnvironmentService) GetHighAvailability() bool {
 	return s.HighAvailability
+}
+
+// GetAutoUpdate returns the value of AutoUpdate.
+func (s *DiscoveryEnvironmentService) GetAutoUpdate() OptBool {
+	return s.AutoUpdate
 }
 
 // GetConfig returns the value of Config.
@@ -14195,6 +14174,11 @@ func (s *DiscoveryEnvironmentService) SetContainerID(val string) {
 // SetHighAvailability sets the value of HighAvailability.
 func (s *DiscoveryEnvironmentService) SetHighAvailability(val bool) {
 	s.HighAvailability = val
+}
+
+// SetAutoUpdate sets the value of AutoUpdate.
+func (s *DiscoveryEnvironmentService) SetAutoUpdate(val OptBool) {
+	s.AutoUpdate = val
 }
 
 // SetConfig sets the value of Config.
@@ -14346,8 +14330,8 @@ func (s *DockerFileOrigin) SetDetails(val DockerFileOriginDetails) {
 }
 
 type DockerFileOriginDetails struct {
-	Existing OptExistingSource `json:"existing"`
-	Repo     OptRepoType       `json:"repo"`
+	Existing OptNilExistingSource `json:"existing"`
+	Repo     OptRepoType          `json:"repo"`
 	// An endpoint that serves the tar file.
 	TargzURL OptString `json:"targz_url"`
 	// The path to the directory to use as the context when building the image.
@@ -14358,7 +14342,7 @@ type DockerFileOriginDetails struct {
 }
 
 // GetExisting returns the value of Existing.
-func (s *DockerFileOriginDetails) GetExisting() OptExistingSource {
+func (s *DockerFileOriginDetails) GetExisting() OptNilExistingSource {
 	return s.Existing
 }
 
@@ -14388,7 +14372,7 @@ func (s *DockerFileOriginDetails) GetCredentials() DockerfileCredentials {
 }
 
 // SetExisting sets the value of Existing.
-func (s *DockerFileOriginDetails) SetExisting(val OptExistingSource) {
+func (s *DockerFileOriginDetails) SetExisting(val OptNilExistingSource) {
 	s.Existing = val
 }
 
@@ -32998,8 +32982,10 @@ type LoadBalancerEnvironmentService struct {
 	// The ID of the loadbalancer service container.
 	ContainerID NilString `json:"container_id"`
 	// A boolean representing if this service container is set to high availability mode or not.
-	HighAvailability bool                  `json:"high_availability"`
-	Config           NilLoadBalancerConfig `json:"config"`
+	HighAvailability bool `json:"high_availability"`
+	// A boolean representing if this service container is set to autoupdate or not.
+	AutoUpdate OptBool               `json:"auto_update"`
+	Config     NilLoadBalancerConfig `json:"config"`
 }
 
 // GetEnable returns the value of Enable.
@@ -33015,6 +33001,11 @@ func (s *LoadBalancerEnvironmentService) GetContainerID() NilString {
 // GetHighAvailability returns the value of HighAvailability.
 func (s *LoadBalancerEnvironmentService) GetHighAvailability() bool {
 	return s.HighAvailability
+}
+
+// GetAutoUpdate returns the value of AutoUpdate.
+func (s *LoadBalancerEnvironmentService) GetAutoUpdate() OptBool {
+	return s.AutoUpdate
 }
 
 // GetConfig returns the value of Config.
@@ -33035,6 +33026,11 @@ func (s *LoadBalancerEnvironmentService) SetContainerID(val NilString) {
 // SetHighAvailability sets the value of HighAvailability.
 func (s *LoadBalancerEnvironmentService) SetHighAvailability(val bool) {
 	s.HighAvailability = val
+}
+
+// SetAutoUpdate sets the value of AutoUpdate.
+func (s *LoadBalancerEnvironmentService) SetAutoUpdate(val OptBool) {
+	s.AutoUpdate = val
 }
 
 // SetConfig sets the value of Config.
@@ -37769,37 +37765,37 @@ func (o NilRegistryAuth) Or(d RegistryAuth) RegistryAuth {
 	return d
 }
 
-// NewNilScopedVariableSecret returns new NilScopedVariableSecret with value set to v.
-func NewNilScopedVariableSecret(v ScopedVariableSecret) NilScopedVariableSecret {
-	return NilScopedVariableSecret{
+// NewNilScopedVariableSource returns new NilScopedVariableSource with value set to v.
+func NewNilScopedVariableSource(v ScopedVariableSource) NilScopedVariableSource {
+	return NilScopedVariableSource{
 		Value: v,
 	}
 }
 
-// NilScopedVariableSecret is nullable ScopedVariableSecret.
-type NilScopedVariableSecret struct {
-	Value ScopedVariableSecret
+// NilScopedVariableSource is nullable ScopedVariableSource.
+type NilScopedVariableSource struct {
+	Value ScopedVariableSource
 	Null  bool
 }
 
 // SetTo sets value to v.
-func (o *NilScopedVariableSecret) SetTo(v ScopedVariableSecret) {
+func (o *NilScopedVariableSource) SetTo(v ScopedVariableSource) {
 	o.Null = false
 	o.Value = v
 }
 
 // IsSet returns true if value is Null.
-func (o NilScopedVariableSecret) IsNull() bool { return o.Null }
+func (o NilScopedVariableSource) IsNull() bool { return o.Null }
 
 // SetNull sets value to null.
-func (o *NilScopedVariableSecret) SetToNull() {
+func (o *NilScopedVariableSource) SetToNull() {
 	o.Null = true
-	var v ScopedVariableSecret
+	var v ScopedVariableSource
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o NilScopedVariableSecret) Get() (v ScopedVariableSecret, ok bool) {
+func (o NilScopedVariableSource) Get() (v ScopedVariableSource, ok bool) {
 	if o.Null {
 		return v, false
 	}
@@ -37807,7 +37803,7 @@ func (o NilScopedVariableSecret) Get() (v ScopedVariableSecret, ok bool) {
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o NilScopedVariableSecret) Or(d ScopedVariableSecret) ScopedVariableSecret {
+func (o NilScopedVariableSource) Or(d ScopedVariableSource) ScopedVariableSource {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -37904,6 +37900,51 @@ func (o NilStackContainerConfigIntegrationsBackupsRestore) Or(d StackContainerCo
 	return d
 }
 
+// NewNilStackSpec returns new NilStackSpec with value set to v.
+func NewNilStackSpec(v StackSpec) NilStackSpec {
+	return NilStackSpec{
+		Value: v,
+	}
+}
+
+// NilStackSpec is nullable StackSpec.
+type NilStackSpec struct {
+	Value StackSpec
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilStackSpec) SetTo(v StackSpec) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilStackSpec) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilStackSpec) SetToNull() {
+	o.Null = true
+	var v StackSpec
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilStackSpec) Get() (v StackSpec, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilStackSpec) Or(d StackSpec) StackSpec {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewNilStackSpecContainerImage returns new NilStackSpecContainerImage with value set to v.
 func NewNilStackSpecContainerImage(v StackSpecContainerImage) NilStackSpecContainerImage {
 	return NilStackSpecContainerImage{
@@ -37943,6 +37984,96 @@ func (o NilStackSpecContainerImage) Get() (v StackSpecContainerImage, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o NilStackSpecContainerImage) Or(d StackSpecContainerImage) StackSpecContainerImage {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilStackSpecScopedVariableRawSourceDetailsSecret returns new NilStackSpecScopedVariableRawSourceDetailsSecret with value set to v.
+func NewNilStackSpecScopedVariableRawSourceDetailsSecret(v StackSpecScopedVariableRawSourceDetailsSecret) NilStackSpecScopedVariableRawSourceDetailsSecret {
+	return NilStackSpecScopedVariableRawSourceDetailsSecret{
+		Value: v,
+	}
+}
+
+// NilStackSpecScopedVariableRawSourceDetailsSecret is nullable StackSpecScopedVariableRawSourceDetailsSecret.
+type NilStackSpecScopedVariableRawSourceDetailsSecret struct {
+	Value StackSpecScopedVariableRawSourceDetailsSecret
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilStackSpecScopedVariableRawSourceDetailsSecret) SetTo(v StackSpecScopedVariableRawSourceDetailsSecret) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilStackSpecScopedVariableRawSourceDetailsSecret) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilStackSpecScopedVariableRawSourceDetailsSecret) SetToNull() {
+	o.Null = true
+	var v StackSpecScopedVariableRawSourceDetailsSecret
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilStackSpecScopedVariableRawSourceDetailsSecret) Get() (v StackSpecScopedVariableRawSourceDetailsSecret, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilStackSpecScopedVariableRawSourceDetailsSecret) Or(d StackSpecScopedVariableRawSourceDetailsSecret) StackSpecScopedVariableRawSourceDetailsSecret {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewNilStackSpecScopedVariableSource returns new NilStackSpecScopedVariableSource with value set to v.
+func NewNilStackSpecScopedVariableSource(v StackSpecScopedVariableSource) NilStackSpecScopedVariableSource {
+	return NilStackSpecScopedVariableSource{
+		Value: v,
+	}
+}
+
+// NilStackSpecScopedVariableSource is nullable StackSpecScopedVariableSource.
+type NilStackSpecScopedVariableSource struct {
+	Value StackSpecScopedVariableSource
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilStackSpecScopedVariableSource) SetTo(v StackSpecScopedVariableSource) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilStackSpecScopedVariableSource) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilStackSpecScopedVariableSource) SetToNull() {
+	o.Null = true
+	var v StackSpecScopedVariableSource
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilStackSpecScopedVariableSource) Get() (v StackSpecScopedVariableSource, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilStackSpecScopedVariableSource) Or(d StackSpecScopedVariableSource) StackSpecScopedVariableSource {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -53902,69 +54033,6 @@ func (o OptNilContainerRuntimeSeccomp) Or(d ContainerRuntimeSeccomp) ContainerRu
 	return d
 }
 
-// NewOptNilCreateScopedVariableReqSecret returns new OptNilCreateScopedVariableReqSecret with value set to v.
-func NewOptNilCreateScopedVariableReqSecret(v CreateScopedVariableReqSecret) OptNilCreateScopedVariableReqSecret {
-	return OptNilCreateScopedVariableReqSecret{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilCreateScopedVariableReqSecret is optional nullable CreateScopedVariableReqSecret.
-type OptNilCreateScopedVariableReqSecret struct {
-	Value CreateScopedVariableReqSecret
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilCreateScopedVariableReqSecret was set.
-func (o OptNilCreateScopedVariableReqSecret) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilCreateScopedVariableReqSecret) Reset() {
-	var v CreateScopedVariableReqSecret
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilCreateScopedVariableReqSecret) SetTo(v CreateScopedVariableReqSecret) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsSet returns true if value is Null.
-func (o OptNilCreateScopedVariableReqSecret) IsNull() bool { return o.Null }
-
-// SetNull sets value to null.
-func (o *OptNilCreateScopedVariableReqSecret) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v CreateScopedVariableReqSecret
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilCreateScopedVariableReqSecret) Get() (v CreateScopedVariableReqSecret, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilCreateScopedVariableReqSecret) Or(d CreateScopedVariableReqSecret) CreateScopedVariableReqSecret {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptNilDiscoveryEnvironmentService returns new OptNilDiscoveryEnvironmentService with value set to v.
 func NewOptNilDiscoveryEnvironmentService(v DiscoveryEnvironmentService) OptNilDiscoveryEnvironmentService {
 	return OptNilDiscoveryEnvironmentService{
@@ -54148,6 +54216,69 @@ func (o OptNilEmployeeLoginTwoFactorAuth) Get() (v EmployeeLoginTwoFactorAuth, o
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilEmployeeLoginTwoFactorAuth) Or(d EmployeeLoginTwoFactorAuth) EmployeeLoginTwoFactorAuth {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilExistingSource returns new OptNilExistingSource with value set to v.
+func NewOptNilExistingSource(v ExistingSource) OptNilExistingSource {
+	return OptNilExistingSource{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilExistingSource is optional nullable ExistingSource.
+type OptNilExistingSource struct {
+	Value ExistingSource
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilExistingSource was set.
+func (o OptNilExistingSource) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilExistingSource) Reset() {
+	var v ExistingSource
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilExistingSource) SetTo(v ExistingSource) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilExistingSource) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilExistingSource) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ExistingSource
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilExistingSource) Get() (v ExistingSource, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilExistingSource) Or(d ExistingSource) ExistingSource {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -54595,6 +54726,384 @@ func (o OptNilLogsError) Or(d LogsError) LogsError {
 	return d
 }
 
+// NewOptNilRawSourceDetailsSecret returns new OptNilRawSourceDetailsSecret with value set to v.
+func NewOptNilRawSourceDetailsSecret(v RawSourceDetailsSecret) OptNilRawSourceDetailsSecret {
+	return OptNilRawSourceDetailsSecret{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilRawSourceDetailsSecret is optional nullable RawSourceDetailsSecret.
+type OptNilRawSourceDetailsSecret struct {
+	Value RawSourceDetailsSecret
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilRawSourceDetailsSecret was set.
+func (o OptNilRawSourceDetailsSecret) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilRawSourceDetailsSecret) Reset() {
+	var v RawSourceDetailsSecret
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilRawSourceDetailsSecret) SetTo(v RawSourceDetailsSecret) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilRawSourceDetailsSecret) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilRawSourceDetailsSecret) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v RawSourceDetailsSecret
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilRawSourceDetailsSecret) Get() (v RawSourceDetailsSecret, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilRawSourceDetailsSecret) Or(d RawSourceDetailsSecret) RawSourceDetailsSecret {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilRepoTypeAuth returns new OptNilRepoTypeAuth with value set to v.
+func NewOptNilRepoTypeAuth(v RepoTypeAuth) OptNilRepoTypeAuth {
+	return OptNilRepoTypeAuth{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilRepoTypeAuth is optional nullable RepoTypeAuth.
+type OptNilRepoTypeAuth struct {
+	Value RepoTypeAuth
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilRepoTypeAuth was set.
+func (o OptNilRepoTypeAuth) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilRepoTypeAuth) Reset() {
+	var v RepoTypeAuth
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilRepoTypeAuth) SetTo(v RepoTypeAuth) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilRepoTypeAuth) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilRepoTypeAuth) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v RepoTypeAuth
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilRepoTypeAuth) Get() (v RepoTypeAuth, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilRepoTypeAuth) Or(d RepoTypeAuth) RepoTypeAuth {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilRepoTypeRef returns new OptNilRepoTypeRef with value set to v.
+func NewOptNilRepoTypeRef(v RepoTypeRef) OptNilRepoTypeRef {
+	return OptNilRepoTypeRef{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilRepoTypeRef is optional nullable RepoTypeRef.
+type OptNilRepoTypeRef struct {
+	Value RepoTypeRef
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilRepoTypeRef was set.
+func (o OptNilRepoTypeRef) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilRepoTypeRef) Reset() {
+	var v RepoTypeRef
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilRepoTypeRef) SetTo(v RepoTypeRef) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilRepoTypeRef) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilRepoTypeRef) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v RepoTypeRef
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilRepoTypeRef) Get() (v RepoTypeRef, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilRepoTypeRef) Or(d RepoTypeRef) RepoTypeRef {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilScopedVariableAccessFile returns new OptNilScopedVariableAccessFile with value set to v.
+func NewOptNilScopedVariableAccessFile(v ScopedVariableAccessFile) OptNilScopedVariableAccessFile {
+	return OptNilScopedVariableAccessFile{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilScopedVariableAccessFile is optional nullable ScopedVariableAccessFile.
+type OptNilScopedVariableAccessFile struct {
+	Value ScopedVariableAccessFile
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilScopedVariableAccessFile was set.
+func (o OptNilScopedVariableAccessFile) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilScopedVariableAccessFile) Reset() {
+	var v ScopedVariableAccessFile
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilScopedVariableAccessFile) SetTo(v ScopedVariableAccessFile) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilScopedVariableAccessFile) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilScopedVariableAccessFile) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ScopedVariableAccessFile
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilScopedVariableAccessFile) Get() (v ScopedVariableAccessFile, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilScopedVariableAccessFile) Or(d ScopedVariableAccessFile) ScopedVariableAccessFile {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilScopedVariableAccessInternalAPI returns new OptNilScopedVariableAccessInternalAPI with value set to v.
+func NewOptNilScopedVariableAccessInternalAPI(v ScopedVariableAccessInternalAPI) OptNilScopedVariableAccessInternalAPI {
+	return OptNilScopedVariableAccessInternalAPI{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilScopedVariableAccessInternalAPI is optional nullable ScopedVariableAccessInternalAPI.
+type OptNilScopedVariableAccessInternalAPI struct {
+	Value ScopedVariableAccessInternalAPI
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilScopedVariableAccessInternalAPI was set.
+func (o OptNilScopedVariableAccessInternalAPI) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilScopedVariableAccessInternalAPI) Reset() {
+	var v ScopedVariableAccessInternalAPI
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilScopedVariableAccessInternalAPI) SetTo(v ScopedVariableAccessInternalAPI) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilScopedVariableAccessInternalAPI) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilScopedVariableAccessInternalAPI) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ScopedVariableAccessInternalAPI
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilScopedVariableAccessInternalAPI) Get() (v ScopedVariableAccessInternalAPI, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilScopedVariableAccessInternalAPI) Or(d ScopedVariableAccessInternalAPI) ScopedVariableAccessInternalAPI {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilScopedVariableAccessInternalAPIDuration returns new OptNilScopedVariableAccessInternalAPIDuration with value set to v.
+func NewOptNilScopedVariableAccessInternalAPIDuration(v ScopedVariableAccessInternalAPIDuration) OptNilScopedVariableAccessInternalAPIDuration {
+	return OptNilScopedVariableAccessInternalAPIDuration{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilScopedVariableAccessInternalAPIDuration is optional nullable ScopedVariableAccessInternalAPIDuration.
+type OptNilScopedVariableAccessInternalAPIDuration struct {
+	Value ScopedVariableAccessInternalAPIDuration
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilScopedVariableAccessInternalAPIDuration was set.
+func (o OptNilScopedVariableAccessInternalAPIDuration) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilScopedVariableAccessInternalAPIDuration) Reset() {
+	var v ScopedVariableAccessInternalAPIDuration
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilScopedVariableAccessInternalAPIDuration) SetTo(v ScopedVariableAccessInternalAPIDuration) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilScopedVariableAccessInternalAPIDuration) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilScopedVariableAccessInternalAPIDuration) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ScopedVariableAccessInternalAPIDuration
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilScopedVariableAccessInternalAPIDuration) Get() (v ScopedVariableAccessInternalAPIDuration, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilScopedVariableAccessInternalAPIDuration) Or(d ScopedVariableAccessInternalAPIDuration) ScopedVariableAccessInternalAPIDuration {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilStackContainerConfigIntegrationsSharedDirectories returns new OptNilStackContainerConfigIntegrationsSharedDirectories with value set to v.
 func NewOptNilStackContainerConfigIntegrationsSharedDirectories(v StackContainerConfigIntegrationsSharedDirectories) OptNilStackContainerConfigIntegrationsSharedDirectories {
 	return OptNilStackContainerConfigIntegrationsSharedDirectories{
@@ -54847,6 +55356,384 @@ func (o OptNilStackContainerConfigRuntimeHost) Or(d StackContainerConfigRuntimeH
 	return d
 }
 
+// NewOptNilStackRepoSourceDetailsAuth returns new OptNilStackRepoSourceDetailsAuth with value set to v.
+func NewOptNilStackRepoSourceDetailsAuth(v StackRepoSourceDetailsAuth) OptNilStackRepoSourceDetailsAuth {
+	return OptNilStackRepoSourceDetailsAuth{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStackRepoSourceDetailsAuth is optional nullable StackRepoSourceDetailsAuth.
+type OptNilStackRepoSourceDetailsAuth struct {
+	Value StackRepoSourceDetailsAuth
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStackRepoSourceDetailsAuth was set.
+func (o OptNilStackRepoSourceDetailsAuth) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStackRepoSourceDetailsAuth) Reset() {
+	var v StackRepoSourceDetailsAuth
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStackRepoSourceDetailsAuth) SetTo(v StackRepoSourceDetailsAuth) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilStackRepoSourceDetailsAuth) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilStackRepoSourceDetailsAuth) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v StackRepoSourceDetailsAuth
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStackRepoSourceDetailsAuth) Get() (v StackRepoSourceDetailsAuth, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStackRepoSourceDetailsAuth) Or(d StackRepoSourceDetailsAuth) StackRepoSourceDetailsAuth {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilStackRepoSourceDetailsRef returns new OptNilStackRepoSourceDetailsRef with value set to v.
+func NewOptNilStackRepoSourceDetailsRef(v StackRepoSourceDetailsRef) OptNilStackRepoSourceDetailsRef {
+	return OptNilStackRepoSourceDetailsRef{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStackRepoSourceDetailsRef is optional nullable StackRepoSourceDetailsRef.
+type OptNilStackRepoSourceDetailsRef struct {
+	Value StackRepoSourceDetailsRef
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStackRepoSourceDetailsRef was set.
+func (o OptNilStackRepoSourceDetailsRef) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStackRepoSourceDetailsRef) Reset() {
+	var v StackRepoSourceDetailsRef
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStackRepoSourceDetailsRef) SetTo(v StackRepoSourceDetailsRef) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilStackRepoSourceDetailsRef) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilStackRepoSourceDetailsRef) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v StackRepoSourceDetailsRef
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStackRepoSourceDetailsRef) Get() (v StackRepoSourceDetailsRef, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStackRepoSourceDetailsRef) Or(d StackRepoSourceDetailsRef) StackRepoSourceDetailsRef {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilStackSpecScopedVariableAccessFile returns new OptNilStackSpecScopedVariableAccessFile with value set to v.
+func NewOptNilStackSpecScopedVariableAccessFile(v StackSpecScopedVariableAccessFile) OptNilStackSpecScopedVariableAccessFile {
+	return OptNilStackSpecScopedVariableAccessFile{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStackSpecScopedVariableAccessFile is optional nullable StackSpecScopedVariableAccessFile.
+type OptNilStackSpecScopedVariableAccessFile struct {
+	Value StackSpecScopedVariableAccessFile
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStackSpecScopedVariableAccessFile was set.
+func (o OptNilStackSpecScopedVariableAccessFile) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStackSpecScopedVariableAccessFile) Reset() {
+	var v StackSpecScopedVariableAccessFile
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStackSpecScopedVariableAccessFile) SetTo(v StackSpecScopedVariableAccessFile) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilStackSpecScopedVariableAccessFile) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilStackSpecScopedVariableAccessFile) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v StackSpecScopedVariableAccessFile
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStackSpecScopedVariableAccessFile) Get() (v StackSpecScopedVariableAccessFile, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStackSpecScopedVariableAccessFile) Or(d StackSpecScopedVariableAccessFile) StackSpecScopedVariableAccessFile {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilStackSpecScopedVariableAccessInternalAPI returns new OptNilStackSpecScopedVariableAccessInternalAPI with value set to v.
+func NewOptNilStackSpecScopedVariableAccessInternalAPI(v StackSpecScopedVariableAccessInternalAPI) OptNilStackSpecScopedVariableAccessInternalAPI {
+	return OptNilStackSpecScopedVariableAccessInternalAPI{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStackSpecScopedVariableAccessInternalAPI is optional nullable StackSpecScopedVariableAccessInternalAPI.
+type OptNilStackSpecScopedVariableAccessInternalAPI struct {
+	Value StackSpecScopedVariableAccessInternalAPI
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStackSpecScopedVariableAccessInternalAPI was set.
+func (o OptNilStackSpecScopedVariableAccessInternalAPI) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStackSpecScopedVariableAccessInternalAPI) Reset() {
+	var v StackSpecScopedVariableAccessInternalAPI
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStackSpecScopedVariableAccessInternalAPI) SetTo(v StackSpecScopedVariableAccessInternalAPI) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilStackSpecScopedVariableAccessInternalAPI) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilStackSpecScopedVariableAccessInternalAPI) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v StackSpecScopedVariableAccessInternalAPI
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStackSpecScopedVariableAccessInternalAPI) Get() (v StackSpecScopedVariableAccessInternalAPI, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStackSpecScopedVariableAccessInternalAPI) Or(d StackSpecScopedVariableAccessInternalAPI) StackSpecScopedVariableAccessInternalAPI {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilStackSpecScopedVariableAccessInternalAPIDuration returns new OptNilStackSpecScopedVariableAccessInternalAPIDuration with value set to v.
+func NewOptNilStackSpecScopedVariableAccessInternalAPIDuration(v StackSpecScopedVariableAccessInternalAPIDuration) OptNilStackSpecScopedVariableAccessInternalAPIDuration {
+	return OptNilStackSpecScopedVariableAccessInternalAPIDuration{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStackSpecScopedVariableAccessInternalAPIDuration is optional nullable StackSpecScopedVariableAccessInternalAPIDuration.
+type OptNilStackSpecScopedVariableAccessInternalAPIDuration struct {
+	Value StackSpecScopedVariableAccessInternalAPIDuration
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStackSpecScopedVariableAccessInternalAPIDuration was set.
+func (o OptNilStackSpecScopedVariableAccessInternalAPIDuration) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStackSpecScopedVariableAccessInternalAPIDuration) Reset() {
+	var v StackSpecScopedVariableAccessInternalAPIDuration
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStackSpecScopedVariableAccessInternalAPIDuration) SetTo(v StackSpecScopedVariableAccessInternalAPIDuration) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilStackSpecScopedVariableAccessInternalAPIDuration) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilStackSpecScopedVariableAccessInternalAPIDuration) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v StackSpecScopedVariableAccessInternalAPIDuration
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStackSpecScopedVariableAccessInternalAPIDuration) Get() (v StackSpecScopedVariableAccessInternalAPIDuration, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStackSpecScopedVariableAccessInternalAPIDuration) Or(d StackSpecScopedVariableAccessInternalAPIDuration) StackSpecScopedVariableAccessInternalAPIDuration {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilStackSpecScopedVariableArray returns new OptNilStackSpecScopedVariableArray with value set to v.
+func NewOptNilStackSpecScopedVariableArray(v []StackSpecScopedVariable) OptNilStackSpecScopedVariableArray {
+	return OptNilStackSpecScopedVariableArray{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStackSpecScopedVariableArray is optional nullable []StackSpecScopedVariable.
+type OptNilStackSpecScopedVariableArray struct {
+	Value []StackSpecScopedVariable
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStackSpecScopedVariableArray was set.
+func (o OptNilStackSpecScopedVariableArray) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStackSpecScopedVariableArray) Reset() {
+	var v []StackSpecScopedVariable
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStackSpecScopedVariableArray) SetTo(v []StackSpecScopedVariable) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilStackSpecScopedVariableArray) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilStackSpecScopedVariableArray) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v []StackSpecScopedVariable
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStackSpecScopedVariableArray) Get() (v []StackSpecScopedVariable, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStackSpecScopedVariableArray) Or(d []StackSpecScopedVariable) []StackSpecScopedVariable {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilString returns new OptNilString with value set to v.
 func NewOptNilString(v string) OptNilString {
 	return OptNilString{
@@ -54967,69 +55854,6 @@ func (o OptNilStringArray) Get() (v []string, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilStringArray) Or(d []string) []string {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptNilUpdateScopedVariableReqSecret returns new OptNilUpdateScopedVariableReqSecret with value set to v.
-func NewOptNilUpdateScopedVariableReqSecret(v UpdateScopedVariableReqSecret) OptNilUpdateScopedVariableReqSecret {
-	return OptNilUpdateScopedVariableReqSecret{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptNilUpdateScopedVariableReqSecret is optional nullable UpdateScopedVariableReqSecret.
-type OptNilUpdateScopedVariableReqSecret struct {
-	Value UpdateScopedVariableReqSecret
-	Set   bool
-	Null  bool
-}
-
-// IsSet returns true if OptNilUpdateScopedVariableReqSecret was set.
-func (o OptNilUpdateScopedVariableReqSecret) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptNilUpdateScopedVariableReqSecret) Reset() {
-	var v UpdateScopedVariableReqSecret
-	o.Value = v
-	o.Set = false
-	o.Null = false
-}
-
-// SetTo sets value to v.
-func (o *OptNilUpdateScopedVariableReqSecret) SetTo(v UpdateScopedVariableReqSecret) {
-	o.Set = true
-	o.Null = false
-	o.Value = v
-}
-
-// IsSet returns true if value is Null.
-func (o OptNilUpdateScopedVariableReqSecret) IsNull() bool { return o.Null }
-
-// SetNull sets value to null.
-func (o *OptNilUpdateScopedVariableReqSecret) SetToNull() {
-	o.Set = true
-	o.Null = true
-	var v UpdateScopedVariableReqSecret
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptNilUpdateScopedVariableReqSecret) Get() (v UpdateScopedVariableReqSecret, ok bool) {
-	if o.Null {
-		return v, false
-	}
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptNilUpdateScopedVariableReqSecret) Or(d UpdateScopedVariableReqSecret) UpdateScopedVariableReqSecret {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -57065,98 +57889,6 @@ func (o OptRepoType) Or(d RepoType) RepoType {
 	return d
 }
 
-// NewOptRepoTypeAuth returns new OptRepoTypeAuth with value set to v.
-func NewOptRepoTypeAuth(v RepoTypeAuth) OptRepoTypeAuth {
-	return OptRepoTypeAuth{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptRepoTypeAuth is optional RepoTypeAuth.
-type OptRepoTypeAuth struct {
-	Value RepoTypeAuth
-	Set   bool
-}
-
-// IsSet returns true if OptRepoTypeAuth was set.
-func (o OptRepoTypeAuth) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptRepoTypeAuth) Reset() {
-	var v RepoTypeAuth
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptRepoTypeAuth) SetTo(v RepoTypeAuth) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptRepoTypeAuth) Get() (v RepoTypeAuth, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptRepoTypeAuth) Or(d RepoTypeAuth) RepoTypeAuth {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptRepoTypeRef returns new OptRepoTypeRef with value set to v.
-func NewOptRepoTypeRef(v RepoTypeRef) OptRepoTypeRef {
-	return OptRepoTypeRef{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptRepoTypeRef is optional RepoTypeRef.
-type OptRepoTypeRef struct {
-	Value RepoTypeRef
-	Set   bool
-}
-
-// IsSet returns true if OptRepoTypeRef was set.
-func (o OptRepoTypeRef) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptRepoTypeRef) Reset() {
-	var v RepoTypeRef
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptRepoTypeRef) SetTo(v RepoTypeRef) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptRepoTypeRef) Get() (v RepoTypeRef, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptRepoTypeRef) Or(d RepoTypeRef) RepoTypeRef {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
 // NewOptResetPasswordOKData returns new OptResetPasswordOKData with value set to v.
 func NewOptResetPasswordOKData(v ResetPasswordOKData) OptResetPasswordOKData {
 	return OptResetPasswordOKData{
@@ -57473,6 +58205,52 @@ func (o OptScopedVariable) Get() (v ScopedVariable, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptScopedVariable) Or(d ScopedVariable) ScopedVariable {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptScopedVariableAccess returns new OptScopedVariableAccess with value set to v.
+func NewOptScopedVariableAccess(v ScopedVariableAccess) OptScopedVariableAccess {
+	return OptScopedVariableAccess{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptScopedVariableAccess is optional ScopedVariableAccess.
+type OptScopedVariableAccess struct {
+	Value ScopedVariableAccess
+	Set   bool
+}
+
+// IsSet returns true if OptScopedVariableAccess was set.
+func (o OptScopedVariableAccess) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptScopedVariableAccess) Reset() {
+	var v ScopedVariableAccess
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptScopedVariableAccess) SetTo(v ScopedVariableAccess) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptScopedVariableAccess) Get() (v ScopedVariableAccess, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptScopedVariableAccess) Or(d ScopedVariableAccess) ScopedVariableAccess {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -60653,38 +61431,38 @@ func (o OptStackContainerConfigScaling) Or(d StackContainerConfigScaling) StackC
 	return d
 }
 
-// NewOptStackContainerItemConfig returns new OptStackContainerItemConfig with value set to v.
-func NewOptStackContainerItemConfig(v StackContainerItemConfig) OptStackContainerItemConfig {
-	return OptStackContainerItemConfig{
+// NewOptStackContainerItemAnnotations returns new OptStackContainerItemAnnotations with value set to v.
+func NewOptStackContainerItemAnnotations(v StackContainerItemAnnotations) OptStackContainerItemAnnotations {
+	return OptStackContainerItemAnnotations{
 		Value: v,
 		Set:   true,
 	}
 }
 
-// OptStackContainerItemConfig is optional StackContainerItemConfig.
-type OptStackContainerItemConfig struct {
-	Value StackContainerItemConfig
+// OptStackContainerItemAnnotations is optional StackContainerItemAnnotations.
+type OptStackContainerItemAnnotations struct {
+	Value StackContainerItemAnnotations
 	Set   bool
 }
 
-// IsSet returns true if OptStackContainerItemConfig was set.
-func (o OptStackContainerItemConfig) IsSet() bool { return o.Set }
+// IsSet returns true if OptStackContainerItemAnnotations was set.
+func (o OptStackContainerItemAnnotations) IsSet() bool { return o.Set }
 
 // Reset unsets value.
-func (o *OptStackContainerItemConfig) Reset() {
-	var v StackContainerItemConfig
+func (o *OptStackContainerItemAnnotations) Reset() {
+	var v StackContainerItemAnnotations
 	o.Value = v
 	o.Set = false
 }
 
 // SetTo sets value to v.
-func (o *OptStackContainerItemConfig) SetTo(v StackContainerItemConfig) {
+func (o *OptStackContainerItemAnnotations) SetTo(v StackContainerItemAnnotations) {
 	o.Set = true
 	o.Value = v
 }
 
 // Get returns value and boolean that denotes whether value was set.
-func (o OptStackContainerItemConfig) Get() (v StackContainerItemConfig, ok bool) {
+func (o OptStackContainerItemAnnotations) Get() (v StackContainerItemAnnotations, ok bool) {
 	if !o.Set {
 		return v, false
 	}
@@ -60692,7 +61470,7 @@ func (o OptStackContainerItemConfig) Get() (v StackContainerItemConfig, ok bool)
 }
 
 // Or returns value if set, or given parameter if does not.
-func (o OptStackContainerItemConfig) Or(d StackContainerItemConfig) StackContainerItemConfig {
+func (o OptStackContainerItemAnnotations) Or(d StackContainerItemAnnotations) StackContainerItemAnnotations {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -61199,98 +61977,6 @@ func (o OptStackMeta) Get() (v StackMeta, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptStackMeta) Or(d StackMeta) StackMeta {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptStackRepoSourceDetailsAuth returns new OptStackRepoSourceDetailsAuth with value set to v.
-func NewOptStackRepoSourceDetailsAuth(v StackRepoSourceDetailsAuth) OptStackRepoSourceDetailsAuth {
-	return OptStackRepoSourceDetailsAuth{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptStackRepoSourceDetailsAuth is optional StackRepoSourceDetailsAuth.
-type OptStackRepoSourceDetailsAuth struct {
-	Value StackRepoSourceDetailsAuth
-	Set   bool
-}
-
-// IsSet returns true if OptStackRepoSourceDetailsAuth was set.
-func (o OptStackRepoSourceDetailsAuth) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptStackRepoSourceDetailsAuth) Reset() {
-	var v StackRepoSourceDetailsAuth
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptStackRepoSourceDetailsAuth) SetTo(v StackRepoSourceDetailsAuth) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptStackRepoSourceDetailsAuth) Get() (v StackRepoSourceDetailsAuth, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptStackRepoSourceDetailsAuth) Or(d StackRepoSourceDetailsAuth) StackRepoSourceDetailsAuth {
-	if v, ok := o.Get(); ok {
-		return v
-	}
-	return d
-}
-
-// NewOptStackRepoSourceDetailsRef returns new OptStackRepoSourceDetailsRef with value set to v.
-func NewOptStackRepoSourceDetailsRef(v StackRepoSourceDetailsRef) OptStackRepoSourceDetailsRef {
-	return OptStackRepoSourceDetailsRef{
-		Value: v,
-		Set:   true,
-	}
-}
-
-// OptStackRepoSourceDetailsRef is optional StackRepoSourceDetailsRef.
-type OptStackRepoSourceDetailsRef struct {
-	Value StackRepoSourceDetailsRef
-	Set   bool
-}
-
-// IsSet returns true if OptStackRepoSourceDetailsRef was set.
-func (o OptStackRepoSourceDetailsRef) IsSet() bool { return o.Set }
-
-// Reset unsets value.
-func (o *OptStackRepoSourceDetailsRef) Reset() {
-	var v StackRepoSourceDetailsRef
-	o.Value = v
-	o.Set = false
-}
-
-// SetTo sets value to v.
-func (o *OptStackRepoSourceDetailsRef) SetTo(v StackRepoSourceDetailsRef) {
-	o.Set = true
-	o.Value = v
-}
-
-// Get returns value and boolean that denotes whether value was set.
-func (o OptStackRepoSourceDetailsRef) Get() (v StackRepoSourceDetailsRef, ok bool) {
-	if !o.Set {
-		return v, false
-	}
-	return o.Value, true
-}
-
-// Or returns value if set, or given parameter if does not.
-func (o OptStackRepoSourceDetailsRef) Or(d StackRepoSourceDetailsRef) StackRepoSourceDetailsRef {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -67586,15 +68272,16 @@ func (s *RawSource) SetDetails(val RawSourceDetails) {
 }
 
 type RawSourceDetails struct {
-	// The value of the source.
-	String string `json:"string"`
+	// The value of the variable.
+	Value string `json:"value"`
 	// A boolean where true represents the text the user is entering will be multi line.
-	Blob bool `json:"blob"`
+	Blob   bool                         `json:"blob"`
+	Secret OptNilRawSourceDetailsSecret `json:"secret"`
 }
 
-// GetString returns the value of String.
-func (s *RawSourceDetails) GetString() string {
-	return s.String
+// GetValue returns the value of Value.
+func (s *RawSourceDetails) GetValue() string {
+	return s.Value
 }
 
 // GetBlob returns the value of Blob.
@@ -67602,14 +68289,51 @@ func (s *RawSourceDetails) GetBlob() bool {
 	return s.Blob
 }
 
-// SetString sets the value of String.
-func (s *RawSourceDetails) SetString(val string) {
-	s.String = val
+// GetSecret returns the value of Secret.
+func (s *RawSourceDetails) GetSecret() OptNilRawSourceDetailsSecret {
+	return s.Secret
+}
+
+// SetValue sets the value of Value.
+func (s *RawSourceDetails) SetValue(val string) {
+	s.Value = val
 }
 
 // SetBlob sets the value of Blob.
 func (s *RawSourceDetails) SetBlob(val bool) {
 	s.Blob = val
+}
+
+// SetSecret sets the value of Secret.
+func (s *RawSourceDetails) SetSecret(val OptNilRawSourceDetailsSecret) {
+	s.Secret = val
+}
+
+type RawSourceDetailsSecret struct {
+	// A string describing the IV Hex associated with the encryption of the variable.
+	Iv OptString `json:"iv"`
+	// A user specified hint that will suggest what the encryption key might be.
+	Hint OptNilString `json:"hint"`
+}
+
+// GetIv returns the value of Iv.
+func (s *RawSourceDetailsSecret) GetIv() OptString {
+	return s.Iv
+}
+
+// GetHint returns the value of Hint.
+func (s *RawSourceDetailsSecret) GetHint() OptNilString {
+	return s.Hint
+}
+
+// SetIv sets the value of Iv.
+func (s *RawSourceDetailsSecret) SetIv(val OptString) {
+	s.Iv = val
+}
+
+// SetHint sets the value of Hint.
+func (s *RawSourceDetailsSecret) SetHint(val OptNilString) {
+	s.Hint = val
 }
 
 // The type of source value, can be either `raw` or `url`.
@@ -67879,13 +68603,20 @@ func (s *ReconfigureLoadBalancerReqAction) UnmarshalText(data []byte) error {
 type ReconfigureLoadBalancerReqContents struct {
 	// A boolean where `true` represents the desire to run the environment load balancer service in high
 	// availability mode.
-	HighAvailability OptNilBool               `json:"high_availability"`
-	Config           OptNilLoadBalancerConfig `json:"config"`
+	HighAvailability OptNilBool `json:"high_availability"`
+	// A boolean representing if this service container is set to autoupdate or not.
+	AutoUpdate OptNilBool               `json:"auto_update"`
+	Config     OptNilLoadBalancerConfig `json:"config"`
 }
 
 // GetHighAvailability returns the value of HighAvailability.
 func (s *ReconfigureLoadBalancerReqContents) GetHighAvailability() OptNilBool {
 	return s.HighAvailability
+}
+
+// GetAutoUpdate returns the value of AutoUpdate.
+func (s *ReconfigureLoadBalancerReqContents) GetAutoUpdate() OptNilBool {
+	return s.AutoUpdate
 }
 
 // GetConfig returns the value of Config.
@@ -67896,6 +68627,11 @@ func (s *ReconfigureLoadBalancerReqContents) GetConfig() OptNilLoadBalancerConfi
 // SetHighAvailability sets the value of HighAvailability.
 func (s *ReconfigureLoadBalancerReqContents) SetHighAvailability(val OptNilBool) {
 	s.HighAvailability = val
+}
+
+// SetAutoUpdate sets the value of AutoUpdate.
+func (s *ReconfigureLoadBalancerReqContents) SetAutoUpdate(val OptNilBool) {
+	s.AutoUpdate = val
 }
 
 // SetConfig sets the value of Config.
@@ -69893,9 +70629,9 @@ type RepoType struct {
 	// An optional branch arguement.  Default value is `master`.
 	Branch OptString `json:"branch"`
 	// Authentication information for the repository.
-	Auth OptRepoTypeAuth `json:"auth"`
+	Auth OptNilRepoTypeAuth `json:"auth"`
 	// Repository reference information.
-	Ref OptRepoTypeRef `json:"ref"`
+	Ref OptNilRepoTypeRef `json:"ref"`
 }
 
 // GetURL returns the value of URL.
@@ -69909,12 +70645,12 @@ func (s *RepoType) GetBranch() OptString {
 }
 
 // GetAuth returns the value of Auth.
-func (s *RepoType) GetAuth() OptRepoTypeAuth {
+func (s *RepoType) GetAuth() OptNilRepoTypeAuth {
 	return s.Auth
 }
 
 // GetRef returns the value of Ref.
-func (s *RepoType) GetRef() OptRepoTypeRef {
+func (s *RepoType) GetRef() OptNilRepoTypeRef {
 	return s.Ref
 }
 
@@ -69929,12 +70665,12 @@ func (s *RepoType) SetBranch(val OptString) {
 }
 
 // SetAuth sets the value of Auth.
-func (s *RepoType) SetAuth(val OptRepoTypeAuth) {
+func (s *RepoType) SetAuth(val OptNilRepoTypeAuth) {
 	s.Auth = val
 }
 
 // SetRef sets the value of Ref.
-func (s *RepoType) SetRef(val OptRepoTypeRef) {
+func (s *RepoType) SetRef(val OptNilRepoTypeRef) {
 	s.Ref = val
 }
 
@@ -72082,13 +72818,12 @@ type ScopedVariable struct {
 	EnvironmentID string `json:"environment_id"`
 	// An identifier, similar to a key in an environment variable.  Its used when envoking the scoped
 	// variable.
-	Identifier string `json:"identifier"`
-	// An object with information about the encryption of the scoped variable.
-	Secret NilScopedVariableSecret `json:"secret"`
-	Scope  ScopedVariableScope     `json:"scope"`
+	Identifier string               `json:"identifier"`
+	Scope      ScopedVariableScope  `json:"scope"`
+	Access     ScopedVariableAccess `json:"access"`
 	// The source or value of the scoped variable.
-	Source ScopedVariableSource `json:"source"`
-	State  ScopedVariableState  `json:"state"`
+	Source NilScopedVariableSource `json:"source"`
+	State  ScopedVariableState     `json:"state"`
 	// A collection of timestamps for each event in the Scoped Variable's lifetime.
 	Events ScopedVariableEvents `json:"events"`
 }
@@ -72118,18 +72853,18 @@ func (s *ScopedVariable) GetIdentifier() string {
 	return s.Identifier
 }
 
-// GetSecret returns the value of Secret.
-func (s *ScopedVariable) GetSecret() NilScopedVariableSecret {
-	return s.Secret
-}
-
 // GetScope returns the value of Scope.
 func (s *ScopedVariable) GetScope() ScopedVariableScope {
 	return s.Scope
 }
 
+// GetAccess returns the value of Access.
+func (s *ScopedVariable) GetAccess() ScopedVariableAccess {
+	return s.Access
+}
+
 // GetSource returns the value of Source.
-func (s *ScopedVariable) GetSource() ScopedVariableSource {
+func (s *ScopedVariable) GetSource() NilScopedVariableSource {
 	return s.Source
 }
 
@@ -72168,18 +72903,18 @@ func (s *ScopedVariable) SetIdentifier(val string) {
 	s.Identifier = val
 }
 
-// SetSecret sets the value of Secret.
-func (s *ScopedVariable) SetSecret(val NilScopedVariableSecret) {
-	s.Secret = val
-}
-
 // SetScope sets the value of Scope.
 func (s *ScopedVariable) SetScope(val ScopedVariableScope) {
 	s.Scope = val
 }
 
+// SetAccess sets the value of Access.
+func (s *ScopedVariable) SetAccess(val ScopedVariableAccess) {
+	s.Access = val
+}
+
 // SetSource sets the value of Source.
-func (s *ScopedVariable) SetSource(val ScopedVariableSource) {
+func (s *ScopedVariable) SetSource(val NilScopedVariableSource) {
 	s.Source = val
 }
 
@@ -72191,6 +72926,135 @@ func (s *ScopedVariable) SetState(val ScopedVariableState) {
 // SetEvents sets the value of Events.
 func (s *ScopedVariable) SetEvents(val ScopedVariableEvents) {
 	s.Events = val
+}
+
+// The way the scoped variable is accessed.
+// Ref: #/components/schemas/ScopedVariableAccess
+type ScopedVariableAccess struct {
+	// When set to true, this scoped variable is set as an environment variable inside the container.
+	EnvVariable bool `json:"env_variable"`
+	// If set, this scoped variable will be available over the internal API. Contains settings for
+	// accessing this variable over the internal API.
+	InternalAPI OptNilScopedVariableAccessInternalAPI `json:"internal_api"`
+	// File is an object that describes a path to mount the file to inside the container.
+	File OptNilScopedVariableAccessFile `json:"file"`
+}
+
+// GetEnvVariable returns the value of EnvVariable.
+func (s *ScopedVariableAccess) GetEnvVariable() bool {
+	return s.EnvVariable
+}
+
+// GetInternalAPI returns the value of InternalAPI.
+func (s *ScopedVariableAccess) GetInternalAPI() OptNilScopedVariableAccessInternalAPI {
+	return s.InternalAPI
+}
+
+// GetFile returns the value of File.
+func (s *ScopedVariableAccess) GetFile() OptNilScopedVariableAccessFile {
+	return s.File
+}
+
+// SetEnvVariable sets the value of EnvVariable.
+func (s *ScopedVariableAccess) SetEnvVariable(val bool) {
+	s.EnvVariable = val
+}
+
+// SetInternalAPI sets the value of InternalAPI.
+func (s *ScopedVariableAccess) SetInternalAPI(val OptNilScopedVariableAccessInternalAPI) {
+	s.InternalAPI = val
+}
+
+// SetFile sets the value of File.
+func (s *ScopedVariableAccess) SetFile(val OptNilScopedVariableAccessFile) {
+	s.File = val
+}
+
+// File is an object that describes a path to mount the file to inside the container.
+type ScopedVariableAccessFile struct {
+	// When true, Cycle will interpret this variable as a base-64 encoded string, and decode it before
+	// passing it into the container.
+	DecodeBase64 bool `json:"decode"`
+	// The path to mount the file to inside the container.
+	Path NilString `json:"path"`
+}
+
+// GetDecodeBase64 returns the value of DecodeBase64.
+func (s *ScopedVariableAccessFile) GetDecodeBase64() bool {
+	return s.DecodeBase64
+}
+
+// GetPath returns the value of Path.
+func (s *ScopedVariableAccessFile) GetPath() NilString {
+	return s.Path
+}
+
+// SetDecodeBase64 sets the value of DecodeBase64.
+func (s *ScopedVariableAccessFile) SetDecodeBase64(val bool) {
+	s.DecodeBase64 = val
+}
+
+// SetPath sets the value of Path.
+func (s *ScopedVariableAccessFile) SetPath(val NilString) {
+	s.Path = val
+}
+
+// If set, this scoped variable will be available over the internal API. Contains settings for
+// accessing this variable over the internal API.
+type ScopedVariableAccessInternalAPI struct {
+	// Duration is a time string that the internal API will serve that variable after runtime starts.
+	Duration OptNilScopedVariableAccessInternalAPIDuration `json:"duration"`
+}
+
+// GetDuration returns the value of Duration.
+func (s *ScopedVariableAccessInternalAPI) GetDuration() OptNilScopedVariableAccessInternalAPIDuration {
+	return s.Duration
+}
+
+// SetDuration sets the value of Duration.
+func (s *ScopedVariableAccessInternalAPI) SetDuration(val OptNilScopedVariableAccessInternalAPIDuration) {
+	s.Duration = val
+}
+
+// Duration is a time string that the internal API will serve that variable after runtime starts.
+// ScopedVariableAccessInternalAPIDuration represents sum type.
+type ScopedVariableAccessInternalAPIDuration struct {
+	Type     ScopedVariableAccessInternalAPIDurationType // switch on this field
+	Duration Duration
+}
+
+// ScopedVariableAccessInternalAPIDurationType is oneOf type of ScopedVariableAccessInternalAPIDuration.
+type ScopedVariableAccessInternalAPIDurationType string
+
+// Possible values for ScopedVariableAccessInternalAPIDurationType.
+const (
+	DurationScopedVariableAccessInternalAPIDuration ScopedVariableAccessInternalAPIDurationType = "Duration"
+)
+
+// IsDuration reports whether ScopedVariableAccessInternalAPIDuration is Duration.
+func (s ScopedVariableAccessInternalAPIDuration) IsDuration() bool {
+	return s.Type == DurationScopedVariableAccessInternalAPIDuration
+}
+
+// SetDuration sets ScopedVariableAccessInternalAPIDuration to Duration.
+func (s *ScopedVariableAccessInternalAPIDuration) SetDuration(v Duration) {
+	s.Type = DurationScopedVariableAccessInternalAPIDuration
+	s.Duration = v
+}
+
+// GetDuration returns Duration and true boolean if ScopedVariableAccessInternalAPIDuration is Duration.
+func (s ScopedVariableAccessInternalAPIDuration) GetDuration() (v Duration, ok bool) {
+	if !s.IsDuration() {
+		return v, false
+	}
+	return s.Duration, true
+}
+
+// NewDurationScopedVariableAccessInternalAPIDuration returns new ScopedVariableAccessInternalAPIDuration from Duration.
+func NewDurationScopedVariableAccessInternalAPIDuration(v Duration) ScopedVariableAccessInternalAPIDuration {
+	var s ScopedVariableAccessInternalAPIDuration
+	s.SetDuration(v)
+	return s
 }
 
 // A collection of timestamps for each event in the Scoped Variable's lifetime.
@@ -72236,15 +73100,8 @@ func (s *ScopedVariableEvents) SetDeleted(val DateTime) {
 // Information about the assignment of the scoped variable and how it is invoked.
 // Ref: #/components/schemas/ScopedVariableScope
 type ScopedVariableScope struct {
-	// The type or way the scoped variable is accessed.
-	Access ScopedVariableScopeAccess `json:"access"`
 	// Information about the assignment of the scoped variable to different containers in the environment.
 	Containers ScopedVariableScopeContainers `json:"containers"`
-}
-
-// GetAccess returns the value of Access.
-func (s *ScopedVariableScope) GetAccess() ScopedVariableScopeAccess {
-	return s.Access
 }
 
 // GetContainers returns the value of Containers.
@@ -72252,56 +73109,9 @@ func (s *ScopedVariableScope) GetContainers() ScopedVariableScopeContainers {
 	return s.Containers
 }
 
-// SetAccess sets the value of Access.
-func (s *ScopedVariableScope) SetAccess(val ScopedVariableScopeAccess) {
-	s.Access = val
-}
-
 // SetContainers sets the value of Containers.
 func (s *ScopedVariableScope) SetContainers(val ScopedVariableScopeContainers) {
 	s.Containers = val
-}
-
-// The type or way the scoped variable is accessed.
-type ScopedVariableScopeAccess struct {
-	// A boolean, where true represents this scoped variable is accessed like a normal environment
-	// variable.
-	EnvVariable bool `json:"env_variable"`
-	// A boolean, where true represents this scoped variable is accessed through Cycle's internal API.
-	InternalAPI bool `json:"internal_api"`
-	// A boolean, where true represents this scoped variables is accessed as a file located at
-	// `/var/run/cycle/variables/<identifier>`.
-	File OptBool `json:"file"`
-}
-
-// GetEnvVariable returns the value of EnvVariable.
-func (s *ScopedVariableScopeAccess) GetEnvVariable() bool {
-	return s.EnvVariable
-}
-
-// GetInternalAPI returns the value of InternalAPI.
-func (s *ScopedVariableScopeAccess) GetInternalAPI() bool {
-	return s.InternalAPI
-}
-
-// GetFile returns the value of File.
-func (s *ScopedVariableScopeAccess) GetFile() OptBool {
-	return s.File
-}
-
-// SetEnvVariable sets the value of EnvVariable.
-func (s *ScopedVariableScopeAccess) SetEnvVariable(val bool) {
-	s.EnvVariable = val
-}
-
-// SetInternalAPI sets the value of InternalAPI.
-func (s *ScopedVariableScopeAccess) SetInternalAPI(val bool) {
-	s.InternalAPI = val
-}
-
-// SetFile sets the value of File.
-func (s *ScopedVariableScopeAccess) SetFile(val OptBool) {
-	s.File = val
 }
 
 // Information about the assignment of the scoped variable to different containers in the environment.
@@ -72344,34 +73154,6 @@ func (s *ScopedVariableScopeContainers) SetIds(val []string) {
 // SetIdentifiers sets the value of Identifiers.
 func (s *ScopedVariableScopeContainers) SetIdentifiers(val []string) {
 	s.Identifiers = val
-}
-
-// An object with information about the encryption of the scoped variable.
-type ScopedVariableSecret struct {
-	// A boolean where true means the scoped variables value is encrypted.
-	Encrypted bool `json:"encrypted"`
-	// A hint for the decryption password.
-	Hint OptString `json:"hint"`
-}
-
-// GetEncrypted returns the value of Encrypted.
-func (s *ScopedVariableSecret) GetEncrypted() bool {
-	return s.Encrypted
-}
-
-// GetHint returns the value of Hint.
-func (s *ScopedVariableSecret) GetHint() OptString {
-	return s.Hint
-}
-
-// SetEncrypted sets the value of Encrypted.
-func (s *ScopedVariableSecret) SetEncrypted(val bool) {
-	s.Encrypted = val
-}
-
-// SetHint sets the value of Hint.
-func (s *ScopedVariableSecret) SetHint(val OptString) {
-	s.Hint = val
 }
 
 // The source or value of the scoped variable.
@@ -79665,14 +80447,14 @@ type StackContainerItem struct {
 	Name  string                  `json:"name"`
 	Image StackSpecContainerImage `json:"image"`
 	// Additional meta info about the container.
-	Annotations StackContainerItemAnnotations   `json:"annotations"`
-	Stateful    bool                            `json:"stateful"`
-	Config      OptStackContainerItemConfig     `json:"config"`
-	Role        OptStackContainerItemRole       `json:"role"`
-	Pod         OptString                       `json:"pod"`
-	Volumes     []StackContainerItemVolumesItem `json:"volumes"`
-	Deprecate   OptBool                         `json:"deprecate"`
-	Lock        OptBool                         `json:"lock"`
+	Annotations OptStackContainerItemAnnotations `json:"annotations"`
+	Stateful    bool                             `json:"stateful"`
+	Config      StackContainerItemConfig         `json:"config"`
+	Role        OptStackContainerItemRole        `json:"role"`
+	Pod         OptString                        `json:"pod"`
+	Volumes     []StackContainerItemVolumesItem  `json:"volumes"`
+	Deprecate   OptBool                          `json:"deprecate"`
+	Lock        OptBool                          `json:"lock"`
 }
 
 // GetName returns the value of Name.
@@ -79686,7 +80468,7 @@ func (s *StackContainerItem) GetImage() StackSpecContainerImage {
 }
 
 // GetAnnotations returns the value of Annotations.
-func (s *StackContainerItem) GetAnnotations() StackContainerItemAnnotations {
+func (s *StackContainerItem) GetAnnotations() OptStackContainerItemAnnotations {
 	return s.Annotations
 }
 
@@ -79696,7 +80478,7 @@ func (s *StackContainerItem) GetStateful() bool {
 }
 
 // GetConfig returns the value of Config.
-func (s *StackContainerItem) GetConfig() OptStackContainerItemConfig {
+func (s *StackContainerItem) GetConfig() StackContainerItemConfig {
 	return s.Config
 }
 
@@ -79736,7 +80518,7 @@ func (s *StackContainerItem) SetImage(val StackSpecContainerImage) {
 }
 
 // SetAnnotations sets the value of Annotations.
-func (s *StackContainerItem) SetAnnotations(val StackContainerItemAnnotations) {
+func (s *StackContainerItem) SetAnnotations(val OptStackContainerItemAnnotations) {
 	s.Annotations = val
 }
 
@@ -79746,7 +80528,7 @@ func (s *StackContainerItem) SetStateful(val bool) {
 }
 
 // SetConfig sets the value of Config.
-func (s *StackContainerItem) SetConfig(val OptStackContainerItemConfig) {
+func (s *StackContainerItem) SetConfig(val StackContainerItemConfig) {
 	s.Config = val
 }
 
@@ -80939,16 +81721,16 @@ func (s *StackMeta) SetBuildsCount(val OptStateCountSummary) {
 // A stack spec resource.
 // Ref: #/components/schemas/StackRawSource
 type StackRawSource struct {
-	Details StackSpec `json:"details"`
+	Details NilStackSpec `json:"details"`
 }
 
 // GetDetails returns the value of Details.
-func (s *StackRawSource) GetDetails() StackSpec {
+func (s *StackRawSource) GetDetails() NilStackSpec {
 	return s.Details
 }
 
 // SetDetails sets the value of Details.
-func (s *StackRawSource) SetDetails(val StackSpec) {
+func (s *StackRawSource) SetDetails(val NilStackSpec) {
 	s.Details = val
 }
 
@@ -81008,9 +81790,9 @@ type StackRepoSourceDetails struct {
 	// An optional branch arguement.  Default value is `master`.
 	Branch OptString `json:"branch"`
 	// Authentication information for the repository.
-	Auth OptStackRepoSourceDetailsAuth `json:"auth"`
+	Auth OptNilStackRepoSourceDetailsAuth `json:"auth"`
 	// Repository reference information.
-	Ref OptStackRepoSourceDetailsRef `json:"ref"`
+	Ref OptNilStackRepoSourceDetailsRef `json:"ref"`
 }
 
 // GetURL returns the value of URL.
@@ -81024,12 +81806,12 @@ func (s *StackRepoSourceDetails) GetBranch() OptString {
 }
 
 // GetAuth returns the value of Auth.
-func (s *StackRepoSourceDetails) GetAuth() OptStackRepoSourceDetailsAuth {
+func (s *StackRepoSourceDetails) GetAuth() OptNilStackRepoSourceDetailsAuth {
 	return s.Auth
 }
 
 // GetRef returns the value of Ref.
-func (s *StackRepoSourceDetails) GetRef() OptStackRepoSourceDetailsRef {
+func (s *StackRepoSourceDetails) GetRef() OptNilStackRepoSourceDetailsRef {
 	return s.Ref
 }
 
@@ -81044,12 +81826,12 @@ func (s *StackRepoSourceDetails) SetBranch(val OptString) {
 }
 
 // SetAuth sets the value of Auth.
-func (s *StackRepoSourceDetails) SetAuth(val OptStackRepoSourceDetailsAuth) {
+func (s *StackRepoSourceDetails) SetAuth(val OptNilStackRepoSourceDetailsAuth) {
 	s.Auth = val
 }
 
 // SetRef sets the value of Ref.
-func (s *StackRepoSourceDetails) SetRef(val OptStackRepoSourceDetailsRef) {
+func (s *StackRepoSourceDetails) SetRef(val OptNilStackRepoSourceDetailsRef) {
 	s.Ref = val
 }
 
@@ -81168,8 +81950,9 @@ func (s *StackRepoSourceDetailsRef) SetValue(val string) {
 type StackRepoSourceDetailsRefType string
 
 const (
-	StackRepoSourceDetailsRefTypeHash StackRepoSourceDetailsRefType = "hash"
-	StackRepoSourceDetailsRefTypeTag  StackRepoSourceDetailsRefType = "tag"
+	StackRepoSourceDetailsRefTypeHash  StackRepoSourceDetailsRefType = "hash"
+	StackRepoSourceDetailsRefTypeTag   StackRepoSourceDetailsRefType = "tag"
+	StackRepoSourceDetailsRefTypeEmpty StackRepoSourceDetailsRefType = ""
 )
 
 // AllValues returns all StackRepoSourceDetailsRefType values.
@@ -81177,6 +81960,7 @@ func (StackRepoSourceDetailsRefType) AllValues() []StackRepoSourceDetailsRefType
 	return []StackRepoSourceDetailsRefType{
 		StackRepoSourceDetailsRefTypeHash,
 		StackRepoSourceDetailsRefTypeTag,
+		StackRepoSourceDetailsRefTypeEmpty,
 	}
 }
 
@@ -81186,6 +81970,8 @@ func (s StackRepoSourceDetailsRefType) MarshalText() ([]byte, error) {
 	case StackRepoSourceDetailsRefTypeHash:
 		return []byte(s), nil
 	case StackRepoSourceDetailsRefTypeTag:
+		return []byte(s), nil
+	case StackRepoSourceDetailsRefTypeEmpty:
 		return []byte(s), nil
 	default:
 		return nil, errors.Errorf("invalid value: %q", s)
@@ -81200,6 +81986,9 @@ func (s *StackRepoSourceDetailsRefType) UnmarshalText(data []byte) error {
 		return nil
 	case StackRepoSourceDetailsRefTypeTag:
 		*s = StackRepoSourceDetailsRefTypeTag
+		return nil
+	case StackRepoSourceDetailsRefTypeEmpty:
+		*s = StackRepoSourceDetailsRefTypeEmpty
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -81325,10 +82114,11 @@ type StackSpec struct {
 	// A string defining the version of the stack spec.
 	Version string `json:"version"`
 	// Information about the stack.
-	About      OptStackSpecAbout        `json:"about"`
-	Tests      []StackSpecTestContainer `json:"tests"`
-	Containers StackContainer           `json:"containers"`
-	Services   OptStackSpecServices     `json:"services"`
+	About           OptStackSpecAbout                  `json:"about"`
+	Tests           []StackSpecTestContainer           `json:"tests"`
+	ScopedVariables OptNilStackSpecScopedVariableArray `json:"scoped_variables"`
+	Containers      StackContainer                     `json:"containers"`
+	Services        OptStackSpecServices               `json:"services"`
 	// Additional meta info about the stack.
 	Annotations OptStackSpecAnnotations `json:"annotations"`
 }
@@ -81346,6 +82136,11 @@ func (s *StackSpec) GetAbout() OptStackSpecAbout {
 // GetTests returns the value of Tests.
 func (s *StackSpec) GetTests() []StackSpecTestContainer {
 	return s.Tests
+}
+
+// GetScopedVariables returns the value of ScopedVariables.
+func (s *StackSpec) GetScopedVariables() OptNilStackSpecScopedVariableArray {
+	return s.ScopedVariables
 }
 
 // GetContainers returns the value of Containers.
@@ -81376,6 +82171,11 @@ func (s *StackSpec) SetAbout(val OptStackSpecAbout) {
 // SetTests sets the value of Tests.
 func (s *StackSpec) SetTests(val []StackSpecTestContainer) {
 	s.Tests = val
+}
+
+// SetScopedVariables sets the value of ScopedVariables.
+func (s *StackSpec) SetScopedVariables(val OptNilStackSpecScopedVariableArray) {
+	s.ScopedVariables = val
 }
 
 // SetContainers sets the value of Containers.
@@ -81605,6 +82405,544 @@ func NewDefaultLbTypeStackSpecLoadBalancerConfigSum(v DefaultLbType) StackSpecLo
 	var s StackSpecLoadBalancerConfigSum
 	s.SetDefaultLbType(v)
 	return s
+}
+
+// Ref: #/components/schemas/StackSpecScopedVariable
+type StackSpecScopedVariable struct {
+	Identifier string                        `json:"identifier"`
+	Scope      StackSpecScopedVariableScope  `json:"scope"`
+	Access     StackSpecScopedVariableAccess `json:"access"`
+	// The source or value of the scoped variable.
+	Source NilStackSpecScopedVariableSource `json:"source"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *StackSpecScopedVariable) GetIdentifier() string {
+	return s.Identifier
+}
+
+// GetScope returns the value of Scope.
+func (s *StackSpecScopedVariable) GetScope() StackSpecScopedVariableScope {
+	return s.Scope
+}
+
+// GetAccess returns the value of Access.
+func (s *StackSpecScopedVariable) GetAccess() StackSpecScopedVariableAccess {
+	return s.Access
+}
+
+// GetSource returns the value of Source.
+func (s *StackSpecScopedVariable) GetSource() NilStackSpecScopedVariableSource {
+	return s.Source
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *StackSpecScopedVariable) SetIdentifier(val string) {
+	s.Identifier = val
+}
+
+// SetScope sets the value of Scope.
+func (s *StackSpecScopedVariable) SetScope(val StackSpecScopedVariableScope) {
+	s.Scope = val
+}
+
+// SetAccess sets the value of Access.
+func (s *StackSpecScopedVariable) SetAccess(val StackSpecScopedVariableAccess) {
+	s.Access = val
+}
+
+// SetSource sets the value of Source.
+func (s *StackSpecScopedVariable) SetSource(val NilStackSpecScopedVariableSource) {
+	s.Source = val
+}
+
+type StackSpecScopedVariableAccess struct {
+	EnvVariable bool `json:"env_variable"`
+	// If set, this scoped variable will be available over the internal API. Contains settings for
+	// accessing this variable over the internal API.
+	InternalAPI OptNilStackSpecScopedVariableAccessInternalAPI `json:"internal_api"`
+	// File is an object that describes a path to mount the file to inside the container.
+	File OptNilStackSpecScopedVariableAccessFile `json:"file"`
+}
+
+// GetEnvVariable returns the value of EnvVariable.
+func (s *StackSpecScopedVariableAccess) GetEnvVariable() bool {
+	return s.EnvVariable
+}
+
+// GetInternalAPI returns the value of InternalAPI.
+func (s *StackSpecScopedVariableAccess) GetInternalAPI() OptNilStackSpecScopedVariableAccessInternalAPI {
+	return s.InternalAPI
+}
+
+// GetFile returns the value of File.
+func (s *StackSpecScopedVariableAccess) GetFile() OptNilStackSpecScopedVariableAccessFile {
+	return s.File
+}
+
+// SetEnvVariable sets the value of EnvVariable.
+func (s *StackSpecScopedVariableAccess) SetEnvVariable(val bool) {
+	s.EnvVariable = val
+}
+
+// SetInternalAPI sets the value of InternalAPI.
+func (s *StackSpecScopedVariableAccess) SetInternalAPI(val OptNilStackSpecScopedVariableAccessInternalAPI) {
+	s.InternalAPI = val
+}
+
+// SetFile sets the value of File.
+func (s *StackSpecScopedVariableAccess) SetFile(val OptNilStackSpecScopedVariableAccessFile) {
+	s.File = val
+}
+
+// File is an object that describes a path to mount the file to inside the container.
+type StackSpecScopedVariableAccessFile struct {
+	// When true, Cycle will interpret this variable as a base-64 encoded string, and decode it before
+	// passing it into the container.
+	DecodeBase64 bool `json:"decode"`
+	// The path to mount the file to inside the container.
+	Path NilString `json:"path"`
+}
+
+// GetDecodeBase64 returns the value of DecodeBase64.
+func (s *StackSpecScopedVariableAccessFile) GetDecodeBase64() bool {
+	return s.DecodeBase64
+}
+
+// GetPath returns the value of Path.
+func (s *StackSpecScopedVariableAccessFile) GetPath() NilString {
+	return s.Path
+}
+
+// SetDecodeBase64 sets the value of DecodeBase64.
+func (s *StackSpecScopedVariableAccessFile) SetDecodeBase64(val bool) {
+	s.DecodeBase64 = val
+}
+
+// SetPath sets the value of Path.
+func (s *StackSpecScopedVariableAccessFile) SetPath(val NilString) {
+	s.Path = val
+}
+
+// If set, this scoped variable will be available over the internal API. Contains settings for
+// accessing this variable over the internal API.
+type StackSpecScopedVariableAccessInternalAPI struct {
+	// Duration is a time string that the internal API will serve that variable after runtime starts.
+	Duration OptNilStackSpecScopedVariableAccessInternalAPIDuration `json:"duration"`
+}
+
+// GetDuration returns the value of Duration.
+func (s *StackSpecScopedVariableAccessInternalAPI) GetDuration() OptNilStackSpecScopedVariableAccessInternalAPIDuration {
+	return s.Duration
+}
+
+// SetDuration sets the value of Duration.
+func (s *StackSpecScopedVariableAccessInternalAPI) SetDuration(val OptNilStackSpecScopedVariableAccessInternalAPIDuration) {
+	s.Duration = val
+}
+
+// Duration is a time string that the internal API will serve that variable after runtime starts.
+// StackSpecScopedVariableAccessInternalAPIDuration represents sum type.
+type StackSpecScopedVariableAccessInternalAPIDuration struct {
+	Type     StackSpecScopedVariableAccessInternalAPIDurationType // switch on this field
+	Duration Duration
+}
+
+// StackSpecScopedVariableAccessInternalAPIDurationType is oneOf type of StackSpecScopedVariableAccessInternalAPIDuration.
+type StackSpecScopedVariableAccessInternalAPIDurationType string
+
+// Possible values for StackSpecScopedVariableAccessInternalAPIDurationType.
+const (
+	DurationStackSpecScopedVariableAccessInternalAPIDuration StackSpecScopedVariableAccessInternalAPIDurationType = "Duration"
+)
+
+// IsDuration reports whether StackSpecScopedVariableAccessInternalAPIDuration is Duration.
+func (s StackSpecScopedVariableAccessInternalAPIDuration) IsDuration() bool {
+	return s.Type == DurationStackSpecScopedVariableAccessInternalAPIDuration
+}
+
+// SetDuration sets StackSpecScopedVariableAccessInternalAPIDuration to Duration.
+func (s *StackSpecScopedVariableAccessInternalAPIDuration) SetDuration(v Duration) {
+	s.Type = DurationStackSpecScopedVariableAccessInternalAPIDuration
+	s.Duration = v
+}
+
+// GetDuration returns Duration and true boolean if StackSpecScopedVariableAccessInternalAPIDuration is Duration.
+func (s StackSpecScopedVariableAccessInternalAPIDuration) GetDuration() (v Duration, ok bool) {
+	if !s.IsDuration() {
+		return v, false
+	}
+	return s.Duration, true
+}
+
+// NewDurationStackSpecScopedVariableAccessInternalAPIDuration returns new StackSpecScopedVariableAccessInternalAPIDuration from Duration.
+func NewDurationStackSpecScopedVariableAccessInternalAPIDuration(v Duration) StackSpecScopedVariableAccessInternalAPIDuration {
+	var s StackSpecScopedVariableAccessInternalAPIDuration
+	s.SetDuration(v)
+	return s
+}
+
+// A stack spec resource.
+// Ref: #/components/schemas/StackSpecScopedVariableRawSource
+type StackSpecScopedVariableRawSource struct {
+	Details StackSpecScopedVariableRawSourceDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *StackSpecScopedVariableRawSource) GetDetails() StackSpecScopedVariableRawSourceDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *StackSpecScopedVariableRawSource) SetDetails(val StackSpecScopedVariableRawSourceDetails) {
+	s.Details = val
+}
+
+type StackSpecScopedVariableRawSourceDetails struct {
+	// The value of the variable.
+	Value string `json:"value"`
+	// A boolean where true represents the text the user is entering will be multi line.
+	Blob   bool                                             `json:"blob"`
+	Secret NilStackSpecScopedVariableRawSourceDetailsSecret `json:"secret"`
+}
+
+// GetValue returns the value of Value.
+func (s *StackSpecScopedVariableRawSourceDetails) GetValue() string {
+	return s.Value
+}
+
+// GetBlob returns the value of Blob.
+func (s *StackSpecScopedVariableRawSourceDetails) GetBlob() bool {
+	return s.Blob
+}
+
+// GetSecret returns the value of Secret.
+func (s *StackSpecScopedVariableRawSourceDetails) GetSecret() NilStackSpecScopedVariableRawSourceDetailsSecret {
+	return s.Secret
+}
+
+// SetValue sets the value of Value.
+func (s *StackSpecScopedVariableRawSourceDetails) SetValue(val string) {
+	s.Value = val
+}
+
+// SetBlob sets the value of Blob.
+func (s *StackSpecScopedVariableRawSourceDetails) SetBlob(val bool) {
+	s.Blob = val
+}
+
+// SetSecret sets the value of Secret.
+func (s *StackSpecScopedVariableRawSourceDetails) SetSecret(val NilStackSpecScopedVariableRawSourceDetailsSecret) {
+	s.Secret = val
+}
+
+type StackSpecScopedVariableRawSourceDetailsSecret struct {
+	// A string describing the IV Hex associated with the encryption of the variable.
+	Iv OptString `json:"iv"`
+	// A user specified hint that will suggest what the encryption key might be.
+	Hint OptString `json:"hint"`
+}
+
+// GetIv returns the value of Iv.
+func (s *StackSpecScopedVariableRawSourceDetailsSecret) GetIv() OptString {
+	return s.Iv
+}
+
+// GetHint returns the value of Hint.
+func (s *StackSpecScopedVariableRawSourceDetailsSecret) GetHint() OptString {
+	return s.Hint
+}
+
+// SetIv sets the value of Iv.
+func (s *StackSpecScopedVariableRawSourceDetailsSecret) SetIv(val OptString) {
+	s.Iv = val
+}
+
+// SetHint sets the value of Hint.
+func (s *StackSpecScopedVariableRawSourceDetailsSecret) SetHint(val OptString) {
+	s.Hint = val
+}
+
+type StackSpecScopedVariableRawSourceType string
+
+const (
+	StackSpecScopedVariableRawSourceTypeRaw StackSpecScopedVariableRawSourceType = "raw"
+)
+
+// AllValues returns all StackSpecScopedVariableRawSourceType values.
+func (StackSpecScopedVariableRawSourceType) AllValues() []StackSpecScopedVariableRawSourceType {
+	return []StackSpecScopedVariableRawSourceType{
+		StackSpecScopedVariableRawSourceTypeRaw,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackSpecScopedVariableRawSourceType) MarshalText() ([]byte, error) {
+	switch s {
+	case StackSpecScopedVariableRawSourceTypeRaw:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackSpecScopedVariableRawSourceType) UnmarshalText(data []byte) error {
+	switch StackSpecScopedVariableRawSourceType(data) {
+	case StackSpecScopedVariableRawSourceTypeRaw:
+		*s = StackSpecScopedVariableRawSourceTypeRaw
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type StackSpecScopedVariableScope struct {
+	// Information about the assignment of the scoped variable to different containers in the environment.
+	Containers StackSpecScopedVariableScopeContainers `json:"containers"`
+}
+
+// GetContainers returns the value of Containers.
+func (s *StackSpecScopedVariableScope) GetContainers() StackSpecScopedVariableScopeContainers {
+	return s.Containers
+}
+
+// SetContainers sets the value of Containers.
+func (s *StackSpecScopedVariableScope) SetContainers(val StackSpecScopedVariableScopeContainers) {
+	s.Containers = val
+}
+
+// Information about the assignment of the scoped variable to different containers in the environment.
+type StackSpecScopedVariableScopeContainers struct {
+	// A boolean where true represents the scoped variables is globally assigned to all current and
+	// future containers in the environment.
+	Global bool `json:"global"`
+	// An array of container IDs, where each container identified will have access to the scoped variable.
+	Ids OptNilStringArray `json:"ids"`
+	// An array of container identifiers, where each container identfied will have access to the scoped
+	// variable.
+	Identifiers OptNilStringArray `json:"identifiers"`
+}
+
+// GetGlobal returns the value of Global.
+func (s *StackSpecScopedVariableScopeContainers) GetGlobal() bool {
+	return s.Global
+}
+
+// GetIds returns the value of Ids.
+func (s *StackSpecScopedVariableScopeContainers) GetIds() OptNilStringArray {
+	return s.Ids
+}
+
+// GetIdentifiers returns the value of Identifiers.
+func (s *StackSpecScopedVariableScopeContainers) GetIdentifiers() OptNilStringArray {
+	return s.Identifiers
+}
+
+// SetGlobal sets the value of Global.
+func (s *StackSpecScopedVariableScopeContainers) SetGlobal(val bool) {
+	s.Global = val
+}
+
+// SetIds sets the value of Ids.
+func (s *StackSpecScopedVariableScopeContainers) SetIds(val OptNilStringArray) {
+	s.Ids = val
+}
+
+// SetIdentifiers sets the value of Identifiers.
+func (s *StackSpecScopedVariableScopeContainers) SetIdentifiers(val OptNilStringArray) {
+	s.Identifiers = val
+}
+
+// The source or value of the scoped variable.
+type StackSpecScopedVariableSource struct {
+	OneOf StackSpecScopedVariableSourceSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *StackSpecScopedVariableSource) GetOneOf() StackSpecScopedVariableSourceSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *StackSpecScopedVariableSource) SetOneOf(val StackSpecScopedVariableSourceSum) {
+	s.OneOf = val
+}
+
+// StackSpecScopedVariableSourceSum represents sum type.
+type StackSpecScopedVariableSourceSum struct {
+	Type                             StackSpecScopedVariableSourceSumType // switch on this field
+	StackSpecScopedVariableUrlSource StackSpecScopedVariableUrlSource
+	StackSpecScopedVariableRawSource StackSpecScopedVariableRawSource
+}
+
+// StackSpecScopedVariableSourceSumType is oneOf type of StackSpecScopedVariableSourceSum.
+type StackSpecScopedVariableSourceSumType string
+
+// Possible values for StackSpecScopedVariableSourceSumType.
+const (
+	StackSpecScopedVariableUrlSourceStackSpecScopedVariableSourceSum StackSpecScopedVariableSourceSumType = "url"
+	StackSpecScopedVariableRawSourceStackSpecScopedVariableSourceSum StackSpecScopedVariableSourceSumType = "raw"
+)
+
+// IsStackSpecScopedVariableUrlSource reports whether StackSpecScopedVariableSourceSum is StackSpecScopedVariableUrlSource.
+func (s StackSpecScopedVariableSourceSum) IsStackSpecScopedVariableUrlSource() bool {
+	return s.Type == StackSpecScopedVariableUrlSourceStackSpecScopedVariableSourceSum
+}
+
+// IsStackSpecScopedVariableRawSource reports whether StackSpecScopedVariableSourceSum is StackSpecScopedVariableRawSource.
+func (s StackSpecScopedVariableSourceSum) IsStackSpecScopedVariableRawSource() bool {
+	return s.Type == StackSpecScopedVariableRawSourceStackSpecScopedVariableSourceSum
+}
+
+// SetStackSpecScopedVariableUrlSource sets StackSpecScopedVariableSourceSum to StackSpecScopedVariableUrlSource.
+func (s *StackSpecScopedVariableSourceSum) SetStackSpecScopedVariableUrlSource(v StackSpecScopedVariableUrlSource) {
+	s.Type = StackSpecScopedVariableUrlSourceStackSpecScopedVariableSourceSum
+	s.StackSpecScopedVariableUrlSource = v
+}
+
+// GetStackSpecScopedVariableUrlSource returns StackSpecScopedVariableUrlSource and true boolean if StackSpecScopedVariableSourceSum is StackSpecScopedVariableUrlSource.
+func (s StackSpecScopedVariableSourceSum) GetStackSpecScopedVariableUrlSource() (v StackSpecScopedVariableUrlSource, ok bool) {
+	if !s.IsStackSpecScopedVariableUrlSource() {
+		return v, false
+	}
+	return s.StackSpecScopedVariableUrlSource, true
+}
+
+// NewStackSpecScopedVariableUrlSourceStackSpecScopedVariableSourceSum returns new StackSpecScopedVariableSourceSum from StackSpecScopedVariableUrlSource.
+func NewStackSpecScopedVariableUrlSourceStackSpecScopedVariableSourceSum(v StackSpecScopedVariableUrlSource) StackSpecScopedVariableSourceSum {
+	var s StackSpecScopedVariableSourceSum
+	s.SetStackSpecScopedVariableUrlSource(v)
+	return s
+}
+
+// SetStackSpecScopedVariableRawSource sets StackSpecScopedVariableSourceSum to StackSpecScopedVariableRawSource.
+func (s *StackSpecScopedVariableSourceSum) SetStackSpecScopedVariableRawSource(v StackSpecScopedVariableRawSource) {
+	s.Type = StackSpecScopedVariableRawSourceStackSpecScopedVariableSourceSum
+	s.StackSpecScopedVariableRawSource = v
+}
+
+// GetStackSpecScopedVariableRawSource returns StackSpecScopedVariableRawSource and true boolean if StackSpecScopedVariableSourceSum is StackSpecScopedVariableRawSource.
+func (s StackSpecScopedVariableSourceSum) GetStackSpecScopedVariableRawSource() (v StackSpecScopedVariableRawSource, ok bool) {
+	if !s.IsStackSpecScopedVariableRawSource() {
+		return v, false
+	}
+	return s.StackSpecScopedVariableRawSource, true
+}
+
+// NewStackSpecScopedVariableRawSourceStackSpecScopedVariableSourceSum returns new StackSpecScopedVariableSourceSum from StackSpecScopedVariableRawSource.
+func NewStackSpecScopedVariableRawSourceStackSpecScopedVariableSourceSum(v StackSpecScopedVariableRawSource) StackSpecScopedVariableSourceSum {
+	var s StackSpecScopedVariableSourceSum
+	s.SetStackSpecScopedVariableRawSource(v)
+	return s
+}
+
+// The `URL` type of scoped variable `value`, referred to as a source. This means the value of this
+// variable is the result of calling the given URL. It is dynamic, in that Cycle will refetch the
+// contents on every start.
+// Ref: #/components/schemas/StackSpecScopedVariableUrlSource
+type StackSpecScopedVariableUrlSource struct {
+	Details StackSpecScopedVariableUrlSourceDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *StackSpecScopedVariableUrlSource) GetDetails() StackSpecScopedVariableUrlSourceDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *StackSpecScopedVariableUrlSource) SetDetails(val StackSpecScopedVariableUrlSourceDetails) {
+	s.Details = val
+}
+
+type StackSpecScopedVariableUrlSourceDetails struct {
+	// The URL to call to produce the value.
+	URL string `json:"url"`
+	// Additional headers that can be attached to the URL request. Useful for adding metadata to
+	// third-party services.
+	Headers StackSpecScopedVariableUrlSourceDetailsHeaders `json:"headers"`
+	// A URL that can be provided to authenticate with a third party secret service. Cycle will make a
+	// request to this URL before fetching the secret URL, and use the response as the value of an
+	// Authorization header when requesting the secret.
+	AuthTokenURL NilString `json:"auth_token_url"`
+}
+
+// GetURL returns the value of URL.
+func (s *StackSpecScopedVariableUrlSourceDetails) GetURL() string {
+	return s.URL
+}
+
+// GetHeaders returns the value of Headers.
+func (s *StackSpecScopedVariableUrlSourceDetails) GetHeaders() StackSpecScopedVariableUrlSourceDetailsHeaders {
+	return s.Headers
+}
+
+// GetAuthTokenURL returns the value of AuthTokenURL.
+func (s *StackSpecScopedVariableUrlSourceDetails) GetAuthTokenURL() NilString {
+	return s.AuthTokenURL
+}
+
+// SetURL sets the value of URL.
+func (s *StackSpecScopedVariableUrlSourceDetails) SetURL(val string) {
+	s.URL = val
+}
+
+// SetHeaders sets the value of Headers.
+func (s *StackSpecScopedVariableUrlSourceDetails) SetHeaders(val StackSpecScopedVariableUrlSourceDetailsHeaders) {
+	s.Headers = val
+}
+
+// SetAuthTokenURL sets the value of AuthTokenURL.
+func (s *StackSpecScopedVariableUrlSourceDetails) SetAuthTokenURL(val NilString) {
+	s.AuthTokenURL = val
+}
+
+// Additional headers that can be attached to the URL request. Useful for adding metadata to
+// third-party services.
+type StackSpecScopedVariableUrlSourceDetailsHeaders map[string]jx.Raw
+
+func (s *StackSpecScopedVariableUrlSourceDetailsHeaders) init() StackSpecScopedVariableUrlSourceDetailsHeaders {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+// The type of source value, can be either `raw` or `url`.
+type StackSpecScopedVariableUrlSourceType string
+
+const (
+	StackSpecScopedVariableUrlSourceTypeURL StackSpecScopedVariableUrlSourceType = "url"
+)
+
+// AllValues returns all StackSpecScopedVariableUrlSourceType values.
+func (StackSpecScopedVariableUrlSourceType) AllValues() []StackSpecScopedVariableUrlSourceType {
+	return []StackSpecScopedVariableUrlSourceType{
+		StackSpecScopedVariableUrlSourceTypeURL,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackSpecScopedVariableUrlSourceType) MarshalText() ([]byte, error) {
+	switch s {
+	case StackSpecScopedVariableUrlSourceTypeURL:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackSpecScopedVariableUrlSourceType) UnmarshalText(data []byte) error {
+	switch StackSpecScopedVariableUrlSourceType(data) {
+	case StackSpecScopedVariableUrlSourceTypeURL:
+		*s = StackSpecScopedVariableUrlSourceTypeURL
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 type StackSpecServices struct {
@@ -81946,7 +83284,7 @@ type StateCountSummary struct {
 	// The total number of this resource.
 	Total int `json:"total"`
 	// The total number of this resource available, less any deleted ones.
-	Available int `json:"available"`
+	Available OptInt `json:"available"`
 }
 
 // GetState returns the value of State.
@@ -81960,7 +83298,7 @@ func (s *StateCountSummary) GetTotal() int {
 }
 
 // GetAvailable returns the value of Available.
-func (s *StateCountSummary) GetAvailable() int {
+func (s *StateCountSummary) GetAvailable() OptInt {
 	return s.Available
 }
 
@@ -81975,7 +83313,7 @@ func (s *StateCountSummary) SetTotal(val int) {
 }
 
 // SetAvailable sets the value of Available.
-func (s *StateCountSummary) SetAvailable(val int) {
+func (s *StateCountSummary) SetAvailable(val OptInt) {
 	s.Available = val
 }
 
@@ -83420,6 +84758,13 @@ func (s *URLSource) SetDetails(val URLSourceDetails) {
 type URLSourceDetails struct {
 	// The URL to call to produce the value.
 	URL string `json:"url"`
+	// Additional headers that can be attached to the URL request. Useful for adding metadata to
+	// third-party services.
+	Headers URLSourceDetailsHeaders `json:"headers"`
+	// A URL that can be provided to authenticate with a third party secret service. Cycle will make a
+	// request to this URL before fetching the secret URL, and use the response as the value of an
+	// Authorization header when requesting the secret.
+	AuthTokenURL NilString `json:"auth_token_url"`
 }
 
 // GetURL returns the value of URL.
@@ -83427,9 +84772,42 @@ func (s *URLSourceDetails) GetURL() string {
 	return s.URL
 }
 
+// GetHeaders returns the value of Headers.
+func (s *URLSourceDetails) GetHeaders() URLSourceDetailsHeaders {
+	return s.Headers
+}
+
+// GetAuthTokenURL returns the value of AuthTokenURL.
+func (s *URLSourceDetails) GetAuthTokenURL() NilString {
+	return s.AuthTokenURL
+}
+
 // SetURL sets the value of URL.
 func (s *URLSourceDetails) SetURL(val string) {
 	s.URL = val
+}
+
+// SetHeaders sets the value of Headers.
+func (s *URLSourceDetails) SetHeaders(val URLSourceDetailsHeaders) {
+	s.Headers = val
+}
+
+// SetAuthTokenURL sets the value of AuthTokenURL.
+func (s *URLSourceDetails) SetAuthTokenURL(val NilString) {
+	s.AuthTokenURL = val
+}
+
+// Additional headers that can be attached to the URL request. Useful for adding metadata to
+// third-party services.
+type URLSourceDetailsHeaders map[string]jx.Raw
+
+func (s *URLSourceDetailsHeaders) init() URLSourceDetailsHeaders {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
 }
 
 // The type of source value, can be either `raw` or `url`.
@@ -84862,10 +86240,9 @@ func (s *UpdateScopedVariableOK) SetData(val OptScopedVariable) {
 type UpdateScopedVariableReq struct {
 	// An identifier, similar to a key in an environment variable.  Its used when envoking the scoped
 	// variable.
-	Identifier OptString `json:"identifier"`
-	// An object with information about the encryption of the scoped variable.
-	Secret OptNilUpdateScopedVariableReqSecret `json:"secret"`
-	Scope  OptScopedVariableScope              `json:"scope"`
+	Identifier OptString               `json:"identifier"`
+	Scope      OptScopedVariableScope  `json:"scope"`
+	Access     OptScopedVariableAccess `json:"access"`
 	// The source or value of the scoped variable.
 	Source OptUpdateScopedVariableReqSource `json:"source"`
 }
@@ -84875,14 +86252,14 @@ func (s *UpdateScopedVariableReq) GetIdentifier() OptString {
 	return s.Identifier
 }
 
-// GetSecret returns the value of Secret.
-func (s *UpdateScopedVariableReq) GetSecret() OptNilUpdateScopedVariableReqSecret {
-	return s.Secret
-}
-
 // GetScope returns the value of Scope.
 func (s *UpdateScopedVariableReq) GetScope() OptScopedVariableScope {
 	return s.Scope
+}
+
+// GetAccess returns the value of Access.
+func (s *UpdateScopedVariableReq) GetAccess() OptScopedVariableAccess {
+	return s.Access
 }
 
 // GetSource returns the value of Source.
@@ -84895,47 +86272,19 @@ func (s *UpdateScopedVariableReq) SetIdentifier(val OptString) {
 	s.Identifier = val
 }
 
-// SetSecret sets the value of Secret.
-func (s *UpdateScopedVariableReq) SetSecret(val OptNilUpdateScopedVariableReqSecret) {
-	s.Secret = val
-}
-
 // SetScope sets the value of Scope.
 func (s *UpdateScopedVariableReq) SetScope(val OptScopedVariableScope) {
 	s.Scope = val
 }
 
+// SetAccess sets the value of Access.
+func (s *UpdateScopedVariableReq) SetAccess(val OptScopedVariableAccess) {
+	s.Access = val
+}
+
 // SetSource sets the value of Source.
 func (s *UpdateScopedVariableReq) SetSource(val OptUpdateScopedVariableReqSource) {
 	s.Source = val
-}
-
-// An object with information about the encryption of the scoped variable.
-type UpdateScopedVariableReqSecret struct {
-	// A boolean where true means the scoped variables value is encrypted.
-	Encrypted bool `json:"encrypted"`
-	// A hint for the decryption password.
-	Hint OptString `json:"hint"`
-}
-
-// GetEncrypted returns the value of Encrypted.
-func (s *UpdateScopedVariableReqSecret) GetEncrypted() bool {
-	return s.Encrypted
-}
-
-// GetHint returns the value of Hint.
-func (s *UpdateScopedVariableReqSecret) GetHint() OptString {
-	return s.Hint
-}
-
-// SetEncrypted sets the value of Encrypted.
-func (s *UpdateScopedVariableReqSecret) SetEncrypted(val bool) {
-	s.Encrypted = val
-}
-
-// SetHint sets the value of Hint.
-func (s *UpdateScopedVariableReqSecret) SetHint(val OptString) {
-	s.Hint = val
 }
 
 // The source or value of the scoped variable.
@@ -86015,7 +87364,8 @@ type V1LbConfigRouterMatch struct {
 	// The specific domains to match against.
 	Domains []string `json:"domains"`
 	// The specific ports to match against.
-	InternalPort []int `json:"internal_port"`
+	InternalPort []int        `json:"internal_port"`
+	Path         OptNilString `json:"path"`
 }
 
 // GetDomains returns the value of Domains.
@@ -86028,6 +87378,11 @@ func (s *V1LbConfigRouterMatch) GetInternalPort() []int {
 	return s.InternalPort
 }
 
+// GetPath returns the value of Path.
+func (s *V1LbConfigRouterMatch) GetPath() OptNilString {
+	return s.Path
+}
+
 // SetDomains sets the value of Domains.
 func (s *V1LbConfigRouterMatch) SetDomains(val []string) {
 	s.Domains = val
@@ -86036,6 +87391,11 @@ func (s *V1LbConfigRouterMatch) SetDomains(val []string) {
 // SetInternalPort sets the value of InternalPort.
 func (s *V1LbConfigRouterMatch) SetInternalPort(val []int) {
 	s.InternalPort = val
+}
+
+// SetPath sets the value of Path.
+func (s *V1LbConfigRouterMatch) SetPath(val OptNilString) {
+	s.Path = val
 }
 
 // How to route the traffic to the destination.
@@ -86432,8 +87792,8 @@ type VpnEnvironmentService struct {
 	Enable bool `json:"enable"`
 	// The ID of the VPN service container.
 	ContainerID string `json:"container_id"`
-	// A boolean representing if this service container is set to high availability mode or not.
-	HighAvailability bool `json:"high_availability"`
+	// A boolean representing if this service container is set to autoupdate or not.
+	AutoUpdate OptBool `json:"auto_update"`
 	// The config object for the VPN service.
 	Config NilVpnEnvironmentServiceConfig `json:"config"`
 }
@@ -86448,9 +87808,9 @@ func (s *VpnEnvironmentService) GetContainerID() string {
 	return s.ContainerID
 }
 
-// GetHighAvailability returns the value of HighAvailability.
-func (s *VpnEnvironmentService) GetHighAvailability() bool {
-	return s.HighAvailability
+// GetAutoUpdate returns the value of AutoUpdate.
+func (s *VpnEnvironmentService) GetAutoUpdate() OptBool {
+	return s.AutoUpdate
 }
 
 // GetConfig returns the value of Config.
@@ -86468,9 +87828,9 @@ func (s *VpnEnvironmentService) SetContainerID(val string) {
 	s.ContainerID = val
 }
 
-// SetHighAvailability sets the value of HighAvailability.
-func (s *VpnEnvironmentService) SetHighAvailability(val bool) {
-	s.HighAvailability = val
+// SetAutoUpdate sets the value of AutoUpdate.
+func (s *VpnEnvironmentService) SetAutoUpdate(val OptBool) {
+	s.AutoUpdate = val
 }
 
 // SetConfig sets the value of Config.
@@ -86603,6 +87963,11 @@ func (s *VpnReconfigureTaskAction) UnmarshalText(data []byte) error {
 type VpnReconfigureTaskContents struct {
 	// A boolean where true means the VPN service is enabled.
 	Enable OptBool `json:"enable"`
+	// A boolean where `true` represents the desire to run the environment vpn service in high
+	// availability mode.
+	HighAvailability OptNilBool `json:"high_availability"`
+	// A boolean representing if this service container is set to autoupdate or not.
+	AutoUpdate OptNilBool `json:"auto_update"`
 	// The config object for the VPN service, in this case without the required fields normally found in
 	// a VPN config object.
 	Config OptNilVpnReconfigureTaskContentsConfig `json:"config"`
@@ -86613,6 +87978,16 @@ func (s *VpnReconfigureTaskContents) GetEnable() OptBool {
 	return s.Enable
 }
 
+// GetHighAvailability returns the value of HighAvailability.
+func (s *VpnReconfigureTaskContents) GetHighAvailability() OptNilBool {
+	return s.HighAvailability
+}
+
+// GetAutoUpdate returns the value of AutoUpdate.
+func (s *VpnReconfigureTaskContents) GetAutoUpdate() OptNilBool {
+	return s.AutoUpdate
+}
+
 // GetConfig returns the value of Config.
 func (s *VpnReconfigureTaskContents) GetConfig() OptNilVpnReconfigureTaskContentsConfig {
 	return s.Config
@@ -86621,6 +87996,16 @@ func (s *VpnReconfigureTaskContents) GetConfig() OptNilVpnReconfigureTaskContent
 // SetEnable sets the value of Enable.
 func (s *VpnReconfigureTaskContents) SetEnable(val OptBool) {
 	s.Enable = val
+}
+
+// SetHighAvailability sets the value of HighAvailability.
+func (s *VpnReconfigureTaskContents) SetHighAvailability(val OptNilBool) {
+	s.HighAvailability = val
+}
+
+// SetAutoUpdate sets the value of AutoUpdate.
+func (s *VpnReconfigureTaskContents) SetAutoUpdate(val OptNilBool) {
+	s.AutoUpdate = val
 }
 
 // SetConfig sets the value of Config.
