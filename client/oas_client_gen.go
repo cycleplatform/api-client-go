@@ -87,7 +87,8 @@ type Invoker interface {
 	CreateEnvironment(ctx context.Context, request OptCreateEnvironmentReq) (*CreateEnvironmentCreated, error)
 	// CreateEnvironmentJob invokes createEnvironmentJob operation.
 	//
-	// Used to `start`, `stop`, or `delete` an environment. Requires the `environments-state` capability.
+	// Create a job for an environment, such as 'start' or 'stop'. Requires the `environments-state`
+	// capability.
 	//
 	// POST /v1/environments/{environmentId}/tasks
 	CreateEnvironmentJob(ctx context.Context, request OptCreateEnvironmentJobReq, params CreateEnvironmentJobParams) (*CreateEnvironmentJobAccepted, error)
@@ -98,12 +99,6 @@ type Invoker interface {
 	//
 	// POST /v1/environments/{environmentId}/services/vpn/tasks
 	CreateEnvironmentVpnTask(ctx context.Context, request OptCreateEnvironmentVpnTaskReq, params CreateEnvironmentVpnTaskParams) (*CreateEnvironmentVpnTaskAccepted, error)
-	// CreateGlobalLoadBalancer invokes createGlobalLoadBalancer operation.
-	//
-	// Requires the `sdn-global-lbs-manage` capability.
-	//
-	// POST /v1/sdn/global-lbs
-	CreateGlobalLoadBalancer(ctx context.Context, request OptCreateGlobalLoadBalancerReq, params CreateGlobalLoadBalancerParams) (*CreateGlobalLoadBalancerCreated, error)
 	// CreateHub invokes createHub operation.
 	//
 	// Create a hub resource.
@@ -470,6 +465,13 @@ type Invoker interface {
 	//
 	// GET /v1/environments/{environmentId}
 	GetEnvironmentById(ctx context.Context, params GetEnvironmentByIdParams) (*GetEnvironmentByIdOK, error)
+	// GetEnvironmentDeployments invokes getEnvironmentDeployments operation.
+	//
+	// Gets a list of all deployments in the specified environment.
+	// Requires the `environments-view` capability.
+	//
+	// GET /v1/environments/{environmentId}/deployments
+	GetEnvironmentDeployments(ctx context.Context, params GetEnvironmentDeploymentsParams) (*GetEnvironmentDeploymentsOK, error)
 	// GetEnvironmentInstancesTelemetry invokes getEnvironmentInstancesTelemetry operation.
 	//
 	// Requires the `environments-view` capability.
@@ -490,18 +492,6 @@ type Invoker interface {
 	//
 	// GET /v1/environments
 	GetEnvironments(ctx context.Context, params GetEnvironmentsParams) (*GetEnvironmentsOK, error)
-	// GetGlobalLoadBalancer invokes getGlobalLoadBalancer operation.
-	//
-	// Requires the `sdn-global-lbs-view` capability.
-	//
-	// GET /v1/sdn/global-lbs/{lbId}
-	GetGlobalLoadBalancer(ctx context.Context, params GetGlobalLoadBalancerParams) (*GetGlobalLoadBalancerOK, error)
-	// GetGlobalLoadBalancers invokes getGlobalLoadBalancers operation.
-	//
-	// Requires the `sdn-global-lbs-view` capability.
-	//
-	// GET /v1/sdn/global-lbs
-	GetGlobalLoadBalancers(ctx context.Context, params GetGlobalLoadBalancersParams) (*GetGlobalLoadBalancersOK, error)
 	// GetHub invokes getHub operation.
 	//
 	// Requires the `hubs-view` capability.
@@ -659,6 +649,18 @@ type Invoker interface {
 	//
 	// GET /v1/environments/{environmentId}/services/lb/telemetry/latest
 	GetLoadBalancerLatestTelemetryReport(ctx context.Context, params GetLoadBalancerLatestTelemetryReportParams) (*GetLoadBalancerLatestTelemetryReportOK, error)
+	// GetLoadBalancerTelemetryLatestControllers invokes getLoadBalancerTelemetryLatestControllers operation.
+	//
+	// ## Permissions
+	// Requires the `environments-view` capability. Also requires the user to have access specifically to
+	// the requested environment.
+	// ## Details
+	// Gets the controller information for the specified load balancer. Returns a similar struct to the
+	// 'latest' load balancer telemetry call, but does NOT return snapshots, just the controller
+	// information.
+	//
+	// GET /v1/environments/{environmentId}/services/lb/telemetry/latest-controllers
+	GetLoadBalancerTelemetryLatestControllers(ctx context.Context, params GetLoadBalancerTelemetryLatestControllersParams) (*GetLoadBalancerTelemetryLatestControllersOK, error)
 	// GetLoadBalancerTelemetryReport invokes getLoadBalancerTelemetryReport operation.
 	//
 	// ## Permissions
@@ -777,6 +779,12 @@ type Invoker interface {
 	//
 	// GET /v1/security/report
 	GetSecurityReport(ctx context.Context, params GetSecurityReportParams) (*GetSecurityReportOK, error)
+	// GetServerConsole invokes GetServerConsole operation.
+	//
+	// Requires the `servers-console` capability.
+	//
+	// GET /v1/infrastructure/servers/{serverId}/console
+	GetServerConsole(ctx context.Context, params GetServerConsoleParams) (*GetServerConsoleOK, error)
 	// GetServerInstances invokes getServerInstances operation.
 	//
 	// Requires the `containers-view` capability.
@@ -1011,12 +1019,6 @@ type Invoker interface {
 	//
 	// DELETE /v1/environments/{environmentId}
 	RemoveEnvironment(ctx context.Context, params RemoveEnvironmentParams) (*RemoveEnvironmentAccepted, error)
-	// RemoveGlobalLoadBalancer invokes removeGlobalLoadBalancer operation.
-	//
-	// Requires the `sdn-global-lbs-manage` capability.
-	//
-	// DELETE /v1/sdn/global-lbs/{lbId}
-	RemoveGlobalLoadBalancer(ctx context.Context, params RemoveGlobalLoadBalancerParams) (*RemoveGlobalLoadBalancerOK, error)
 	// RemoveHub invokes removeHub operation.
 	//
 	// Requires the `hubs-delete` capability. This can only be aquired by being the hub owner.
@@ -1194,12 +1196,6 @@ type Invoker interface {
 	//
 	// PATCH /v1/environments/{environmentId}
 	UpdateEnvironment(ctx context.Context, request OptUpdateEnvironmentReq, params UpdateEnvironmentParams) (*UpdateEnvironmentOK, error)
-	// UpdateGlobalLoadBalancer invokes updateGlobalLoadBalancer operation.
-	//
-	// Requires the `sdn-global-lbs-manage` capability.
-	//
-	// PATCH /v1/sdn/global-lbs/{lbId}
-	UpdateGlobalLoadBalancer(ctx context.Context, request OptUpdateGlobalLoadBalancerReq, params UpdateGlobalLoadBalancerParams) (*UpdateGlobalLoadBalancerOK, error)
 	// UpdateHub invokes updateHub operation.
 	//
 	// Updates the specified hub, setting the values of the parameters passed.
@@ -2414,7 +2410,8 @@ func (c *Client) sendCreateEnvironment(ctx context.Context, request OptCreateEnv
 
 // CreateEnvironmentJob invokes createEnvironmentJob operation.
 //
-// Used to `start`, `stop`, or `delete` an environment. Requires the `environments-state` capability.
+// Create a job for an environment, such as 'start' or 'stop'. Requires the `environments-state`
+// capability.
 //
 // POST /v1/environments/{environmentId}/tasks
 func (c *Client) CreateEnvironmentJob(ctx context.Context, request OptCreateEnvironmentJobReq, params CreateEnvironmentJobParams) (*CreateEnvironmentJobAccepted, error) {
@@ -2610,115 +2607,6 @@ func (c *Client) sendCreateEnvironmentVpnTask(ctx context.Context, request OptCr
 	defer resp.Body.Close()
 
 	result, err := decodeCreateEnvironmentVpnTaskResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CreateGlobalLoadBalancer invokes createGlobalLoadBalancer operation.
-//
-// Requires the `sdn-global-lbs-manage` capability.
-//
-// POST /v1/sdn/global-lbs
-func (c *Client) CreateGlobalLoadBalancer(ctx context.Context, request OptCreateGlobalLoadBalancerReq, params CreateGlobalLoadBalancerParams) (*CreateGlobalLoadBalancerCreated, error) {
-	res, err := c.sendCreateGlobalLoadBalancer(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendCreateGlobalLoadBalancer(ctx context.Context, request OptCreateGlobalLoadBalancerReq, params CreateGlobalLoadBalancerParams) (res *CreateGlobalLoadBalancerCreated, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/sdn/global-lbs"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "include" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "include",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateGlobalLoadBalancerRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "CreateGlobalLoadBalancer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "CreateGlobalLoadBalancer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeCreateGlobalLoadBalancerResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -9544,6 +9432,106 @@ func (c *Client) sendGetEnvironmentById(ctx context.Context, params GetEnvironme
 	return result, nil
 }
 
+// GetEnvironmentDeployments invokes getEnvironmentDeployments operation.
+//
+// Gets a list of all deployments in the specified environment.
+// Requires the `environments-view` capability.
+//
+// GET /v1/environments/{environmentId}/deployments
+func (c *Client) GetEnvironmentDeployments(ctx context.Context, params GetEnvironmentDeploymentsParams) (*GetEnvironmentDeploymentsOK, error) {
+	res, err := c.sendGetEnvironmentDeployments(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetEnvironmentDeployments(ctx context.Context, params GetEnvironmentDeploymentsParams) (res *GetEnvironmentDeploymentsOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/environments/"
+	{
+		// Encode "environmentId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "environmentId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/deployments"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetEnvironmentDeployments", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetEnvironmentDeployments", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetEnvironmentDeploymentsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetEnvironmentInstancesTelemetry invokes getEnvironmentInstancesTelemetry operation.
 //
 // Requires the `environments-view` capability.
@@ -9943,293 +9931,6 @@ func (c *Client) sendGetEnvironments(ctx context.Context, params GetEnvironments
 	defer resp.Body.Close()
 
 	result, err := decodeGetEnvironmentsResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetGlobalLoadBalancer invokes getGlobalLoadBalancer operation.
-//
-// Requires the `sdn-global-lbs-view` capability.
-//
-// GET /v1/sdn/global-lbs/{lbId}
-func (c *Client) GetGlobalLoadBalancer(ctx context.Context, params GetGlobalLoadBalancerParams) (*GetGlobalLoadBalancerOK, error) {
-	res, err := c.sendGetGlobalLoadBalancer(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetGlobalLoadBalancer(ctx context.Context, params GetGlobalLoadBalancerParams) (res *GetGlobalLoadBalancerOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/sdn/global-lbs/"
-	{
-		// Encode "lbId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "lbId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.LbId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "include" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "include",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetGlobalLoadBalancer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetGlobalLoadBalancer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetGlobalLoadBalancerResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetGlobalLoadBalancers invokes getGlobalLoadBalancers operation.
-//
-// Requires the `sdn-global-lbs-view` capability.
-//
-// GET /v1/sdn/global-lbs
-func (c *Client) GetGlobalLoadBalancers(ctx context.Context, params GetGlobalLoadBalancersParams) (*GetGlobalLoadBalancersOK, error) {
-	res, err := c.sendGetGlobalLoadBalancers(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetGlobalLoadBalancers(ctx context.Context, params GetGlobalLoadBalancersParams) (res *GetGlobalLoadBalancersOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/sdn/global-lbs"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "include" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "include",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "filter" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "filter",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Filter.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "sort" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "sort",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "page" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "page",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Page.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetGlobalLoadBalancers", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetGlobalLoadBalancers", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetGlobalLoadBalancersResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -13375,6 +13076,23 @@ func (c *Client) sendGetLoadBalancerLatestTelemetryReport(ctx context.Context, p
 	pathParts[2] = "/services/lb/telemetry/latest"
 	uri.AddPathParts(u, pathParts[:]...)
 
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return params.Filter.EncodeURI(e)
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
 	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
@@ -13431,6 +13149,111 @@ func (c *Client) sendGetLoadBalancerLatestTelemetryReport(ctx context.Context, p
 	defer resp.Body.Close()
 
 	result, err := decodeGetLoadBalancerLatestTelemetryReportResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetLoadBalancerTelemetryLatestControllers invokes getLoadBalancerTelemetryLatestControllers operation.
+//
+// ## Permissions
+// Requires the `environments-view` capability. Also requires the user to have access specifically to
+// the requested environment.
+// ## Details
+// Gets the controller information for the specified load balancer. Returns a similar struct to the
+// 'latest' load balancer telemetry call, but does NOT return snapshots, just the controller
+// information.
+//
+// GET /v1/environments/{environmentId}/services/lb/telemetry/latest-controllers
+func (c *Client) GetLoadBalancerTelemetryLatestControllers(ctx context.Context, params GetLoadBalancerTelemetryLatestControllersParams) (*GetLoadBalancerTelemetryLatestControllersOK, error) {
+	res, err := c.sendGetLoadBalancerTelemetryLatestControllers(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetLoadBalancerTelemetryLatestControllers(ctx context.Context, params GetLoadBalancerTelemetryLatestControllersParams) (res *GetLoadBalancerTelemetryLatestControllersOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/environments/"
+	{
+		// Encode "environmentId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "environmentId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/services/lb/telemetry/latest-controllers"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetLoadBalancerTelemetryLatestControllers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetLoadBalancerTelemetryLatestControllers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetLoadBalancerTelemetryLatestControllersResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -16057,6 +15880,105 @@ func (c *Client) sendGetSecurityReport(ctx context.Context, params GetSecurityRe
 	defer resp.Body.Close()
 
 	result, err := decodeGetSecurityReportResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetServerConsole invokes GetServerConsole operation.
+//
+// Requires the `servers-console` capability.
+//
+// GET /v1/infrastructure/servers/{serverId}/console
+func (c *Client) GetServerConsole(ctx context.Context, params GetServerConsoleParams) (*GetServerConsoleOK, error) {
+	res, err := c.sendGetServerConsole(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetServerConsole(ctx context.Context, params GetServerConsoleParams) (res *GetServerConsoleOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/infrastructure/servers/"
+	{
+		// Encode "serverId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "serverId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ServerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/console"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetServerConsole", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetServerConsole", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetServerConsoleResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -20753,104 +20675,6 @@ func (c *Client) sendRemoveEnvironment(ctx context.Context, params RemoveEnviron
 	return result, nil
 }
 
-// RemoveGlobalLoadBalancer invokes removeGlobalLoadBalancer operation.
-//
-// Requires the `sdn-global-lbs-manage` capability.
-//
-// DELETE /v1/sdn/global-lbs/{lbId}
-func (c *Client) RemoveGlobalLoadBalancer(ctx context.Context, params RemoveGlobalLoadBalancerParams) (*RemoveGlobalLoadBalancerOK, error) {
-	res, err := c.sendRemoveGlobalLoadBalancer(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveGlobalLoadBalancer(ctx context.Context, params RemoveGlobalLoadBalancerParams) (res *RemoveGlobalLoadBalancerOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/sdn/global-lbs/"
-	{
-		// Encode "lbId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "lbId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.LbId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveGlobalLoadBalancer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveGlobalLoadBalancer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveGlobalLoadBalancerResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // RemoveHub invokes removeHub operation.
 //
 // Requires the `hubs-delete` capability. This can only be aquired by being the hub owner.
@@ -23743,133 +23567,6 @@ func (c *Client) sendUpdateEnvironment(ctx context.Context, request OptUpdateEnv
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateEnvironmentResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// UpdateGlobalLoadBalancer invokes updateGlobalLoadBalancer operation.
-//
-// Requires the `sdn-global-lbs-manage` capability.
-//
-// PATCH /v1/sdn/global-lbs/{lbId}
-func (c *Client) UpdateGlobalLoadBalancer(ctx context.Context, request OptUpdateGlobalLoadBalancerReq, params UpdateGlobalLoadBalancerParams) (*UpdateGlobalLoadBalancerOK, error) {
-	res, err := c.sendUpdateGlobalLoadBalancer(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendUpdateGlobalLoadBalancer(ctx context.Context, request OptUpdateGlobalLoadBalancerReq, params UpdateGlobalLoadBalancerParams) (res *UpdateGlobalLoadBalancerOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/sdn/global-lbs/"
-	{
-		// Encode "lbId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "lbId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.LbId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "include" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "include",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeUpdateGlobalLoadBalancerRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "UpdateGlobalLoadBalancer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "UpdateGlobalLoadBalancer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeUpdateGlobalLoadBalancerResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

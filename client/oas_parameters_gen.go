@@ -56,15 +56,6 @@ type CreateEnvironmentVpnTaskParams struct {
 	EnvironmentId string
 }
 
-// CreateGlobalLoadBalancerParams is parameters of createGlobalLoadBalancer operation.
-type CreateGlobalLoadBalancerParams struct {
-	// A comma separated list of include values. Included resources will show up under the root
-	// document's `include` field, with the key being the id of the included resource. In the case of
-	// applying an include to a collection of resources, if two resources share the same include, it will
-	// only appear once in the return.
-	Include []CreateGlobalLoadBalancerIncludeItem
-}
-
 // CreateImageJobParams is parameters of createImageJob operation.
 type CreateImageJobParams struct {
 	// The ID of the requested image.
@@ -499,6 +490,12 @@ type GetEnvironmentByIdParams struct {
 	Include []GetEnvironmentByIdIncludeItem
 }
 
+// GetEnvironmentDeploymentsParams is parameters of getEnvironmentDeployments operation.
+type GetEnvironmentDeploymentsParams struct {
+	// The ID of the environment to get the list of deployments for.
+	EnvironmentId string
+}
+
 // GetEnvironmentInstancesTelemetryParams is parameters of getEnvironmentInstancesTelemetry operation.
 type GetEnvironmentInstancesTelemetryParams struct {
 	// The ID of the desired environment.
@@ -536,35 +533,6 @@ type GetEnvironmentsParams struct {
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptGetEnvironmentsPage
-}
-
-// GetGlobalLoadBalancerParams is parameters of getGlobalLoadBalancer operation.
-type GetGlobalLoadBalancerParams struct {
-	// The ID of the global load balancer.
-	LbId string
-	// A comma separated list of include values. Included resources will show up under the root
-	// document's `include` field, with the key being the id of the included resource. In the case of
-	// applying an include to a collection of resources, if two resources share the same include, it will
-	// only appear once in the return.
-	Include []GetGlobalLoadBalancerIncludeItem
-}
-
-// GetGlobalLoadBalancersParams is parameters of getGlobalLoadBalancers operation.
-type GetGlobalLoadBalancersParams struct {
-	// A comma separated list of include values. Included resources will show up under the root
-	// document's `include` field, with the key being the id of the included resource. In the case of
-	// applying an include to a collection of resources, if two resources share the same include, it will
-	// only appear once in the return.
-	Include []GetGlobalLoadBalancersIncludeItem
-	// ## Filter Field
-	// The filter field is a key-value object, where the key is what you would like to filter, and the
-	// value is the value you're filtering for.
-	Filter OptGetGlobalLoadBalancersFilter
-	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort []string
-	// In a list return, the data associated with the page number and size returned. 20 results per page,
-	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptGetGlobalLoadBalancersPage
 }
 
 // GetHubParams is parameters of getHub operation.
@@ -863,6 +831,18 @@ type GetLoadBalancerInfoParams struct {
 type GetLoadBalancerLatestTelemetryReportParams struct {
 	// The environmentId where the load balancer resides.
 	EnvironmentId string
+	// ## Filter Field
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	// ### Required Filter
+	// On this endpoint, you MUST pass filter[controller].
+	Filter GetLoadBalancerLatestTelemetryReportFilter
+}
+
+// GetLoadBalancerTelemetryLatestControllersParams is parameters of getLoadBalancerTelemetryLatestControllers operation.
+type GetLoadBalancerTelemetryLatestControllersParams struct {
+	// The ID of the environment of the desired load balancer.
+	EnvironmentId string
 }
 
 // GetLoadBalancerTelemetryReportParams is parameters of getLoadBalancerTelemetryReport operation.
@@ -1105,6 +1085,12 @@ type GetSecurityReportParams struct {
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetSecurityReportFilter
+}
+
+// GetServerConsoleParams is parameters of GetServerConsole operation.
+type GetServerConsoleParams struct {
+	// The ID of the server to connect to.
+	ServerId string
 }
 
 // GetServerInstancesParams is parameters of getServerInstances operation.
@@ -1471,12 +1457,6 @@ type RemoveEnvironmentParams struct {
 	EnvironmentId string
 }
 
-// RemoveGlobalLoadBalancerParams is parameters of removeGlobalLoadBalancer operation.
-type RemoveGlobalLoadBalancerParams struct {
-	// The ID of the global load balancer.
-	LbId string
-}
-
 // RemoveHubInviteParams is parameters of removeHubInvite operation.
 type RemoveHubInviteParams struct {
 	// The ID of the hub invite.
@@ -1643,17 +1623,6 @@ type UpdateDNSZoneParams struct {
 type UpdateEnvironmentParams struct {
 	// The ID of the requested environment.
 	EnvironmentId string
-}
-
-// UpdateGlobalLoadBalancerParams is parameters of updateGlobalLoadBalancer operation.
-type UpdateGlobalLoadBalancerParams struct {
-	// The ID of the global load balancer.
-	LbId string
-	// A comma separated list of include values. Included resources will show up under the root
-	// document's `include` field, with the key being the id of the included resource. In the case of
-	// applying an include to a collection of resources, if two resources share the same include, it will
-	// only appear once in the return.
-	Include []UpdateGlobalLoadBalancerIncludeItem
 }
 
 // UpdateHubMemberParams is parameters of updateHubMember operation.
