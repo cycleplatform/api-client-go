@@ -5,15 +5,15 @@ package api
 // setDefaults set default value of fields.
 func (s *ContainerIntegrationsBackups) setDefaults() {
 	{
-		val := Duration("365d")
+		val := string("365d")
 		s.Retention.SetTo(val)
 	}
 }
 
 // setDefaults set default value of fields.
-func (s *StackContainerConfigIntegrationsBackups) setDefaults() {
+func (s *StackContainerItemConfigIntegrationsBackups) setDefaults() {
 	{
-		val := Duration("365d")
+		val := string("365d")
 		s.Retention.SetTo(val)
 	}
 }

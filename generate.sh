@@ -1,1 +1,1 @@
-go run github.com/ogen-go/ogen/cmd/ogen@v0.79.1 --config=config.json --target client --clean ./api-spec/dist/public-api.yml
+go run github.com/ogen-go/ogen/cmd/ogen@v0.81.2 --config=config.json --target client --clean ./api-spec/dist/public-api.yml
