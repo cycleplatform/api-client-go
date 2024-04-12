@@ -6,7 +6,12 @@ import (
 	"net/http"
 
 	ht "github.com/ogen-go/ogen/http"
+	"github.com/ogen-go/ogen/ogenregex"
 )
+
+var regexMap = map[string]ogenregex.Regexp{
+	"^[a-f0-9]{24}$": ogenregex.MustCompile("^[a-f0-9]{24}$"),
+}
 
 type (
 	optionFunc[C any] func(*C)

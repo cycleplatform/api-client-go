@@ -17,12 +17,12 @@ import (
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
-	// ContainersListServers invokes ContainersListServers operation.
+	// ChangePassword invokes changePassword operation.
 	//
-	// Requires the `containers-view` capability.
+	// Change the password on the Account. Requires the current password of the Account to be submitted.
 	//
-	// GET /v1/containers/{containerId}/servers
-	ContainersListServers(ctx context.Context, params ContainersListServersParams) (*ContainersListServersOK, error)
+	// PATCH /v1/account/password
+	ChangePassword(ctx context.Context, request OptChangePasswordReq) (*ChangePasswordOK, error)
 	// CreateApiKey invokes createApiKey operation.
 	//
 	// Requires the `api-keys-manage` capability.
@@ -40,45 +40,66 @@ type Invoker interface {
 	// Requires the `billing-methods-manage` capability.
 	//
 	// POST /v1/billing/methods
-	CreateBillingMethod(ctx context.Context, request OptCreateBillingMethodReq) (*CreateBillingMethodOK, error)
+	CreateBillingMethod(ctx context.Context, request OptCreateBillingMethodReq) (*CreateBillingMethodCreated, error)
 	// CreateContainer invokes createContainer operation.
 	//
 	// Requires the `containers-deploy` capability.
 	//
 	// POST /v1/containers
 	CreateContainer(ctx context.Context, request OptCreateContainerReq) (*CreateContainerCreated, error)
-	// CreateContainerInstance invokes createContainerInstance operation.
+	// CreateContainerBackupJob invokes createContainerBackupJob operation.
 	//
-	// Requires the `containers-update` capability.
+	// Creates a Container Backup Job.
+	// Can be used to restore a Container Backup for a given Container Instance.
+	// Requires the `containers-backups-manage` capability.
 	//
-	// POST /v1/containers/{containerId}/instances
-	CreateContainerInstance(ctx context.Context, request []CreateContainerInstanceReqItem, params CreateContainerInstanceParams) (*CreateContainerInstanceAccepted, error)
-	// CreateContainerInstanceJob invokes createContainerInstanceJob operation.
-	//
-	// Used to perform different actions on a given container instance, requries
-	// `containers-instance-migrate` capability.
-	//
-	// POST /v1/containers/{containerId}/instances/{instanceId}/tasks
-	CreateContainerInstanceJob(ctx context.Context, request OptCreateContainerInstanceJobReq, params CreateContainerInstanceJobParams) (*CreateContainerInstanceJobAccepted, error)
+	// POST /v1/containers/{containerId}/backups/{backupId}/tasks
+	CreateContainerBackupJob(ctx context.Context, request OptCreateContainerBackupJobReq, params CreateContainerBackupJobParams) (*CreateContainerBackupJobAccepted, error)
 	// CreateContainerJob invokes createContainerJob operation.
 	//
-	// Used to perform different actions on a given container. Requires the `containers-state`,
-	// `containers-update`, or `containers-volumes-manage` capability (respectively).
+	// Used to perform different actions on a given Container.
+	// Requires the following capabilities based on the task:
+	// `start`: `containers-manage`
+	// `stop`: `containers-manage`
+	// `reconfigure`: `containers-manage`
+	// `volumes.reconfigure`: `containers-volumes-manage`
+	// `reimage`: `containers-manage`
+	// `scale`: `containers-manage`.
 	//
 	// POST /v1/containers/{containerId}/tasks
 	CreateContainerJob(ctx context.Context, request OptCreateContainerJobReq, params CreateContainerJobParams) (*CreateContainerJobAccepted, error)
-	// CreateDNSRecord invokes createDNSRecord operation.
-	//
-	// Requires the `dns-manage` capability.
-	//
-	// POST /v1/dns/zones/{zoneId}/records
-	CreateDNSRecord(ctx context.Context, request OptCreateDNSRecordReq, params CreateDNSRecordParams) (*CreateDNSRecordCreated, error)
 	// CreateDNSZone invokes createDNSZone operation.
 	//
 	// Requires the `dns-manage` capability.
 	//
 	// POST /v1/dns/zones
 	CreateDNSZone(ctx context.Context, request OptCreateDNSZoneReq) (*CreateDNSZoneCreated, error)
+	// CreateDNSZoneJob invokes createDNSZoneJob operation.
+	//
+	// Used to perform different actions on a given DNS zone.
+	// Requires the `dns-manage` capability.
+	//
+	// POST /v1/dns/zones/{zoneId}/tasks
+	CreateDNSZoneJob(ctx context.Context, request OptCreateDNSZoneJobReq, params CreateDNSZoneJobParams) (*CreateDNSZoneJobAccepted, error)
+	// CreateDNSZoneRecord invokes createDNSZoneRecord operation.
+	//
+	// Requires the `dns-manage` capability.
+	//
+	// POST /v1/dns/zones/{zoneId}/records
+	CreateDNSZoneRecord(ctx context.Context, request OptCreateDNSZoneRecordReq, params CreateDNSZoneRecordParams) (*CreateDNSZoneRecordCreated, error)
+	// CreateDNSZoneRecordJob invokes createDNSZoneRecordJob operation.
+	//
+	// Used to perform different actions on a given DNS Zone record.
+	// Requires the `dns-manage` capability.
+	//
+	// POST /v1/dns/zones/{zoneId}/records/{recordId}/tasks
+	CreateDNSZoneRecordJob(ctx context.Context, request OptCreateDNSZoneRecordJobReq, params CreateDNSZoneRecordJobParams) (*CreateDNSZoneRecordJobAccepted, error)
+	// CreateDiscoveryServiceJob invokes createDiscoveryServiceJob operation.
+	//
+	// Creates a task that will update the discovery service's configuration.
+	//
+	// POST /v1/environments/{environmentId}/services/discovery/tasks
+	CreateDiscoveryServiceJob(ctx context.Context, request OptCreateDiscoveryServiceJobReq, params CreateDiscoveryServiceJobParams) (*CreateDiscoveryServiceJobAccepted, error)
 	// CreateEnvironment invokes createEnvironment operation.
 	//
 	// Requires the `environments-create` capability.
@@ -87,21 +108,14 @@ type Invoker interface {
 	CreateEnvironment(ctx context.Context, request OptCreateEnvironmentReq) (*CreateEnvironmentCreated, error)
 	// CreateEnvironmentJob invokes createEnvironmentJob operation.
 	//
-	// Create a job for an environment, such as 'start' or 'stop'. Requires the `environments-state`
-	// capability.
+	// Create a job for an Environment, such as 'start' or 'stop'.
+	// Requires the `environments-manage` capability.
 	//
 	// POST /v1/environments/{environmentId}/tasks
 	CreateEnvironmentJob(ctx context.Context, request OptCreateEnvironmentJobReq, params CreateEnvironmentJobParams) (*CreateEnvironmentJobAccepted, error)
-	// CreateEnvironmentVpnTask invokes createEnvironmentVpnTask operation.
-	//
-	// Used to reconfigure or reset the environment VPN. Requires the `environments-vpn-manage`
-	// capability.
-	//
-	// POST /v1/environments/{environmentId}/services/vpn/tasks
-	CreateEnvironmentVpnTask(ctx context.Context, request OptCreateEnvironmentVpnTaskReq, params CreateEnvironmentVpnTaskParams) (*CreateEnvironmentVpnTaskAccepted, error)
 	// CreateHub invokes createHub operation.
 	//
-	// Create a hub resource.
+	// Create a Hub.
 	//
 	// POST /v1/hubs
 	CreateHub(ctx context.Context, request OptCreateHubReq) (*CreateHubOK, error)
@@ -113,49 +127,96 @@ type Invoker interface {
 	CreateHubInvite(ctx context.Context, request OptCreateHubInviteReq) (*CreateHubInviteCreated, error)
 	// CreateImage invokes createImage operation.
 	//
-	// Requires the `images-import` capability.
+	// Requires the `images-manage` capability.
 	//
 	// POST /v1/images
 	CreateImage(ctx context.Context, request OptCreateImageReq) (*CreateImageCreated, error)
-	// CreateImageCollectionJob invokes createImageCollectionJob operation.
-	//
-	// Used to perform different actions on a given image. Requires the `images-delete` capability.
-	//
-	// POST /v1/images/tasks
-	CreateImageCollectionJob(ctx context.Context, request OptCreateImageCollectionJobReq) (*CreateImageCollectionJobAccepted, error)
 	// CreateImageJob invokes createImageJob operation.
 	//
-	// Used to perform different actions on a given image.  Requires the `images-import` capabiltiy.
+	// Used to perform different actions on a given Image.
+	// Requires the `images-import` capability.
 	//
 	// POST /v1/images/{imageId}/tasks
 	CreateImageJob(ctx context.Context, request OptCreateImageJobReq, params CreateImageJobParams) (*CreateImageJobOK, error)
 	// CreateImageSource invokes createImageSource operation.
 	//
-	// Requires the `images-import` capability.
+	// Requires the `images-sources-manage` capability.
 	//
 	// POST /v1/images/sources
 	CreateImageSource(ctx context.Context, request OptCreateImageSourceReq) (*CreateImageSourceCreated, error)
+	// CreateImagesJob invokes createImagesJob operation.
+	//
+	// Used to perform different actions on a given image.
+	// Requires the `images-manage` capability.
+	//
+	// POST /v1/images/tasks
+	CreateImagesJob(ctx context.Context, request OptCreateImagesJobReq) (*CreateImagesJobAccepted, error)
+	// CreateInstanceJob invokes createInstanceJob operation.
+	//
+	// Used to perform different actions on a given Container Instance. Can be used to migrate or undo a
+	// migration of a Container Instance.
+	// Requires the `containers-instance-migrate` capability.
+	//
+	// POST /v1/containers/{containerId}/instances/{instanceId}/tasks
+	CreateInstanceJob(ctx context.Context, request OptCreateInstanceJobReq, params CreateInstanceJobParams) (*CreateInstanceJobAccepted, error)
+	// CreateInstances invokes createInstances operation.
+	//
+	// Manually create Instances of a Container.
+	// Requires the `containers-update` capability.
+	//
+	// POST /v1/containers/{containerId}/instances
+	CreateInstances(ctx context.Context, request []CreateInstancesReqItem, params CreateInstancesParams) (*CreateInstancesAccepted, error)
+	// CreateIntegration invokes createIntegration operation.
+	//
+	// Create an Integration resource within a hub. If the Integration definition specifies that it
+	// requires verification, then you must submit a verify task to enable it.
+	//
+	// POST /v1/hubs/current/integrations
+	CreateIntegration(ctx context.Context, request *CreateIntegrationReq, params CreateIntegrationParams) (*CreateIntegrationCreated, error)
+	// CreateIntegrationJob invokes createIntegrationJob operation.
+	//
+	// Creates a new Job targeted at the provided Hub Integration.
+	// ## Required Permissions
+	// - Requires a valid hub membership to the target hub.
+	// - Requires the `hubs-integrations-manage` capability.
+	//
+	// POST /v1/hubs/current/integrations/{integrationId}/tasks
+	CreateIntegrationJob(ctx context.Context, request OptCreateIntegrationJobReq, params CreateIntegrationJobParams) (*CreateIntegrationJobAccepted, error)
 	// CreateInvoiceJob invokes createInvoiceJob operation.
 	//
+	// Creates a new Job on an Invoice. Generally used to make a payment on an Invoice.
 	// Requires the `billing-invoices-pay` capability.
 	//
 	// POST /v1/billing/invoices/{invoiceId}/tasks
-	CreateInvoiceJob(ctx context.Context, request OptCreateInvoiceJobReq, params CreateInvoiceJobParams) (*CreateInvoiceJobOK, error)
+	CreateInvoiceJob(ctx context.Context, request OptCreateInvoiceJobReq, params CreateInvoiceJobParams) (*CreateInvoiceJobAccepted, error)
+	// CreateLoadBalancerServiceJob invokes createLoadBalancerServiceJob operation.
+	//
+	// Creates a task that will update the load balancer's configuration.
+	//
+	// POST /v1/environments/{environmentId}/services/lb/tasks
+	CreateLoadBalancerServiceJob(ctx context.Context, request OptCreateLoadBalancerServiceJobReq, params CreateLoadBalancerServiceJobParams) (*CreateLoadBalancerServiceJobAccepted, error)
+	// CreateNetwork invokes createNetwork operation.
+	//
+	// Requires the `sdn-networks-manage` capability.
+	//
+	// POST /v1/sdn/networks
+	CreateNetwork(ctx context.Context, request OptCreateNetworkReq, params CreateNetworkParams) (*CreateNetworkCreated, error)
 	// CreateNetworkJob invokes createNetworkJob operation.
 	//
 	// Requires the `sdn-networks-manage` capability.
 	//
 	// POST /v1/sdn/networks/{networkId}/tasks
-	CreateNetworkJob(ctx context.Context, request OptCreateNetworkJobReq, params CreateNetworkJobParams) (*CreateNetworkJobOK, error)
+	CreateNetworkJob(ctx context.Context, request OptCreateNetworkJobReq, params CreateNetworkJobParams) (*CreateNetworkJobAccepted, error)
 	// CreateOrder invokes createOrder operation.
 	//
-	// Requires TODO capability.
+	// Requires the `billing-orders-manage` capability.
 	//
 	// POST /v1/billing/orders
-	CreateOrder(ctx context.Context, request OptCreateOrderReq) (*CreateOrderCreated, error)
+	CreateOrder(ctx context.Context, request OptCreateOrderReq, params CreateOrderParams) (*CreateOrderCreated, error)
 	// CreateOrderJob invokes createOrderJob operation.
 	//
-	// Used to confirm an order.
+	// Used to confirm a Billing Order.
+	// Requires the `billing-services-manage` capability.
 	//
 	// POST /v1/billing/orders/{orderId}/tasks
 	CreateOrderJob(ctx context.Context, request OptCreateOrderJobReq, params CreateOrderJobParams) (*CreateOrderJobAccepted, error)
@@ -177,24 +238,19 @@ type Invoker interface {
 	//
 	// POST /v1/pipelines/{pipelineId}/keys
 	CreatePipelineTriggerKey(ctx context.Context, request OptCreatePipelineTriggerKeyReq, params CreatePipelineTriggerKeyParams) (*CreatePipelineTriggerKeyCreated, error)
-	// CreateProvider invokes createProvider operation.
+	// CreateRole invokes createRole operation.
 	//
-	// Requires the `infrastructure-providers-manage` capability.
+	// Creates a custom Role for a Hub.
+	// Requires the `hubs-roles-manage` capability.
 	//
-	// POST /v1/infrastructure/providers
-	CreateProvider(ctx context.Context, request OptCreateProviderReq) (*CreateProviderCreated, error)
-	// CreateProviderJob invokes createProviderJob operation.
+	// POST /v1/hubs/current/roles
+	CreateRole(ctx context.Context, request OptCreateRoleReq) (*CreateRoleCreated, error)
+	// CreateSchedulerServiceJob invokes createSchedulerServiceJob operation.
 	//
-	// Requires the `infrastructure-providers-manage` capability.
+	// Creates a task that will update the scheduler service's configuration.
 	//
-	// POST /v1/infrastructure/providers/{providerIdentifier}/tasks
-	CreateProviderJob(ctx context.Context, request OptCreateProviderJobReq, params CreateProviderJobParams) (*CreateProviderJobAccepted, error)
-	// CreateSDNNetwork invokes createSDNNetwork operation.
-	//
-	// Requires the `sdn-networks-manage` capability.
-	//
-	// POST /v1/sdn/networks
-	CreateSDNNetwork(ctx context.Context, request OptCreateSDNNetworkReq, params CreateSDNNetworkParams) (*CreateSDNNetworkCreated, error)
+	// POST /v1/environments/{environmentId}/services/scheduler/tasks
+	CreateSchedulerServiceJob(ctx context.Context, request OptCreateSchedulerServiceJobReq, params CreateSchedulerServiceJobParams) (*CreateSchedulerServiceJobAccepted, error)
 	// CreateScopedVariable invokes createScopedVariable operation.
 	//
 	// Requires the `scoped-variables-manage` capability.
@@ -209,10 +265,10 @@ type Invoker interface {
 	CreateServer(ctx context.Context, request OptCreateServerReq) (*CreateServerAccepted, error)
 	// CreateServerJob invokes createServerJob operation.
 	//
-	// Used to perform different actions on a given server. Requires the `servers-state` capability.
+	// Used to perform different actions on a given Server. Requires the `servers-manage` capability.
 	//
 	// POST /v1/infrastructure/servers/{serverId}/tasks
-	CreateServerJob(ctx context.Context, request OptCreateServerJobReq, params CreateServerJobParams) (*CreateServerJobOK, error)
+	CreateServerJob(ctx context.Context, request OptCreateServerJobReq, params CreateServerJobParams) (*CreateServerJobAccepted, error)
 	// CreateStack invokes createStack operation.
 	//
 	// Requires the `stacks-manage` capability.
@@ -237,57 +293,230 @@ type Invoker interface {
 	//
 	// POST /v1/stacks/{stackId}/tasks
 	CreateStackJob(ctx context.Context, request OptCreateStackJobReq, params CreateStackJobParams) (*CreateStackJobAccepted, error)
+	// CreateVPNServiceJob invokes createVPNServiceJob operation.
+	//
+	// Used to reconfigure or reset the Environment VPN. Requires the `environments-vpn-manage`
+	// capability.
+	//
+	// POST /v1/environments/{environmentId}/services/vpn/tasks
+	CreateVPNServiceJob(ctx context.Context, request OptCreateVPNServiceJobReq, params CreateVPNServiceJobParams) (*CreateVPNServiceJobAccepted, error)
 	// CreateVPNUser invokes createVPNUser operation.
 	//
 	// Requires the `environments-vpn-manage` capability.
 	//
 	// POST /v1/environments/{environmentId}/services/vpn/users
 	CreateVPNUser(ctx context.Context, request OptCreateVPNUserReq, params CreateVPNUserParams) (*CreateVPNUserCreated, error)
-	// DNSRecordTask invokes DNSRecordTask operation.
+	// DeleteAPIKey invokes deleteAPIKey operation.
 	//
-	// Used to perform different actionson a given DNS record, requires the `dns-manage` capability.
+	// Requires the 'api-keys-manage' capability.
 	//
-	// POST /v1/dns/zones/{zoneId}/records/{recordId}/tasks
-	DNSRecordTask(ctx context.Context, request OptDNSRecordTaskReq, params DNSRecordTaskParams) (*DNSRecordTaskAccepted, error)
-	// DNSTLSAttempts invokes DNSTLSAttempts operation.
+	// DELETE /v1/hubs/current/api-keys/{apikeyId}
+	DeleteAPIKey(ctx context.Context, params DeleteAPIKeyParams) (*DeleteAPIKeyOK, error)
+	// DeleteAccount invokes deleteAccount operation.
 	//
-	// Requires the `dns-view` capability.
+	// Puts the Account into a `deleted` state. This will fail if the Account is the current `OWNER` of
+	// an active Hub.
 	//
-	// GET /v1/dns/tls/attempts
-	DNSTLSAttempts(ctx context.Context, params DNSTLSAttemptsParams) (*DNSTLSAttemptsOK, error)
-	// DNSZoneTask invokes DNSZoneTask operation.
+	// DELETE /v1/account
+	DeleteAccount(ctx context.Context) (*DeleteAccountAccepted, error)
+	// DeleteAutoScaleGroup invokes deleteAutoScaleGroup operation.
 	//
-	// Used to perform different actions on a given DNS zone, requires the `dns-manage` capability.
+	// Requires the `autoscale-group-manage` capability.
 	//
-	// POST /v1/dns/zones/{zoneId}/tasks
-	DNSZoneTask(ctx context.Context, request OptDNSZoneTaskReq, params DNSZoneTaskParams) (*DNSZoneTaskAccepted, error)
-	// DisableTwoFa invokes disableTwoFa operation.
+	// DELETE /v1/infrastructure/auto-scale/groups/{groupId}
+	DeleteAutoScaleGroup(ctx context.Context, params DeleteAutoScaleGroupParams) (*DeleteAutoScaleGroupAccepted, error)
+	// DeleteBillingMethod invokes deleteBillingMethod operation.
 	//
-	// Disable TwoFa for an account.
+	// Deletes the Billing Method. However, the primary payment method may not be deleted.
+	// Requires the `billing-methods-manage` capability.
+	//
+	// DELETE /v1/billing/methods/{methodId}
+	DeleteBillingMethod(ctx context.Context, params DeleteBillingMethodParams) (*DeleteBillingMethodAccepted, error)
+	// DeleteContainer invokes deleteContainer operation.
+	//
+	// Requires the `containers-manage` capability.
+	//
+	// DELETE /v1/containers/{containerId}
+	DeleteContainer(ctx context.Context, params DeleteContainerParams) (*DeleteContainerAccepted, error)
+	// DeleteContainerBackup invokes deleteContainerBackup operation.
+	//
+	// Requires the `containers-backups-manage` capability.
+	//
+	// DELETE /v1/containers/{containerId}/backups/{backupId}
+	DeleteContainerBackup(ctx context.Context, params DeleteContainerBackupParams) (*DeleteContainerBackupAccepted, error)
+	// DeleteContainerInstances invokes deleteContainerInstances operation.
+	//
+	// Manually delete Instances of a Container.
+	// Requires the `containers-update` capability.
+	//
+	// DELETE /v1/containers/{containerId}/instances
+	DeleteContainerInstances(ctx context.Context, params DeleteContainerInstancesParams) (*DeleteContainerInstancesAccepted, error)
+	// DeleteDNSZone invokes deleteDNSZone operation.
+	//
+	// Requires the `dns-manage` capability.
+	//
+	// DELETE /v1/dns/zones/{zoneId}
+	DeleteDNSZone(ctx context.Context, params DeleteDNSZoneParams) (*DeleteDNSZoneAccepted, error)
+	// DeleteDNSZoneRecord invokes deleteDNSZoneRecord operation.
+	//
+	// Requires the `dns-manage` capability.
+	//
+	// DELETE /v1/dns/zones/{zoneId}/records/{recordId}
+	DeleteDNSZoneRecord(ctx context.Context, params DeleteDNSZoneRecordParams) (*DeleteDNSZoneRecordAccepted, error)
+	// DeleteEnvironment invokes deleteEnvironment operation.
+	//
+	// Requires the `environments-manage` capability.
+	//
+	// DELETE /v1/environments/{environmentId}
+	DeleteEnvironment(ctx context.Context, params DeleteEnvironmentParams) (*DeleteEnvironmentAccepted, error)
+	// DeleteHub invokes deleteHub operation.
+	//
+	// Requires the `hubs-delete` capability. This can only be aquired by being the hub owner.
+	//
+	// DELETE /v1/hubs/current
+	DeleteHub(ctx context.Context) (*DeleteHubAccepted, error)
+	// DeleteHubInvite invokes deleteHubInvite operation.
+	//
+	// Requires the `hub-invites-manage` capability.
+	//
+	// DELETE /v1/hubs/current/invites/{inviteId}
+	DeleteHubInvite(ctx context.Context, params DeleteHubInviteParams) (*DeleteHubInviteOK, error)
+	// DeleteHubMember invokes deleteHubMember operation.
+	//
+	// Requires the `hubs-members-manage` capability.
+	//
+	// DELETE /v1/hubs/current/members/{memberId}
+	DeleteHubMember(ctx context.Context, params DeleteHubMemberParams) (*DeleteHubMemberAccepted, error)
+	// DeleteIPPool invokes deleteIPPool operation.
+	//
+	// Requires the `infrastructure-ips-manage` capability.
+	//
+	// DELETE /v1/infrastructure/ips/pools/{poolId}
+	DeleteIPPool(ctx context.Context, params DeleteIPPoolParams) (*DeleteIPPoolAccepted, error)
+	// DeleteImage invokes deleteImage operation.
+	//
+	// Requires the `images-manage` capability.
+	//
+	// DELETE /v1/images/{imageId}
+	DeleteImage(ctx context.Context, params DeleteImageParams) (*DeleteImageOK, error)
+	// DeleteImageSource invokes deleteImageSource operation.
+	//
+	// Requires the `images-sources-manage` capability.
+	//
+	// DELETE /v1/images/sources/{sourceId}
+	DeleteImageSource(ctx context.Context, params DeleteImageSourceParams) (*DeleteImageSourceAccepted, error)
+	// DeleteInstance invokes deleteInstance operation.
+	//
+	// Requires the `containers-update` capability.
+	//
+	// DELETE /v1/containers/{containerId}/instances/{instanceId}
+	DeleteInstance(ctx context.Context, params DeleteInstanceParams) (*DeleteInstanceAccepted, error)
+	// DeleteIntegration invokes deleteIntegration operation.
+	//
+	// Deletes the specified Integration from the current hub, marking it as deleted and returning the
+	// updated Integration.
+	//
+	// DELETE /v1/hubs/current/integrations/{integrationId}
+	DeleteIntegration(ctx context.Context, params DeleteIntegrationParams) (*DeleteIntegrationAccepted, error)
+	// DeleteNetwork invokes deleteNetwork operation.
+	//
+	// Requires the `sdn-networks-manage` capability.
+	//
+	// DELETE /v1/sdn/networks/{networkId}
+	DeleteNetwork(ctx context.Context, params DeleteNetworkParams) (*DeleteNetworkAccepted, error)
+	// DeletePipeline invokes deletePipeline operation.
+	//
+	// Requires the `pipelines-manage` capability.
+	//
+	// DELETE /v1/pipelines/{pipelineId}
+	DeletePipeline(ctx context.Context, params DeletePipelineParams) (*DeletePipelineOK, error)
+	// DeletePipelineTriggerKey invokes deletePipelineTriggerKey operation.
+	//
+	// Requires the `pipelines-manage` capability.
+	//
+	// DELETE /v1/pipelines/{pipelineId}/keys/{triggerKeyId}
+	DeletePipelineTriggerKey(ctx context.Context, params DeletePipelineTriggerKeyParams) (*DeletePipelineTriggerKeyAccepted, error)
+	// DeleteRole invokes deleteRole operation.
+	//
+	// Marks a Role as 'deleted'.
+	// Requires the 'hubs-roles-manage' capability.
+	//
+	// DELETE /v1/hubs/current/roles/{roleId}
+	DeleteRole(ctx context.Context, params DeleteRoleParams) (*DeleteRoleAccepted, error)
+	// DeleteScopedVariable invokes deleteScopedVariable operation.
+	//
+	// Requires the `scoped-variables-manage` capability.
+	//
+	// DELETE /v1/environments/{environmentId}/scoped-variables/{scopedVariableId}
+	DeleteScopedVariable(ctx context.Context, params DeleteScopedVariableParams) (*DeleteScopedVariableAccepted, error)
+	// DeleteServer invokes deleteServer operation.
+	//
+	// Requires the `servers-manage` capability.
+	//
+	// DELETE /v1/infrastructure/servers/{serverId}
+	DeleteServer(ctx context.Context, params DeleteServerParams) (*DeleteServerOK, error)
+	// DeleteStack invokes deleteStack operation.
+	//
+	// Requires the `stacks-manage` capability.
+	//
+	// DELETE /v1/stacks/{stackId}
+	DeleteStack(ctx context.Context, params DeleteStackParams) (*DeleteStackAccepted, error)
+	// DeleteStackBuild invokes deleteStackBuild operation.
+	//
+	// Requires the `stacks-manage` capability.
+	//
+	// DELETE /v1/stacks/{stackId}/builds/{buildId}
+	DeleteStackBuild(ctx context.Context, params DeleteStackBuildParams) (*DeleteStackBuildOK, error)
+	// DeleteVPNUser invokes deleteVPNUser operation.
+	//
+	// Requires the `environments-vpn-manage` capability.
+	//
+	// DELETE /v1/environments/{environmentId}/services/vpn/users/{userId}
+	DeleteVPNUser(ctx context.Context, params DeleteVPNUserParams) (*DeleteVPNUserOK, error)
+	// DisableTwoFactorAuth invokes disableTwoFactorAuth operation.
+	//
+	// Disables two-factor auth for the account.
 	//
 	// POST /v1/account/2fa/disable
-	DisableTwoFa(ctx context.Context, request OptDisableTwoFaReq) (*DisableTwoFaOK, error)
-	// ExpireInstanceSSHTokens invokes expireInstanceSSHTokens operation.
+	DisableTwoFactorAuth(ctx context.Context, request OptDisableTwoFactorAuthReq) (*DisableTwoFactorAuthOK, error)
+	// EnableTwoFactorAuth invokes enableTwoFactorAuth operation.
 	//
+	// Enables two-factor auth for the Account. Retrieve the token from an authenticator app using the
+	// secret from `getTwoFactorAuthSetup`.
+	//
+	// POST /v1/account/2fa/setup
+	EnableTwoFactorAuth(ctx context.Context, request OptEnableTwoFactorAuthReq) (*EnableTwoFactorAuthOK, error)
+	// ExpireInstanceSSHCredentials invokes expireInstanceSSHCredentials operation.
+	//
+	// Instantly expires any SSH credentials generated for this Instance.
 	// Requires the `containers-ssh` capability.
 	//
 	// DELETE /v1/containers/{containerId}/instances/{instanceId}/ssh
-	ExpireInstanceSSHTokens(ctx context.Context, params ExpireInstanceSSHTokensParams) (*ExpireInstanceSSHTokensOK, error)
-	// FetchScopedVariable invokes fetchScopedVariable operation.
+	ExpireInstanceSSHCredentials(ctx context.Context, params ExpireInstanceSSHCredentialsParams) (*ExpireInstanceSSHCredentialsOK, error)
+	// GenerateInstanceSSHCredentials invokes generateInstanceSSHCredentials operation.
 	//
-	// Requires the `scoped-variables-view` capability.
+	// Generates credentials for connecting to an Instance via SSH. The generated endpoint/secret can be
+	// used to log in via SSH
+	// into the Instance without exposing ports on the container or host.
+	// Requires the `containers-ssh` capability.
 	//
-	// GET /v1/environments/{environmentId}/scoped-variables/{scopedVariableId}
-	FetchScopedVariable(ctx context.Context, params FetchScopedVariableParams) (*FetchScopedVariableOK, error)
+	// GET /v1/containers/{containerId}/instances/{instanceId}/ssh
+	GenerateInstanceSSHCredentials(ctx context.Context, params GenerateInstanceSSHCredentialsParams) (*GenerateInstanceSSHCredentialsOK, error)
+	// GetAPIKey invokes getAPIKey operation.
+	//
+	// Requries the `api-keys-manage` capability.
+	//
+	// GET /v1/hubs/current/api-keys/{apikeyId}
+	GetAPIKey(ctx context.Context, params GetAPIKeyParams) (*GetAPIKeyOK, error)
 	// GetAccount invokes getAccount operation.
 	//
-	// Gets the account associated with the authenticated user token.
+	// Gets the Account associated with the authenticated bearer token.
 	//
 	// GET /v1/account
 	GetAccount(ctx context.Context) (*GetAccountOK, error)
 	// GetAccountInvites invokes getAccountInvites operation.
 	//
-	// Lists invites associated with a given account.
+	// Lists the pending Hub Memberships (also known as Invites) associated with the Account.
 	//
 	// GET /v1/account/invites
 	GetAccountInvites(ctx context.Context, params GetAccountInvitesParams) (*GetAccountInvitesOK, error)
@@ -299,22 +528,16 @@ type Invoker interface {
 	GetAccountLogins(ctx context.Context, params GetAccountLoginsParams) (*GetAccountLoginsOK, error)
 	// GetAccountMemberships invokes getAccountMemberships operation.
 	//
-	// Lists the memberships for a given account.
+	// Lists the Hub Memberships for a given account.
 	//
 	// GET /v1/account/memberships
-	GetAccountMemberships(ctx context.Context) (*GetAccountMembershipsOK, error)
-	// GetAnnouncementsList invokes getAnnouncementsList operation.
+	GetAccountMemberships(ctx context.Context, params GetAccountMembershipsParams) (*GetAccountMembershipsOK, error)
+	// GetAnnouncements invokes getAnnouncements operation.
 	//
 	// Lists any important updates posted by the Cycle team.
 	//
 	// GET /v1/announcements
-	GetAnnouncementsList(ctx context.Context, params GetAnnouncementsListParams) (*GetAnnouncementsListOK, error)
-	// GetApiKey invokes getApiKey operation.
-	//
-	// Requries the `api-keys-manage` capability.
-	//
-	// GET /v1/hubs/current/api-keys/{apikeyId}
-	GetApiKey(ctx context.Context, params GetApiKeyParams) (*GetApiKeyOK, error)
+	GetAnnouncements(ctx context.Context, params GetAnnouncementsParams) (*GetAnnouncementsOK, error)
 	// GetApiKeys invokes getApiKeys operation.
 	//
 	// Requires the `api-keys-manage` capability.
@@ -333,24 +556,12 @@ type Invoker interface {
 	//
 	// GET /v1/infrastructure/auto-scale/groups
 	GetAutoScaleGroups(ctx context.Context, params GetAutoScaleGroupsParams) (*GetAutoScaleGroupsOK, error)
-	// GetBackup invokes getBackup operation.
+	// GetAvailableIntegrations invokes getAvailableIntegrations operation.
 	//
-	// Requires the `containers-backups-view` capability.
+	// Returns a map of available integrations categorized by their type.
 	//
-	// GET /v1/containers/{containerId}/backups/{backupId}
-	GetBackup(ctx context.Context, params GetBackupParams) (*GetBackupOK, error)
-	// GetBackupLogs invokes getBackupLogs operation.
-	//
-	// Requires the `containers-backups-view` capability.
-	//
-	// GET /v1/containers/{containerId}/backups/{backupId}/logs
-	GetBackupLogs(ctx context.Context, params GetBackupLogsParams) (*GetBackupLogsOK, error)
-	// GetBackupsCollection invokes getBackupsCollection operation.
-	//
-	// Requires the `containers-backups-view` capability.
-	//
-	// GET /v1/containers/{containerId}/backups
-	GetBackupsCollection(ctx context.Context, params GetBackupsCollectionParams) (*GetBackupsCollectionOK, error)
+	// GET /v1/hubs/current/integrations/available
+	GetAvailableIntegrations(ctx context.Context) (*GetAvailableIntegrationsOK, error)
 	// GetBillingMethod invokes getBillingMethod operation.
 	//
 	// Requires the `billing-methods-manage` capability.
@@ -359,19 +570,20 @@ type Invoker interface {
 	GetBillingMethod(ctx context.Context, params GetBillingMethodParams) (*GetBillingMethodOK, error)
 	// GetBillingMethods invokes getBillingMethods operation.
 	//
+	// Lists the Billing Methods associated with the Hub defined in X-Hub-ID.
 	// Requires the `billing-methods-manage` capability.
 	//
 	// GET /v1/billing/methods
 	GetBillingMethods(ctx context.Context, params GetBillingMethodsParams) (*GetBillingMethodsOK, error)
 	// GetBillingOrder invokes getBillingOrder operation.
 	//
-	// Requires the `billing-orders-manage` capability.
+	// Requires the `billing-services-manage` capability.
 	//
 	// GET /v1/billing/orders/{orderId}
 	GetBillingOrder(ctx context.Context, params GetBillingOrderParams) (*GetBillingOrderOK, error)
 	// GetBillingOverages invokes getBillingOverages operation.
 	//
-	// Doesn't require a specific capability.
+	// List Billing Overages.
 	//
 	// GET /v1/billing/services/overages
 	GetBillingOverages(ctx context.Context, params GetBillingOveragesParams) (*GetBillingOveragesOK, error)
@@ -389,40 +601,81 @@ type Invoker interface {
 	GetBillingServices(ctx context.Context, params GetBillingServicesParams) (*GetBillingServicesOK, error)
 	// GetBillingSupportPlans invokes getBillingSupportPlans operation.
 	//
-	// Doesn't require a specific capability to call.
+	// List Support Plans.
+	//
+	// Deprecated: schema marks this operation as deprecated.
 	//
 	// GET /v1/billing/plans/support
 	GetBillingSupportPlans(ctx context.Context, params GetBillingSupportPlansParams) (*GetBillingSupportPlansOK, error)
+	// GetBillingTiers invokes getBillingTiers operation.
+	//
+	// Returns list of availiable Billing Tiers.
+	//
+	// GET /v1/billing/plans/tiers
+	GetBillingTiers(ctx context.Context) (*GetBillingTiersOK, error)
+	// GetClusters invokes GetClusters operation.
+	//
+	// Requires the `servers-view` capability.
+	//
+	// GET /v1/infrastructure/servers/clusters
+	GetClusters(ctx context.Context) (*GetClustersOK, error)
 	// GetCompatibleImages invokes getCompatibleImages operation.
 	//
+	// Returns a list of Images that are compatible with the specified Container.
+	// Used to quickly find Images that can be used for reimaging the Container.
 	// Requires the `containers-view` capability.
 	//
 	// GET /v1/containers/{containerId}/compatible-images
 	GetCompatibleImages(ctx context.Context, params GetCompatibleImagesParams) (*GetCompatibleImagesOK, error)
-	// GetContainerById invokes getContainerById operation.
+	// GetCompatibleServers invokes getCompatibleServers operation.
 	//
+	// Gets a list of servers that are compatible with the specified Container and its restrictions (tags,
+	//  etc).
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/containers/{containerId}/servers/usable
+	GetCompatibleServers(ctx context.Context, params GetCompatibleServersParams) (*GetCompatibleServersOK, error)
+	// GetContainer invokes getContainer operation.
+	//
+	// Gets a Container.
 	// Requires the `containers-view` capability.
 	//
 	// GET /v1/containers/{containerId}
-	GetContainerById(ctx context.Context, params GetContainerByIdParams) (*GetContainerByIdOK, error)
-	// GetContainerInstance invokes getContainerInstance operation.
+	GetContainer(ctx context.Context, params GetContainerParams) (*GetContainerOK, error)
+	// GetContainerBackup invokes getContainerBackup operation.
 	//
-	// Requires the `containers-view` capability.
+	// Gets the specified Container Backup.
+	// Requires the `containers-backups-view` capability.
 	//
-	// GET /v1/containers/{containerId}/instances/{instanceId}
-	GetContainerInstance(ctx context.Context, params GetContainerInstanceParams) (*GetContainerInstanceOK, error)
-	// GetContainerInstanceVolumes invokes getContainerInstanceVolumes operation.
+	// GET /v1/containers/{containerId}/backups/{backupId}
+	GetContainerBackup(ctx context.Context, params GetContainerBackupParams) (*GetContainerBackupOK, error)
+	// GetContainerBackupLogs invokes getContainerBackupLogs operation.
 	//
-	// Requires the `containers-view` capability.
+	// Requires the `containers-backups-view` capability.
 	//
-	// GET /v1/containers/{containerId}/instances/{instanceId}/volumes
-	GetContainerInstanceVolumes(ctx context.Context, params GetContainerInstanceVolumesParams) (*GetContainerInstanceVolumesOK, error)
+	// GET /v1/containers/{containerId}/backups/{backupId}/logs
+	GetContainerBackupLogs(ctx context.Context, params GetContainerBackupLogsParams) (*GetContainerBackupLogsOK, error)
+	// GetContainerBackups invokes getContainerBackups operation.
+	//
+	// Requires the `containers-backups-view` capability.
+	//
+	// GET /v1/containers/{containerId}/backups
+	GetContainerBackups(ctx context.Context, params GetContainerBackupsParams) (*GetContainerBackupsOK, error)
 	// GetContainerInstancesTelemetry invokes getContainerInstancesTelemetry operation.
 	//
+	// Gets a list of telemetry points describing the number and state of all Instances of this Container
+	// at a point in time.
 	// Requires the `containers-view` capability.
 	//
 	// GET /v1/containers/{containerId}/telemetry/instances
 	GetContainerInstancesTelemetry(ctx context.Context, params GetContainerInstancesTelemetryParams) (*GetContainerInstancesTelemetryOK, error)
+	// GetContainerServers invokes getContainerServers operation.
+	//
+	// Lists all Servers that currently have an Instance of this Container deployed to them.
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/containers/{containerId}/servers
+	GetContainerServers(ctx context.Context, params GetContainerServersParams) (*GetContainerServersOK, error)
 	// GetContainerSummary invokes getContainerSummary operation.
 	//
 	// Requires the `containers-view` capability.
@@ -443,6 +696,7 @@ type Invoker interface {
 	GetCredit(ctx context.Context, params GetCreditParams) (*GetCreditOK, error)
 	// GetCredits invokes getCredits operation.
 	//
+	// Lists the Billing Credits associated with the current Hub.
 	// Requires the `billing-credits-view` capability.
 	//
 	// GET /v1/billing/credits
@@ -453,36 +707,49 @@ type Invoker interface {
 	//
 	// GET /v1/dns/zones/{zoneId}
 	GetDNSZone(ctx context.Context, params GetDNSZoneParams) (*GetDNSZoneOK, error)
+	// GetDNSZoneRecords invokes getDNSZoneRecords operation.
+	//
+	// Requires the `dns-view` capability.
+	//
+	// GET /v1/dns/zones/{zoneId}/records
+	GetDNSZoneRecords(ctx context.Context, params GetDNSZoneRecordsParams) (*GetDNSZoneRecordsOK, error)
+	// GetDNSZones invokes getDNSZones operation.
+	//
+	// Requires the `dns-view` capability.
+	//
+	// GET /v1/dns/zones
+	GetDNSZones(ctx context.Context, params GetDNSZonesParams) (*GetDNSZonesOK, error)
 	// GetDeploymentStrategies invokes getDeploymentStrategies operation.
 	//
-	// This endpoint returns available container deployment strategies.
+	// Gets the available deployment strategies that can be used to orchestrate containers.
 	//
 	// GET /v1/infrastructure/deployment-strategies
 	GetDeploymentStrategies(ctx context.Context) (*GetDeploymentStrategiesOK, error)
-	// GetEnvironmentById invokes getEnvironmentById operation.
+	// GetEnvironment invokes getEnvironment operation.
 	//
 	// Requires the `environments-view` capability.
 	//
 	// GET /v1/environments/{environmentId}
-	GetEnvironmentById(ctx context.Context, params GetEnvironmentByIdParams) (*GetEnvironmentByIdOK, error)
+	GetEnvironment(ctx context.Context, params GetEnvironmentParams) (*GetEnvironmentOK, error)
 	// GetEnvironmentDeployments invokes getEnvironmentDeployments operation.
 	//
-	// Gets a list of all deployments in the specified environment.
+	// Gets a list of all deployments in the specified Environment.
 	// Requires the `environments-view` capability.
 	//
 	// GET /v1/environments/{environmentId}/deployments
 	GetEnvironmentDeployments(ctx context.Context, params GetEnvironmentDeploymentsParams) (*GetEnvironmentDeploymentsOK, error)
 	// GetEnvironmentInstancesTelemetry invokes getEnvironmentInstancesTelemetry operation.
 	//
+	// Get telemetry points on the number of instances and their states over a range of time.
 	// Requires the `environments-view` capability.
 	//
 	// GET /v1/environments/{environmentId}/telemetry/instances
 	GetEnvironmentInstancesTelemetry(ctx context.Context, params GetEnvironmentInstancesTelemetryParams) (*GetEnvironmentInstancesTelemetryOK, error)
 	// GetEnvironmentSummary invokes getEnvironmentSummary operation.
 	//
-	// Fetches a single summary object for a specific environment. Contains useful and relevant
-	// data/statistics that would otherwise be several separate API calls.  Requires the
-	// `environments-view` capability.
+	// Gets the summary of an Environment. Contains useful and relevant data/statistics that would
+	// otherwise be several separate API calls.
+	// Requires the `environments-view` capability.
 	//
 	// GET /v1/environments/{environmentId}/summary
 	GetEnvironmentSummary(ctx context.Context, params GetEnvironmentSummaryParams) (*GetEnvironmentSummaryOK, error)
@@ -500,7 +767,7 @@ type Invoker interface {
 	GetHub(ctx context.Context, params GetHubParams) (*GetHubOK, error)
 	// GetHubCapabilities invokes getHubCapabilities operation.
 	//
-	// Does not require a capability.
+	// List Hub Capabilities.
 	//
 	// GET /v1/hubs/capabilities
 	GetHubCapabilities(ctx context.Context) (*GetHubCapabilitiesOK, error)
@@ -516,24 +783,39 @@ type Invoker interface {
 	//
 	// GET /v1/hubs/current/members/{memberId}
 	GetHubMember(ctx context.Context, params GetHubMemberParams) (*GetHubMemberOK, error)
+	// GetHubMemberAccount invokes getHubMemberAccount operation.
+	//
+	// Requires the `hubs-members-view` capability.
+	//
+	// GET /v1/hubs/current/members/account/{accountId}
+	GetHubMemberAccount(ctx context.Context, params GetHubMemberAccountParams) (*GetHubMemberAccountOK, error)
 	// GetHubMembers invokes getHubMembers operation.
 	//
 	// Requires the `hubs-members-view` capability.
 	//
 	// GET /v1/hubs/current/members
 	GetHubMembers(ctx context.Context, params GetHubMembersParams) (*GetHubMembersOK, error)
-	// GetHubMembersAccount invokes getHubMembersAccount operation.
-	//
-	// Requires the `hubs-members-view` capability.
-	//
-	// GET /v1/hubs/current/members/account/{accountId}
-	GetHubMembersAccount(ctx context.Context, params GetHubMembersAccountParams) (*GetHubMembersAccountOK, error)
 	// GetHubMembership invokes getHubMembership operation.
 	//
-	// Gets the membership information for the current hub for the requesting account.
+	// Gets the Hub Membership for the requesting Account.
 	//
 	// GET /v1/hubs/current/membership
 	GetHubMembership(ctx context.Context, params GetHubMembershipParams) (*GetHubMembershipOK, error)
+	// GetHubNotificationSocketAuth invokes getHubNotificationSocketAuth operation.
+	//
+	// Initializes authorization for the Hub notification pipeline. The Hub notification pipeline is a
+	// one-way streaming websocket that
+	// sends real-time 'notifications' as things are happening on the Hub. These notifications tell some
+	// basic information about an event,
+	// and it is up to the user to fetch additional details, if deemed necessary.
+	// Requesting this endpoint without a `?token=<token>` URL parameter will result in receiving a short
+	// lived token in the response body. That
+	// token can then be applied to the URL parameter to the same endpoint to upgrade the connection to a
+	// WebSocket.
+	// Requires the `apionly-notifications-listen` capability.
+	//
+	// GET /v1/hubs/current/notifications
+	GetHubNotificationSocketAuth(ctx context.Context) (GetHubNotificationSocketAuthRes, error)
 	// GetHubUsage invokes getHubUsage operation.
 	//
 	// Requires the `hubs-view` capability.
@@ -542,10 +824,16 @@ type Invoker interface {
 	GetHubUsage(ctx context.Context, params GetHubUsageParams) (*GetHubUsageOK, error)
 	// GetHubs invokes getHubs operation.
 	//
-	// Lists all associated hubs.
+	// Lists all associated Hubs.
 	//
 	// GET /v1/hubs
 	GetHubs(ctx context.Context, params GetHubsParams) (*GetHubsOK, error)
+	// GetIPPool invokes getIPPool operation.
+	//
+	// Requires the `infrastructure-ips-manage` capability.
+	//
+	// GET /v1/infrastructure/ips/pools/{poolId}
+	GetIPPool(ctx context.Context, params GetIPPoolParams) (*GetIPPoolOK, error)
 	// GetImage invokes getImage operation.
 	//
 	// Requires the `images-view` capability.
@@ -558,18 +846,24 @@ type Invoker interface {
 	//
 	// GET /v1/images/{imageId}/build-log
 	GetImageBuildLog(ctx context.Context, params GetImageBuildLogParams) (*GetImageBuildLogOK, error)
+	// GetImageSource invokes getImageSource operation.
+	//
+	// Requires the `images-sources-view` capability.
+	//
+	// GET /v1/images/sources/{sourceId}
+	GetImageSource(ctx context.Context, params GetImageSourceParams) (*GetImageSourceOK, error)
+	// GetImageSources invokes getImageSources operation.
+	//
+	// Requires the `images-sources-view` capability.
+	//
+	// GET /v1/images/sources
+	GetImageSources(ctx context.Context, params GetImageSourcesParams) (*GetImageSourcesOK, error)
 	// GetImages invokes getImages operation.
 	//
 	// Requires the `images-view` capability.
 	//
 	// GET /v1/images
 	GetImages(ctx context.Context, params GetImagesParams) (*GetImagesOK, error)
-	// GetInfrastructureIPPool invokes getInfrastructureIPPool operation.
-	//
-	// Requires the `infrastructure-ips-manage` capability.
-	//
-	// GET /v1/infrastructure/ips/pools/{poolId}
-	GetInfrastructureIPPool(ctx context.Context, params GetInfrastructureIPPoolParams) (*GetInfrastructureIPPoolOK, error)
 	// GetInfrastructureIPPools invokes getInfrastructureIPPools operation.
 	//
 	// Requires the `infrastructure-ips-manage` capability.
@@ -582,26 +876,63 @@ type Invoker interface {
 	//
 	// GET /v1/infrastructure/summary
 	GetInfrastructureSummary(ctx context.Context, params GetInfrastructureSummaryParams) (*GetInfrastructureSummaryOK, error)
-	// GetInstanceResourcesTelemetryReport invokes getInstanceResourcesTelemetryReport operation.
+	// GetInstance invokes getInstance operation.
 	//
 	// Requires the `containers-view` capability.
 	//
-	// GET /v1/containers/{containerId}/instances/{instanceId}/telemetry/resources/report
-	GetInstanceResourcesTelemetryReport(ctx context.Context, params GetInstanceResourcesTelemetryReportParams) (*GetInstanceResourcesTelemetryReportOK, error)
-	// GetInstanceResourcesTelemetryStream invokes getInstanceResourcesTelemetryStream operation.
+	// GET /v1/containers/{containerId}/instances/{instanceId}
+	GetInstance(ctx context.Context, params GetInstanceParams) (*GetInstanceOK, error)
+	// GetInstanceConsoleStreamAuth invokes getInstanceConsoleStreamAuth operation.
 	//
-	// Requires the `containers-view` capability. Retrieves an access token and URL to open a websocket
-	// to for streaming instance telemetry live. This connects directly to the compute layer on the
-	// server the instance is hosted on, and streams telemetry in real time.
+	// Returns the authorization information necessary to connect to a Container Instance's console.
+	// To connect via WebSocket, use the returned address, and append the returned token as a URL
+	// parameter: `<address>?token=<token>`.
+	// Requires the `containers-console` capability.
+	//
+	// GET /v1/containers/{containerId}/instances/{instanceId}/console
+	GetInstanceConsoleStreamAuth(ctx context.Context, params GetInstanceConsoleStreamAuthParams) (*GetInstanceConsoleStreamAuthOK, error)
+	// GetInstanceTelemetryReport invokes getInstanceTelemetryReport operation.
+	//
+	// Retrieves a point-in-time report of an Instance's resource usage (CPU, RAM, Network, Storage, etc).
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/containers/{containerId}/instances/{instanceId}/telemetry/resources/report
+	GetInstanceTelemetryReport(ctx context.Context, params GetInstanceTelemetryReportParams) (*GetInstanceTelemetryReportOK, error)
+	// GetInstanceTelemetryStreamAuth invokes getInstanceTelemetryStreamAuth operation.
+	//
+	// Retrieves an access token and URL to open a websocket to for streaming instance telemetry live.
+	// This connects directly to the compute layer on the server the instance is hosted on, and streams
+	// telemetry in real time.
+	// Requires the `containers-view` capability.
 	//
 	// GET /v1/containers/{containerId}/instances/{instanceId}/telemetry/resources/stream
-	GetInstanceResourcesTelemetryStream(ctx context.Context, params GetInstanceResourcesTelemetryStreamParams) (*GetInstanceResourcesTelemetryStreamOK, error)
+	GetInstanceTelemetryStreamAuth(ctx context.Context, params GetInstanceTelemetryStreamAuthParams) (*GetInstanceTelemetryStreamAuthOK, error)
+	// GetInstanceVolumes invokes getInstanceVolumes operation.
+	//
+	// Requires the `containers-view` capability.
+	//
+	// GET /v1/containers/{containerId}/instances/{instanceId}/volumes
+	GetInstanceVolumes(ctx context.Context, params GetInstanceVolumesParams) (*GetInstanceVolumesOK, error)
 	// GetInstances invokes getInstances operation.
 	//
 	// Requires the `containers-view` capability.
 	//
 	// GET /v1/containers/{containerId}/instances
 	GetInstances(ctx context.Context, params GetInstancesParams) (*GetInstancesOK, error)
+	// GetIntegration invokes getIntegration operation.
+	//
+	// Retrieves details of a single Integration associated with the current hub.
+	// Requires the `hubs-integrations-view` capability.
+	//
+	// GET /v1/hubs/current/integrations/{integrationId}
+	GetIntegration(ctx context.Context, params GetIntegrationParams) (*GetIntegrationOK, error)
+	// GetIntegrations invokes getIntegrations operation.
+	//
+	// Lists all integrations associated with the current Hub, with optional filtering.
+	// Requires the `hubs-integrations-view` capability.
+	//
+	// GET /v1/hubs/current/integrations
+	GetIntegrations(ctx context.Context, params GetIntegrationsParams) (*GetIntegrationsOK, error)
 	// GetInvoice invokes getInvoice operation.
 	//
 	// Requires the `billing-invoices-view` capability.
@@ -610,73 +941,65 @@ type Invoker interface {
 	GetInvoice(ctx context.Context, params GetInvoiceParams) (*GetInvoiceOK, error)
 	// GetInvoices invokes getInvoices operation.
 	//
+	// List the Invoices assoicated with the Hub.
 	// Requires the `billing-invoices-view` capability.
 	//
 	// GET /v1/billing/invoices
 	GetInvoices(ctx context.Context, params GetInvoicesParams) (*GetInvoicesOK, error)
 	// GetJob invokes getJob operation.
 	//
-	// Requires the `jobs-view` permission.
+	// Requires the `apionly-jobs-view` permission.
 	//
 	// GET /v1/jobs/{jobId}
 	GetJob(ctx context.Context, params GetJobParams) (*GetJobOK, error)
 	// GetJobs invokes getJobs operation.
 	//
-	// Requires the `jobs-view` permission.
+	// Requires the `apionly-jobs-view` permission.
 	//
 	// GET /v1/jobs
 	GetJobs(ctx context.Context, params GetJobsParams) (*GetJobsOK, error)
 	// GetLatestJobs invokes getLatestJobs operation.
 	//
-	// Requires the `jobs-view` permission.
+	// Requires the `apionly-jobs-view` permission.
 	//
 	// GET /v1/jobs/latest
 	GetLatestJobs(ctx context.Context) (*GetLatestJobsOK, error)
-	// GetLoadBalancerInfo invokes getLoadBalancerInfo operation.
+	// GetLoadBalancerLatestTelemetryReport invokes getLoadBalancerLatestTelemetryReport operation.
+	//
+	// Fetches the latest telemetry report for Cycle's native load balancer. Provides detailed
+	// information on a per-instance basis.
+	// ## Permissions
+	// Requires the `environments-view` capability. Also requires the user to have access specifically to
+	// the requested Environment.
+	//
+	// GET /v1/environments/{environmentId}/services/lb/telemetry/latest
+	GetLoadBalancerLatestTelemetryReport(ctx context.Context, params GetLoadBalancerLatestTelemetryReportParams) (*GetLoadBalancerLatestTelemetryReportOK, error)
+	// GetLoadBalancerService invokes getLoadBalancerService operation.
 	//
 	// Requires the `environments-view` capability.
 	//
 	// GET /v1/environments/{environmentId}/services/lb
-	GetLoadBalancerInfo(ctx context.Context, params GetLoadBalancerInfoParams) (*GetLoadBalancerInfoOK, error)
-	// GetLoadBalancerLatestTelemetryReport invokes getLoadBalancerLatestTelemetryReport operation.
-	//
-	// ## Permissions
-	// Requires the `environments-view` capability. Also requires the user to have access specifically to
-	// the requested environment.
-	// ## Details
-	// Fetches the latest telemetry report for Cycle's native load balancer. Provides detailed
-	// information on a per-instance basis.
-	//
-	// GET /v1/environments/{environmentId}/services/lb/telemetry/latest
-	GetLoadBalancerLatestTelemetryReport(ctx context.Context, params GetLoadBalancerLatestTelemetryReportParams) (*GetLoadBalancerLatestTelemetryReportOK, error)
+	GetLoadBalancerService(ctx context.Context, params GetLoadBalancerServiceParams) (*GetLoadBalancerServiceOK, error)
 	// GetLoadBalancerTelemetryLatestControllers invokes getLoadBalancerTelemetryLatestControllers operation.
 	//
-	// ## Permissions
-	// Requires the `environments-view` capability. Also requires the user to have access specifically to
-	// the requested environment.
-	// ## Details
 	// Gets the controller information for the specified load balancer. Returns a similar struct to the
 	// 'latest' load balancer telemetry call, but does NOT return snapshots, just the controller
 	// information.
+	// ## Permissions
+	// Requires the `environments-view` capability. Also requires the user to have access specifically to
+	// the requested Environment.
 	//
 	// GET /v1/environments/{environmentId}/services/lb/telemetry/latest-controllers
 	GetLoadBalancerTelemetryLatestControllers(ctx context.Context, params GetLoadBalancerTelemetryLatestControllersParams) (*GetLoadBalancerTelemetryLatestControllersOK, error)
 	// GetLoadBalancerTelemetryReport invokes getLoadBalancerTelemetryReport operation.
 	//
+	// Fetches a telemetry report for Cycle's native load balancer for the specified range.
 	// ## Permissions
 	// Requires the `environments-view` capability. Also requires the user to have access specifically to
-	// the requested environment.
-	// ## Details
-	// Fetches a telemetry report for Cycle's native load balancer for the specified range.
+	// the requested Environment.
 	//
 	// GET /v1/environments/{environmentId}/services/lb/telemetry/report
 	GetLoadBalancerTelemetryReport(ctx context.Context, params GetLoadBalancerTelemetryReportParams) (*GetLoadBalancerTelemetryReportOK, error)
-	// GetNativeProviders invokes getNativeProviders operation.
-	//
-	// No capability required, public information.
-	//
-	// GET /v1/infrastructure/native-providers
-	GetNativeProviders(ctx context.Context, params GetNativeProvidersParams) (*GetNativeProvidersOK, error)
 	// GetNetwork invokes getNetwork operation.
 	//
 	// Requires the `sdn-networks-view` capability.
@@ -691,19 +1014,20 @@ type Invoker interface {
 	GetNetworks(ctx context.Context, params GetNetworksParams) (*GetNetworksOK, error)
 	// GetOrders invokes getOrders operation.
 	//
-	// Requires the `billing-orders-manage` capability.
+	// Requires the `billing-services-manage` capability.
 	//
 	// GET /v1/billing/orders
 	GetOrders(ctx context.Context, params GetOrdersParams) (*GetOrdersOK, error)
 	// GetPipeline invokes getPipeline operation.
 	//
-	// Requires the `pieplines-view` capability.
+	// Requires the `pipelines-view` capability.
 	//
 	// GET /v1/pipelines/{pipelineId}
 	GetPipeline(ctx context.Context, params GetPipelineParams) (*GetPipelineOK, error)
 	// GetPipelineRuns invokes getPipelineRuns operation.
 	//
-	// Requires the `pieplines-view` capability.
+	// List information about times this Pipeline has run.
+	// Requires the `pipelines-view` capability.
 	//
 	// GET /v1/pipelines/{pipelineId}/runs
 	GetPipelineRuns(ctx context.Context, params GetPipelineRunsParams) (*GetPipelineRunsOK, error)
@@ -725,51 +1049,58 @@ type Invoker interface {
 	//
 	// GET /v1/pipelines
 	GetPipelines(ctx context.Context, params GetPipelinesParams) (*GetPipelinesOK, error)
-	// GetPoolsIPs invokes getPoolsIPs operation.
+	// GetPoolIPs invokes getPoolIPs operation.
 	//
 	// Requires the `infrastructure-ips-manage` capability.
 	//
 	// GET /v1/infrastructure/ips/pools/{poolId}/ips
-	GetPoolsIPs(ctx context.Context, params GetPoolsIPsParams) (*GetPoolsIPsOK, error)
-	// GetProvider invokes getProvider operation.
-	//
-	// Requires the `infrastructure-providers-view` capability.
-	//
-	// GET /v1/infrastructure/providers/{providerIdentifier}
-	GetProvider(ctx context.Context, params GetProviderParams) (*GetProviderOK, error)
+	GetPoolIPs(ctx context.Context, params GetPoolIPsParams) (*GetPoolIPsOK, error)
 	// GetProviderLocations invokes getProviderLocations operation.
 	//
-	// No capability required, public information (datacenter locations).
+	// List Provider Locations.
 	//
-	// GET /v1/infrastructure/providers/{providerIdentifier}/locations
+	// GET /v1/infrastructure/providers/{providerVendor}/locations
 	GetProviderLocations(ctx context.Context, params GetProviderLocationsParams) (*GetProviderLocationsOK, error)
 	// GetProviderServers invokes getProviderServers operation.
 	//
-	// Requires the `infrastructure-providers-view` capability.
+	// List Provider Servers.
 	//
-	// GET /v1/infrastructure/providers/{providerIdentifier}/servers
+	// GET /v1/infrastructure/providers/{providerVendor}/servers
 	GetProviderServers(ctx context.Context, params GetProviderServersParams) (*GetProviderServersOK, error)
-	// GetProviders invokes getProviders operation.
+	// GetRole invokes getRole operation.
 	//
-	// Requires the `infrastructure-providers-view` capability.
+	// Retrieves the specified Role.
+	// Requries the `hubs-roles-manage` capability.
 	//
-	// GET /v1/infrastructure/providers
-	GetProviders(ctx context.Context, params GetProvidersParams) (*GetProvidersOK, error)
-	// GetRecordsCollection invokes getRecordsCollection operation.
+	// GET /v1/hubs/current/roles/{roleId}
+	GetRole(ctx context.Context, params GetRoleParams) (*GetRoleOK, error)
+	// GetRoles invokes getRoles operation.
 	//
-	// Requires the `dns-view` capability.
+	// Lists the Roles that have been created for this Hub.
+	// Requires the `hubs-roles-manage` capability.
 	//
-	// GET /v1/dns/zones/{zoneId}/records
-	GetRecordsCollection(ctx context.Context, params GetRecordsCollectionParams) (*GetRecordsCollectionOK, error)
-	// GetSSHConnection invokes getSSHConnection operation.
+	// GET /v1/hubs/current/roles
+	GetRoles(ctx context.Context, params GetRolesParams) (*GetRolesOK, error)
+	// GetScopedVariable invokes getScopedVariable operation.
 	//
-	// Requires the `containers-ssh` capability.
+	// Requires the `scoped-variables-view` capability.
 	//
-	// GET /v1/containers/{containerId}/instances/{instanceId}/ssh
-	GetSSHConnection(ctx context.Context, params GetSSHConnectionParams) (*GetSSHConnectionOK, error)
+	// GET /v1/environments/{environmentId}/scoped-variables/{scopedVariableId}
+	GetScopedVariable(ctx context.Context, params GetScopedVariableParams) (*GetScopedVariableOK, error)
+	// GetScopedVariables invokes getScopedVariables operation.
+	//
+	// Requires the `scoped-variables-view` capability.
+	//
+	// GET /v1/environments/{environmentId}/scoped-variables
+	GetScopedVariables(ctx context.Context, params GetScopedVariablesParams) (*GetScopedVariablesOK, error)
 	// GetSearchIndex invokes getSearchIndex operation.
 	//
-	// Requires the view capability for each returned segment.
+	// Gets a pre-built search index, containing IDs and basic information for many commonly used
+	// resources on the Hub.
+	// Can be used to build a 'quick search' functionality for referencing the most frequently used
+	// resources.
+	// Requires the `view` capability for each returned segment, i.e. to retrieve Containers, you must
+	// have `containers-view`.
 	//
 	// GET /v1/search/index
 	GetSearchIndex(ctx context.Context) (*GetSearchIndexOK, error)
@@ -779,8 +1110,15 @@ type Invoker interface {
 	//
 	// GET /v1/security/report
 	GetSecurityReport(ctx context.Context, params GetSecurityReportParams) (*GetSecurityReportOK, error)
+	// GetServer invokes getServer operation.
+	//
+	// Requires the `servers-view` capability.
+	//
+	// GET /v1/infrastructure/servers/{serverId}
+	GetServer(ctx context.Context, params GetServerParams) (*GetServerOK, error)
 	// GetServerConsole invokes GetServerConsole operation.
 	//
+	// Gets the authorization information required to connect to a Server console websocket.
 	// Requires the `servers-console` capability.
 	//
 	// GET /v1/infrastructure/servers/{serverId}/console
@@ -799,7 +1137,8 @@ type Invoker interface {
 	GetServerTags(ctx context.Context, params GetServerTagsParams) (*ServerTags, error)
 	// GetServerTelemetry invokes getServerTelemetry operation.
 	//
-	// Requires the `servers-view` capability. This call requires the filter query be used.
+	// This call requires the filter query parameter to be used.
+	// Requires the `servers-view` capability.
 	//
 	// GET /v1/infrastructure/servers/{serverId}/telemetry
 	GetServerTelemetry(ctx context.Context, params GetServerTelemetryParams) (*GetServerTelemetryOK, error)
@@ -809,36 +1148,12 @@ type Invoker interface {
 	//
 	// GET /v1/infrastructure/servers/{serverId}/usage
 	GetServerUsage(ctx context.Context, params GetServerUsageParams) (*GetServerUsageOK, error)
-	// GetServersClusters invokes GetServersClusters operation.
-	//
-	// Requires the `servers-view` capability.
-	//
-	// GET /v1/infrastructure/servers/clusters
-	GetServersClusters(ctx context.Context) (*GetServersClustersOK, error)
-	// GetServersCollection invokes getServersCollection operation.
+	// GetServers invokes getServers operation.
 	//
 	// Requires the `servers-view` capability.
 	//
 	// GET /v1/infrastructure/servers
-	GetServersCollection(ctx context.Context, params GetServersCollectionParams) (*GetServersCollectionOK, error)
-	// GetSingleServer invokes getSingleServer operation.
-	//
-	// Requires the `servers-view` capability.
-	//
-	// GET /v1/infrastructure/servers/{serverId}
-	GetSingleServer(ctx context.Context, params GetSingleServerParams) (*GetSingleServerOK, error)
-	// GetSource invokes getSource operation.
-	//
-	// Requires the `images-view` capability.
-	//
-	// GET /v1/images/sources/{sourceId}
-	GetSource(ctx context.Context, params GetSourceParams) (*GetSourceOK, error)
-	// GetSourcesCollection invokes getSourcesCollection operation.
-	//
-	// Requires the `images-view` capability.
-	//
-	// GET /v1/images/sources
-	GetSourcesCollection(ctx context.Context, params GetSourcesCollectionParams) (*GetSourcesCollectionOK, error)
+	GetServers(ctx context.Context, params GetServersParams) (*GetServersOK, error)
 	// GetStack invokes getStack operation.
 	//
 	// Requires the `stacks-view` capability.
@@ -851,12 +1166,6 @@ type Invoker interface {
 	//
 	// GET /v1/stacks/{stackId}/builds/{buildId}
 	GetStackBuild(ctx context.Context, params GetStackBuildParams) (*GetStackBuildOK, error)
-	// GetStackBuildLookup invokes getStackBuildLookup operation.
-	//
-	// Requires the `stacks-view` capability.
-	//
-	// GET /v1/stacks/builds/{buildId}
-	GetStackBuildLookup(ctx context.Context, params GetStackBuildLookupParams) (*GetStackBuildLookupOK, error)
 	// GetStackBuilds invokes getStackBuilds operation.
 	//
 	// Requires the `stacks-view` capability.
@@ -869,289 +1178,92 @@ type Invoker interface {
 	//
 	// GET /v1/stacks
 	GetStacks(ctx context.Context, params GetStacksParams) (*GetStacksOK, error)
-	// GetTiers invokes getTiers operation.
+	// GetTLSGenerationAttempts invokes getTLSGenerationAttempts operation.
 	//
-	// Returns list of availiable tiers.
+	// Requires the `dns-view` capability.
 	//
-	// GET /v1/billing/plans/tiers
-	GetTiers(ctx context.Context) (*GetTiersOK, error)
-	// GetTwoFaInfo invokes getTwoFaInfo operation.
+	// GET /v1/dns/tls/attempts
+	GetTLSGenerationAttempts(ctx context.Context, params GetTLSGenerationAttemptsParams) (*GetTLSGenerationAttemptsOK, error)
+	// GetTwoFactorAuthSetup invokes getTwoFactorAuthSetup operation.
 	//
-	// Get barcode and secret for TwoFa authentication.
+	// Gets the barcode and secret required for setting up two-factor authentication for the Account.
 	//
 	// GET /v1/account/2fa/setup
-	GetTwoFaInfo(ctx context.Context) (*GetTwoFaInfoOK, error)
-	// GetUsableServers invokes getUsableServers operation.
+	GetTwoFactorAuthSetup(ctx context.Context) (*GetTwoFactorAuthSetupOK, error)
+	// GetVPNLogins invokes getVPNLogins operation.
 	//
-	// Requires the `containers-view` capability.
+	// Requires the `environments-vpn` capability.
 	//
-	// GET /v1/containers/{containerId}/servers/usable
-	GetUsableServers(ctx context.Context, params GetUsableServersParams) (*GetUsableServersOK, error)
-	// GetVPNInfo invokes getVPNInfo operation.
+	// GET /v1/environments/{environmentId}/services/vpn/logins
+	GetVPNLogins(ctx context.Context, params GetVPNLoginsParams) (*GetVPNLoginsOK, error)
+	// GetVPNService invokes getVPNService operation.
 	//
 	// Requires the `environments-vpn` capability.
 	//
 	// GET /v1/environments/{environmentId}/services/vpn
-	GetVPNInfo(ctx context.Context, params GetVPNInfoParams) (*GetVPNInfoOK, error)
+	GetVPNService(ctx context.Context, params GetVPNServiceParams) (*GetVPNServiceOK, error)
 	// GetVPNUsers invokes getVPNUsers operation.
 	//
 	// Requires the `environments-vpn-manage` capability.
 	//
 	// GET /v1/environments/{environmentId}/services/vpn/users
 	GetVPNUsers(ctx context.Context, params GetVPNUsersParams) (*GetVPNUsersOK, error)
-	// GetVpnLogins invokes getVpnLogins operation.
-	//
-	// Requires the `environments-vpn` capability.
-	//
-	// GET /v1/environments/{environmentId}/services/vpn/logins
-	GetVpnLogins(ctx context.Context, params GetVpnLoginsParams) (*GetVpnLoginsOK, error)
-	// GetZonesCollection invokes getZonesCollection operation.
-	//
-	// Requires the `dns-view` capability.
-	//
-	// GET /v1/dns/zones
-	GetZonesCollection(ctx context.Context, params GetZonesCollectionParams) (*GetZonesCollectionOK, error)
-	// InstanceConsoleAuth invokes instanceConsoleAuth operation.
-	//
-	// Requires the `contaiers-console` capability.
-	//
-	// GET /v1/containers/{containerId}/instances/{instanceId}/console
-	InstanceConsoleAuth(ctx context.Context, params InstanceConsoleAuthParams) (*InstanceConsoleAuthOK, error)
-	// ListScopedVariables invokes listScopedVariables operation.
-	//
-	// Requires the `scoped-variables-view` capability.
-	//
-	// GET /v1/environments/{environmentId}/scoped-variables
-	ListScopedVariables(ctx context.Context, params ListScopedVariablesParams) (*ListScopedVariablesOK, error)
-	// LookupDnsCertificate invokes lookupDnsCertificate operation.
-	//
-	// Requires the `dns-view` capability.
-	//
-	// GET /v1/dns/tls/certificates/lookup
-	LookupDnsCertificate(ctx context.Context, params LookupDnsCertificateParams) (*LookupDnsCertificateOK, error)
 	// LookupIdentifier invokes lookupIdentifier operation.
 	//
-	// Given a (base64) resource identifier string, returns the ID of the targeted resource.
+	// Given a (base64'd) resource identifier string (i.e. `cluster:production/env:abc`), returns the ID
+	// of the matching resource.
+	// If more than one resource matches the identifier, or no resource matches the identifier, this
+	// endpoint will return an error.
+	// Given identifiers are NOT unique, you may need to be more specific to target the exact identifier.
 	//
 	// GET /v1/utils/resource/lookup
 	LookupIdentifier(ctx context.Context, params LookupIdentifierParams) (*LookupIdentifierOK, error)
-	// PipelineAuth invokes pipelineAuth operation.
+	// LookupStackBuild invokes lookupStackBuild operation.
 	//
-	// Requires the `hubs-notifications-listen` capability.
+	// Look up a Stack Build using only the Build ID, instead of requiring a Stack ID as well.
+	// Requires the `stacks-view` capability.
 	//
-	// GET /v1/hubs/current/notifications
-	PipelineAuth(ctx context.Context) (*PipelineAuthOK, error)
-	// ReconfigureDiscovery invokes reconfigureDiscovery operation.
+	// GET /v1/stacks/builds/{buildId}
+	LookupStackBuild(ctx context.Context, params LookupStackBuildParams) (*LookupStackBuildOK, error)
+	// LookupTLSCertificate invokes lookupTLSCertificate operation.
 	//
-	// Creates a task that will update the discovery service's configuration.
+	// Lookup and retrieve a TLS certificate bundle for a specified domain.
+	// Requires the `dns-view` capability.
 	//
-	// POST /v1/environments/{environmentId}/services/discovery/tasks
-	ReconfigureDiscovery(ctx context.Context, request OptReconfigureDiscoveryReq, params ReconfigureDiscoveryParams) (*ReconfigureDiscoveryAccepted, error)
-	// ReconfigureLoadBalancer invokes reconfigureLoadBalancer operation.
+	// GET /v1/dns/tls/certificates/lookup
+	LookupTLSCertificate(ctx context.Context, params LookupTLSCertificateParams) (*LookupTLSCertificateOK, error)
+	// RecoverTwoFactorAuth invokes recoverTwoFactorAuth operation.
 	//
-	// Creates a task that will update the load balancer's configuration.
-	//
-	// POST /v1/environments/{environmentId}/services/lb/tasks
-	ReconfigureLoadBalancer(ctx context.Context, request OptReconfigureLoadBalancerReq, params ReconfigureLoadBalancerParams) (*ReconfigureLoadBalancerAccepted, error)
-	// RecoverTwoFa invokes recoverTwoFa operation.
-	//
-	// Disable TwoFa for an account.
+	// Returns a new two-factor auth setup to reset the Account's two-factor auth.
 	//
 	// POST /v1/account/2fa/recover
-	RecoverTwoFa(ctx context.Context, request OptRecoverTwoFaReq) (*RecoverTwoFaOK, error)
-	// RemoveAccount invokes removeAccount operation.
-	//
-	// Deletes the current account.
-	//
-	// DELETE /v1/account
-	RemoveAccount(ctx context.Context) (*RemoveAccountOK, error)
-	// RemoveApiKey invokes removeApiKey operation.
-	//
-	// Requires the 'api-keys-delete' capability.
-	//
-	// DELETE /v1/hubs/current/api-keys/{apikeyId}
-	RemoveApiKey(ctx context.Context, params RemoveApiKeyParams) (*RemoveApiKeyOK, error)
-	// RemoveAutoScaleGroup invokes removeAutoScaleGroup operation.
-	//
-	// Requires the `autoscale-group-manage` capability.
-	//
-	// DELETE /v1/infrastructure/auto-scale/groups/{groupId}
-	RemoveAutoScaleGroup(ctx context.Context, params RemoveAutoScaleGroupParams) (*RemoveAutoScaleGroupAccepted, error)
-	// RemoveBackup invokes removeBackup operation.
-	//
-	// Requires the `containers-backups-manage` capability.
-	//
-	// DELETE /v1/containers/{containerId}/backups/{backupId}
-	RemoveBackup(ctx context.Context, params RemoveBackupParams) (*RemoveBackupAccepted, error)
-	// RemoveBillingMethod invokes removeBillingMethod operation.
-	//
-	// Requires the `billing-methods-manage` capability.
-	//
-	// DELETE /v1/billing/methods/{methodId}
-	RemoveBillingMethod(ctx context.Context, params RemoveBillingMethodParams) (*RemoveBillingMethodOK, error)
-	// RemoveContainer invokes removeContainer operation.
-	//
-	// Requires the `containers-update` capability.
-	//
-	// DELETE /v1/containers/{containerId}
-	RemoveContainer(ctx context.Context, params RemoveContainerParams) (*RemoveContainerAccepted, error)
-	// RemoveContainerInstance invokes removeContainerInstance operation.
-	//
-	// Requires the `containers-update` capability.
-	//
-	// DELETE /v1/containers/{containerId}/instances/{instanceId}
-	RemoveContainerInstance(ctx context.Context, params RemoveContainerInstanceParams) (*RemoveContainerInstanceOK, error)
-	// RemoveDNSRecord invokes removeDNSRecord operation.
-	//
-	// Requires the `dns-manage` capability.
-	//
-	// DELETE /v1/dns/zones/{zoneId}/records/{recordId}
-	RemoveDNSRecord(ctx context.Context, params RemoveDNSRecordParams) (*RemoveDNSRecordOK, error)
-	// RemoveDNSZone invokes removeDNSZone operation.
-	//
-	// Requires the `dns-manage` capability.
-	//
-	// DELETE /v1/dns/zones/{zoneId}
-	RemoveDNSZone(ctx context.Context, params RemoveDNSZoneParams) (*RemoveDNSZoneOK, error)
-	// RemoveEnvironment invokes removeEnvironment operation.
-	//
-	// Requires the `environments-update` capability.
-	//
-	// DELETE /v1/environments/{environmentId}
-	RemoveEnvironment(ctx context.Context, params RemoveEnvironmentParams) (*RemoveEnvironmentAccepted, error)
-	// RemoveHub invokes removeHub operation.
-	//
-	// Requires the `hubs-delete` capability. This can only be aquired by being the hub owner.
-	//
-	// DELETE /v1/hubs/current
-	RemoveHub(ctx context.Context) (*RemoveHubAccepted, error)
-	// RemoveHubInvite invokes removeHubInvite operation.
-	//
-	// Requires the `hub-invites-manage` capability.
-	//
-	// DELETE /v1/hubs/current/invites/{inviteId}
-	RemoveHubInvite(ctx context.Context, params RemoveHubInviteParams) (*RemoveHubInviteOK, error)
-	// RemoveHubMember invokes removeHubMember operation.
-	//
-	// Requires the `hubs-members-manage` capability.
-	//
-	// DELETE /v1/hubs/current/members/{memberId}
-	RemoveHubMember(ctx context.Context, params RemoveHubMemberParams) (*RemoveHubMemberAccepted, error)
-	// RemoveImage invokes removeImage operation.
-	//
-	// Requires the `images-updae` capability.
-	//
-	// DELETE /v1/images/{imageId}
-	RemoveImage(ctx context.Context, params RemoveImageParams) (*RemoveImageOK, error)
-	// RemoveImageSource invokes removeImageSource operation.
-	//
-	// Requires the `images-import` capability.
-	//
-	// DELETE /v1/images/sources/{sourceId}
-	RemoveImageSource(ctx context.Context, params RemoveImageSourceParams) (*RemoveImageSourceAccepted, error)
-	// RemoveIpPool invokes removeIpPool operation.
-	//
-	// Requires the `infrastructure-ips-manage` capability.
-	//
-	// DELETE /v1/infrastructure/ips/pools/{poolId}
-	RemoveIpPool(ctx context.Context, params RemoveIpPoolParams) (*RemoveIpPoolAccepted, error)
-	// RemoveMultipleContainerInstances invokes removeMultipleContainerInstances operation.
-	//
-	// Requires the `containers-update` capability.
-	//
-	// DELETE /v1/containers/{containerId}/instances
-	RemoveMultipleContainerInstances(ctx context.Context, params RemoveMultipleContainerInstancesParams) (*RemoveMultipleContainerInstancesOK, error)
-	// RemovePipeline invokes removePipeline operation.
-	//
-	// Requires the `pipelines-manage` capability.
-	//
-	// DELETE /v1/pipelines/{pipelineId}
-	RemovePipeline(ctx context.Context, params RemovePipelineParams) (*RemovePipelineOK, error)
-	// RemovePipelineTriggerKey invokes removePipelineTriggerKey operation.
-	//
-	// Requires the `pipelines-manage` capability.
-	//
-	// DELETE /v1/pipelines/{pipelineId}/keys/{triggerKeyId}
-	RemovePipelineTriggerKey(ctx context.Context, params RemovePipelineTriggerKeyParams) (*RemovePipelineTriggerKeyOK, error)
-	// RemoveProvider invokes removeProvider operation.
-	//
-	// Requires the `infrastructure-providers-manage` capability.
-	//
-	// DELETE /v1/infrastructure/providers/{providerIdentifier}
-	RemoveProvider(ctx context.Context, params RemoveProviderParams) (*RemoveProviderAccepted, error)
-	// RemoveSDNNetwork invokes removeSDNNetwork operation.
-	//
-	// Requires the `sdn-networks-manage` capability.
-	//
-	// DELETE /v1/sdn/networks/{networkId}
-	RemoveSDNNetwork(ctx context.Context, params RemoveSDNNetworkParams) (*RemoveSDNNetworkOK, error)
-	// RemoveScopedVariableById invokes removeScopedVariableById operation.
-	//
-	// Requires the `scoped-variables-manage` capability.
-	//
-	// DELETE /v1/environments/{environmentId}/scoped-variables/{scopedVariableId}
-	RemoveScopedVariableById(ctx context.Context, params RemoveScopedVariableByIdParams) (*RemoveScopedVariableByIdAccepted, error)
-	// RemoveServer invokes removeServer operation.
-	//
-	// Requires the `servers-update` capability.
-	//
-	// DELETE /v1/infrastructure/servers/{serverId}
-	RemoveServer(ctx context.Context, params RemoveServerParams) (*RemoveServerOK, error)
-	// RemoveStack invokes removeStack operation.
-	//
-	// Requires the `stacks-manage` capability.
-	//
-	// DELETE /v1/stacks/{stackId}
-	RemoveStack(ctx context.Context, params RemoveStackParams) (*RemoveStackOK, error)
-	// RemoveStackBuild invokes removeStackBuild operation.
-	//
-	// Requires the `stacks-manage` capability.
-	//
-	// DELETE /v1/stacks/{stackId}/builds/{buildId}
-	RemoveStackBuild(ctx context.Context, params RemoveStackBuildParams) (*RemoveStackBuildOK, error)
-	// RemoveVPNUser invokes removeVPNUser operation.
-	//
-	// Requires the `environments-vpn-manage` capability.
-	//
-	// DELETE /v1/environments/{environmentId}/services/vpn/users/{userId}
-	RemoveVPNUser(ctx context.Context, params RemoveVPNUserParams) (*RemoveVPNUserOK, error)
+	RecoverTwoFactorAuth(ctx context.Context, request OptRecoverTwoFactorAuthReq) (*RecoverTwoFactorAuthOK, error)
 	// ResetPassword invokes resetPassword operation.
 	//
-	// Update a given invite.
+	// Initiate a password reset for the Account. A confirmation email will be sent to the email
+	// associated with the Account, and the token in the email must be passed in a second call to this
+	// endpoint.
 	//
 	// POST /v1/account/reset-password
 	ResetPassword(ctx context.Context, request OptResetPasswordReq) (*ResetPasswordOK, error)
-	// RestoreBackupJob invokes restoreBackupJob operation.
+	// UpdateAPIKey invokes updateAPIKey operation.
 	//
-	// Used to restore a backup for a given container instance. Requires the `containers-backups-manage`
-	// capability.
+	// Requires the `api-keys-manage` capability.
 	//
-	// POST /v1/containers/{containerId}/backups/{backupId}/tasks
-	RestoreBackupJob(ctx context.Context, request OptRestoreBackupJobReq, params RestoreBackupJobParams) (*RestoreBackupJobAccepted, error)
-	// SetupTwoFa invokes setupTwoFa operation.
-	//
-	// Setup TwoFa for an account.
-	//
-	// POST /v1/account/2fa/setup
-	SetupTwoFa(ctx context.Context, request OptSetupTwoFaReq) (*SetupTwoFaOK, error)
+	// PATCH /v1/hubs/current/api-keys/{apikeyId}
+	UpdateAPIKey(ctx context.Context, request OptUpdateAPIKeyReq, params UpdateAPIKeyParams) (*UpdateAPIKeyOK, error)
 	// UpdateAccount invokes updateAccount operation.
 	//
-	// Updates the current account.
+	// Updates the Account.
 	//
 	// PATCH /v1/account
 	UpdateAccount(ctx context.Context, request OptUpdateAccountReq) (*UpdateAccountOK, error)
 	// UpdateAccountInvite invokes updateAccountInvite operation.
 	//
-	// Update a given invite.
+	// Accept/reject a pending Invite to join a Hub.
 	//
 	// PATCH /v1/account/invites/{inviteId}
 	UpdateAccountInvite(ctx context.Context, request OptUpdateAccountInviteReq, params UpdateAccountInviteParams) (*UpdateAccountInviteOK, error)
-	// UpdateApiKey invokes updateApiKey operation.
-	//
-	// Requires the `api-keys-manage` capability.
-	//
-	// PATCH /v1/hubs/current/api-keys/{apikeyId}
-	UpdateApiKey(ctx context.Context, request OptUpdateApiKeyReq, params UpdateApiKeyParams) (*UpdateApiKeyOK, error)
 	// UpdateAutoScaleGroup invokes updateAutoScaleGroup operation.
 	//
 	// Requires the `autoscale-groups-manage` capability.
@@ -1166,33 +1278,33 @@ type Invoker interface {
 	UpdateBillingMethod(ctx context.Context, request OptUpdateBillingMethodReq, params UpdateBillingMethodParams) (*UpdateBillingMethodOK, error)
 	// UpdateBillingOrder invokes updateBillingOrder operation.
 	//
-	// Requires the `billing-orders-manage` capability.
+	// Requires the `billing-services-manage` capability.
 	//
 	// PATCH /v1/billing/orders/{orderId}
 	UpdateBillingOrder(ctx context.Context, request OptUpdateBillingOrderReq, params UpdateBillingOrderParams) (*UpdateBillingOrderOK, error)
 	// UpdateContainer invokes updateContainer operation.
 	//
-	// Updates the specified container, setting the values of the parameters passed.  If any parameters
-	// are omitted, they will be left unchanged. Requires the `contianers-update` capability.
+	// Updates the specified Container.
+	// Requires the `containers-manage` capability.
 	//
 	// PATCH /v1/containers/{containerId}
 	UpdateContainer(ctx context.Context, request OptUpdateContainerReq, params UpdateContainerParams) (*UpdateContainerOK, error)
-	// UpdateDNSRecord invokes updateDNSRecord operation.
-	//
-	// Requires the `dns-manage` capability.
-	//
-	// PATCH /v1/dns/zones/{zoneId}/records/{recordId}
-	UpdateDNSRecord(ctx context.Context, request OptUpdateDNSRecordReq, params UpdateDNSRecordParams) (*UpdateDNSRecordOK, error)
 	// UpdateDNSZone invokes updateDNSZone operation.
 	//
 	// Requires the `dns-manage` capability.
 	//
 	// PATCH /v1/dns/zones/{zoneId}
 	UpdateDNSZone(ctx context.Context, request OptUpdateDNSZoneReq, params UpdateDNSZoneParams) (*UpdateDNSZoneOK, error)
+	// UpdateDNSZoneRecord invokes updateDNSZoneRecord operation.
+	//
+	// Requires the `dns-manage` capability.
+	//
+	// PATCH /v1/dns/zones/{zoneId}/records/{recordId}
+	UpdateDNSZoneRecord(ctx context.Context, request OptUpdateDNSZoneRecordReq, params UpdateDNSZoneRecordParams) (*UpdateDNSZoneRecordOK, error)
 	// UpdateEnvironment invokes updateEnvironment operation.
 	//
-	// Updates the specificed environment, setting the values of the parameters passed. If any parameters
-	// are omitted, they will be left unchanged. Requires the `environments-update` capability.
+	// Updates the specificed Environment.
+	// Requires the `environments-manage` capability.
 	//
 	// PATCH /v1/environments/{environmentId}
 	UpdateEnvironment(ctx context.Context, request OptUpdateEnvironmentReq, params UpdateEnvironmentParams) (*UpdateEnvironmentOK, error)
@@ -1204,28 +1316,35 @@ type Invoker interface {
 	UpdateHub(ctx context.Context, request OptUpdateHubReq) (*UpdateHubOK, error)
 	// UpdateHubMember invokes updateHubMember operation.
 	//
-	// Update a Hub Member.
+	// Requires the `hubs-members-manage` capability.
 	//
 	// PATCH /v1/hubs/current/members/{memberId}
 	UpdateHubMember(ctx context.Context, request OptUpdateHubMemberReq, params UpdateHubMemberParams) (*UpdateHubMemberOK, error)
 	// UpdateImage invokes updateImage operation.
 	//
-	// Requires the `images-updae` capability.
+	// Requires the `images-manage` capability.
 	//
 	// PATCH /v1/images/{imageId}
 	UpdateImage(ctx context.Context, request OptUpdateImageReq, params UpdateImageParams) (*UpdateImageOK, error)
 	// UpdateImageSource invokes updateImageSource operation.
 	//
-	// Requires the `images-import` capability.
+	// Requires the `images-sources-manage` capability.
 	//
 	// PATCH /v1/images/sources/{sourceId}
 	UpdateImageSource(ctx context.Context, request OptUpdateImageSourceReq, params UpdateImageSourceParams) (*UpdateImageSourceOK, error)
-	// UpdatePassword invokes updatePassword operation.
+	// UpdateIntegration invokes updateIntegration operation.
 	//
-	// Update a given invite.
+	// Updates the specified Integration within the current hub. If the Integration definition specifies
+	// that it requires verification, then you must submit a verify task to enable it.
 	//
-	// PATCH /v1/account/password
-	UpdatePassword(ctx context.Context, request OptUpdatePasswordReq) (*UpdatePasswordOK, error)
+	// PATCH /v1/hubs/current/integrations/{integrationId}
+	UpdateIntegration(ctx context.Context, request *UpdateIntegrationReq, params UpdateIntegrationParams) (*UpdateIntegrationOK, error)
+	// UpdateNetwork invokes updateNetwork operation.
+	//
+	// Requires the `sdn-networks-manage` capability.
+	//
+	// PATCH /v1/sdn/networks/{networkId}
+	UpdateNetwork(ctx context.Context, request OptUpdateNetworkReq, params UpdateNetworkParams) (*UpdateNetworkOK, error)
 	// UpdatePipeline invokes updatePipeline operation.
 	//
 	// Requires the `pipelines-manage` capability.
@@ -1238,18 +1357,13 @@ type Invoker interface {
 	//
 	// PATCH /v1/pipelines/{pipelineId}/keys/{triggerKeyId}
 	UpdatePipelineTriggerKey(ctx context.Context, request OptUpdatePipelineTriggerKeyReq, params UpdatePipelineTriggerKeyParams) (*UpdatePipelineTriggerKeyOK, error)
-	// UpdateProvider invokes updateProvider operation.
+	// UpdateRole invokes updateRole operation.
 	//
-	// Requires the `infrastructure-providers-manage` capability.
+	// Updates various properties of a specific Role.
+	// Requires the `hubs-roles-manage` capability.
 	//
-	// PATCH /v1/infrastructure/providers/{providerIdentifier}
-	UpdateProvider(ctx context.Context, request OptUpdateProviderReq, params UpdateProviderParams) (*UpdateProviderOK, error)
-	// UpdateSDNNetwork invokes updateSDNNetwork operation.
-	//
-	// Requires the `sdn-networks-manage` capability.
-	//
-	// PATCH /v1/sdn/networks/{networkId}
-	UpdateSDNNetwork(ctx context.Context, request OptUpdateSDNNetworkReq, params UpdateSDNNetworkParams) (*UpdateSDNNetworkOK, error)
+	// PATCH /v1/hubs/current/roles/{roleId}
+	UpdateRole(ctx context.Context, request OptUpdateRoleReq, params UpdateRoleParams) (*UpdateRoleOK, error)
 	// UpdateScopedVariable invokes updateScopedVariable operation.
 	//
 	// Requires the `scoped-variables-manage` capability.
@@ -1258,7 +1372,7 @@ type Invoker interface {
 	UpdateScopedVariable(ctx context.Context, request OptUpdateScopedVariableReq, params UpdateScopedVariableParams) (*UpdateScopedVariableOK, error)
 	// UpdateServer invokes updateServer operation.
 	//
-	// Requires the `servers-update` capability.
+	// Requires the `servers-manage` capability.
 	//
 	// PATCH /v1/infrastructure/servers/{serverId}
 	UpdateServer(ctx context.Context, request OptUpdateServerReq, params UpdateServerParams) (*UpdateServerOK, error)
@@ -1316,111 +1430,29 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 	return u
 }
 
-// ContainersListServers invokes ContainersListServers operation.
+// ChangePassword invokes changePassword operation.
 //
-// Requires the `containers-view` capability.
+// Change the password on the Account. Requires the current password of the Account to be submitted.
 //
-// GET /v1/containers/{containerId}/servers
-func (c *Client) ContainersListServers(ctx context.Context, params ContainersListServersParams) (*ContainersListServersOK, error) {
-	res, err := c.sendContainersListServers(ctx, params)
+// PATCH /v1/account/password
+func (c *Client) ChangePassword(ctx context.Context, request OptChangePasswordReq) (*ChangePasswordOK, error) {
+	res, err := c.sendChangePassword(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendContainersListServers(ctx context.Context, params ContainersListServersParams) (res *ContainersListServersOK, err error) {
+func (c *Client) sendChangePassword(ctx context.Context, request OptChangePasswordReq) (res *ChangePasswordOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/containers/"
-	{
-		// Encode "containerId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "containerId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ContainerId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/servers"
+	var pathParts [1]string
+	pathParts[0] = "/v1/account/password"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "meta" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "meta",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "sort" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "sort",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "page" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "page",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Page.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
+	r, err := ht.NewRequest(ctx, "PATCH", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeChangePasswordRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
 	}
 
 	{
@@ -1428,7 +1460,7 @@ func (c *Client) sendContainersListServers(ctx context.Context, params Container
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "ContainersListServers", r); {
+			switch err := c.securityBearerAuth(ctx, "ChangePassword", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -1437,22 +1469,11 @@ func (c *Client) sendContainersListServers(ctx context.Context, params Container
 				return res, errors.Wrap(err, "security \"BearerAuth\"")
 			}
 		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "ContainersListServers", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
 
 		if ok := func() bool {
 		nextRequirement:
 			for _, requirement := range []bitset{
-				{0b00000011},
+				{0b00000001},
 			} {
 				for i, mask := range requirement {
 					if satisfied[i]&mask != mask {
@@ -1473,7 +1494,7 @@ func (c *Client) sendContainersListServers(ctx context.Context, params Container
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeContainersListServersResponse(resp)
+	result, err := decodeChangePasswordResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1652,12 +1673,12 @@ func (c *Client) sendCreateAutoScaleGroup(ctx context.Context, request OptCreate
 // Requires the `billing-methods-manage` capability.
 //
 // POST /v1/billing/methods
-func (c *Client) CreateBillingMethod(ctx context.Context, request OptCreateBillingMethodReq) (*CreateBillingMethodOK, error) {
+func (c *Client) CreateBillingMethod(ctx context.Context, request OptCreateBillingMethodReq) (*CreateBillingMethodCreated, error) {
 	res, err := c.sendCreateBillingMethod(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendCreateBillingMethod(ctx context.Context, request OptCreateBillingMethodReq) (res *CreateBillingMethodOK, err error) {
+func (c *Client) sendCreateBillingMethod(ctx context.Context, request OptCreateBillingMethodReq) (res *CreateBillingMethodCreated, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -1813,120 +1834,19 @@ func (c *Client) sendCreateContainer(ctx context.Context, request OptCreateConta
 	return result, nil
 }
 
-// CreateContainerInstance invokes createContainerInstance operation.
+// CreateContainerBackupJob invokes createContainerBackupJob operation.
 //
-// Requires the `containers-update` capability.
+// Creates a Container Backup Job.
+// Can be used to restore a Container Backup for a given Container Instance.
+// Requires the `containers-backups-manage` capability.
 //
-// POST /v1/containers/{containerId}/instances
-func (c *Client) CreateContainerInstance(ctx context.Context, request []CreateContainerInstanceReqItem, params CreateContainerInstanceParams) (*CreateContainerInstanceAccepted, error) {
-	res, err := c.sendCreateContainerInstance(ctx, request, params)
+// POST /v1/containers/{containerId}/backups/{backupId}/tasks
+func (c *Client) CreateContainerBackupJob(ctx context.Context, request OptCreateContainerBackupJobReq, params CreateContainerBackupJobParams) (*CreateContainerBackupJobAccepted, error) {
+	res, err := c.sendCreateContainerBackupJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateContainerInstance(ctx context.Context, request []CreateContainerInstanceReqItem, params CreateContainerInstanceParams) (res *CreateContainerInstanceAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/containers/"
-	{
-		// Encode "containerId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "containerId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ContainerId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/instances"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateContainerInstanceRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "CreateContainerInstance", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "CreateContainerInstance", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeCreateContainerInstanceResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CreateContainerInstanceJob invokes createContainerInstanceJob operation.
-//
-// Used to perform different actions on a given container instance, requries
-// `containers-instance-migrate` capability.
-//
-// POST /v1/containers/{containerId}/instances/{instanceId}/tasks
-func (c *Client) CreateContainerInstanceJob(ctx context.Context, request OptCreateContainerInstanceJobReq, params CreateContainerInstanceJobParams) (*CreateContainerInstanceJobAccepted, error) {
-	res, err := c.sendCreateContainerInstanceJob(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendCreateContainerInstanceJob(ctx context.Context, request OptCreateContainerInstanceJobReq, params CreateContainerInstanceJobParams) (res *CreateContainerInstanceJobAccepted, err error) {
+func (c *Client) sendCreateContainerBackupJob(ctx context.Context, request OptCreateContainerBackupJobReq, params CreateContainerBackupJobParams) (res *CreateContainerBackupJobAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [5]string
@@ -1949,16 +1869,16 @@ func (c *Client) sendCreateContainerInstanceJob(ctx context.Context, request Opt
 		}
 		pathParts[1] = encoded
 	}
-	pathParts[2] = "/instances/"
+	pathParts[2] = "/backups/"
 	{
-		// Encode "instanceId" parameter.
+		// Encode "backupId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "instanceId",
+			Param:   "backupId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.InstanceId))
+			return e.EncodeValue(conv.StringToString(params.BackupId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -1975,7 +1895,7 @@ func (c *Client) sendCreateContainerInstanceJob(ctx context.Context, request Opt
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeCreateContainerInstanceJobRequest(request, r); err != nil {
+	if err := encodeCreateContainerBackupJobRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -1984,7 +1904,7 @@ func (c *Client) sendCreateContainerInstanceJob(ctx context.Context, request Opt
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "CreateContainerInstanceJob", r); {
+			switch err := c.securityBearerAuth(ctx, "CreateContainerBackupJob", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -1995,7 +1915,7 @@ func (c *Client) sendCreateContainerInstanceJob(ctx context.Context, request Opt
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "CreateContainerInstanceJob", r); {
+			switch err := c.securityHubAuth(ctx, "CreateContainerBackupJob", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -2029,7 +1949,7 @@ func (c *Client) sendCreateContainerInstanceJob(ctx context.Context, request Opt
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeCreateContainerInstanceJobResponse(resp)
+	result, err := decodeCreateContainerBackupJobResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2039,8 +1959,14 @@ func (c *Client) sendCreateContainerInstanceJob(ctx context.Context, request Opt
 
 // CreateContainerJob invokes createContainerJob operation.
 //
-// Used to perform different actions on a given container. Requires the `containers-state`,
-// `containers-update`, or `containers-volumes-manage` capability (respectively).
+// Used to perform different actions on a given Container.
+// Requires the following capabilities based on the task:
+// `start`: `containers-manage`
+// `stop`: `containers-manage`
+// `reconfigure`: `containers-manage`
+// `volumes.reconfigure`: `containers-volumes-manage`
+// `reimage`: `containers-manage`
+// `scale`: `containers-manage`.
 //
 // POST /v1/containers/{containerId}/tasks
 func (c *Client) CreateContainerJob(ctx context.Context, request OptCreateContainerJobReq, params CreateContainerJobParams) (*CreateContainerJobAccepted, error) {
@@ -2140,108 +2066,6 @@ func (c *Client) sendCreateContainerJob(ctx context.Context, request OptCreateCo
 	return result, nil
 }
 
-// CreateDNSRecord invokes createDNSRecord operation.
-//
-// Requires the `dns-manage` capability.
-//
-// POST /v1/dns/zones/{zoneId}/records
-func (c *Client) CreateDNSRecord(ctx context.Context, request OptCreateDNSRecordReq, params CreateDNSRecordParams) (*CreateDNSRecordCreated, error) {
-	res, err := c.sendCreateDNSRecord(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendCreateDNSRecord(ctx context.Context, request OptCreateDNSRecordReq, params CreateDNSRecordParams) (res *CreateDNSRecordCreated, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/dns/zones/"
-	{
-		// Encode "zoneId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "zoneId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ZoneId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/records"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateDNSRecordRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "CreateDNSRecord", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "CreateDNSRecord", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeCreateDNSRecordResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // CreateDNSZone invokes createDNSZone operation.
 //
 // Requires the `dns-manage` capability.
@@ -2318,6 +2142,435 @@ func (c *Client) sendCreateDNSZone(ctx context.Context, request OptCreateDNSZone
 	defer resp.Body.Close()
 
 	result, err := decodeCreateDNSZoneResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateDNSZoneJob invokes createDNSZoneJob operation.
+//
+// Used to perform different actions on a given DNS zone.
+// Requires the `dns-manage` capability.
+//
+// POST /v1/dns/zones/{zoneId}/tasks
+func (c *Client) CreateDNSZoneJob(ctx context.Context, request OptCreateDNSZoneJobReq, params CreateDNSZoneJobParams) (*CreateDNSZoneJobAccepted, error) {
+	res, err := c.sendCreateDNSZoneJob(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateDNSZoneJob(ctx context.Context, request OptCreateDNSZoneJobReq, params CreateDNSZoneJobParams) (res *CreateDNSZoneJobAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/dns/zones/"
+	{
+		// Encode "zoneId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "zoneId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ZoneId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/tasks"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateDNSZoneJobRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateDNSZoneJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "CreateDNSZoneJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateDNSZoneJobResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateDNSZoneRecord invokes createDNSZoneRecord operation.
+//
+// Requires the `dns-manage` capability.
+//
+// POST /v1/dns/zones/{zoneId}/records
+func (c *Client) CreateDNSZoneRecord(ctx context.Context, request OptCreateDNSZoneRecordReq, params CreateDNSZoneRecordParams) (*CreateDNSZoneRecordCreated, error) {
+	res, err := c.sendCreateDNSZoneRecord(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateDNSZoneRecord(ctx context.Context, request OptCreateDNSZoneRecordReq, params CreateDNSZoneRecordParams) (res *CreateDNSZoneRecordCreated, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/dns/zones/"
+	{
+		// Encode "zoneId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "zoneId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ZoneId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/records"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateDNSZoneRecordRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateDNSZoneRecord", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "CreateDNSZoneRecord", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateDNSZoneRecordResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateDNSZoneRecordJob invokes createDNSZoneRecordJob operation.
+//
+// Used to perform different actions on a given DNS Zone record.
+// Requires the `dns-manage` capability.
+//
+// POST /v1/dns/zones/{zoneId}/records/{recordId}/tasks
+func (c *Client) CreateDNSZoneRecordJob(ctx context.Context, request OptCreateDNSZoneRecordJobReq, params CreateDNSZoneRecordJobParams) (*CreateDNSZoneRecordJobAccepted, error) {
+	res, err := c.sendCreateDNSZoneRecordJob(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateDNSZoneRecordJob(ctx context.Context, request OptCreateDNSZoneRecordJobReq, params CreateDNSZoneRecordJobParams) (res *CreateDNSZoneRecordJobAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/v1/dns/zones/"
+	{
+		// Encode "zoneId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "zoneId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ZoneId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/records/"
+	{
+		// Encode "recordId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "recordId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.RecordId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/tasks"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateDNSZoneRecordJobRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateDNSZoneRecordJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "CreateDNSZoneRecordJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateDNSZoneRecordJobResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateDiscoveryServiceJob invokes createDiscoveryServiceJob operation.
+//
+// Creates a task that will update the discovery service's configuration.
+//
+// POST /v1/environments/{environmentId}/services/discovery/tasks
+func (c *Client) CreateDiscoveryServiceJob(ctx context.Context, request OptCreateDiscoveryServiceJobReq, params CreateDiscoveryServiceJobParams) (*CreateDiscoveryServiceJobAccepted, error) {
+	res, err := c.sendCreateDiscoveryServiceJob(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateDiscoveryServiceJob(ctx context.Context, request OptCreateDiscoveryServiceJobReq, params CreateDiscoveryServiceJobParams) (res *CreateDiscoveryServiceJobAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/environments/"
+	{
+		// Encode "environmentId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "environmentId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/services/discovery/tasks"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateDiscoveryServiceJobRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateDiscoveryServiceJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "CreateDiscoveryServiceJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateDiscoveryServiceJobResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2410,8 +2663,8 @@ func (c *Client) sendCreateEnvironment(ctx context.Context, request OptCreateEnv
 
 // CreateEnvironmentJob invokes createEnvironmentJob operation.
 //
-// Create a job for an environment, such as 'start' or 'stop'. Requires the `environments-state`
-// capability.
+// Create a job for an Environment, such as 'start' or 'stop'.
+// Requires the `environments-manage` capability.
 //
 // POST /v1/environments/{environmentId}/tasks
 func (c *Client) CreateEnvironmentJob(ctx context.Context, request OptCreateEnvironmentJobReq, params CreateEnvironmentJobParams) (*CreateEnvironmentJobAccepted, error) {
@@ -2511,112 +2764,9 @@ func (c *Client) sendCreateEnvironmentJob(ctx context.Context, request OptCreate
 	return result, nil
 }
 
-// CreateEnvironmentVpnTask invokes createEnvironmentVpnTask operation.
-//
-// Used to reconfigure or reset the environment VPN. Requires the `environments-vpn-manage`
-// capability.
-//
-// POST /v1/environments/{environmentId}/services/vpn/tasks
-func (c *Client) CreateEnvironmentVpnTask(ctx context.Context, request OptCreateEnvironmentVpnTaskReq, params CreateEnvironmentVpnTaskParams) (*CreateEnvironmentVpnTaskAccepted, error) {
-	res, err := c.sendCreateEnvironmentVpnTask(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendCreateEnvironmentVpnTask(ctx context.Context, request OptCreateEnvironmentVpnTaskReq, params CreateEnvironmentVpnTaskParams) (res *CreateEnvironmentVpnTaskAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/environments/"
-	{
-		// Encode "environmentId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "environmentId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/services/vpn/tasks"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateEnvironmentVpnTaskRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "CreateEnvironmentVpnTask", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "CreateEnvironmentVpnTask", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeCreateEnvironmentVpnTaskResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // CreateHub invokes createHub operation.
 //
-// Create a hub resource.
+// Create a Hub.
 //
 // POST /v1/hubs
 func (c *Client) CreateHub(ctx context.Context, request OptCreateHubReq) (*CreateHubOK, error) {
@@ -2771,7 +2921,7 @@ func (c *Client) sendCreateHubInvite(ctx context.Context, request OptCreateHubIn
 
 // CreateImage invokes createImage operation.
 //
-// Requires the `images-import` capability.
+// Requires the `images-manage` capability.
 //
 // POST /v1/images
 func (c *Client) CreateImage(ctx context.Context, request OptCreateImageReq) (*CreateImageCreated, error) {
@@ -2852,92 +3002,10 @@ func (c *Client) sendCreateImage(ctx context.Context, request OptCreateImageReq)
 	return result, nil
 }
 
-// CreateImageCollectionJob invokes createImageCollectionJob operation.
-//
-// Used to perform different actions on a given image. Requires the `images-delete` capability.
-//
-// POST /v1/images/tasks
-func (c *Client) CreateImageCollectionJob(ctx context.Context, request OptCreateImageCollectionJobReq) (*CreateImageCollectionJobAccepted, error) {
-	res, err := c.sendCreateImageCollectionJob(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendCreateImageCollectionJob(ctx context.Context, request OptCreateImageCollectionJobReq) (res *CreateImageCollectionJobAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/images/tasks"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateImageCollectionJobRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "CreateImageCollectionJob", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "CreateImageCollectionJob", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeCreateImageCollectionJobResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // CreateImageJob invokes createImageJob operation.
 //
-// Used to perform different actions on a given image.  Requires the `images-import` capabiltiy.
+// Used to perform different actions on a given Image.
+// Requires the `images-import` capability.
 //
 // POST /v1/images/{imageId}/tasks
 func (c *Client) CreateImageJob(ctx context.Context, request OptCreateImageJobReq, params CreateImageJobParams) (*CreateImageJobOK, error) {
@@ -3039,7 +3107,7 @@ func (c *Client) sendCreateImageJob(ctx context.Context, request OptCreateImageJ
 
 // CreateImageSource invokes createImageSource operation.
 //
-// Requires the `images-import` capability.
+// Requires the `images-sources-manage` capability.
 //
 // POST /v1/images/sources
 func (c *Client) CreateImageSource(ctx context.Context, request OptCreateImageSourceReq) (*CreateImageSourceCreated, error) {
@@ -3120,17 +3188,532 @@ func (c *Client) sendCreateImageSource(ctx context.Context, request OptCreateIma
 	return result, nil
 }
 
+// CreateImagesJob invokes createImagesJob operation.
+//
+// Used to perform different actions on a given image.
+// Requires the `images-manage` capability.
+//
+// POST /v1/images/tasks
+func (c *Client) CreateImagesJob(ctx context.Context, request OptCreateImagesJobReq) (*CreateImagesJobAccepted, error) {
+	res, err := c.sendCreateImagesJob(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateImagesJob(ctx context.Context, request OptCreateImagesJobReq) (res *CreateImagesJobAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/images/tasks"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateImagesJobRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateImagesJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "CreateImagesJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateImagesJobResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateInstanceJob invokes createInstanceJob operation.
+//
+// Used to perform different actions on a given Container Instance. Can be used to migrate or undo a
+// migration of a Container Instance.
+// Requires the `containers-instance-migrate` capability.
+//
+// POST /v1/containers/{containerId}/instances/{instanceId}/tasks
+func (c *Client) CreateInstanceJob(ctx context.Context, request OptCreateInstanceJobReq, params CreateInstanceJobParams) (*CreateInstanceJobAccepted, error) {
+	res, err := c.sendCreateInstanceJob(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateInstanceJob(ctx context.Context, request OptCreateInstanceJobReq, params CreateInstanceJobParams) (res *CreateInstanceJobAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/v1/containers/"
+	{
+		// Encode "containerId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "containerId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ContainerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/instances/"
+	{
+		// Encode "instanceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "instanceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.InstanceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/tasks"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateInstanceJobRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateInstanceJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "CreateInstanceJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateInstanceJobResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateInstances invokes createInstances operation.
+//
+// Manually create Instances of a Container.
+// Requires the `containers-update` capability.
+//
+// POST /v1/containers/{containerId}/instances
+func (c *Client) CreateInstances(ctx context.Context, request []CreateInstancesReqItem, params CreateInstancesParams) (*CreateInstancesAccepted, error) {
+	res, err := c.sendCreateInstances(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateInstances(ctx context.Context, request []CreateInstancesReqItem, params CreateInstancesParams) (res *CreateInstancesAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/containers/"
+	{
+		// Encode "containerId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "containerId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ContainerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/instances"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateInstancesRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateInstances", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "CreateInstances", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateInstancesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateIntegration invokes createIntegration operation.
+//
+// Create an Integration resource within a hub. If the Integration definition specifies that it
+// requires verification, then you must submit a verify task to enable it.
+//
+// POST /v1/hubs/current/integrations
+func (c *Client) CreateIntegration(ctx context.Context, request *CreateIntegrationReq, params CreateIntegrationParams) (*CreateIntegrationCreated, error) {
+	res, err := c.sendCreateIntegration(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateIntegration(ctx context.Context, request *CreateIntegrationReq, params CreateIntegrationParams) (res *CreateIntegrationCreated, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/hubs/current/integrations"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Meta {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateIntegrationRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateIntegration", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateIntegrationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateIntegrationJob invokes createIntegrationJob operation.
+//
+// Creates a new Job targeted at the provided Hub Integration.
+// ## Required Permissions
+// - Requires a valid hub membership to the target hub.
+// - Requires the `hubs-integrations-manage` capability.
+//
+// POST /v1/hubs/current/integrations/{integrationId}/tasks
+func (c *Client) CreateIntegrationJob(ctx context.Context, request OptCreateIntegrationJobReq, params CreateIntegrationJobParams) (*CreateIntegrationJobAccepted, error) {
+	res, err := c.sendCreateIntegrationJob(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateIntegrationJob(ctx context.Context, request OptCreateIntegrationJobReq, params CreateIntegrationJobParams) (res *CreateIntegrationJobAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/hubs/current/integrations/"
+	{
+		// Encode "integrationId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "integrationId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.IntegrationId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/tasks"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateIntegrationJobRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateIntegrationJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "CreateIntegrationJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateIntegrationJobResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // CreateInvoiceJob invokes createInvoiceJob operation.
 //
+// Creates a new Job on an Invoice. Generally used to make a payment on an Invoice.
 // Requires the `billing-invoices-pay` capability.
 //
 // POST /v1/billing/invoices/{invoiceId}/tasks
-func (c *Client) CreateInvoiceJob(ctx context.Context, request OptCreateInvoiceJobReq, params CreateInvoiceJobParams) (*CreateInvoiceJobOK, error) {
+func (c *Client) CreateInvoiceJob(ctx context.Context, request OptCreateInvoiceJobReq, params CreateInvoiceJobParams) (*CreateInvoiceJobAccepted, error) {
 	res, err := c.sendCreateInvoiceJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateInvoiceJob(ctx context.Context, request OptCreateInvoiceJobReq, params CreateInvoiceJobParams) (res *CreateInvoiceJobOK, err error) {
+func (c *Client) sendCreateInvoiceJob(ctx context.Context, request OptCreateInvoiceJobReq, params CreateInvoiceJobParams) (res *CreateInvoiceJobAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -3222,17 +3805,228 @@ func (c *Client) sendCreateInvoiceJob(ctx context.Context, request OptCreateInvo
 	return result, nil
 }
 
+// CreateLoadBalancerServiceJob invokes createLoadBalancerServiceJob operation.
+//
+// Creates a task that will update the load balancer's configuration.
+//
+// POST /v1/environments/{environmentId}/services/lb/tasks
+func (c *Client) CreateLoadBalancerServiceJob(ctx context.Context, request OptCreateLoadBalancerServiceJobReq, params CreateLoadBalancerServiceJobParams) (*CreateLoadBalancerServiceJobAccepted, error) {
+	res, err := c.sendCreateLoadBalancerServiceJob(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateLoadBalancerServiceJob(ctx context.Context, request OptCreateLoadBalancerServiceJobReq, params CreateLoadBalancerServiceJobParams) (res *CreateLoadBalancerServiceJobAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/environments/"
+	{
+		// Encode "environmentId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "environmentId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/services/lb/tasks"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateLoadBalancerServiceJobRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateLoadBalancerServiceJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "CreateLoadBalancerServiceJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateLoadBalancerServiceJobResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateNetwork invokes createNetwork operation.
+//
+// Requires the `sdn-networks-manage` capability.
+//
+// POST /v1/sdn/networks
+func (c *Client) CreateNetwork(ctx context.Context, request OptCreateNetworkReq, params CreateNetworkParams) (*CreateNetworkCreated, error) {
+	res, err := c.sendCreateNetwork(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateNetwork(ctx context.Context, request OptCreateNetworkReq, params CreateNetworkParams) (res *CreateNetworkCreated, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/sdn/networks"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateNetworkRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateNetwork", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "CreateNetwork", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateNetworkResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // CreateNetworkJob invokes createNetworkJob operation.
 //
 // Requires the `sdn-networks-manage` capability.
 //
 // POST /v1/sdn/networks/{networkId}/tasks
-func (c *Client) CreateNetworkJob(ctx context.Context, request OptCreateNetworkJobReq, params CreateNetworkJobParams) (*CreateNetworkJobOK, error) {
+func (c *Client) CreateNetworkJob(ctx context.Context, request OptCreateNetworkJobReq, params CreateNetworkJobParams) (*CreateNetworkJobAccepted, error) {
 	res, err := c.sendCreateNetworkJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateNetworkJob(ctx context.Context, request OptCreateNetworkJobReq, params CreateNetworkJobParams) (res *CreateNetworkJobOK, err error) {
+func (c *Client) sendCreateNetworkJob(ctx context.Context, request OptCreateNetworkJobReq, params CreateNetworkJobParams) (res *CreateNetworkJobAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -3326,20 +4120,69 @@ func (c *Client) sendCreateNetworkJob(ctx context.Context, request OptCreateNetw
 
 // CreateOrder invokes createOrder operation.
 //
-// Requires TODO capability.
+// Requires the `billing-orders-manage` capability.
 //
 // POST /v1/billing/orders
-func (c *Client) CreateOrder(ctx context.Context, request OptCreateOrderReq) (*CreateOrderCreated, error) {
-	res, err := c.sendCreateOrder(ctx, request)
+func (c *Client) CreateOrder(ctx context.Context, request OptCreateOrderReq, params CreateOrderParams) (*CreateOrderCreated, error) {
+	res, err := c.sendCreateOrder(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateOrder(ctx context.Context, request OptCreateOrderReq) (res *CreateOrderCreated, err error) {
+func (c *Client) sendCreateOrder(ctx context.Context, request OptCreateOrderReq, params CreateOrderParams) (res *CreateOrderCreated, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
 	pathParts[0] = "/v1/billing/orders"
 	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Meta {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	r, err := ht.NewRequest(ctx, "POST", u)
 	if err != nil {
@@ -3409,7 +4252,8 @@ func (c *Client) sendCreateOrder(ctx context.Context, request OptCreateOrderReq)
 
 // CreateOrderJob invokes createOrderJob operation.
 //
-// Used to confirm an order.
+// Used to confirm a Billing Order.
+// Requires the `billing-services-manage` capability.
 //
 // POST /v1/billing/orders/{orderId}/tasks
 func (c *Client) CreateOrderJob(ctx context.Context, request OptCreateOrderJobReq, params CreateOrderJobParams) (*CreateOrderJobAccepted, error) {
@@ -3796,28 +4640,29 @@ func (c *Client) sendCreatePipelineTriggerKey(ctx context.Context, request OptCr
 	return result, nil
 }
 
-// CreateProvider invokes createProvider operation.
+// CreateRole invokes createRole operation.
 //
-// Requires the `infrastructure-providers-manage` capability.
+// Creates a custom Role for a Hub.
+// Requires the `hubs-roles-manage` capability.
 //
-// POST /v1/infrastructure/providers
-func (c *Client) CreateProvider(ctx context.Context, request OptCreateProviderReq) (*CreateProviderCreated, error) {
-	res, err := c.sendCreateProvider(ctx, request)
+// POST /v1/hubs/current/roles
+func (c *Client) CreateRole(ctx context.Context, request OptCreateRoleReq) (*CreateRoleCreated, error) {
+	res, err := c.sendCreateRole(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendCreateProvider(ctx context.Context, request OptCreateProviderReq) (res *CreateProviderCreated, err error) {
+func (c *Client) sendCreateRole(ctx context.Context, request OptCreateRoleReq) (res *CreateRoleCreated, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
-	pathParts[0] = "/v1/infrastructure/providers"
+	pathParts[0] = "/v1/hubs/current/roles"
 	uri.AddPathParts(u, pathParts[:]...)
 
 	r, err := ht.NewRequest(ctx, "POST", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeCreateProviderRequest(request, r); err != nil {
+	if err := encodeCreateRoleRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -3826,7 +4671,7 @@ func (c *Client) sendCreateProvider(ctx context.Context, request OptCreateProvid
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "CreateProvider", r); {
+			switch err := c.securityBearerAuth(ctx, "CreateRole", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -3837,7 +4682,7 @@ func (c *Client) sendCreateProvider(ctx context.Context, request OptCreateProvid
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "CreateProvider", r); {
+			switch err := c.securityHubAuth(ctx, "CreateRole", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -3871,7 +4716,7 @@ func (c *Client) sendCreateProvider(ctx context.Context, request OptCreateProvid
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeCreateProviderResponse(resp)
+	result, err := decodeCreateRoleResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -3879,30 +4724,30 @@ func (c *Client) sendCreateProvider(ctx context.Context, request OptCreateProvid
 	return result, nil
 }
 
-// CreateProviderJob invokes createProviderJob operation.
+// CreateSchedulerServiceJob invokes createSchedulerServiceJob operation.
 //
-// Requires the `infrastructure-providers-manage` capability.
+// Creates a task that will update the scheduler service's configuration.
 //
-// POST /v1/infrastructure/providers/{providerIdentifier}/tasks
-func (c *Client) CreateProviderJob(ctx context.Context, request OptCreateProviderJobReq, params CreateProviderJobParams) (*CreateProviderJobAccepted, error) {
-	res, err := c.sendCreateProviderJob(ctx, request, params)
+// POST /v1/environments/{environmentId}/services/scheduler/tasks
+func (c *Client) CreateSchedulerServiceJob(ctx context.Context, request OptCreateSchedulerServiceJobReq, params CreateSchedulerServiceJobParams) (*CreateSchedulerServiceJobAccepted, error) {
+	res, err := c.sendCreateSchedulerServiceJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateProviderJob(ctx context.Context, request OptCreateProviderJobReq, params CreateProviderJobParams) (res *CreateProviderJobAccepted, err error) {
+func (c *Client) sendCreateSchedulerServiceJob(ctx context.Context, request OptCreateSchedulerServiceJobReq, params CreateSchedulerServiceJobParams) (res *CreateSchedulerServiceJobAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
-	pathParts[0] = "/v1/infrastructure/providers/"
+	pathParts[0] = "/v1/environments/"
 	{
-		// Encode "providerIdentifier" parameter.
+		// Encode "environmentId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "providerIdentifier",
+			Param:   "environmentId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ProviderIdentifier))
+			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -3912,14 +4757,14 @@ func (c *Client) sendCreateProviderJob(ctx context.Context, request OptCreatePro
 		}
 		pathParts[1] = encoded
 	}
-	pathParts[2] = "/tasks"
+	pathParts[2] = "/services/scheduler/tasks"
 	uri.AddPathParts(u, pathParts[:]...)
 
 	r, err := ht.NewRequest(ctx, "POST", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeCreateProviderJobRequest(request, r); err != nil {
+	if err := encodeCreateSchedulerServiceJobRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -3928,7 +4773,7 @@ func (c *Client) sendCreateProviderJob(ctx context.Context, request OptCreatePro
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "CreateProviderJob", r); {
+			switch err := c.securityBearerAuth(ctx, "CreateSchedulerServiceJob", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -3939,7 +4784,7 @@ func (c *Client) sendCreateProviderJob(ctx context.Context, request OptCreatePro
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "CreateProviderJob", r); {
+			switch err := c.securityHubAuth(ctx, "CreateSchedulerServiceJob", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -3973,116 +4818,7 @@ func (c *Client) sendCreateProviderJob(ctx context.Context, request OptCreatePro
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeCreateProviderJobResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// CreateSDNNetwork invokes createSDNNetwork operation.
-//
-// Requires the `sdn-networks-manage` capability.
-//
-// POST /v1/sdn/networks
-func (c *Client) CreateSDNNetwork(ctx context.Context, request OptCreateSDNNetworkReq, params CreateSDNNetworkParams) (*CreateSDNNetworkCreated, error) {
-	res, err := c.sendCreateSDNNetwork(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendCreateSDNNetwork(ctx context.Context, request OptCreateSDNNetworkReq, params CreateSDNNetworkParams) (res *CreateSDNNetworkCreated, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/sdn/networks"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "include" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "include",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeCreateSDNNetworkRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "CreateSDNNetwork", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "CreateSDNNetwork", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeCreateSDNNetworkResponse(resp)
+	result, err := decodeCreateSchedulerServiceJobResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -4277,15 +5013,15 @@ func (c *Client) sendCreateServer(ctx context.Context, request OptCreateServerRe
 
 // CreateServerJob invokes createServerJob operation.
 //
-// Used to perform different actions on a given server. Requires the `servers-state` capability.
+// Used to perform different actions on a given Server. Requires the `servers-manage` capability.
 //
 // POST /v1/infrastructure/servers/{serverId}/tasks
-func (c *Client) CreateServerJob(ctx context.Context, request OptCreateServerJobReq, params CreateServerJobParams) (*CreateServerJobOK, error) {
+func (c *Client) CreateServerJob(ctx context.Context, request OptCreateServerJobReq, params CreateServerJobParams) (*CreateServerJobAccepted, error) {
 	res, err := c.sendCreateServerJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateServerJob(ctx context.Context, request OptCreateServerJobReq, params CreateServerJobParams) (res *CreateServerJobOK, err error) {
+func (c *Client) sendCreateServerJob(ctx context.Context, request OptCreateServerJobReq, params CreateServerJobParams) (res *CreateServerJobAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -4785,6 +5521,109 @@ func (c *Client) sendCreateStackJob(ctx context.Context, request OptCreateStackJ
 	return result, nil
 }
 
+// CreateVPNServiceJob invokes createVPNServiceJob operation.
+//
+// Used to reconfigure or reset the Environment VPN. Requires the `environments-vpn-manage`
+// capability.
+//
+// POST /v1/environments/{environmentId}/services/vpn/tasks
+func (c *Client) CreateVPNServiceJob(ctx context.Context, request OptCreateVPNServiceJobReq, params CreateVPNServiceJobParams) (*CreateVPNServiceJobAccepted, error) {
+	res, err := c.sendCreateVPNServiceJob(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateVPNServiceJob(ctx context.Context, request OptCreateVPNServiceJobReq, params CreateVPNServiceJobParams) (res *CreateVPNServiceJobAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/environments/"
+	{
+		// Encode "environmentId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "environmentId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/services/vpn/tasks"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateVPNServiceJobRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateVPNServiceJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "CreateVPNServiceJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateVPNServiceJobResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // CreateVPNUser invokes createVPNUser operation.
 //
 // Requires the `environments-vpn-manage` capability.
@@ -4887,20 +5726,809 @@ func (c *Client) sendCreateVPNUser(ctx context.Context, request OptCreateVPNUser
 	return result, nil
 }
 
-// DNSRecordTask invokes DNSRecordTask operation.
+// DeleteAPIKey invokes deleteAPIKey operation.
 //
-// Used to perform different actionson a given DNS record, requires the `dns-manage` capability.
+// Requires the 'api-keys-manage' capability.
 //
-// POST /v1/dns/zones/{zoneId}/records/{recordId}/tasks
-func (c *Client) DNSRecordTask(ctx context.Context, request OptDNSRecordTaskReq, params DNSRecordTaskParams) (*DNSRecordTaskAccepted, error) {
-	res, err := c.sendDNSRecordTask(ctx, request, params)
+// DELETE /v1/hubs/current/api-keys/{apikeyId}
+func (c *Client) DeleteAPIKey(ctx context.Context, params DeleteAPIKeyParams) (*DeleteAPIKeyOK, error) {
+	res, err := c.sendDeleteAPIKey(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendDNSRecordTask(ctx context.Context, request OptDNSRecordTaskReq, params DNSRecordTaskParams) (res *DNSRecordTaskAccepted, err error) {
+func (c *Client) sendDeleteAPIKey(ctx context.Context, params DeleteAPIKeyParams) (res *DeleteAPIKeyOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
+	var pathParts [2]string
+	pathParts[0] = "/v1/hubs/current/api-keys/"
+	{
+		// Encode "apikeyId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "apikeyId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApikeyId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteAPIKey", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteAPIKey", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteAPIKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteAccount invokes deleteAccount operation.
+//
+// Puts the Account into a `deleted` state. This will fail if the Account is the current `OWNER` of
+// an active Hub.
+//
+// DELETE /v1/account
+func (c *Client) DeleteAccount(ctx context.Context) (*DeleteAccountAccepted, error) {
+	res, err := c.sendDeleteAccount(ctx)
+	return res, err
+}
+
+func (c *Client) sendDeleteAccount(ctx context.Context) (res *DeleteAccountAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/account"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteAccount", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteAccount", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteAccountResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteAutoScaleGroup invokes deleteAutoScaleGroup operation.
+//
+// Requires the `autoscale-group-manage` capability.
+//
+// DELETE /v1/infrastructure/auto-scale/groups/{groupId}
+func (c *Client) DeleteAutoScaleGroup(ctx context.Context, params DeleteAutoScaleGroupParams) (*DeleteAutoScaleGroupAccepted, error) {
+	res, err := c.sendDeleteAutoScaleGroup(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteAutoScaleGroup(ctx context.Context, params DeleteAutoScaleGroupParams) (res *DeleteAutoScaleGroupAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/infrastructure/auto-scale/groups/"
+	{
+		// Encode "groupId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "groupId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.GroupId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteAutoScaleGroup", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteAutoScaleGroup", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteAutoScaleGroupResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteBillingMethod invokes deleteBillingMethod operation.
+//
+// Deletes the Billing Method. However, the primary payment method may not be deleted.
+// Requires the `billing-methods-manage` capability.
+//
+// DELETE /v1/billing/methods/{methodId}
+func (c *Client) DeleteBillingMethod(ctx context.Context, params DeleteBillingMethodParams) (*DeleteBillingMethodAccepted, error) {
+	res, err := c.sendDeleteBillingMethod(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteBillingMethod(ctx context.Context, params DeleteBillingMethodParams) (res *DeleteBillingMethodAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/billing/methods/"
+	{
+		// Encode "methodId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "methodId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.MethodId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteBillingMethod", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteBillingMethod", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteBillingMethodResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteContainer invokes deleteContainer operation.
+//
+// Requires the `containers-manage` capability.
+//
+// DELETE /v1/containers/{containerId}
+func (c *Client) DeleteContainer(ctx context.Context, params DeleteContainerParams) (*DeleteContainerAccepted, error) {
+	res, err := c.sendDeleteContainer(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteContainer(ctx context.Context, params DeleteContainerParams) (res *DeleteContainerAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/containers/"
+	{
+		// Encode "containerId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "containerId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ContainerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteContainer", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteContainer", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteContainerResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteContainerBackup invokes deleteContainerBackup operation.
+//
+// Requires the `containers-backups-manage` capability.
+//
+// DELETE /v1/containers/{containerId}/backups/{backupId}
+func (c *Client) DeleteContainerBackup(ctx context.Context, params DeleteContainerBackupParams) (*DeleteContainerBackupAccepted, error) {
+	res, err := c.sendDeleteContainerBackup(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteContainerBackup(ctx context.Context, params DeleteContainerBackupParams) (res *DeleteContainerBackupAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/v1/containers/"
+	{
+		// Encode "containerId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "containerId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ContainerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/backups/"
+	{
+		// Encode "backupId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "backupId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.BackupId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteContainerBackup", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteContainerBackup", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteContainerBackupResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteContainerInstances invokes deleteContainerInstances operation.
+//
+// Manually delete Instances of a Container.
+// Requires the `containers-update` capability.
+//
+// DELETE /v1/containers/{containerId}/instances
+func (c *Client) DeleteContainerInstances(ctx context.Context, params DeleteContainerInstancesParams) (*DeleteContainerInstancesAccepted, error) {
+	res, err := c.sendDeleteContainerInstances(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteContainerInstances(ctx context.Context, params DeleteContainerInstancesParams) (res *DeleteContainerInstancesAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/containers/"
+	{
+		// Encode "containerId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "containerId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ContainerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/instances"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteContainerInstances", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteContainerInstances", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteContainerInstancesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteDNSZone invokes deleteDNSZone operation.
+//
+// Requires the `dns-manage` capability.
+//
+// DELETE /v1/dns/zones/{zoneId}
+func (c *Client) DeleteDNSZone(ctx context.Context, params DeleteDNSZoneParams) (*DeleteDNSZoneAccepted, error) {
+	res, err := c.sendDeleteDNSZone(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteDNSZone(ctx context.Context, params DeleteDNSZoneParams) (res *DeleteDNSZoneAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/dns/zones/"
+	{
+		// Encode "zoneId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "zoneId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ZoneId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteDNSZone", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteDNSZone", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteDNSZoneResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteDNSZoneRecord invokes deleteDNSZoneRecord operation.
+//
+// Requires the `dns-manage` capability.
+//
+// DELETE /v1/dns/zones/{zoneId}/records/{recordId}
+func (c *Client) DeleteDNSZoneRecord(ctx context.Context, params DeleteDNSZoneRecordParams) (*DeleteDNSZoneRecordAccepted, error) {
+	res, err := c.sendDeleteDNSZoneRecord(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteDNSZoneRecord(ctx context.Context, params DeleteDNSZoneRecordParams) (res *DeleteDNSZoneRecordAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
 	pathParts[0] = "/v1/dns/zones/"
 	{
 		// Encode "zoneId" parameter.
@@ -4939,15 +6567,11 @@ func (c *Client) sendDNSRecordTask(ctx context.Context, request OptDNSRecordTask
 		}
 		pathParts[3] = encoded
 	}
-	pathParts[4] = "/tasks"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "POST", u)
+	r, err := ht.NewRequest(ctx, "DELETE", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeDNSRecordTaskRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
 	}
 
 	{
@@ -4955,7 +6579,7 @@ func (c *Client) sendDNSRecordTask(ctx context.Context, request OptDNSRecordTask
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "DNSRecordTask", r); {
+			switch err := c.securityBearerAuth(ctx, "DeleteDNSZoneRecord", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -4966,7 +6590,7 @@ func (c *Client) sendDNSRecordTask(ctx context.Context, request OptDNSRecordTask
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "DNSRecordTask", r); {
+			switch err := c.securityHubAuth(ctx, "DeleteDNSZoneRecord", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -5000,7 +6624,7 @@ func (c *Client) sendDNSRecordTask(ctx context.Context, request OptDNSRecordTask
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeDNSRecordTaskResponse(resp)
+	result, err := decodeDeleteDNSZoneRecordResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -5008,170 +6632,30 @@ func (c *Client) sendDNSRecordTask(ctx context.Context, request OptDNSRecordTask
 	return result, nil
 }
 
-// DNSTLSAttempts invokes DNSTLSAttempts operation.
+// DeleteEnvironment invokes deleteEnvironment operation.
 //
-// Requires the `dns-view` capability.
+// Requires the `environments-manage` capability.
 //
-// GET /v1/dns/tls/attempts
-func (c *Client) DNSTLSAttempts(ctx context.Context, params DNSTLSAttemptsParams) (*DNSTLSAttemptsOK, error) {
-	res, err := c.sendDNSTLSAttempts(ctx, params)
+// DELETE /v1/environments/{environmentId}
+func (c *Client) DeleteEnvironment(ctx context.Context, params DeleteEnvironmentParams) (*DeleteEnvironmentAccepted, error) {
+	res, err := c.sendDeleteEnvironment(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendDNSTLSAttempts(ctx context.Context, params DNSTLSAttemptsParams) (res *DNSTLSAttemptsOK, err error) {
+func (c *Client) sendDeleteEnvironment(ctx context.Context, params DeleteEnvironmentParams) (res *DeleteEnvironmentAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/dns/tls/attempts"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
+	var pathParts [2]string
+	pathParts[0] = "/v1/environments/"
 	{
-		// Encode "filter" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "filter",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Filter.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "sort" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "sort",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "page" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "page",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Page.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "DNSTLSAttempts", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "DNSTLSAttempts", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeDNSTLSAttemptsResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// DNSZoneTask invokes DNSZoneTask operation.
-//
-// Used to perform different actions on a given DNS zone, requires the `dns-manage` capability.
-//
-// POST /v1/dns/zones/{zoneId}/tasks
-func (c *Client) DNSZoneTask(ctx context.Context, request OptDNSZoneTaskReq, params DNSZoneTaskParams) (*DNSZoneTaskAccepted, error) {
-	res, err := c.sendDNSZoneTask(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendDNSZoneTask(ctx context.Context, request OptDNSZoneTaskReq, params DNSZoneTaskParams) (res *DNSZoneTaskAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/dns/zones/"
-	{
-		// Encode "zoneId" parameter.
+		// Encode "environmentId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "zoneId",
+			Param:   "environmentId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ZoneId))
+			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -5181,15 +6665,11 @@ func (c *Client) sendDNSZoneTask(ctx context.Context, request OptDNSZoneTaskReq,
 		}
 		pathParts[1] = encoded
 	}
-	pathParts[2] = "/tasks"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "POST", u)
+	r, err := ht.NewRequest(ctx, "DELETE", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeDNSZoneTaskRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
 	}
 
 	{
@@ -5197,7 +6677,7 @@ func (c *Client) sendDNSZoneTask(ctx context.Context, request OptDNSZoneTaskReq,
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "DNSZoneTask", r); {
+			switch err := c.securityBearerAuth(ctx, "DeleteEnvironment", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -5208,7 +6688,7 @@ func (c *Client) sendDNSZoneTask(ctx context.Context, request OptDNSZoneTaskReq,
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "DNSZoneTask", r); {
+			switch err := c.securityHubAuth(ctx, "DeleteEnvironment", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -5242,7 +6722,7 @@ func (c *Client) sendDNSZoneTask(ctx context.Context, request OptDNSZoneTaskReq,
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeDNSZoneTaskResponse(resp)
+	result, err := decodeDeleteEnvironmentResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -5250,17 +6730,1718 @@ func (c *Client) sendDNSZoneTask(ctx context.Context, request OptDNSZoneTaskReq,
 	return result, nil
 }
 
-// DisableTwoFa invokes disableTwoFa operation.
+// DeleteHub invokes deleteHub operation.
 //
-// Disable TwoFa for an account.
+// Requires the `hubs-delete` capability. This can only be aquired by being the hub owner.
 //
-// POST /v1/account/2fa/disable
-func (c *Client) DisableTwoFa(ctx context.Context, request OptDisableTwoFaReq) (*DisableTwoFaOK, error) {
-	res, err := c.sendDisableTwoFa(ctx, request)
+// DELETE /v1/hubs/current
+func (c *Client) DeleteHub(ctx context.Context) (*DeleteHubAccepted, error) {
+	res, err := c.sendDeleteHub(ctx)
 	return res, err
 }
 
-func (c *Client) sendDisableTwoFa(ctx context.Context, request OptDisableTwoFaReq) (res *DisableTwoFaOK, err error) {
+func (c *Client) sendDeleteHub(ctx context.Context) (res *DeleteHubAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/hubs/current"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteHub", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteHubResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteHubInvite invokes deleteHubInvite operation.
+//
+// Requires the `hub-invites-manage` capability.
+//
+// DELETE /v1/hubs/current/invites/{inviteId}
+func (c *Client) DeleteHubInvite(ctx context.Context, params DeleteHubInviteParams) (*DeleteHubInviteOK, error) {
+	res, err := c.sendDeleteHubInvite(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteHubInvite(ctx context.Context, params DeleteHubInviteParams) (res *DeleteHubInviteOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/hubs/current/invites/"
+	{
+		// Encode "inviteId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "inviteId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.InviteId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteHubInvite", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteHubInviteResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteHubMember invokes deleteHubMember operation.
+//
+// Requires the `hubs-members-manage` capability.
+//
+// DELETE /v1/hubs/current/members/{memberId}
+func (c *Client) DeleteHubMember(ctx context.Context, params DeleteHubMemberParams) (*DeleteHubMemberAccepted, error) {
+	res, err := c.sendDeleteHubMember(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteHubMember(ctx context.Context, params DeleteHubMemberParams) (res *DeleteHubMemberAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/hubs/current/members/"
+	{
+		// Encode "memberId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "memberId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.MemberId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteHubMember", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteHubMemberResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteIPPool invokes deleteIPPool operation.
+//
+// Requires the `infrastructure-ips-manage` capability.
+//
+// DELETE /v1/infrastructure/ips/pools/{poolId}
+func (c *Client) DeleteIPPool(ctx context.Context, params DeleteIPPoolParams) (*DeleteIPPoolAccepted, error) {
+	res, err := c.sendDeleteIPPool(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteIPPool(ctx context.Context, params DeleteIPPoolParams) (res *DeleteIPPoolAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/infrastructure/ips/pools/"
+	{
+		// Encode "poolId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "poolId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.PoolId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteIPPool", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteIPPool", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteIPPoolResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteImage invokes deleteImage operation.
+//
+// Requires the `images-manage` capability.
+//
+// DELETE /v1/images/{imageId}
+func (c *Client) DeleteImage(ctx context.Context, params DeleteImageParams) (*DeleteImageOK, error) {
+	res, err := c.sendDeleteImage(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteImage(ctx context.Context, params DeleteImageParams) (res *DeleteImageOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/images/"
+	{
+		// Encode "imageId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "imageId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ImageId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteImage", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteImage", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteImageResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteImageSource invokes deleteImageSource operation.
+//
+// Requires the `images-sources-manage` capability.
+//
+// DELETE /v1/images/sources/{sourceId}
+func (c *Client) DeleteImageSource(ctx context.Context, params DeleteImageSourceParams) (*DeleteImageSourceAccepted, error) {
+	res, err := c.sendDeleteImageSource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteImageSource(ctx context.Context, params DeleteImageSourceParams) (res *DeleteImageSourceAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/images/sources/"
+	{
+		// Encode "sourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "sourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.SourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteImageSource", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteImageSource", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteImageSourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteInstance invokes deleteInstance operation.
+//
+// Requires the `containers-update` capability.
+//
+// DELETE /v1/containers/{containerId}/instances/{instanceId}
+func (c *Client) DeleteInstance(ctx context.Context, params DeleteInstanceParams) (*DeleteInstanceAccepted, error) {
+	res, err := c.sendDeleteInstance(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteInstance(ctx context.Context, params DeleteInstanceParams) (res *DeleteInstanceAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/v1/containers/"
+	{
+		// Encode "containerId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "containerId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ContainerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/instances/"
+	{
+		// Encode "instanceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "instanceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.InstanceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteInstance", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteInstance", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteInstanceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteIntegration invokes deleteIntegration operation.
+//
+// Deletes the specified Integration from the current hub, marking it as deleted and returning the
+// updated Integration.
+//
+// DELETE /v1/hubs/current/integrations/{integrationId}
+func (c *Client) DeleteIntegration(ctx context.Context, params DeleteIntegrationParams) (*DeleteIntegrationAccepted, error) {
+	res, err := c.sendDeleteIntegration(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteIntegration(ctx context.Context, params DeleteIntegrationParams) (res *DeleteIntegrationAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/hubs/current/integrations/"
+	{
+		// Encode "integrationId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "integrationId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.IntegrationId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteIntegration", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteIntegrationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteNetwork invokes deleteNetwork operation.
+//
+// Requires the `sdn-networks-manage` capability.
+//
+// DELETE /v1/sdn/networks/{networkId}
+func (c *Client) DeleteNetwork(ctx context.Context, params DeleteNetworkParams) (*DeleteNetworkAccepted, error) {
+	res, err := c.sendDeleteNetwork(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteNetwork(ctx context.Context, params DeleteNetworkParams) (res *DeleteNetworkAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/sdn/networks/"
+	{
+		// Encode "networkId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "networkId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.NetworkId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteNetwork", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteNetwork", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteNetworkResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeletePipeline invokes deletePipeline operation.
+//
+// Requires the `pipelines-manage` capability.
+//
+// DELETE /v1/pipelines/{pipelineId}
+func (c *Client) DeletePipeline(ctx context.Context, params DeletePipelineParams) (*DeletePipelineOK, error) {
+	res, err := c.sendDeletePipeline(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeletePipeline(ctx context.Context, params DeletePipelineParams) (res *DeletePipelineOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/pipelines/"
+	{
+		// Encode "pipelineId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "pipelineId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.PipelineId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeletePipeline", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeletePipeline", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeletePipelineResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeletePipelineTriggerKey invokes deletePipelineTriggerKey operation.
+//
+// Requires the `pipelines-manage` capability.
+//
+// DELETE /v1/pipelines/{pipelineId}/keys/{triggerKeyId}
+func (c *Client) DeletePipelineTriggerKey(ctx context.Context, params DeletePipelineTriggerKeyParams) (*DeletePipelineTriggerKeyAccepted, error) {
+	res, err := c.sendDeletePipelineTriggerKey(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeletePipelineTriggerKey(ctx context.Context, params DeletePipelineTriggerKeyParams) (res *DeletePipelineTriggerKeyAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/v1/pipelines/"
+	{
+		// Encode "pipelineId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "pipelineId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.PipelineId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/keys/"
+	{
+		// Encode "triggerKeyId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "triggerKeyId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.TriggerKeyId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeletePipelineTriggerKey", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeletePipelineTriggerKey", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeletePipelineTriggerKeyResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteRole invokes deleteRole operation.
+//
+// Marks a Role as 'deleted'.
+// Requires the 'hubs-roles-manage' capability.
+//
+// DELETE /v1/hubs/current/roles/{roleId}
+func (c *Client) DeleteRole(ctx context.Context, params DeleteRoleParams) (*DeleteRoleAccepted, error) {
+	res, err := c.sendDeleteRole(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteRole(ctx context.Context, params DeleteRoleParams) (res *DeleteRoleAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/hubs/current/roles/"
+	{
+		// Encode "roleId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "roleId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.RoleId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteRole", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteRole", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteRoleResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteScopedVariable invokes deleteScopedVariable operation.
+//
+// Requires the `scoped-variables-manage` capability.
+//
+// DELETE /v1/environments/{environmentId}/scoped-variables/{scopedVariableId}
+func (c *Client) DeleteScopedVariable(ctx context.Context, params DeleteScopedVariableParams) (*DeleteScopedVariableAccepted, error) {
+	res, err := c.sendDeleteScopedVariable(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteScopedVariable(ctx context.Context, params DeleteScopedVariableParams) (res *DeleteScopedVariableAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/v1/environments/"
+	{
+		// Encode "environmentId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "environmentId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/scoped-variables/"
+	{
+		// Encode "scopedVariableId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "scopedVariableId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ScopedVariableId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteScopedVariable", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteScopedVariable", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteScopedVariableResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteServer invokes deleteServer operation.
+//
+// Requires the `servers-manage` capability.
+//
+// DELETE /v1/infrastructure/servers/{serverId}
+func (c *Client) DeleteServer(ctx context.Context, params DeleteServerParams) (*DeleteServerOK, error) {
+	res, err := c.sendDeleteServer(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteServer(ctx context.Context, params DeleteServerParams) (res *DeleteServerOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/infrastructure/servers/"
+	{
+		// Encode "serverId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "serverId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ServerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteServer", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteServer", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteServerResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteStack invokes deleteStack operation.
+//
+// Requires the `stacks-manage` capability.
+//
+// DELETE /v1/stacks/{stackId}
+func (c *Client) DeleteStack(ctx context.Context, params DeleteStackParams) (*DeleteStackAccepted, error) {
+	res, err := c.sendDeleteStack(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteStack(ctx context.Context, params DeleteStackParams) (res *DeleteStackAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/stacks/"
+	{
+		// Encode "stackId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "stackId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.StackId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteStack", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteStack", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteStackResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteStackBuild invokes deleteStackBuild operation.
+//
+// Requires the `stacks-manage` capability.
+//
+// DELETE /v1/stacks/{stackId}/builds/{buildId}
+func (c *Client) DeleteStackBuild(ctx context.Context, params DeleteStackBuildParams) (*DeleteStackBuildOK, error) {
+	res, err := c.sendDeleteStackBuild(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteStackBuild(ctx context.Context, params DeleteStackBuildParams) (res *DeleteStackBuildOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/v1/stacks/"
+	{
+		// Encode "stackId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "stackId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.StackId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/builds/"
+	{
+		// Encode "buildId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "buildId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.BuildId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteStackBuild", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteStackBuild", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteStackBuildResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteVPNUser invokes deleteVPNUser operation.
+//
+// Requires the `environments-vpn-manage` capability.
+//
+// DELETE /v1/environments/{environmentId}/services/vpn/users/{userId}
+func (c *Client) DeleteVPNUser(ctx context.Context, params DeleteVPNUserParams) (*DeleteVPNUserOK, error) {
+	res, err := c.sendDeleteVPNUser(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteVPNUser(ctx context.Context, params DeleteVPNUserParams) (res *DeleteVPNUserOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/v1/environments/"
+	{
+		// Encode "environmentId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "environmentId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/services/vpn/users/"
+	{
+		// Encode "userId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "userId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.UserId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteVPNUser", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteVPNUser", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteVPNUserResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DisableTwoFactorAuth invokes disableTwoFactorAuth operation.
+//
+// Disables two-factor auth for the account.
+//
+// POST /v1/account/2fa/disable
+func (c *Client) DisableTwoFactorAuth(ctx context.Context, request OptDisableTwoFactorAuthReq) (*DisableTwoFactorAuthOK, error) {
+	res, err := c.sendDisableTwoFactorAuth(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendDisableTwoFactorAuth(ctx context.Context, request OptDisableTwoFactorAuthReq) (res *DisableTwoFactorAuthOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -5271,7 +8452,7 @@ func (c *Client) sendDisableTwoFa(ctx context.Context, request OptDisableTwoFaRe
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeDisableTwoFaRequest(request, r); err != nil {
+	if err := encodeDisableTwoFactorAuthRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -5280,7 +8461,7 @@ func (c *Client) sendDisableTwoFa(ctx context.Context, request OptDisableTwoFaRe
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "DisableTwoFa", r); {
+			switch err := c.securityBearerAuth(ctx, "DisableTwoFactorAuth", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -5291,7 +8472,7 @@ func (c *Client) sendDisableTwoFa(ctx context.Context, request OptDisableTwoFaRe
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "DisableTwoFa", r); {
+			switch err := c.securityHubAuth(ctx, "DisableTwoFactorAuth", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -5325,7 +8506,7 @@ func (c *Client) sendDisableTwoFa(ctx context.Context, request OptDisableTwoFaRe
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeDisableTwoFaResponse(resp)
+	result, err := decodeDisableTwoFactorAuthResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -5333,17 +8514,102 @@ func (c *Client) sendDisableTwoFa(ctx context.Context, request OptDisableTwoFaRe
 	return result, nil
 }
 
-// ExpireInstanceSSHTokens invokes expireInstanceSSHTokens operation.
+// EnableTwoFactorAuth invokes enableTwoFactorAuth operation.
 //
-// Requires the `containers-ssh` capability.
+// Enables two-factor auth for the Account. Retrieve the token from an authenticator app using the
+// secret from `getTwoFactorAuthSetup`.
 //
-// DELETE /v1/containers/{containerId}/instances/{instanceId}/ssh
-func (c *Client) ExpireInstanceSSHTokens(ctx context.Context, params ExpireInstanceSSHTokensParams) (*ExpireInstanceSSHTokensOK, error) {
-	res, err := c.sendExpireInstanceSSHTokens(ctx, params)
+// POST /v1/account/2fa/setup
+func (c *Client) EnableTwoFactorAuth(ctx context.Context, request OptEnableTwoFactorAuthReq) (*EnableTwoFactorAuthOK, error) {
+	res, err := c.sendEnableTwoFactorAuth(ctx, request)
 	return res, err
 }
 
-func (c *Client) sendExpireInstanceSSHTokens(ctx context.Context, params ExpireInstanceSSHTokensParams) (res *ExpireInstanceSSHTokensOK, err error) {
+func (c *Client) sendEnableTwoFactorAuth(ctx context.Context, request OptEnableTwoFactorAuthReq) (res *EnableTwoFactorAuthOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/account/2fa/setup"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeEnableTwoFactorAuthRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "EnableTwoFactorAuth", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "EnableTwoFactorAuth", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeEnableTwoFactorAuthResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ExpireInstanceSSHCredentials invokes expireInstanceSSHCredentials operation.
+//
+// Instantly expires any SSH credentials generated for this Instance.
+// Requires the `containers-ssh` capability.
+//
+// DELETE /v1/containers/{containerId}/instances/{instanceId}/ssh
+func (c *Client) ExpireInstanceSSHCredentials(ctx context.Context, params ExpireInstanceSSHCredentialsParams) (*ExpireInstanceSSHCredentialsOK, error) {
+	res, err := c.sendExpireInstanceSSHCredentials(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendExpireInstanceSSHCredentials(ctx context.Context, params ExpireInstanceSSHCredentialsParams) (res *ExpireInstanceSSHCredentialsOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [5]string
@@ -5398,7 +8664,7 @@ func (c *Client) sendExpireInstanceSSHTokens(ctx context.Context, params ExpireI
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "ExpireInstanceSSHTokens", r); {
+			switch err := c.securityBearerAuth(ctx, "ExpireInstanceSSHCredentials", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -5409,7 +8675,7 @@ func (c *Client) sendExpireInstanceSSHTokens(ctx context.Context, params ExpireI
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "ExpireInstanceSSHTokens", r); {
+			switch err := c.securityHubAuth(ctx, "ExpireInstanceSSHCredentials", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -5443,7 +8709,7 @@ func (c *Client) sendExpireInstanceSSHTokens(ctx context.Context, params ExpireI
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeExpireInstanceSSHTokensResponse(resp)
+	result, err := decodeExpireInstanceSSHCredentialsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -5451,30 +8717,33 @@ func (c *Client) sendExpireInstanceSSHTokens(ctx context.Context, params ExpireI
 	return result, nil
 }
 
-// FetchScopedVariable invokes fetchScopedVariable operation.
+// GenerateInstanceSSHCredentials invokes generateInstanceSSHCredentials operation.
 //
-// Requires the `scoped-variables-view` capability.
+// Generates credentials for connecting to an Instance via SSH. The generated endpoint/secret can be
+// used to log in via SSH
+// into the Instance without exposing ports on the container or host.
+// Requires the `containers-ssh` capability.
 //
-// GET /v1/environments/{environmentId}/scoped-variables/{scopedVariableId}
-func (c *Client) FetchScopedVariable(ctx context.Context, params FetchScopedVariableParams) (*FetchScopedVariableOK, error) {
-	res, err := c.sendFetchScopedVariable(ctx, params)
+// GET /v1/containers/{containerId}/instances/{instanceId}/ssh
+func (c *Client) GenerateInstanceSSHCredentials(ctx context.Context, params GenerateInstanceSSHCredentialsParams) (*GenerateInstanceSSHCredentialsOK, error) {
+	res, err := c.sendGenerateInstanceSSHCredentials(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendFetchScopedVariable(ctx context.Context, params FetchScopedVariableParams) (res *FetchScopedVariableOK, err error) {
+func (c *Client) sendGenerateInstanceSSHCredentials(ctx context.Context, params GenerateInstanceSSHCredentialsParams) (res *GenerateInstanceSSHCredentialsOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/v1/environments/"
+	var pathParts [5]string
+	pathParts[0] = "/v1/containers/"
 	{
-		// Encode "environmentId" parameter.
+		// Encode "containerId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "environmentId",
+			Param:   "containerId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
+			return e.EncodeValue(conv.StringToString(params.ContainerId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -5484,16 +8753,16 @@ func (c *Client) sendFetchScopedVariable(ctx context.Context, params FetchScoped
 		}
 		pathParts[1] = encoded
 	}
-	pathParts[2] = "/scoped-variables/"
+	pathParts[2] = "/instances/"
 	{
-		// Encode "scopedVariableId" parameter.
+		// Encode "instanceId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "scopedVariableId",
+			Param:   "instanceId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ScopedVariableId))
+			return e.EncodeValue(conv.StringToString(params.InstanceId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -5502,6 +8771,105 @@ func (c *Client) sendFetchScopedVariable(ctx context.Context, params FetchScoped
 			return res, errors.Wrap(err, "encode path")
 		}
 		pathParts[3] = encoded
+	}
+	pathParts[4] = "/ssh"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GenerateInstanceSSHCredentials", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GenerateInstanceSSHCredentials", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGenerateInstanceSSHCredentialsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetAPIKey invokes getAPIKey operation.
+//
+// Requries the `api-keys-manage` capability.
+//
+// GET /v1/hubs/current/api-keys/{apikeyId}
+func (c *Client) GetAPIKey(ctx context.Context, params GetAPIKeyParams) (*GetAPIKeyOK, error) {
+	res, err := c.sendGetAPIKey(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetAPIKey(ctx context.Context, params GetAPIKeyParams) (res *GetAPIKeyOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/hubs/current/api-keys/"
+	{
+		// Encode "apikeyId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "apikeyId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ApikeyId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
 	}
 	uri.AddPathParts(u, pathParts[:]...)
 
@@ -5515,7 +8883,7 @@ func (c *Client) sendFetchScopedVariable(ctx context.Context, params FetchScoped
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "FetchScopedVariable", r); {
+			switch err := c.securityBearerAuth(ctx, "GetAPIKey", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -5526,7 +8894,7 @@ func (c *Client) sendFetchScopedVariable(ctx context.Context, params FetchScoped
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "FetchScopedVariable", r); {
+			switch err := c.securityHubAuth(ctx, "GetAPIKey", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -5560,7 +8928,7 @@ func (c *Client) sendFetchScopedVariable(ctx context.Context, params FetchScoped
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeFetchScopedVariableResponse(resp)
+	result, err := decodeGetAPIKeyResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -5570,7 +8938,7 @@ func (c *Client) sendFetchScopedVariable(ctx context.Context, params FetchScoped
 
 // GetAccount invokes getAccount operation.
 //
-// Gets the account associated with the authenticated user token.
+// Gets the Account associated with the authenticated bearer token.
 //
 // GET /v1/account
 func (c *Client) GetAccount(ctx context.Context) (*GetAccountOK, error) {
@@ -5639,7 +9007,7 @@ func (c *Client) sendGetAccount(ctx context.Context) (res *GetAccountOK, err err
 
 // GetAccountInvites invokes getAccountInvites operation.
 //
-// Lists invites associated with a given account.
+// Lists the pending Hub Memberships (also known as Invites) associated with the Account.
 //
 // GET /v1/account/invites
 func (c *Client) GetAccountInvites(ctx context.Context, params GetAccountInvitesParams) (*GetAccountInvitesOK, error) {
@@ -5943,91 +9311,45 @@ func (c *Client) sendGetAccountLogins(ctx context.Context, params GetAccountLogi
 
 // GetAccountMemberships invokes getAccountMemberships operation.
 //
-// Lists the memberships for a given account.
+// Lists the Hub Memberships for a given account.
 //
 // GET /v1/account/memberships
-func (c *Client) GetAccountMemberships(ctx context.Context) (*GetAccountMembershipsOK, error) {
-	res, err := c.sendGetAccountMemberships(ctx)
+func (c *Client) GetAccountMemberships(ctx context.Context, params GetAccountMembershipsParams) (*GetAccountMembershipsOK, error) {
+	res, err := c.sendGetAccountMemberships(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetAccountMemberships(ctx context.Context) (res *GetAccountMembershipsOK, err error) {
+func (c *Client) sendGetAccountMemberships(ctx context.Context, params GetAccountMembershipsParams) (res *GetAccountMembershipsOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
 	pathParts[0] = "/v1/account/memberships"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
+	q := uri.NewQueryEncoder()
 	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetAccountMemberships", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
 		}
 
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
 					}
 				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
 		}
 	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetAccountMembershipsResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetAnnouncementsList invokes getAnnouncementsList operation.
-//
-// Lists any important updates posted by the Cycle team.
-//
-// GET /v1/announcements
-func (c *Client) GetAnnouncementsList(ctx context.Context, params GetAnnouncementsListParams) (*GetAnnouncementsListOK, error) {
-	res, err := c.sendGetAnnouncementsList(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetAnnouncementsList(ctx context.Context, params GetAnnouncementsListParams) (res *GetAnnouncementsListOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/announcements"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
 	{
 		// Encode "sort" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
@@ -6097,7 +9419,7 @@ func (c *Client) sendGetAnnouncementsList(ctx context.Context, params GetAnnounc
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetAnnouncementsList", r); {
+			switch err := c.securityBearerAuth(ctx, "GetAccountMemberships", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -6131,7 +9453,7 @@ func (c *Client) sendGetAnnouncementsList(ctx context.Context, params GetAnnounc
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetAnnouncementsListResponse(resp)
+	result, err := decodeGetAccountMembershipsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -6139,40 +9461,82 @@ func (c *Client) sendGetAnnouncementsList(ctx context.Context, params GetAnnounc
 	return result, nil
 }
 
-// GetApiKey invokes getApiKey operation.
+// GetAnnouncements invokes getAnnouncements operation.
 //
-// Requries the `api-keys-manage` capability.
+// Lists any important updates posted by the Cycle team.
 //
-// GET /v1/hubs/current/api-keys/{apikeyId}
-func (c *Client) GetApiKey(ctx context.Context, params GetApiKeyParams) (*GetApiKeyOK, error) {
-	res, err := c.sendGetApiKey(ctx, params)
+// GET /v1/announcements
+func (c *Client) GetAnnouncements(ctx context.Context, params GetAnnouncementsParams) (*GetAnnouncementsOK, error) {
+	res, err := c.sendGetAnnouncements(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetApiKey(ctx context.Context, params GetApiKeyParams) (res *GetApiKeyOK, err error) {
+func (c *Client) sendGetAnnouncements(ctx context.Context, params GetAnnouncementsParams) (res *GetAnnouncementsOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/hubs/current/api-keys/"
-	{
-		// Encode "apikeyId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "apikeyId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApikeyId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
+	var pathParts [1]string
+	pathParts[0] = "/v1/announcements"
 	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "sort" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Sort {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(item))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
@@ -6184,7 +9548,7 @@ func (c *Client) sendGetApiKey(ctx context.Context, params GetApiKeyParams) (res
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetApiKey", r); {
+			switch err := c.securityBearerAuth(ctx, "GetAnnouncements", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -6193,22 +9557,11 @@ func (c *Client) sendGetApiKey(ctx context.Context, params GetApiKeyParams) (res
 				return res, errors.Wrap(err, "security \"BearerAuth\"")
 			}
 		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetApiKey", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
 
 		if ok := func() bool {
 		nextRequirement:
 			for _, requirement := range []bitset{
-				{0b00000011},
+				{0b00000001},
 			} {
 				for i, mask := range requirement {
 					if satisfied[i]&mask != mask {
@@ -6229,7 +9582,7 @@ func (c *Client) sendGetApiKey(ctx context.Context, params GetApiKeyParams) (res
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetApiKeyResponse(resp)
+	result, err := decodeGetAnnouncementsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -6641,58 +9994,21 @@ func (c *Client) sendGetAutoScaleGroups(ctx context.Context, params GetAutoScale
 	return result, nil
 }
 
-// GetBackup invokes getBackup operation.
+// GetAvailableIntegrations invokes getAvailableIntegrations operation.
 //
-// Requires the `containers-backups-view` capability.
+// Returns a map of available integrations categorized by their type.
 //
-// GET /v1/containers/{containerId}/backups/{backupId}
-func (c *Client) GetBackup(ctx context.Context, params GetBackupParams) (*GetBackupOK, error) {
-	res, err := c.sendGetBackup(ctx, params)
+// GET /v1/hubs/current/integrations/available
+func (c *Client) GetAvailableIntegrations(ctx context.Context) (*GetAvailableIntegrationsOK, error) {
+	res, err := c.sendGetAvailableIntegrations(ctx)
 	return res, err
 }
 
-func (c *Client) sendGetBackup(ctx context.Context, params GetBackupParams) (res *GetBackupOK, err error) {
+func (c *Client) sendGetAvailableIntegrations(ctx context.Context) (res *GetAvailableIntegrationsOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/v1/containers/"
-	{
-		// Encode "containerId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "containerId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ContainerId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/backups/"
-	{
-		// Encode "backupId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "backupId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.BackupId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
+	var pathParts [1]string
+	pathParts[0] = "/v1/hubs/current/integrations/available"
 	uri.AddPathParts(u, pathParts[:]...)
 
 	r, err := ht.NewRequest(ctx, "GET", u)
@@ -6705,7 +10021,7 @@ func (c *Client) sendGetBackup(ctx context.Context, params GetBackupParams) (res
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetBackup", r); {
+			switch err := c.securityBearerAuth(ctx, "GetAvailableIntegrations", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -6716,7 +10032,7 @@ func (c *Client) sendGetBackup(ctx context.Context, params GetBackupParams) (res
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "GetBackup", r); {
+			switch err := c.securityHubAuth(ctx, "GetAvailableIntegrations", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -6750,267 +10066,7 @@ func (c *Client) sendGetBackup(ctx context.Context, params GetBackupParams) (res
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetBackupResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetBackupLogs invokes getBackupLogs operation.
-//
-// Requires the `containers-backups-view` capability.
-//
-// GET /v1/containers/{containerId}/backups/{backupId}/logs
-func (c *Client) GetBackupLogs(ctx context.Context, params GetBackupLogsParams) (*GetBackupLogsOK, error) {
-	res, err := c.sendGetBackupLogs(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetBackupLogs(ctx context.Context, params GetBackupLogsParams) (res *GetBackupLogsOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/v1/containers/"
-	{
-		// Encode "containerId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "containerId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ContainerId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/backups/"
-	{
-		// Encode "backupId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "backupId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.BackupId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/logs"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetBackupLogs", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetBackupLogs", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetBackupLogsResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetBackupsCollection invokes getBackupsCollection operation.
-//
-// Requires the `containers-backups-view` capability.
-//
-// GET /v1/containers/{containerId}/backups
-func (c *Client) GetBackupsCollection(ctx context.Context, params GetBackupsCollectionParams) (*GetBackupsCollectionOK, error) {
-	res, err := c.sendGetBackupsCollection(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetBackupsCollection(ctx context.Context, params GetBackupsCollectionParams) (res *GetBackupsCollectionOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/containers/"
-	{
-		// Encode "containerId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "containerId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ContainerId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/backups"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "sort" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "sort",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "page" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "page",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Page.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetBackupsCollection", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetBackupsCollection", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetBackupsCollectionResponse(resp)
+	result, err := decodeGetAvailableIntegrationsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -7118,6 +10174,7 @@ func (c *Client) sendGetBillingMethod(ctx context.Context, params GetBillingMeth
 
 // GetBillingMethods invokes getBillingMethods operation.
 //
+// Lists the Billing Methods associated with the Hub defined in X-Hub-ID.
 // Requires the `billing-methods-manage` capability.
 //
 // GET /v1/billing/methods
@@ -7258,7 +10315,7 @@ func (c *Client) sendGetBillingMethods(ctx context.Context, params GetBillingMet
 
 // GetBillingOrder invokes getBillingOrder operation.
 //
-// Requires the `billing-orders-manage` capability.
+// Requires the `billing-services-manage` capability.
 //
 // GET /v1/billing/orders/{orderId}
 func (c *Client) GetBillingOrder(ctx context.Context, params GetBillingOrderParams) (*GetBillingOrderOK, error) {
@@ -7290,6 +10347,55 @@ func (c *Client) sendGetBillingOrder(ctx context.Context, params GetBillingOrder
 		pathParts[1] = encoded
 	}
 	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Meta {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
@@ -7356,7 +10462,7 @@ func (c *Client) sendGetBillingOrder(ctx context.Context, params GetBillingOrder
 
 // GetBillingOverages invokes getBillingOverages operation.
 //
-// Doesn't require a specific capability.
+// List Billing Overages.
 //
 // GET /v1/billing/services/overages
 func (c *Client) GetBillingOverages(ctx context.Context, params GetBillingOveragesParams) (*GetBillingOveragesOK, error) {
@@ -7734,7 +10840,9 @@ func (c *Client) sendGetBillingServices(ctx context.Context, params GetBillingSe
 
 // GetBillingSupportPlans invokes getBillingSupportPlans operation.
 //
-// Doesn't require a specific capability to call.
+// List Support Plans.
+//
+// Deprecated: schema marks this operation as deprecated.
 //
 // GET /v1/billing/plans/support
 func (c *Client) GetBillingSupportPlans(ctx context.Context, params GetBillingSupportPlansParams) (*GetBillingSupportPlansOK, error) {
@@ -7872,8 +10980,170 @@ func (c *Client) sendGetBillingSupportPlans(ctx context.Context, params GetBilli
 	return result, nil
 }
 
+// GetBillingTiers invokes getBillingTiers operation.
+//
+// Returns list of availiable Billing Tiers.
+//
+// GET /v1/billing/plans/tiers
+func (c *Client) GetBillingTiers(ctx context.Context) (*GetBillingTiersOK, error) {
+	res, err := c.sendGetBillingTiers(ctx)
+	return res, err
+}
+
+func (c *Client) sendGetBillingTiers(ctx context.Context) (res *GetBillingTiersOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/billing/plans/tiers"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetBillingTiers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetBillingTiers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetBillingTiersResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetClusters invokes GetClusters operation.
+//
+// Requires the `servers-view` capability.
+//
+// GET /v1/infrastructure/servers/clusters
+func (c *Client) GetClusters(ctx context.Context) (*GetClustersOK, error) {
+	res, err := c.sendGetClusters(ctx)
+	return res, err
+}
+
+func (c *Client) sendGetClusters(ctx context.Context) (res *GetClustersOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/infrastructure/servers/clusters"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetClusters", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetClusters", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetClustersResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetCompatibleImages invokes getCompatibleImages operation.
 //
+// Returns a list of Images that are compatible with the specified Container.
+// Used to quickly find Images that can be used for reimaging the Container.
 // Requires the `containers-view` capability.
 //
 // GET /v1/containers/{containerId}/compatible-images
@@ -8014,17 +11284,210 @@ func (c *Client) sendGetCompatibleImages(ctx context.Context, params GetCompatib
 	return result, nil
 }
 
-// GetContainerById invokes getContainerById operation.
+// GetCompatibleServers invokes getCompatibleServers operation.
+//
+// Gets a list of servers that are compatible with the specified Container and its restrictions (tags,
+//
+//	etc).
 //
 // Requires the `containers-view` capability.
 //
-// GET /v1/containers/{containerId}
-func (c *Client) GetContainerById(ctx context.Context, params GetContainerByIdParams) (*GetContainerByIdOK, error) {
-	res, err := c.sendGetContainerById(ctx, params)
+// GET /v1/containers/{containerId}/servers/usable
+func (c *Client) GetCompatibleServers(ctx context.Context, params GetCompatibleServersParams) (*GetCompatibleServersOK, error) {
+	res, err := c.sendGetCompatibleServers(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetContainerById(ctx context.Context, params GetContainerByIdParams) (res *GetContainerByIdOK, err error) {
+func (c *Client) sendGetCompatibleServers(ctx context.Context, params GetCompatibleServersParams) (res *GetCompatibleServersOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/containers/"
+	{
+		// Encode "containerId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "containerId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ContainerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/servers/usable"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Meta {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "sort" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Sort {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(item))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetCompatibleServers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetCompatibleServers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetCompatibleServersResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetContainer invokes getContainer operation.
+//
+// Gets a Container.
+// Requires the `containers-view` capability.
+//
+// GET /v1/containers/{containerId}
+func (c *Client) GetContainer(ctx context.Context, params GetContainerParams) (*GetContainerOK, error) {
+	res, err := c.sendGetContainer(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetContainer(ctx context.Context, params GetContainerParams) (res *GetContainerOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
@@ -8108,7 +11571,7 @@ func (c *Client) sendGetContainerById(ctx context.Context, params GetContainerBy
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetContainerById", r); {
+			switch err := c.securityBearerAuth(ctx, "GetContainer", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -8119,7 +11582,7 @@ func (c *Client) sendGetContainerById(ctx context.Context, params GetContainerBy
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "GetContainerById", r); {
+			switch err := c.securityHubAuth(ctx, "GetContainer", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -8153,7 +11616,7 @@ func (c *Client) sendGetContainerById(ctx context.Context, params GetContainerBy
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetContainerByIdResponse(resp)
+	result, err := decodeGetContainerResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -8161,17 +11624,18 @@ func (c *Client) sendGetContainerById(ctx context.Context, params GetContainerBy
 	return result, nil
 }
 
-// GetContainerInstance invokes getContainerInstance operation.
+// GetContainerBackup invokes getContainerBackup operation.
 //
-// Requires the `containers-view` capability.
+// Gets the specified Container Backup.
+// Requires the `containers-backups-view` capability.
 //
-// GET /v1/containers/{containerId}/instances/{instanceId}
-func (c *Client) GetContainerInstance(ctx context.Context, params GetContainerInstanceParams) (*GetContainerInstanceOK, error) {
-	res, err := c.sendGetContainerInstance(ctx, params)
+// GET /v1/containers/{containerId}/backups/{backupId}
+func (c *Client) GetContainerBackup(ctx context.Context, params GetContainerBackupParams) (*GetContainerBackupOK, error) {
+	res, err := c.sendGetContainerBackup(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetContainerInstance(ctx context.Context, params GetContainerInstanceParams) (res *GetContainerInstanceOK, err error) {
+func (c *Client) sendGetContainerBackup(ctx context.Context, params GetContainerBackupParams) (res *GetContainerBackupOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [4]string
@@ -8194,16 +11658,16 @@ func (c *Client) sendGetContainerInstance(ctx context.Context, params GetContain
 		}
 		pathParts[1] = encoded
 	}
-	pathParts[2] = "/instances/"
+	pathParts[2] = "/backups/"
 	{
-		// Encode "instanceId" parameter.
+		// Encode "backupId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "instanceId",
+			Param:   "backupId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.InstanceId))
+			return e.EncodeValue(conv.StringToString(params.BackupId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -8251,7 +11715,7 @@ func (c *Client) sendGetContainerInstance(ctx context.Context, params GetContain
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetContainerInstance", r); {
+			switch err := c.securityBearerAuth(ctx, "GetContainerBackup", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -8262,7 +11726,7 @@ func (c *Client) sendGetContainerInstance(ctx context.Context, params GetContain
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "GetContainerInstance", r); {
+			switch err := c.securityHubAuth(ctx, "GetContainerBackup", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -8296,7 +11760,7 @@ func (c *Client) sendGetContainerInstance(ctx context.Context, params GetContain
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetContainerInstanceResponse(resp)
+	result, err := decodeGetContainerBackupResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -8304,17 +11768,17 @@ func (c *Client) sendGetContainerInstance(ctx context.Context, params GetContain
 	return result, nil
 }
 
-// GetContainerInstanceVolumes invokes getContainerInstanceVolumes operation.
+// GetContainerBackupLogs invokes getContainerBackupLogs operation.
 //
-// Requires the `containers-view` capability.
+// Requires the `containers-backups-view` capability.
 //
-// GET /v1/containers/{containerId}/instances/{instanceId}/volumes
-func (c *Client) GetContainerInstanceVolumes(ctx context.Context, params GetContainerInstanceVolumesParams) (*GetContainerInstanceVolumesOK, error) {
-	res, err := c.sendGetContainerInstanceVolumes(ctx, params)
+// GET /v1/containers/{containerId}/backups/{backupId}/logs
+func (c *Client) GetContainerBackupLogs(ctx context.Context, params GetContainerBackupLogsParams) (*GetContainerBackupLogsOK, error) {
+	res, err := c.sendGetContainerBackupLogs(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetContainerInstanceVolumes(ctx context.Context, params GetContainerInstanceVolumesParams) (res *GetContainerInstanceVolumesOK, err error) {
+func (c *Client) sendGetContainerBackupLogs(ctx context.Context, params GetContainerBackupLogsParams) (res *GetContainerBackupLogsOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [5]string
@@ -8337,16 +11801,16 @@ func (c *Client) sendGetContainerInstanceVolumes(ctx context.Context, params Get
 		}
 		pathParts[1] = encoded
 	}
-	pathParts[2] = "/instances/"
+	pathParts[2] = "/backups/"
 	{
-		// Encode "instanceId" parameter.
+		// Encode "backupId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "instanceId",
+			Param:   "backupId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.InstanceId))
+			return e.EncodeValue(conv.StringToString(params.BackupId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -8356,10 +11820,132 @@ func (c *Client) sendGetContainerInstanceVolumes(ctx context.Context, params Get
 		}
 		pathParts[3] = encoded
 	}
-	pathParts[4] = "/volumes"
+	pathParts[4] = "/logs"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetContainerBackupLogs", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetContainerBackupLogs", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetContainerBackupLogsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetContainerBackups invokes getContainerBackups operation.
+//
+// Requires the `containers-backups-view` capability.
+//
+// GET /v1/containers/{containerId}/backups
+func (c *Client) GetContainerBackups(ctx context.Context, params GetContainerBackupsParams) (*GetContainerBackupsOK, error) {
+	res, err := c.sendGetContainerBackups(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetContainerBackups(ctx context.Context, params GetContainerBackupsParams) (res *GetContainerBackupsOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/containers/"
+	{
+		// Encode "containerId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "containerId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ContainerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/backups"
 	uri.AddPathParts(u, pathParts[:]...)
 
 	q := uri.NewQueryEncoder()
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
 	{
 		// Encode "sort" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
@@ -8412,7 +11998,7 @@ func (c *Client) sendGetContainerInstanceVolumes(ctx context.Context, params Get
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetContainerInstanceVolumes", r); {
+			switch err := c.securityBearerAuth(ctx, "GetContainerBackups", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -8423,7 +12009,7 @@ func (c *Client) sendGetContainerInstanceVolumes(ctx context.Context, params Get
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "GetContainerInstanceVolumes", r); {
+			switch err := c.securityHubAuth(ctx, "GetContainerBackups", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -8457,7 +12043,7 @@ func (c *Client) sendGetContainerInstanceVolumes(ctx context.Context, params Get
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetContainerInstanceVolumesResponse(resp)
+	result, err := decodeGetContainerBackupsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -8467,6 +12053,8 @@ func (c *Client) sendGetContainerInstanceVolumes(ctx context.Context, params Get
 
 // GetContainerInstancesTelemetry invokes getContainerInstancesTelemetry operation.
 //
+// Gets a list of telemetry points describing the number and state of all Instances of this Container
+// at a point in time.
 // Requires the `containers-view` capability.
 //
 // GET /v1/containers/{containerId}/telemetry/instances
@@ -8577,6 +12165,172 @@ func (c *Client) sendGetContainerInstancesTelemetry(ctx context.Context, params 
 	defer resp.Body.Close()
 
 	result, err := decodeGetContainerInstancesTelemetryResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetContainerServers invokes getContainerServers operation.
+//
+// Lists all Servers that currently have an Instance of this Container deployed to them.
+// Requires the `containers-view` capability.
+//
+// GET /v1/containers/{containerId}/servers
+func (c *Client) GetContainerServers(ctx context.Context, params GetContainerServersParams) (*GetContainerServersOK, error) {
+	res, err := c.sendGetContainerServers(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetContainerServers(ctx context.Context, params GetContainerServersParams) (res *GetContainerServersOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/containers/"
+	{
+		// Encode "containerId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "containerId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ContainerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/servers"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Meta {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "sort" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Sort {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(item))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetContainerServers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetContainerServers", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetContainerServersResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -8969,6 +12723,7 @@ func (c *Client) sendGetCredit(ctx context.Context, params GetCreditParams) (res
 
 // GetCredits invokes getCredits operation.
 //
+// Lists the Billing Credits associated with the current Hub.
 // Requires the `billing-credits-view` capability.
 //
 // GET /v1/billing/credits
@@ -9205,9 +12960,354 @@ func (c *Client) sendGetDNSZone(ctx context.Context, params GetDNSZoneParams) (r
 	return result, nil
 }
 
+// GetDNSZoneRecords invokes getDNSZoneRecords operation.
+//
+// Requires the `dns-view` capability.
+//
+// GET /v1/dns/zones/{zoneId}/records
+func (c *Client) GetDNSZoneRecords(ctx context.Context, params GetDNSZoneRecordsParams) (*GetDNSZoneRecordsOK, error) {
+	res, err := c.sendGetDNSZoneRecords(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetDNSZoneRecords(ctx context.Context, params GetDNSZoneRecordsParams) (res *GetDNSZoneRecordsOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/dns/zones/"
+	{
+		// Encode "zoneId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "zoneId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ZoneId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/records"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "sort" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Sort {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(item))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetDNSZoneRecords", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetDNSZoneRecords", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetDNSZoneRecordsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetDNSZones invokes getDNSZones operation.
+//
+// Requires the `dns-view` capability.
+//
+// GET /v1/dns/zones
+func (c *Client) GetDNSZones(ctx context.Context, params GetDNSZonesParams) (*GetDNSZonesOK, error) {
+	res, err := c.sendGetDNSZones(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetDNSZones(ctx context.Context, params GetDNSZonesParams) (res *GetDNSZonesOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/dns/zones"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "sort" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Sort {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(item))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetDNSZones", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetDNSZones", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetDNSZonesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetDeploymentStrategies invokes getDeploymentStrategies operation.
 //
-// This endpoint returns available container deployment strategies.
+// Gets the available deployment strategies that can be used to orchestrate containers.
 //
 // GET /v1/infrastructure/deployment-strategies
 func (c *Client) GetDeploymentStrategies(ctx context.Context) (*GetDeploymentStrategiesOK, error) {
@@ -9285,17 +13385,17 @@ func (c *Client) sendGetDeploymentStrategies(ctx context.Context) (res *GetDeplo
 	return result, nil
 }
 
-// GetEnvironmentById invokes getEnvironmentById operation.
+// GetEnvironment invokes getEnvironment operation.
 //
 // Requires the `environments-view` capability.
 //
 // GET /v1/environments/{environmentId}
-func (c *Client) GetEnvironmentById(ctx context.Context, params GetEnvironmentByIdParams) (*GetEnvironmentByIdOK, error) {
-	res, err := c.sendGetEnvironmentById(ctx, params)
+func (c *Client) GetEnvironment(ctx context.Context, params GetEnvironmentParams) (*GetEnvironmentOK, error) {
+	res, err := c.sendGetEnvironment(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetEnvironmentById(ctx context.Context, params GetEnvironmentByIdParams) (res *GetEnvironmentByIdOK, err error) {
+func (c *Client) sendGetEnvironment(ctx context.Context, params GetEnvironmentParams) (res *GetEnvironmentOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
@@ -9379,7 +13479,7 @@ func (c *Client) sendGetEnvironmentById(ctx context.Context, params GetEnvironme
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetEnvironmentById", r); {
+			switch err := c.securityBearerAuth(ctx, "GetEnvironment", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -9390,7 +13490,7 @@ func (c *Client) sendGetEnvironmentById(ctx context.Context, params GetEnvironme
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "GetEnvironmentById", r); {
+			switch err := c.securityHubAuth(ctx, "GetEnvironment", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -9424,7 +13524,7 @@ func (c *Client) sendGetEnvironmentById(ctx context.Context, params GetEnvironme
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetEnvironmentByIdResponse(resp)
+	result, err := decodeGetEnvironmentResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -9434,7 +13534,7 @@ func (c *Client) sendGetEnvironmentById(ctx context.Context, params GetEnvironme
 
 // GetEnvironmentDeployments invokes getEnvironmentDeployments operation.
 //
-// Gets a list of all deployments in the specified environment.
+// Gets a list of all deployments in the specified Environment.
 // Requires the `environments-view` capability.
 //
 // GET /v1/environments/{environmentId}/deployments
@@ -9534,6 +13634,7 @@ func (c *Client) sendGetEnvironmentDeployments(ctx context.Context, params GetEn
 
 // GetEnvironmentInstancesTelemetry invokes getEnvironmentInstancesTelemetry operation.
 //
+// Get telemetry points on the number of instances and their states over a range of time.
 // Requires the `environments-view` capability.
 //
 // GET /v1/environments/{environmentId}/telemetry/instances
@@ -9653,9 +13754,9 @@ func (c *Client) sendGetEnvironmentInstancesTelemetry(ctx context.Context, param
 
 // GetEnvironmentSummary invokes getEnvironmentSummary operation.
 //
-// Fetches a single summary object for a specific environment. Contains useful and relevant
-// data/statistics that would otherwise be several separate API calls.  Requires the
-// `environments-view` capability.
+// Gets the summary of an Environment. Contains useful and relevant data/statistics that would
+// otherwise be several separate API calls.
+// Requires the `environments-view` capability.
 //
 // GET /v1/environments/{environmentId}/summary
 func (c *Client) GetEnvironmentSummary(ctx context.Context, params GetEnvironmentSummaryParams) (*GetEnvironmentSummaryOK, error) {
@@ -10035,7 +14136,7 @@ func (c *Client) sendGetHub(ctx context.Context, params GetHubParams) (res *GetH
 
 // GetHubCapabilities invokes getHubCapabilities operation.
 //
-// Does not require a capability.
+// List Hub Capabilities.
 //
 // GET /v1/hubs/capabilities
 func (c *Client) GetHubCapabilities(ctx context.Context) (*GetHubCapabilitiesOK, error) {
@@ -10357,6 +14458,153 @@ func (c *Client) sendGetHubMember(ctx context.Context, params GetHubMemberParams
 	return result, nil
 }
 
+// GetHubMemberAccount invokes getHubMemberAccount operation.
+//
+// Requires the `hubs-members-view` capability.
+//
+// GET /v1/hubs/current/members/account/{accountId}
+func (c *Client) GetHubMemberAccount(ctx context.Context, params GetHubMemberAccountParams) (*GetHubMemberAccountOK, error) {
+	res, err := c.sendGetHubMemberAccount(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetHubMemberAccount(ctx context.Context, params GetHubMemberAccountParams) (res *GetHubMemberAccountOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/hubs/current/members/account/"
+	{
+		// Encode "accountId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "accountId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.AccountId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Meta {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetHubMemberAccount", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetHubMemberAccount", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetHubMemberAccountResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetHubMembers invokes getHubMembers operation.
 //
 // Requires the `hubs-members-view` capability.
@@ -10532,156 +14780,9 @@ func (c *Client) sendGetHubMembers(ctx context.Context, params GetHubMembersPara
 	return result, nil
 }
 
-// GetHubMembersAccount invokes getHubMembersAccount operation.
-//
-// Requires the `hubs-members-view` capability.
-//
-// GET /v1/hubs/current/members/account/{accountId}
-func (c *Client) GetHubMembersAccount(ctx context.Context, params GetHubMembersAccountParams) (*GetHubMembersAccountOK, error) {
-	res, err := c.sendGetHubMembersAccount(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetHubMembersAccount(ctx context.Context, params GetHubMembersAccountParams) (res *GetHubMembersAccountOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/hubs/current/members/account/"
-	{
-		// Encode "accountId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "accountId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.AccountId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "meta" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "meta",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "include" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "include",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetHubMembersAccount", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetHubMembersAccount", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetHubMembersAccountResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // GetHubMembership invokes getHubMembership operation.
 //
-// Gets the membership information for the current hub for the requesting account.
+// Gets the Hub Membership for the requesting Account.
 //
 // GET /v1/hubs/current/membership
 func (c *Client) GetHubMembership(ctx context.Context, params GetHubMembershipParams) (*GetHubMembershipOK, error) {
@@ -10854,6 +14955,95 @@ func (c *Client) sendGetHubMembership(ctx context.Context, params GetHubMembersh
 	return result, nil
 }
 
+// GetHubNotificationSocketAuth invokes getHubNotificationSocketAuth operation.
+//
+// Initializes authorization for the Hub notification pipeline. The Hub notification pipeline is a
+// one-way streaming websocket that
+// sends real-time 'notifications' as things are happening on the Hub. These notifications tell some
+// basic information about an event,
+// and it is up to the user to fetch additional details, if deemed necessary.
+// Requesting this endpoint without a `?token=<token>` URL parameter will result in receiving a short
+// lived token in the response body. That
+// token can then be applied to the URL parameter to the same endpoint to upgrade the connection to a
+// WebSocket.
+// Requires the `apionly-notifications-listen` capability.
+//
+// GET /v1/hubs/current/notifications
+func (c *Client) GetHubNotificationSocketAuth(ctx context.Context) (GetHubNotificationSocketAuthRes, error) {
+	res, err := c.sendGetHubNotificationSocketAuth(ctx)
+	return res, err
+}
+
+func (c *Client) sendGetHubNotificationSocketAuth(ctx context.Context) (res GetHubNotificationSocketAuthRes, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/hubs/current/notifications"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetHubNotificationSocketAuth", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetHubNotificationSocketAuth", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetHubNotificationSocketAuthResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetHubUsage invokes getHubUsage operation.
 //
 // Requires the `hubs-view` capability.
@@ -10945,7 +15135,7 @@ func (c *Client) sendGetHubUsage(ctx context.Context, params GetHubUsageParams) 
 
 // GetHubs invokes getHubs operation.
 //
-// Lists all associated hubs.
+// Lists all associated Hubs.
 //
 // GET /v1/hubs
 func (c *Client) GetHubs(ctx context.Context, params GetHubsParams) (*GetHubsOK, error) {
@@ -11042,6 +15232,130 @@ func (c *Client) sendGetHubs(ctx context.Context, params GetHubsParams) (res *Ge
 	defer resp.Body.Close()
 
 	result, err := decodeGetHubsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetIPPool invokes getIPPool operation.
+//
+// Requires the `infrastructure-ips-manage` capability.
+//
+// GET /v1/infrastructure/ips/pools/{poolId}
+func (c *Client) GetIPPool(ctx context.Context, params GetIPPoolParams) (*GetIPPoolOK, error) {
+	res, err := c.sendGetIPPool(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetIPPool(ctx context.Context, params GetIPPoolParams) (res *GetIPPoolOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/infrastructure/ips/pools/"
+	{
+		// Encode "poolId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "poolId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.PoolId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetIPPool", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetIPPool", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetIPPoolResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -11335,6 +15649,339 @@ func (c *Client) sendGetImageBuildLog(ctx context.Context, params GetImageBuildL
 	return result, nil
 }
 
+// GetImageSource invokes getImageSource operation.
+//
+// Requires the `images-sources-view` capability.
+//
+// GET /v1/images/sources/{sourceId}
+func (c *Client) GetImageSource(ctx context.Context, params GetImageSourceParams) (*GetImageSourceOK, error) {
+	res, err := c.sendGetImageSource(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetImageSource(ctx context.Context, params GetImageSourceParams) (res *GetImageSourceOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/images/sources/"
+	{
+		// Encode "sourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "sourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.SourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Meta {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetImageSource", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetImageSource", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetImageSourceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetImageSources invokes getImageSources operation.
+//
+// Requires the `images-sources-view` capability.
+//
+// GET /v1/images/sources
+func (c *Client) GetImageSources(ctx context.Context, params GetImageSourcesParams) (*GetImageSourcesOK, error) {
+	res, err := c.sendGetImageSources(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetImageSources(ctx context.Context, params GetImageSourcesParams) (res *GetImageSourcesOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/images/sources"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Meta {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "sort" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Sort {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(item))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetImageSources", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetImageSources", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetImageSourcesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetImages invokes getImages operation.
 //
 // Requires the `images-view` capability.
@@ -11521,130 +16168,6 @@ func (c *Client) sendGetImages(ctx context.Context, params GetImagesParams) (res
 	return result, nil
 }
 
-// GetInfrastructureIPPool invokes getInfrastructureIPPool operation.
-//
-// Requires the `infrastructure-ips-manage` capability.
-//
-// GET /v1/infrastructure/ips/pools/{poolId}
-func (c *Client) GetInfrastructureIPPool(ctx context.Context, params GetInfrastructureIPPoolParams) (*GetInfrastructureIPPoolOK, error) {
-	res, err := c.sendGetInfrastructureIPPool(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetInfrastructureIPPool(ctx context.Context, params GetInfrastructureIPPoolParams) (res *GetInfrastructureIPPoolOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/infrastructure/ips/pools/"
-	{
-		// Encode "poolId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "poolId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.PoolId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "include" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "include",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetInfrastructureIPPool", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetInfrastructureIPPool", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetInfrastructureIPPoolResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // GetInfrastructureIPPools invokes getInfrastructureIPPools operation.
 //
 // Requires the `infrastructure-ips-manage` capability.
@@ -11676,6 +16199,46 @@ func (c *Client) sendGetInfrastructureIPPools(ctx context.Context, params GetInf
 				for i, item := range params.Include {
 					if err := func() error {
 						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "sort" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Sort {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(item))
 					}(); err != nil {
 						return errors.Wrapf(err, "[%d]", i)
 					}
@@ -11868,17 +16431,282 @@ func (c *Client) sendGetInfrastructureSummary(ctx context.Context, params GetInf
 	return result, nil
 }
 
-// GetInstanceResourcesTelemetryReport invokes getInstanceResourcesTelemetryReport operation.
+// GetInstance invokes getInstance operation.
 //
 // Requires the `containers-view` capability.
 //
-// GET /v1/containers/{containerId}/instances/{instanceId}/telemetry/resources/report
-func (c *Client) GetInstanceResourcesTelemetryReport(ctx context.Context, params GetInstanceResourcesTelemetryReportParams) (*GetInstanceResourcesTelemetryReportOK, error) {
-	res, err := c.sendGetInstanceResourcesTelemetryReport(ctx, params)
+// GET /v1/containers/{containerId}/instances/{instanceId}
+func (c *Client) GetInstance(ctx context.Context, params GetInstanceParams) (*GetInstanceOK, error) {
+	res, err := c.sendGetInstance(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetInstanceResourcesTelemetryReport(ctx context.Context, params GetInstanceResourcesTelemetryReportParams) (res *GetInstanceResourcesTelemetryReportOK, err error) {
+func (c *Client) sendGetInstance(ctx context.Context, params GetInstanceParams) (res *GetInstanceOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/v1/containers/"
+	{
+		// Encode "containerId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "containerId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ContainerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/instances/"
+	{
+		// Encode "instanceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "instanceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.InstanceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetInstance", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetInstance", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetInstanceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetInstanceConsoleStreamAuth invokes getInstanceConsoleStreamAuth operation.
+//
+// Returns the authorization information necessary to connect to a Container Instance's console.
+// To connect via WebSocket, use the returned address, and append the returned token as a URL
+// parameter: `<address>?token=<token>`.
+// Requires the `containers-console` capability.
+//
+// GET /v1/containers/{containerId}/instances/{instanceId}/console
+func (c *Client) GetInstanceConsoleStreamAuth(ctx context.Context, params GetInstanceConsoleStreamAuthParams) (*GetInstanceConsoleStreamAuthOK, error) {
+	res, err := c.sendGetInstanceConsoleStreamAuth(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetInstanceConsoleStreamAuth(ctx context.Context, params GetInstanceConsoleStreamAuthParams) (res *GetInstanceConsoleStreamAuthOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/v1/containers/"
+	{
+		// Encode "containerId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "containerId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ContainerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/instances/"
+	{
+		// Encode "instanceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "instanceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.InstanceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/console"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetInstanceConsoleStreamAuth", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetInstanceConsoleStreamAuth", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetInstanceConsoleStreamAuthResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetInstanceTelemetryReport invokes getInstanceTelemetryReport operation.
+//
+// Retrieves a point-in-time report of an Instance's resource usage (CPU, RAM, Network, Storage, etc).
+// Requires the `containers-view` capability.
+//
+// GET /v1/containers/{containerId}/instances/{instanceId}/telemetry/resources/report
+func (c *Client) GetInstanceTelemetryReport(ctx context.Context, params GetInstanceTelemetryReportParams) (*GetInstanceTelemetryReportOK, error) {
+	res, err := c.sendGetInstanceTelemetryReport(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetInstanceTelemetryReport(ctx context.Context, params GetInstanceTelemetryReportParams) (res *GetInstanceTelemetryReportOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [5]string
@@ -11953,7 +16781,7 @@ func (c *Client) sendGetInstanceResourcesTelemetryReport(ctx context.Context, pa
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetInstanceResourcesTelemetryReport", r); {
+			switch err := c.securityBearerAuth(ctx, "GetInstanceTelemetryReport", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -11964,7 +16792,7 @@ func (c *Client) sendGetInstanceResourcesTelemetryReport(ctx context.Context, pa
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "GetInstanceResourcesTelemetryReport", r); {
+			switch err := c.securityHubAuth(ctx, "GetInstanceTelemetryReport", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -11998,7 +16826,7 @@ func (c *Client) sendGetInstanceResourcesTelemetryReport(ctx context.Context, pa
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetInstanceResourcesTelemetryReportResponse(resp)
+	result, err := decodeGetInstanceTelemetryReportResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -12006,19 +16834,20 @@ func (c *Client) sendGetInstanceResourcesTelemetryReport(ctx context.Context, pa
 	return result, nil
 }
 
-// GetInstanceResourcesTelemetryStream invokes getInstanceResourcesTelemetryStream operation.
+// GetInstanceTelemetryStreamAuth invokes getInstanceTelemetryStreamAuth operation.
 //
-// Requires the `containers-view` capability. Retrieves an access token and URL to open a websocket
-// to for streaming instance telemetry live. This connects directly to the compute layer on the
-// server the instance is hosted on, and streams telemetry in real time.
+// Retrieves an access token and URL to open a websocket to for streaming instance telemetry live.
+// This connects directly to the compute layer on the server the instance is hosted on, and streams
+// telemetry in real time.
+// Requires the `containers-view` capability.
 //
 // GET /v1/containers/{containerId}/instances/{instanceId}/telemetry/resources/stream
-func (c *Client) GetInstanceResourcesTelemetryStream(ctx context.Context, params GetInstanceResourcesTelemetryStreamParams) (*GetInstanceResourcesTelemetryStreamOK, error) {
-	res, err := c.sendGetInstanceResourcesTelemetryStream(ctx, params)
+func (c *Client) GetInstanceTelemetryStreamAuth(ctx context.Context, params GetInstanceTelemetryStreamAuthParams) (*GetInstanceTelemetryStreamAuthOK, error) {
+	res, err := c.sendGetInstanceTelemetryStreamAuth(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetInstanceResourcesTelemetryStream(ctx context.Context, params GetInstanceResourcesTelemetryStreamParams) (res *GetInstanceResourcesTelemetryStreamOK, err error) {
+func (c *Client) sendGetInstanceTelemetryStreamAuth(ctx context.Context, params GetInstanceTelemetryStreamAuthParams) (res *GetInstanceTelemetryStreamAuthOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [5]string
@@ -12073,7 +16902,7 @@ func (c *Client) sendGetInstanceResourcesTelemetryStream(ctx context.Context, pa
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetInstanceResourcesTelemetryStream", r); {
+			switch err := c.securityBearerAuth(ctx, "GetInstanceTelemetryStreamAuth", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -12084,7 +16913,7 @@ func (c *Client) sendGetInstanceResourcesTelemetryStream(ctx context.Context, pa
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "GetInstanceResourcesTelemetryStream", r); {
+			switch err := c.securityHubAuth(ctx, "GetInstanceTelemetryStreamAuth", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -12118,7 +16947,168 @@ func (c *Client) sendGetInstanceResourcesTelemetryStream(ctx context.Context, pa
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetInstanceResourcesTelemetryStreamResponse(resp)
+	result, err := decodeGetInstanceTelemetryStreamAuthResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetInstanceVolumes invokes getInstanceVolumes operation.
+//
+// Requires the `containers-view` capability.
+//
+// GET /v1/containers/{containerId}/instances/{instanceId}/volumes
+func (c *Client) GetInstanceVolumes(ctx context.Context, params GetInstanceVolumesParams) (*GetInstanceVolumesOK, error) {
+	res, err := c.sendGetInstanceVolumes(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetInstanceVolumes(ctx context.Context, params GetInstanceVolumesParams) (res *GetInstanceVolumesOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [5]string
+	pathParts[0] = "/v1/containers/"
+	{
+		// Encode "containerId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "containerId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ContainerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/instances/"
+	{
+		// Encode "instanceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "instanceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.InstanceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	pathParts[4] = "/volumes"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "sort" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Sort {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(item))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetInstanceVolumes", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetInstanceVolumes", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetInstanceVolumesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -12308,6 +17298,250 @@ func (c *Client) sendGetInstances(ctx context.Context, params GetInstancesParams
 	return result, nil
 }
 
+// GetIntegration invokes getIntegration operation.
+//
+// Retrieves details of a single Integration associated with the current hub.
+// Requires the `hubs-integrations-view` capability.
+//
+// GET /v1/hubs/current/integrations/{integrationId}
+func (c *Client) GetIntegration(ctx context.Context, params GetIntegrationParams) (*GetIntegrationOK, error) {
+	res, err := c.sendGetIntegration(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetIntegration(ctx context.Context, params GetIntegrationParams) (res *GetIntegrationOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/hubs/current/integrations/"
+	{
+		// Encode "integrationId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "integrationId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.IntegrationId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Meta {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetIntegration", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetIntegrationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetIntegrations invokes getIntegrations operation.
+//
+// Lists all integrations associated with the current Hub, with optional filtering.
+// Requires the `hubs-integrations-view` capability.
+//
+// GET /v1/hubs/current/integrations
+func (c *Client) GetIntegrations(ctx context.Context, params GetIntegrationsParams) (*GetIntegrationsOK, error) {
+	res, err := c.sendGetIntegrations(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetIntegrations(ctx context.Context, params GetIntegrationsParams) (res *GetIntegrationsOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/hubs/current/integrations"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Meta {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetIntegrations", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000001},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetIntegrationsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetInvoice invokes getInvoice operation.
 //
 // Requires the `billing-invoices-view` capability.
@@ -12434,6 +17668,7 @@ func (c *Client) sendGetInvoice(ctx context.Context, params GetInvoiceParams) (r
 
 // GetInvoices invokes getInvoices operation.
 //
+// List the Invoices assoicated with the Hub.
 // Requires the `billing-invoices-view` capability.
 //
 // GET /v1/billing/invoices
@@ -12597,7 +17832,7 @@ func (c *Client) sendGetInvoices(ctx context.Context, params GetInvoicesParams) 
 
 // GetJob invokes getJob operation.
 //
-// Requires the `jobs-view` permission.
+// Requires the `apionly-jobs-view` permission.
 //
 // GET /v1/jobs/{jobId}
 func (c *Client) GetJob(ctx context.Context, params GetJobParams) (*GetJobOK, error) {
@@ -12695,7 +17930,7 @@ func (c *Client) sendGetJob(ctx context.Context, params GetJobParams) (res *GetJ
 
 // GetJobs invokes getJobs operation.
 //
-// Requires the `jobs-view` permission.
+// Requires the `apionly-jobs-view` permission.
 //
 // GET /v1/jobs
 func (c *Client) GetJobs(ctx context.Context, params GetJobsParams) (*GetJobsOK, error) {
@@ -12858,7 +18093,7 @@ func (c *Client) sendGetJobs(ctx context.Context, params GetJobsParams) (res *Ge
 
 // GetLatestJobs invokes getLatestJobs operation.
 //
-// Requires the `jobs-view` permission.
+// Requires the `apionly-jobs-view` permission.
 //
 // GET /v1/jobs/latest
 func (c *Client) GetLatestJobs(ctx context.Context) (*GetLatestJobsOK, error) {
@@ -12936,113 +18171,13 @@ func (c *Client) sendGetLatestJobs(ctx context.Context) (res *GetLatestJobsOK, e
 	return result, nil
 }
 
-// GetLoadBalancerInfo invokes getLoadBalancerInfo operation.
-//
-// Requires the `environments-view` capability.
-//
-// GET /v1/environments/{environmentId}/services/lb
-func (c *Client) GetLoadBalancerInfo(ctx context.Context, params GetLoadBalancerInfoParams) (*GetLoadBalancerInfoOK, error) {
-	res, err := c.sendGetLoadBalancerInfo(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetLoadBalancerInfo(ctx context.Context, params GetLoadBalancerInfoParams) (res *GetLoadBalancerInfoOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/environments/"
-	{
-		// Encode "environmentId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "environmentId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/services/lb"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetLoadBalancerInfo", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetLoadBalancerInfo", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetLoadBalancerInfoResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // GetLoadBalancerLatestTelemetryReport invokes getLoadBalancerLatestTelemetryReport operation.
 //
-// ## Permissions
-// Requires the `environments-view` capability. Also requires the user to have access specifically to
-// the requested environment.
-// ## Details
 // Fetches the latest telemetry report for Cycle's native load balancer. Provides detailed
 // information on a per-instance basis.
+// ## Permissions
+// Requires the `environments-view` capability. Also requires the user to have access specifically to
+// the requested Environment.
 //
 // GET /v1/environments/{environmentId}/services/lb/telemetry/latest
 func (c *Client) GetLoadBalancerLatestTelemetryReport(ctx context.Context, params GetLoadBalancerLatestTelemetryReportParams) (*GetLoadBalancerLatestTelemetryReportOK, error) {
@@ -13156,15 +18291,113 @@ func (c *Client) sendGetLoadBalancerLatestTelemetryReport(ctx context.Context, p
 	return result, nil
 }
 
+// GetLoadBalancerService invokes getLoadBalancerService operation.
+//
+// Requires the `environments-view` capability.
+//
+// GET /v1/environments/{environmentId}/services/lb
+func (c *Client) GetLoadBalancerService(ctx context.Context, params GetLoadBalancerServiceParams) (*GetLoadBalancerServiceOK, error) {
+	res, err := c.sendGetLoadBalancerService(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetLoadBalancerService(ctx context.Context, params GetLoadBalancerServiceParams) (res *GetLoadBalancerServiceOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/environments/"
+	{
+		// Encode "environmentId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "environmentId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/services/lb"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetLoadBalancerService", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetLoadBalancerService", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetLoadBalancerServiceResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetLoadBalancerTelemetryLatestControllers invokes getLoadBalancerTelemetryLatestControllers operation.
 //
-// ## Permissions
-// Requires the `environments-view` capability. Also requires the user to have access specifically to
-// the requested environment.
-// ## Details
 // Gets the controller information for the specified load balancer. Returns a similar struct to the
 // 'latest' load balancer telemetry call, but does NOT return snapshots, just the controller
 // information.
+// ## Permissions
+// Requires the `environments-view` capability. Also requires the user to have access specifically to
+// the requested Environment.
 //
 // GET /v1/environments/{environmentId}/services/lb/telemetry/latest-controllers
 func (c *Client) GetLoadBalancerTelemetryLatestControllers(ctx context.Context, params GetLoadBalancerTelemetryLatestControllersParams) (*GetLoadBalancerTelemetryLatestControllersOK, error) {
@@ -13197,6 +18430,32 @@ func (c *Client) sendGetLoadBalancerTelemetryLatestControllers(ctx context.Conte
 	}
 	pathParts[2] = "/services/lb/telemetry/latest-controllers"
 	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
@@ -13263,11 +18522,10 @@ func (c *Client) sendGetLoadBalancerTelemetryLatestControllers(ctx context.Conte
 
 // GetLoadBalancerTelemetryReport invokes getLoadBalancerTelemetryReport operation.
 //
+// Fetches a telemetry report for Cycle's native load balancer for the specified range.
 // ## Permissions
 // Requires the `environments-view` capability. Also requires the user to have access specifically to
-// the requested environment.
-// ## Details
-// Fetches a telemetry report for Cycle's native load balancer for the specified range.
+// the requested Environment.
 //
 // GET /v1/environments/{environmentId}/services/lb/telemetry/report
 func (c *Client) GetLoadBalancerTelemetryReport(ctx context.Context, params GetLoadBalancerTelemetryReportParams) (*GetLoadBalancerTelemetryReportOK, error) {
@@ -13377,169 +18635,6 @@ func (c *Client) sendGetLoadBalancerTelemetryReport(ctx context.Context, params 
 	defer resp.Body.Close()
 
 	result, err := decodeGetLoadBalancerTelemetryReportResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetNativeProviders invokes getNativeProviders operation.
-//
-// No capability required, public information.
-//
-// GET /v1/infrastructure/native-providers
-func (c *Client) GetNativeProviders(ctx context.Context, params GetNativeProvidersParams) (*GetNativeProvidersOK, error) {
-	res, err := c.sendGetNativeProviders(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetNativeProviders(ctx context.Context, params GetNativeProvidersParams) (res *GetNativeProvidersOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/infrastructure/native-providers"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "meta" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "meta",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "filter" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "filter",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Filter.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "sort" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "sort",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "page" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "page",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Page.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetNativeProviders", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetNativeProviders", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetNativeProvidersResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -13836,7 +18931,7 @@ func (c *Client) sendGetNetworks(ctx context.Context, params GetNetworksParams) 
 
 // GetOrders invokes getOrders operation.
 //
-// Requires the `billing-orders-manage` capability.
+// Requires the `billing-services-manage` capability.
 //
 // GET /v1/billing/orders
 func (c *Client) GetOrders(ctx context.Context, params GetOrdersParams) (*GetOrdersOK, error) {
@@ -14022,7 +19117,7 @@ func (c *Client) sendGetOrders(ctx context.Context, params GetOrdersParams) (res
 
 // GetPipeline invokes getPipeline operation.
 //
-// Requires the `pieplines-view` capability.
+// Requires the `pipelines-view` capability.
 //
 // GET /v1/pipelines/{pipelineId}
 func (c *Client) GetPipeline(ctx context.Context, params GetPipelineParams) (*GetPipelineOK, error) {
@@ -14146,7 +19241,8 @@ func (c *Client) sendGetPipeline(ctx context.Context, params GetPipelineParams) 
 
 // GetPipelineRuns invokes getPipelineRuns operation.
 //
-// Requires the `pieplines-view` capability.
+// List information about times this Pipeline has run.
+// Requires the `pipelines-view` capability.
 //
 // GET /v1/pipelines/{pipelineId}/runs
 func (c *Client) GetPipelineRuns(ctx context.Context, params GetPipelineRunsParams) (*GetPipelineRunsOK, error) {
@@ -14731,17 +19827,17 @@ func (c *Client) sendGetPipelines(ctx context.Context, params GetPipelinesParams
 	return result, nil
 }
 
-// GetPoolsIPs invokes getPoolsIPs operation.
+// GetPoolIPs invokes getPoolIPs operation.
 //
 // Requires the `infrastructure-ips-manage` capability.
 //
 // GET /v1/infrastructure/ips/pools/{poolId}/ips
-func (c *Client) GetPoolsIPs(ctx context.Context, params GetPoolsIPsParams) (*GetPoolsIPsOK, error) {
-	res, err := c.sendGetPoolsIPs(ctx, params)
+func (c *Client) GetPoolIPs(ctx context.Context, params GetPoolIPsParams) (*GetPoolIPsOK, error) {
+	res, err := c.sendGetPoolIPs(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetPoolsIPs(ctx context.Context, params GetPoolsIPsParams) (res *GetPoolsIPsOK, err error) {
+func (c *Client) sendGetPoolIPs(ctx context.Context, params GetPoolIPsParams) (res *GetPoolIPsOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -14777,7 +19873,7 @@ func (c *Client) sendGetPoolsIPs(ctx context.Context, params GetPoolsIPsParams) 
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetPoolsIPs", r); {
+			switch err := c.securityBearerAuth(ctx, "GetPoolIPs", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -14788,7 +19884,7 @@ func (c *Client) sendGetPoolsIPs(ctx context.Context, params GetPoolsIPsParams) 
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "GetPoolsIPs", r); {
+			switch err := c.securityHubAuth(ctx, "GetPoolIPs", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -14822,131 +19918,7 @@ func (c *Client) sendGetPoolsIPs(ctx context.Context, params GetPoolsIPsParams) 
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetPoolsIPsResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetProvider invokes getProvider operation.
-//
-// Requires the `infrastructure-providers-view` capability.
-//
-// GET /v1/infrastructure/providers/{providerIdentifier}
-func (c *Client) GetProvider(ctx context.Context, params GetProviderParams) (*GetProviderOK, error) {
-	res, err := c.sendGetProvider(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetProvider(ctx context.Context, params GetProviderParams) (res *GetProviderOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/infrastructure/providers/"
-	{
-		// Encode "providerIdentifier" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "providerIdentifier",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ProviderIdentifier))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "meta" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "meta",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetProvider", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetProvider", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetProviderResponse(resp)
+	result, err := decodeGetPoolIPsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -14956,9 +19928,9 @@ func (c *Client) sendGetProvider(ctx context.Context, params GetProviderParams) 
 
 // GetProviderLocations invokes getProviderLocations operation.
 //
-// No capability required, public information (datacenter locations).
+// List Provider Locations.
 //
-// GET /v1/infrastructure/providers/{providerIdentifier}/locations
+// GET /v1/infrastructure/providers/{providerVendor}/locations
 func (c *Client) GetProviderLocations(ctx context.Context, params GetProviderLocationsParams) (*GetProviderLocationsOK, error) {
 	res, err := c.sendGetProviderLocations(ctx, params)
 	return res, err
@@ -14970,14 +19942,14 @@ func (c *Client) sendGetProviderLocations(ctx context.Context, params GetProvide
 	var pathParts [3]string
 	pathParts[0] = "/v1/infrastructure/providers/"
 	{
-		// Encode "providerIdentifier" parameter.
+		// Encode "providerVendor" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "providerIdentifier",
+			Param:   "providerVendor",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ProviderIdentifier))
+			return e.EncodeValue(conv.StringToString(params.ProviderVendor))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -15098,9 +20070,9 @@ func (c *Client) sendGetProviderLocations(ctx context.Context, params GetProvide
 
 // GetProviderServers invokes getProviderServers operation.
 //
-// Requires the `infrastructure-providers-view` capability.
+// List Provider Servers.
 //
-// GET /v1/infrastructure/providers/{providerIdentifier}/servers
+// GET /v1/infrastructure/providers/{providerVendor}/servers
 func (c *Client) GetProviderServers(ctx context.Context, params GetProviderServersParams) (*GetProviderServersOK, error) {
 	res, err := c.sendGetProviderServers(ctx, params)
 	return res, err
@@ -15112,14 +20084,14 @@ func (c *Client) sendGetProviderServers(ctx context.Context, params GetProviderS
 	var pathParts [3]string
 	pathParts[0] = "/v1/infrastructure/providers/"
 	{
-		// Encode "providerIdentifier" parameter.
+		// Encode "providerVendor" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "providerIdentifier",
+			Param:   "providerVendor",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ProviderIdentifier))
+			return e.EncodeValue(conv.StringToString(params.ProviderVendor))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -15255,64 +20227,124 @@ func (c *Client) sendGetProviderServers(ctx context.Context, params GetProviderS
 	return result, nil
 }
 
-// GetProviders invokes getProviders operation.
+// GetRole invokes getRole operation.
 //
-// Requires the `infrastructure-providers-view` capability.
+// Retrieves the specified Role.
+// Requries the `hubs-roles-manage` capability.
 //
-// GET /v1/infrastructure/providers
-func (c *Client) GetProviders(ctx context.Context, params GetProvidersParams) (*GetProvidersOK, error) {
-	res, err := c.sendGetProviders(ctx, params)
+// GET /v1/hubs/current/roles/{roleId}
+func (c *Client) GetRole(ctx context.Context, params GetRoleParams) (*GetRoleOK, error) {
+	res, err := c.sendGetRole(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetProviders(ctx context.Context, params GetProvidersParams) (res *GetProvidersOK, err error) {
+func (c *Client) sendGetRole(ctx context.Context, params GetRoleParams) (res *GetRoleOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/hubs/current/roles/"
+	{
+		// Encode "roleId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "roleId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.RoleId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetRole", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetRole", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetRoleResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetRoles invokes getRoles operation.
+//
+// Lists the Roles that have been created for this Hub.
+// Requires the `hubs-roles-manage` capability.
+//
+// GET /v1/hubs/current/roles
+func (c *Client) GetRoles(ctx context.Context, params GetRolesParams) (*GetRolesOK, error) {
+	res, err := c.sendGetRoles(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetRoles(ctx context.Context, params GetRolesParams) (res *GetRolesOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
-	pathParts[0] = "/v1/infrastructure/providers"
+	pathParts[0] = "/v1/hubs/current/roles"
 	uri.AddPathParts(u, pathParts[:]...)
 
 	q := uri.NewQueryEncoder()
-	{
-		// Encode "meta" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "meta",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "filter" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "filter",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Filter.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
 	{
 		// Encode "sort" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
@@ -15332,6 +20364,23 @@ func (c *Client) sendGetProviders(ctx context.Context, params GetProvidersParams
 				}
 				return nil
 			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if v := params.Filter; v != nil {
+				return (*v).EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -15365,7 +20414,7 @@ func (c *Client) sendGetProviders(ctx context.Context, params GetProvidersParams
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetProviders", r); {
+			switch err := c.securityBearerAuth(ctx, "GetRoles", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -15376,7 +20425,7 @@ func (c *Client) sendGetProviders(ctx context.Context, params GetProvidersParams
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "GetProviders", r); {
+			switch err := c.securityHubAuth(ctx, "GetRoles", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -15410,7 +20459,7 @@ func (c *Client) sendGetProviders(ctx context.Context, params GetProvidersParams
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetProvidersResponse(resp)
+	result, err := decodeGetRolesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -15418,30 +20467,30 @@ func (c *Client) sendGetProviders(ctx context.Context, params GetProvidersParams
 	return result, nil
 }
 
-// GetRecordsCollection invokes getRecordsCollection operation.
+// GetScopedVariable invokes getScopedVariable operation.
 //
-// Requires the `dns-view` capability.
+// Requires the `scoped-variables-view` capability.
 //
-// GET /v1/dns/zones/{zoneId}/records
-func (c *Client) GetRecordsCollection(ctx context.Context, params GetRecordsCollectionParams) (*GetRecordsCollectionOK, error) {
-	res, err := c.sendGetRecordsCollection(ctx, params)
+// GET /v1/environments/{environmentId}/scoped-variables/{scopedVariableId}
+func (c *Client) GetScopedVariable(ctx context.Context, params GetScopedVariableParams) (*GetScopedVariableOK, error) {
+	res, err := c.sendGetScopedVariable(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetRecordsCollection(ctx context.Context, params GetRecordsCollectionParams) (res *GetRecordsCollectionOK, err error) {
+func (c *Client) sendGetScopedVariable(ctx context.Context, params GetScopedVariableParams) (res *GetScopedVariableOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/dns/zones/"
+	var pathParts [4]string
+	pathParts[0] = "/v1/environments/"
 	{
-		// Encode "zoneId" parameter.
+		// Encode "environmentId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "zoneId",
+			Param:   "environmentId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ZoneId))
+			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -15451,198 +20500,16 @@ func (c *Client) sendGetRecordsCollection(ctx context.Context, params GetRecords
 		}
 		pathParts[1] = encoded
 	}
-	pathParts[2] = "/records"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
+	pathParts[2] = "/scoped-variables/"
 	{
-		// Encode "include" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "include",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "filter" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "filter",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Filter.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "sort" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "sort",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "page" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "page",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Page.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetRecordsCollection", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetRecordsCollection", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetRecordsCollectionResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetSSHConnection invokes getSSHConnection operation.
-//
-// Requires the `containers-ssh` capability.
-//
-// GET /v1/containers/{containerId}/instances/{instanceId}/ssh
-func (c *Client) GetSSHConnection(ctx context.Context, params GetSSHConnectionParams) (*GetSSHConnectionOK, error) {
-	res, err := c.sendGetSSHConnection(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetSSHConnection(ctx context.Context, params GetSSHConnectionParams) (res *GetSSHConnectionOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/v1/containers/"
-	{
-		// Encode "containerId" parameter.
+		// Encode "scopedVariableId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "containerId",
+			Param:   "scopedVariableId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ContainerId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/instances/"
-	{
-		// Encode "instanceId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "instanceId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.InstanceId))
+			return e.EncodeValue(conv.StringToString(params.ScopedVariableId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -15652,7 +20519,6 @@ func (c *Client) sendGetSSHConnection(ctx context.Context, params GetSSHConnecti
 		}
 		pathParts[3] = encoded
 	}
-	pathParts[4] = "/ssh"
 	uri.AddPathParts(u, pathParts[:]...)
 
 	r, err := ht.NewRequest(ctx, "GET", u)
@@ -15665,7 +20531,7 @@ func (c *Client) sendGetSSHConnection(ctx context.Context, params GetSSHConnecti
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetSSHConnection", r); {
+			switch err := c.securityBearerAuth(ctx, "GetScopedVariable", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -15676,7 +20542,7 @@ func (c *Client) sendGetSSHConnection(ctx context.Context, params GetSSHConnecti
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "GetSSHConnection", r); {
+			switch err := c.securityHubAuth(ctx, "GetScopedVariable", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -15710,7 +20576,166 @@ func (c *Client) sendGetSSHConnection(ctx context.Context, params GetSSHConnecti
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetSSHConnectionResponse(resp)
+	result, err := decodeGetScopedVariableResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetScopedVariables invokes getScopedVariables operation.
+//
+// Requires the `scoped-variables-view` capability.
+//
+// GET /v1/environments/{environmentId}/scoped-variables
+func (c *Client) GetScopedVariables(ctx context.Context, params GetScopedVariablesParams) (*GetScopedVariablesOK, error) {
+	res, err := c.sendGetScopedVariables(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetScopedVariables(ctx context.Context, params GetScopedVariablesParams) (res *GetScopedVariablesOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/environments/"
+	{
+		// Encode "environmentId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "environmentId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/scoped-variables"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "sort" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Sort {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(item))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetScopedVariables", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetScopedVariables", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetScopedVariablesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -15720,7 +20745,12 @@ func (c *Client) sendGetSSHConnection(ctx context.Context, params GetSSHConnecti
 
 // GetSearchIndex invokes getSearchIndex operation.
 //
-// Requires the view capability for each returned segment.
+// Gets a pre-built search index, containing IDs and basic information for many commonly used
+// resources on the Hub.
+// Can be used to build a 'quick search' functionality for referencing the most frequently used
+// resources.
+// Requires the `view` capability for each returned segment, i.e. to retrieve Containers, you must
+// have `containers-view`.
 //
 // GET /v1/search/index
 func (c *Client) GetSearchIndex(ctx context.Context) (*GetSearchIndexOK, error) {
@@ -15887,8 +20917,156 @@ func (c *Client) sendGetSecurityReport(ctx context.Context, params GetSecurityRe
 	return result, nil
 }
 
+// GetServer invokes getServer operation.
+//
+// Requires the `servers-view` capability.
+//
+// GET /v1/infrastructure/servers/{serverId}
+func (c *Client) GetServer(ctx context.Context, params GetServerParams) (*GetServerOK, error) {
+	res, err := c.sendGetServer(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetServer(ctx context.Context, params GetServerParams) (res *GetServerOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/infrastructure/servers/"
+	{
+		// Encode "serverId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "serverId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ServerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Meta {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetServer", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetServer", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetServerResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetServerConsole invokes GetServerConsole operation.
 //
+// Gets the authorization information required to connect to a Server console websocket.
 // Requires the `servers-console` capability.
 //
 // GET /v1/infrastructure/servers/{serverId}/console
@@ -16230,7 +21408,8 @@ func (c *Client) sendGetServerTags(ctx context.Context, params GetServerTagsPara
 
 // GetServerTelemetry invokes getServerTelemetry operation.
 //
-// Requires the `servers-view` capability. This call requires the filter query be used.
+// This call requires the filter query parameter to be used.
+// Requires the `servers-view` capability.
 //
 // GET /v1/infrastructure/servers/{serverId}/telemetry
 func (c *Client) GetServerTelemetry(ctx context.Context, params GetServerTelemetryParams) (*GetServerTelemetryOK, error) {
@@ -16486,97 +21665,17 @@ func (c *Client) sendGetServerUsage(ctx context.Context, params GetServerUsagePa
 	return result, nil
 }
 
-// GetServersClusters invokes GetServersClusters operation.
-//
-// Requires the `servers-view` capability.
-//
-// GET /v1/infrastructure/servers/clusters
-func (c *Client) GetServersClusters(ctx context.Context) (*GetServersClustersOK, error) {
-	res, err := c.sendGetServersClusters(ctx)
-	return res, err
-}
-
-func (c *Client) sendGetServersClusters(ctx context.Context) (res *GetServersClustersOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/infrastructure/servers/clusters"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetServersClusters", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetServersClusters", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetServersClustersResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetServersCollection invokes getServersCollection operation.
+// GetServers invokes getServers operation.
 //
 // Requires the `servers-view` capability.
 //
 // GET /v1/infrastructure/servers
-func (c *Client) GetServersCollection(ctx context.Context, params GetServersCollectionParams) (*GetServersCollectionOK, error) {
-	res, err := c.sendGetServersCollection(ctx, params)
+func (c *Client) GetServers(ctx context.Context, params GetServersParams) (*GetServersOK, error) {
+	res, err := c.sendGetServers(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetServersCollection(ctx context.Context, params GetServersCollectionParams) (res *GetServersCollectionOK, err error) {
+func (c *Client) sendGetServers(ctx context.Context, params GetServersParams) (res *GetServersOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
@@ -16699,7 +21798,7 @@ func (c *Client) sendGetServersCollection(ctx context.Context, params GetServers
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetServersCollection", r); {
+			switch err := c.securityBearerAuth(ctx, "GetServers", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -16710,7 +21809,7 @@ func (c *Client) sendGetServersCollection(ctx context.Context, params GetServers
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "GetServersCollection", r); {
+			switch err := c.securityHubAuth(ctx, "GetServers", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -16744,487 +21843,7 @@ func (c *Client) sendGetServersCollection(ctx context.Context, params GetServers
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetServersCollectionResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetSingleServer invokes getSingleServer operation.
-//
-// Requires the `servers-view` capability.
-//
-// GET /v1/infrastructure/servers/{serverId}
-func (c *Client) GetSingleServer(ctx context.Context, params GetSingleServerParams) (*GetSingleServerOK, error) {
-	res, err := c.sendGetSingleServer(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetSingleServer(ctx context.Context, params GetSingleServerParams) (res *GetSingleServerOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/infrastructure/servers/"
-	{
-		// Encode "serverId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "serverId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ServerId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "include" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "include",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "meta" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "meta",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetSingleServer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetSingleServer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetSingleServerResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetSource invokes getSource operation.
-//
-// Requires the `images-view` capability.
-//
-// GET /v1/images/sources/{sourceId}
-func (c *Client) GetSource(ctx context.Context, params GetSourceParams) (*GetSourceOK, error) {
-	res, err := c.sendGetSource(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetSource(ctx context.Context, params GetSourceParams) (res *GetSourceOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/images/sources/"
-	{
-		// Encode "sourceId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "sourceId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.SourceId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "meta" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "meta",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "include" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "include",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetSource", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetSource", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetSourceResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetSourcesCollection invokes getSourcesCollection operation.
-//
-// Requires the `images-view` capability.
-//
-// GET /v1/images/sources
-func (c *Client) GetSourcesCollection(ctx context.Context, params GetSourcesCollectionParams) (*GetSourcesCollectionOK, error) {
-	res, err := c.sendGetSourcesCollection(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetSourcesCollection(ctx context.Context, params GetSourcesCollectionParams) (res *GetSourcesCollectionOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/images/sources"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "meta" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "meta",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "include" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "include",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "filter" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "filter",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Filter.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "sort" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "sort",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "page" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "page",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Page.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetSourcesCollection", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetSourcesCollection", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetSourcesCollectionResponse(resp)
+	result, err := decodeGetServersResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -17447,104 +22066,6 @@ func (c *Client) sendGetStackBuild(ctx context.Context, params GetStackBuildPara
 	return result, nil
 }
 
-// GetStackBuildLookup invokes getStackBuildLookup operation.
-//
-// Requires the `stacks-view` capability.
-//
-// GET /v1/stacks/builds/{buildId}
-func (c *Client) GetStackBuildLookup(ctx context.Context, params GetStackBuildLookupParams) (*GetStackBuildLookupOK, error) {
-	res, err := c.sendGetStackBuildLookup(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetStackBuildLookup(ctx context.Context, params GetStackBuildLookupParams) (res *GetStackBuildLookupOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/stacks/builds/"
-	{
-		// Encode "buildId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "buildId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.BuildId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetStackBuildLookup", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetStackBuildLookup", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetStackBuildLookupResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // GetStackBuilds invokes getStackBuilds operation.
 //
 // Requires the `stacks-view` capability.
@@ -17593,29 +22114,6 @@ func (c *Client) sendGetStackBuilds(ctx context.Context, params GetStackBuildsPa
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			return e.EncodeArray(func(e uri.Encoder) error {
 				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "include" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "include",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
 					if err := func() error {
 						return e.EncodeValue(conv.StringToString(string(item)))
 					}(); err != nil {
@@ -17936,245 +22434,37 @@ func (c *Client) sendGetStacks(ctx context.Context, params GetStacksParams) (res
 	return result, nil
 }
 
-// GetTiers invokes getTiers operation.
+// GetTLSGenerationAttempts invokes getTLSGenerationAttempts operation.
 //
-// Returns list of availiable tiers.
+// Requires the `dns-view` capability.
 //
-// GET /v1/billing/plans/tiers
-func (c *Client) GetTiers(ctx context.Context) (*GetTiersOK, error) {
-	res, err := c.sendGetTiers(ctx)
+// GET /v1/dns/tls/attempts
+func (c *Client) GetTLSGenerationAttempts(ctx context.Context, params GetTLSGenerationAttemptsParams) (*GetTLSGenerationAttemptsOK, error) {
+	res, err := c.sendGetTLSGenerationAttempts(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetTiers(ctx context.Context) (res *GetTiersOK, err error) {
+func (c *Client) sendGetTLSGenerationAttempts(ctx context.Context, params GetTLSGenerationAttemptsParams) (res *GetTLSGenerationAttemptsOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
-	pathParts[0] = "/v1/billing/plans/tiers"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetTiers", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetTiers", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetTiersResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetTwoFaInfo invokes getTwoFaInfo operation.
-//
-// Get barcode and secret for TwoFa authentication.
-//
-// GET /v1/account/2fa/setup
-func (c *Client) GetTwoFaInfo(ctx context.Context) (*GetTwoFaInfoOK, error) {
-	res, err := c.sendGetTwoFaInfo(ctx)
-	return res, err
-}
-
-func (c *Client) sendGetTwoFaInfo(ctx context.Context) (res *GetTwoFaInfoOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/account/2fa/setup"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetTwoFaInfo", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetTwoFaInfo", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetTwoFaInfoResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetUsableServers invokes getUsableServers operation.
-//
-// Requires the `containers-view` capability.
-//
-// GET /v1/containers/{containerId}/servers/usable
-func (c *Client) GetUsableServers(ctx context.Context, params GetUsableServersParams) (*GetUsableServersOK, error) {
-	res, err := c.sendGetUsableServers(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetUsableServers(ctx context.Context, params GetUsableServersParams) (res *GetUsableServersOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/containers/"
-	{
-		// Encode "containerId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "containerId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ContainerId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/servers/usable"
+	pathParts[0] = "/v1/dns/tls/attempts"
 	uri.AddPathParts(u, pathParts[:]...)
 
 	q := uri.NewQueryEncoder()
 	{
-		// Encode "meta" parameter.
+		// Encode "filter" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "meta",
-			Style:   uri.QueryStyleForm,
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
 			Explode: true,
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "include" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "include",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -18231,7 +22521,7 @@ func (c *Client) sendGetUsableServers(ctx context.Context, params GetUsableServe
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetUsableServers", r); {
+			switch err := c.securityBearerAuth(ctx, "GetTLSGenerationAttempts", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -18242,7 +22532,7 @@ func (c *Client) sendGetUsableServers(ctx context.Context, params GetUsableServe
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "GetUsableServers", r); {
+			switch err := c.securityHubAuth(ctx, "GetTLSGenerationAttempts", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -18276,7 +22566,7 @@ func (c *Client) sendGetUsableServers(ctx context.Context, params GetUsableServe
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetUsableServersResponse(resp)
+	result, err := decodeGetTLSGenerationAttemptsResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -18284,17 +22574,239 @@ func (c *Client) sendGetUsableServers(ctx context.Context, params GetUsableServe
 	return result, nil
 }
 
-// GetVPNInfo invokes getVPNInfo operation.
+// GetTwoFactorAuthSetup invokes getTwoFactorAuthSetup operation.
+//
+// Gets the barcode and secret required for setting up two-factor authentication for the Account.
+//
+// GET /v1/account/2fa/setup
+func (c *Client) GetTwoFactorAuthSetup(ctx context.Context) (*GetTwoFactorAuthSetupOK, error) {
+	res, err := c.sendGetTwoFactorAuthSetup(ctx)
+	return res, err
+}
+
+func (c *Client) sendGetTwoFactorAuthSetup(ctx context.Context) (res *GetTwoFactorAuthSetupOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/account/2fa/setup"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetTwoFactorAuthSetup", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetTwoFactorAuthSetup", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetTwoFactorAuthSetupResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetVPNLogins invokes getVPNLogins operation.
+//
+// Requires the `environments-vpn` capability.
+//
+// GET /v1/environments/{environmentId}/services/vpn/logins
+func (c *Client) GetVPNLogins(ctx context.Context, params GetVPNLoginsParams) (*GetVPNLoginsOK, error) {
+	res, err := c.sendGetVPNLogins(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetVPNLogins(ctx context.Context, params GetVPNLoginsParams) (res *GetVPNLoginsOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/environments/"
+	{
+		// Encode "environmentId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "environmentId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/services/vpn/logins"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "sort" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "sort",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Sort {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(item))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetVPNLogins", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetVPNLogins", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetVPNLoginsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetVPNService invokes getVPNService operation.
 //
 // Requires the `environments-vpn` capability.
 //
 // GET /v1/environments/{environmentId}/services/vpn
-func (c *Client) GetVPNInfo(ctx context.Context, params GetVPNInfoParams) (*GetVPNInfoOK, error) {
-	res, err := c.sendGetVPNInfo(ctx, params)
+func (c *Client) GetVPNService(ctx context.Context, params GetVPNServiceParams) (*GetVPNServiceOK, error) {
+	res, err := c.sendGetVPNService(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetVPNInfo(ctx context.Context, params GetVPNInfoParams) (res *GetVPNInfoOK, err error) {
+func (c *Client) sendGetVPNService(ctx context.Context, params GetVPNServiceParams) (res *GetVPNServiceOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -18330,7 +22842,7 @@ func (c *Client) sendGetVPNInfo(ctx context.Context, params GetVPNInfoParams) (r
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetVPNInfo", r); {
+			switch err := c.securityBearerAuth(ctx, "GetVPNService", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -18341,7 +22853,7 @@ func (c *Client) sendGetVPNInfo(ctx context.Context, params GetVPNInfoParams) (r
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "GetVPNInfo", r); {
+			switch err := c.securityHubAuth(ctx, "GetVPNService", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -18375,7 +22887,7 @@ func (c *Client) sendGetVPNInfo(ctx context.Context, params GetVPNInfoParams) (r
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetVPNInfoResponse(resp)
+	result, err := decodeGetVPNServiceResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -18482,705 +22994,13 @@ func (c *Client) sendGetVPNUsers(ctx context.Context, params GetVPNUsersParams) 
 	return result, nil
 }
 
-// GetVpnLogins invokes getVpnLogins operation.
-//
-// Requires the `environments-vpn` capability.
-//
-// GET /v1/environments/{environmentId}/services/vpn/logins
-func (c *Client) GetVpnLogins(ctx context.Context, params GetVpnLoginsParams) (*GetVpnLoginsOK, error) {
-	res, err := c.sendGetVpnLogins(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetVpnLogins(ctx context.Context, params GetVpnLoginsParams) (res *GetVpnLoginsOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/environments/"
-	{
-		// Encode "environmentId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "environmentId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/services/vpn/logins"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "sort" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "sort",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "page" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "page",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Page.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetVpnLogins", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetVpnLogins", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetVpnLoginsResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// GetZonesCollection invokes getZonesCollection operation.
-//
-// Requires the `dns-view` capability.
-//
-// GET /v1/dns/zones
-func (c *Client) GetZonesCollection(ctx context.Context, params GetZonesCollectionParams) (*GetZonesCollectionOK, error) {
-	res, err := c.sendGetZonesCollection(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetZonesCollection(ctx context.Context, params GetZonesCollectionParams) (res *GetZonesCollectionOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/dns/zones"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "include" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "include",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "filter" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "filter",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Filter.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "sort" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "sort",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "page" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "page",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Page.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetZonesCollection", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetZonesCollection", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetZonesCollectionResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// InstanceConsoleAuth invokes instanceConsoleAuth operation.
-//
-// Requires the `contaiers-console` capability.
-//
-// GET /v1/containers/{containerId}/instances/{instanceId}/console
-func (c *Client) InstanceConsoleAuth(ctx context.Context, params InstanceConsoleAuthParams) (*InstanceConsoleAuthOK, error) {
-	res, err := c.sendInstanceConsoleAuth(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendInstanceConsoleAuth(ctx context.Context, params InstanceConsoleAuthParams) (res *InstanceConsoleAuthOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/v1/containers/"
-	{
-		// Encode "containerId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "containerId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ContainerId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/instances/"
-	{
-		// Encode "instanceId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "instanceId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.InstanceId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/console"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "InstanceConsoleAuth", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "InstanceConsoleAuth", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeInstanceConsoleAuthResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// ListScopedVariables invokes listScopedVariables operation.
-//
-// Requires the `scoped-variables-view` capability.
-//
-// GET /v1/environments/{environmentId}/scoped-variables
-func (c *Client) ListScopedVariables(ctx context.Context, params ListScopedVariablesParams) (*ListScopedVariablesOK, error) {
-	res, err := c.sendListScopedVariables(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendListScopedVariables(ctx context.Context, params ListScopedVariablesParams) (res *ListScopedVariablesOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/environments/"
-	{
-		// Encode "environmentId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "environmentId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/scoped-variables"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "filter" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "filter",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Filter.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "sort" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "sort",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "page" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "page",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Page.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "ListScopedVariables", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "ListScopedVariables", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeListScopedVariablesResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// LookupDnsCertificate invokes lookupDnsCertificate operation.
-//
-// Requires the `dns-view` capability.
-//
-// GET /v1/dns/tls/certificates/lookup
-func (c *Client) LookupDnsCertificate(ctx context.Context, params LookupDnsCertificateParams) (*LookupDnsCertificateOK, error) {
-	res, err := c.sendLookupDnsCertificate(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendLookupDnsCertificate(ctx context.Context, params LookupDnsCertificateParams) (res *LookupDnsCertificateOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/dns/tls/certificates/lookup"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "domain" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "domain",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeValue(conv.StringToString(params.Domain))
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
-		// Encode "wildcard" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "wildcard",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Wildcard.Get(); ok {
-				return e.EncodeValue(conv.BoolToString(val))
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "LookupDnsCertificate", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "LookupDnsCertificate", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeLookupDnsCertificateResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // LookupIdentifier invokes lookupIdentifier operation.
 //
-// Given a (base64) resource identifier string, returns the ID of the targeted resource.
+// Given a (base64'd) resource identifier string (i.e. `cluster:production/env:abc`), returns the ID
+// of the matching resource.
+// If more than one resource matches the identifier, or no resource matches the identifier, this
+// endpoint will return an error.
+// Given identifiers are NOT unique, you may need to be more specific to target the exact identifier.
 //
 // GET /v1/utils/resource/lookup
 func (c *Client) LookupIdentifier(ctx context.Context, params LookupIdentifierParams) (*LookupIdentifierOK, error) {
@@ -19289,2786 +23109,22 @@ func (c *Client) sendLookupIdentifier(ctx context.Context, params LookupIdentifi
 	return result, nil
 }
 
-// PipelineAuth invokes pipelineAuth operation.
+// LookupStackBuild invokes lookupStackBuild operation.
 //
-// Requires the `hubs-notifications-listen` capability.
+// Look up a Stack Build using only the Build ID, instead of requiring a Stack ID as well.
+// Requires the `stacks-view` capability.
 //
-// GET /v1/hubs/current/notifications
-func (c *Client) PipelineAuth(ctx context.Context) (*PipelineAuthOK, error) {
-	res, err := c.sendPipelineAuth(ctx)
+// GET /v1/stacks/builds/{buildId}
+func (c *Client) LookupStackBuild(ctx context.Context, params LookupStackBuildParams) (*LookupStackBuildOK, error) {
+	res, err := c.sendLookupStackBuild(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendPipelineAuth(ctx context.Context) (res *PipelineAuthOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/hubs/current/notifications"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "PipelineAuth", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "PipelineAuth", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodePipelineAuthResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// ReconfigureDiscovery invokes reconfigureDiscovery operation.
-//
-// Creates a task that will update the discovery service's configuration.
-//
-// POST /v1/environments/{environmentId}/services/discovery/tasks
-func (c *Client) ReconfigureDiscovery(ctx context.Context, request OptReconfigureDiscoveryReq, params ReconfigureDiscoveryParams) (*ReconfigureDiscoveryAccepted, error) {
-	res, err := c.sendReconfigureDiscovery(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendReconfigureDiscovery(ctx context.Context, request OptReconfigureDiscoveryReq, params ReconfigureDiscoveryParams) (res *ReconfigureDiscoveryAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/environments/"
-	{
-		// Encode "environmentId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "environmentId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/services/discovery/tasks"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeReconfigureDiscoveryRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "ReconfigureDiscovery", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "ReconfigureDiscovery", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeReconfigureDiscoveryResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// ReconfigureLoadBalancer invokes reconfigureLoadBalancer operation.
-//
-// Creates a task that will update the load balancer's configuration.
-//
-// POST /v1/environments/{environmentId}/services/lb/tasks
-func (c *Client) ReconfigureLoadBalancer(ctx context.Context, request OptReconfigureLoadBalancerReq, params ReconfigureLoadBalancerParams) (*ReconfigureLoadBalancerAccepted, error) {
-	res, err := c.sendReconfigureLoadBalancer(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendReconfigureLoadBalancer(ctx context.Context, request OptReconfigureLoadBalancerReq, params ReconfigureLoadBalancerParams) (res *ReconfigureLoadBalancerAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/environments/"
-	{
-		// Encode "environmentId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "environmentId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/services/lb/tasks"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeReconfigureLoadBalancerRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "ReconfigureLoadBalancer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "ReconfigureLoadBalancer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeReconfigureLoadBalancerResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RecoverTwoFa invokes recoverTwoFa operation.
-//
-// Disable TwoFa for an account.
-//
-// POST /v1/account/2fa/recover
-func (c *Client) RecoverTwoFa(ctx context.Context, request OptRecoverTwoFaReq) (*RecoverTwoFaOK, error) {
-	res, err := c.sendRecoverTwoFa(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendRecoverTwoFa(ctx context.Context, request OptRecoverTwoFaReq) (res *RecoverTwoFaOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/account/2fa/recover"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeRecoverTwoFaRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RecoverTwoFa", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RecoverTwoFa", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRecoverTwoFaResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveAccount invokes removeAccount operation.
-//
-// Deletes the current account.
-//
-// DELETE /v1/account
-func (c *Client) RemoveAccount(ctx context.Context) (*RemoveAccountOK, error) {
-	res, err := c.sendRemoveAccount(ctx)
-	return res, err
-}
-
-func (c *Client) sendRemoveAccount(ctx context.Context) (res *RemoveAccountOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/account"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveAccount", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveAccount", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveAccountResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveApiKey invokes removeApiKey operation.
-//
-// Requires the 'api-keys-delete' capability.
-//
-// DELETE /v1/hubs/current/api-keys/{apikeyId}
-func (c *Client) RemoveApiKey(ctx context.Context, params RemoveApiKeyParams) (*RemoveApiKeyOK, error) {
-	res, err := c.sendRemoveApiKey(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveApiKey(ctx context.Context, params RemoveApiKeyParams) (res *RemoveApiKeyOK, err error) {
+func (c *Client) sendLookupStackBuild(ctx context.Context, params LookupStackBuildParams) (res *LookupStackBuildOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
-	pathParts[0] = "/v1/hubs/current/api-keys/"
-	{
-		// Encode "apikeyId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "apikeyId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApikeyId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveApiKey", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveApiKey", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveApiKeyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveAutoScaleGroup invokes removeAutoScaleGroup operation.
-//
-// Requires the `autoscale-group-manage` capability.
-//
-// DELETE /v1/infrastructure/auto-scale/groups/{groupId}
-func (c *Client) RemoveAutoScaleGroup(ctx context.Context, params RemoveAutoScaleGroupParams) (*RemoveAutoScaleGroupAccepted, error) {
-	res, err := c.sendRemoveAutoScaleGroup(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveAutoScaleGroup(ctx context.Context, params RemoveAutoScaleGroupParams) (res *RemoveAutoScaleGroupAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/infrastructure/auto-scale/groups/"
-	{
-		// Encode "groupId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "groupId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.GroupId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveAutoScaleGroup", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveAutoScaleGroup", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveAutoScaleGroupResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveBackup invokes removeBackup operation.
-//
-// Requires the `containers-backups-manage` capability.
-//
-// DELETE /v1/containers/{containerId}/backups/{backupId}
-func (c *Client) RemoveBackup(ctx context.Context, params RemoveBackupParams) (*RemoveBackupAccepted, error) {
-	res, err := c.sendRemoveBackup(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveBackup(ctx context.Context, params RemoveBackupParams) (res *RemoveBackupAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/v1/containers/"
-	{
-		// Encode "containerId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "containerId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ContainerId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/backups/"
-	{
-		// Encode "backupId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "backupId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.BackupId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveBackup", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveBackup", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveBackupResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveBillingMethod invokes removeBillingMethod operation.
-//
-// Requires the `billing-methods-manage` capability.
-//
-// DELETE /v1/billing/methods/{methodId}
-func (c *Client) RemoveBillingMethod(ctx context.Context, params RemoveBillingMethodParams) (*RemoveBillingMethodOK, error) {
-	res, err := c.sendRemoveBillingMethod(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveBillingMethod(ctx context.Context, params RemoveBillingMethodParams) (res *RemoveBillingMethodOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/billing/methods/"
-	{
-		// Encode "methodId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "methodId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.MethodId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveBillingMethod", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveBillingMethod", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveBillingMethodResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveContainer invokes removeContainer operation.
-//
-// Requires the `containers-update` capability.
-//
-// DELETE /v1/containers/{containerId}
-func (c *Client) RemoveContainer(ctx context.Context, params RemoveContainerParams) (*RemoveContainerAccepted, error) {
-	res, err := c.sendRemoveContainer(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveContainer(ctx context.Context, params RemoveContainerParams) (res *RemoveContainerAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/containers/"
-	{
-		// Encode "containerId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "containerId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ContainerId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveContainer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveContainer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveContainerResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveContainerInstance invokes removeContainerInstance operation.
-//
-// Requires the `containers-update` capability.
-//
-// DELETE /v1/containers/{containerId}/instances/{instanceId}
-func (c *Client) RemoveContainerInstance(ctx context.Context, params RemoveContainerInstanceParams) (*RemoveContainerInstanceOK, error) {
-	res, err := c.sendRemoveContainerInstance(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveContainerInstance(ctx context.Context, params RemoveContainerInstanceParams) (res *RemoveContainerInstanceOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/v1/containers/"
-	{
-		// Encode "containerId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "containerId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ContainerId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/instances/"
-	{
-		// Encode "instanceId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "instanceId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.InstanceId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveContainerInstance", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveContainerInstance", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveContainerInstanceResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveDNSRecord invokes removeDNSRecord operation.
-//
-// Requires the `dns-manage` capability.
-//
-// DELETE /v1/dns/zones/{zoneId}/records/{recordId}
-func (c *Client) RemoveDNSRecord(ctx context.Context, params RemoveDNSRecordParams) (*RemoveDNSRecordOK, error) {
-	res, err := c.sendRemoveDNSRecord(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveDNSRecord(ctx context.Context, params RemoveDNSRecordParams) (res *RemoveDNSRecordOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/v1/dns/zones/"
-	{
-		// Encode "zoneId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "zoneId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ZoneId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/records/"
-	{
-		// Encode "recordId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "recordId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.RecordId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveDNSRecord", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveDNSRecord", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveDNSRecordResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveDNSZone invokes removeDNSZone operation.
-//
-// Requires the `dns-manage` capability.
-//
-// DELETE /v1/dns/zones/{zoneId}
-func (c *Client) RemoveDNSZone(ctx context.Context, params RemoveDNSZoneParams) (*RemoveDNSZoneOK, error) {
-	res, err := c.sendRemoveDNSZone(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveDNSZone(ctx context.Context, params RemoveDNSZoneParams) (res *RemoveDNSZoneOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/dns/zones/"
-	{
-		// Encode "zoneId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "zoneId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ZoneId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveDNSZone", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveDNSZone", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveDNSZoneResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveEnvironment invokes removeEnvironment operation.
-//
-// Requires the `environments-update` capability.
-//
-// DELETE /v1/environments/{environmentId}
-func (c *Client) RemoveEnvironment(ctx context.Context, params RemoveEnvironmentParams) (*RemoveEnvironmentAccepted, error) {
-	res, err := c.sendRemoveEnvironment(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveEnvironment(ctx context.Context, params RemoveEnvironmentParams) (res *RemoveEnvironmentAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/environments/"
-	{
-		// Encode "environmentId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "environmentId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveEnvironment", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveEnvironment", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveEnvironmentResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveHub invokes removeHub operation.
-//
-// Requires the `hubs-delete` capability. This can only be aquired by being the hub owner.
-//
-// DELETE /v1/hubs/current
-func (c *Client) RemoveHub(ctx context.Context) (*RemoveHubAccepted, error) {
-	res, err := c.sendRemoveHub(ctx)
-	return res, err
-}
-
-func (c *Client) sendRemoveHub(ctx context.Context) (res *RemoveHubAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/hubs/current"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveHub", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveHubResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveHubInvite invokes removeHubInvite operation.
-//
-// Requires the `hub-invites-manage` capability.
-//
-// DELETE /v1/hubs/current/invites/{inviteId}
-func (c *Client) RemoveHubInvite(ctx context.Context, params RemoveHubInviteParams) (*RemoveHubInviteOK, error) {
-	res, err := c.sendRemoveHubInvite(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveHubInvite(ctx context.Context, params RemoveHubInviteParams) (res *RemoveHubInviteOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/hubs/current/invites/"
-	{
-		// Encode "inviteId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "inviteId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.InviteId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveHubInvite", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveHubInviteResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveHubMember invokes removeHubMember operation.
-//
-// Requires the `hubs-members-manage` capability.
-//
-// DELETE /v1/hubs/current/members/{memberId}
-func (c *Client) RemoveHubMember(ctx context.Context, params RemoveHubMemberParams) (*RemoveHubMemberAccepted, error) {
-	res, err := c.sendRemoveHubMember(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveHubMember(ctx context.Context, params RemoveHubMemberParams) (res *RemoveHubMemberAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/hubs/current/members/"
-	{
-		// Encode "memberId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "memberId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.MemberId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveHubMember", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000001},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveHubMemberResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveImage invokes removeImage operation.
-//
-// Requires the `images-updae` capability.
-//
-// DELETE /v1/images/{imageId}
-func (c *Client) RemoveImage(ctx context.Context, params RemoveImageParams) (*RemoveImageOK, error) {
-	res, err := c.sendRemoveImage(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveImage(ctx context.Context, params RemoveImageParams) (res *RemoveImageOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/images/"
-	{
-		// Encode "imageId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "imageId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ImageId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveImage", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveImage", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveImageResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveImageSource invokes removeImageSource operation.
-//
-// Requires the `images-import` capability.
-//
-// DELETE /v1/images/sources/{sourceId}
-func (c *Client) RemoveImageSource(ctx context.Context, params RemoveImageSourceParams) (*RemoveImageSourceAccepted, error) {
-	res, err := c.sendRemoveImageSource(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveImageSource(ctx context.Context, params RemoveImageSourceParams) (res *RemoveImageSourceAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/images/sources/"
-	{
-		// Encode "sourceId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "sourceId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.SourceId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveImageSource", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveImageSource", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveImageSourceResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveIpPool invokes removeIpPool operation.
-//
-// Requires the `infrastructure-ips-manage` capability.
-//
-// DELETE /v1/infrastructure/ips/pools/{poolId}
-func (c *Client) RemoveIpPool(ctx context.Context, params RemoveIpPoolParams) (*RemoveIpPoolAccepted, error) {
-	res, err := c.sendRemoveIpPool(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveIpPool(ctx context.Context, params RemoveIpPoolParams) (res *RemoveIpPoolAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/infrastructure/ips/pools/"
-	{
-		// Encode "poolId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "poolId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.PoolId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveIpPool", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveIpPool", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveIpPoolResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveMultipleContainerInstances invokes removeMultipleContainerInstances operation.
-//
-// Requires the `containers-update` capability.
-//
-// DELETE /v1/containers/{containerId}/instances
-func (c *Client) RemoveMultipleContainerInstances(ctx context.Context, params RemoveMultipleContainerInstancesParams) (*RemoveMultipleContainerInstancesOK, error) {
-	res, err := c.sendRemoveMultipleContainerInstances(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveMultipleContainerInstances(ctx context.Context, params RemoveMultipleContainerInstancesParams) (res *RemoveMultipleContainerInstancesOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/containers/"
-	{
-		// Encode "containerId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "containerId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ContainerId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/instances"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveMultipleContainerInstances", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveMultipleContainerInstances", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveMultipleContainerInstancesResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemovePipeline invokes removePipeline operation.
-//
-// Requires the `pipelines-manage` capability.
-//
-// DELETE /v1/pipelines/{pipelineId}
-func (c *Client) RemovePipeline(ctx context.Context, params RemovePipelineParams) (*RemovePipelineOK, error) {
-	res, err := c.sendRemovePipeline(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemovePipeline(ctx context.Context, params RemovePipelineParams) (res *RemovePipelineOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/pipelines/"
-	{
-		// Encode "pipelineId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "pipelineId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.PipelineId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemovePipeline", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemovePipeline", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemovePipelineResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemovePipelineTriggerKey invokes removePipelineTriggerKey operation.
-//
-// Requires the `pipelines-manage` capability.
-//
-// DELETE /v1/pipelines/{pipelineId}/keys/{triggerKeyId}
-func (c *Client) RemovePipelineTriggerKey(ctx context.Context, params RemovePipelineTriggerKeyParams) (*RemovePipelineTriggerKeyOK, error) {
-	res, err := c.sendRemovePipelineTriggerKey(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemovePipelineTriggerKey(ctx context.Context, params RemovePipelineTriggerKeyParams) (res *RemovePipelineTriggerKeyOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/v1/pipelines/"
-	{
-		// Encode "pipelineId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "pipelineId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.PipelineId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/keys/"
-	{
-		// Encode "triggerKeyId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "triggerKeyId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.TriggerKeyId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemovePipelineTriggerKey", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemovePipelineTriggerKey", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemovePipelineTriggerKeyResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveProvider invokes removeProvider operation.
-//
-// Requires the `infrastructure-providers-manage` capability.
-//
-// DELETE /v1/infrastructure/providers/{providerIdentifier}
-func (c *Client) RemoveProvider(ctx context.Context, params RemoveProviderParams) (*RemoveProviderAccepted, error) {
-	res, err := c.sendRemoveProvider(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveProvider(ctx context.Context, params RemoveProviderParams) (res *RemoveProviderAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/infrastructure/providers/"
-	{
-		// Encode "providerIdentifier" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "providerIdentifier",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ProviderIdentifier))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveProvider", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveProvider", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveProviderResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveSDNNetwork invokes removeSDNNetwork operation.
-//
-// Requires the `sdn-networks-manage` capability.
-//
-// DELETE /v1/sdn/networks/{networkId}
-func (c *Client) RemoveSDNNetwork(ctx context.Context, params RemoveSDNNetworkParams) (*RemoveSDNNetworkOK, error) {
-	res, err := c.sendRemoveSDNNetwork(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveSDNNetwork(ctx context.Context, params RemoveSDNNetworkParams) (res *RemoveSDNNetworkOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/sdn/networks/"
-	{
-		// Encode "networkId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "networkId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.NetworkId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveSDNNetwork", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveSDNNetwork", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveSDNNetworkResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveScopedVariableById invokes removeScopedVariableById operation.
-//
-// Requires the `scoped-variables-manage` capability.
-//
-// DELETE /v1/environments/{environmentId}/scoped-variables/{scopedVariableId}
-func (c *Client) RemoveScopedVariableById(ctx context.Context, params RemoveScopedVariableByIdParams) (*RemoveScopedVariableByIdAccepted, error) {
-	res, err := c.sendRemoveScopedVariableById(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveScopedVariableById(ctx context.Context, params RemoveScopedVariableByIdParams) (res *RemoveScopedVariableByIdAccepted, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/v1/environments/"
-	{
-		// Encode "environmentId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "environmentId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/scoped-variables/"
-	{
-		// Encode "scopedVariableId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "scopedVariableId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ScopedVariableId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveScopedVariableById", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveScopedVariableById", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveScopedVariableByIdResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveServer invokes removeServer operation.
-//
-// Requires the `servers-update` capability.
-//
-// DELETE /v1/infrastructure/servers/{serverId}
-func (c *Client) RemoveServer(ctx context.Context, params RemoveServerParams) (*RemoveServerOK, error) {
-	res, err := c.sendRemoveServer(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveServer(ctx context.Context, params RemoveServerParams) (res *RemoveServerOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/infrastructure/servers/"
-	{
-		// Encode "serverId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "serverId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ServerId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveServer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveServer", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveServerResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveStack invokes removeStack operation.
-//
-// Requires the `stacks-manage` capability.
-//
-// DELETE /v1/stacks/{stackId}
-func (c *Client) RemoveStack(ctx context.Context, params RemoveStackParams) (*RemoveStackOK, error) {
-	res, err := c.sendRemoveStack(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveStack(ctx context.Context, params RemoveStackParams) (res *RemoveStackOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/stacks/"
-	{
-		// Encode "stackId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "stackId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.StackId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "DELETE", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "RemoveStack", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "RemoveStack", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeRemoveStackResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// RemoveStackBuild invokes removeStackBuild operation.
-//
-// Requires the `stacks-manage` capability.
-//
-// DELETE /v1/stacks/{stackId}/builds/{buildId}
-func (c *Client) RemoveStackBuild(ctx context.Context, params RemoveStackBuildParams) (*RemoveStackBuildOK, error) {
-	res, err := c.sendRemoveStackBuild(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendRemoveStackBuild(ctx context.Context, params RemoveStackBuildParams) (res *RemoveStackBuildOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/v1/stacks/"
-	{
-		// Encode "stackId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "stackId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.StackId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/builds/"
+	pathParts[0] = "/v1/stacks/builds/"
 	{
 		// Encode "buildId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
@@ -22085,11 +23141,11 @@ func (c *Client) sendRemoveStackBuild(ctx context.Context, params RemoveStackBui
 		if err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
-		pathParts[3] = encoded
+		pathParts[1] = encoded
 	}
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "DELETE", u)
+	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
@@ -22099,7 +23155,7 @@ func (c *Client) sendRemoveStackBuild(ctx context.Context, params RemoveStackBui
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "RemoveStackBuild", r); {
+			switch err := c.securityBearerAuth(ctx, "LookupStackBuild", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -22110,7 +23166,7 @@ func (c *Client) sendRemoveStackBuild(ctx context.Context, params RemoveStackBui
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "RemoveStackBuild", r); {
+			switch err := c.securityHubAuth(ctx, "LookupStackBuild", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -22144,7 +23200,7 @@ func (c *Client) sendRemoveStackBuild(ctx context.Context, params RemoveStackBui
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeRemoveStackBuildResponse(resp)
+	result, err := decodeLookupStackBuildResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -22152,61 +23208,59 @@ func (c *Client) sendRemoveStackBuild(ctx context.Context, params RemoveStackBui
 	return result, nil
 }
 
-// RemoveVPNUser invokes removeVPNUser operation.
+// LookupTLSCertificate invokes lookupTLSCertificate operation.
 //
-// Requires the `environments-vpn-manage` capability.
+// Lookup and retrieve a TLS certificate bundle for a specified domain.
+// Requires the `dns-view` capability.
 //
-// DELETE /v1/environments/{environmentId}/services/vpn/users/{userId}
-func (c *Client) RemoveVPNUser(ctx context.Context, params RemoveVPNUserParams) (*RemoveVPNUserOK, error) {
-	res, err := c.sendRemoveVPNUser(ctx, params)
+// GET /v1/dns/tls/certificates/lookup
+func (c *Client) LookupTLSCertificate(ctx context.Context, params LookupTLSCertificateParams) (*LookupTLSCertificateOK, error) {
+	res, err := c.sendLookupTLSCertificate(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendRemoveVPNUser(ctx context.Context, params RemoveVPNUserParams) (res *RemoveVPNUserOK, err error) {
+func (c *Client) sendLookupTLSCertificate(ctx context.Context, params LookupTLSCertificateParams) (res *LookupTLSCertificateOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/v1/environments/"
-	{
-		// Encode "environmentId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "environmentId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/services/vpn/users/"
-	{
-		// Encode "userId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "userId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.UserId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
+	var pathParts [1]string
+	pathParts[0] = "/v1/dns/tls/certificates/lookup"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "DELETE", u)
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "domain" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "domain",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeValue(conv.StringToString(params.Domain))
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "wildcard" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "wildcard",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Wildcard.Get(); ok {
+				return e.EncodeValue(conv.BoolToString(val))
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
@@ -22216,7 +23270,7 @@ func (c *Client) sendRemoveVPNUser(ctx context.Context, params RemoveVPNUserPara
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "RemoveVPNUser", r); {
+			switch err := c.securityBearerAuth(ctx, "LookupTLSCertificate", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -22227,7 +23281,7 @@ func (c *Client) sendRemoveVPNUser(ctx context.Context, params RemoveVPNUserPara
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "RemoveVPNUser", r); {
+			switch err := c.securityHubAuth(ctx, "LookupTLSCertificate", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -22261,7 +23315,90 @@ func (c *Client) sendRemoveVPNUser(ctx context.Context, params RemoveVPNUserPara
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeRemoveVPNUserResponse(resp)
+	result, err := decodeLookupTLSCertificateResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// RecoverTwoFactorAuth invokes recoverTwoFactorAuth operation.
+//
+// Returns a new two-factor auth setup to reset the Account's two-factor auth.
+//
+// POST /v1/account/2fa/recover
+func (c *Client) RecoverTwoFactorAuth(ctx context.Context, request OptRecoverTwoFactorAuthReq) (*RecoverTwoFactorAuthOK, error) {
+	res, err := c.sendRecoverTwoFactorAuth(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendRecoverTwoFactorAuth(ctx context.Context, request OptRecoverTwoFactorAuthReq) (res *RecoverTwoFactorAuthOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/account/2fa/recover"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeRecoverTwoFactorAuthRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "RecoverTwoFactorAuth", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "RecoverTwoFactorAuth", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeRecoverTwoFactorAuthResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -22271,7 +23408,9 @@ func (c *Client) sendRemoveVPNUser(ctx context.Context, params RemoveVPNUserPara
 
 // ResetPassword invokes resetPassword operation.
 //
-// Update a given invite.
+// Initiate a password reset for the Account. A confirmation email will be sent to the email
+// associated with the Account, and the token in the email must be passed in a second call to this
+// endpoint.
 //
 // POST /v1/account/reset-password
 func (c *Client) ResetPassword(ctx context.Context, request OptResetPasswordReq) (*ResetPasswordOK, error) {
@@ -22308,11 +23447,22 @@ func (c *Client) sendResetPassword(ctx context.Context, request OptResetPassword
 				return res, errors.Wrap(err, "security \"BearerAuth\"")
 			}
 		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "ResetPassword", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
 
 		if ok := func() bool {
 		nextRequirement:
 			for _, requirement := range []bitset{
-				{0b00000001},
+				{0b00000011},
 			} {
 				for i, mask := range requirement {
 					if satisfied[i]&mask != mask {
@@ -22341,31 +23491,30 @@ func (c *Client) sendResetPassword(ctx context.Context, request OptResetPassword
 	return result, nil
 }
 
-// RestoreBackupJob invokes restoreBackupJob operation.
+// UpdateAPIKey invokes updateAPIKey operation.
 //
-// Used to restore a backup for a given container instance. Requires the `containers-backups-manage`
-// capability.
+// Requires the `api-keys-manage` capability.
 //
-// POST /v1/containers/{containerId}/backups/{backupId}/tasks
-func (c *Client) RestoreBackupJob(ctx context.Context, request OptRestoreBackupJobReq, params RestoreBackupJobParams) (*RestoreBackupJobAccepted, error) {
-	res, err := c.sendRestoreBackupJob(ctx, request, params)
+// PATCH /v1/hubs/current/api-keys/{apikeyId}
+func (c *Client) UpdateAPIKey(ctx context.Context, request OptUpdateAPIKeyReq, params UpdateAPIKeyParams) (*UpdateAPIKeyOK, error) {
+	res, err := c.sendUpdateAPIKey(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendRestoreBackupJob(ctx context.Context, request OptRestoreBackupJobReq, params RestoreBackupJobParams) (res *RestoreBackupJobAccepted, err error) {
+func (c *Client) sendUpdateAPIKey(ctx context.Context, request OptUpdateAPIKeyReq, params UpdateAPIKeyParams) (res *UpdateAPIKeyOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [5]string
-	pathParts[0] = "/v1/containers/"
+	var pathParts [2]string
+	pathParts[0] = "/v1/hubs/current/api-keys/"
 	{
-		// Encode "containerId" parameter.
+		// Encode "apikeyId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "containerId",
+			Param:   "apikeyId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ContainerId))
+			return e.EncodeValue(conv.StringToString(params.ApikeyId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -22375,33 +23524,13 @@ func (c *Client) sendRestoreBackupJob(ctx context.Context, request OptRestoreBac
 		}
 		pathParts[1] = encoded
 	}
-	pathParts[2] = "/backups/"
-	{
-		// Encode "backupId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "backupId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.BackupId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	pathParts[4] = "/tasks"
 	uri.AddPathParts(u, pathParts[:]...)
 
-	r, err := ht.NewRequest(ctx, "POST", u)
+	r, err := ht.NewRequest(ctx, "PATCH", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeRestoreBackupJobRequest(request, r); err != nil {
+	if err := encodeUpdateAPIKeyRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -22410,7 +23539,7 @@ func (c *Client) sendRestoreBackupJob(ctx context.Context, request OptRestoreBac
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "RestoreBackupJob", r); {
+			switch err := c.securityBearerAuth(ctx, "UpdateAPIKey", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -22421,7 +23550,7 @@ func (c *Client) sendRestoreBackupJob(ctx context.Context, request OptRestoreBac
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "RestoreBackupJob", r); {
+			switch err := c.securityHubAuth(ctx, "UpdateAPIKey", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -22455,90 +23584,7 @@ func (c *Client) sendRestoreBackupJob(ctx context.Context, request OptRestoreBac
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeRestoreBackupJobResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// SetupTwoFa invokes setupTwoFa operation.
-//
-// Setup TwoFa for an account.
-//
-// POST /v1/account/2fa/setup
-func (c *Client) SetupTwoFa(ctx context.Context, request OptSetupTwoFaReq) (*SetupTwoFaOK, error) {
-	res, err := c.sendSetupTwoFa(ctx, request)
-	return res, err
-}
-
-func (c *Client) sendSetupTwoFa(ctx context.Context, request OptSetupTwoFaReq) (res *SetupTwoFaOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/account/2fa/setup"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "POST", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeSetupTwoFaRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "SetupTwoFa", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "SetupTwoFa", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeSetupTwoFaResponse(resp)
+	result, err := decodeUpdateAPIKeyResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -22548,7 +23594,7 @@ func (c *Client) sendSetupTwoFa(ctx context.Context, request OptSetupTwoFaReq) (
 
 // UpdateAccount invokes updateAccount operation.
 //
-// Updates the current account.
+// Updates the Account.
 //
 // PATCH /v1/account
 func (c *Client) UpdateAccount(ctx context.Context, request OptUpdateAccountReq) (*UpdateAccountOK, error) {
@@ -22631,7 +23677,7 @@ func (c *Client) sendUpdateAccount(ctx context.Context, request OptUpdateAccount
 
 // UpdateAccountInvite invokes updateAccountInvite operation.
 //
-// Update a given invite.
+// Accept/reject a pending Invite to join a Hub.
 //
 // PATCH /v1/account/invites/{inviteId}
 func (c *Client) UpdateAccountInvite(ctx context.Context, request OptUpdateAccountInviteReq, params UpdateAccountInviteParams) (*UpdateAccountInviteOK, error) {
@@ -22663,6 +23709,32 @@ func (c *Client) sendUpdateAccountInvite(ctx context.Context, request OptUpdateA
 		pathParts[1] = encoded
 	}
 	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	r, err := ht.NewRequest(ctx, "PATCH", u)
 	if err != nil {
@@ -22712,107 +23784,6 @@ func (c *Client) sendUpdateAccountInvite(ctx context.Context, request OptUpdateA
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateAccountInviteResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// UpdateApiKey invokes updateApiKey operation.
-//
-// Requires the `api-keys-manage` capability.
-//
-// PATCH /v1/hubs/current/api-keys/{apikeyId}
-func (c *Client) UpdateApiKey(ctx context.Context, request OptUpdateApiKeyReq, params UpdateApiKeyParams) (*UpdateApiKeyOK, error) {
-	res, err := c.sendUpdateApiKey(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendUpdateApiKey(ctx context.Context, request OptUpdateApiKeyReq, params UpdateApiKeyParams) (res *UpdateApiKeyOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/hubs/current/api-keys/"
-	{
-		// Encode "apikeyId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "apikeyId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ApikeyId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeUpdateApiKeyRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "UpdateApiKey", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "UpdateApiKey", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeUpdateApiKeyResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -23024,7 +23995,7 @@ func (c *Client) sendUpdateBillingMethod(ctx context.Context, request OptUpdateB
 
 // UpdateBillingOrder invokes updateBillingOrder operation.
 //
-// Requires the `billing-orders-manage` capability.
+// Requires the `billing-services-manage` capability.
 //
 // PATCH /v1/billing/orders/{orderId}
 func (c *Client) UpdateBillingOrder(ctx context.Context, request OptUpdateBillingOrderReq, params UpdateBillingOrderParams) (*UpdateBillingOrderOK, error) {
@@ -23056,6 +24027,55 @@ func (c *Client) sendUpdateBillingOrder(ctx context.Context, request OptUpdateBi
 		pathParts[1] = encoded
 	}
 	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Meta {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	r, err := ht.NewRequest(ctx, "PATCH", u)
 	if err != nil {
@@ -23125,8 +24145,8 @@ func (c *Client) sendUpdateBillingOrder(ctx context.Context, request OptUpdateBi
 
 // UpdateContainer invokes updateContainer operation.
 //
-// Updates the specified container, setting the values of the parameters passed.  If any parameters
-// are omitted, they will be left unchanged. Requires the `contianers-update` capability.
+// Updates the specified Container.
+// Requires the `containers-manage` capability.
 //
 // PATCH /v1/containers/{containerId}
 func (c *Client) UpdateContainer(ctx context.Context, request OptUpdateContainerReq, params UpdateContainerParams) (*UpdateContainerOK, error) {
@@ -23218,126 +24238,6 @@ func (c *Client) sendUpdateContainer(ctx context.Context, request OptUpdateConta
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateContainerResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// UpdateDNSRecord invokes updateDNSRecord operation.
-//
-// Requires the `dns-manage` capability.
-//
-// PATCH /v1/dns/zones/{zoneId}/records/{recordId}
-func (c *Client) UpdateDNSRecord(ctx context.Context, request OptUpdateDNSRecordReq, params UpdateDNSRecordParams) (*UpdateDNSRecordOK, error) {
-	res, err := c.sendUpdateDNSRecord(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendUpdateDNSRecord(ctx context.Context, request OptUpdateDNSRecordReq, params UpdateDNSRecordParams) (res *UpdateDNSRecordOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [4]string
-	pathParts[0] = "/v1/dns/zones/"
-	{
-		// Encode "zoneId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "zoneId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ZoneId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/records/"
-	{
-		// Encode "recordId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "recordId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.RecordId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[3] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeUpdateDNSRecordRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "UpdateDNSRecord", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "UpdateDNSRecord", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeUpdateDNSRecordResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -23472,10 +24372,130 @@ func (c *Client) sendUpdateDNSZone(ctx context.Context, request OptUpdateDNSZone
 	return result, nil
 }
 
+// UpdateDNSZoneRecord invokes updateDNSZoneRecord operation.
+//
+// Requires the `dns-manage` capability.
+//
+// PATCH /v1/dns/zones/{zoneId}/records/{recordId}
+func (c *Client) UpdateDNSZoneRecord(ctx context.Context, request OptUpdateDNSZoneRecordReq, params UpdateDNSZoneRecordParams) (*UpdateDNSZoneRecordOK, error) {
+	res, err := c.sendUpdateDNSZoneRecord(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateDNSZoneRecord(ctx context.Context, request OptUpdateDNSZoneRecordReq, params UpdateDNSZoneRecordParams) (res *UpdateDNSZoneRecordOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [4]string
+	pathParts[0] = "/v1/dns/zones/"
+	{
+		// Encode "zoneId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "zoneId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ZoneId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/records/"
+	{
+		// Encode "recordId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "recordId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.RecordId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[3] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateDNSZoneRecordRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateDNSZoneRecord", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "UpdateDNSZoneRecord", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateDNSZoneRecordResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // UpdateEnvironment invokes updateEnvironment operation.
 //
-// Updates the specificed environment, setting the values of the parameters passed. If any parameters
-// are omitted, they will be left unchanged. Requires the `environments-update` capability.
+// Updates the specificed Environment.
+// Requires the `environments-manage` capability.
 //
 // PATCH /v1/environments/{environmentId}
 func (c *Client) UpdateEnvironment(ctx context.Context, request OptUpdateEnvironmentReq, params UpdateEnvironmentParams) (*UpdateEnvironmentOK, error) {
@@ -23659,7 +24679,7 @@ func (c *Client) sendUpdateHub(ctx context.Context, request OptUpdateHubReq) (re
 
 // UpdateHubMember invokes updateHubMember operation.
 //
-// Update a Hub Member.
+// Requires the `hubs-members-manage` capability.
 //
 // PATCH /v1/hubs/current/members/{memberId}
 func (c *Client) UpdateHubMember(ctx context.Context, request OptUpdateHubMemberReq, params UpdateHubMemberParams) (*UpdateHubMemberOK, error) {
@@ -23749,7 +24769,7 @@ func (c *Client) sendUpdateHubMember(ctx context.Context, request OptUpdateHubMe
 
 // UpdateImage invokes updateImage operation.
 //
-// Requires the `images-updae` capability.
+// Requires the `images-manage` capability.
 //
 // PATCH /v1/images/{imageId}
 func (c *Client) UpdateImage(ctx context.Context, request OptUpdateImageReq, params UpdateImageParams) (*UpdateImageOK, error) {
@@ -23850,7 +24870,7 @@ func (c *Client) sendUpdateImage(ctx context.Context, request OptUpdateImageReq,
 
 // UpdateImageSource invokes updateImageSource operation.
 //
-// Requires the `images-import` capability.
+// Requires the `images-sources-manage` capability.
 //
 // PATCH /v1/images/sources/{sourceId}
 func (c *Client) UpdateImageSource(ctx context.Context, request OptUpdateImageSourceReq, params UpdateImageSourceParams) (*UpdateImageSourceOK, error) {
@@ -23949,28 +24969,73 @@ func (c *Client) sendUpdateImageSource(ctx context.Context, request OptUpdateIma
 	return result, nil
 }
 
-// UpdatePassword invokes updatePassword operation.
+// UpdateIntegration invokes updateIntegration operation.
 //
-// Update a given invite.
+// Updates the specified Integration within the current hub. If the Integration definition specifies
+// that it requires verification, then you must submit a verify task to enable it.
 //
-// PATCH /v1/account/password
-func (c *Client) UpdatePassword(ctx context.Context, request OptUpdatePasswordReq) (*UpdatePasswordOK, error) {
-	res, err := c.sendUpdatePassword(ctx, request)
+// PATCH /v1/hubs/current/integrations/{integrationId}
+func (c *Client) UpdateIntegration(ctx context.Context, request *UpdateIntegrationReq, params UpdateIntegrationParams) (*UpdateIntegrationOK, error) {
+	res, err := c.sendUpdateIntegration(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendUpdatePassword(ctx context.Context, request OptUpdatePasswordReq) (res *UpdatePasswordOK, err error) {
+func (c *Client) sendUpdateIntegration(ctx context.Context, request *UpdateIntegrationReq, params UpdateIntegrationParams) (res *UpdateIntegrationOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/account/password"
+	var pathParts [2]string
+	pathParts[0] = "/v1/hubs/current/integrations/"
+	{
+		// Encode "integrationId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "integrationId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.IntegrationId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
 	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Meta {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	r, err := ht.NewRequest(ctx, "PATCH", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeUpdatePasswordRequest(request, r); err != nil {
+	if err := encodeUpdateIntegrationRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -23979,7 +25044,7 @@ func (c *Client) sendUpdatePassword(ctx context.Context, request OptUpdatePasswo
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "UpdatePassword", r); {
+			switch err := c.securityBearerAuth(ctx, "UpdateIntegration", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -24013,7 +25078,134 @@ func (c *Client) sendUpdatePassword(ctx context.Context, request OptUpdatePasswo
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeUpdatePasswordResponse(resp)
+	result, err := decodeUpdateIntegrationResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateNetwork invokes updateNetwork operation.
+//
+// Requires the `sdn-networks-manage` capability.
+//
+// PATCH /v1/sdn/networks/{networkId}
+func (c *Client) UpdateNetwork(ctx context.Context, request OptUpdateNetworkReq, params UpdateNetworkParams) (*UpdateNetworkOK, error) {
+	res, err := c.sendUpdateNetwork(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateNetwork(ctx context.Context, request OptUpdateNetworkReq, params UpdateNetworkParams) (res *UpdateNetworkOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/sdn/networks/"
+	{
+		// Encode "networkId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "networkId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.NetworkId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			return e.EncodeArray(func(e uri.Encoder) error {
+				for i, item := range params.Include {
+					if err := func() error {
+						return e.EncodeValue(conv.StringToString(string(item)))
+					}(); err != nil {
+						return errors.Wrapf(err, "[%d]", i)
+					}
+				}
+				return nil
+			})
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateNetworkRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateNetwork", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "UpdateNetwork", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateNetworkResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -24242,30 +25434,31 @@ func (c *Client) sendUpdatePipelineTriggerKey(ctx context.Context, request OptUp
 	return result, nil
 }
 
-// UpdateProvider invokes updateProvider operation.
+// UpdateRole invokes updateRole operation.
 //
-// Requires the `infrastructure-providers-manage` capability.
+// Updates various properties of a specific Role.
+// Requires the `hubs-roles-manage` capability.
 //
-// PATCH /v1/infrastructure/providers/{providerIdentifier}
-func (c *Client) UpdateProvider(ctx context.Context, request OptUpdateProviderReq, params UpdateProviderParams) (*UpdateProviderOK, error) {
-	res, err := c.sendUpdateProvider(ctx, request, params)
+// PATCH /v1/hubs/current/roles/{roleId}
+func (c *Client) UpdateRole(ctx context.Context, request OptUpdateRoleReq, params UpdateRoleParams) (*UpdateRoleOK, error) {
+	res, err := c.sendUpdateRole(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendUpdateProvider(ctx context.Context, request OptUpdateProviderReq, params UpdateProviderParams) (res *UpdateProviderOK, err error) {
+func (c *Client) sendUpdateRole(ctx context.Context, request OptUpdateRoleReq, params UpdateRoleParams) (res *UpdateRoleOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [2]string
-	pathParts[0] = "/v1/infrastructure/providers/"
+	pathParts[0] = "/v1/hubs/current/roles/"
 	{
-		// Encode "providerIdentifier" parameter.
+		// Encode "roleId" parameter.
 		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "providerIdentifier",
+			Param:   "roleId",
 			Style:   uri.PathStyleSimple,
 			Explode: false,
 		})
 		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ProviderIdentifier))
+			return e.EncodeValue(conv.StringToString(params.RoleId))
 		}(); err != nil {
 			return res, errors.Wrap(err, "encode path")
 		}
@@ -24281,7 +25474,7 @@ func (c *Client) sendUpdateProvider(ctx context.Context, request OptUpdateProvid
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
 	}
-	if err := encodeUpdateProviderRequest(request, r); err != nil {
+	if err := encodeUpdateRoleRequest(request, r); err != nil {
 		return res, errors.Wrap(err, "encode request")
 	}
 
@@ -24290,7 +25483,7 @@ func (c *Client) sendUpdateProvider(ctx context.Context, request OptUpdateProvid
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "UpdateProvider", r); {
+			switch err := c.securityBearerAuth(ctx, "UpdateRole", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -24301,7 +25494,7 @@ func (c *Client) sendUpdateProvider(ctx context.Context, request OptUpdateProvid
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "UpdateProvider", r); {
+			switch err := c.securityHubAuth(ctx, "UpdateRole", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -24335,134 +25528,7 @@ func (c *Client) sendUpdateProvider(ctx context.Context, request OptUpdateProvid
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeUpdateProviderResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
-// UpdateSDNNetwork invokes updateSDNNetwork operation.
-//
-// Requires the `sdn-networks-manage` capability.
-//
-// PATCH /v1/sdn/networks/{networkId}
-func (c *Client) UpdateSDNNetwork(ctx context.Context, request OptUpdateSDNNetworkReq, params UpdateSDNNetworkParams) (*UpdateSDNNetworkOK, error) {
-	res, err := c.sendUpdateSDNNetwork(ctx, request, params)
-	return res, err
-}
-
-func (c *Client) sendUpdateSDNNetwork(ctx context.Context, request OptUpdateSDNNetworkReq, params UpdateSDNNetworkParams) (res *UpdateSDNNetworkOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [2]string
-	pathParts[0] = "/v1/sdn/networks/"
-	{
-		// Encode "networkId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "networkId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.NetworkId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "include" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "include",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "PATCH", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-	if err := encodeUpdateSDNNetworkRequest(request, r); err != nil {
-		return res, errors.Wrap(err, "encode request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "UpdateSDNNetwork", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "UpdateSDNNetwork", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeUpdateSDNNetworkResponse(resp)
+	result, err := decodeUpdateRoleResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -24592,7 +25658,7 @@ func (c *Client) sendUpdateScopedVariable(ctx context.Context, request OptUpdate
 
 // UpdateServer invokes updateServer operation.
 //
-// Requires the `servers-update` capability.
+// Requires the `servers-manage` capability.
 //
 // PATCH /v1/infrastructure/servers/{serverId}
 func (c *Client) UpdateServer(ctx context.Context, request OptUpdateServerReq, params UpdateServerParams) (*UpdateServerOK, error) {
