@@ -23,6 +23,12 @@ type Invoker interface {
 	//
 	// PATCH /v1/account/password
 	ChangePassword(ctx context.Context, request OptChangePasswordReq) (*ChangePasswordOK, error)
+	// ClonePipeline invokes clonePipeline operation.
+	//
+	// Requires the `pipelines-manage` capability.
+	//
+	// POST /v1/pipelines/clone
+	ClonePipeline(ctx context.Context, request OptClonePipelineReq) (*ClonePipelineCreated, error)
 	// CreateApiKey invokes createApiKey operation.
 	//
 	// Requires the `api-keys-manage` capability.
@@ -41,6 +47,12 @@ type Invoker interface {
 	//
 	// POST /v1/billing/methods
 	CreateBillingMethod(ctx context.Context, request OptCreateBillingMethodReq) (*CreateBillingMethodCreated, error)
+	// CreateCluster invokes createCluster operation.
+	//
+	// Requires the `clusters-manage` capability.
+	//
+	// POST /v1/infrastructure/clusters
+	CreateCluster(ctx context.Context, request OptCreateClusterReq) (*CreateClusterCreated, error)
 	// CreateContainer invokes createContainer operation.
 	//
 	// Requires the `containers-deploy` capability.
@@ -113,6 +125,13 @@ type Invoker interface {
 	//
 	// POST /v1/environments/{environmentId}/tasks
 	CreateEnvironmentJob(ctx context.Context, request OptCreateEnvironmentJobReq, params CreateEnvironmentJobParams) (*CreateEnvironmentJobAccepted, error)
+	// CreateFunctionJob invokes createFunctionJob operation.
+	//
+	// Used to perform different actions on a given Function Container.
+	// Requires the `containers-functions-trigger` capability.
+	//
+	// POST /v1/containers/{containerId}/functions/tasks
+	CreateFunctionJob(ctx context.Context, request OptCreateFunctionJobReq, params CreateFunctionJobParams) (*CreateFunctionJobAccepted, error)
 	// CreateHub invokes createHub operation.
 	//
 	// Create a Hub.
@@ -332,6 +351,12 @@ type Invoker interface {
 	//
 	// DELETE /v1/billing/methods/{methodId}
 	DeleteBillingMethod(ctx context.Context, params DeleteBillingMethodParams) (*DeleteBillingMethodAccepted, error)
+	// DeleteCluster invokes deleteCluster operation.
+	//
+	// Requires the `clusters-manage` capability.
+	//
+	// DELETE /v1/infrastructure/clusters/{clusterId}
+	DeleteCluster(ctx context.Context, params DeleteClusterParams) (*DeleteClusterAccepted, error)
 	// DeleteContainer invokes deleteContainer operation.
 	//
 	// Requires the `containers-manage` capability.
@@ -493,6 +518,30 @@ type Invoker interface {
 	//
 	// DELETE /v1/containers/{containerId}/instances/{instanceId}/ssh
 	ExpireInstanceSSHCredentials(ctx context.Context, params ExpireInstanceSSHCredentialsParams) (*ExpireInstanceSSHCredentialsOK, error)
+	// GenerateAggregatedEvents invokes generateAggregatedEvents operation.
+	//
+	// Generate an events report using an aggregated pipeline query with Mongo. This endpoint provides
+	// ultimate
+	// flexibility in generating data for dashboards, charts, graphs, etc.
+	// You should always provide a time range filter to this call, either through the filter parameter or
+	// in the critera body. The aggregate is limited to 25,000 input documents, so a time frame will give
+	// the best results.
+	// Requires the `monitor-view` capability.
+	//
+	// POST /v1/monitoring/events/aggregate
+	GenerateAggregatedEvents(ctx context.Context, request OptGenerateAggregatedEventsReq, params GenerateAggregatedEventsParams) (*GenerateAggregatedEventsOK, error)
+	// GenerateAggregatedMetrics invokes generateAggregatedMetrics operation.
+	//
+	// Generate a metric report using an aggregated pipeline query with Mongo. This endpoint provides
+	// ultimate
+	// flexibility in generating data for dashboards, charts, graphs, etc.
+	// You should always provide a time range filter to this call, either through the filter parameter or
+	// in the critera body. The aggregate is limited to 25,000 input documents, so a time frame will give
+	// the best results.
+	// Requires the `monitor-view` capability.
+	//
+	// POST /v1/monitoring/metrics/aggregate
+	GenerateAggregatedMetrics(ctx context.Context, request OptGenerateAggregatedMetricsReq, params GenerateAggregatedMetricsParams) (*GenerateAggregatedMetricsOK, error)
 	// GenerateInstanceSSHCredentials invokes generateInstanceSSHCredentials operation.
 	//
 	// Generates credentials for connecting to an Instance via SSH. The generated endpoint/secret can be
@@ -613,12 +662,19 @@ type Invoker interface {
 	//
 	// GET /v1/billing/plans/tiers
 	GetBillingTiers(ctx context.Context) (*GetBillingTiersOK, error)
-	// GetClusters invokes GetClusters operation.
+	// GetCluster invokes getCluster operation.
 	//
-	// Requires the `servers-view` capability.
+	// Gets a Cluster.
+	// Requires the `clusters-view` capability.
 	//
-	// GET /v1/infrastructure/servers/clusters
-	GetClusters(ctx context.Context) (*GetClustersOK, error)
+	// GET /v1/infrastructure/clusters/{clusterId}
+	GetCluster(ctx context.Context, params GetClusterParams) (*GetClusterOK, error)
+	// GetClusters invokes getClusters operation.
+	//
+	// Requires the `clusters-view` capability.
+	//
+	// GET /v1/infrastructure/clusters
+	GetClusters(ctx context.Context, params GetClustersParams) (*GetClustersOK, error)
 	// GetCompatibleImages invokes getCompatibleImages operation.
 	//
 	// Returns a list of Images that are compatible with the specified Container.
@@ -719,6 +775,12 @@ type Invoker interface {
 	//
 	// GET /v1/dns/zones
 	GetDNSZones(ctx context.Context, params GetDNSZonesParams) (*GetDNSZonesOK, error)
+	// GetDefaultHubRoles invokes getDefaultHubRoles operation.
+	//
+	// List Default Hub Roles.
+	//
+	// GET /v1/hubs/current/roles/defaults
+	GetDefaultHubRoles(ctx context.Context) (*GetDefaultHubRolesOK, error)
 	// GetDeploymentStrategies invokes getDeploymentStrategies operation.
 	//
 	// Gets the available deployment strategies that can be used to orchestrate containers.
@@ -759,6 +821,14 @@ type Invoker interface {
 	//
 	// GET /v1/environments
 	GetEnvironments(ctx context.Context, params GetEnvironmentsParams) (*GetEnvironmentsOK, error)
+	// GetEvents invokes getEvents operation.
+	//
+	// A basic query for retrieving events. For a more complex and granular report, see the
+	// `/v1/monitoring/events/aggregate` endpoint.
+	// Requires the `monitor-view` capability.
+	//
+	// GET /v1/monitoring/events
+	GetEvents(ctx context.Context) (*GetEventsOK, error)
 	// GetHub invokes getHub operation.
 	//
 	// Requires the `hubs-view` capability.
@@ -1000,6 +1070,14 @@ type Invoker interface {
 	//
 	// GET /v1/environments/{environmentId}/services/lb/telemetry/report
 	GetLoadBalancerTelemetryReport(ctx context.Context, params GetLoadBalancerTelemetryReportParams) (*GetLoadBalancerTelemetryReportOK, error)
+	// GetMetrics invokes getMetrics operation.
+	//
+	// A basic query for retrieving metrics. For a more complex and granular report, see the
+	// `/v1/monitoring/metrics/aggregate` endpoint.
+	// Requires the `monitor-view` capability.
+	//
+	// GET /v1/monitoring/metrics
+	GetMetrics(ctx context.Context) (*GetMetricsOK, error)
 	// GetNetwork invokes getNetwork operation.
 	//
 	// Requires the `sdn-networks-view` capability.
@@ -1104,12 +1182,6 @@ type Invoker interface {
 	//
 	// GET /v1/search/index
 	GetSearchIndex(ctx context.Context) (*GetSearchIndexOK, error)
-	// GetSecurityReport invokes getSecurityReport operation.
-	//
-	// Returns a report detailing incidents logged by the platform around security related events.
-	//
-	// GET /v1/security/report
-	GetSecurityReport(ctx context.Context, params GetSecurityReportParams) (*GetSecurityReportOK, error)
 	// GetServer invokes getServer operation.
 	//
 	// Requires the `servers-view` capability.
@@ -1270,6 +1342,13 @@ type Invoker interface {
 	//
 	// PATCH /v1/infrastructure/auto-scale/groups/{groupId}
 	UpdateAutoScaleGroup(ctx context.Context, request OptUpdateAutoScaleGroupReq, params UpdateAutoScaleGroupParams) (*UpdateAutoScaleGroupOK, error)
+	// UpdateAutoScaleGroupAccess invokes updateAutoScaleGroupAccess operation.
+	//
+	// Requires the `autoscale-groups-manage` capability. If an ACL is present, requires the `manage`
+	// privilege.
+	//
+	// PATCH /v1/infrastructure/auto-scale/groups/{groupId}/access
+	UpdateAutoScaleGroupAccess(ctx context.Context, request OptUpdateAutoScaleGroupAccessReq, params UpdateAutoScaleGroupAccessParams) (*UpdateAutoScaleGroupAccessOK, error)
 	// UpdateBillingMethod invokes updateBillingMethod operation.
 	//
 	// Requires the `billing-methods-manage` capability.
@@ -1282,6 +1361,18 @@ type Invoker interface {
 	//
 	// PATCH /v1/billing/orders/{orderId}
 	UpdateBillingOrder(ctx context.Context, request OptUpdateBillingOrderReq, params UpdateBillingOrderParams) (*UpdateBillingOrderOK, error)
+	// UpdateCluster invokes updateCluster operation.
+	//
+	// Requires the `clusters-manage` capability.
+	//
+	// PATCH /v1/infrastructure/clusters/{clusterId}
+	UpdateCluster(ctx context.Context, request *UpdateClusterReq, params UpdateClusterParams) (*UpdateClusterOK, error)
+	// UpdateClusterAccess invokes updateClusterAccess operation.
+	//
+	// Requires the `clusters-manage` capability. If an ACL is present, requires the `manage` privilege.
+	//
+	// PATCH /v1/infrastructure/clusters/{clusterId}/access
+	UpdateClusterAccess(ctx context.Context, request OptUpdateClusterAccessReq, params UpdateClusterAccessParams) (*UpdateClusterAccessOK, error)
 	// UpdateContainer invokes updateContainer operation.
 	//
 	// Updates the specified Container.
@@ -1295,6 +1386,12 @@ type Invoker interface {
 	//
 	// PATCH /v1/dns/zones/{zoneId}
 	UpdateDNSZone(ctx context.Context, request OptUpdateDNSZoneReq, params UpdateDNSZoneParams) (*UpdateDNSZoneOK, error)
+	// UpdateDNSZoneAccess invokes updateDNSZoneAccess operation.
+	//
+	// Requires the `dns-manage` capability, and if an ACL is present, the `manage` privilege.
+	//
+	// PATCH /v1/dns/zones/{zoneId}/access
+	UpdateDNSZoneAccess(ctx context.Context, request OptUpdateDNSZoneAccessReq, params UpdateDNSZoneAccessParams) (*UpdateDNSZoneAccessOK, error)
 	// UpdateDNSZoneRecord invokes updateDNSZoneRecord operation.
 	//
 	// Requires the `dns-manage` capability.
@@ -1308,6 +1405,14 @@ type Invoker interface {
 	//
 	// PATCH /v1/environments/{environmentId}
 	UpdateEnvironment(ctx context.Context, request OptUpdateEnvironmentReq, params UpdateEnvironmentParams) (*UpdateEnvironmentOK, error)
+	// UpdateEnvironmentAccess invokes updateEnvironmentAccess operation.
+	//
+	// Updates the specificed Environment.
+	// Requires the `environments-manage` capability. If an ACL is present, requires the `manage`
+	// privilege.
+	//
+	// PATCH /v1/environments/{environmentId}/access
+	UpdateEnvironmentAccess(ctx context.Context, request OptUpdateEnvironmentAccessReq, params UpdateEnvironmentAccessParams) (*UpdateEnvironmentAccessOK, error)
 	// UpdateHub invokes updateHub operation.
 	//
 	// Updates the specified hub, setting the values of the parameters passed.
@@ -1332,6 +1437,13 @@ type Invoker interface {
 	//
 	// PATCH /v1/images/sources/{sourceId}
 	UpdateImageSource(ctx context.Context, request OptUpdateImageSourceReq, params UpdateImageSourceParams) (*UpdateImageSourceOK, error)
+	// UpdateImageSourceAccess invokes updateImageSourceAccess operation.
+	//
+	// Requires the `images-sources-manage` capability. If an ACL is present, requires the `manage`
+	// privilege.
+	//
+	// PATCH /v1/images/sources/{sourceId}/access
+	UpdateImageSourceAccess(ctx context.Context, request OptUpdateImageSourceAccessReq, params UpdateImageSourceAccessParams) (*UpdateImageSourceAccessOK, error)
 	// UpdateIntegration invokes updateIntegration operation.
 	//
 	// Updates the specified Integration within the current hub. If the Integration definition specifies
@@ -1345,12 +1457,25 @@ type Invoker interface {
 	//
 	// PATCH /v1/sdn/networks/{networkId}
 	UpdateNetwork(ctx context.Context, request OptUpdateNetworkReq, params UpdateNetworkParams) (*UpdateNetworkOK, error)
+	// UpdateNetworkAccess invokes updateNetworkAccess operation.
+	//
+	// Requires the `sdn-networks-manage` capability. If an ACL is present, requires the `manage`
+	// privilege.
+	//
+	// PATCH /v1/sdn/networks/{networkId}/access
+	UpdateNetworkAccess(ctx context.Context, request OptUpdateNetworkAccessReq, params UpdateNetworkAccessParams) (*UpdateNetworkAccessOK, error)
 	// UpdatePipeline invokes updatePipeline operation.
 	//
 	// Requires the `pipelines-manage` capability.
 	//
 	// PATCH /v1/pipelines/{pipelineId}
 	UpdatePipeline(ctx context.Context, request OptUpdatePipelineReq, params UpdatePipelineParams) (*UpdatePipelineOK, error)
+	// UpdatePipelineAccess invokes updatePipelineAccess operation.
+	//
+	// Requires the `pipelines-manage` capability. If an ACL is present, requires the `manage` privilege.
+	//
+	// PATCH /v1/pipelines/{pipelineId}/access
+	UpdatePipelineAccess(ctx context.Context, request OptUpdatePipelineAccessReq, params UpdatePipelineAccessParams) (*UpdatePipelineAccessOK, error)
 	// UpdatePipelineTriggerKey invokes updatePipelineTriggerKey operation.
 	//
 	// Requires the `pipelines-manage` capability.
@@ -1382,6 +1507,12 @@ type Invoker interface {
 	//
 	// PATCH /v1/stacks/{stackId}
 	UpdateStack(ctx context.Context, request OptUpdateStackReq, params UpdateStackParams) (*UpdateStackOK, error)
+	// UpdateStackAccess invokes updateStackAccess operation.
+	//
+	// Requires the `stacks-manage` capability. If an ACL is present, requires the `manage` privilege.
+	//
+	// PATCH /v1/stacks/{stackId}/access
+	UpdateStackAccess(ctx context.Context, request OptUpdateStackAccessReq, params UpdateStackAccessParams) (*UpdateStackAccessOK, error)
 }
 
 // Client implements OAS client.
@@ -1495,6 +1626,89 @@ func (c *Client) sendChangePassword(ctx context.Context, request OptChangePasswo
 	defer resp.Body.Close()
 
 	result, err := decodeChangePasswordResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// ClonePipeline invokes clonePipeline operation.
+//
+// Requires the `pipelines-manage` capability.
+//
+// POST /v1/pipelines/clone
+func (c *Client) ClonePipeline(ctx context.Context, request OptClonePipelineReq) (*ClonePipelineCreated, error) {
+	res, err := c.sendClonePipeline(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendClonePipeline(ctx context.Context, request OptClonePipelineReq) (res *ClonePipelineCreated, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/pipelines/clone"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeClonePipelineRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ClonePipeline", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "ClonePipeline", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeClonePipelineResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -1744,6 +1958,89 @@ func (c *Client) sendCreateBillingMethod(ctx context.Context, request OptCreateB
 	defer resp.Body.Close()
 
 	result, err := decodeCreateBillingMethodResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// CreateCluster invokes createCluster operation.
+//
+// Requires the `clusters-manage` capability.
+//
+// POST /v1/infrastructure/clusters
+func (c *Client) CreateCluster(ctx context.Context, request OptCreateClusterReq) (*CreateClusterCreated, error) {
+	res, err := c.sendCreateCluster(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendCreateCluster(ctx context.Context, request OptCreateClusterReq) (res *CreateClusterCreated, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/infrastructure/clusters"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateClusterRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateCluster", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "CreateCluster", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateClusterResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -2764,6 +3061,109 @@ func (c *Client) sendCreateEnvironmentJob(ctx context.Context, request OptCreate
 	return result, nil
 }
 
+// CreateFunctionJob invokes createFunctionJob operation.
+//
+// Used to perform different actions on a given Function Container.
+// Requires the `containers-functions-trigger` capability.
+//
+// POST /v1/containers/{containerId}/functions/tasks
+func (c *Client) CreateFunctionJob(ctx context.Context, request OptCreateFunctionJobReq, params CreateFunctionJobParams) (*CreateFunctionJobAccepted, error) {
+	res, err := c.sendCreateFunctionJob(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendCreateFunctionJob(ctx context.Context, request OptCreateFunctionJobReq, params CreateFunctionJobParams) (res *CreateFunctionJobAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/containers/"
+	{
+		// Encode "containerId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "containerId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ContainerId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/functions/tasks"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeCreateFunctionJobRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "CreateFunctionJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "CreateFunctionJob", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeCreateFunctionJobResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // CreateHub invokes createHub operation.
 //
 // Create a Hub.
@@ -3526,16 +3926,19 @@ func (c *Client) sendCreateIntegration(ctx context.Context, request *CreateInteg
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -3934,16 +4337,19 @@ func (c *Client) sendCreateNetwork(ctx context.Context, request OptCreateNetwork
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -4145,16 +4551,19 @@ func (c *Client) sendCreateOrder(ctx context.Context, request OptCreateOrderReq,
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -4168,16 +4577,19 @@ func (c *Client) sendCreateOrder(ctx context.Context, request OptCreateOrderReq,
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -6095,6 +6507,104 @@ func (c *Client) sendDeleteBillingMethod(ctx context.Context, params DeleteBilli
 	defer resp.Body.Close()
 
 	result, err := decodeDeleteBillingMethodResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// DeleteCluster invokes deleteCluster operation.
+//
+// Requires the `clusters-manage` capability.
+//
+// DELETE /v1/infrastructure/clusters/{clusterId}
+func (c *Client) DeleteCluster(ctx context.Context, params DeleteClusterParams) (*DeleteClusterAccepted, error) {
+	res, err := c.sendDeleteCluster(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendDeleteCluster(ctx context.Context, params DeleteClusterParams) (res *DeleteClusterAccepted, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/infrastructure/clusters/"
+	{
+		// Encode "clusterId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "clusterId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ClusterId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "DELETE", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "DeleteCluster", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "DeleteCluster", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeDeleteClusterResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -8717,6 +9227,224 @@ func (c *Client) sendExpireInstanceSSHCredentials(ctx context.Context, params Ex
 	return result, nil
 }
 
+// GenerateAggregatedEvents invokes generateAggregatedEvents operation.
+//
+// Generate an events report using an aggregated pipeline query with Mongo. This endpoint provides
+// ultimate
+// flexibility in generating data for dashboards, charts, graphs, etc.
+// You should always provide a time range filter to this call, either through the filter parameter or
+// in the critera body. The aggregate is limited to 25,000 input documents, so a time frame will give
+// the best results.
+// Requires the `monitor-view` capability.
+//
+// POST /v1/monitoring/events/aggregate
+func (c *Client) GenerateAggregatedEvents(ctx context.Context, request OptGenerateAggregatedEventsReq, params GenerateAggregatedEventsParams) (*GenerateAggregatedEventsOK, error) {
+	res, err := c.sendGenerateAggregatedEvents(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendGenerateAggregatedEvents(ctx context.Context, request OptGenerateAggregatedEventsReq, params GenerateAggregatedEventsParams) (res *GenerateAggregatedEventsOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/monitoring/events/aggregate"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeGenerateAggregatedEventsRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GenerateAggregatedEvents", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GenerateAggregatedEvents", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGenerateAggregatedEventsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GenerateAggregatedMetrics invokes generateAggregatedMetrics operation.
+//
+// Generate a metric report using an aggregated pipeline query with Mongo. This endpoint provides
+// ultimate
+// flexibility in generating data for dashboards, charts, graphs, etc.
+// You should always provide a time range filter to this call, either through the filter parameter or
+// in the critera body. The aggregate is limited to 25,000 input documents, so a time frame will give
+// the best results.
+// Requires the `monitor-view` capability.
+//
+// POST /v1/monitoring/metrics/aggregate
+func (c *Client) GenerateAggregatedMetrics(ctx context.Context, request OptGenerateAggregatedMetricsReq, params GenerateAggregatedMetricsParams) (*GenerateAggregatedMetricsOK, error) {
+	res, err := c.sendGenerateAggregatedMetrics(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendGenerateAggregatedMetrics(ctx context.Context, request OptGenerateAggregatedMetricsReq, params GenerateAggregatedMetricsParams) (res *GenerateAggregatedMetricsOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/monitoring/metrics/aggregate"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "filter" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "filter",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Filter.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeGenerateAggregatedMetricsRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GenerateAggregatedMetrics", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GenerateAggregatedMetrics", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGenerateAggregatedMetricsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GenerateInstanceSSHCredentials invokes generateInstanceSSHCredentials operation.
 //
 // Generates credentials for connecting to an Instance via SSH. The generated endpoint/secret can be
@@ -8872,6 +9600,35 @@ func (c *Client) sendGetAPIKey(ctx context.Context, params GetAPIKeyParams) (res
 		pathParts[1] = encoded
 	}
 	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
+					}
+					return nil
+				})
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
@@ -9032,16 +9789,19 @@ func (c *Client) sendGetAccountInvites(ctx context.Context, params GetAccountInv
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -9055,16 +9815,19 @@ func (c *Client) sendGetAccountInvites(ctx context.Context, params GetAccountInv
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -9078,16 +9841,19 @@ func (c *Client) sendGetAccountInvites(ctx context.Context, params GetAccountInv
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -9207,16 +9973,19 @@ func (c *Client) sendGetAccountLogins(ctx context.Context, params GetAccountLogi
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -9336,16 +10105,19 @@ func (c *Client) sendGetAccountMemberships(ctx context.Context, params GetAccoun
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -9359,16 +10131,19 @@ func (c *Client) sendGetAccountMemberships(ctx context.Context, params GetAccoun
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -9488,16 +10263,19 @@ func (c *Client) sendGetAnnouncements(ctx context.Context, params GetAnnouncemen
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -9617,16 +10395,19 @@ func (c *Client) sendGetApiKeys(ctx context.Context, params GetApiKeysParams) (r
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -9775,16 +10556,19 @@ func (c *Client) sendGetAutoScaleGroup(ctx context.Context, params GetAutoScaleG
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -9898,16 +10682,19 @@ func (c *Client) sendGetAutoScaleGroups(ctx context.Context, params GetAutoScale
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -10200,16 +10987,19 @@ func (c *Client) sendGetBillingMethods(ctx context.Context, params GetBillingMet
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -10358,16 +11148,19 @@ func (c *Client) sendGetBillingOrder(ctx context.Context, params GetBillingOrder
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -10381,16 +11174,19 @@ func (c *Client) sendGetBillingOrder(ctx context.Context, params GetBillingOrder
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -10487,16 +11283,19 @@ func (c *Client) sendGetBillingOverages(ctx context.Context, params GetBillingOv
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -10725,16 +11524,19 @@ func (c *Client) sendGetBillingServices(ctx context.Context, params GetBillingSe
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -10867,16 +11669,19 @@ func (c *Client) sendGetBillingSupportPlans(ctx context.Context, params GetBilli
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -11060,22 +11865,141 @@ func (c *Client) sendGetBillingTiers(ctx context.Context) (res *GetBillingTiersO
 	return result, nil
 }
 
-// GetClusters invokes GetClusters operation.
+// GetCluster invokes getCluster operation.
 //
-// Requires the `servers-view` capability.
+// Gets a Cluster.
+// Requires the `clusters-view` capability.
 //
-// GET /v1/infrastructure/servers/clusters
-func (c *Client) GetClusters(ctx context.Context) (*GetClustersOK, error) {
-	res, err := c.sendGetClusters(ctx)
+// GET /v1/infrastructure/clusters/{clusterId}
+func (c *Client) GetCluster(ctx context.Context, params GetClusterParams) (*GetClusterOK, error) {
+	res, err := c.sendGetCluster(ctx, params)
 	return res, err
 }
 
-func (c *Client) sendGetClusters(ctx context.Context) (res *GetClustersOK, err error) {
+func (c *Client) sendGetCluster(ctx context.Context, params GetClusterParams) (res *GetClusterOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/infrastructure/clusters/"
+	{
+		// Encode "clusterId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "clusterId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ClusterId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetCluster", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetCluster", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetClusterResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetClusters invokes getClusters operation.
+//
+// Requires the `clusters-view` capability.
+//
+// GET /v1/infrastructure/clusters
+func (c *Client) GetClusters(ctx context.Context, params GetClustersParams) (*GetClustersOK, error) {
+	res, err := c.sendGetClusters(ctx, params)
+	return res, err
+}
+
+func (c *Client) sendGetClusters(ctx context.Context, params GetClustersParams) (res *GetClustersOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [1]string
-	pathParts[0] = "/v1/infrastructure/servers/clusters"
+	pathParts[0] = "/v1/infrastructure/clusters"
 	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "page" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "page",
+			Style:   uri.QueryStyleDeepObject,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if val, ok := params.Page.Get(); ok {
+				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
 
 	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
@@ -11188,16 +12112,19 @@ func (c *Client) sendGetCompatibleImages(ctx context.Context, params GetCompatib
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -11334,16 +12261,19 @@ func (c *Client) sendGetCompatibleServers(ctx context.Context, params GetCompati
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -11357,16 +12287,19 @@ func (c *Client) sendGetCompatibleServers(ctx context.Context, params GetCompati
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -11380,16 +12313,19 @@ func (c *Client) sendGetCompatibleServers(ctx context.Context, params GetCompati
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -11522,16 +12458,19 @@ func (c *Client) sendGetContainer(ctx context.Context, params GetContainerParams
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -11545,16 +12484,19 @@ func (c *Client) sendGetContainer(ctx context.Context, params GetContainerParams
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -11689,16 +12631,19 @@ func (c *Client) sendGetContainerBackup(ctx context.Context, params GetContainer
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -11932,16 +12877,19 @@ func (c *Client) sendGetContainerBackups(ctx context.Context, params GetContaine
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -11955,16 +12903,19 @@ func (c *Client) sendGetContainerBackups(ctx context.Context, params GetContaine
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -12219,16 +13170,19 @@ func (c *Client) sendGetContainerServers(ctx context.Context, params GetContaine
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -12242,16 +13196,19 @@ func (c *Client) sendGetContainerServers(ctx context.Context, params GetContaine
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -12464,16 +13421,19 @@ func (c *Client) sendGetContainers(ctx context.Context, params GetContainersPara
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -12487,16 +13447,19 @@ func (c *Client) sendGetContainers(ctx context.Context, params GetContainersPara
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -12527,16 +13490,19 @@ func (c *Client) sendGetContainers(ctx context.Context, params GetContainersPara
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -12749,16 +13715,19 @@ func (c *Client) sendGetCredits(ctx context.Context, params GetCreditsParams) (r
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -13006,16 +13975,19 @@ func (c *Client) sendGetDNSZoneRecords(ctx context.Context, params GetDNSZoneRec
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -13046,16 +14018,19 @@ func (c *Client) sendGetDNSZoneRecords(ctx context.Context, params GetDNSZoneRec
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -13169,16 +14144,19 @@ func (c *Client) sendGetDNSZones(ctx context.Context, params GetDNSZonesParams) 
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -13209,16 +14187,19 @@ func (c *Client) sendGetDNSZones(ctx context.Context, params GetDNSZonesParams) 
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -13298,6 +14279,42 @@ func (c *Client) sendGetDNSZones(ctx context.Context, params GetDNSZonesParams) 
 	defer resp.Body.Close()
 
 	result, err := decodeGetDNSZonesResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// GetDefaultHubRoles invokes getDefaultHubRoles operation.
+//
+// List Default Hub Roles.
+//
+// GET /v1/hubs/current/roles/defaults
+func (c *Client) GetDefaultHubRoles(ctx context.Context) (*GetDefaultHubRolesOK, error) {
+	res, err := c.sendGetDefaultHubRoles(ctx)
+	return res, err
+}
+
+func (c *Client) sendGetDefaultHubRoles(ctx context.Context) (res *GetDefaultHubRolesOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/hubs/current/roles/defaults"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetDefaultHubRolesResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -13430,16 +14447,19 @@ func (c *Client) sendGetEnvironment(ctx context.Context, params GetEnvironmentPa
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -13453,16 +14473,19 @@ func (c *Client) sendGetEnvironment(ctx context.Context, params GetEnvironmentPa
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -13880,16 +14903,19 @@ func (c *Client) sendGetEnvironments(ctx context.Context, params GetEnvironments
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -13903,16 +14929,19 @@ func (c *Client) sendGetEnvironments(ctx context.Context, params GetEnvironments
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -13943,16 +14972,19 @@ func (c *Client) sendGetEnvironments(ctx context.Context, params GetEnvironments
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -14039,6 +15071,88 @@ func (c *Client) sendGetEnvironments(ctx context.Context, params GetEnvironments
 	return result, nil
 }
 
+// GetEvents invokes getEvents operation.
+//
+// A basic query for retrieving events. For a more complex and granular report, see the
+// `/v1/monitoring/events/aggregate` endpoint.
+// Requires the `monitor-view` capability.
+//
+// GET /v1/monitoring/events
+func (c *Client) GetEvents(ctx context.Context) (*GetEventsOK, error) {
+	res, err := c.sendGetEvents(ctx)
+	return res, err
+}
+
+func (c *Client) sendGetEvents(ctx context.Context) (res *GetEventsOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/monitoring/events"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetEvents", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetEvents", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetEventsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetHub invokes getHub operation.
 //
 // Requires the `hubs-view` capability.
@@ -14066,16 +15180,19 @@ func (c *Client) sendGetHub(ctx context.Context, params GetHubParams) (res *GetH
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -14197,16 +15314,19 @@ func (c *Client) sendGetHubInvites(ctx context.Context, params GetHubInvitesPara
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -14220,16 +15340,19 @@ func (c *Client) sendGetHubInvites(ctx context.Context, params GetHubInvitesPara
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -14243,16 +15366,19 @@ func (c *Client) sendGetHubInvites(ctx context.Context, params GetHubInvitesPara
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -14390,16 +15516,19 @@ func (c *Client) sendGetHubMember(ctx context.Context, params GetHubMemberParams
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -14503,16 +15632,19 @@ func (c *Client) sendGetHubMemberAccount(ctx context.Context, params GetHubMembe
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -14526,16 +15658,19 @@ func (c *Client) sendGetHubMemberAccount(ctx context.Context, params GetHubMembe
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -14624,29 +15759,6 @@ func (c *Client) sendGetHubMembers(ctx context.Context, params GetHubMembersPara
 
 	q := uri.NewQueryEncoder()
 	{
-		// Encode "meta" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "meta",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
 		// Encode "include" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "include",
@@ -14655,16 +15767,19 @@ func (c *Client) sendGetHubMembers(ctx context.Context, params GetHubMembersPara
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -14678,16 +15793,19 @@ func (c *Client) sendGetHubMembers(ctx context.Context, params GetHubMembersPara
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -14799,29 +15917,6 @@ func (c *Client) sendGetHubMembership(ctx context.Context, params GetHubMembersh
 
 	q := uri.NewQueryEncoder()
 	{
-		// Encode "meta" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "meta",
-			Style:   uri.QueryStyleForm,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
-					}
-				}
-				return nil
-			})
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	{
 		// Encode "include" parameter.
 		cfg := uri.QueryParameterEncodingConfig{
 			Name:    "include",
@@ -14830,16 +15925,19 @@ func (c *Client) sendGetHubMembership(ctx context.Context, params GetHubMembersh
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -14853,16 +15951,19 @@ func (c *Client) sendGetHubMembership(ctx context.Context, params GetHubMembersh
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -15284,16 +16385,19 @@ func (c *Client) sendGetIPPool(ctx context.Context, params GetIPPoolParams) (res
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -15408,16 +16512,19 @@ func (c *Client) sendGetImage(ctx context.Context, params GetImageParams) (res *
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -15431,16 +16538,19 @@ func (c *Client) sendGetImage(ctx context.Context, params GetImageParams) (res *
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -15454,16 +16564,19 @@ func (c *Client) sendGetImage(ctx context.Context, params GetImageParams) (res *
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -15694,16 +16807,19 @@ func (c *Client) sendGetImageSource(ctx context.Context, params GetImageSourcePa
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -15717,16 +16833,19 @@ func (c *Client) sendGetImageSource(ctx context.Context, params GetImageSourcePa
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -15823,16 +16942,19 @@ func (c *Client) sendGetImageSources(ctx context.Context, params GetImageSources
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -15846,16 +16968,19 @@ func (c *Client) sendGetImageSources(ctx context.Context, params GetImageSources
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -15886,16 +17011,19 @@ func (c *Client) sendGetImageSources(ctx context.Context, params GetImageSources
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -16009,16 +17137,19 @@ func (c *Client) sendGetImages(ctx context.Context, params GetImagesParams) (res
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -16032,16 +17163,19 @@ func (c *Client) sendGetImages(ctx context.Context, params GetImagesParams) (res
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -16072,16 +17206,19 @@ func (c *Client) sendGetImages(ctx context.Context, params GetImagesParams) (res
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -16195,16 +17332,19 @@ func (c *Client) sendGetInfrastructureIPPools(ctx context.Context, params GetInf
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -16235,16 +17375,19 @@ func (c *Client) sendGetInfrastructureIPPools(ctx context.Context, params GetInf
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -16495,16 +17638,19 @@ func (c *Client) sendGetInstance(ctx context.Context, params GetInstanceParams) 
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -17020,16 +18166,19 @@ func (c *Client) sendGetInstanceVolumes(ctx context.Context, params GetInstanceV
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -17162,16 +18311,19 @@ func (c *Client) sendGetInstances(ctx context.Context, params GetInstancesParams
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -17202,16 +18354,19 @@ func (c *Client) sendGetInstances(ctx context.Context, params GetInstancesParams
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -17344,16 +18499,19 @@ func (c *Client) sendGetIntegration(ctx context.Context, params GetIntegrationPa
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -17457,16 +18615,19 @@ func (c *Client) sendGetIntegrations(ctx context.Context, params GetIntegrations
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -17587,16 +18748,19 @@ func (c *Client) sendGetInvoice(ctx context.Context, params GetInvoiceParams) (r
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -17694,16 +18858,19 @@ func (c *Client) sendGetInvoices(ctx context.Context, params GetInvoicesParams) 
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -17734,16 +18901,19 @@ func (c *Client) sendGetInvoices(ctx context.Context, params GetInvoicesParams) 
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -17955,16 +19125,19 @@ func (c *Client) sendGetJobs(ctx context.Context, params GetJobsParams) (res *Ge
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -17995,16 +19168,19 @@ func (c *Client) sendGetJobs(ctx context.Context, params GetJobsParams) (res *Ge
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -18441,16 +19617,19 @@ func (c *Client) sendGetLoadBalancerTelemetryLatestControllers(ctx context.Conte
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -18569,10 +19748,7 @@ func (c *Client) sendGetLoadBalancerTelemetryReport(ctx context.Context, params 
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Filter.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
+			return params.Filter.EncodeURI(e)
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -18642,6 +19818,88 @@ func (c *Client) sendGetLoadBalancerTelemetryReport(ctx context.Context, params 
 	return result, nil
 }
 
+// GetMetrics invokes getMetrics operation.
+//
+// A basic query for retrieving metrics. For a more complex and granular report, see the
+// `/v1/monitoring/metrics/aggregate` endpoint.
+// Requires the `monitor-view` capability.
+//
+// GET /v1/monitoring/metrics
+func (c *Client) GetMetrics(ctx context.Context) (*GetMetricsOK, error) {
+	res, err := c.sendGetMetrics(ctx)
+	return res, err
+}
+
+func (c *Client) sendGetMetrics(ctx context.Context) (res *GetMetricsOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/monitoring/metrics"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "GET", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "GetMetrics", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "GetMetrics", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeGetMetricsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GetNetwork invokes getNetwork operation.
 //
 // Requires the `sdn-networks-view` capability.
@@ -18687,16 +19945,19 @@ func (c *Client) sendGetNetwork(ctx context.Context, params GetNetworkParams) (r
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -18793,16 +20054,19 @@ func (c *Client) sendGetNetworks(ctx context.Context, params GetNetworksParams) 
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -18833,16 +20097,19 @@ func (c *Client) sendGetNetworks(ctx context.Context, params GetNetworksParams) 
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -18956,16 +20223,19 @@ func (c *Client) sendGetOrders(ctx context.Context, params GetOrdersParams) (res
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -19013,16 +20283,19 @@ func (c *Client) sendGetOrders(ctx context.Context, params GetOrdersParams) (res
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -19036,16 +20309,19 @@ func (c *Client) sendGetOrders(ctx context.Context, params GetOrdersParams) (res
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -19160,16 +20436,19 @@ func (c *Client) sendGetPipeline(ctx context.Context, params GetPipelineParams) 
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -19286,16 +20565,19 @@ func (c *Client) sendGetPipelineRuns(ctx context.Context, params GetPipelineRuns
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -19309,16 +20591,19 @@ func (c *Client) sendGetPipelineRuns(ctx context.Context, params GetPipelineRuns
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -19568,16 +20853,19 @@ func (c *Client) sendGetPipelineTriggerKeys(ctx context.Context, params GetPipel
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -19691,16 +20979,19 @@ func (c *Client) sendGetPipelines(ctx context.Context, params GetPipelinesParams
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -19731,16 +21022,19 @@ func (c *Client) sendGetPipelines(ctx context.Context, params GetPipelinesParams
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -19972,16 +21266,19 @@ func (c *Client) sendGetProviderLocations(ctx context.Context, params GetProvide
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -20114,16 +21411,19 @@ func (c *Client) sendGetProviderServers(ctx context.Context, params GetProviderS
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -20263,6 +21563,35 @@ func (c *Client) sendGetRole(ctx context.Context, params GetRoleParams) (res *Ge
 	}
 	uri.AddPathParts(u, pathParts[:]...)
 
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
+					}
+					return nil
+				})
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
 	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
 		return res, errors.Wrap(err, "create request")
@@ -20354,16 +21683,19 @@ func (c *Client) sendGetRoles(ctx context.Context, params GetRolesParams) (res *
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -20396,6 +21728,32 @@ func (c *Client) sendGetRoles(ctx context.Context, params GetRolesParams) (res *
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
 			if val, ok := params.Page.Get(); ok {
 				return val.EncodeURI(e)
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	{
+		// Encode "meta" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "meta",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
+					}
+					return nil
+				})
 			}
 			return nil
 		}); err != nil {
@@ -20647,16 +22005,19 @@ func (c *Client) sendGetScopedVariables(ctx context.Context, params GetScopedVar
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -20817,106 +22178,6 @@ func (c *Client) sendGetSearchIndex(ctx context.Context) (res *GetSearchIndexOK,
 	return result, nil
 }
 
-// GetSecurityReport invokes getSecurityReport operation.
-//
-// Returns a report detailing incidents logged by the platform around security related events.
-//
-// GET /v1/security/report
-func (c *Client) GetSecurityReport(ctx context.Context, params GetSecurityReportParams) (*GetSecurityReportOK, error) {
-	res, err := c.sendGetSecurityReport(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetSecurityReport(ctx context.Context, params GetSecurityReportParams) (res *GetSecurityReportOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [1]string
-	pathParts[0] = "/v1/security/report"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "filter" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "filter",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Filter.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetSecurityReport", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetSecurityReport", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetSecurityReportResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // GetServer invokes getServer operation.
 //
 // Requires the `servers-view` capability.
@@ -20962,16 +22223,19 @@ func (c *Client) sendGetServer(ctx context.Context, params GetServerParams) (res
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -20985,16 +22249,19 @@ func (c *Client) sendGetServer(ctx context.Context, params GetServerParams) (res
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -21227,16 +22494,19 @@ func (c *Client) sendGetServerInstances(ctx context.Context, params GetServerIns
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -21470,16 +22740,19 @@ func (c *Client) sendGetServerTelemetry(ctx context.Context, params GetServerTel
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -21692,16 +22965,19 @@ func (c *Client) sendGetServers(ctx context.Context, params GetServersParams) (r
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -21715,16 +22991,19 @@ func (c *Client) sendGetServers(ctx context.Context, params GetServersParams) (r
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -21755,16 +23034,19 @@ func (c *Client) sendGetServers(ctx context.Context, params GetServersParams) (r
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -22112,16 +23394,19 @@ func (c *Client) sendGetStackBuilds(ctx context.Context, params GetStackBuildsPa
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -22152,16 +23437,19 @@ func (c *Client) sendGetStackBuilds(ctx context.Context, params GetStackBuildsPa
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -22275,16 +23563,19 @@ func (c *Client) sendGetStacks(ctx context.Context, params GetStacksParams) (res
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -22298,16 +23589,19 @@ func (c *Client) sendGetStacks(ctx context.Context, params GetStacksParams) (res
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -22338,16 +23632,19 @@ func (c *Client) sendGetStacks(ctx context.Context, params GetStacksParams) (res
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -22478,16 +23775,19 @@ func (c *Client) sendGetTLSGenerationAttempts(ctx context.Context, params GetTLS
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -22700,16 +24000,19 @@ func (c *Client) sendGetVPNLogins(ctx context.Context, params GetVPNLoginsParams
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Sort {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(item))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Sort != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Sort {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(item))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -23720,16 +25023,19 @@ func (c *Client) sendUpdateAccountInvite(ctx context.Context, request OptUpdateA
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -23892,6 +25198,109 @@ func (c *Client) sendUpdateAutoScaleGroup(ctx context.Context, request OptUpdate
 	return result, nil
 }
 
+// UpdateAutoScaleGroupAccess invokes updateAutoScaleGroupAccess operation.
+//
+// Requires the `autoscale-groups-manage` capability. If an ACL is present, requires the `manage`
+// privilege.
+//
+// PATCH /v1/infrastructure/auto-scale/groups/{groupId}/access
+func (c *Client) UpdateAutoScaleGroupAccess(ctx context.Context, request OptUpdateAutoScaleGroupAccessReq, params UpdateAutoScaleGroupAccessParams) (*UpdateAutoScaleGroupAccessOK, error) {
+	res, err := c.sendUpdateAutoScaleGroupAccess(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateAutoScaleGroupAccess(ctx context.Context, request OptUpdateAutoScaleGroupAccessReq, params UpdateAutoScaleGroupAccessParams) (res *UpdateAutoScaleGroupAccessOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/infrastructure/auto-scale/groups/"
+	{
+		// Encode "groupId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "groupId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.GroupId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/access"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateAutoScaleGroupAccessRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateAutoScaleGroupAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "UpdateAutoScaleGroupAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateAutoScaleGroupAccessResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // UpdateBillingMethod invokes updateBillingMethod operation.
 //
 // Requires the `billing-methods-manage` capability.
@@ -24038,16 +25447,19 @@ func (c *Client) sendUpdateBillingOrder(ctx context.Context, request OptUpdateBi
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -24061,16 +25473,19 @@ func (c *Client) sendUpdateBillingOrder(ctx context.Context, request OptUpdateBi
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -24136,6 +25551,209 @@ func (c *Client) sendUpdateBillingOrder(ctx context.Context, request OptUpdateBi
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateBillingOrderResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateCluster invokes updateCluster operation.
+//
+// Requires the `clusters-manage` capability.
+//
+// PATCH /v1/infrastructure/clusters/{clusterId}
+func (c *Client) UpdateCluster(ctx context.Context, request *UpdateClusterReq, params UpdateClusterParams) (*UpdateClusterOK, error) {
+	res, err := c.sendUpdateCluster(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateCluster(ctx context.Context, request *UpdateClusterReq, params UpdateClusterParams) (res *UpdateClusterOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [2]string
+	pathParts[0] = "/v1/infrastructure/clusters/"
+	{
+		// Encode "clusterId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "clusterId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ClusterId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateClusterRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateCluster", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "UpdateCluster", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateClusterResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateClusterAccess invokes updateClusterAccess operation.
+//
+// Requires the `clusters-manage` capability. If an ACL is present, requires the `manage` privilege.
+//
+// PATCH /v1/infrastructure/clusters/{clusterId}/access
+func (c *Client) UpdateClusterAccess(ctx context.Context, request OptUpdateClusterAccessReq, params UpdateClusterAccessParams) (*UpdateClusterAccessOK, error) {
+	res, err := c.sendUpdateClusterAccess(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateClusterAccess(ctx context.Context, request OptUpdateClusterAccessReq, params UpdateClusterAccessParams) (res *UpdateClusterAccessOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/infrastructure/clusters/"
+	{
+		// Encode "clusterId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "clusterId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ClusterId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/access"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateClusterAccessRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateClusterAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "UpdateClusterAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateClusterAccessResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -24290,16 +25908,19 @@ func (c *Client) sendUpdateDNSZone(ctx context.Context, request OptUpdateDNSZone
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -24365,6 +25986,137 @@ func (c *Client) sendUpdateDNSZone(ctx context.Context, request OptUpdateDNSZone
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateDNSZoneResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateDNSZoneAccess invokes updateDNSZoneAccess operation.
+//
+// Requires the `dns-manage` capability, and if an ACL is present, the `manage` privilege.
+//
+// PATCH /v1/dns/zones/{zoneId}/access
+func (c *Client) UpdateDNSZoneAccess(ctx context.Context, request OptUpdateDNSZoneAccessReq, params UpdateDNSZoneAccessParams) (*UpdateDNSZoneAccessOK, error) {
+	res, err := c.sendUpdateDNSZoneAccess(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateDNSZoneAccess(ctx context.Context, request OptUpdateDNSZoneAccessReq, params UpdateDNSZoneAccessParams) (res *UpdateDNSZoneAccessOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/dns/zones/"
+	{
+		// Encode "zoneId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "zoneId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.ZoneId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/access"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
+					}
+					return nil
+				})
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateDNSZoneAccessRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateDNSZoneAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "UpdateDNSZoneAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateDNSZoneAccessResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -24587,6 +26339,110 @@ func (c *Client) sendUpdateEnvironment(ctx context.Context, request OptUpdateEnv
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateEnvironmentResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateEnvironmentAccess invokes updateEnvironmentAccess operation.
+//
+// Updates the specificed Environment.
+// Requires the `environments-manage` capability. If an ACL is present, requires the `manage`
+// privilege.
+//
+// PATCH /v1/environments/{environmentId}/access
+func (c *Client) UpdateEnvironmentAccess(ctx context.Context, request OptUpdateEnvironmentAccessReq, params UpdateEnvironmentAccessParams) (*UpdateEnvironmentAccessOK, error) {
+	res, err := c.sendUpdateEnvironmentAccess(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateEnvironmentAccess(ctx context.Context, request OptUpdateEnvironmentAccessReq, params UpdateEnvironmentAccessParams) (res *UpdateEnvironmentAccessOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/environments/"
+	{
+		// Encode "environmentId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "environmentId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/access"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateEnvironmentAccessRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateEnvironmentAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "UpdateEnvironmentAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateEnvironmentAccessResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -24969,6 +26825,109 @@ func (c *Client) sendUpdateImageSource(ctx context.Context, request OptUpdateIma
 	return result, nil
 }
 
+// UpdateImageSourceAccess invokes updateImageSourceAccess operation.
+//
+// Requires the `images-sources-manage` capability. If an ACL is present, requires the `manage`
+// privilege.
+//
+// PATCH /v1/images/sources/{sourceId}/access
+func (c *Client) UpdateImageSourceAccess(ctx context.Context, request OptUpdateImageSourceAccessReq, params UpdateImageSourceAccessParams) (*UpdateImageSourceAccessOK, error) {
+	res, err := c.sendUpdateImageSourceAccess(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateImageSourceAccess(ctx context.Context, request OptUpdateImageSourceAccessReq, params UpdateImageSourceAccessParams) (res *UpdateImageSourceAccessOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/images/sources/"
+	{
+		// Encode "sourceId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "sourceId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.SourceId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/access"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateImageSourceAccessRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateImageSourceAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "UpdateImageSourceAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateImageSourceAccessResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // UpdateIntegration invokes updateIntegration operation.
 //
 // Updates the specified Integration within the current hub. If the Integration definition specifies
@@ -25015,16 +26974,19 @@ func (c *Client) sendUpdateIntegration(ctx context.Context, request *UpdateInteg
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Meta {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Meta != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Meta {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -25131,16 +27093,19 @@ func (c *Client) sendUpdateNetwork(ctx context.Context, request OptUpdateNetwork
 		}
 
 		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			return e.EncodeArray(func(e uri.Encoder) error {
-				for i, item := range params.Include {
-					if err := func() error {
-						return e.EncodeValue(conv.StringToString(string(item)))
-					}(); err != nil {
-						return errors.Wrapf(err, "[%d]", i)
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
 					}
-				}
-				return nil
-			})
+					return nil
+				})
+			}
+			return nil
 		}); err != nil {
 			return res, errors.Wrap(err, "encode query")
 		}
@@ -25206,6 +27171,138 @@ func (c *Client) sendUpdateNetwork(ctx context.Context, request OptUpdateNetwork
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateNetworkResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateNetworkAccess invokes updateNetworkAccess operation.
+//
+// Requires the `sdn-networks-manage` capability. If an ACL is present, requires the `manage`
+// privilege.
+//
+// PATCH /v1/sdn/networks/{networkId}/access
+func (c *Client) UpdateNetworkAccess(ctx context.Context, request OptUpdateNetworkAccessReq, params UpdateNetworkAccessParams) (*UpdateNetworkAccessOK, error) {
+	res, err := c.sendUpdateNetworkAccess(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateNetworkAccess(ctx context.Context, request OptUpdateNetworkAccessReq, params UpdateNetworkAccessParams) (res *UpdateNetworkAccessOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/sdn/networks/"
+	{
+		// Encode "networkId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "networkId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.NetworkId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/access"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	q := uri.NewQueryEncoder()
+	{
+		// Encode "include" parameter.
+		cfg := uri.QueryParameterEncodingConfig{
+			Name:    "include",
+			Style:   uri.QueryStyleForm,
+			Explode: true,
+		}
+
+		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
+			if params.Include != nil {
+				return e.EncodeArray(func(e uri.Encoder) error {
+					for i, item := range params.Include {
+						if err := func() error {
+							return e.EncodeValue(conv.StringToString(string(item)))
+						}(); err != nil {
+							return errors.Wrapf(err, "[%d]", i)
+						}
+					}
+					return nil
+				})
+			}
+			return nil
+		}); err != nil {
+			return res, errors.Wrap(err, "encode query")
+		}
+	}
+	u.RawQuery = q.Values().Encode()
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateNetworkAccessRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateNetworkAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "UpdateNetworkAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateNetworkAccessResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -25307,6 +27404,108 @@ func (c *Client) sendUpdatePipeline(ctx context.Context, request OptUpdatePipeli
 	defer resp.Body.Close()
 
 	result, err := decodeUpdatePipelineResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdatePipelineAccess invokes updatePipelineAccess operation.
+//
+// Requires the `pipelines-manage` capability. If an ACL is present, requires the `manage` privilege.
+//
+// PATCH /v1/pipelines/{pipelineId}/access
+func (c *Client) UpdatePipelineAccess(ctx context.Context, request OptUpdatePipelineAccessReq, params UpdatePipelineAccessParams) (*UpdatePipelineAccessOK, error) {
+	res, err := c.sendUpdatePipelineAccess(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdatePipelineAccess(ctx context.Context, request OptUpdatePipelineAccessReq, params UpdatePipelineAccessParams) (res *UpdatePipelineAccessOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/pipelines/"
+	{
+		// Encode "pipelineId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "pipelineId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.PipelineId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/access"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdatePipelineAccessRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdatePipelineAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "UpdatePipelineAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdatePipelineAccessResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -25851,6 +28050,108 @@ func (c *Client) sendUpdateStack(ctx context.Context, request OptUpdateStackReq,
 	defer resp.Body.Close()
 
 	result, err := decodeUpdateStackResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
+// UpdateStackAccess invokes updateStackAccess operation.
+//
+// Requires the `stacks-manage` capability. If an ACL is present, requires the `manage` privilege.
+//
+// PATCH /v1/stacks/{stackId}/access
+func (c *Client) UpdateStackAccess(ctx context.Context, request OptUpdateStackAccessReq, params UpdateStackAccessParams) (*UpdateStackAccessOK, error) {
+	res, err := c.sendUpdateStackAccess(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendUpdateStackAccess(ctx context.Context, request OptUpdateStackAccessReq, params UpdateStackAccessParams) (res *UpdateStackAccessOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/stacks/"
+	{
+		// Encode "stackId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "stackId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.StackId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/access"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "PATCH", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeUpdateStackAccessRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "UpdateStackAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "UpdateStackAccess", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeUpdateStackAccessResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}

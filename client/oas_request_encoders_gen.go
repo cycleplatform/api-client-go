@@ -31,6 +31,26 @@ func encodeChangePasswordRequest(
 	return nil
 }
 
+func encodeClonePipelineRequest(
+	req OptClonePipelineReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeCreateApiKeyRequest(
 	req OptCreateApiKeyReq,
 	r *http.Request,
@@ -73,6 +93,26 @@ func encodeCreateAutoScaleGroupRequest(
 
 func encodeCreateBillingMethodRequest(
 	req OptCreateBillingMethodReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateClusterRequest(
+	req OptCreateClusterReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -273,6 +313,26 @@ func encodeCreateEnvironmentRequest(
 
 func encodeCreateEnvironmentJobRequest(
 	req OptCreateEnvironmentJobReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateFunctionJobRequest(
+	req OptCreateFunctionJobReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -925,6 +985,46 @@ func encodeEnableTwoFactorAuthRequest(
 	return nil
 }
 
+func encodeGenerateAggregatedEventsRequest(
+	req OptGenerateAggregatedEventsReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeGenerateAggregatedMetricsRequest(
+	req OptGenerateAggregatedMetricsReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeRecoverTwoFactorAuthRequest(
 	req OptRecoverTwoFactorAuthReq,
 	r *http.Request,
@@ -1045,6 +1145,26 @@ func encodeUpdateAutoScaleGroupRequest(
 	return nil
 }
 
+func encodeUpdateAutoScaleGroupAccessRequest(
+	req OptUpdateAutoScaleGroupAccessReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeUpdateBillingMethodRequest(
 	req OptUpdateBillingMethodReq,
 	r *http.Request,
@@ -1067,6 +1187,42 @@ func encodeUpdateBillingMethodRequest(
 
 func encodeUpdateBillingOrderRequest(
 	req OptUpdateBillingOrderReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateClusterRequest(
+	req *UpdateClusterReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		if req != nil {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateClusterAccessRequest(
+	req OptUpdateClusterAccessReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -1125,6 +1281,26 @@ func encodeUpdateDNSZoneRequest(
 	return nil
 }
 
+func encodeUpdateDNSZoneAccessRequest(
+	req OptUpdateDNSZoneAccessReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeUpdateDNSZoneRecordRequest(
 	req OptUpdateDNSZoneRecordReq,
 	r *http.Request,
@@ -1147,6 +1323,26 @@ func encodeUpdateDNSZoneRecordRequest(
 
 func encodeUpdateEnvironmentRequest(
 	req OptUpdateEnvironmentReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateEnvironmentAccessRequest(
+	req OptUpdateEnvironmentAccessReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -1245,6 +1441,26 @@ func encodeUpdateImageSourceRequest(
 	return nil
 }
 
+func encodeUpdateImageSourceAccessRequest(
+	req OptUpdateImageSourceAccessReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeUpdateIntegrationRequest(
 	req *UpdateIntegrationReq,
 	r *http.Request,
@@ -1279,8 +1495,48 @@ func encodeUpdateNetworkRequest(
 	return nil
 }
 
+func encodeUpdateNetworkAccessRequest(
+	req OptUpdateNetworkAccessReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeUpdatePipelineRequest(
 	req OptUpdatePipelineReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdatePipelineAccessRequest(
+	req OptUpdatePipelineAccessReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -1381,6 +1637,26 @@ func encodeUpdateServerRequest(
 
 func encodeUpdateStackRequest(
 	req OptUpdateStackReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateStackAccessRequest(
+	req OptUpdateStackAccessReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

@@ -3,17 +3,37 @@
 package api
 
 // setDefaults set default value of fields.
-func (s *ContainerIntegrationsBackups) setDefaults() {
+func (s *HttpTransportConfigDetailsTelemetry) setDefaults() {
 	{
-		val := string("365d")
-		s.Retention.SetTo(val)
+		val := bool(false)
+		s.DisableURLTracking = val
+	}
+	{
+		val := bool(false)
+		s.DisableRouterMetrics = val
 	}
 }
 
 // setDefaults set default value of fields.
-func (s *StackContainerItemConfigIntegrationsBackups) setDefaults() {
+func (s *StackContainerConfigDeploy) setDefaults() {
 	{
-		val := string("365d")
-		s.Retention.SetTo(val)
+		val := StackContainerConfigDeployStrategy("first-available")
+		s.Strategy.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *TcpTransportConfigDetailsTelemetry) setDefaults() {
+	{
+		val := bool(false)
+		s.DisableRouterMetrics.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *UdpTransportConfigDetailsTelemetry) setDefaults() {
+	{
+		val := bool(false)
+		s.DisableRouterMetrics.SetTo(val)
 	}
 }
