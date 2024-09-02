@@ -368,9 +368,14 @@ type ExpireInstanceSSHCredentialsParams struct {
 	InstanceId string
 }
 
+// ExportStackParams is parameters of exportStack operation.
+type ExportStackParams struct {
+	// The ID of the target environment.
+	EnvironmentId string
+}
+
 // GenerateAggregatedEventsParams is parameters of generateAggregatedEvents operation.
 type GenerateAggregatedEventsParams struct {
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGenerateAggregatedEventsFilter
@@ -378,7 +383,6 @@ type GenerateAggregatedEventsParams struct {
 
 // GenerateAggregatedMetricsParams is parameters of generateAggregatedMetrics operation.
 type GenerateAggregatedMetricsParams struct {
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGenerateAggregatedMetricsFilter
@@ -447,7 +451,6 @@ type GetAnnouncementsParams struct {
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptPageParam
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetAnnouncementsFilter
@@ -484,7 +487,6 @@ type GetAutoScaleGroupsParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetAutoScaleGroupsIncludeItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetAutoScaleGroupsFilter
@@ -648,16 +650,6 @@ type GetContainerBackupsParams struct {
 	Page OptPageParam
 }
 
-// GetContainerInstancesTelemetryParams is parameters of getContainerInstancesTelemetry operation.
-type GetContainerInstancesTelemetryParams struct {
-	// The ID of the desired Container.
-	ContainerId string
-	// ## Filter Field
-	// The filter field is a key-value object, where the key is what you would like to filter, and the
-	// value is the value you're filtering for.
-	Filter OptGetContainerInstancesTelemetryFilter
-}
-
 // GetContainerServersParams is parameters of getContainerServers operation.
 type GetContainerServersParams struct {
 	// The ID of the requested container.
@@ -692,7 +684,6 @@ type GetContainersParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetContainersIncludeItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetContainersFilter
@@ -713,7 +704,6 @@ type GetCreditParams struct {
 type GetCreditsParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort []string
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetCreditsFilter
@@ -737,7 +727,6 @@ type GetDNSZoneRecordsParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetDNSZoneRecordsIncludeItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetDNSZoneRecordsFilter
@@ -755,7 +744,6 @@ type GetDNSZonesParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetDNSZonesIncludeItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetDNSZonesFilter
@@ -788,16 +776,6 @@ type GetEnvironmentDeploymentsParams struct {
 	EnvironmentId string
 }
 
-// GetEnvironmentInstancesTelemetryParams is parameters of getEnvironmentInstancesTelemetry operation.
-type GetEnvironmentInstancesTelemetryParams struct {
-	// The ID of the desired Environment.
-	EnvironmentId string
-	// ## Filter Field
-	// The filter field is a key-value object, where the key is what you would like to filter, and the
-	// value is the value you're filtering for.
-	Filter OptGetEnvironmentInstancesTelemetryFilter
-}
-
 // GetEnvironmentSummaryParams is parameters of getEnvironmentSummary operation.
 type GetEnvironmentSummaryParams struct {
 	// The ID of the requested environment.
@@ -816,7 +794,6 @@ type GetEnvironmentsParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetEnvironmentsIncludeItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetEnvironmentsFilter
@@ -923,7 +900,6 @@ type GetHubsParams struct {
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptPageParam
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetHubsFilter
@@ -995,7 +971,6 @@ type GetImageSourcesParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetImageSourcesIncludeItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetImageSourcesFilter
@@ -1018,7 +993,6 @@ type GetImagesParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetImagesIncludeItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetImagesFilter
@@ -1036,7 +1010,6 @@ type GetInfrastructureIPPoolsParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetInfrastructureIPPoolsIncludeItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetInfrastructureIPPoolsFilter
@@ -1049,7 +1022,6 @@ type GetInfrastructureIPPoolsParams struct {
 
 // GetInfrastructureSummaryParams is parameters of getInfrastructureSummary operation.
 type GetInfrastructureSummaryParams struct {
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetInfrastructureSummaryFilter
@@ -1082,7 +1054,6 @@ type GetInstanceTelemetryReportParams struct {
 	ContainerId string
 	// The ID for the container instance.
 	InstanceId string
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetInstanceTelemetryReportFilter
@@ -1118,7 +1089,6 @@ type GetInstancesParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetInstancesIncludeItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetInstancesFilter
@@ -1150,7 +1120,6 @@ type GetIntegrationsParams struct {
 	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
 	// in the root document. These will be clearly labeled.
 	Meta []GetIntegrationsMetaItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for. Supports filtering by state and a text search.
 	Filter OptGetIntegrationsFilter
@@ -1179,7 +1148,6 @@ type GetInvoicesParams struct {
 	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
 	// in the root document. These will be clearly labeled.
 	Meta []GetInvoicesMetaItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetInvoicesFilter
@@ -1198,7 +1166,6 @@ type GetJobsParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetJobsIncludeItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetJobsFilter
@@ -1213,10 +1180,8 @@ type GetJobsParams struct {
 type GetLoadBalancerLatestTelemetryReportParams struct {
 	// The environmentId where the load balancer resides.
 	EnvironmentId string
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
-	// ### Required Filter
 	// On this endpoint, you MUST pass filter[controller].
 	Filter GetLoadBalancerLatestTelemetryReportFilter
 }
@@ -1242,7 +1207,6 @@ type GetLoadBalancerTelemetryLatestControllersParams struct {
 type GetLoadBalancerTelemetryReportParams struct {
 	// The environmentId where the load balancer resides.
 	EnvironmentId string
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter GetLoadBalancerTelemetryReportFilter
@@ -1266,7 +1230,6 @@ type GetNetworksParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetNetworksIncludeItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetNetworksFilter
@@ -1325,7 +1288,6 @@ type GetPipelineTriggerKeyParams struct {
 type GetPipelineTriggerKeysParams struct {
 	// The ID of the Pipeline.
 	PipelineId string
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetPipelineTriggerKeysFilter
@@ -1343,7 +1305,6 @@ type GetPipelinesParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetPipelinesIncludeItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetPipelinesFilter
@@ -1382,7 +1343,6 @@ type GetProviderServersParams struct {
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
 	Page OptPageParam
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetProviderServersFilter
@@ -1426,7 +1386,6 @@ type GetScopedVariableParams struct {
 type GetScopedVariablesParams struct {
 	// The ID of the requested Environment.
 	EnvironmentId string
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetScopedVariablesFilter
@@ -1475,7 +1434,6 @@ type GetServerInstancesParams struct {
 
 // GetServerTagsParams is parameters of getServerTags operation.
 type GetServerTagsParams struct {
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetServerTagsFilter
@@ -1485,7 +1443,6 @@ type GetServerTagsParams struct {
 type GetServerTelemetryParams struct {
 	// The ID for the given Server.
 	ServerId string
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetServerTelemetryFilter
@@ -1514,7 +1471,6 @@ type GetServersParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetServersIncludeItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetServersFilter
@@ -1548,7 +1504,6 @@ type GetStackBuildsParams struct {
 	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
 	// in the root document. These will be clearly labeled.
 	Meta []GetStackBuildsMetaItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetStackBuildsFilter
@@ -1571,7 +1526,6 @@ type GetStacksParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetStacksIncludeItem
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetStacksFilter
@@ -1584,7 +1538,6 @@ type GetStacksParams struct {
 
 // GetTLSGenerationAttemptsParams is parameters of getTLSGenerationAttempts operation.
 type GetTLSGenerationAttemptsParams struct {
-	// ## Filter Field
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetTLSGenerationAttemptsFilter

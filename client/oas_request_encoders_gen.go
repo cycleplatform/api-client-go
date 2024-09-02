@@ -11,6 +11,26 @@ import (
 	ht "github.com/ogen-go/ogen/http"
 )
 
+func encodeAggregateLogsRequest(
+	req OptAggregateLogsReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeChangePasswordRequest(
 	req OptChangePasswordReq,
 	r *http.Request,
@@ -332,7 +352,7 @@ func encodeCreateEnvironmentJobRequest(
 }
 
 func encodeCreateFunctionJobRequest(
-	req OptCreateFunctionJobReq,
+	req OptTrigger,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -967,6 +987,26 @@ func encodeDisableTwoFactorAuthRequest(
 
 func encodeEnableTwoFactorAuthRequest(
 	req OptEnableTwoFactorAuthReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeExportStackRequest(
+	req OptExportStackReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

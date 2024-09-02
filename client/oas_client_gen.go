@@ -17,6 +17,16 @@ import (
 
 // Invoker invokes operations described by OpenAPI v3 specification.
 type Invoker interface {
+	// AggregateLogs invokes aggregateLogs operation.
+	//
+	// A query for retrieving container instance logs.
+	// Allows aggregate narrowing through filtering, searching, and scope parameters.
+	// If 'local' is set to true, only cached logs will be queried, and logs in object storage will be
+	// ignored.  This leads to much faster performance.
+	// Requires the `monitor-view` capability.
+	//
+	// POST /v1/monitoring/logs/aggregate
+	AggregateLogs(ctx context.Context, request OptAggregateLogsReq) (*AggregateLogsOK, error)
 	// ChangePassword invokes changePassword operation.
 	//
 	// Change the password on the Account. Requires the current password of the Account to be submitted.
@@ -131,7 +141,7 @@ type Invoker interface {
 	// Requires the `containers-functions-trigger` capability.
 	//
 	// POST /v1/containers/{containerId}/functions/tasks
-	CreateFunctionJob(ctx context.Context, request OptCreateFunctionJobReq, params CreateFunctionJobParams) (*CreateFunctionJobAccepted, error)
+	CreateFunctionJob(ctx context.Context, request OptTrigger, params CreateFunctionJobParams) (*CreateFunctionJobAccepted, error)
 	// CreateHub invokes createHub operation.
 	//
 	// Create a Hub.
@@ -195,7 +205,6 @@ type Invoker interface {
 	// CreateIntegrationJob invokes createIntegrationJob operation.
 	//
 	// Creates a new Job targeted at the provided Hub Integration.
-	// ## Required Permissions
 	// - Requires a valid hub membership to the target hub.
 	// - Requires the `hubs-integrations-manage` capability.
 	//
@@ -518,6 +527,14 @@ type Invoker interface {
 	//
 	// DELETE /v1/containers/{containerId}/instances/{instanceId}/ssh
 	ExpireInstanceSSHCredentials(ctx context.Context, params ExpireInstanceSSHCredentialsParams) (*ExpireInstanceSSHCredentialsOK, error)
+	// ExportStack invokes exportStack operation.
+	//
+	// Exports an environment as a stack file for reuse.
+	// Requires the `environments-manage` capability. You must also have management permissions on the
+	// target environment ACL.
+	//
+	// POST /v1/environments/{environmentId}/export/stack
+	ExportStack(ctx context.Context, request OptExportStackReq, params ExportStackParams) (*ExportStackOK, error)
 	// GenerateAggregatedEvents invokes generateAggregatedEvents operation.
 	//
 	// Generate an events report using an aggregated pipeline query with Mongo. This endpoint provides
@@ -717,14 +734,6 @@ type Invoker interface {
 	//
 	// GET /v1/containers/{containerId}/backups
 	GetContainerBackups(ctx context.Context, params GetContainerBackupsParams) (*GetContainerBackupsOK, error)
-	// GetContainerInstancesTelemetry invokes getContainerInstancesTelemetry operation.
-	//
-	// Gets a list of telemetry points describing the number and state of all Instances of this Container
-	// at a point in time.
-	// Requires the `containers-view` capability.
-	//
-	// GET /v1/containers/{containerId}/telemetry/instances
-	GetContainerInstancesTelemetry(ctx context.Context, params GetContainerInstancesTelemetryParams) (*GetContainerInstancesTelemetryOK, error)
 	// GetContainerServers invokes getContainerServers operation.
 	//
 	// Lists all Servers that currently have an Instance of this Container deployed to them.
@@ -800,13 +809,12 @@ type Invoker interface {
 	//
 	// GET /v1/environments/{environmentId}/deployments
 	GetEnvironmentDeployments(ctx context.Context, params GetEnvironmentDeploymentsParams) (*GetEnvironmentDeploymentsOK, error)
-	// GetEnvironmentInstancesTelemetry invokes getEnvironmentInstancesTelemetry operation.
+	// GetEnvironmentMonitoringTiers invokes getEnvironmentMonitoringTiers operation.
 	//
-	// Get telemetry points on the number of instances and their states over a range of time.
-	// Requires the `environments-view` capability.
+	// Gets all the available monitoring tiers that can be enabled for an environment.
 	//
-	// GET /v1/environments/{environmentId}/telemetry/instances
-	GetEnvironmentInstancesTelemetry(ctx context.Context, params GetEnvironmentInstancesTelemetryParams) (*GetEnvironmentInstancesTelemetryOK, error)
+	// GET /v1/environments/monitoring-tiers
+	GetEnvironmentMonitoringTiers(ctx context.Context) (*GetEnvironmentMonitoringTiersOK, error)
 	// GetEnvironmentSummary invokes getEnvironmentSummary operation.
 	//
 	// Gets the summary of an Environment. Contains useful and relevant data/statistics that would
@@ -1038,7 +1046,6 @@ type Invoker interface {
 	//
 	// Fetches the latest telemetry report for Cycle's native load balancer. Provides detailed
 	// information on a per-instance basis.
-	// ## Permissions
 	// Requires the `environments-view` capability. Also requires the user to have access specifically to
 	// the requested Environment.
 	//
@@ -1055,7 +1062,6 @@ type Invoker interface {
 	// Gets the controller information for the specified load balancer. Returns a similar struct to the
 	// 'latest' load balancer telemetry call, but does NOT return snapshots, just the controller
 	// information.
-	// ## Permissions
 	// Requires the `environments-view` capability. Also requires the user to have access specifically to
 	// the requested Environment.
 	//
@@ -1064,7 +1070,6 @@ type Invoker interface {
 	// GetLoadBalancerTelemetryReport invokes getLoadBalancerTelemetryReport operation.
 	//
 	// Fetches a telemetry report for Cycle's native load balancer for the specified range.
-	// ## Permissions
 	// Requires the `environments-view` capability. Also requires the user to have access specifically to
 	// the requested Environment.
 	//
@@ -1559,6 +1564,93 @@ func (c *Client) requestURL(ctx context.Context) *url.URL {
 		return c.serverURL
 	}
 	return u
+}
+
+// AggregateLogs invokes aggregateLogs operation.
+//
+// A query for retrieving container instance logs.
+// Allows aggregate narrowing through filtering, searching, and scope parameters.
+// If 'local' is set to true, only cached logs will be queried, and logs in object storage will be
+// ignored.  This leads to much faster performance.
+// Requires the `monitor-view` capability.
+//
+// POST /v1/monitoring/logs/aggregate
+func (c *Client) AggregateLogs(ctx context.Context, request OptAggregateLogsReq) (*AggregateLogsOK, error) {
+	res, err := c.sendAggregateLogs(ctx, request)
+	return res, err
+}
+
+func (c *Client) sendAggregateLogs(ctx context.Context, request OptAggregateLogsReq) (res *AggregateLogsOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [1]string
+	pathParts[0] = "/v1/monitoring/logs/aggregate"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeAggregateLogsRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "AggregateLogs", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "AggregateLogs", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeAggregateLogsResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
 }
 
 // ChangePassword invokes changePassword operation.
@@ -3067,12 +3159,12 @@ func (c *Client) sendCreateEnvironmentJob(ctx context.Context, request OptCreate
 // Requires the `containers-functions-trigger` capability.
 //
 // POST /v1/containers/{containerId}/functions/tasks
-func (c *Client) CreateFunctionJob(ctx context.Context, request OptCreateFunctionJobReq, params CreateFunctionJobParams) (*CreateFunctionJobAccepted, error) {
+func (c *Client) CreateFunctionJob(ctx context.Context, request OptTrigger, params CreateFunctionJobParams) (*CreateFunctionJobAccepted, error) {
 	res, err := c.sendCreateFunctionJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateFunctionJob(ctx context.Context, request OptCreateFunctionJobReq, params CreateFunctionJobParams) (res *CreateFunctionJobAccepted, err error) {
+func (c *Client) sendCreateFunctionJob(ctx context.Context, request OptTrigger, params CreateFunctionJobParams) (res *CreateFunctionJobAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -4003,7 +4095,6 @@ func (c *Client) sendCreateIntegration(ctx context.Context, request *CreateInteg
 // CreateIntegrationJob invokes createIntegrationJob operation.
 //
 // Creates a new Job targeted at the provided Hub Integration.
-// ## Required Permissions
 // - Requires a valid hub membership to the target hub.
 // - Requires the `hubs-integrations-manage` capability.
 //
@@ -9227,6 +9318,110 @@ func (c *Client) sendExpireInstanceSSHCredentials(ctx context.Context, params Ex
 	return result, nil
 }
 
+// ExportStack invokes exportStack operation.
+//
+// Exports an environment as a stack file for reuse.
+// Requires the `environments-manage` capability. You must also have management permissions on the
+// target environment ACL.
+//
+// POST /v1/environments/{environmentId}/export/stack
+func (c *Client) ExportStack(ctx context.Context, request OptExportStackReq, params ExportStackParams) (*ExportStackOK, error) {
+	res, err := c.sendExportStack(ctx, request, params)
+	return res, err
+}
+
+func (c *Client) sendExportStack(ctx context.Context, request OptExportStackReq, params ExportStackParams) (res *ExportStackOK, err error) {
+
+	u := uri.Clone(c.requestURL(ctx))
+	var pathParts [3]string
+	pathParts[0] = "/v1/environments/"
+	{
+		// Encode "environmentId" parameter.
+		e := uri.NewPathEncoder(uri.PathEncoderConfig{
+			Param:   "environmentId",
+			Style:   uri.PathStyleSimple,
+			Explode: false,
+		})
+		if err := func() error {
+			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
+		}(); err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		encoded, err := e.Result()
+		if err != nil {
+			return res, errors.Wrap(err, "encode path")
+		}
+		pathParts[1] = encoded
+	}
+	pathParts[2] = "/export/stack"
+	uri.AddPathParts(u, pathParts[:]...)
+
+	r, err := ht.NewRequest(ctx, "POST", u)
+	if err != nil {
+		return res, errors.Wrap(err, "create request")
+	}
+	if err := encodeExportStackRequest(request, r); err != nil {
+		return res, errors.Wrap(err, "encode request")
+	}
+
+	{
+		type bitset = [1]uint8
+		var satisfied bitset
+		{
+
+			switch err := c.securityBearerAuth(ctx, "ExportStack", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 0
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"BearerAuth\"")
+			}
+		}
+		{
+
+			switch err := c.securityHubAuth(ctx, "ExportStack", r); {
+			case err == nil: // if NO error
+				satisfied[0] |= 1 << 1
+			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
+				// Skip this security.
+			default:
+				return res, errors.Wrap(err, "security \"HubAuth\"")
+			}
+		}
+
+		if ok := func() bool {
+		nextRequirement:
+			for _, requirement := range []bitset{
+				{0b00000011},
+			} {
+				for i, mask := range requirement {
+					if satisfied[i]&mask != mask {
+						continue nextRequirement
+					}
+				}
+				return true
+			}
+			return false
+		}(); !ok {
+			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
+		}
+	}
+
+	resp, err := c.cfg.Client.Do(r)
+	if err != nil {
+		return res, errors.Wrap(err, "do request")
+	}
+	defer resp.Body.Close()
+
+	result, err := decodeExportStackResponse(resp)
+	if err != nil {
+		return res, errors.Wrap(err, "decode response")
+	}
+
+	return result, nil
+}
+
 // GenerateAggregatedEvents invokes generateAggregatedEvents operation.
 //
 // Generate an events report using an aggregated pipeline query with Mongo. This endpoint provides
@@ -13002,127 +13197,6 @@ func (c *Client) sendGetContainerBackups(ctx context.Context, params GetContaine
 	return result, nil
 }
 
-// GetContainerInstancesTelemetry invokes getContainerInstancesTelemetry operation.
-//
-// Gets a list of telemetry points describing the number and state of all Instances of this Container
-// at a point in time.
-// Requires the `containers-view` capability.
-//
-// GET /v1/containers/{containerId}/telemetry/instances
-func (c *Client) GetContainerInstancesTelemetry(ctx context.Context, params GetContainerInstancesTelemetryParams) (*GetContainerInstancesTelemetryOK, error) {
-	res, err := c.sendGetContainerInstancesTelemetry(ctx, params)
-	return res, err
-}
-
-func (c *Client) sendGetContainerInstancesTelemetry(ctx context.Context, params GetContainerInstancesTelemetryParams) (res *GetContainerInstancesTelemetryOK, err error) {
-
-	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/containers/"
-	{
-		// Encode "containerId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "containerId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.ContainerId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/telemetry/instances"
-	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "filter" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "filter",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Filter.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
-
-	r, err := ht.NewRequest(ctx, "GET", u)
-	if err != nil {
-		return res, errors.Wrap(err, "create request")
-	}
-
-	{
-		type bitset = [1]uint8
-		var satisfied bitset
-		{
-
-			switch err := c.securityBearerAuth(ctx, "GetContainerInstancesTelemetry", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 0
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"BearerAuth\"")
-			}
-		}
-		{
-
-			switch err := c.securityHubAuth(ctx, "GetContainerInstancesTelemetry", r); {
-			case err == nil: // if NO error
-				satisfied[0] |= 1 << 1
-			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
-				// Skip this security.
-			default:
-				return res, errors.Wrap(err, "security \"HubAuth\"")
-			}
-		}
-
-		if ok := func() bool {
-		nextRequirement:
-			for _, requirement := range []bitset{
-				{0b00000011},
-			} {
-				for i, mask := range requirement {
-					if satisfied[i]&mask != mask {
-						continue nextRequirement
-					}
-				}
-				return true
-			}
-			return false
-		}(); !ok {
-			return res, ogenerrors.ErrSecurityRequirementIsNotSatisfied
-		}
-	}
-
-	resp, err := c.cfg.Client.Do(r)
-	if err != nil {
-		return res, errors.Wrap(err, "do request")
-	}
-	defer resp.Body.Close()
-
-	result, err := decodeGetContainerInstancesTelemetryResponse(resp)
-	if err != nil {
-		return res, errors.Wrap(err, "decode response")
-	}
-
-	return result, nil
-}
-
 // GetContainerServers invokes getContainerServers operation.
 //
 // Lists all Servers that currently have an Instance of this Container deployed to them.
@@ -14655,62 +14729,22 @@ func (c *Client) sendGetEnvironmentDeployments(ctx context.Context, params GetEn
 	return result, nil
 }
 
-// GetEnvironmentInstancesTelemetry invokes getEnvironmentInstancesTelemetry operation.
+// GetEnvironmentMonitoringTiers invokes getEnvironmentMonitoringTiers operation.
 //
-// Get telemetry points on the number of instances and their states over a range of time.
-// Requires the `environments-view` capability.
+// Gets all the available monitoring tiers that can be enabled for an environment.
 //
-// GET /v1/environments/{environmentId}/telemetry/instances
-func (c *Client) GetEnvironmentInstancesTelemetry(ctx context.Context, params GetEnvironmentInstancesTelemetryParams) (*GetEnvironmentInstancesTelemetryOK, error) {
-	res, err := c.sendGetEnvironmentInstancesTelemetry(ctx, params)
+// GET /v1/environments/monitoring-tiers
+func (c *Client) GetEnvironmentMonitoringTiers(ctx context.Context) (*GetEnvironmentMonitoringTiersOK, error) {
+	res, err := c.sendGetEnvironmentMonitoringTiers(ctx)
 	return res, err
 }
 
-func (c *Client) sendGetEnvironmentInstancesTelemetry(ctx context.Context, params GetEnvironmentInstancesTelemetryParams) (res *GetEnvironmentInstancesTelemetryOK, err error) {
+func (c *Client) sendGetEnvironmentMonitoringTiers(ctx context.Context) (res *GetEnvironmentMonitoringTiersOK, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
-	var pathParts [3]string
-	pathParts[0] = "/v1/environments/"
-	{
-		// Encode "environmentId" parameter.
-		e := uri.NewPathEncoder(uri.PathEncoderConfig{
-			Param:   "environmentId",
-			Style:   uri.PathStyleSimple,
-			Explode: false,
-		})
-		if err := func() error {
-			return e.EncodeValue(conv.StringToString(params.EnvironmentId))
-		}(); err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		encoded, err := e.Result()
-		if err != nil {
-			return res, errors.Wrap(err, "encode path")
-		}
-		pathParts[1] = encoded
-	}
-	pathParts[2] = "/telemetry/instances"
+	var pathParts [1]string
+	pathParts[0] = "/v1/environments/monitoring-tiers"
 	uri.AddPathParts(u, pathParts[:]...)
-
-	q := uri.NewQueryEncoder()
-	{
-		// Encode "filter" parameter.
-		cfg := uri.QueryParameterEncodingConfig{
-			Name:    "filter",
-			Style:   uri.QueryStyleDeepObject,
-			Explode: true,
-		}
-
-		if err := q.EncodeParam(cfg, func(e uri.Encoder) error {
-			if val, ok := params.Filter.Get(); ok {
-				return val.EncodeURI(e)
-			}
-			return nil
-		}); err != nil {
-			return res, errors.Wrap(err, "encode query")
-		}
-	}
-	u.RawQuery = q.Values().Encode()
 
 	r, err := ht.NewRequest(ctx, "GET", u)
 	if err != nil {
@@ -14722,7 +14756,7 @@ func (c *Client) sendGetEnvironmentInstancesTelemetry(ctx context.Context, param
 		var satisfied bitset
 		{
 
-			switch err := c.securityBearerAuth(ctx, "GetEnvironmentInstancesTelemetry", r); {
+			switch err := c.securityBearerAuth(ctx, "GetEnvironmentMonitoringTiers", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 0
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -14733,7 +14767,7 @@ func (c *Client) sendGetEnvironmentInstancesTelemetry(ctx context.Context, param
 		}
 		{
 
-			switch err := c.securityHubAuth(ctx, "GetEnvironmentInstancesTelemetry", r); {
+			switch err := c.securityHubAuth(ctx, "GetEnvironmentMonitoringTiers", r); {
 			case err == nil: // if NO error
 				satisfied[0] |= 1 << 1
 			case errors.Is(err, ogenerrors.ErrSkipClientSecurity):
@@ -14767,7 +14801,7 @@ func (c *Client) sendGetEnvironmentInstancesTelemetry(ctx context.Context, param
 	}
 	defer resp.Body.Close()
 
-	result, err := decodeGetEnvironmentInstancesTelemetryResponse(resp)
+	result, err := decodeGetEnvironmentMonitoringTiersResponse(resp)
 	if err != nil {
 		return res, errors.Wrap(err, "decode response")
 	}
@@ -19351,7 +19385,6 @@ func (c *Client) sendGetLatestJobs(ctx context.Context) (res *GetLatestJobsOK, e
 //
 // Fetches the latest telemetry report for Cycle's native load balancer. Provides detailed
 // information on a per-instance basis.
-// ## Permissions
 // Requires the `environments-view` capability. Also requires the user to have access specifically to
 // the requested Environment.
 //
@@ -19571,7 +19604,6 @@ func (c *Client) sendGetLoadBalancerService(ctx context.Context, params GetLoadB
 // Gets the controller information for the specified load balancer. Returns a similar struct to the
 // 'latest' load balancer telemetry call, but does NOT return snapshots, just the controller
 // information.
-// ## Permissions
 // Requires the `environments-view` capability. Also requires the user to have access specifically to
 // the requested Environment.
 //
@@ -19702,7 +19734,6 @@ func (c *Client) sendGetLoadBalancerTelemetryLatestControllers(ctx context.Conte
 // GetLoadBalancerTelemetryReport invokes getLoadBalancerTelemetryReport operation.
 //
 // Fetches a telemetry report for Cycle's native load balancer for the specified range.
-// ## Permissions
 // Requires the `environments-view` capability. Also requires the user to have access specifically to
 // the requested Environment.
 //

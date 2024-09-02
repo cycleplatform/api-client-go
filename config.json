@@ -4,7 +4,8 @@
             "sum types with same names",
             "object with additionalProperties",
             "discriminator inference",
-            "complex defaults"
+            "complex defaults",
+            "unsupported sum type variant"
         ],
         "features": {
             "disable": ["paths/server", "ogen/otel"]
