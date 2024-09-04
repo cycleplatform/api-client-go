@@ -3,37 +3,40 @@
 package api
 
 // setDefaults set default value of fields.
-func (s *HttpTransportConfigDetailsTelemetry) setDefaults() {
+func (s *AggregateLogsReqScope) setDefaults() {
 	{
-		val := bool(false)
-		s.DisableURLTracking = val
-	}
-	{
-		val := bool(false)
-		s.DisableRouterMetrics = val
+		val := int(5)
+		s.ContextWindow.SetTo(val)
 	}
 }
 
 // setDefaults set default value of fields.
-func (s *StackContainerConfigDeploy) setDefaults() {
+func (s *ExportStackReq) setDefaults() {
 	{
-		val := StackContainerConfigDeployStrategy("first-available")
+		val := bool(false)
+		s.ResolveOrigins.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *RecordTypesLinkedFeaturesWildcard) setDefaults() {
+	{
+		val := bool(false)
+		s.ResolveSubDomains = val
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *StackSpecContainerConfigDeploy) setDefaults() {
+	{
+		val := StackSpecContainerConfigDeployStrategy("first-available")
 		s.Strategy.SetTo(val)
 	}
 }
 
 // setDefaults set default value of fields.
-func (s *TcpTransportConfigDetailsTelemetry) setDefaults() {
+func (s *V1LbConfigRouterConfig) setDefaults() {
 	{
-		val := bool(false)
-		s.DisableRouterMetrics.SetTo(val)
-	}
-}
-
-// setDefaults set default value of fields.
-func (s *UdpTransportConfigDetailsTelemetry) setDefaults() {
-	{
-		val := bool(false)
-		s.DisableRouterMetrics.SetTo(val)
+		s.DestinationPrioritization.Null = true
 	}
 }

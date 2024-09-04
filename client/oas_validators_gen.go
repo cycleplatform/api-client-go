@@ -139,6 +139,165 @@ func (s AccountStateCurrent) Validate() error {
 	}
 }
 
+func (s *AggregateLogsOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Data == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *AggregateLogsReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Scope.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "scope",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Search {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "search",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *AggregateLogsReqScope) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Ids.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ids",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s AggregateLogsReqScopeType) Validate() error {
+	switch s {
+	case "container":
+		return nil
+	case "instance":
+		return nil
+	case "environment":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *AggregateLogsReqSearchItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s AggregateLogsReqSearchItemType) Validate() error {
+	switch s {
+	case "raw":
+		return nil
+	case "regexp":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s *Announcement) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -1513,6 +1672,28 @@ func (s *BillingSummary) Validate() error {
 			Error: err,
 		})
 	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Price)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "price",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := (validate.Float{}).Validate(float64(s.Discount)); err != nil {
+			return errors.Wrap(err, "float")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "discount",
+			Error: err,
+		})
+	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
 	}
@@ -2196,6 +2377,24 @@ func (s *Config) Validate() error {
 			Error: err,
 		})
 	}
+	if err := func() error {
+		if value, ok := s.Integrations.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "integrations",
+			Error: err,
+		})
+	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
 	}
@@ -2801,18 +3000,6 @@ func (s *ContainerImageSummary) Validate() error {
 }
 
 func (s ContainerImageSummaryService) Validate() error {
-	switch s.Type {
-	case ContainerImageSummaryService0ContainerImageSummaryService:
-		if err := s.ContainerImageSummaryService0.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s ContainerImageSummaryService0) Validate() error {
 	switch s {
 	case "discovery":
 		return nil
@@ -2963,6 +3150,66 @@ func (s *ContainerIncludes) Validate() error {
 	return nil
 }
 
+func (s *ContainerIntegrations) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Logs.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "logs",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *ContainerIntegrationsLogs) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Groups.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "groups",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
 func (s *ContainerNetwork) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -3064,18 +3311,6 @@ func (s ContainerRestartStepAction) Validate() error {
 }
 
 func (s ContainerRole) Validate() error {
-	switch s.Type {
-	case ContainerRole0ContainerRole:
-		if err := s.ContainerRole0.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s ContainerRole0) Validate() error {
 	switch s {
 	case "orchestrator":
 		return nil
@@ -4430,13 +4665,20 @@ func (s *CreateDiscoveryServiceJobReqContentsConfig) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
+		if value, ok := s.Hosts.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "hosts",
 			Error: err,
 		})
 	}
@@ -4446,16 +4688,74 @@ func (s *CreateDiscoveryServiceJobReqContentsConfig) Validate() error {
 	return nil
 }
 
-func (s CreateDiscoveryServiceJobReqContentsConfigSum) Validate() error {
-	switch s.Type {
-	case DiscoveryConfigCreateDiscoveryServiceJobReqContentsConfigSum:
-		if err := s.DiscoveryConfig.Validate(); err != nil {
-			return err
+func (s CreateDiscoveryServiceJobReqContentsConfigHosts) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *CreateDiscoveryServiceJobReqContentsConfigHostsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Ipv4.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ipv4",
+			Error: err,
+		})
 	}
+	if err := func() error {
+		if value, ok := s.Ipv6.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ipv6",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 
 func (s *CreateEnvironmentCreated) Validate() error {
@@ -4529,18 +4829,6 @@ func (s *CreateEnvironmentReq) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
-}
-
-func (s CreateFunctionJobReq) Validate() error {
-	switch s.Type {
-	case TriggerCreateFunctionJobReq:
-		if err := s.Trigger.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
 }
 
 func (s *CreateHubInviteCreated) Validate() error {
@@ -5006,35 +5294,20 @@ func (s *CreateLoadBalancerServiceJobReqContents) Validate() error {
 	return nil
 }
 
-func (s *CreateLoadBalancerServiceJobReqContentsConfig) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
+func (s CreateLoadBalancerServiceJobReqContentsConfig) Validate() error {
+	switch s.Type {
+	case V1LbTypeCreateLoadBalancerServiceJobReqContentsConfig:
+		if err := s.V1LbType.Validate(); err != nil {
 			return err
 		}
 		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s CreateLoadBalancerServiceJobReqContentsConfigSum) Validate() error {
-	switch s.Type {
-	case NullCreateLoadBalancerServiceJobReqContentsConfigSum:
-		return nil // no validation needed
-	case LoadBalancerConfigCreateLoadBalancerServiceJobReqContentsConfigSum:
-		if err := s.LoadBalancerConfig.Validate(); err != nil {
+	case HaProxyLbTypeCreateLoadBalancerServiceJobReqContentsConfig:
+		if err := s.HaProxyLbType.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case DefaultLbTypeCreateLoadBalancerServiceJobReqContentsConfig:
+		if err := s.DefaultLbType.Validate(); err != nil {
 			return err
 		}
 		return nil
@@ -5591,37 +5864,14 @@ func (s *CreateScopedVariableReq) Validate() error {
 	return nil
 }
 
-func (s *CreateScopedVariableReqSource) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s CreateScopedVariableReqSourceSum) Validate() error {
+func (s CreateScopedVariableReqSource) Validate() error {
 	switch s.Type {
-	case RawSourceCreateScopedVariableReqSourceSum:
+	case RawSourceCreateScopedVariableReqSource:
 		if err := s.RawSource.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case URLSourceCreateScopedVariableReqSourceSum:
+	case URLSourceCreateScopedVariableReqSource:
 		if err := s.URLSource.Validate(); err != nil {
 			return err
 		}
@@ -6273,37 +6523,14 @@ func (s *DefaultLbType) Validate() error {
 	return nil
 }
 
-func (s *DefaultLbTypeDetails) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s DefaultLbTypeDetailsSum) Validate() error {
+func (s DefaultLbTypeDetails) Validate() error {
 	switch s.Type {
-	case HaProxyConfigDefaultLbTypeDetailsSum:
+	case HaProxyConfigDefaultLbTypeDetails:
 		if err := s.HaProxyConfig.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case V1LbConfigDefaultLbTypeDetailsSum:
+	case V1LbConfigDefaultLbTypeDetails:
 		if err := s.V1LbConfig.Validate(); err != nil {
 			return err
 		}
@@ -6448,13 +6675,13 @@ func (s *DeployStackBuildActionContentsUpdate) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
+		if err := s.Containers.Validate(); err != nil {
 			return err
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "containers",
 			Error: err,
 		})
 	}
@@ -6464,16 +6691,13 @@ func (s *DeployStackBuildActionContentsUpdate) Validate() error {
 	return nil
 }
 
-func (s DeployStackBuildActionContentsUpdateSum) Validate() error {
-	switch s.Type {
-	case StackBuildDeploymentUpdatesDeployStackBuildActionContentsUpdateSum:
-		if err := s.StackBuildDeploymentUpdates.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
+func (s DeployStackBuildActionContentsUpdateContainers) Validate() error {
+	var failures []validate.FieldError
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
 	}
+	return nil
 }
 
 func (s DeploymentStrategyName) Validate() error {
@@ -6600,171 +6824,6 @@ func (s *DisableTwoFactorAuthOK) Validate() error {
 	return nil
 }
 
-func (s *DiscoveryConfig) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Hosts.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "hosts",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s DiscoveryConfigHosts) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *DiscoveryConfigHostsItem) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Ipv4.Get(); ok {
-			if err := func() error {
-				if value == nil {
-					return errors.New("nil is invalid value")
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "ipv4",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.Ipv6.Get(); ok {
-			if err := func() error {
-				if value == nil {
-					return errors.New("nil is invalid value")
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "ipv6",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *DiscoveryEnvironmentService) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Config.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "config",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *DiscoveryEnvironmentServiceConfig) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s DiscoveryEnvironmentServiceConfigSum) Validate() error {
-	switch s.Type {
-	case DiscoveryConfigDiscoveryEnvironmentServiceConfigSum:
-		if err := s.DiscoveryConfig.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *DnsTlsCertificate) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -6849,8 +6908,8 @@ func (s *DockerFileOriginDetails) Validate() error {
 	if err := func() error {
 		if value, ok := s.Credentials.Get(); ok {
 			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
+				if value == nil {
+					return errors.New("nil is invalid value")
 				}
 				return nil
 			}(); err != nil {
@@ -6870,18 +6929,6 @@ func (s *DockerFileOriginDetails) Validate() error {
 	return nil
 }
 
-func (s DockerFileOriginDetailsCredentials) Validate() error {
-	switch s.Type {
-	case DockerfileCredentialsDockerFileOriginDetailsCredentials:
-		if err := s.DockerfileCredentials.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *DockerFileOriginDetailsRepo) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -6889,13 +6936,20 @@ func (s *DockerFileOriginDetailsRepo) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
+		if value, ok := s.Auth.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "auth",
 			Error: err,
 		})
 	}
@@ -6905,10 +6959,15 @@ func (s *DockerFileOriginDetailsRepo) Validate() error {
 	return nil
 }
 
-func (s DockerFileOriginDetailsRepoSum) Validate() error {
+func (s DockerFileOriginDetailsRepoAuth) Validate() error {
 	switch s.Type {
-	case RepoTypeDockerFileOriginDetailsRepoSum:
-		if err := s.RepoType.Validate(); err != nil {
+	case CredentialsHTTPDockerFileOriginDetailsRepoAuth:
+		if err := s.CredentialsHTTP.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case CredentialsSSHDockerFileOriginDetailsRepoAuth:
+		if err := s.CredentialsSSH.Validate(); err != nil {
 			return err
 		}
 		return nil
@@ -6988,14 +7047,6 @@ func (s DockerRegistryOriginType) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
-}
-
-func (s DockerfileCredentials) Validate() error {
-	alias := ([]DockerfileCredentialsItem)(s)
-	if alias == nil {
-		return errors.New("nil is invalid value")
-	}
-	return nil
 }
 
 func (s *EnableTwoFactorAuthOK) Validate() error {
@@ -7578,29 +7629,6 @@ func (s EnvironmentReconfigureDeploymentsActionAction) Validate() error {
 	}
 }
 
-func (s *EnvironmentServiceContainerSummary) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.State.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "state",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
 func (s *EnvironmentServices) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -7656,13 +7684,20 @@ func (s *EnvironmentServicesDiscovery) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
+		if value, ok := s.Config.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "config",
 			Error: err,
 		})
 	}
@@ -7672,16 +7707,104 @@ func (s *EnvironmentServicesDiscovery) Validate() error {
 	return nil
 }
 
-func (s EnvironmentServicesDiscoverySum) Validate() error {
-	switch s.Type {
-	case DiscoveryEnvironmentServiceEnvironmentServicesDiscoverySum:
-		if err := s.DiscoveryEnvironmentService.Validate(); err != nil {
-			return err
+func (s *EnvironmentServicesDiscoveryConfig) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Hosts.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "hosts",
+			Error: err,
+		})
 	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s EnvironmentServicesDiscoveryConfigHosts) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *EnvironmentServicesDiscoveryConfigHostsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Ipv4.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ipv4",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Ipv6.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ipv6",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 
 func (s *EnvironmentServicesLoadbalancer) Validate() error {
@@ -7691,13 +7814,20 @@ func (s *EnvironmentServicesLoadbalancer) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
+		if value, ok := s.Config.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "config",
 			Error: err,
 		})
 	}
@@ -7707,10 +7837,20 @@ func (s *EnvironmentServicesLoadbalancer) Validate() error {
 	return nil
 }
 
-func (s EnvironmentServicesLoadbalancerSum) Validate() error {
+func (s EnvironmentServicesLoadbalancerConfig) Validate() error {
 	switch s.Type {
-	case LoadBalancerEnvironmentServiceEnvironmentServicesLoadbalancerSum:
-		if err := s.LoadBalancerEnvironmentService.Validate(); err != nil {
+	case V1LbTypeEnvironmentServicesLoadbalancerConfig:
+		if err := s.V1LbType.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case HaProxyLbTypeEnvironmentServicesLoadbalancerConfig:
+		if err := s.HaProxyLbType.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case DefaultLbTypeEnvironmentServicesLoadbalancerConfig:
+		if err := s.DefaultLbType.Validate(); err != nil {
 			return err
 		}
 		return nil
@@ -8012,13 +8152,13 @@ func (s *EnvironmentSummaryServicesDiscovery) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
+		if err := s.State.Validate(); err != nil {
 			return err
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "state",
 			Error: err,
 		})
 	}
@@ -8026,18 +8166,6 @@ func (s *EnvironmentSummaryServicesDiscovery) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
-}
-
-func (s EnvironmentSummaryServicesDiscoverySum) Validate() error {
-	switch s.Type {
-	case EnvironmentServiceContainerSummaryEnvironmentSummaryServicesDiscoverySum:
-		if err := s.EnvironmentServiceContainerSummary.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
 }
 
 func (s *EnvironmentSummaryServicesLoadbalancer) Validate() error {
@@ -8047,13 +8175,13 @@ func (s *EnvironmentSummaryServicesLoadbalancer) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
+		if err := s.State.Validate(); err != nil {
 			return err
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "state",
 			Error: err,
 		})
 	}
@@ -8061,18 +8189,6 @@ func (s *EnvironmentSummaryServicesLoadbalancer) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
-}
-
-func (s EnvironmentSummaryServicesLoadbalancerSum) Validate() error {
-	switch s.Type {
-	case EnvironmentServiceContainerSummaryEnvironmentSummaryServicesLoadbalancerSum:
-		if err := s.EnvironmentServiceContainerSummary.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
 }
 
 func (s *EnvironmentSummaryServicesScheduler) Validate() error {
@@ -8082,13 +8198,13 @@ func (s *EnvironmentSummaryServicesScheduler) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
+		if err := s.State.Validate(); err != nil {
 			return err
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "state",
 			Error: err,
 		})
 	}
@@ -8096,18 +8212,6 @@ func (s *EnvironmentSummaryServicesScheduler) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
-}
-
-func (s EnvironmentSummaryServicesSchedulerSum) Validate() error {
-	switch s.Type {
-	case EnvironmentServiceContainerSummaryEnvironmentSummaryServicesSchedulerSum:
-		if err := s.EnvironmentServiceContainerSummary.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
 }
 
 func (s *EnvironmentSummaryServicesVpn) Validate() error {
@@ -8117,13 +8221,13 @@ func (s *EnvironmentSummaryServicesVpn) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
+		if err := s.State.Validate(); err != nil {
 			return err
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "state",
 			Error: err,
 		})
 	}
@@ -8131,18 +8235,6 @@ func (s *EnvironmentSummaryServicesVpn) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
-}
-
-func (s EnvironmentSummaryServicesVpnSum) Validate() error {
-	switch s.Type {
-	case EnvironmentServiceContainerSummaryEnvironmentSummaryServicesVpnSum:
-		if err := s.EnvironmentServiceContainerSummary.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
 }
 
 func (s *Error) Validate() error {
@@ -8399,6 +8491,8 @@ func (s ErrorCode) Validate() error {
 		return nil
 	case "503.dependency_not_enabled":
 		return nil
+	case "504.not_available":
+		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
@@ -8474,6 +8568,14 @@ func (s ErrorStatus) Validate() error {
 	case 422:
 		return nil
 	case 500:
+		return nil
+	case 501:
+		return nil
+	case 502:
+		return nil
+	case 503:
+		return nil
+	case 504:
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -8634,7 +8736,7 @@ func (s EventType) Validate() error {
 		return nil
 	case "container.instance.error":
 		return nil
-	case "container.instance.failure.max_restarts":
+	case "container.instance.restart.max_restarts":
 		return nil
 	case "container.instance.function.max_runtime":
 		return nil
@@ -8650,6 +8752,8 @@ func (s EventType) Validate() error {
 		return nil
 	case "container.instance.migration.failed":
 		return nil
+	case "container.instance.network.interfaces.create.failed":
+		return nil
 	case "container.instance.restart.failed":
 		return nil
 	case "container.instance.start.failed":
@@ -8662,9 +8766,17 @@ func (s EventType) Validate() error {
 		return nil
 	case "container.instances.autoscale.up":
 		return nil
-	case "container.reconfigured":
+	case "container.reconfigured.privileged":
 		return nil
-	case "container.service.auto_update":
+	case "container.volumes.base.create.failed":
+		return nil
+	case "container.volumes.create.failed":
+		return nil
+	case "environment.service.auto_update":
+		return nil
+	case "environment.service.lb.ips.sync.failed":
+		return nil
+	case "environment.service.vpn.login.failed":
 		return nil
 	case "infrastructure.cluster.resources.ram.full":
 		return nil
@@ -8674,6 +8786,8 @@ func (s EventType) Validate() error {
 		return nil
 	case "infrastructure.server.compute.sharedfs.mounts.mount":
 		return nil
+	case "infrastructure.server.compute.sharedfs.mounts.mount.failed":
+		return nil
 	case "infrastructure.server.compute.soft_restart":
 		return nil
 	case "infrastructure.server.image.download.failed":
@@ -8682,13 +8796,15 @@ func (s EventType) Validate() error {
 		return nil
 	case "infrastructure.server.manifest.sync.failed":
 		return nil
+	case "infrastructure.server.mesh.connect.failed":
+		return nil
 	case "infrastructure.server.neighbor.reachable":
 		return nil
 	case "infrastructure.server.neighbor.rebuild":
 		return nil
 	case "infrastructure.server.neighbor.unreachable":
 		return nil
-	case "infrastructure.server.neighbor.upgrade":
+	case "infrastructure.server.neighbor.upgraded":
 		return nil
 	case "infrastructure.server.resources.load.high":
 		return nil
@@ -8704,11 +8820,32 @@ func (s EventType) Validate() error {
 		return nil
 	case "infrastructure.server.sftp.login.failed":
 		return nil
-	case "services.vpn.login.failed":
-		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
+}
+
+func (s *ExportStackOK) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Data.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "data",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 
 func (s *GenerateAggregatedEventsOK) Validate() error {
@@ -10227,29 +10364,6 @@ func (s GetContainerIncludeItem) Validate() error {
 	}
 }
 
-func (s *GetContainerInstancesTelemetryOK) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if s.Data == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "data",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
 func (s GetContainerMetaItem) Validate() error {
 	switch s {
 	case "instances_count":
@@ -10872,29 +10986,6 @@ func (s GetEnvironmentIncludeItem) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
-}
-
-func (s *GetEnvironmentInstancesTelemetryOK) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if s.Data == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "data",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
 }
 
 func (s GetEnvironmentMetaItem) Validate() error {
@@ -12736,15 +12827,8 @@ func (s *GetLoadBalancerServiceOKData) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if value, ok := s.DefaultConfig.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
+		if err := s.DefaultConfig.Validate(); err != nil {
+			return err
 		}
 		return nil
 	}(); err != nil {
@@ -12761,6 +12845,24 @@ func (s *GetLoadBalancerServiceOKData) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "default_type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.CurrentType.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "current_type",
 			Error: err,
 		})
 	}
@@ -12840,6 +12942,17 @@ func (s *GetLoadBalancerServiceOKDataBaseConfigs) Validate() error {
 	return nil
 }
 
+func (s GetLoadBalancerServiceOKDataCurrentType) Validate() error {
+	switch s {
+	case "haproxy":
+		return nil
+	case "v1":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s GetLoadBalancerServiceOKDataDefaultType) Validate() error {
 	switch s {
 	case "haproxy":
@@ -12858,13 +12971,20 @@ func (s *GetLoadBalancerServiceOKDataService) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
+		if value, ok := s.Config.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "config",
 			Error: err,
 		})
 	}
@@ -12874,10 +12994,20 @@ func (s *GetLoadBalancerServiceOKDataService) Validate() error {
 	return nil
 }
 
-func (s GetLoadBalancerServiceOKDataServiceSum) Validate() error {
+func (s GetLoadBalancerServiceOKDataServiceConfig) Validate() error {
 	switch s.Type {
-	case LoadBalancerEnvironmentServiceGetLoadBalancerServiceOKDataServiceSum:
-		if err := s.LoadBalancerEnvironmentService.Validate(); err != nil {
+	case V1LbTypeGetLoadBalancerServiceOKDataServiceConfig:
+		if err := s.V1LbType.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case HaProxyLbTypeGetLoadBalancerServiceOKDataServiceConfig:
+		if err := s.HaProxyLbType.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case DefaultLbTypeGetLoadBalancerServiceOKDataServiceConfig:
+		if err := s.DefaultLbType.Validate(); err != nil {
 			return err
 		}
 		return nil
@@ -14557,13 +14687,24 @@ func (s *HaProxyLbTypeDetails) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
+		if err := s.Default.Validate(); err != nil {
 			return err
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "default",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Ports.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ports",
 			Error: err,
 		})
 	}
@@ -14573,16 +14714,26 @@ func (s *HaProxyLbTypeDetails) Validate() error {
 	return nil
 }
 
-func (s HaProxyLbTypeDetailsSum) Validate() error {
-	switch s.Type {
-	case HaProxyConfigHaProxyLbTypeDetailsSum:
-		if err := s.HaProxyConfig.Validate(); err != nil {
-			return err
+func (s HaProxyLbTypeDetailsPorts) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
 		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
 	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 
 func (s HaProxyLbTypeType) Validate() error {
@@ -15026,29 +15177,6 @@ func (s *HubBilling) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *HubBillingProfile) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
 		if err := s.Term.Validate(); err != nil {
 			return err
 		}
@@ -15065,16 +15193,34 @@ func (s *HubBillingProfile) Validate() error {
 	return nil
 }
 
-func (s HubBillingSum) Validate() error {
-	switch s.Type {
-	case HubBillingProfileHubBillingSum:
-		if err := s.HubBillingProfile.Validate(); err != nil {
-			return err
+func (s *HubIntegrationMeta) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Definition.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "definition",
+			Error: err,
+		})
 	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 
 func (s *HubMembership) Validate() error {
@@ -15874,62 +16020,39 @@ func (s *ImageIncludes) Validate() error {
 	return nil
 }
 
-func (s *ImageOrigin) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s ImageOriginSum) Validate() error {
+func (s ImageOrigin) Validate() error {
 	switch s.Type {
-	case DockerHubOriginImageOriginSum:
+	case DockerHubOriginImageOrigin:
 		if err := s.DockerHubOrigin.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case DockerFileOriginImageOriginSum:
+	case DockerFileOriginImageOrigin:
 		if err := s.DockerFileOrigin.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case DockerRegistryOriginImageOriginSum:
+	case DockerRegistryOriginImageOrigin:
 		if err := s.DockerRegistryOrigin.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case OciRegistryOriginImageOriginSum:
+	case OciRegistryOriginImageOrigin:
 		if err := s.OciRegistryOrigin.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case CycleUploadOriginImageOriginSum:
+	case CycleUploadOriginImageOrigin:
 		if err := s.CycleUploadOrigin.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case CycleSourceOriginImageOriginSum:
+	case CycleSourceOriginImageOrigin:
 		if err := s.CycleSourceOrigin.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case NoneOriginImageOriginSum:
+	case NoneOriginImageOrigin:
 		if err := s.NoneOrigin.Validate(); err != nil {
 			return err
 		}
@@ -16079,42 +16202,19 @@ func (s *ImageSourceCreateStepDetails) Validate() error {
 	return nil
 }
 
-func (s *ImageSourceDetails) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s ImageSourceDetailsSum) Validate() error {
+func (s ImageSourceDetails) Validate() error {
 	switch s.Type {
-	case DirectImageSourceTypeImageSourceDetailsSum:
+	case DirectImageSourceTypeImageSourceDetails:
 		if err := s.DirectImageSourceType.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case StackImageSourceTypeImageSourceDetailsSum:
+	case StackImageSourceTypeImageSourceDetails:
 		if err := s.StackImageSourceType.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case BucketImageSourceTypeImageSourceDetailsSum:
+	case BucketImageSourceTypeImageSourceDetails:
 		if err := s.BucketImageSourceType.Validate(); err != nil {
 			return err
 		}
@@ -16427,14 +16527,17 @@ func (s *ImageSummary) Validate() error {
 }
 
 func (s ImageSummaryService) Validate() error {
-	switch s.Type {
-	case ServiceContainerIdentifierImageSummaryService:
-		if err := s.ServiceContainerIdentifier.Validate(); err != nil {
-			return err
-		}
+	switch s {
+	case "discovery":
+		return nil
+	case "vpn":
+		return nil
+	case "loadbalancer":
+		return nil
+	case "scheduler":
 		return nil
 	default:
-		return errors.Errorf("invalid type %q", s.Type)
+		return errors.Errorf("invalid value: %v", s)
 	}
 }
 
@@ -17503,71 +17606,6 @@ func (s *IntegrationDefinitionExtendedConfiguration) Validate() error {
 	return nil
 }
 
-func (s *IntegrationMeta) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Definition.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "definition",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *IntegrationMetaAnyOf) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s IntegrationMetaAnyOfSum) Validate() error {
-	switch s.Type {
-	case IntegrationMetaIntegrationMetaAnyOfSum:
-		if err := s.IntegrationMeta.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *IntegrationState) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -18012,42 +18050,19 @@ func (s *JobTask) Validate() error {
 	return nil
 }
 
-func (s *LoadBalancerConfig) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s LoadBalancerConfigSum) Validate() error {
+func (s LoadBalancerConfig) Validate() error {
 	switch s.Type {
-	case V1LbTypeLoadBalancerConfigSum:
+	case V1LbTypeLoadBalancerConfig:
 		if err := s.V1LbType.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case HaProxyLbTypeLoadBalancerConfigSum:
+	case HaProxyLbTypeLoadBalancerConfig:
 		if err := s.HaProxyLbType.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case DefaultLbTypeLoadBalancerConfigSum:
+	case DefaultLbTypeLoadBalancerConfig:
 		if err := s.DefaultLbType.Validate(); err != nil {
 			return err
 		}
@@ -18055,36 +18070,6 @@ func (s LoadBalancerConfigSum) Validate() error {
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
 	}
-}
-
-func (s *LoadBalancerEnvironmentService) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Config.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "config",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
 }
 
 func (s *LoadBalancerLatestControllers) Validate() error {
@@ -20401,29 +20386,7 @@ func (s *PromoCode) Validate() error {
 	return nil
 }
 
-func (s PromoCodeCredit) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *PromoCodeCreditItem) Validate() error {
+func (s *PromoCodeCredit) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -21068,27 +21031,26 @@ func (s *Refund) Validate() error {
 	return nil
 }
 
-func (s *RegistryAuth) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
+func (s RegistryAuth) Validate() error {
+	switch s.Type {
+	case RegistryAuthUserRegistryAuth:
+		if err := s.RegistryAuthUser.Validate(); err != nil {
 			return err
 		}
 		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
+	case RegistryAuthProviderRegistryAuth:
+		if err := s.RegistryAuthProvider.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case RegistryAuthWebhookRegistryAuth:
+		if err := s.RegistryAuthWebhook.Validate(); err != nil {
+			return err
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
 	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
 }
 
 func (s *RegistryAuthProvider) Validate() error {
@@ -21163,28 +21125,6 @@ func (s RegistryAuthProviderType) Validate() error {
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s RegistryAuthSum) Validate() error {
-	switch s.Type {
-	case RegistryAuthUserRegistryAuthSum:
-		if err := s.RegistryAuthUser.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case RegistryAuthProviderRegistryAuthSum:
-		if err := s.RegistryAuthProvider.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case RegistryAuthWebhookRegistryAuthSum:
-		if err := s.RegistryAuthWebhook.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
@@ -21281,76 +21221,6 @@ func (s ReimageAction) Validate() error {
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s *RepoType) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Auth.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "auth",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *RepoTypeAuth) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s RepoTypeAuthSum) Validate() error {
-	switch s.Type {
-	case CredentialsHTTPRepoTypeAuthSum:
-		if err := s.CredentialsHTTP.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case CredentialsSSHRepoTypeAuthSum:
-		if err := s.CredentialsSSH.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
 	}
 }
 
@@ -21875,27 +21745,41 @@ func (s ScaleAction) Validate() error {
 	}
 }
 
-func (s *ScaleThresholdMetric) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
+func (s ScaleThresholdMetric) Validate() error {
+	switch s.Type {
+	case ScaleThresholdMetricRamScaleThresholdMetric:
+		if err := s.ScaleThresholdMetricRam.Validate(); err != nil {
 			return err
 		}
 		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
+	case ScaleThresholdMetricCpuScaleThresholdMetric:
+		if err := s.ScaleThresholdMetricCpu.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ScaleThresholdMetricNetworkConnectionsScaleThresholdMetric:
+		if err := s.ScaleThresholdMetricNetworkConnections.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ScaleThresholdMetricNetworkRequestsScaleThresholdMetric:
+		if err := s.ScaleThresholdMetricNetworkRequests.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ScaleThresholdMetricNetworkThroughputScaleThresholdMetric:
+		if err := s.ScaleThresholdMetricNetworkThroughput.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case ScaleThresholdMetricCustomScaleThresholdMetric:
+		if err := s.ScaleThresholdMetricCustom.Validate(); err != nil {
+			return err
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
 	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
 }
 
 func (s *ScaleThresholdMetricCpu) Validate() error {
@@ -21924,6 +21808,38 @@ func (s *ScaleThresholdMetricCpu) Validate() error {
 func (s ScaleThresholdMetricCpuType) Validate() error {
 	switch s {
 	case "cpu":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *ScaleThresholdMetricCustom) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s ScaleThresholdMetricCustomType) Validate() error {
+	switch s {
+	case "custom":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -22058,38 +21974,6 @@ func (s ScaleThresholdMetricRamType) Validate() error {
 	}
 }
 
-func (s ScaleThresholdMetricSum) Validate() error {
-	switch s.Type {
-	case ScaleThresholdMetricRamScaleThresholdMetricSum:
-		if err := s.ScaleThresholdMetricRam.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ScaleThresholdMetricCpuScaleThresholdMetricSum:
-		if err := s.ScaleThresholdMetricCpu.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ScaleThresholdMetricNetworkConnectionsScaleThresholdMetricSum:
-		if err := s.ScaleThresholdMetricNetworkConnections.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ScaleThresholdMetricNetworkRequestsScaleThresholdMetricSum:
-		if err := s.ScaleThresholdMetricNetworkRequests.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case ScaleThresholdMetricNetworkThroughputScaleThresholdMetricSum:
-		if err := s.ScaleThresholdMetricNetworkThroughput.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *ScopedVariable) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -22210,37 +22094,14 @@ func (s *ScopedVariableScopeContainers) Validate() error {
 	return nil
 }
 
-func (s *ScopedVariableSource) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s ScopedVariableSourceSum) Validate() error {
+func (s ScopedVariableSource) Validate() error {
 	switch s.Type {
-	case URLSourceScopedVariableSourceSum:
+	case URLSourceScopedVariableSource:
 		if err := s.URLSource.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case RawSourceScopedVariableSourceSum:
+	case RawSourceScopedVariableSource:
 		if err := s.RawSource.Validate(); err != nil {
 			return err
 		}
@@ -23903,41 +23764,6 @@ func (s *StackBuildDeployStepDetailsUpdate) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackBuildDeployStepDetailsUpdateSum) Validate() error {
-	switch s.Type {
-	case StackBuildDeploymentUpdatesStackBuildDeployStepDetailsUpdateSum:
-		if err := s.StackBuildDeploymentUpdates.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s *StackBuildDeploymentUpdates) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
 		if err := s.Containers.Validate(); err != nil {
 			return err
 		}
@@ -23954,7 +23780,7 @@ func (s *StackBuildDeploymentUpdates) Validate() error {
 	return nil
 }
 
-func (s StackBuildDeploymentUpdatesContainers) Validate() error {
+func (s StackBuildDeployStepDetailsUpdateContainers) Validate() error {
 	var failures []validate.FieldError
 
 	if len(failures) > 0 {
@@ -24090,13 +23916,77 @@ func (s *StackBuildSpec) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
+		if err := s.Version.Validate(); err != nil {
 			return err
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "version",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.ScopedVariables.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				var failures []validate.FieldError
+				for i, elem := range value {
+					if err := func() error {
+						if err := elem.Validate(); err != nil {
+							return err
+						}
+						return nil
+					}(); err != nil {
+						failures = append(failures, validate.FieldError{
+							Name:  fmt.Sprintf("[%d]", i),
+							Error: err,
+						})
+					}
+				}
+				if len(failures) > 0 {
+					return &validate.Error{Fields: failures}
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "scoped_variables",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Containers.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "containers",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Services.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "services",
 			Error: err,
 		})
 	}
@@ -24106,15 +23996,264 @@ func (s *StackBuildSpec) Validate() error {
 	return nil
 }
 
-func (s StackBuildSpecSum) Validate() error {
+func (s StackBuildSpecContainers) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackBuildSpecServices) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Discovery.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "discovery",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Loadbalancer.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "loadbalancer",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackBuildSpecServicesDiscovery) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Config.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "config",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackBuildSpecServicesDiscoveryConfig) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Hosts.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "hosts",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s StackBuildSpecServicesDiscoveryConfigHosts) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackBuildSpecServicesDiscoveryConfigHostsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Ipv4.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ipv4",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Ipv6.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ipv6",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackBuildSpecServicesLoadbalancer) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Config.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "config",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s StackBuildSpecServicesLoadbalancerConfig) Validate() error {
 	switch s.Type {
-	case StackSpecStackBuildSpecSum:
-		if err := s.StackSpec.Validate(); err != nil {
+	case HaProxyLbTypeStackBuildSpecServicesLoadbalancerConfig:
+		if err := s.HaProxyLbType.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case V1LbTypeStackBuildSpecServicesLoadbalancerConfig:
+		if err := s.V1LbType.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case DefaultLbTypeStackBuildSpecServicesLoadbalancerConfig:
+		if err := s.DefaultLbType.Validate(); err != nil {
 			return err
 		}
 		return nil
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s StackBuildSpecVersion) Validate() error {
+	switch s {
+	case "1.0":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
 	}
 }
 
@@ -24359,861 +24498,6 @@ func (s *StackContainerConfig) Validate() error {
 	return nil
 }
 
-func (s *StackContainerConfigDeploy) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Strategy.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "strategy",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.Shutdown.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "shutdown",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.Restart.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "restart",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *StackContainerConfigDeployRestart) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Condition.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "condition",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackContainerConfigDeployRestartCondition) Validate() error {
-	switch s {
-	case "always":
-		return nil
-	case "never":
-		return nil
-	case "failure":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s *StackContainerConfigDeployShutdown) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		var failures []validate.FieldError
-		for i, elem := range s.Signals {
-			if err := func() error {
-				if err := elem.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				failures = append(failures, validate.FieldError{
-					Name:  fmt.Sprintf("[%d]", i),
-					Error: err,
-				})
-			}
-		}
-		if len(failures) > 0 {
-			return &validate.Error{Fields: failures}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "signals",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackContainerConfigDeployShutdownSignalsItem) Validate() error {
-	switch s {
-	case "SIGTERM":
-		return nil
-	case "SIGINT":
-		return nil
-	case "SIGUSR1":
-		return nil
-	case "SIGUSR2":
-		return nil
-	case "SIGHUB":
-		return nil
-	case "SIGKILL":
-		return nil
-	case "SIGQUIT":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s StackContainerConfigDeployStrategy) Validate() error {
-	switch s {
-	case "resource-density":
-		return nil
-	case "manual":
-		return nil
-	case "high-availability":
-		return nil
-	case "first-available":
-		return nil
-	case "node":
-		return nil
-	case "edge":
-		return nil
-	case "function":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s *StackContainerConfigIntegrations) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Files.Get(); ok {
-			if err := func() error {
-				if value == nil {
-					return errors.New("nil is invalid value")
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "files",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *StackContainerConfigIntegrationsAnyOf) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackContainerConfigIntegrationsAnyOfSum) Validate() error {
-	switch s.Type {
-	case StackContainerConfigIntegrationsStackContainerConfigIntegrationsAnyOfSum:
-		if err := s.StackContainerConfigIntegrations.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s *StackContainerConfigNetwork) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Public.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "public",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackContainerConfigNetworkPublic) Validate() error {
-	switch s {
-	case "enable":
-		return nil
-	case "disable":
-		return nil
-	case "egress-only":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s *StackContainerConfigResources) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.RAM.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "ram",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *StackContainerConfigResourcesAnyOf) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackContainerConfigResourcesAnyOfSum) Validate() error {
-	switch s.Type {
-	case StackContainerConfigResourcesStackContainerConfigResourcesAnyOfSum:
-		if err := s.StackContainerConfigResources.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s *StackContainerConfigResourcesRAM) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Swappiness.Get(); ok {
-			if err := func() error {
-				if err := (validate.Float{}).Validate(float64(value)); err != nil {
-					return errors.Wrap(err, "float")
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "swappiness",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *StackContainerConfigRuntime) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		var failures []validate.FieldError
-		for i, elem := range s.Namespaces {
-			if err := func() error {
-				if err := elem.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				failures = append(failures, validate.FieldError{
-					Name:  fmt.Sprintf("[%d]", i),
-					Error: err,
-				})
-			}
-		}
-		if len(failures) > 0 {
-			return &validate.Error{Fields: failures}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "namespaces",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.Seccomp.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "seccomp",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		var failures []validate.FieldError
-		for i, elem := range s.Capabilities {
-			if err := func() error {
-				if err := elem.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				failures = append(failures, validate.FieldError{
-					Name:  fmt.Sprintf("[%d]", i),
-					Error: err,
-				})
-			}
-		}
-		if len(failures) > 0 {
-			return &validate.Error{Fields: failures}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "capabilities",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *StackContainerConfigRuntimeAnyOf) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackContainerConfigRuntimeAnyOfSum) Validate() error {
-	switch s.Type {
-	case StackContainerConfigRuntimeStackContainerConfigRuntimeAnyOfSum:
-		if err := s.StackContainerConfigRuntime.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s StackContainerConfigRuntimeCapabilitiesItem) Validate() error {
-	switch s {
-	case "CAP_CHOWN":
-		return nil
-	case "CAP_FSETID":
-		return nil
-	case "CAP_DAC_OVERRIDE":
-		return nil
-	case "CAP_FOWNER":
-		return nil
-	case "CAP_SETFCAP":
-		return nil
-	case "CAP_SETGID":
-		return nil
-	case "CAP_SETUID":
-		return nil
-	case "CAP_KILL":
-		return nil
-	case "CAP_MKNOD":
-		return nil
-	case "CAP_NET_BIND_SERVICE":
-		return nil
-	case "CAP_NET_RAW":
-		return nil
-	case "CAP_AUDIT_WRITE":
-		return nil
-	case "CAP_SYS_CHROOT":
-		return nil
-	case "CAP_SETPCAP":
-		return nil
-	case "CAP_DAC_READ_SEARCH":
-		return nil
-	case "CAP_NET_ADMIN":
-		return nil
-	case "CAP_NET_BROADCAST":
-		return nil
-	case "CAP_SYS_ADMIN":
-		return nil
-	case "CAP_SYS_MODULE":
-		return nil
-	case "CAP_SYS_NICE":
-		return nil
-	case "CAP_SYS_PACCT":
-		return nil
-	case "CAP_SYS_PTRACE":
-		return nil
-	case "CAP_SYS_RAWIO":
-		return nil
-	case "CAP_SYS_RESOURCE":
-		return nil
-	case "CAP_SYS_BOOT":
-		return nil
-	case "CAP_SYS_TIME":
-		return nil
-	case "CAP_SYS_TTY_CONFIG":
-		return nil
-	case "CAP_SYSLOG":
-		return nil
-	case "CAP_AUDIT_CONTROL":
-		return nil
-	case "CAP_AUDIT_READ":
-		return nil
-	case "CAP_IPC_LOCK":
-		return nil
-	case "CAP_IPC_OWNER":
-		return nil
-	case "CAP_LINUX_IMMUTABLE":
-		return nil
-	case "CAP_MAC_ADMIN":
-		return nil
-	case "CAP_MAC_OVERRIDE":
-		return nil
-	case "CAP_BLOCK_SUSPEND":
-		return nil
-	case "CAP_LEASE":
-		return nil
-	case "CAP_WAKE_ALARM":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s StackContainerConfigRuntimeNamespacesItem) Validate() error {
-	switch s {
-	case "ipc":
-		return nil
-	case "pid":
-		return nil
-	case "uts":
-		return nil
-	case "network":
-		return nil
-	case "mount":
-		return nil
-	case "user":
-		return nil
-	case "cgroup":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s *StackContainerConfigRuntimeSeccomp) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if s.Rules == nil {
-			return errors.New("nil is invalid value")
-		}
-		var failures []validate.FieldError
-		for i, elem := range s.Rules {
-			if err := func() error {
-				if err := elem.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				failures = append(failures, validate.FieldError{
-					Name:  fmt.Sprintf("[%d]", i),
-					Error: err,
-				})
-			}
-		}
-		if len(failures) > 0 {
-			return &validate.Error{Fields: failures}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "rules",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *StackContainerConfigRuntimeSeccompRulesItem) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Syscall.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "syscall",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *StackContainerConfigRuntimeSeccompRulesItemSyscall) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if s.Names == nil {
-			return errors.New("nil is invalid value")
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "names",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if err := s.Action.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "action",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		var failures []validate.FieldError
-		for i, elem := range s.Args {
-			if err := func() error {
-				if err := elem.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				failures = append(failures, validate.FieldError{
-					Name:  fmt.Sprintf("[%d]", i),
-					Error: err,
-				})
-			}
-		}
-		if len(failures) > 0 {
-			return &validate.Error{Fields: failures}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "args",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackContainerConfigRuntimeSeccompRulesItemSyscallAction) Validate() error {
-	switch s {
-	case "SCMP_ACT_KILL":
-		return nil
-	case "SCMP_ACT_KILL_PROCESS":
-		return nil
-	case "SCMP_ACT_KILL_THREAD":
-		return nil
-	case "SCMP_ACT_TRAP":
-		return nil
-	case "SCMP_ACT_ERRNO":
-		return nil
-	case "SCMP_ACT_TRACE":
-		return nil
-	case "SCMP_ACT_ALLOW":
-		return nil
-	case "SCMP_ACT_LOG":
-		return nil
-	case "SCMP_ACT_NOTIFY":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s *StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItem) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.Op.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "op",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp) Validate() error {
-	switch s {
-	case "SCMP_CMP_NE":
-		return nil
-	case "SCMP_CMP_LT":
-		return nil
-	case "SCMP_CMP_LE":
-		return nil
-	case "SCMP_CMP_EQ":
-		return nil
-	case "SCMP_CMP_GE":
-		return nil
-	case "SCMP_CMP_GT":
-		return nil
-	case "SCMP_CMP_MASKED_EQ":
-		return nil
-	default:
-		return errors.Errorf("invalid value: %v", s)
-	}
-}
-
-func (s *StackContainerConfigScaling) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if s.Thresholds == nil {
-			return errors.New("nil is invalid value")
-		}
-		var failures []validate.FieldError
-		for i, elem := range s.Thresholds {
-			if err := func() error {
-				if err := elem.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				failures = append(failures, validate.FieldError{
-					Name:  fmt.Sprintf("[%d]", i),
-					Error: err,
-				})
-			}
-		}
-		if len(failures) > 0 {
-			return &validate.Error{Fields: failures}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "thresholds",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *StackContainerConfigScalingAnyOf) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackContainerConfigScalingAnyOfSum) Validate() error {
-	switch s.Type {
-	case StackContainerConfigScalingStackContainerConfigScalingAnyOfSum:
-		if err := s.StackContainerConfigScaling.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s StackContainerRole) Validate() error {
 	switch s {
 	case "conductor":
@@ -25223,27 +24507,41 @@ func (s StackContainerRole) Validate() error {
 	}
 }
 
-func (s *StackContainerScaleThreshold) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
+func (s StackContainerScaleThreshold) Validate() error {
+	switch s.Type {
+	case StackContainerScaleThresholdRamStackContainerScaleThreshold:
+		if err := s.StackContainerScaleThresholdRam.Validate(); err != nil {
 			return err
 		}
 		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
+	case StackContainerScaleThresholdCpuStackContainerScaleThreshold:
+		if err := s.StackContainerScaleThresholdCpu.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case StackContainerScaleThresholdNetworkConnectionsStackContainerScaleThreshold:
+		if err := s.StackContainerScaleThresholdNetworkConnections.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case StackContainerScaleThresholdNetworkRequestsStackContainerScaleThreshold:
+		if err := s.StackContainerScaleThresholdNetworkRequests.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case StackContainerScaleThresholdNetworkThroughputStackContainerScaleThreshold:
+		if err := s.StackContainerScaleThresholdNetworkThroughput.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case StackContainerScaleThresholdCustomStackContainerScaleThreshold:
+		if err := s.StackContainerScaleThresholdCustom.Validate(); err != nil {
+			return err
+		}
+		return nil
+	default:
+		return errors.Errorf("invalid type %q", s.Type)
 	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
 }
 
 func (s *StackContainerScaleThresholdCpu) Validate() error {
@@ -25272,6 +24570,38 @@ func (s *StackContainerScaleThresholdCpu) Validate() error {
 func (s StackContainerScaleThresholdCpuType) Validate() error {
 	switch s {
 	case "cpu":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *StackContainerScaleThresholdCustom) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s StackContainerScaleThresholdCustomType) Validate() error {
+	switch s {
+	case "custom":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -25406,38 +24736,6 @@ func (s StackContainerScaleThresholdRamType) Validate() error {
 	}
 }
 
-func (s StackContainerScaleThresholdSum) Validate() error {
-	switch s.Type {
-	case StackContainerScaleThresholdRamStackContainerScaleThresholdSum:
-		if err := s.StackContainerScaleThresholdRam.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case StackContainerScaleThresholdCpuStackContainerScaleThresholdSum:
-		if err := s.StackContainerScaleThresholdCpu.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case StackContainerScaleThresholdNetworkConnectionsStackContainerScaleThresholdSum:
-		if err := s.StackContainerScaleThresholdNetworkConnections.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case StackContainerScaleThresholdNetworkRequestsStackContainerScaleThresholdSum:
-		if err := s.StackContainerScaleThresholdNetworkRequests.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case StackContainerScaleThresholdNetworkThroughputStackContainerScaleThresholdSum:
-		if err := s.StackContainerScaleThresholdNetworkThroughput.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
 func (s *StackContainerVolume) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -25527,52 +24825,29 @@ func (s StackContainerVolumeRemoteAccessPasswordAlgorithm) Validate() error {
 	}
 }
 
-func (s *StackImageOrigin) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackImageOriginSum) Validate() error {
+func (s StackImageOrigin) Validate() error {
 	switch s.Type {
-	case DockerHubOriginStackImageOriginSum:
+	case DockerHubOriginStackImageOrigin:
 		if err := s.DockerHubOrigin.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case DockerFileOriginStackImageOriginSum:
+	case DockerFileOriginStackImageOrigin:
 		if err := s.DockerFileOrigin.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case DockerRegistryOriginStackImageOriginSum:
+	case DockerRegistryOriginStackImageOrigin:
 		if err := s.DockerRegistryOrigin.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case OciRegistryOriginStackImageOriginSum:
+	case OciRegistryOriginStackImageOrigin:
 		if err := s.OciRegistryOrigin.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case CycleSourceOriginStackImageOriginSum:
+	case CycleSourceOriginStackImageOrigin:
 		if err := s.CycleSourceOrigin.Validate(); err != nil {
 			return err
 		}
@@ -25805,13 +25080,77 @@ func (s *StackRawSourceDetails) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
+		if err := s.Version.Validate(); err != nil {
 			return err
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "version",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.ScopedVariables.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				var failures []validate.FieldError
+				for i, elem := range value {
+					if err := func() error {
+						if err := elem.Validate(); err != nil {
+							return err
+						}
+						return nil
+					}(); err != nil {
+						failures = append(failures, validate.FieldError{
+							Name:  fmt.Sprintf("[%d]", i),
+							Error: err,
+						})
+					}
+				}
+				if len(failures) > 0 {
+					return &validate.Error{Fields: failures}
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "scoped_variables",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Containers.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "containers",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Services.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "services",
 			Error: err,
 		})
 	}
@@ -25821,15 +25160,264 @@ func (s *StackRawSourceDetails) Validate() error {
 	return nil
 }
 
-func (s StackRawSourceDetailsSum) Validate() error {
+func (s StackRawSourceDetailsContainers) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackRawSourceDetailsServices) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Discovery.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "discovery",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Loadbalancer.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "loadbalancer",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackRawSourceDetailsServicesDiscovery) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Config.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "config",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackRawSourceDetailsServicesDiscoveryConfig) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Hosts.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "hosts",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s StackRawSourceDetailsServicesDiscoveryConfigHosts) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackRawSourceDetailsServicesDiscoveryConfigHostsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Ipv4.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ipv4",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Ipv6.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ipv6",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackRawSourceDetailsServicesLoadbalancer) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Config.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "config",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s StackRawSourceDetailsServicesLoadbalancerConfig) Validate() error {
 	switch s.Type {
-	case StackSpecStackRawSourceDetailsSum:
-		if err := s.StackSpec.Validate(); err != nil {
+	case HaProxyLbTypeStackRawSourceDetailsServicesLoadbalancerConfig:
+		if err := s.HaProxyLbType.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case V1LbTypeStackRawSourceDetailsServicesLoadbalancerConfig:
+		if err := s.V1LbType.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case DefaultLbTypeStackRawSourceDetailsServicesLoadbalancerConfig:
+		if err := s.DefaultLbType.Validate(); err != nil {
 			return err
 		}
 		return nil
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s StackRawSourceDetailsVersion) Validate() error {
+	switch s {
+	case "1.0":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
 	}
 }
 
@@ -25906,37 +25494,14 @@ func (s *StackRepoSourceDetails) Validate() error {
 	return nil
 }
 
-func (s *StackRepoSourceDetailsAuth) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackRepoSourceDetailsAuthSum) Validate() error {
+func (s StackRepoSourceDetailsAuth) Validate() error {
 	switch s.Type {
-	case CredentialsHTTPStackRepoSourceDetailsAuthSum:
+	case CredentialsHTTPStackRepoSourceDetailsAuth:
 		if err := s.CredentialsHTTP.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case CredentialsSSHStackRepoSourceDetailsAuthSum:
+	case CredentialsSSHStackRepoSourceDetailsAuth:
 		if err := s.CredentialsSSH.Validate(); err != nil {
 			return err
 		}
@@ -25955,37 +25520,14 @@ func (s StackRepoSourceType) Validate() error {
 	}
 }
 
-func (s *StackSource) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackSourceSum) Validate() error {
+func (s StackSource) Validate() error {
 	switch s.Type {
-	case StackRepoSourceStackSourceSum:
+	case StackRepoSourceStackSource:
 		if err := s.StackRepoSource.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case StackRawSourceStackSourceSum:
+	case StackRawSourceStackSource:
 		if err := s.StackRawSource.Validate(); err != nil {
 			return err
 		}
@@ -26082,6 +25624,769 @@ func (s *StackSpec) Validate() error {
 	return nil
 }
 
+func (s *StackSpecContainerConfigDeploy) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Strategy.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "strategy",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Shutdown.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "shutdown",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Restart.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "restart",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackSpecContainerConfigDeployRestart) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Condition.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "condition",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s StackSpecContainerConfigDeployRestartCondition) Validate() error {
+	switch s {
+	case "always":
+		return nil
+	case "never":
+		return nil
+	case "failure":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *StackSpecContainerConfigDeployShutdown) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Signals {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "signals",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s StackSpecContainerConfigDeployShutdownSignalsItem) Validate() error {
+	switch s {
+	case "SIGTERM":
+		return nil
+	case "SIGINT":
+		return nil
+	case "SIGUSR1":
+		return nil
+	case "SIGUSR2":
+		return nil
+	case "SIGHUB":
+		return nil
+	case "SIGKILL":
+		return nil
+	case "SIGQUIT":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s StackSpecContainerConfigDeployStrategy) Validate() error {
+	switch s {
+	case "resource-density":
+		return nil
+	case "manual":
+		return nil
+	case "high-availability":
+		return nil
+	case "first-available":
+		return nil
+	case "node":
+		return nil
+	case "edge":
+		return nil
+	case "function":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *StackSpecContainerConfigIntegrations) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Files.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "files",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Logs.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "logs",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackSpecContainerConfigIntegrationsLogs) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Groups.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "groups",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackSpecContainerConfigNetwork) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Public.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "public",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s StackSpecContainerConfigNetworkPublic) Validate() error {
+	switch s {
+	case "enable":
+		return nil
+	case "disable":
+		return nil
+	case "egress-only":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *StackSpecContainerConfigResources) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.RAM.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ram",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackSpecContainerConfigResourcesRAM) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Swappiness.Get(); ok {
+			if err := func() error {
+				if err := (validate.Float{}).Validate(float64(value)); err != nil {
+					return errors.Wrap(err, "float")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "swappiness",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackSpecContainerConfigRuntime) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Namespaces {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "namespaces",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Seccomp.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "seccomp",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Capabilities {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "capabilities",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s StackSpecContainerConfigRuntimeCapabilitiesItem) Validate() error {
+	switch s {
+	case "CAP_CHOWN":
+		return nil
+	case "CAP_FSETID":
+		return nil
+	case "CAP_DAC_OVERRIDE":
+		return nil
+	case "CAP_FOWNER":
+		return nil
+	case "CAP_SETFCAP":
+		return nil
+	case "CAP_SETGID":
+		return nil
+	case "CAP_SETUID":
+		return nil
+	case "CAP_KILL":
+		return nil
+	case "CAP_MKNOD":
+		return nil
+	case "CAP_NET_BIND_SERVICE":
+		return nil
+	case "CAP_NET_RAW":
+		return nil
+	case "CAP_AUDIT_WRITE":
+		return nil
+	case "CAP_SYS_CHROOT":
+		return nil
+	case "CAP_SETPCAP":
+		return nil
+	case "CAP_DAC_READ_SEARCH":
+		return nil
+	case "CAP_NET_ADMIN":
+		return nil
+	case "CAP_NET_BROADCAST":
+		return nil
+	case "CAP_SYS_ADMIN":
+		return nil
+	case "CAP_SYS_MODULE":
+		return nil
+	case "CAP_SYS_NICE":
+		return nil
+	case "CAP_SYS_PACCT":
+		return nil
+	case "CAP_SYS_PTRACE":
+		return nil
+	case "CAP_SYS_RAWIO":
+		return nil
+	case "CAP_SYS_RESOURCE":
+		return nil
+	case "CAP_SYS_BOOT":
+		return nil
+	case "CAP_SYS_TIME":
+		return nil
+	case "CAP_SYS_TTY_CONFIG":
+		return nil
+	case "CAP_SYSLOG":
+		return nil
+	case "CAP_AUDIT_CONTROL":
+		return nil
+	case "CAP_AUDIT_READ":
+		return nil
+	case "CAP_IPC_LOCK":
+		return nil
+	case "CAP_IPC_OWNER":
+		return nil
+	case "CAP_LINUX_IMMUTABLE":
+		return nil
+	case "CAP_MAC_ADMIN":
+		return nil
+	case "CAP_MAC_OVERRIDE":
+		return nil
+	case "CAP_BLOCK_SUSPEND":
+		return nil
+	case "CAP_LEASE":
+		return nil
+	case "CAP_WAKE_ALARM":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s StackSpecContainerConfigRuntimeNamespacesItem) Validate() error {
+	switch s {
+	case "ipc":
+		return nil
+	case "pid":
+		return nil
+	case "uts":
+		return nil
+	case "network":
+		return nil
+	case "mount":
+		return nil
+	case "user":
+		return nil
+	case "cgroup":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *StackSpecContainerConfigRuntimeSeccomp) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Rules == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Rules {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "rules",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackSpecContainerConfigRuntimeSeccompRulesItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Syscall.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "syscall",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackSpecContainerConfigRuntimeSeccompRulesItemSyscall) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Names == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "names",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Action.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "action",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		var failures []validate.FieldError
+		for i, elem := range s.Args {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "args",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s StackSpecContainerConfigRuntimeSeccompRulesItemSyscallAction) Validate() error {
+	switch s {
+	case "SCMP_ACT_KILL":
+		return nil
+	case "SCMP_ACT_KILL_PROCESS":
+		return nil
+	case "SCMP_ACT_KILL_THREAD":
+		return nil
+	case "SCMP_ACT_TRAP":
+		return nil
+	case "SCMP_ACT_ERRNO":
+		return nil
+	case "SCMP_ACT_TRACE":
+		return nil
+	case "SCMP_ACT_ALLOW":
+		return nil
+	case "SCMP_ACT_LOG":
+		return nil
+	case "SCMP_ACT_NOTIFY":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *StackSpecContainerConfigRuntimeSeccompRulesItemSyscallArgsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Op.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "op",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s StackSpecContainerConfigRuntimeSeccompRulesItemSyscallArgsItemOp) Validate() error {
+	switch s {
+	case "SCMP_CMP_NE":
+		return nil
+	case "SCMP_CMP_LT":
+		return nil
+	case "SCMP_CMP_LE":
+		return nil
+	case "SCMP_CMP_EQ":
+		return nil
+	case "SCMP_CMP_GE":
+		return nil
+	case "SCMP_CMP_GT":
+		return nil
+	case "SCMP_CMP_MASKED_EQ":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *StackSpecContainerConfigScaling) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Thresholds == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Thresholds {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "thresholds",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
 func (s *StackSpecContainerImage) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -26125,281 +26430,6 @@ func (s StackSpecContainers) Validate() error {
 		return &validate.Error{Fields: failures}
 	}
 	return nil
-}
-
-func (s *StackSpecDiscoveryConfig) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Hosts.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "hosts",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackSpecDiscoveryConfigHosts) Validate() error {
-	var failures []validate.FieldError
-	for key, elem := range s {
-		if err := func() error {
-			if err := elem.Validate(); err != nil {
-				return err
-			}
-			return nil
-		}(); err != nil {
-			failures = append(failures, validate.FieldError{
-				Name:  key,
-				Error: err,
-			})
-		}
-	}
-
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *StackSpecDiscoveryConfigHostsItem) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Ipv4.Get(); ok {
-			if err := func() error {
-				if value == nil {
-					return errors.New("nil is invalid value")
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "ipv4",
-			Error: err,
-		})
-	}
-	if err := func() error {
-		if value, ok := s.Ipv6.Get(); ok {
-			if err := func() error {
-				if value == nil {
-					return errors.New("nil is invalid value")
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "ipv6",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *StackSpecDiscoveryService) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Config.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "config",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *StackSpecDiscoveryServiceConfig) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackSpecDiscoveryServiceConfigSum) Validate() error {
-	switch s.Type {
-	case StackSpecDiscoveryConfigStackSpecDiscoveryServiceConfigSum:
-		if err := s.StackSpecDiscoveryConfig.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s *StackSpecLoadBalancerConfig) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackSpecLoadBalancerConfigSum) Validate() error {
-	switch s.Type {
-	case HaProxyLbTypeStackSpecLoadBalancerConfigSum:
-		if err := s.HaProxyLbType.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case V1LbTypeStackSpecLoadBalancerConfigSum:
-		if err := s.V1LbType.Validate(); err != nil {
-			return err
-		}
-		return nil
-	case DefaultLbTypeStackSpecLoadBalancerConfigSum:
-		if err := s.DefaultLbType.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s *StackSpecLoadBalancerService) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if value, ok := s.Config.Get(); ok {
-			if err := func() error {
-				if err := value.Validate(); err != nil {
-					return err
-				}
-				return nil
-			}(); err != nil {
-				return err
-			}
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "config",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s *StackSpecLoadBalancerServiceConfig) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackSpecLoadBalancerServiceConfigSum) Validate() error {
-	switch s.Type {
-	case StackSpecLoadBalancerConfigStackSpecLoadBalancerServiceConfigSum:
-		if err := s.StackSpecLoadBalancerConfig.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
 }
 
 func (s *StackSpecScopedVariable) Validate() error {
@@ -26546,37 +26576,14 @@ func (s *StackSpecScopedVariableScopeContainers) Validate() error {
 	return nil
 }
 
-func (s *StackSpecScopedVariableSource) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s StackSpecScopedVariableSourceSum) Validate() error {
+func (s StackSpecScopedVariableSource) Validate() error {
 	switch s.Type {
-	case StackSpecScopedVariableUrlSourceStackSpecScopedVariableSourceSum:
+	case StackSpecScopedVariableUrlSourceStackSpecScopedVariableSource:
 		if err := s.StackSpecScopedVariableUrlSource.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case StackSpecScopedVariableRawSourceStackSpecScopedVariableSourceSum:
+	case StackSpecScopedVariableRawSourceStackSpecScopedVariableSource:
 		if err := s.StackSpecScopedVariableRawSource.Validate(); err != nil {
 			return err
 		}
@@ -26673,13 +26680,20 @@ func (s *StackSpecServicesDiscovery) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
+		if value, ok := s.Config.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "config",
 			Error: err,
 		})
 	}
@@ -26689,16 +26703,104 @@ func (s *StackSpecServicesDiscovery) Validate() error {
 	return nil
 }
 
-func (s StackSpecServicesDiscoverySum) Validate() error {
-	switch s.Type {
-	case StackSpecDiscoveryServiceStackSpecServicesDiscoverySum:
-		if err := s.StackSpecDiscoveryService.Validate(); err != nil {
-			return err
+func (s *StackSpecServicesDiscoveryConfig) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Hosts.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "hosts",
+			Error: err,
+		})
 	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s StackSpecServicesDiscoveryConfigHosts) Validate() error {
+	var failures []validate.FieldError
+	for key, elem := range s {
+		if err := func() error {
+			if err := elem.Validate(); err != nil {
+				return err
+			}
+			return nil
+		}(); err != nil {
+			failures = append(failures, validate.FieldError{
+				Name:  key,
+				Error: err,
+			})
+		}
+	}
+
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *StackSpecServicesDiscoveryConfigHostsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Ipv4.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ipv4",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Ipv6.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "ipv6",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 
 func (s *StackSpecServicesLoadbalancer) Validate() error {
@@ -26708,13 +26810,20 @@ func (s *StackSpecServicesLoadbalancer) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
+		if value, ok := s.Config.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "config",
 			Error: err,
 		})
 	}
@@ -26724,10 +26833,20 @@ func (s *StackSpecServicesLoadbalancer) Validate() error {
 	return nil
 }
 
-func (s StackSpecServicesLoadbalancerSum) Validate() error {
+func (s StackSpecServicesLoadbalancerConfig) Validate() error {
 	switch s.Type {
-	case StackSpecLoadBalancerServiceStackSpecServicesLoadbalancerSum:
-		if err := s.StackSpecLoadBalancerService.Validate(); err != nil {
+	case HaProxyLbTypeStackSpecServicesLoadbalancerConfig:
+		if err := s.HaProxyLbType.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case V1LbTypeStackSpecServicesLoadbalancerConfig:
+		if err := s.V1LbType.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case DefaultLbTypeStackSpecServicesLoadbalancerConfig:
+		if err := s.DefaultLbType.Validate(); err != nil {
 			return err
 		}
 		return nil
@@ -26944,18 +27063,6 @@ func (s *Term) Validate() error {
 }
 
 func (s TermRenew) Validate() error {
-	switch s.Type {
-	case TermRenew0TermRenew:
-		if err := s.TermRenew0.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s TermRenew0) Validate() error {
 	switch s {
 	case "once":
 		return nil
@@ -27528,13 +27635,30 @@ func (s *UpdateAutoScaleGroupReqInfrastructure) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
+		if s.Models == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Models {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "models",
 			Error: err,
 		})
 	}
@@ -27544,16 +27668,67 @@ func (s *UpdateAutoScaleGroupReqInfrastructure) Validate() error {
 	return nil
 }
 
-func (s UpdateAutoScaleGroupReqInfrastructureSum) Validate() error {
-	switch s.Type {
-	case AutoScaleGroupInfrastructureUpdateAutoScaleGroupReqInfrastructureSum:
-		if err := s.AutoScaleGroupInfrastructure.Validate(); err != nil {
-			return err
+func (s *UpdateAutoScaleGroupReqInfrastructureModelsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Locations == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Locations {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
 		}
 		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "locations",
+			Error: err,
+		})
 	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *UpdateAutoScaleGroupReqInfrastructureModelsItemLocationsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.AvailabilityZones == nil {
+			return errors.New("nil is invalid value")
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "availability_zones",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 
 func (s *UpdateAutoScaleGroupReqScale) Validate() error {
@@ -27563,13 +27738,20 @@ func (s *UpdateAutoScaleGroupReqScale) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
+		if value, ok := s.Down.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "down",
 			Error: err,
 		})
 	}
@@ -27579,15 +27761,44 @@ func (s *UpdateAutoScaleGroupReqScale) Validate() error {
 	return nil
 }
 
-func (s UpdateAutoScaleGroupReqScaleSum) Validate() error {
-	switch s.Type {
-	case AutoScaleGroupScaleUpdateAutoScaleGroupReqScaleSum:
-		if err := s.AutoScaleGroupScale.Validate(); err != nil {
-			return err
+func (s *UpdateAutoScaleGroupReqScaleDown) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Method.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "method",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s UpdateAutoScaleGroupReqScaleDownMethod) Validate() error {
+	switch s {
+	case "fifo":
+		return nil
+	case "lifo":
+		return nil
 	default:
-		return errors.Errorf("invalid type %q", s.Type)
+		return errors.Errorf("invalid value: %v", s)
 	}
 }
 
@@ -28571,37 +28782,14 @@ func (s *UpdateScopedVariableReq) Validate() error {
 	return nil
 }
 
-func (s *UpdateScopedVariableReqSource) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s UpdateScopedVariableReqSourceSum) Validate() error {
+func (s UpdateScopedVariableReqSource) Validate() error {
 	switch s.Type {
-	case RawSourceUpdateScopedVariableReqSourceSum:
+	case RawSourceUpdateScopedVariableReqSource:
 		if err := s.RawSource.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case URLSourceUpdateScopedVariableReqSourceSum:
+	case URLSourceUpdateScopedVariableReqSource:
 		if err := s.URLSource.Validate(); err != nil {
 			return err
 		}
@@ -28806,6 +28994,24 @@ func (s *V1LbConfig) Validate() error {
 			Error: err,
 		})
 	}
+	if err := func() error {
+		if value, ok := s.Waf.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "waf",
+			Error: err,
+		})
+	}
 	if len(failures) > 0 {
 		return &validate.Error{Fields: failures}
 	}
@@ -28819,13 +29025,38 @@ func (s *V1LbConfigControllerTemplate) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
+		if value, ok := s.Waf.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "waf",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Transport.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "transport",
 			Error: err,
 		})
 	}
@@ -28835,15 +29066,328 @@ func (s *V1LbConfigControllerTemplate) Validate() error {
 	return nil
 }
 
-func (s V1LbConfigControllerTemplateSum) Validate() error {
+func (s *V1LbConfigControllerTemplateTransport) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Mode.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "mode",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Config.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "config",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Routers == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Routers {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "routers",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *V1LbConfigControllerTemplateTransportConfig) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Verbosity.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "verbosity",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Extension.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "extension",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s V1LbConfigControllerTemplateTransportConfigExtension) Validate() error {
 	switch s.Type {
-	case V1LbControllerV1LbConfigControllerTemplateSum:
-		if err := s.V1LbController.Validate(); err != nil {
+	case TcpTransportConfigV1LbConfigControllerTemplateTransportConfigExtension:
+		if err := s.TcpTransportConfig.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case HttpTransportConfigV1LbConfigControllerTemplateTransportConfigExtension:
+		if err := s.HttpTransportConfig.Validate(); err != nil {
+			return err
+		}
+		return nil
+	case UdpTransportConfigV1LbConfigControllerTemplateTransportConfigExtension:
+		if err := s.UdpTransportConfig.Validate(); err != nil {
 			return err
 		}
 		return nil
 	default:
 		return errors.Errorf("invalid type %q", s.Type)
+	}
+}
+
+func (s V1LbConfigControllerTemplateTransportConfigVerbosity) Validate() error {
+	switch s {
+	case "low":
+		return nil
+	case "normal":
+		return nil
+	case "high":
+		return nil
+	case "debug":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s V1LbConfigControllerTemplateTransportMode) Validate() error {
+	switch s {
+	case "tcp":
+		return nil
+	case "udp":
+		return nil
+	case "http":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *V1LbConfigControllerTemplateWaf) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Rules == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Rules {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "rules",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *V1LbConfigControllerTemplateWafRulesItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Conditions == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Conditions {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "conditions",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *V1LbConfigControllerTemplateWafRulesItemConditionsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Operator.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "operator",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s V1LbConfigControllerTemplateWafRulesItemConditionsItemOperator) Validate() error {
+	switch s {
+	case "==":
+		return nil
+	case "!=":
+		return nil
+	case ">":
+		return nil
+	case "<":
+		return nil
+	case ">=":
+		return nil
+	case "<=":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s V1LbConfigControllerTemplateWafRulesItemConditionsItemType) Validate() error {
+	switch s {
+	case "ip-match":
+		return nil
+	case "geo-match":
+		return nil
+	case "url-match":
+		return nil
+	case "method-match":
+		return nil
+	case "header-match":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s V1LbConfigControllerTemplateWafRulesItemType) Validate() error {
+	switch s {
+	case "allow":
+		return nil
+	case "deny":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
 	}
 }
 
@@ -28853,6 +29397,17 @@ func (s *V1LbConfigRouter) Validate() error {
 	}
 
 	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Match.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "match",
+			Error: err,
+		})
+	}
 	if err := func() error {
 		if err := s.Mode.Validate(); err != nil {
 			return err
@@ -28948,18 +29503,6 @@ func (s *V1LbConfigRouterConfig) Validate() error {
 }
 
 func (s V1LbConfigRouterConfigDestinationPrioritization) Validate() error {
-	switch s.Type {
-	case V1LbConfigRouterConfigDestinationPrioritization0V1LbConfigRouterConfigDestinationPrioritization:
-		if err := s.V1LbConfigRouterConfigDestinationPrioritization0.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s V1LbConfigRouterConfigDestinationPrioritization0) Validate() error {
 	switch s {
 	case "latency":
 		return nil
@@ -28970,42 +29513,19 @@ func (s V1LbConfigRouterConfigDestinationPrioritization0) Validate() error {
 	}
 }
 
-func (s *V1LbConfigRouterConfigExtension) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s V1LbConfigRouterConfigExtensionSum) Validate() error {
+func (s V1LbConfigRouterConfigExtension) Validate() error {
 	switch s.Type {
-	case TcpRouterConfigV1LbConfigRouterConfigExtensionSum:
+	case TcpRouterConfigV1LbConfigRouterConfigExtension:
 		if err := s.TcpRouterConfig.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case HttpRouterConfigV1LbConfigRouterConfigExtensionSum:
+	case HttpRouterConfigV1LbConfigRouterConfigExtension:
 		if err := s.HttpRouterConfig.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case UdpRouterConfigV1LbConfigRouterConfigExtensionSum:
+	case UdpRouterConfigV1LbConfigRouterConfigExtension:
 		if err := s.UdpRouterConfig.Validate(); err != nil {
 			return err
 		}
@@ -29046,18 +29566,6 @@ func (s *V1LbConfigRouterConfigTLS) Validate() error {
 }
 
 func (s V1LbConfigRouterConfigTLSClientAuth) Validate() error {
-	switch s.Type {
-	case V1LbConfigRouterConfigTLSClientAuth0V1LbConfigRouterConfigTLSClientAuth:
-		if err := s.V1LbConfigRouterConfigTLSClientAuth0.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s V1LbConfigRouterConfigTLSClientAuth0) Validate() error {
 	switch s {
 	case "none":
 		return nil
@@ -29072,11 +29580,261 @@ func (s V1LbConfigRouterConfigTLSClientAuth0) Validate() error {
 	}
 }
 
+func (s *V1LbConfigRouterMatch) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Containers.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "containers",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *V1LbConfigRouterMatchContainers) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Include.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "include",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Exclude.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "exclude",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
 func (s V1LbConfigRouterMode) Validate() error {
 	switch s {
 	case "random":
 		return nil
 	case "round-robin":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *V1LbConfigWaf) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Rules == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Rules {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "rules",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *V1LbConfigWafRulesItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Conditions == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Conditions {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "conditions",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *V1LbConfigWafRulesItemConditionsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Operator.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "operator",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s V1LbConfigWafRulesItemConditionsItemOperator) Validate() error {
+	switch s {
+	case "==":
+		return nil
+	case "!=":
+		return nil
+	case ">":
+		return nil
+	case "<":
+		return nil
+	case ">=":
+		return nil
+	case "<=":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s V1LbConfigWafRulesItemConditionsItemType) Validate() error {
+	switch s {
+	case "ip-match":
+		return nil
+	case "geo-match":
+		return nil
+	case "url-match":
+		return nil
+	case "method-match":
+		return nil
+	case "header-match":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s V1LbConfigWafRulesItemType) Validate() error {
+	switch s {
+	case "allow":
+		return nil
+	case "deny":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -29090,8 +29848,33 @@ func (s *V1LbController) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.Transport.Validate(); err != nil {
-			return err
+		if value, ok := s.Waf.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "waf",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.Transport.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
@@ -29209,42 +29992,19 @@ func (s *V1LbControllerTransportConfig) Validate() error {
 	return nil
 }
 
-func (s *V1LbControllerTransportConfigExtension) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
-		if err := s.OneOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "OneOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s V1LbControllerTransportConfigExtensionSum) Validate() error {
+func (s V1LbControllerTransportConfigExtension) Validate() error {
 	switch s.Type {
-	case TcpTransportConfigV1LbControllerTransportConfigExtensionSum:
+	case TcpTransportConfigV1LbControllerTransportConfigExtension:
 		if err := s.TcpTransportConfig.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case HttpTransportConfigV1LbControllerTransportConfigExtensionSum:
+	case HttpTransportConfigV1LbControllerTransportConfigExtension:
 		if err := s.HttpTransportConfig.Validate(); err != nil {
 			return err
 		}
 		return nil
-	case UdpTransportConfigV1LbControllerTransportConfigExtensionSum:
+	case UdpTransportConfigV1LbControllerTransportConfigExtension:
 		if err := s.UdpTransportConfig.Validate(); err != nil {
 			return err
 		}
@@ -29276,6 +30036,178 @@ func (s V1LbControllerTransportMode) Validate() error {
 	case "udp":
 		return nil
 	case "http":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *V1LbControllerWaf) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if s.Rules == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Rules {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "rules",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *V1LbControllerWafRulesItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if s.Conditions == nil {
+			return errors.New("nil is invalid value")
+		}
+		var failures []validate.FieldError
+		for i, elem := range s.Conditions {
+			if err := func() error {
+				if err := elem.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				failures = append(failures, validate.FieldError{
+					Name:  fmt.Sprintf("[%d]", i),
+					Error: err,
+				})
+			}
+		}
+		if len(failures) > 0 {
+			return &validate.Error{Fields: failures}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "conditions",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *V1LbControllerWafRulesItemConditionsItem) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Type.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Operator.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "operator",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s V1LbControllerWafRulesItemConditionsItemOperator) Validate() error {
+	switch s {
+	case "==":
+		return nil
+	case "!=":
+		return nil
+	case ">":
+		return nil
+	case "<":
+		return nil
+	case ">=":
+		return nil
+	case "<=":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s V1LbControllerWafRulesItemConditionsItemType) Validate() error {
+	switch s {
+	case "ip-match":
+		return nil
+	case "geo-match":
+		return nil
+	case "url-match":
+		return nil
+	case "method-match":
+		return nil
+	case "header-match":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s V1LbControllerWafRulesItemType) Validate() error {
+	switch s {
+	case "allow":
+		return nil
+	case "deny":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -29515,13 +30447,38 @@ func (s *WebhookGetStepDetailsOptions) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
+		if value, ok := s.FailOn.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
+			Name:  "fail_on",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if value, ok := s.RetryOn.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "retry_on",
 			Error: err,
 		})
 	}
@@ -29531,16 +30488,64 @@ func (s *WebhookGetStepDetailsOptions) Validate() error {
 	return nil
 }
 
-func (s WebhookGetStepDetailsOptionsSum) Validate() error {
-	switch s.Type {
-	case WebhookStepOptionsWebhookGetStepDetailsOptionsSum:
-		if err := s.WebhookStepOptions.Validate(); err != nil {
-			return err
+func (s *WebhookGetStepDetailsOptionsFailOn) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.HTTPCodes.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
 		}
 		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "http_codes",
+			Error: err,
+		})
 	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *WebhookGetStepDetailsOptionsRetryOn) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.HTTPCodes.Get(); ok {
+			if err := func() error {
+				if value == nil {
+					return errors.New("nil is invalid value")
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "http_codes",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 
 func (s *WebhookPostStep) Validate() error {
@@ -29623,41 +30628,6 @@ func (s *WebhookPostStepDetailsOptions) Validate() error {
 
 	var failures []validate.FieldError
 	if err := func() error {
-		if err := s.AnyOf.Validate(); err != nil {
-			return err
-		}
-		return nil
-	}(); err != nil {
-		failures = append(failures, validate.FieldError{
-			Name:  "AnyOf",
-			Error: err,
-		})
-	}
-	if len(failures) > 0 {
-		return &validate.Error{Fields: failures}
-	}
-	return nil
-}
-
-func (s WebhookPostStepDetailsOptionsSum) Validate() error {
-	switch s.Type {
-	case WebhookStepOptionsWebhookPostStepDetailsOptionsSum:
-		if err := s.WebhookStepOptions.Validate(); err != nil {
-			return err
-		}
-		return nil
-	default:
-		return errors.Errorf("invalid type %q", s.Type)
-	}
-}
-
-func (s *WebhookStepOptions) Validate() error {
-	if s == nil {
-		return validate.ErrNilPointer
-	}
-
-	var failures []validate.FieldError
-	if err := func() error {
 		if value, ok := s.FailOn.Get(); ok {
 			if err := func() error {
 				if err := value.Validate(); err != nil {
@@ -29699,7 +30669,7 @@ func (s *WebhookStepOptions) Validate() error {
 	return nil
 }
 
-func (s *WebhookStepOptionsFailOn) Validate() error {
+func (s *WebhookPostStepDetailsOptionsFailOn) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
@@ -29729,7 +30699,7 @@ func (s *WebhookStepOptionsFailOn) Validate() error {
 	return nil
 }
 
-func (s *WebhookStepOptionsRetryOn) Validate() error {
+func (s *WebhookPostStepDetailsOptionsRetryOn) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
 	}
