@@ -3411,17 +3411,17 @@ type BillingSummaryType string
 
 // BucketImageSourceType defines model for BucketImageSourceType.
 type BucketImageSourceType struct {
-	Details *struct {
+	Details struct {
 		Id string `json:"id"`
 
 		// Origin The origin of the image.
 		Origin ImageOrigin `json:"origin"`
-	} `json:"details,omitempty"`
+	} `json:"details"`
 	Override *struct {
 		Target   *string `json:"target,omitempty"`
 		TargzUrl *string `json:"targz_url,omitempty"`
 	} `json:"override,omitempty"`
-	Type *BucketImageSourceTypeType `json:"type,omitempty"`
+	Type BucketImageSourceTypeType `json:"type"`
 }
 
 // BucketImageSourceTypeType defines model for BucketImageSourceType.Type.
@@ -4676,13 +4676,13 @@ type CycleSourceOriginType string
 // In order to utilize this image origin type, a tar file of an OCI compliant image will need to be generated and pushed directly to the factory. The authentication token is generated when this image is created, and expires at the provided time.
 // Once you have a token, it can be uploaded as multipart form data under the key `file.tar`, directly to the factory at `https://factory.cycle.io:9414/v1/images/<IMAGE ID>/upload?hub-id=<HUB ID>&token=<TOKEN>`.
 type CycleUploadOrigin struct {
-	Details *struct {
+	Details struct {
 		Expires DateTime `json:"expires"`
 
 		// Token The token that is required by the factory to accept an upload for this image.
 		Token string `json:"token"`
-	} `json:"details,omitempty"`
-	Type *CycleUploadOriginType `json:"type,omitempty"`
+	} `json:"details"`
+	Type CycleUploadOriginType `json:"type"`
 }
 
 // CycleUploadOriginType defines model for CycleUploadOrigin.Type.
@@ -4799,17 +4799,17 @@ type Detail struct {
 
 // DirectImageSourceType defines model for DirectImageSourceType.
 type DirectImageSourceType struct {
-	Details *struct {
+	Details struct {
 		Id string `json:"id"`
 
 		// Origin The origin of the image.
 		Origin ImageOrigin `json:"origin"`
-	} `json:"details,omitempty"`
+	} `json:"details"`
 	Override *struct {
 		Target   *string `json:"target,omitempty"`
 		TargzUrl *string `json:"targz_url,omitempty"`
 	} `json:"override,omitempty"`
-	Type *DirectImageSourceTypeType `json:"type,omitempty"`
+	Type DirectImageSourceTypeType `json:"type"`
 }
 
 // DirectImageSourceTypeType defines model for DirectImageSourceType.Type.
@@ -10442,19 +10442,19 @@ type StackGitCommit struct {
 
 // StackImageSourceType defines model for StackImageSourceType.
 type StackImageSourceType struct {
-	Details *struct {
+	Details struct {
 		Containers []Identifier `json:"containers"`
 		Id         string       `json:"id"`
 
 		// Origin The origin of the image.
 		Origin  ImageOrigin `json:"origin"`
 		StackId string      `json:"stack_id"`
-	} `json:"details,omitempty"`
+	} `json:"details"`
 	Override *struct {
 		Target   *string `json:"target,omitempty"`
 		TargzUrl *string `json:"targz_url,omitempty"`
 	} `json:"override,omitempty"`
-	Type *StackImageSourceTypeType `json:"type,omitempty"`
+	Type StackImageSourceTypeType `json:"type"`
 }
 
 // StackImageSourceTypeType defines model for StackImageSourceType.Type.
@@ -10979,7 +10979,7 @@ type StackSpecContainerConfigDeployShutdown0 struct {
 }
 
 // StackSpecContainerConfigDeployShutdown0Signals0 Signals that should be sent to the container on shutdown.
-type StackSpecContainerConfigDeployShutdown0Signals0 = []interface{}
+type StackSpecContainerConfigDeployShutdown0Signals0 = []string
 
 // StackSpecContainerConfigDeploy_Shutdown_0_Signals defines model for StackSpecContainerConfigDeploy.Shutdown.0.Signals.
 type StackSpecContainerConfigDeploy_Shutdown_0_Signals struct {

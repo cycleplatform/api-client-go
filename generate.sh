@@ -1,1 +1,0 @@
-go run github.com/ogen-go/ogen/cmd/ogen@v1.3.0 --config=config.json --target client --clean ./api-spec/dist/platform-3.0.3.json
