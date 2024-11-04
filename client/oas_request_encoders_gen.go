@@ -131,6 +131,26 @@ func encodeCreateBillingMethodRequest(
 	return nil
 }
 
+func encodeCreateBillingMethodJobRequest(
+	req OptCreateBillingMethodJobReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeCreateClusterRequest(
 	req OptCreateClusterReq,
 	r *http.Request,
@@ -192,17 +212,13 @@ func encodeCreateContainerBackupJobRequest(
 }
 
 func encodeCreateContainerJobRequest(
-	req OptCreateContainerJobReq,
+	req *CreateContainerJobReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
 	e := new(jx.Encoder)
 	{
-		if req.Set {
+		if req != nil {
 			req.Encode(e)
 		}
 	}
@@ -332,17 +348,13 @@ func encodeCreateEnvironmentRequest(
 }
 
 func encodeCreateEnvironmentJobRequest(
-	req OptCreateEnvironmentJobReq,
+	req *CreateEnvironmentJobReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
 	e := new(jx.Encoder)
 	{
-		if req.Set {
+		if req != nil {
 			req.Encode(e)
 		}
 	}
@@ -492,17 +504,13 @@ func encodeCreateImagesJobRequest(
 }
 
 func encodeCreateInstanceJobRequest(
-	req OptCreateInstanceJobReq,
+	req *CreateInstanceJobReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
 	e := new(jx.Encoder)
 	{
-		if req.Set {
+		if req != nil {
 			req.Encode(e)
 		}
 	}
@@ -706,17 +714,13 @@ func encodeCreatePipelineRequest(
 }
 
 func encodeCreatePipelineJobRequest(
-	req OptCreatePipelineJobReq,
+	req *CreatePipelineJobReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
 	e := new(jx.Encoder)
 	{
-		if req.Set {
+		if req != nil {
 			req.Encode(e)
 		}
 	}
@@ -826,17 +830,13 @@ func encodeCreateServerRequest(
 }
 
 func encodeCreateServerJobRequest(
-	req OptCreateServerJobReq,
+	req *CreateServerJobReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
 	e := new(jx.Encoder)
 	{
-		if req.Set {
+		if req != nil {
 			req.Encode(e)
 		}
 	}
@@ -886,17 +886,13 @@ func encodeCreateStackBuildRequest(
 }
 
 func encodeCreateStackBuildJobRequest(
-	req OptCreateStackBuildJobReq,
+	req *CreateStackBuildJobReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
 	e := new(jx.Encoder)
 	{
-		if req.Set {
+		if req != nil {
 			req.Encode(e)
 		}
 	}
@@ -926,17 +922,13 @@ func encodeCreateStackJobRequest(
 }
 
 func encodeCreateVPNServiceJobRequest(
-	req OptCreateVPNServiceJobReq,
+	req *CreateVPNServiceJobReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
-	if !req.Set {
-		// Keep request with empty body if value is not set.
-		return nil
-	}
 	e := new(jx.Encoder)
 	{
-		if req.Set {
+		if req != nil {
 			req.Encode(e)
 		}
 	}
@@ -957,6 +949,42 @@ func encodeCreateVPNUserRequest(
 	e := new(jx.Encoder)
 	{
 		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateVirtualMachineRequest(
+	req OptCreateVirtualMachineReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeCreateVirtualMachineJobRequest(
+	req *CreateVirtualMachineJobReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		if req != nil {
 			req.Encode(e)
 		}
 	}
@@ -1065,6 +1093,26 @@ func encodeGenerateAggregatedMetricsRequest(
 	return nil
 }
 
+func encodeLookupComponentsRequest(
+	req OptLookupComponentsReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
 func encodeRecoverTwoFactorAuthRequest(
 	req OptRecoverTwoFactorAuthReq,
 	r *http.Request,
@@ -1086,7 +1134,23 @@ func encodeRecoverTwoFactorAuthRequest(
 }
 
 func encodeResetPasswordRequest(
-	req OptResetPasswordReq,
+	req *ResetPasswordReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	e := new(jx.Encoder)
+	{
+		if req != nil {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeTriggerPipelineRequest(
+	req OptTriggerPipelineReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"
@@ -1697,6 +1761,26 @@ func encodeUpdateStackRequest(
 
 func encodeUpdateStackAccessRequest(
 	req OptUpdateStackAccessReq,
+	r *http.Request,
+) error {
+	const contentType = "application/json"
+	if !req.Set {
+		// Keep request with empty body if value is not set.
+		return nil
+	}
+	e := new(jx.Encoder)
+	{
+		if req.Set {
+			req.Encode(e)
+		}
+	}
+	encoded := e.Bytes()
+	ht.SetBody(r, bytes.NewReader(encoded), contentType)
+	return nil
+}
+
+func encodeUpdateVirtualMachineRequest(
+	req OptUpdateVirtualMachineReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

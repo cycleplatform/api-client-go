@@ -2,6 +2,12 @@
 
 package api
 
+// CreateBillingMethodJobParams is parameters of createBillingMethodJob operation.
+type CreateBillingMethodJobParams struct {
+	// The ID of the method.
+	MethodId string
+}
+
 // CreateContainerBackupJobParams is parameters of createContainerBackupJob operation.
 type CreateContainerBackupJobParams struct {
 	// The ID of the requested container.
@@ -119,7 +125,7 @@ type CreateNetworkJobParams struct {
 // CreateOrderParams is parameters of createOrder operation.
 type CreateOrderParams struct {
 	Meta    []CreateOrderMetaItem
-	Include []OrderIncludeParamItem
+	Include []CreateOrderIncludeItem
 }
 
 // CreateOrderJobParams is parameters of createOrderJob operation.
@@ -188,6 +194,27 @@ type CreateVPNServiceJobParams struct {
 type CreateVPNUserParams struct {
 	// The environmentId where the VPN service resides.
 	EnvironmentId string
+}
+
+// CreateVirtualMachineParams is parameters of createVirtualMachine operation.
+type CreateVirtualMachineParams struct {
+	// A comma-separated list of meta values. Meta values will show up under a resource's `meta` field.
+	// In the case of applying a meta to a collection of resources, each resource will have its own
+	// relevant meta data.
+	// In some rare cases, meta may not apply to individual resources, and may appear in the root
+	// document. These will be clearly labeled.
+	Meta []CreateVirtualMachineMetaItem
+	// A comma-separated list of include values. Included resources will show up under the root
+	// document's `include` field.
+	// In the case of applying an include to a collection of resources, if multiple resources share the
+	// same include, it will only appear once in the return.
+	Include []CreateVirtualMachineIncludeItem
+}
+
+// CreateVirtualMachineJobParams is parameters of createVirtualMachineJob operation.
+type CreateVirtualMachineJobParams struct {
+	// The ID of the virtual machine.
+	VirtualMachineId string
 }
 
 // DeleteAPIKeyParams is parameters of deleteAPIKey operation.
@@ -360,6 +387,12 @@ type DeleteVPNUserParams struct {
 	UserId string
 }
 
+// DeleteVirtualMachineParams is parameters of deleteVirtualMachine operation.
+type DeleteVirtualMachineParams struct {
+	// The ID of the virtual machine to delete.
+	VirtualMachineId string
+}
+
 // ExpireInstanceSSHCredentialsParams is parameters of expireInstanceSSHCredentials operation.
 type ExpireInstanceSSHCredentialsParams struct {
 	// The ID of the requested container.
@@ -414,34 +447,34 @@ type GetAccountInvitesParams struct {
 	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
 	// in the root document. These will be clearly labeled.
 	Meta    []GetAccountInvitesMetaItem
-	Include []MembershipIncludeParamItem
+	Include []GetAccountInvitesIncludeItem
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort   []string
-	Filter *FilterParam
+	Filter *GetAccountInvitesFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetAccountInvitesPage
 }
 
 // GetAccountLoginsParams is parameters of getAccountLogins operation.
 type GetAccountLoginsParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort   []string
-	Filter *FilterParam
+	Filter *GetAccountLoginsFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetAccountLoginsPage
 }
 
 // GetAccountMembershipsParams is parameters of getAccountMemberships operation.
 type GetAccountMembershipsParams struct {
-	Include []MembershipIncludeParamItem
+	Include []GetAccountMembershipsIncludeItem
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort   []string
-	Filter *FilterParam
+	Filter *GetAccountMembershipsFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetAccountMembershipsPage
 }
 
 // GetAnnouncementsParams is parameters of getAnnouncements operation.
@@ -450,7 +483,7 @@ type GetAnnouncementsParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetAnnouncementsPage
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetAnnouncementsFilter
@@ -460,10 +493,10 @@ type GetAnnouncementsParams struct {
 type GetApiKeysParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort   []string
-	Filter *FilterParam
+	Filter *GetApiKeysFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetApiKeysPage
 }
 
 // GetAutoScaleGroupParams is parameters of getAutoScaleGroup operation.
@@ -481,7 +514,7 @@ type GetAutoScaleGroupParams struct {
 type GetAutoScaleGroupsParams struct {
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetAutoScaleGroupsPage
 	// A comma separated list of include values. Included resources will show up under the root
 	// document's `include` field, with the key being the id of the included resource. In the case of
 	// applying an include to a collection of resources, if two resources share the same include, it will
@@ -502,10 +535,10 @@ type GetBillingMethodParams struct {
 type GetBillingMethodsParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort   []string
-	Filter *FilterParam
+	Filter *GetBillingMethodsFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetBillingMethodsPage
 }
 
 // GetBillingOrderParams is parameters of getBillingOrder operation.
@@ -513,17 +546,17 @@ type GetBillingOrderParams struct {
 	// The ID of the billing order.
 	OrderId string
 	Meta    []GetBillingOrderMetaItem
-	Include []OrderIncludeParamItem
+	Include []GetBillingOrderIncludeItem
 }
 
 // GetBillingOveragesParams is parameters of getBillingOverages operation.
 type GetBillingOveragesParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort   []string
-	Filter *FilterParam
+	Filter *GetBillingOveragesFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetBillingOveragesPage
 }
 
 // GetBillingServiceParams is parameters of getBillingService operation.
@@ -536,20 +569,20 @@ type GetBillingServiceParams struct {
 type GetBillingServicesParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort   []string
-	Filter *FilterParam
+	Filter *GetBillingServicesFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetBillingServicesPage
 }
 
 // GetBillingSupportPlansParams is parameters of getBillingSupportPlans operation.
 type GetBillingSupportPlansParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort   []string
-	Filter *FilterParam
+	Filter *GetBillingSupportPlansFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetBillingSupportPlansPage
 }
 
 // GetClusterParams is parameters of getCluster operation.
@@ -562,7 +595,7 @@ type GetClusterParams struct {
 type GetClustersParams struct {
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetClustersPage
 }
 
 // GetCompatibleImagesParams is parameters of getCompatibleImages operation.
@@ -573,7 +606,7 @@ type GetCompatibleImagesParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetCompatibleImagesPage
 }
 
 // GetCompatibleServersParams is parameters of getCompatibleServers operation.
@@ -594,7 +627,7 @@ type GetCompatibleServersParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetCompatibleServersPage
 }
 
 // GetContainerParams is parameters of getContainer operation.
@@ -647,7 +680,7 @@ type GetContainerBackupsParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetContainerBackupsPage
 }
 
 // GetContainerServersParams is parameters of getContainerServers operation.
@@ -663,7 +696,7 @@ type GetContainerServersParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetContainerServersPage
 }
 
 // GetContainerSummaryParams is parameters of getContainerSummary operation.
@@ -691,7 +724,7 @@ type GetContainersParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetContainersPage
 }
 
 // GetCreditParams is parameters of getCredit operation.
@@ -709,7 +742,7 @@ type GetCreditsParams struct {
 	Filter OptGetCreditsFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetCreditsPage
 }
 
 // GetDNSZoneParams is parameters of getDNSZone operation.
@@ -734,7 +767,7 @@ type GetDNSZoneRecordsParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetDNSZoneRecordsPage
 }
 
 // GetDNSZonesParams is parameters of getDNSZones operation.
@@ -751,7 +784,7 @@ type GetDNSZonesParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetDNSZonesPage
 }
 
 // GetEnvironmentParams is parameters of getEnvironment operation.
@@ -801,7 +834,7 @@ type GetEnvironmentsParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetEnvironmentsPage
 }
 
 // GetHubParams is parameters of getHub operation.
@@ -811,6 +844,23 @@ type GetHubParams struct {
 	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
 	// in the root document. These will be clearly labeled.
 	Meta []GetHubMetaItem
+}
+
+// GetHubActivityParams is parameters of getHubActivity operation.
+type GetHubActivityParams struct {
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetHubActivityIncludeItem
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetHubActivityFilter
+	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort []string
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetHubActivityPage
 }
 
 // GetHubInvitesParams is parameters of getHubInvites operation.
@@ -827,10 +877,10 @@ type GetHubInvitesParams struct {
 	Include []GetHubInvitesIncludeItem
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort   []string
-	Filter *FilterParam
+	Filter *GetHubInvitesFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetHubInvitesPage
 }
 
 // GetHubMemberParams is parameters of getHubMember operation.
@@ -869,10 +919,10 @@ type GetHubMembersParams struct {
 	Include []GetHubMembersIncludeItem
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort   []string
-	Filter *FilterParam
+	Filter *GetHubMembersFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetHubMembersPage
 }
 
 // GetHubMembershipParams is parameters of getHubMembership operation.
@@ -884,22 +934,22 @@ type GetHubMembershipParams struct {
 	Include []GetHubMembershipIncludeItem
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort   []string
-	Filter *FilterParam
+	Filter *GetHubMembershipFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetHubMembershipPage
 }
 
 // GetHubUsageParams is parameters of getHubUsage operation.
 type GetHubUsageParams struct {
-	Filter *FilterParam
+	Filter *GetHubUsageFilter
 }
 
 // GetHubsParams is parameters of getHubs operation.
 type GetHubsParams struct {
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetHubsPage
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetHubsFilter
@@ -934,7 +984,7 @@ type GetImageParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetImagePage
 }
 
 // GetImageBuildLogParams is parameters of getImageBuildLog operation.
@@ -978,7 +1028,7 @@ type GetImageSourcesParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetImageSourcesPage
 }
 
 // GetImagesParams is parameters of getImages operation.
@@ -1000,7 +1050,7 @@ type GetImagesParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetImagesPage
 }
 
 // GetInfrastructureIPPoolsParams is parameters of getInfrastructureIPPools operation.
@@ -1017,7 +1067,7 @@ type GetInfrastructureIPPoolsParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetInfrastructureIPPoolsPage
 }
 
 // GetInfrastructureSummaryParams is parameters of getInfrastructureSummary operation.
@@ -1077,7 +1127,7 @@ type GetInstanceVolumesParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetInstanceVolumesPage
 }
 
 // GetInstancesParams is parameters of getInstances operation.
@@ -1096,7 +1146,7 @@ type GetInstancesParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetInstancesPage
 }
 
 // GetIntegrationParams is parameters of getIntegration operation.
@@ -1114,7 +1164,7 @@ type GetIntegrationParams struct {
 type GetIntegrationsParams struct {
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetIntegrationsPage
 	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
 	// In the case of applying a meta to a collection of resources, each resource will have it's own
 	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
@@ -1142,7 +1192,7 @@ type GetInvoicesParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetInvoicesPage
 	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
 	// In the case of applying a meta to a collection of resources, each resource will have it's own
 	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
@@ -1173,7 +1223,7 @@ type GetJobsParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetJobsPage
 }
 
 // GetLoadBalancerLatestTelemetryReportParams is parameters of getLoadBalancerLatestTelemetryReport operation.
@@ -1237,19 +1287,19 @@ type GetNetworksParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetNetworksPage
 }
 
 // GetOrdersParams is parameters of getOrders operation.
 type GetOrdersParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort   []string
-	Filter *FilterParam
+	Filter *GetOrdersFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page    OptPageParam
+	Page    OptGetOrdersPage
 	Meta    []GetOrdersMetaItem
-	Include []OrderIncludeParamItem
+	Include []GetOrdersIncludeItem
 }
 
 // GetPipelineParams is parameters of getPipeline operation.
@@ -1261,6 +1311,19 @@ type GetPipelineParams struct {
 	// applying an include to a collection of resources, if two resources share the same include, it will
 	// only appear once in the return.
 	Include []GetPipelineIncludeItem
+}
+
+// GetPipelineRunParams is parameters of getPipelineRun operation.
+type GetPipelineRunParams struct {
+	// The ID of the Pipeline.
+	PipelineId string
+	// The ID for the pipeline run.
+	RunId string
+	// A comma separated list of include values. Included resources will show up under the root
+	// document's `include` field, with the key being the id of the included resource. In the case of
+	// applying an include to a collection of resources, if two resources share the same include, it will
+	// only appear once in the return.
+	Include []GetPipelineRunIncludeItem
 }
 
 // GetPipelineRunsParams is parameters of getPipelineRuns operation.
@@ -1295,7 +1358,7 @@ type GetPipelineTriggerKeysParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetPipelineTriggerKeysPage
 }
 
 // GetPipelinesParams is parameters of getPipelines operation.
@@ -1312,7 +1375,7 @@ type GetPipelinesParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetPipelinesPage
 }
 
 // GetPoolIPsParams is parameters of getPoolIPs operation.
@@ -1330,7 +1393,7 @@ type GetProviderLocationsParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetProviderLocationsPage
 }
 
 // GetProviderServersParams is parameters of getProviderServers operation.
@@ -1342,7 +1405,7 @@ type GetProviderServersParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetProviderServersPage
 	// The filter field is a key-value object, where the key is what you would like to filter, and the
 	// value is the value you're filtering for.
 	Filter OptGetProviderServersFilter
@@ -1363,10 +1426,10 @@ type GetRoleParams struct {
 type GetRolesParams struct {
 	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort   []string
-	Filter *FilterParam
+	Filter *GetRolesFilter
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetRolesPage
 	// A comma separated list of meta values. Meta values will show up under a resource's `meta` field.
 	// In the case of applying a meta to a collection of resources, each resource will have it's own
 	// relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear
@@ -1393,7 +1456,7 @@ type GetScopedVariablesParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetScopedVariablesPage
 }
 
 // GetServerParams is parameters of getServer operation.
@@ -1424,7 +1487,7 @@ type GetServerInstancesParams struct {
 	ServerId string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetServerInstancesPage
 	// A comma separated list of include values. Included resources will show up under the root
 	// document's `include` field, with the key being the id of the included resource. In the case of
 	// applying an include to a collection of resources, if two resources share the same include, it will
@@ -1450,7 +1513,7 @@ type GetServerTelemetryParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetServerTelemetryPage
 }
 
 // GetServerUsageParams is parameters of GetServerUsage operation.
@@ -1478,7 +1541,7 @@ type GetServersParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetServersPage
 }
 
 // GetStackParams is parameters of getStack operation.
@@ -1511,7 +1574,7 @@ type GetStackBuildsParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetStackBuildsPage
 }
 
 // GetStacksParams is parameters of getStacks operation.
@@ -1533,7 +1596,7 @@ type GetStacksParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetStacksPage
 }
 
 // GetTLSGenerationAttemptsParams is parameters of getTLSGenerationAttempts operation.
@@ -1545,7 +1608,7 @@ type GetTLSGenerationAttemptsParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetTLSGenerationAttemptsPage
 }
 
 // GetVPNLoginsParams is parameters of getVPNLogins operation.
@@ -1556,7 +1619,7 @@ type GetVPNLoginsParams struct {
 	Sort []string
 	// In a list return, the data associated with the page number and size returned. 20 results per page,
 	// page 2 would be `page[size]=20&page[number]=2`.
-	Page OptPageParam
+	Page OptGetVPNLoginsPage
 }
 
 // GetVPNServiceParams is parameters of getVPNService operation.
@@ -1569,6 +1632,46 @@ type GetVPNServiceParams struct {
 type GetVPNUsersParams struct {
 	// The environmentId where the VPN service resides.
 	EnvironmentId string
+}
+
+// GetVirtualMachineParams is parameters of getVirtualMachine operation.
+type GetVirtualMachineParams struct {
+	// The ID of the virtual machine.
+	VirtualMachineId string
+	// A comma-separated list of meta values. Meta values will show up under a resource's `meta` field.
+	// In the case of applying a meta to a collection of resources, each resource will have its own
+	// relevant meta data.
+	// In some rare cases, meta may not apply to individual resources, and may appear in the root
+	// document. These will be clearly labeled.
+	Meta []GetVirtualMachineMetaItem
+	// A comma-separated list of include values. Included resources will show up under the root
+	// document's `include` field.
+	// In the case of applying an include to a collection of resources, if multiple resources share the
+	// same include, it will only appear once in the return.
+	Include []GetVirtualMachineIncludeItem
+}
+
+// GetVirtualMachinesParams is parameters of getVirtualMachines operation.
+type GetVirtualMachinesParams struct {
+	// A comma-separated list of meta values. Meta values will show up under a resource's `meta` field.
+	// In the case of applying a meta to a collection of resources, each resource will have its own
+	// relevant meta data.
+	// In some rare cases, meta may not apply to individual resources, and may appear in the root
+	// document. These will be clearly labeled.
+	Meta []GetVirtualMachinesMetaItem
+	// A comma-separated list of include values. Included resources will show up under the root
+	// document's `include` field.
+	// In the case of applying an include to a collection of resources, if multiple resources share the
+	// same include, it will only appear once in the return.
+	Include []GetVirtualMachinesIncludeItem
+	// The filter field is a key-value object, where the key is what you would like to filter, and the
+	// value is the value you're filtering for.
+	Filter OptGetVirtualMachinesFilter
+	// An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort []string
+	// In a list return, the data associated with the page number and size returned. 20 results per page,
+	// page 2 would be `page[size]=20&page[number]=2`.
+	Page OptGetVirtualMachinesPage
 }
 
 // LookupIdentifierParams is parameters of lookupIdentifier operation.
@@ -1595,6 +1698,12 @@ type LookupTLSCertificateParams struct {
 	Wildcard OptBool
 }
 
+// TriggerPipelineParams is parameters of triggerPipeline operation.
+type TriggerPipelineParams struct {
+	// The ID of the Pipeline.
+	PipelineId string
+}
+
 // UpdateAPIKeyParams is parameters of updateAPIKey operation.
 type UpdateAPIKeyParams struct {
 	// The ID of the API Key.
@@ -1605,7 +1714,7 @@ type UpdateAPIKeyParams struct {
 type UpdateAccountInviteParams struct {
 	// The ID of the given Invite.
 	InviteId string
-	Include  []MembershipIncludeParamItem
+	Include  []UpdateAccountInviteIncludeItem
 }
 
 // UpdateAutoScaleGroupParams is parameters of updateAutoScaleGroup operation.
@@ -1631,7 +1740,7 @@ type UpdateBillingOrderParams struct {
 	// The ID of the billing order.
 	OrderId string
 	Meta    []UpdateBillingOrderMetaItem
-	Include []OrderIncludeParamItem
+	Include []UpdateBillingOrderIncludeItem
 }
 
 // UpdateClusterParams is parameters of updateCluster operation.
@@ -1801,4 +1910,10 @@ type UpdateStackParams struct {
 type UpdateStackAccessParams struct {
 	// The ID of the Stack.
 	StackId string
+}
+
+// UpdateVirtualMachineParams is parameters of updateVirtualMachine operation.
+type UpdateVirtualMachineParams struct {
+	// The ID of the virtual machine.
+	VirtualMachineId string
 }

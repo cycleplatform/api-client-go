@@ -10,7 +10,8 @@ import (
 )
 
 var regexMap = map[string]ogenregex.Regexp{
-	"^[a-f0-9]{24}$": ogenregex.MustCompile("^[a-f0-9]{24}$"),
+	"\\\"?{{(\\$)?([a-z0-9\\-]+)}}\\\"?": ogenregex.MustCompile("\\\"?{{(\\$)?([a-z0-9\\-]+)}}\\\"?"),
+	"^[a-f0-9]{24}$":                     ogenregex.MustCompile("^[a-f0-9]{24}$"),
 }
 
 type (
