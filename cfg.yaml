@@ -3,8 +3,9 @@ output: client.gen.go
 generate:
   models: true
   client: true
-output-options:
-  include-tags:
-    - Jobs
-    - Environments
-    - Zones
+# output-options:
+#   include-tags:
+#     - Jobs
+#     - Environments
+#     - Zones
+#     - Containers
