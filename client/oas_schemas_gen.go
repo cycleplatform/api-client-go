@@ -6178,6 +6178,116 @@ func (s *BillingSummaryType) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/BucketImageSourceType
+type BucketImageSourceType struct {
+	Details  BucketImageSourceTypeDetails     `json:"details"`
+	Override OptBucketImageSourceTypeOverride `json:"override"`
+}
+
+// GetDetails returns the value of Details.
+func (s *BucketImageSourceType) GetDetails() BucketImageSourceTypeDetails {
+	return s.Details
+}
+
+// GetOverride returns the value of Override.
+func (s *BucketImageSourceType) GetOverride() OptBucketImageSourceTypeOverride {
+	return s.Override
+}
+
+// SetDetails sets the value of Details.
+func (s *BucketImageSourceType) SetDetails(val BucketImageSourceTypeDetails) {
+	s.Details = val
+}
+
+// SetOverride sets the value of Override.
+func (s *BucketImageSourceType) SetOverride(val OptBucketImageSourceTypeOverride) {
+	s.Override = val
+}
+
+type BucketImageSourceTypeDetails struct {
+	ID     string      `json:"id"`
+	Origin ImageOrigin `json:"origin"`
+}
+
+// GetID returns the value of ID.
+func (s *BucketImageSourceTypeDetails) GetID() string {
+	return s.ID
+}
+
+// GetOrigin returns the value of Origin.
+func (s *BucketImageSourceTypeDetails) GetOrigin() ImageOrigin {
+	return s.Origin
+}
+
+// SetID sets the value of ID.
+func (s *BucketImageSourceTypeDetails) SetID(val string) {
+	s.ID = val
+}
+
+// SetOrigin sets the value of Origin.
+func (s *BucketImageSourceTypeDetails) SetOrigin(val ImageOrigin) {
+	s.Origin = val
+}
+
+type BucketImageSourceTypeOverride struct {
+	Target   OptString `json:"target"`
+	TargzURL OptString `json:"targz_url"`
+}
+
+// GetTarget returns the value of Target.
+func (s *BucketImageSourceTypeOverride) GetTarget() OptString {
+	return s.Target
+}
+
+// GetTargzURL returns the value of TargzURL.
+func (s *BucketImageSourceTypeOverride) GetTargzURL() OptString {
+	return s.TargzURL
+}
+
+// SetTarget sets the value of Target.
+func (s *BucketImageSourceTypeOverride) SetTarget(val OptString) {
+	s.Target = val
+}
+
+// SetTargzURL sets the value of TargzURL.
+func (s *BucketImageSourceTypeOverride) SetTargzURL(val OptString) {
+	s.TargzURL = val
+}
+
+type BucketImageSourceTypeType string
+
+const (
+	BucketImageSourceTypeTypeBucket BucketImageSourceTypeType = "bucket"
+)
+
+// AllValues returns all BucketImageSourceTypeType values.
+func (BucketImageSourceTypeType) AllValues() []BucketImageSourceTypeType {
+	return []BucketImageSourceTypeType{
+		BucketImageSourceTypeTypeBucket,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s BucketImageSourceTypeType) MarshalText() ([]byte, error) {
+	switch s {
+	case BucketImageSourceTypeTypeBucket:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *BucketImageSourceTypeType) UnmarshalText(data []byte) error {
+	switch BucketImageSourceTypeType(data) {
+	case BucketImageSourceTypeTypeBucket:
+		*s = BucketImageSourceTypeTypeBucket
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // A build log for a given image.
 // Ref: #/components/schemas/BuildLog
 type BuildLog struct {
@@ -8615,6 +8725,311 @@ func (s *ContainerBackupTarget) SetSize(val int) {
 	s.Size = val
 }
 
+// Settings for the create container step for a pipeline.
+// Ref: #/components/schemas/ContainerCreateStep
+type ContainerCreateStep struct {
+	// An identifier for the step.
+	Identifier OptString                     `json:"identifier"`
+	Options    OptContainerCreateStepOptions `json:"options"`
+	Details    ContainerCreateStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ContainerCreateStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ContainerCreateStep) GetOptions() OptContainerCreateStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ContainerCreateStep) GetDetails() ContainerCreateStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ContainerCreateStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ContainerCreateStep) SetOptions(val OptContainerCreateStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ContainerCreateStep) SetDetails(val ContainerCreateStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ContainerCreateStepAction string
+
+const (
+	ContainerCreateStepActionContainerCreate ContainerCreateStepAction = "container.create"
+)
+
+// AllValues returns all ContainerCreateStepAction values.
+func (ContainerCreateStepAction) AllValues() []ContainerCreateStepAction {
+	return []ContainerCreateStepAction{
+		ContainerCreateStepActionContainerCreate,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerCreateStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerCreateStepActionContainerCreate:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerCreateStepAction) UnmarshalText(data []byte) error {
+	switch ContainerCreateStepAction(data) {
+	case ContainerCreateStepActionContainerCreate:
+		*s = ContainerCreateStepActionContainerCreate
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ContainerCreateStepDetails struct {
+	Name        string          `json:"name"`
+	Identifier  OptNilString    `json:"identifier"`
+	Environment FluidIdentifier `json:"environment"`
+	Image       FluidIdentifier `json:"image"`
+	Stateful    bool            `json:"stateful"`
+	// Additional information about a container.
+	Annotations OptNilContainerCreateStepDetailsAnnotations `json:"annotations"`
+	Config      Config                                      `json:"config"`
+	Volumes     []ContainerVolume                           `json:"volumes"`
+	Deployment  OptDeployment                               `json:"deployment"`
+}
+
+// GetName returns the value of Name.
+func (s *ContainerCreateStepDetails) GetName() string {
+	return s.Name
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ContainerCreateStepDetails) GetIdentifier() OptNilString {
+	return s.Identifier
+}
+
+// GetEnvironment returns the value of Environment.
+func (s *ContainerCreateStepDetails) GetEnvironment() FluidIdentifier {
+	return s.Environment
+}
+
+// GetImage returns the value of Image.
+func (s *ContainerCreateStepDetails) GetImage() FluidIdentifier {
+	return s.Image
+}
+
+// GetStateful returns the value of Stateful.
+func (s *ContainerCreateStepDetails) GetStateful() bool {
+	return s.Stateful
+}
+
+// GetAnnotations returns the value of Annotations.
+func (s *ContainerCreateStepDetails) GetAnnotations() OptNilContainerCreateStepDetailsAnnotations {
+	return s.Annotations
+}
+
+// GetConfig returns the value of Config.
+func (s *ContainerCreateStepDetails) GetConfig() Config {
+	return s.Config
+}
+
+// GetVolumes returns the value of Volumes.
+func (s *ContainerCreateStepDetails) GetVolumes() []ContainerVolume {
+	return s.Volumes
+}
+
+// GetDeployment returns the value of Deployment.
+func (s *ContainerCreateStepDetails) GetDeployment() OptDeployment {
+	return s.Deployment
+}
+
+// SetName sets the value of Name.
+func (s *ContainerCreateStepDetails) SetName(val string) {
+	s.Name = val
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ContainerCreateStepDetails) SetIdentifier(val OptNilString) {
+	s.Identifier = val
+}
+
+// SetEnvironment sets the value of Environment.
+func (s *ContainerCreateStepDetails) SetEnvironment(val FluidIdentifier) {
+	s.Environment = val
+}
+
+// SetImage sets the value of Image.
+func (s *ContainerCreateStepDetails) SetImage(val FluidIdentifier) {
+	s.Image = val
+}
+
+// SetStateful sets the value of Stateful.
+func (s *ContainerCreateStepDetails) SetStateful(val bool) {
+	s.Stateful = val
+}
+
+// SetAnnotations sets the value of Annotations.
+func (s *ContainerCreateStepDetails) SetAnnotations(val OptNilContainerCreateStepDetailsAnnotations) {
+	s.Annotations = val
+}
+
+// SetConfig sets the value of Config.
+func (s *ContainerCreateStepDetails) SetConfig(val Config) {
+	s.Config = val
+}
+
+// SetVolumes sets the value of Volumes.
+func (s *ContainerCreateStepDetails) SetVolumes(val []ContainerVolume) {
+	s.Volumes = val
+}
+
+// SetDeployment sets the value of Deployment.
+func (s *ContainerCreateStepDetails) SetDeployment(val OptDeployment) {
+	s.Deployment = val
+}
+
+// Additional information about a container.
+type ContainerCreateStepDetailsAnnotations map[string]jx.Raw
+
+func (s *ContainerCreateStepDetailsAnnotations) init() ContainerCreateStepDetailsAnnotations {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+type ContainerCreateStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ContainerCreateStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ContainerCreateStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// Settings for deleting a container in a pipeline.
+// Ref: #/components/schemas/ContainerDeleteStep
+type ContainerDeleteStep struct {
+	// An identifier for the step.
+	Identifier OptString                     `json:"identifier"`
+	Options    OptContainerDeleteStepOptions `json:"options"`
+	Details    ContainerDeleteStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ContainerDeleteStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ContainerDeleteStep) GetOptions() OptContainerDeleteStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ContainerDeleteStep) GetDetails() ContainerDeleteStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ContainerDeleteStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ContainerDeleteStep) SetOptions(val OptContainerDeleteStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ContainerDeleteStep) SetDetails(val ContainerDeleteStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ContainerDeleteStepAction string
+
+const (
+	ContainerDeleteStepActionContainerDelete ContainerDeleteStepAction = "container.delete"
+)
+
+// AllValues returns all ContainerDeleteStepAction values.
+func (ContainerDeleteStepAction) AllValues() []ContainerDeleteStepAction {
+	return []ContainerDeleteStepAction{
+		ContainerDeleteStepActionContainerDelete,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerDeleteStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerDeleteStepActionContainerDelete:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerDeleteStepAction) UnmarshalText(data []byte) error {
+	switch ContainerDeleteStepAction(data) {
+	case ContainerDeleteStepActionContainerDelete:
+		*s = ContainerDeleteStepActionContainerDelete
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ContainerDeleteStepDetails struct {
+	Container FluidIdentifier `json:"container"`
+}
+
+// GetContainer returns the value of Container.
+func (s *ContainerDeleteStepDetails) GetContainer() FluidIdentifier {
+	return s.Container
+}
+
+// SetContainer sets the value of Container.
+func (s *ContainerDeleteStepDetails) SetContainer(val FluidIdentifier) {
+	s.Container = val
+}
+
+type ContainerDeleteStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ContainerDeleteStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ContainerDeleteStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
 // Deployment configuration for the given container.
 // Ref: #/components/schemas/ContainerDeploy
 type ContainerDeploy struct {
@@ -9353,6 +9768,132 @@ func (s *ContainerEvents) SetStarted(val DateTime) {
 	s.Started = val
 }
 
+// Settings for triggering a function in a pipeline.
+// Ref: #/components/schemas/ContainerFunctionTriggerStep
+type ContainerFunctionTriggerStep struct {
+	// An identifier for the step.
+	Identifier OptString                              `json:"identifier"`
+	Options    OptContainerFunctionTriggerStepOptions `json:"options"`
+	Details    ContainerFunctionTriggerStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ContainerFunctionTriggerStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ContainerFunctionTriggerStep) GetOptions() OptContainerFunctionTriggerStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ContainerFunctionTriggerStep) GetDetails() ContainerFunctionTriggerStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ContainerFunctionTriggerStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ContainerFunctionTriggerStep) SetOptions(val OptContainerFunctionTriggerStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ContainerFunctionTriggerStep) SetDetails(val ContainerFunctionTriggerStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ContainerFunctionTriggerStepAction string
+
+const (
+	ContainerFunctionTriggerStepActionContainerFunctionTrigger ContainerFunctionTriggerStepAction = "container.function.trigger"
+)
+
+// AllValues returns all ContainerFunctionTriggerStepAction values.
+func (ContainerFunctionTriggerStepAction) AllValues() []ContainerFunctionTriggerStepAction {
+	return []ContainerFunctionTriggerStepAction{
+		ContainerFunctionTriggerStepActionContainerFunctionTrigger,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerFunctionTriggerStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerFunctionTriggerStepActionContainerFunctionTrigger:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerFunctionTriggerStepAction) UnmarshalText(data []byte) error {
+	switch ContainerFunctionTriggerStepAction(data) {
+	case ContainerFunctionTriggerStepActionContainerFunctionTrigger:
+		*s = ContainerFunctionTriggerStepActionContainerFunctionTrigger
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ContainerFunctionTriggerStepDetails struct {
+	// The container to trigger.
+	Container FluidIdentifier `json:"container"`
+	// A custom token used for identifying and managing a claim. Can be any valid string.
+	Token            OptVariableString        `json:"token"`
+	RuntimeVariables FunctionRuntimeVariables `json:"runtime_variables"`
+}
+
+// GetContainer returns the value of Container.
+func (s *ContainerFunctionTriggerStepDetails) GetContainer() FluidIdentifier {
+	return s.Container
+}
+
+// GetToken returns the value of Token.
+func (s *ContainerFunctionTriggerStepDetails) GetToken() OptVariableString {
+	return s.Token
+}
+
+// GetRuntimeVariables returns the value of RuntimeVariables.
+func (s *ContainerFunctionTriggerStepDetails) GetRuntimeVariables() FunctionRuntimeVariables {
+	return s.RuntimeVariables
+}
+
+// SetContainer sets the value of Container.
+func (s *ContainerFunctionTriggerStepDetails) SetContainer(val FluidIdentifier) {
+	s.Container = val
+}
+
+// SetToken sets the value of Token.
+func (s *ContainerFunctionTriggerStepDetails) SetToken(val OptVariableString) {
+	s.Token = val
+}
+
+// SetRuntimeVariables sets the value of RuntimeVariables.
+func (s *ContainerFunctionTriggerStepDetails) SetRuntimeVariables(val FunctionRuntimeVariables) {
+	s.RuntimeVariables = val
+}
+
+type ContainerFunctionTriggerStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ContainerFunctionTriggerStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ContainerFunctionTriggerStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
 // The Id of the image and information on if it is a service.
 // Ref: #/components/schemas/ContainerImageSummary
 type ContainerImageSummary struct {
@@ -10024,6 +10565,159 @@ func (s *ContainerNetworkPublic) UnmarshalText(data []byte) error {
 	}
 }
 
+// Settings for reimaging a container in a pipeline.
+// Ref: #/components/schemas/ContainerReimageStep
+type ContainerReimageStep struct {
+	// An identifier for the step.
+	Identifier OptString                      `json:"identifier"`
+	Options    OptContainerReimageStepOptions `json:"options"`
+	Details    ContainerReimageStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ContainerReimageStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ContainerReimageStep) GetOptions() OptContainerReimageStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ContainerReimageStep) GetDetails() ContainerReimageStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ContainerReimageStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ContainerReimageStep) SetOptions(val OptContainerReimageStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ContainerReimageStep) SetDetails(val ContainerReimageStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ContainerReimageStepAction string
+
+const (
+	ContainerReimageStepActionContainerReimage ContainerReimageStepAction = "container.reimage"
+)
+
+// AllValues returns all ContainerReimageStepAction values.
+func (ContainerReimageStepAction) AllValues() []ContainerReimageStepAction {
+	return []ContainerReimageStepAction{
+		ContainerReimageStepActionContainerReimage,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerReimageStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerReimageStepActionContainerReimage:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerReimageStepAction) UnmarshalText(data []byte) error {
+	switch ContainerReimageStepAction(data) {
+	case ContainerReimageStepActionContainerReimage:
+		*s = ContainerReimageStepActionContainerReimage
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ContainerReimageStepDetails struct {
+	Container FluidIdentifier                       `json:"container"`
+	Image     FluidIdentifier                       `json:"image"`
+	Options   OptContainerReimageStepDetailsOptions `json:"options"`
+}
+
+// GetContainer returns the value of Container.
+func (s *ContainerReimageStepDetails) GetContainer() FluidIdentifier {
+	return s.Container
+}
+
+// GetImage returns the value of Image.
+func (s *ContainerReimageStepDetails) GetImage() FluidIdentifier {
+	return s.Image
+}
+
+// GetOptions returns the value of Options.
+func (s *ContainerReimageStepDetails) GetOptions() OptContainerReimageStepDetailsOptions {
+	return s.Options
+}
+
+// SetContainer sets the value of Container.
+func (s *ContainerReimageStepDetails) SetContainer(val FluidIdentifier) {
+	s.Container = val
+}
+
+// SetImage sets the value of Image.
+func (s *ContainerReimageStepDetails) SetImage(val FluidIdentifier) {
+	s.Image = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ContainerReimageStepDetails) SetOptions(val OptContainerReimageStepDetailsOptions) {
+	s.Options = val
+}
+
+type ContainerReimageStepDetailsOptions struct {
+	// A boolean where true signifies the image being used to reimage does not have to have compatibility
+	// with the image being replaced.
+	AllowIncompatible bool `json:"allow_incompatible"`
+	// A boolean where true signifies the user wishes to overwrite the current runtime configuration for
+	// the given container during the reimage process.
+	OverwriteRuntimeConfig bool `json:"overwrite_runtime_config"`
+}
+
+// GetAllowIncompatible returns the value of AllowIncompatible.
+func (s *ContainerReimageStepDetailsOptions) GetAllowIncompatible() bool {
+	return s.AllowIncompatible
+}
+
+// GetOverwriteRuntimeConfig returns the value of OverwriteRuntimeConfig.
+func (s *ContainerReimageStepDetailsOptions) GetOverwriteRuntimeConfig() bool {
+	return s.OverwriteRuntimeConfig
+}
+
+// SetAllowIncompatible sets the value of AllowIncompatible.
+func (s *ContainerReimageStepDetailsOptions) SetAllowIncompatible(val bool) {
+	s.AllowIncompatible = val
+}
+
+// SetOverwriteRuntimeConfig sets the value of OverwriteRuntimeConfig.
+func (s *ContainerReimageStepDetailsOptions) SetOverwriteRuntimeConfig(val bool) {
+	s.OverwriteRuntimeConfig = val
+}
+
+type ContainerReimageStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ContainerReimageStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ContainerReimageStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
 // Configuration settings for the resource allocations and limits of a given container.
 // Ref: #/components/schemas/ContainerResources
 type ContainerResources struct {
@@ -10134,6 +10828,108 @@ func (s *ContainerResourcesRAM) SetLimit(val OptString) {
 // SetReserve sets the value of Reserve.
 func (s *ContainerResourcesRAM) SetReserve(val OptString) {
 	s.Reserve = val
+}
+
+// Settings for restarting a container in a pipeline.
+// Ref: #/components/schemas/ContainerRestartStep
+type ContainerRestartStep struct {
+	// An identifier for the step.
+	Identifier OptString                      `json:"identifier"`
+	Options    OptContainerRestartStepOptions `json:"options"`
+	Details    ContainerRestartStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ContainerRestartStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ContainerRestartStep) GetOptions() OptContainerRestartStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ContainerRestartStep) GetDetails() ContainerRestartStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ContainerRestartStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ContainerRestartStep) SetOptions(val OptContainerRestartStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ContainerRestartStep) SetDetails(val ContainerRestartStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ContainerRestartStepAction string
+
+const (
+	ContainerRestartStepActionContainerRestart ContainerRestartStepAction = "container.restart"
+)
+
+// AllValues returns all ContainerRestartStepAction values.
+func (ContainerRestartStepAction) AllValues() []ContainerRestartStepAction {
+	return []ContainerRestartStepAction{
+		ContainerRestartStepActionContainerRestart,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerRestartStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerRestartStepActionContainerRestart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerRestartStepAction) UnmarshalText(data []byte) error {
+	switch ContainerRestartStepAction(data) {
+	case ContainerRestartStepActionContainerRestart:
+		*s = ContainerRestartStepActionContainerRestart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ContainerRestartStepDetails struct {
+	Container FluidIdentifier `json:"container"`
+}
+
+// GetContainer returns the value of Container.
+func (s *ContainerRestartStepDetails) GetContainer() FluidIdentifier {
+	return s.Container
+}
+
+// SetContainer sets the value of Container.
+func (s *ContainerRestartStepDetails) SetContainer(val FluidIdentifier) {
+	s.Container = val
+}
+
+type ContainerRestartStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ContainerRestartStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ContainerRestartStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
 }
 
 // The role of a given container if it has one.
@@ -10940,6 +11736,146 @@ func (s *ContainerScaleInstances) SetMinTTL(val Duration) {
 	s.MinTTL = val
 }
 
+// Ref: #/components/schemas/ContainerStartAction
+type ContainerStartAction struct{}
+
+// The name of the action to perform.
+type ContainerStartActionAction string
+
+const (
+	ContainerStartActionActionStart ContainerStartActionAction = "start"
+)
+
+// AllValues returns all ContainerStartActionAction values.
+func (ContainerStartActionAction) AllValues() []ContainerStartActionAction {
+	return []ContainerStartActionAction{
+		ContainerStartActionActionStart,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerStartActionAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerStartActionActionStart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerStartActionAction) UnmarshalText(data []byte) error {
+	switch ContainerStartActionAction(data) {
+	case ContainerStartActionActionStart:
+		*s = ContainerStartActionActionStart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Settings for starting a container in a pipeline.
+// Ref: #/components/schemas/ContainerStartStep
+type ContainerStartStep struct {
+	// An identifier for the step.
+	Identifier OptString                    `json:"identifier"`
+	Options    OptContainerStartStepOptions `json:"options"`
+	Details    ContainerStartStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ContainerStartStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ContainerStartStep) GetOptions() OptContainerStartStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ContainerStartStep) GetDetails() ContainerStartStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ContainerStartStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ContainerStartStep) SetOptions(val OptContainerStartStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ContainerStartStep) SetDetails(val ContainerStartStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ContainerStartStepAction string
+
+const (
+	ContainerStartStepActionContainerStart ContainerStartStepAction = "container.start"
+)
+
+// AllValues returns all ContainerStartStepAction values.
+func (ContainerStartStepAction) AllValues() []ContainerStartStepAction {
+	return []ContainerStartStepAction{
+		ContainerStartStepActionContainerStart,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerStartStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerStartStepActionContainerStart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerStartStepAction) UnmarshalText(data []byte) error {
+	switch ContainerStartStepAction(data) {
+	case ContainerStartStepActionContainerStart:
+		*s = ContainerStartStepActionContainerStart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ContainerStartStepDetails struct {
+	Container FluidIdentifier `json:"container"`
+}
+
+// GetContainer returns the value of Container.
+func (s *ContainerStartStepDetails) GetContainer() FluidIdentifier {
+	return s.Container
+}
+
+// SetContainer sets the value of Container.
+func (s *ContainerStartStepDetails) SetContainer(val FluidIdentifier) {
+	s.Container = val
+}
+
+type ContainerStartStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ContainerStartStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ContainerStartStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
 // Merged schema.
 // Ref: #/components/schemas/ContainerState
 type ContainerState struct {
@@ -11186,6 +12122,146 @@ func (s *ContainerStateError) SetMessage(val OptString) {
 // SetTime sets the value of Time.
 func (s *ContainerStateError) SetTime(val OptDateTime) {
 	s.Time = val
+}
+
+// Ref: #/components/schemas/ContainerStopAction
+type ContainerStopAction struct{}
+
+// The name of the action to perform.
+type ContainerStopActionAction string
+
+const (
+	ContainerStopActionActionStop ContainerStopActionAction = "stop"
+)
+
+// AllValues returns all ContainerStopActionAction values.
+func (ContainerStopActionAction) AllValues() []ContainerStopActionAction {
+	return []ContainerStopActionAction{
+		ContainerStopActionActionStop,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerStopActionAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerStopActionActionStop:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerStopActionAction) UnmarshalText(data []byte) error {
+	switch ContainerStopActionAction(data) {
+	case ContainerStopActionActionStop:
+		*s = ContainerStopActionActionStop
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Settings for stopping a container in a pipeline.
+// Ref: #/components/schemas/ContainerStopStep
+type ContainerStopStep struct {
+	// An identifier for the step.
+	Identifier OptString                   `json:"identifier"`
+	Options    OptContainerStopStepOptions `json:"options"`
+	Details    ContainerStopStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ContainerStopStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ContainerStopStep) GetOptions() OptContainerStopStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ContainerStopStep) GetDetails() ContainerStopStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ContainerStopStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ContainerStopStep) SetOptions(val OptContainerStopStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ContainerStopStep) SetDetails(val ContainerStopStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ContainerStopStepAction string
+
+const (
+	ContainerStopStepActionContainerStop ContainerStopStepAction = "container.stop"
+)
+
+// AllValues returns all ContainerStopStepAction values.
+func (ContainerStopStepAction) AllValues() []ContainerStopStepAction {
+	return []ContainerStopStepAction{
+		ContainerStopStepActionContainerStop,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ContainerStopStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ContainerStopStepActionContainerStop:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ContainerStopStepAction) UnmarshalText(data []byte) error {
+	switch ContainerStopStepAction(data) {
+	case ContainerStopStepActionContainerStop:
+		*s = ContainerStopStepActionContainerStop
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ContainerStopStepDetails struct {
+	Container FluidIdentifier `json:"container"`
+}
+
+// GetContainer returns the value of Container.
+func (s *ContainerStopStepDetails) GetContainer() FluidIdentifier {
+	return s.Container
+}
+
+// SetContainer sets the value of Container.
+func (s *ContainerStopStepDetails) SetContainer(val FluidIdentifier) {
+	s.Container = val
+}
+
+type ContainerStopStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ContainerStopStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ContainerStopStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
 }
 
 // Configuration settings for container volumes.
@@ -12264,7 +13340,181 @@ func (s *CreateContainerJobAccepted) SetData(val JobDescriptor) {
 	s.Data = val
 }
 
-type CreateContainerJobReq struct{}
+// CreateContainerJobReq represents sum type.
+type CreateContainerJobReq struct {
+	Type                 CreateContainerJobReqType // switch on this field
+	ContainerStartAction ContainerStartAction
+	ContainerStopAction  ContainerStopAction
+	ReconfigureContainer ReconfigureContainer
+	ReconfigureVolumes   ReconfigureVolumes
+	Reimage              Reimage
+	Scale                Scale
+}
+
+// CreateContainerJobReqType is oneOf type of CreateContainerJobReq.
+type CreateContainerJobReqType string
+
+// Possible values for CreateContainerJobReqType.
+const (
+	ContainerStartActionCreateContainerJobReq CreateContainerJobReqType = "start"
+	ContainerStopActionCreateContainerJobReq  CreateContainerJobReqType = "stop"
+	ReconfigureContainerCreateContainerJobReq CreateContainerJobReqType = "reconfigure"
+	ReconfigureVolumesCreateContainerJobReq   CreateContainerJobReqType = "volumes.reconfigure"
+	ReimageCreateContainerJobReq              CreateContainerJobReqType = "reimage"
+	ScaleCreateContainerJobReq                CreateContainerJobReqType = "scale"
+)
+
+// IsContainerStartAction reports whether CreateContainerJobReq is ContainerStartAction.
+func (s CreateContainerJobReq) IsContainerStartAction() bool {
+	return s.Type == ContainerStartActionCreateContainerJobReq
+}
+
+// IsContainerStopAction reports whether CreateContainerJobReq is ContainerStopAction.
+func (s CreateContainerJobReq) IsContainerStopAction() bool {
+	return s.Type == ContainerStopActionCreateContainerJobReq
+}
+
+// IsReconfigureContainer reports whether CreateContainerJobReq is ReconfigureContainer.
+func (s CreateContainerJobReq) IsReconfigureContainer() bool {
+	return s.Type == ReconfigureContainerCreateContainerJobReq
+}
+
+// IsReconfigureVolumes reports whether CreateContainerJobReq is ReconfigureVolumes.
+func (s CreateContainerJobReq) IsReconfigureVolumes() bool {
+	return s.Type == ReconfigureVolumesCreateContainerJobReq
+}
+
+// IsReimage reports whether CreateContainerJobReq is Reimage.
+func (s CreateContainerJobReq) IsReimage() bool { return s.Type == ReimageCreateContainerJobReq }
+
+// IsScale reports whether CreateContainerJobReq is Scale.
+func (s CreateContainerJobReq) IsScale() bool { return s.Type == ScaleCreateContainerJobReq }
+
+// SetContainerStartAction sets CreateContainerJobReq to ContainerStartAction.
+func (s *CreateContainerJobReq) SetContainerStartAction(v ContainerStartAction) {
+	s.Type = ContainerStartActionCreateContainerJobReq
+	s.ContainerStartAction = v
+}
+
+// GetContainerStartAction returns ContainerStartAction and true boolean if CreateContainerJobReq is ContainerStartAction.
+func (s CreateContainerJobReq) GetContainerStartAction() (v ContainerStartAction, ok bool) {
+	if !s.IsContainerStartAction() {
+		return v, false
+	}
+	return s.ContainerStartAction, true
+}
+
+// NewContainerStartActionCreateContainerJobReq returns new CreateContainerJobReq from ContainerStartAction.
+func NewContainerStartActionCreateContainerJobReq(v ContainerStartAction) CreateContainerJobReq {
+	var s CreateContainerJobReq
+	s.SetContainerStartAction(v)
+	return s
+}
+
+// SetContainerStopAction sets CreateContainerJobReq to ContainerStopAction.
+func (s *CreateContainerJobReq) SetContainerStopAction(v ContainerStopAction) {
+	s.Type = ContainerStopActionCreateContainerJobReq
+	s.ContainerStopAction = v
+}
+
+// GetContainerStopAction returns ContainerStopAction and true boolean if CreateContainerJobReq is ContainerStopAction.
+func (s CreateContainerJobReq) GetContainerStopAction() (v ContainerStopAction, ok bool) {
+	if !s.IsContainerStopAction() {
+		return v, false
+	}
+	return s.ContainerStopAction, true
+}
+
+// NewContainerStopActionCreateContainerJobReq returns new CreateContainerJobReq from ContainerStopAction.
+func NewContainerStopActionCreateContainerJobReq(v ContainerStopAction) CreateContainerJobReq {
+	var s CreateContainerJobReq
+	s.SetContainerStopAction(v)
+	return s
+}
+
+// SetReconfigureContainer sets CreateContainerJobReq to ReconfigureContainer.
+func (s *CreateContainerJobReq) SetReconfigureContainer(v ReconfigureContainer) {
+	s.Type = ReconfigureContainerCreateContainerJobReq
+	s.ReconfigureContainer = v
+}
+
+// GetReconfigureContainer returns ReconfigureContainer and true boolean if CreateContainerJobReq is ReconfigureContainer.
+func (s CreateContainerJobReq) GetReconfigureContainer() (v ReconfigureContainer, ok bool) {
+	if !s.IsReconfigureContainer() {
+		return v, false
+	}
+	return s.ReconfigureContainer, true
+}
+
+// NewReconfigureContainerCreateContainerJobReq returns new CreateContainerJobReq from ReconfigureContainer.
+func NewReconfigureContainerCreateContainerJobReq(v ReconfigureContainer) CreateContainerJobReq {
+	var s CreateContainerJobReq
+	s.SetReconfigureContainer(v)
+	return s
+}
+
+// SetReconfigureVolumes sets CreateContainerJobReq to ReconfigureVolumes.
+func (s *CreateContainerJobReq) SetReconfigureVolumes(v ReconfigureVolumes) {
+	s.Type = ReconfigureVolumesCreateContainerJobReq
+	s.ReconfigureVolumes = v
+}
+
+// GetReconfigureVolumes returns ReconfigureVolumes and true boolean if CreateContainerJobReq is ReconfigureVolumes.
+func (s CreateContainerJobReq) GetReconfigureVolumes() (v ReconfigureVolumes, ok bool) {
+	if !s.IsReconfigureVolumes() {
+		return v, false
+	}
+	return s.ReconfigureVolumes, true
+}
+
+// NewReconfigureVolumesCreateContainerJobReq returns new CreateContainerJobReq from ReconfigureVolumes.
+func NewReconfigureVolumesCreateContainerJobReq(v ReconfigureVolumes) CreateContainerJobReq {
+	var s CreateContainerJobReq
+	s.SetReconfigureVolumes(v)
+	return s
+}
+
+// SetReimage sets CreateContainerJobReq to Reimage.
+func (s *CreateContainerJobReq) SetReimage(v Reimage) {
+	s.Type = ReimageCreateContainerJobReq
+	s.Reimage = v
+}
+
+// GetReimage returns Reimage and true boolean if CreateContainerJobReq is Reimage.
+func (s CreateContainerJobReq) GetReimage() (v Reimage, ok bool) {
+	if !s.IsReimage() {
+		return v, false
+	}
+	return s.Reimage, true
+}
+
+// NewReimageCreateContainerJobReq returns new CreateContainerJobReq from Reimage.
+func NewReimageCreateContainerJobReq(v Reimage) CreateContainerJobReq {
+	var s CreateContainerJobReq
+	s.SetReimage(v)
+	return s
+}
+
+// SetScale sets CreateContainerJobReq to Scale.
+func (s *CreateContainerJobReq) SetScale(v Scale) {
+	s.Type = ScaleCreateContainerJobReq
+	s.Scale = v
+}
+
+// GetScale returns Scale and true boolean if CreateContainerJobReq is Scale.
+func (s CreateContainerJobReq) GetScale() (v Scale, ok bool) {
+	if !s.IsScale() {
+		return v, false
+	}
+	return s.Scale, true
+}
+
+// NewScaleCreateContainerJobReq returns new CreateContainerJobReq from Scale.
+func NewScaleCreateContainerJobReq(v Scale) CreateContainerJobReq {
+	var s CreateContainerJobReq
+	s.SetScale(v)
+	return s
+}
 
 type CreateContainerReq struct {
 	// A user defined name for the Container.
@@ -12760,7 +14010,129 @@ func (s *CreateEnvironmentJobAccepted) SetData(val JobDescriptor) {
 	s.Data = val
 }
 
-type CreateEnvironmentJobReq struct{}
+// CreateEnvironmentJobReq represents sum type.
+type CreateEnvironmentJobReq struct {
+	Type                                    CreateEnvironmentJobReqType // switch on this field
+	EnvironmentStartAction                  EnvironmentStartAction
+	EnvironmentStopAction                   EnvironmentStopAction
+	EnvironmentInitializeAction             EnvironmentInitializeAction
+	EnvironmentReconfigureDeploymentsAction EnvironmentReconfigureDeploymentsAction
+}
+
+// CreateEnvironmentJobReqType is oneOf type of CreateEnvironmentJobReq.
+type CreateEnvironmentJobReqType string
+
+// Possible values for CreateEnvironmentJobReqType.
+const (
+	EnvironmentStartActionCreateEnvironmentJobReq                  CreateEnvironmentJobReqType = "start"
+	EnvironmentStopActionCreateEnvironmentJobReq                   CreateEnvironmentJobReqType = "stop"
+	EnvironmentInitializeActionCreateEnvironmentJobReq             CreateEnvironmentJobReqType = "initialize"
+	EnvironmentReconfigureDeploymentsActionCreateEnvironmentJobReq CreateEnvironmentJobReqType = "deployments.reconfigure"
+)
+
+// IsEnvironmentStartAction reports whether CreateEnvironmentJobReq is EnvironmentStartAction.
+func (s CreateEnvironmentJobReq) IsEnvironmentStartAction() bool {
+	return s.Type == EnvironmentStartActionCreateEnvironmentJobReq
+}
+
+// IsEnvironmentStopAction reports whether CreateEnvironmentJobReq is EnvironmentStopAction.
+func (s CreateEnvironmentJobReq) IsEnvironmentStopAction() bool {
+	return s.Type == EnvironmentStopActionCreateEnvironmentJobReq
+}
+
+// IsEnvironmentInitializeAction reports whether CreateEnvironmentJobReq is EnvironmentInitializeAction.
+func (s CreateEnvironmentJobReq) IsEnvironmentInitializeAction() bool {
+	return s.Type == EnvironmentInitializeActionCreateEnvironmentJobReq
+}
+
+// IsEnvironmentReconfigureDeploymentsAction reports whether CreateEnvironmentJobReq is EnvironmentReconfigureDeploymentsAction.
+func (s CreateEnvironmentJobReq) IsEnvironmentReconfigureDeploymentsAction() bool {
+	return s.Type == EnvironmentReconfigureDeploymentsActionCreateEnvironmentJobReq
+}
+
+// SetEnvironmentStartAction sets CreateEnvironmentJobReq to EnvironmentStartAction.
+func (s *CreateEnvironmentJobReq) SetEnvironmentStartAction(v EnvironmentStartAction) {
+	s.Type = EnvironmentStartActionCreateEnvironmentJobReq
+	s.EnvironmentStartAction = v
+}
+
+// GetEnvironmentStartAction returns EnvironmentStartAction and true boolean if CreateEnvironmentJobReq is EnvironmentStartAction.
+func (s CreateEnvironmentJobReq) GetEnvironmentStartAction() (v EnvironmentStartAction, ok bool) {
+	if !s.IsEnvironmentStartAction() {
+		return v, false
+	}
+	return s.EnvironmentStartAction, true
+}
+
+// NewEnvironmentStartActionCreateEnvironmentJobReq returns new CreateEnvironmentJobReq from EnvironmentStartAction.
+func NewEnvironmentStartActionCreateEnvironmentJobReq(v EnvironmentStartAction) CreateEnvironmentJobReq {
+	var s CreateEnvironmentJobReq
+	s.SetEnvironmentStartAction(v)
+	return s
+}
+
+// SetEnvironmentStopAction sets CreateEnvironmentJobReq to EnvironmentStopAction.
+func (s *CreateEnvironmentJobReq) SetEnvironmentStopAction(v EnvironmentStopAction) {
+	s.Type = EnvironmentStopActionCreateEnvironmentJobReq
+	s.EnvironmentStopAction = v
+}
+
+// GetEnvironmentStopAction returns EnvironmentStopAction and true boolean if CreateEnvironmentJobReq is EnvironmentStopAction.
+func (s CreateEnvironmentJobReq) GetEnvironmentStopAction() (v EnvironmentStopAction, ok bool) {
+	if !s.IsEnvironmentStopAction() {
+		return v, false
+	}
+	return s.EnvironmentStopAction, true
+}
+
+// NewEnvironmentStopActionCreateEnvironmentJobReq returns new CreateEnvironmentJobReq from EnvironmentStopAction.
+func NewEnvironmentStopActionCreateEnvironmentJobReq(v EnvironmentStopAction) CreateEnvironmentJobReq {
+	var s CreateEnvironmentJobReq
+	s.SetEnvironmentStopAction(v)
+	return s
+}
+
+// SetEnvironmentInitializeAction sets CreateEnvironmentJobReq to EnvironmentInitializeAction.
+func (s *CreateEnvironmentJobReq) SetEnvironmentInitializeAction(v EnvironmentInitializeAction) {
+	s.Type = EnvironmentInitializeActionCreateEnvironmentJobReq
+	s.EnvironmentInitializeAction = v
+}
+
+// GetEnvironmentInitializeAction returns EnvironmentInitializeAction and true boolean if CreateEnvironmentJobReq is EnvironmentInitializeAction.
+func (s CreateEnvironmentJobReq) GetEnvironmentInitializeAction() (v EnvironmentInitializeAction, ok bool) {
+	if !s.IsEnvironmentInitializeAction() {
+		return v, false
+	}
+	return s.EnvironmentInitializeAction, true
+}
+
+// NewEnvironmentInitializeActionCreateEnvironmentJobReq returns new CreateEnvironmentJobReq from EnvironmentInitializeAction.
+func NewEnvironmentInitializeActionCreateEnvironmentJobReq(v EnvironmentInitializeAction) CreateEnvironmentJobReq {
+	var s CreateEnvironmentJobReq
+	s.SetEnvironmentInitializeAction(v)
+	return s
+}
+
+// SetEnvironmentReconfigureDeploymentsAction sets CreateEnvironmentJobReq to EnvironmentReconfigureDeploymentsAction.
+func (s *CreateEnvironmentJobReq) SetEnvironmentReconfigureDeploymentsAction(v EnvironmentReconfigureDeploymentsAction) {
+	s.Type = EnvironmentReconfigureDeploymentsActionCreateEnvironmentJobReq
+	s.EnvironmentReconfigureDeploymentsAction = v
+}
+
+// GetEnvironmentReconfigureDeploymentsAction returns EnvironmentReconfigureDeploymentsAction and true boolean if CreateEnvironmentJobReq is EnvironmentReconfigureDeploymentsAction.
+func (s CreateEnvironmentJobReq) GetEnvironmentReconfigureDeploymentsAction() (v EnvironmentReconfigureDeploymentsAction, ok bool) {
+	if !s.IsEnvironmentReconfigureDeploymentsAction() {
+		return v, false
+	}
+	return s.EnvironmentReconfigureDeploymentsAction, true
+}
+
+// NewEnvironmentReconfigureDeploymentsActionCreateEnvironmentJobReq returns new CreateEnvironmentJobReq from EnvironmentReconfigureDeploymentsAction.
+func NewEnvironmentReconfigureDeploymentsActionCreateEnvironmentJobReq(v EnvironmentReconfigureDeploymentsAction) CreateEnvironmentJobReq {
+	var s CreateEnvironmentJobReq
+	s.SetEnvironmentReconfigureDeploymentsAction(v)
+	return s
+}
 
 type CreateEnvironmentReq struct {
 	// A user defined name for the Environment.
@@ -13440,7 +14812,99 @@ func (s *CreateInstanceJobAccepted) SetData(val JobDescriptor) {
 	s.Data = val
 }
 
-type CreateInstanceJobReq struct{}
+// CreateInstanceJobReq represents sum type.
+type CreateInstanceJobReq struct {
+	Type            CreateInstanceJobReqType // switch on this field
+	Migrate         Migrate
+	RevertMigration RevertMigration
+	ExtendVolume    ExtendVolume
+}
+
+// CreateInstanceJobReqType is oneOf type of CreateInstanceJobReq.
+type CreateInstanceJobReqType string
+
+// Possible values for CreateInstanceJobReqType.
+const (
+	MigrateCreateInstanceJobReq         CreateInstanceJobReqType = "migration.start"
+	RevertMigrationCreateInstanceJobReq CreateInstanceJobReqType = "migration.revert"
+	ExtendVolumeCreateInstanceJobReq    CreateInstanceJobReqType = "volume.extend"
+)
+
+// IsMigrate reports whether CreateInstanceJobReq is Migrate.
+func (s CreateInstanceJobReq) IsMigrate() bool { return s.Type == MigrateCreateInstanceJobReq }
+
+// IsRevertMigration reports whether CreateInstanceJobReq is RevertMigration.
+func (s CreateInstanceJobReq) IsRevertMigration() bool {
+	return s.Type == RevertMigrationCreateInstanceJobReq
+}
+
+// IsExtendVolume reports whether CreateInstanceJobReq is ExtendVolume.
+func (s CreateInstanceJobReq) IsExtendVolume() bool {
+	return s.Type == ExtendVolumeCreateInstanceJobReq
+}
+
+// SetMigrate sets CreateInstanceJobReq to Migrate.
+func (s *CreateInstanceJobReq) SetMigrate(v Migrate) {
+	s.Type = MigrateCreateInstanceJobReq
+	s.Migrate = v
+}
+
+// GetMigrate returns Migrate and true boolean if CreateInstanceJobReq is Migrate.
+func (s CreateInstanceJobReq) GetMigrate() (v Migrate, ok bool) {
+	if !s.IsMigrate() {
+		return v, false
+	}
+	return s.Migrate, true
+}
+
+// NewMigrateCreateInstanceJobReq returns new CreateInstanceJobReq from Migrate.
+func NewMigrateCreateInstanceJobReq(v Migrate) CreateInstanceJobReq {
+	var s CreateInstanceJobReq
+	s.SetMigrate(v)
+	return s
+}
+
+// SetRevertMigration sets CreateInstanceJobReq to RevertMigration.
+func (s *CreateInstanceJobReq) SetRevertMigration(v RevertMigration) {
+	s.Type = RevertMigrationCreateInstanceJobReq
+	s.RevertMigration = v
+}
+
+// GetRevertMigration returns RevertMigration and true boolean if CreateInstanceJobReq is RevertMigration.
+func (s CreateInstanceJobReq) GetRevertMigration() (v RevertMigration, ok bool) {
+	if !s.IsRevertMigration() {
+		return v, false
+	}
+	return s.RevertMigration, true
+}
+
+// NewRevertMigrationCreateInstanceJobReq returns new CreateInstanceJobReq from RevertMigration.
+func NewRevertMigrationCreateInstanceJobReq(v RevertMigration) CreateInstanceJobReq {
+	var s CreateInstanceJobReq
+	s.SetRevertMigration(v)
+	return s
+}
+
+// SetExtendVolume sets CreateInstanceJobReq to ExtendVolume.
+func (s *CreateInstanceJobReq) SetExtendVolume(v ExtendVolume) {
+	s.Type = ExtendVolumeCreateInstanceJobReq
+	s.ExtendVolume = v
+}
+
+// GetExtendVolume returns ExtendVolume and true boolean if CreateInstanceJobReq is ExtendVolume.
+func (s CreateInstanceJobReq) GetExtendVolume() (v ExtendVolume, ok bool) {
+	if !s.IsExtendVolume() {
+		return v, false
+	}
+	return s.ExtendVolume, true
+}
+
+// NewExtendVolumeCreateInstanceJobReq returns new CreateInstanceJobReq from ExtendVolume.
+func NewExtendVolumeCreateInstanceJobReq(v ExtendVolume) CreateInstanceJobReq {
+	var s CreateInstanceJobReq
+	s.SetExtendVolume(v)
+	return s
+}
 
 type CreateInstancesAccepted struct {
 	Data JobDescriptor `json:"data"`
@@ -13913,8 +15377,8 @@ type CreateLoadBalancerServiceJobReqContents struct {
 	// availability mode.
 	HighAvailability OptNilBool `json:"high_availability"`
 	// A boolean representing if this service container is set to autoupdate or not.
-	AutoUpdate OptNilBool          `json:"auto_update"`
-	Config     *LoadBalancerConfig `json:"config"`
+	AutoUpdate OptNilBool            `json:"auto_update"`
+	Config     OptLoadBalancerConfig `json:"config"`
 }
 
 // GetHighAvailability returns the value of HighAvailability.
@@ -13928,7 +15392,7 @@ func (s *CreateLoadBalancerServiceJobReqContents) GetAutoUpdate() OptNilBool {
 }
 
 // GetConfig returns the value of Config.
-func (s *CreateLoadBalancerServiceJobReqContents) GetConfig() *LoadBalancerConfig {
+func (s *CreateLoadBalancerServiceJobReqContents) GetConfig() OptLoadBalancerConfig {
 	return s.Config
 }
 
@@ -13943,7 +15407,7 @@ func (s *CreateLoadBalancerServiceJobReqContents) SetAutoUpdate(val OptNilBool) 
 }
 
 // SetConfig sets the value of Config.
-func (s *CreateLoadBalancerServiceJobReqContents) SetConfig(val *LoadBalancerConfig) {
+func (s *CreateLoadBalancerServiceJobReqContents) SetConfig(val OptLoadBalancerConfig) {
 	s.Config = val
 }
 
@@ -14452,7 +15916,73 @@ func (s *CreatePipelineJobAccepted) SetData(val JobDescriptor) {
 	s.Data = val
 }
 
-type CreatePipelineJobReq struct{}
+// CreatePipelineJobReq represents sum type.
+type CreatePipelineJobReq struct {
+	Type                  CreatePipelineJobReqType // switch on this field
+	TriggerPipelineAction TriggerPipelineAction
+	RerunPipelineAction   RerunPipelineAction
+}
+
+// CreatePipelineJobReqType is oneOf type of CreatePipelineJobReq.
+type CreatePipelineJobReqType string
+
+// Possible values for CreatePipelineJobReqType.
+const (
+	TriggerPipelineActionCreatePipelineJobReq CreatePipelineJobReqType = "trigger"
+	RerunPipelineActionCreatePipelineJobReq   CreatePipelineJobReqType = "rerun"
+)
+
+// IsTriggerPipelineAction reports whether CreatePipelineJobReq is TriggerPipelineAction.
+func (s CreatePipelineJobReq) IsTriggerPipelineAction() bool {
+	return s.Type == TriggerPipelineActionCreatePipelineJobReq
+}
+
+// IsRerunPipelineAction reports whether CreatePipelineJobReq is RerunPipelineAction.
+func (s CreatePipelineJobReq) IsRerunPipelineAction() bool {
+	return s.Type == RerunPipelineActionCreatePipelineJobReq
+}
+
+// SetTriggerPipelineAction sets CreatePipelineJobReq to TriggerPipelineAction.
+func (s *CreatePipelineJobReq) SetTriggerPipelineAction(v TriggerPipelineAction) {
+	s.Type = TriggerPipelineActionCreatePipelineJobReq
+	s.TriggerPipelineAction = v
+}
+
+// GetTriggerPipelineAction returns TriggerPipelineAction and true boolean if CreatePipelineJobReq is TriggerPipelineAction.
+func (s CreatePipelineJobReq) GetTriggerPipelineAction() (v TriggerPipelineAction, ok bool) {
+	if !s.IsTriggerPipelineAction() {
+		return v, false
+	}
+	return s.TriggerPipelineAction, true
+}
+
+// NewTriggerPipelineActionCreatePipelineJobReq returns new CreatePipelineJobReq from TriggerPipelineAction.
+func NewTriggerPipelineActionCreatePipelineJobReq(v TriggerPipelineAction) CreatePipelineJobReq {
+	var s CreatePipelineJobReq
+	s.SetTriggerPipelineAction(v)
+	return s
+}
+
+// SetRerunPipelineAction sets CreatePipelineJobReq to RerunPipelineAction.
+func (s *CreatePipelineJobReq) SetRerunPipelineAction(v RerunPipelineAction) {
+	s.Type = RerunPipelineActionCreatePipelineJobReq
+	s.RerunPipelineAction = v
+}
+
+// GetRerunPipelineAction returns RerunPipelineAction and true boolean if CreatePipelineJobReq is RerunPipelineAction.
+func (s CreatePipelineJobReq) GetRerunPipelineAction() (v RerunPipelineAction, ok bool) {
+	if !s.IsRerunPipelineAction() {
+		return v, false
+	}
+	return s.RerunPipelineAction, true
+}
+
+// NewRerunPipelineActionCreatePipelineJobReq returns new CreatePipelineJobReq from RerunPipelineAction.
+func NewRerunPipelineActionCreatePipelineJobReq(v RerunPipelineAction) CreatePipelineJobReq {
+	var s CreatePipelineJobReq
+	s.SetRerunPipelineAction(v)
+	return s
+}
 
 type CreatePipelineReq struct {
 	// A name for the Pipeline.
@@ -14850,7 +16380,87 @@ func (s *CreateScopedVariableReq) SetSource(val CreateScopedVariableReqSource) {
 }
 
 // The source or value of the Scoped Variable.
-type CreateScopedVariableReqSource struct{}
+type CreateScopedVariableReqSource struct {
+	OneOf CreateScopedVariableReqSourceSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *CreateScopedVariableReqSource) GetOneOf() CreateScopedVariableReqSourceSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *CreateScopedVariableReqSource) SetOneOf(val CreateScopedVariableReqSourceSum) {
+	s.OneOf = val
+}
+
+// CreateScopedVariableReqSourceSum represents sum type.
+type CreateScopedVariableReqSourceSum struct {
+	Type      CreateScopedVariableReqSourceSumType // switch on this field
+	RawSource RawSource
+	URLSource URLSource
+}
+
+// CreateScopedVariableReqSourceSumType is oneOf type of CreateScopedVariableReqSourceSum.
+type CreateScopedVariableReqSourceSumType string
+
+// Possible values for CreateScopedVariableReqSourceSumType.
+const (
+	RawSourceCreateScopedVariableReqSourceSum CreateScopedVariableReqSourceSumType = "raw"
+	URLSourceCreateScopedVariableReqSourceSum CreateScopedVariableReqSourceSumType = "url"
+)
+
+// IsRawSource reports whether CreateScopedVariableReqSourceSum is RawSource.
+func (s CreateScopedVariableReqSourceSum) IsRawSource() bool {
+	return s.Type == RawSourceCreateScopedVariableReqSourceSum
+}
+
+// IsURLSource reports whether CreateScopedVariableReqSourceSum is URLSource.
+func (s CreateScopedVariableReqSourceSum) IsURLSource() bool {
+	return s.Type == URLSourceCreateScopedVariableReqSourceSum
+}
+
+// SetRawSource sets CreateScopedVariableReqSourceSum to RawSource.
+func (s *CreateScopedVariableReqSourceSum) SetRawSource(v RawSource) {
+	s.Type = RawSourceCreateScopedVariableReqSourceSum
+	s.RawSource = v
+}
+
+// GetRawSource returns RawSource and true boolean if CreateScopedVariableReqSourceSum is RawSource.
+func (s CreateScopedVariableReqSourceSum) GetRawSource() (v RawSource, ok bool) {
+	if !s.IsRawSource() {
+		return v, false
+	}
+	return s.RawSource, true
+}
+
+// NewRawSourceCreateScopedVariableReqSourceSum returns new CreateScopedVariableReqSourceSum from RawSource.
+func NewRawSourceCreateScopedVariableReqSourceSum(v RawSource) CreateScopedVariableReqSourceSum {
+	var s CreateScopedVariableReqSourceSum
+	s.SetRawSource(v)
+	return s
+}
+
+// SetURLSource sets CreateScopedVariableReqSourceSum to URLSource.
+func (s *CreateScopedVariableReqSourceSum) SetURLSource(v URLSource) {
+	s.Type = URLSourceCreateScopedVariableReqSourceSum
+	s.URLSource = v
+}
+
+// GetURLSource returns URLSource and true boolean if CreateScopedVariableReqSourceSum is URLSource.
+func (s CreateScopedVariableReqSourceSum) GetURLSource() (v URLSource, ok bool) {
+	if !s.IsURLSource() {
+		return v, false
+	}
+	return s.URLSource, true
+}
+
+// NewURLSourceCreateScopedVariableReqSourceSum returns new CreateScopedVariableReqSourceSum from URLSource.
+func NewURLSourceCreateScopedVariableReqSourceSum(v URLSource) CreateScopedVariableReqSourceSum {
+	var s CreateScopedVariableReqSourceSum
+	s.SetURLSource(v)
+	return s
+}
 
 type CreateServerAccepted struct {
 	Data JobDescriptor `json:"data"`
@@ -14880,7 +16490,211 @@ func (s *CreateServerJobAccepted) SetData(val JobDescriptor) {
 	s.Data = val
 }
 
-type CreateServerJobReq struct{}
+// CreateServerJobReq represents sum type.
+type CreateServerJobReq struct {
+	Type                  CreateServerJobReqType // switch on this field
+	ReconfigureSharedFs   ReconfigureSharedFs
+	ReconfigureServer     ReconfigureServer
+	RestartServer         RestartServer
+	RestartCompute        RestartCompute
+	RestartComputeSpawner RestartComputeSpawner
+	EvacuateServer        EvacuateServer
+	EvacuateServerReset   EvacuateServerReset
+}
+
+// CreateServerJobReqType is oneOf type of CreateServerJobReq.
+type CreateServerJobReqType string
+
+// Possible values for CreateServerJobReqType.
+const (
+	ReconfigureSharedFsCreateServerJobReq   CreateServerJobReqType = "sharedfs.reconfigure"
+	ReconfigureServerCreateServerJobReq     CreateServerJobReqType = "features.reconfigure"
+	RestartServerCreateServerJobReq         CreateServerJobReqType = "restart"
+	RestartComputeCreateServerJobReq        CreateServerJobReqType = "compute.restart"
+	RestartComputeSpawnerCreateServerJobReq CreateServerJobReqType = "compute.spawner.restart"
+	EvacuateServerCreateServerJobReq        CreateServerJobReqType = "evacuation.start"
+	EvacuateServerResetCreateServerJobReq   CreateServerJobReqType = "evacuation.reset"
+)
+
+// IsReconfigureSharedFs reports whether CreateServerJobReq is ReconfigureSharedFs.
+func (s CreateServerJobReq) IsReconfigureSharedFs() bool {
+	return s.Type == ReconfigureSharedFsCreateServerJobReq
+}
+
+// IsReconfigureServer reports whether CreateServerJobReq is ReconfigureServer.
+func (s CreateServerJobReq) IsReconfigureServer() bool {
+	return s.Type == ReconfigureServerCreateServerJobReq
+}
+
+// IsRestartServer reports whether CreateServerJobReq is RestartServer.
+func (s CreateServerJobReq) IsRestartServer() bool { return s.Type == RestartServerCreateServerJobReq }
+
+// IsRestartCompute reports whether CreateServerJobReq is RestartCompute.
+func (s CreateServerJobReq) IsRestartCompute() bool {
+	return s.Type == RestartComputeCreateServerJobReq
+}
+
+// IsRestartComputeSpawner reports whether CreateServerJobReq is RestartComputeSpawner.
+func (s CreateServerJobReq) IsRestartComputeSpawner() bool {
+	return s.Type == RestartComputeSpawnerCreateServerJobReq
+}
+
+// IsEvacuateServer reports whether CreateServerJobReq is EvacuateServer.
+func (s CreateServerJobReq) IsEvacuateServer() bool {
+	return s.Type == EvacuateServerCreateServerJobReq
+}
+
+// IsEvacuateServerReset reports whether CreateServerJobReq is EvacuateServerReset.
+func (s CreateServerJobReq) IsEvacuateServerReset() bool {
+	return s.Type == EvacuateServerResetCreateServerJobReq
+}
+
+// SetReconfigureSharedFs sets CreateServerJobReq to ReconfigureSharedFs.
+func (s *CreateServerJobReq) SetReconfigureSharedFs(v ReconfigureSharedFs) {
+	s.Type = ReconfigureSharedFsCreateServerJobReq
+	s.ReconfigureSharedFs = v
+}
+
+// GetReconfigureSharedFs returns ReconfigureSharedFs and true boolean if CreateServerJobReq is ReconfigureSharedFs.
+func (s CreateServerJobReq) GetReconfigureSharedFs() (v ReconfigureSharedFs, ok bool) {
+	if !s.IsReconfigureSharedFs() {
+		return v, false
+	}
+	return s.ReconfigureSharedFs, true
+}
+
+// NewReconfigureSharedFsCreateServerJobReq returns new CreateServerJobReq from ReconfigureSharedFs.
+func NewReconfigureSharedFsCreateServerJobReq(v ReconfigureSharedFs) CreateServerJobReq {
+	var s CreateServerJobReq
+	s.SetReconfigureSharedFs(v)
+	return s
+}
+
+// SetReconfigureServer sets CreateServerJobReq to ReconfigureServer.
+func (s *CreateServerJobReq) SetReconfigureServer(v ReconfigureServer) {
+	s.Type = ReconfigureServerCreateServerJobReq
+	s.ReconfigureServer = v
+}
+
+// GetReconfigureServer returns ReconfigureServer and true boolean if CreateServerJobReq is ReconfigureServer.
+func (s CreateServerJobReq) GetReconfigureServer() (v ReconfigureServer, ok bool) {
+	if !s.IsReconfigureServer() {
+		return v, false
+	}
+	return s.ReconfigureServer, true
+}
+
+// NewReconfigureServerCreateServerJobReq returns new CreateServerJobReq from ReconfigureServer.
+func NewReconfigureServerCreateServerJobReq(v ReconfigureServer) CreateServerJobReq {
+	var s CreateServerJobReq
+	s.SetReconfigureServer(v)
+	return s
+}
+
+// SetRestartServer sets CreateServerJobReq to RestartServer.
+func (s *CreateServerJobReq) SetRestartServer(v RestartServer) {
+	s.Type = RestartServerCreateServerJobReq
+	s.RestartServer = v
+}
+
+// GetRestartServer returns RestartServer and true boolean if CreateServerJobReq is RestartServer.
+func (s CreateServerJobReq) GetRestartServer() (v RestartServer, ok bool) {
+	if !s.IsRestartServer() {
+		return v, false
+	}
+	return s.RestartServer, true
+}
+
+// NewRestartServerCreateServerJobReq returns new CreateServerJobReq from RestartServer.
+func NewRestartServerCreateServerJobReq(v RestartServer) CreateServerJobReq {
+	var s CreateServerJobReq
+	s.SetRestartServer(v)
+	return s
+}
+
+// SetRestartCompute sets CreateServerJobReq to RestartCompute.
+func (s *CreateServerJobReq) SetRestartCompute(v RestartCompute) {
+	s.Type = RestartComputeCreateServerJobReq
+	s.RestartCompute = v
+}
+
+// GetRestartCompute returns RestartCompute and true boolean if CreateServerJobReq is RestartCompute.
+func (s CreateServerJobReq) GetRestartCompute() (v RestartCompute, ok bool) {
+	if !s.IsRestartCompute() {
+		return v, false
+	}
+	return s.RestartCompute, true
+}
+
+// NewRestartComputeCreateServerJobReq returns new CreateServerJobReq from RestartCompute.
+func NewRestartComputeCreateServerJobReq(v RestartCompute) CreateServerJobReq {
+	var s CreateServerJobReq
+	s.SetRestartCompute(v)
+	return s
+}
+
+// SetRestartComputeSpawner sets CreateServerJobReq to RestartComputeSpawner.
+func (s *CreateServerJobReq) SetRestartComputeSpawner(v RestartComputeSpawner) {
+	s.Type = RestartComputeSpawnerCreateServerJobReq
+	s.RestartComputeSpawner = v
+}
+
+// GetRestartComputeSpawner returns RestartComputeSpawner and true boolean if CreateServerJobReq is RestartComputeSpawner.
+func (s CreateServerJobReq) GetRestartComputeSpawner() (v RestartComputeSpawner, ok bool) {
+	if !s.IsRestartComputeSpawner() {
+		return v, false
+	}
+	return s.RestartComputeSpawner, true
+}
+
+// NewRestartComputeSpawnerCreateServerJobReq returns new CreateServerJobReq from RestartComputeSpawner.
+func NewRestartComputeSpawnerCreateServerJobReq(v RestartComputeSpawner) CreateServerJobReq {
+	var s CreateServerJobReq
+	s.SetRestartComputeSpawner(v)
+	return s
+}
+
+// SetEvacuateServer sets CreateServerJobReq to EvacuateServer.
+func (s *CreateServerJobReq) SetEvacuateServer(v EvacuateServer) {
+	s.Type = EvacuateServerCreateServerJobReq
+	s.EvacuateServer = v
+}
+
+// GetEvacuateServer returns EvacuateServer and true boolean if CreateServerJobReq is EvacuateServer.
+func (s CreateServerJobReq) GetEvacuateServer() (v EvacuateServer, ok bool) {
+	if !s.IsEvacuateServer() {
+		return v, false
+	}
+	return s.EvacuateServer, true
+}
+
+// NewEvacuateServerCreateServerJobReq returns new CreateServerJobReq from EvacuateServer.
+func NewEvacuateServerCreateServerJobReq(v EvacuateServer) CreateServerJobReq {
+	var s CreateServerJobReq
+	s.SetEvacuateServer(v)
+	return s
+}
+
+// SetEvacuateServerReset sets CreateServerJobReq to EvacuateServerReset.
+func (s *CreateServerJobReq) SetEvacuateServerReset(v EvacuateServerReset) {
+	s.Type = EvacuateServerResetCreateServerJobReq
+	s.EvacuateServerReset = v
+}
+
+// GetEvacuateServerReset returns EvacuateServerReset and true boolean if CreateServerJobReq is EvacuateServerReset.
+func (s CreateServerJobReq) GetEvacuateServerReset() (v EvacuateServerReset, ok bool) {
+	if !s.IsEvacuateServerReset() {
+		return v, false
+	}
+	return s.EvacuateServerReset, true
+}
+
+// NewEvacuateServerResetCreateServerJobReq returns new CreateServerJobReq from EvacuateServerReset.
+func NewEvacuateServerResetCreateServerJobReq(v EvacuateServerReset) CreateServerJobReq {
+	var s CreateServerJobReq
+	s.SetEvacuateServerReset(v)
+	return s
+}
 
 type CreateServerReq struct {
 	// The existing or new cluster this infrastructure should be provisioned in.
@@ -15078,7 +16892,73 @@ func (s *CreateStackBuildJobAccepted) SetData(val JobDescriptor) {
 	s.Data = val
 }
 
-type CreateStackBuildJobReq struct{}
+// CreateStackBuildJobReq represents sum type.
+type CreateStackBuildJobReq struct {
+	Type                     CreateStackBuildJobReqType // switch on this field
+	GenerateStackBuildAction GenerateStackBuildAction
+	DeployStackBuildAction   DeployStackBuildAction
+}
+
+// CreateStackBuildJobReqType is oneOf type of CreateStackBuildJobReq.
+type CreateStackBuildJobReqType string
+
+// Possible values for CreateStackBuildJobReqType.
+const (
+	GenerateStackBuildActionCreateStackBuildJobReq CreateStackBuildJobReqType = "generate"
+	DeployStackBuildActionCreateStackBuildJobReq   CreateStackBuildJobReqType = "deploy"
+)
+
+// IsGenerateStackBuildAction reports whether CreateStackBuildJobReq is GenerateStackBuildAction.
+func (s CreateStackBuildJobReq) IsGenerateStackBuildAction() bool {
+	return s.Type == GenerateStackBuildActionCreateStackBuildJobReq
+}
+
+// IsDeployStackBuildAction reports whether CreateStackBuildJobReq is DeployStackBuildAction.
+func (s CreateStackBuildJobReq) IsDeployStackBuildAction() bool {
+	return s.Type == DeployStackBuildActionCreateStackBuildJobReq
+}
+
+// SetGenerateStackBuildAction sets CreateStackBuildJobReq to GenerateStackBuildAction.
+func (s *CreateStackBuildJobReq) SetGenerateStackBuildAction(v GenerateStackBuildAction) {
+	s.Type = GenerateStackBuildActionCreateStackBuildJobReq
+	s.GenerateStackBuildAction = v
+}
+
+// GetGenerateStackBuildAction returns GenerateStackBuildAction and true boolean if CreateStackBuildJobReq is GenerateStackBuildAction.
+func (s CreateStackBuildJobReq) GetGenerateStackBuildAction() (v GenerateStackBuildAction, ok bool) {
+	if !s.IsGenerateStackBuildAction() {
+		return v, false
+	}
+	return s.GenerateStackBuildAction, true
+}
+
+// NewGenerateStackBuildActionCreateStackBuildJobReq returns new CreateStackBuildJobReq from GenerateStackBuildAction.
+func NewGenerateStackBuildActionCreateStackBuildJobReq(v GenerateStackBuildAction) CreateStackBuildJobReq {
+	var s CreateStackBuildJobReq
+	s.SetGenerateStackBuildAction(v)
+	return s
+}
+
+// SetDeployStackBuildAction sets CreateStackBuildJobReq to DeployStackBuildAction.
+func (s *CreateStackBuildJobReq) SetDeployStackBuildAction(v DeployStackBuildAction) {
+	s.Type = DeployStackBuildActionCreateStackBuildJobReq
+	s.DeployStackBuildAction = v
+}
+
+// GetDeployStackBuildAction returns DeployStackBuildAction and true boolean if CreateStackBuildJobReq is DeployStackBuildAction.
+func (s CreateStackBuildJobReq) GetDeployStackBuildAction() (v DeployStackBuildAction, ok bool) {
+	if !s.IsDeployStackBuildAction() {
+		return v, false
+	}
+	return s.DeployStackBuildAction, true
+}
+
+// NewDeployStackBuildActionCreateStackBuildJobReq returns new CreateStackBuildJobReq from DeployStackBuildAction.
+func NewDeployStackBuildActionCreateStackBuildJobReq(v DeployStackBuildAction) CreateStackBuildJobReq {
+	var s CreateStackBuildJobReq
+	s.SetDeployStackBuildAction(v)
+	return s
+}
 
 type CreateStackBuildReq struct {
 	About        OptStackBuildAbout               `json:"about"`
@@ -15271,7 +17151,73 @@ func (s *CreateVPNServiceJobAccepted) SetData(val JobDescriptor) {
 	s.Data = val
 }
 
-type CreateVPNServiceJobReq struct{}
+// CreateVPNServiceJobReq represents sum type.
+type CreateVPNServiceJobReq struct {
+	Type               CreateVPNServiceJobReqType // switch on this field
+	VpnResetTask       VpnResetTask
+	VpnReconfigureTask VpnReconfigureTask
+}
+
+// CreateVPNServiceJobReqType is oneOf type of CreateVPNServiceJobReq.
+type CreateVPNServiceJobReqType string
+
+// Possible values for CreateVPNServiceJobReqType.
+const (
+	VpnResetTaskCreateVPNServiceJobReq       CreateVPNServiceJobReqType = "reset"
+	VpnReconfigureTaskCreateVPNServiceJobReq CreateVPNServiceJobReqType = "reconfigure"
+)
+
+// IsVpnResetTask reports whether CreateVPNServiceJobReq is VpnResetTask.
+func (s CreateVPNServiceJobReq) IsVpnResetTask() bool {
+	return s.Type == VpnResetTaskCreateVPNServiceJobReq
+}
+
+// IsVpnReconfigureTask reports whether CreateVPNServiceJobReq is VpnReconfigureTask.
+func (s CreateVPNServiceJobReq) IsVpnReconfigureTask() bool {
+	return s.Type == VpnReconfigureTaskCreateVPNServiceJobReq
+}
+
+// SetVpnResetTask sets CreateVPNServiceJobReq to VpnResetTask.
+func (s *CreateVPNServiceJobReq) SetVpnResetTask(v VpnResetTask) {
+	s.Type = VpnResetTaskCreateVPNServiceJobReq
+	s.VpnResetTask = v
+}
+
+// GetVpnResetTask returns VpnResetTask and true boolean if CreateVPNServiceJobReq is VpnResetTask.
+func (s CreateVPNServiceJobReq) GetVpnResetTask() (v VpnResetTask, ok bool) {
+	if !s.IsVpnResetTask() {
+		return v, false
+	}
+	return s.VpnResetTask, true
+}
+
+// NewVpnResetTaskCreateVPNServiceJobReq returns new CreateVPNServiceJobReq from VpnResetTask.
+func NewVpnResetTaskCreateVPNServiceJobReq(v VpnResetTask) CreateVPNServiceJobReq {
+	var s CreateVPNServiceJobReq
+	s.SetVpnResetTask(v)
+	return s
+}
+
+// SetVpnReconfigureTask sets CreateVPNServiceJobReq to VpnReconfigureTask.
+func (s *CreateVPNServiceJobReq) SetVpnReconfigureTask(v VpnReconfigureTask) {
+	s.Type = VpnReconfigureTaskCreateVPNServiceJobReq
+	s.VpnReconfigureTask = v
+}
+
+// GetVpnReconfigureTask returns VpnReconfigureTask and true boolean if CreateVPNServiceJobReq is VpnReconfigureTask.
+func (s CreateVPNServiceJobReq) GetVpnReconfigureTask() (v VpnReconfigureTask, ok bool) {
+	if !s.IsVpnReconfigureTask() {
+		return v, false
+	}
+	return s.VpnReconfigureTask, true
+}
+
+// NewVpnReconfigureTaskCreateVPNServiceJobReq returns new CreateVPNServiceJobReq from VpnReconfigureTask.
+func NewVpnReconfigureTaskCreateVPNServiceJobReq(v VpnReconfigureTask) CreateVPNServiceJobReq {
+	var s CreateVPNServiceJobReq
+	s.SetVpnReconfigureTask(v)
+	return s
+}
 
 type CreateVPNUserCreated struct {
 	Data VPNUsers `json:"data"`
@@ -15399,7 +17345,73 @@ func (s *CreateVirtualMachineJobAccepted) SetData(val JobDescriptor) {
 	s.Data = val
 }
 
-type CreateVirtualMachineJobReq struct{}
+// CreateVirtualMachineJobReq represents sum type.
+type CreateVirtualMachineJobReq struct {
+	Type                    CreateVirtualMachineJobReqType // switch on this field
+	VirtualMachineStartTask VirtualMachineStartTask
+	VirtualMachineStopTask  VirtualMachineStopTask
+}
+
+// CreateVirtualMachineJobReqType is oneOf type of CreateVirtualMachineJobReq.
+type CreateVirtualMachineJobReqType string
+
+// Possible values for CreateVirtualMachineJobReqType.
+const (
+	VirtualMachineStartTaskCreateVirtualMachineJobReq CreateVirtualMachineJobReqType = "start"
+	VirtualMachineStopTaskCreateVirtualMachineJobReq  CreateVirtualMachineJobReqType = "stop"
+)
+
+// IsVirtualMachineStartTask reports whether CreateVirtualMachineJobReq is VirtualMachineStartTask.
+func (s CreateVirtualMachineJobReq) IsVirtualMachineStartTask() bool {
+	return s.Type == VirtualMachineStartTaskCreateVirtualMachineJobReq
+}
+
+// IsVirtualMachineStopTask reports whether CreateVirtualMachineJobReq is VirtualMachineStopTask.
+func (s CreateVirtualMachineJobReq) IsVirtualMachineStopTask() bool {
+	return s.Type == VirtualMachineStopTaskCreateVirtualMachineJobReq
+}
+
+// SetVirtualMachineStartTask sets CreateVirtualMachineJobReq to VirtualMachineStartTask.
+func (s *CreateVirtualMachineJobReq) SetVirtualMachineStartTask(v VirtualMachineStartTask) {
+	s.Type = VirtualMachineStartTaskCreateVirtualMachineJobReq
+	s.VirtualMachineStartTask = v
+}
+
+// GetVirtualMachineStartTask returns VirtualMachineStartTask and true boolean if CreateVirtualMachineJobReq is VirtualMachineStartTask.
+func (s CreateVirtualMachineJobReq) GetVirtualMachineStartTask() (v VirtualMachineStartTask, ok bool) {
+	if !s.IsVirtualMachineStartTask() {
+		return v, false
+	}
+	return s.VirtualMachineStartTask, true
+}
+
+// NewVirtualMachineStartTaskCreateVirtualMachineJobReq returns new CreateVirtualMachineJobReq from VirtualMachineStartTask.
+func NewVirtualMachineStartTaskCreateVirtualMachineJobReq(v VirtualMachineStartTask) CreateVirtualMachineJobReq {
+	var s CreateVirtualMachineJobReq
+	s.SetVirtualMachineStartTask(v)
+	return s
+}
+
+// SetVirtualMachineStopTask sets CreateVirtualMachineJobReq to VirtualMachineStopTask.
+func (s *CreateVirtualMachineJobReq) SetVirtualMachineStopTask(v VirtualMachineStopTask) {
+	s.Type = VirtualMachineStopTaskCreateVirtualMachineJobReq
+	s.VirtualMachineStopTask = v
+}
+
+// GetVirtualMachineStopTask returns VirtualMachineStopTask and true boolean if CreateVirtualMachineJobReq is VirtualMachineStopTask.
+func (s CreateVirtualMachineJobReq) GetVirtualMachineStopTask() (v VirtualMachineStopTask, ok bool) {
+	if !s.IsVirtualMachineStopTask() {
+		return v, false
+	}
+	return s.VirtualMachineStopTask, true
+}
+
+// NewVirtualMachineStopTaskCreateVirtualMachineJobReq returns new CreateVirtualMachineJobReq from VirtualMachineStopTask.
+func NewVirtualMachineStopTaskCreateVirtualMachineJobReq(v VirtualMachineStopTask) CreateVirtualMachineJobReq {
+	var s CreateVirtualMachineJobReq
+	s.SetVirtualMachineStopTask(v)
+	return s
+}
 
 type CreateVirtualMachineMetaItem string
 
@@ -15791,6 +17803,174 @@ func (s *CreatorScopeType) UnmarshalText(data []byte) error {
 	}
 }
 
+// Ref: #/components/schemas/CredentialsHTTP
+type CredentialsHTTP struct {
+	// Authentication credentails for the Dockerfile image source type when authenticating over HTTP.
+	Credentials CredentialsHTTPCredentials `json:"credentials"`
+}
+
+// GetCredentials returns the value of Credentials.
+func (s *CredentialsHTTP) GetCredentials() CredentialsHTTPCredentials {
+	return s.Credentials
+}
+
+// SetCredentials sets the value of Credentials.
+func (s *CredentialsHTTP) SetCredentials(val CredentialsHTTPCredentials) {
+	s.Credentials = val
+}
+
+// Authentication credentails for the Dockerfile image source type when authenticating over HTTP.
+type CredentialsHTTPCredentials struct {
+	// For authentication, the username.
+	Username string `json:"username"`
+	// For authentication, the password.
+	Password string `json:"password"`
+}
+
+// GetUsername returns the value of Username.
+func (s *CredentialsHTTPCredentials) GetUsername() string {
+	return s.Username
+}
+
+// GetPassword returns the value of Password.
+func (s *CredentialsHTTPCredentials) GetPassword() string {
+	return s.Password
+}
+
+// SetUsername sets the value of Username.
+func (s *CredentialsHTTPCredentials) SetUsername(val string) {
+	s.Username = val
+}
+
+// SetPassword sets the value of Password.
+func (s *CredentialsHTTPCredentials) SetPassword(val string) {
+	s.Password = val
+}
+
+type CredentialsHTTPType string
+
+const (
+	CredentialsHTTPTypeHTTP CredentialsHTTPType = "http"
+)
+
+// AllValues returns all CredentialsHTTPType values.
+func (CredentialsHTTPType) AllValues() []CredentialsHTTPType {
+	return []CredentialsHTTPType{
+		CredentialsHTTPTypeHTTP,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CredentialsHTTPType) MarshalText() ([]byte, error) {
+	switch s {
+	case CredentialsHTTPTypeHTTP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CredentialsHTTPType) UnmarshalText(data []byte) error {
+	switch CredentialsHTTPType(data) {
+	case CredentialsHTTPTypeHTTP:
+		*s = CredentialsHTTPTypeHTTP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/CredentialsSSH
+type CredentialsSSH struct {
+	// Authentication credentials for the Dockerfile image source type when authenticating with SSH.
+	Credentials CredentialsSSHCredentials `json:"credentials"`
+}
+
+// GetCredentials returns the value of Credentials.
+func (s *CredentialsSSH) GetCredentials() CredentialsSSHCredentials {
+	return s.Credentials
+}
+
+// SetCredentials sets the value of Credentials.
+func (s *CredentialsSSH) SetCredentials(val CredentialsSSHCredentials) {
+	s.Credentials = val
+}
+
+// Authentication credentials for the Dockerfile image source type when authenticating with SSH.
+type CredentialsSSHCredentials struct {
+	// The username for the repo service, that is used to authenticate an ssh key.
+	Username string `json:"username"`
+	// The passphrase used for the key.
+	Passphrase string `json:"passphrase"`
+	// A pem encoded private key.
+	PrivateKey string `json:"private_key"`
+}
+
+// GetUsername returns the value of Username.
+func (s *CredentialsSSHCredentials) GetUsername() string {
+	return s.Username
+}
+
+// GetPassphrase returns the value of Passphrase.
+func (s *CredentialsSSHCredentials) GetPassphrase() string {
+	return s.Passphrase
+}
+
+// GetPrivateKey returns the value of PrivateKey.
+func (s *CredentialsSSHCredentials) GetPrivateKey() string {
+	return s.PrivateKey
+}
+
+// SetUsername sets the value of Username.
+func (s *CredentialsSSHCredentials) SetUsername(val string) {
+	s.Username = val
+}
+
+// SetPassphrase sets the value of Passphrase.
+func (s *CredentialsSSHCredentials) SetPassphrase(val string) {
+	s.Passphrase = val
+}
+
+// SetPrivateKey sets the value of PrivateKey.
+func (s *CredentialsSSHCredentials) SetPrivateKey(val string) {
+	s.PrivateKey = val
+}
+
+type CredentialsSSHType string
+
+const (
+	CredentialsSSHTypeSSH CredentialsSSHType = "ssh"
+)
+
+// AllValues returns all CredentialsSSHType values.
+func (CredentialsSSHType) AllValues() []CredentialsSSHType {
+	return []CredentialsSSHType{
+		CredentialsSSHTypeSSH,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CredentialsSSHType) MarshalText() ([]byte, error) {
+	switch s {
+	case CredentialsSSHTypeSSH:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CredentialsSSHType) UnmarshalText(data []byte) error {
+	switch CredentialsSSHType(data) {
+	case CredentialsSSHTypeSSH:
+		*s = CredentialsSSHTypeSSH
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Information about a billing credit.
 // Ref: #/components/schemas/Credit
 type Credit struct {
@@ -16073,7 +18253,231 @@ func (s *CreditStateError) SetTime(val OptDateTime) {
 	s.Time = val
 }
 
+// An image origin that references an image source on Cycle.
+// This origin will never be embedded in an image source. It is for use in stacks, describing an
+// image which is already a part of an image source on Cycle.
+// Ref: #/components/schemas/CycleSourceOrigin
+type CycleSourceOrigin struct {
+	Details CycleSourceOriginDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *CycleSourceOrigin) GetDetails() CycleSourceOriginDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *CycleSourceOrigin) SetDetails(val CycleSourceOriginDetails) {
+	s.Details = val
+}
+
+type CycleSourceOriginDetails struct {
+	// The ID referencing the image source where this image originated.
+	SourceID ID `json:"source_id"`
+}
+
+// GetSourceID returns the value of SourceID.
+func (s *CycleSourceOriginDetails) GetSourceID() ID {
+	return s.SourceID
+}
+
+// SetSourceID sets the value of SourceID.
+func (s *CycleSourceOriginDetails) SetSourceID(val ID) {
+	s.SourceID = val
+}
+
+type CycleSourceOriginType string
+
+const (
+	CycleSourceOriginTypeCycleSource CycleSourceOriginType = "cycle-source"
+)
+
+// AllValues returns all CycleSourceOriginType values.
+func (CycleSourceOriginType) AllValues() []CycleSourceOriginType {
+	return []CycleSourceOriginType{
+		CycleSourceOriginTypeCycleSource,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CycleSourceOriginType) MarshalText() ([]byte, error) {
+	switch s {
+	case CycleSourceOriginTypeCycleSource:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CycleSourceOriginType) UnmarshalText(data []byte) error {
+	switch CycleSourceOriginType(data) {
+	case CycleSourceOriginTypeCycleSource:
+		*s = CycleSourceOriginTypeCycleSource
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// An image origin where the image is pushed directly to the factory, bypassing the need for a
+// registry or external source.
+// In order to utilize this image origin type, a tar file of an OCI compliant image will need to be
+// generated and pushed directly to the factory. The authentication token is generated when this
+// image is created, and expires at the provided time.
+// Once you have a token, it can be uploaded as multipart form data under the key `file.tar`,
+// directly to the factory at `https://factory.cycle.io:9414/v1/images/<IMAGE ID>/upload?hub-id=<HUB
+// ID>&token=<TOKEN>`.
+// Ref: #/components/schemas/CycleUploadOrigin
+type CycleUploadOrigin struct {
+	Details CycleUploadOriginDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *CycleUploadOrigin) GetDetails() CycleUploadOriginDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *CycleUploadOrigin) SetDetails(val CycleUploadOriginDetails) {
+	s.Details = val
+}
+
+type CycleUploadOriginDetails struct {
+	// The date-time at which the authorization token for uploading this image expires.
+	Expires DateTime `json:"expires"`
+	// The token that is required by the factory to accept an upload for this image.
+	Token string `json:"token"`
+}
+
+// GetExpires returns the value of Expires.
+func (s *CycleUploadOriginDetails) GetExpires() DateTime {
+	return s.Expires
+}
+
+// GetToken returns the value of Token.
+func (s *CycleUploadOriginDetails) GetToken() string {
+	return s.Token
+}
+
+// SetExpires sets the value of Expires.
+func (s *CycleUploadOriginDetails) SetExpires(val DateTime) {
+	s.Expires = val
+}
+
+// SetToken sets the value of Token.
+func (s *CycleUploadOriginDetails) SetToken(val string) {
+	s.Token = val
+}
+
+type CycleUploadOriginType string
+
+const (
+	CycleUploadOriginTypeCycleUpload CycleUploadOriginType = "cycle-upload"
+)
+
+// AllValues returns all CycleUploadOriginType values.
+func (CycleUploadOriginType) AllValues() []CycleUploadOriginType {
+	return []CycleUploadOriginType{
+		CycleUploadOriginTypeCycleUpload,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s CycleUploadOriginType) MarshalText() ([]byte, error) {
+	switch s {
+	case CycleUploadOriginTypeCycleUpload:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *CycleUploadOriginType) UnmarshalText(data []byte) error {
+	switch CycleUploadOriginType(data) {
+	case CycleUploadOriginTypeCycleUpload:
+		*s = CycleUploadOriginTypeCycleUpload
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type DateTime time.Time
+
+// Ref: #/components/schemas/DefaultLbType
+type DefaultLbType struct {
+	// Allow / disallow traffic to be routed via IPv4.
+	Ipv4 bool `json:"ipv4"`
+	// Allow / disallow traffic to be routed via IPv6.
+	Ipv6    bool       `json:"ipv6"`
+	Details V1LbConfig `json:"details"`
+}
+
+// GetIpv4 returns the value of Ipv4.
+func (s *DefaultLbType) GetIpv4() bool {
+	return s.Ipv4
+}
+
+// GetIpv6 returns the value of Ipv6.
+func (s *DefaultLbType) GetIpv6() bool {
+	return s.Ipv6
+}
+
+// GetDetails returns the value of Details.
+func (s *DefaultLbType) GetDetails() V1LbConfig {
+	return s.Details
+}
+
+// SetIpv4 sets the value of Ipv4.
+func (s *DefaultLbType) SetIpv4(val bool) {
+	s.Ipv4 = val
+}
+
+// SetIpv6 sets the value of Ipv6.
+func (s *DefaultLbType) SetIpv6(val bool) {
+	s.Ipv6 = val
+}
+
+// SetDetails sets the value of Details.
+func (s *DefaultLbType) SetDetails(val V1LbConfig) {
+	s.Details = val
+}
+
+type DefaultLbTypeType string
+
+const (
+	DefaultLbTypeTypeDefault DefaultLbTypeType = "default"
+)
+
+// AllValues returns all DefaultLbTypeType values.
+func (DefaultLbTypeType) AllValues() []DefaultLbTypeType {
+	return []DefaultLbTypeType{
+		DefaultLbTypeTypeDefault,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DefaultLbTypeType) MarshalText() ([]byte, error) {
+	switch s {
+	case DefaultLbTypeTypeDefault:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DefaultLbTypeType) UnmarshalText(data []byte) error {
+	switch DefaultLbTypeType(data) {
+	case DefaultLbTypeTypeDefault:
+		*s = DefaultLbTypeTypeDefault
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
 
 type DeleteAPIKeyOK struct {
 	Data ApiKey `json:"data"`
@@ -16492,6 +18896,95 @@ func (s *DeleteVirtualMachineAccepted) SetData(val JobDescriptor) {
 	s.Data = val
 }
 
+// Ref: #/components/schemas/DeployStackBuildAction
+type DeployStackBuildAction struct {
+	// Additional information needed for the job.
+	Contents DeployStackBuildActionContents `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *DeployStackBuildAction) GetContents() DeployStackBuildActionContents {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *DeployStackBuildAction) SetContents(val DeployStackBuildActionContents) {
+	s.Contents = val
+}
+
+// The action the job takes.
+type DeployStackBuildActionAction string
+
+const (
+	DeployStackBuildActionActionDeploy DeployStackBuildActionAction = "deploy"
+)
+
+// AllValues returns all DeployStackBuildActionAction values.
+func (DeployStackBuildActionAction) AllValues() []DeployStackBuildActionAction {
+	return []DeployStackBuildActionAction{
+		DeployStackBuildActionActionDeploy,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DeployStackBuildActionAction) MarshalText() ([]byte, error) {
+	switch s {
+	case DeployStackBuildActionActionDeploy:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DeployStackBuildActionAction) UnmarshalText(data []byte) error {
+	switch DeployStackBuildActionAction(data) {
+	case DeployStackBuildActionActionDeploy:
+		*s = DeployStackBuildActionActionDeploy
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Additional information needed for the job.
+type DeployStackBuildActionContents struct {
+	// The ID for the environment this stack build will be deployed to.
+	EnvironmentID string                         `json:"environment_id"`
+	Deployment    OptDeployment                  `json:"deployment"`
+	Update        OptStackBuildDeploymentUpdates `json:"update"`
+}
+
+// GetEnvironmentID returns the value of EnvironmentID.
+func (s *DeployStackBuildActionContents) GetEnvironmentID() string {
+	return s.EnvironmentID
+}
+
+// GetDeployment returns the value of Deployment.
+func (s *DeployStackBuildActionContents) GetDeployment() OptDeployment {
+	return s.Deployment
+}
+
+// GetUpdate returns the value of Update.
+func (s *DeployStackBuildActionContents) GetUpdate() OptStackBuildDeploymentUpdates {
+	return s.Update
+}
+
+// SetEnvironmentID sets the value of EnvironmentID.
+func (s *DeployStackBuildActionContents) SetEnvironmentID(val string) {
+	s.EnvironmentID = val
+}
+
+// SetDeployment sets the value of Deployment.
+func (s *DeployStackBuildActionContents) SetDeployment(val OptDeployment) {
+	s.Deployment = val
+}
+
+// SetUpdate sets the value of Update.
+func (s *DeployStackBuildActionContents) SetUpdate(val OptStackBuildDeploymentUpdates) {
+	s.Update = val
+}
+
 // A deployed volume resource.
 // Ref: #/components/schemas/DeployedVolume
 type DeployedVolume struct {
@@ -16802,6 +19295,116 @@ func (s *Detail) SetString(val OptString) {
 	s.String = val
 }
 
+// Ref: #/components/schemas/DirectImageSourceType
+type DirectImageSourceType struct {
+	Details  DirectImageSourceTypeDetails     `json:"details"`
+	Override OptDirectImageSourceTypeOverride `json:"override"`
+}
+
+// GetDetails returns the value of Details.
+func (s *DirectImageSourceType) GetDetails() DirectImageSourceTypeDetails {
+	return s.Details
+}
+
+// GetOverride returns the value of Override.
+func (s *DirectImageSourceType) GetOverride() OptDirectImageSourceTypeOverride {
+	return s.Override
+}
+
+// SetDetails sets the value of Details.
+func (s *DirectImageSourceType) SetDetails(val DirectImageSourceTypeDetails) {
+	s.Details = val
+}
+
+// SetOverride sets the value of Override.
+func (s *DirectImageSourceType) SetOverride(val OptDirectImageSourceTypeOverride) {
+	s.Override = val
+}
+
+type DirectImageSourceTypeDetails struct {
+	ID     string      `json:"id"`
+	Origin ImageOrigin `json:"origin"`
+}
+
+// GetID returns the value of ID.
+func (s *DirectImageSourceTypeDetails) GetID() string {
+	return s.ID
+}
+
+// GetOrigin returns the value of Origin.
+func (s *DirectImageSourceTypeDetails) GetOrigin() ImageOrigin {
+	return s.Origin
+}
+
+// SetID sets the value of ID.
+func (s *DirectImageSourceTypeDetails) SetID(val string) {
+	s.ID = val
+}
+
+// SetOrigin sets the value of Origin.
+func (s *DirectImageSourceTypeDetails) SetOrigin(val ImageOrigin) {
+	s.Origin = val
+}
+
+type DirectImageSourceTypeOverride struct {
+	Target   OptString `json:"target"`
+	TargzURL OptString `json:"targz_url"`
+}
+
+// GetTarget returns the value of Target.
+func (s *DirectImageSourceTypeOverride) GetTarget() OptString {
+	return s.Target
+}
+
+// GetTargzURL returns the value of TargzURL.
+func (s *DirectImageSourceTypeOverride) GetTargzURL() OptString {
+	return s.TargzURL
+}
+
+// SetTarget sets the value of Target.
+func (s *DirectImageSourceTypeOverride) SetTarget(val OptString) {
+	s.Target = val
+}
+
+// SetTargzURL sets the value of TargzURL.
+func (s *DirectImageSourceTypeOverride) SetTargzURL(val OptString) {
+	s.TargzURL = val
+}
+
+type DirectImageSourceTypeType string
+
+const (
+	DirectImageSourceTypeTypeDirect DirectImageSourceTypeType = "direct"
+)
+
+// AllValues returns all DirectImageSourceTypeType values.
+func (DirectImageSourceTypeType) AllValues() []DirectImageSourceTypeType {
+	return []DirectImageSourceTypeType{
+		DirectImageSourceTypeTypeDirect,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DirectImageSourceTypeType) MarshalText() ([]byte, error) {
+	switch s {
+	case DirectImageSourceTypeTypeDirect:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DirectImageSourceTypeType) UnmarshalText(data []byte) error {
+	switch DirectImageSourceTypeType(data) {
+	case DirectImageSourceTypeTypeDirect:
+		*s = DirectImageSourceTypeTypeDirect
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 type DisableTwoFactorAuthOK struct {
 	Data Account `json:"data"`
 }
@@ -17107,6 +19710,394 @@ func (s *DnsTlsCertificateEvents) SetGenerated(val OptDateTime) {
 	s.Generated = val
 }
 
+// An image origin where the image is built from a Dockerfile located in a git repository.
+// Ref: #/components/schemas/DockerFileOrigin
+type DockerFileOrigin struct {
+	Details DockerFileOriginDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *DockerFileOrigin) GetDetails() DockerFileOriginDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *DockerFileOrigin) SetDetails(val DockerFileOriginDetails) {
+	s.Details = val
+}
+
+type DockerFileOriginDetails struct {
+	Existing OptExistingSource `json:"existing"`
+	Repo     OptRepoType       `json:"repo"`
+	// An endpoint that serves the tar file.
+	TargzURL OptNilString `json:"targz_url"`
+	// The path to the directory to use as the context when building the image.
+	ContextDir OptNilString `json:"context_dir"`
+	// The path to the Dockerfile to be used for buiding the image.
+	BuildFile   OptNilString          `json:"build_file"`
+	Credentials DockerfileCredentials `json:"credentials"`
+}
+
+// GetExisting returns the value of Existing.
+func (s *DockerFileOriginDetails) GetExisting() OptExistingSource {
+	return s.Existing
+}
+
+// GetRepo returns the value of Repo.
+func (s *DockerFileOriginDetails) GetRepo() OptRepoType {
+	return s.Repo
+}
+
+// GetTargzURL returns the value of TargzURL.
+func (s *DockerFileOriginDetails) GetTargzURL() OptNilString {
+	return s.TargzURL
+}
+
+// GetContextDir returns the value of ContextDir.
+func (s *DockerFileOriginDetails) GetContextDir() OptNilString {
+	return s.ContextDir
+}
+
+// GetBuildFile returns the value of BuildFile.
+func (s *DockerFileOriginDetails) GetBuildFile() OptNilString {
+	return s.BuildFile
+}
+
+// GetCredentials returns the value of Credentials.
+func (s *DockerFileOriginDetails) GetCredentials() DockerfileCredentials {
+	return s.Credentials
+}
+
+// SetExisting sets the value of Existing.
+func (s *DockerFileOriginDetails) SetExisting(val OptExistingSource) {
+	s.Existing = val
+}
+
+// SetRepo sets the value of Repo.
+func (s *DockerFileOriginDetails) SetRepo(val OptRepoType) {
+	s.Repo = val
+}
+
+// SetTargzURL sets the value of TargzURL.
+func (s *DockerFileOriginDetails) SetTargzURL(val OptNilString) {
+	s.TargzURL = val
+}
+
+// SetContextDir sets the value of ContextDir.
+func (s *DockerFileOriginDetails) SetContextDir(val OptNilString) {
+	s.ContextDir = val
+}
+
+// SetBuildFile sets the value of BuildFile.
+func (s *DockerFileOriginDetails) SetBuildFile(val OptNilString) {
+	s.BuildFile = val
+}
+
+// SetCredentials sets the value of Credentials.
+func (s *DockerFileOriginDetails) SetCredentials(val DockerfileCredentials) {
+	s.Credentials = val
+}
+
+type DockerFileOriginType string
+
+const (
+	DockerFileOriginTypeDockerFile DockerFileOriginType = "docker-file"
+)
+
+// AllValues returns all DockerFileOriginType values.
+func (DockerFileOriginType) AllValues() []DockerFileOriginType {
+	return []DockerFileOriginType{
+		DockerFileOriginTypeDockerFile,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DockerFileOriginType) MarshalText() ([]byte, error) {
+	switch s {
+	case DockerFileOriginTypeDockerFile:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DockerFileOriginType) UnmarshalText(data []byte) error {
+	switch DockerFileOriginType(data) {
+	case DockerFileOriginTypeDockerFile:
+		*s = DockerFileOriginTypeDockerFile
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// An image origin where the image is pulled from DockerHub.
+// Ref: #/components/schemas/DockerHubOrigin
+type DockerHubOrigin struct {
+	Details DockerHubOriginDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *DockerHubOrigin) GetDetails() DockerHubOriginDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *DockerHubOrigin) SetDetails(val DockerHubOriginDetails) {
+	s.Details = val
+}
+
+type DockerHubOriginDetails struct {
+	Existing OptExistingSource `json:"existing"`
+	// The DockerHub target string. ex - `mysql:5.7`.
+	Target string `json:"target"`
+	// For authentication, a username.
+	Username OptString `json:"username"`
+	// For authentication, a token.
+	Token OptString `json:"token"`
+}
+
+// GetExisting returns the value of Existing.
+func (s *DockerHubOriginDetails) GetExisting() OptExistingSource {
+	return s.Existing
+}
+
+// GetTarget returns the value of Target.
+func (s *DockerHubOriginDetails) GetTarget() string {
+	return s.Target
+}
+
+// GetUsername returns the value of Username.
+func (s *DockerHubOriginDetails) GetUsername() OptString {
+	return s.Username
+}
+
+// GetToken returns the value of Token.
+func (s *DockerHubOriginDetails) GetToken() OptString {
+	return s.Token
+}
+
+// SetExisting sets the value of Existing.
+func (s *DockerHubOriginDetails) SetExisting(val OptExistingSource) {
+	s.Existing = val
+}
+
+// SetTarget sets the value of Target.
+func (s *DockerHubOriginDetails) SetTarget(val string) {
+	s.Target = val
+}
+
+// SetUsername sets the value of Username.
+func (s *DockerHubOriginDetails) SetUsername(val OptString) {
+	s.Username = val
+}
+
+// SetToken sets the value of Token.
+func (s *DockerHubOriginDetails) SetToken(val OptString) {
+	s.Token = val
+}
+
+type DockerHubOriginType string
+
+const (
+	DockerHubOriginTypeDockerHub DockerHubOriginType = "docker-hub"
+)
+
+// AllValues returns all DockerHubOriginType values.
+func (DockerHubOriginType) AllValues() []DockerHubOriginType {
+	return []DockerHubOriginType{
+		DockerHubOriginTypeDockerHub,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DockerHubOriginType) MarshalText() ([]byte, error) {
+	switch s {
+	case DockerHubOriginTypeDockerHub:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DockerHubOriginType) UnmarshalText(data []byte) error {
+	switch DockerHubOriginType(data) {
+	case DockerHubOriginTypeDockerHub:
+		*s = DockerHubOriginTypeDockerHub
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// An image origin where the image is pulled from a private Docker registry.
+// Ref: #/components/schemas/DockerRegistryOrigin
+type DockerRegistryOrigin struct {
+	Details DockerRegistryOriginDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *DockerRegistryOrigin) GetDetails() DockerRegistryOriginDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *DockerRegistryOrigin) SetDetails(val DockerRegistryOriginDetails) {
+	s.Details = val
+}
+
+type DockerRegistryOriginDetails struct {
+	Existing OptExistingSource `json:"existing"`
+	// The image name on the registry.
+	Target string `json:"target"`
+	// The url of the remote registry.
+	URL string `json:"url"`
+	// For authentication, a username.
+	Username OptString `json:"username"`
+	// For authentication, a token.
+	Token OptString `json:"token"`
+	// For authentication, a password.
+	Password OptString `json:"password"`
+}
+
+// GetExisting returns the value of Existing.
+func (s *DockerRegistryOriginDetails) GetExisting() OptExistingSource {
+	return s.Existing
+}
+
+// GetTarget returns the value of Target.
+func (s *DockerRegistryOriginDetails) GetTarget() string {
+	return s.Target
+}
+
+// GetURL returns the value of URL.
+func (s *DockerRegistryOriginDetails) GetURL() string {
+	return s.URL
+}
+
+// GetUsername returns the value of Username.
+func (s *DockerRegistryOriginDetails) GetUsername() OptString {
+	return s.Username
+}
+
+// GetToken returns the value of Token.
+func (s *DockerRegistryOriginDetails) GetToken() OptString {
+	return s.Token
+}
+
+// GetPassword returns the value of Password.
+func (s *DockerRegistryOriginDetails) GetPassword() OptString {
+	return s.Password
+}
+
+// SetExisting sets the value of Existing.
+func (s *DockerRegistryOriginDetails) SetExisting(val OptExistingSource) {
+	s.Existing = val
+}
+
+// SetTarget sets the value of Target.
+func (s *DockerRegistryOriginDetails) SetTarget(val string) {
+	s.Target = val
+}
+
+// SetURL sets the value of URL.
+func (s *DockerRegistryOriginDetails) SetURL(val string) {
+	s.URL = val
+}
+
+// SetUsername sets the value of Username.
+func (s *DockerRegistryOriginDetails) SetUsername(val OptString) {
+	s.Username = val
+}
+
+// SetToken sets the value of Token.
+func (s *DockerRegistryOriginDetails) SetToken(val OptString) {
+	s.Token = val
+}
+
+// SetPassword sets the value of Password.
+func (s *DockerRegistryOriginDetails) SetPassword(val OptString) {
+	s.Password = val
+}
+
+type DockerRegistryOriginType string
+
+const (
+	DockerRegistryOriginTypeDockerRegistry DockerRegistryOriginType = "docker-registry"
+)
+
+// AllValues returns all DockerRegistryOriginType values.
+func (DockerRegistryOriginType) AllValues() []DockerRegistryOriginType {
+	return []DockerRegistryOriginType{
+		DockerRegistryOriginTypeDockerRegistry,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s DockerRegistryOriginType) MarshalText() ([]byte, error) {
+	switch s {
+	case DockerRegistryOriginTypeDockerRegistry:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *DockerRegistryOriginType) UnmarshalText(data []byte) error {
+	switch DockerRegistryOriginType(data) {
+	case DockerRegistryOriginTypeDockerRegistry:
+		*s = DockerRegistryOriginTypeDockerRegistry
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type DockerfileCredentials []DockerfileCredentialsItem
+
+// Credentials object used for authentication of indirect resources such as private parent images.
+type DockerfileCredentialsItem struct {
+	// The url the resource is located at.
+	URL OptString `json:"url"`
+	// A username for authentication.
+	Username OptString `json:"username"`
+	// A token for authentication.
+	Token OptString `json:"token"`
+}
+
+// GetURL returns the value of URL.
+func (s *DockerfileCredentialsItem) GetURL() OptString {
+	return s.URL
+}
+
+// GetUsername returns the value of Username.
+func (s *DockerfileCredentialsItem) GetUsername() OptString {
+	return s.Username
+}
+
+// GetToken returns the value of Token.
+func (s *DockerfileCredentialsItem) GetToken() OptString {
+	return s.Token
+}
+
+// SetURL sets the value of URL.
+func (s *DockerfileCredentialsItem) SetURL(val OptString) {
+	s.URL = val
+}
+
+// SetUsername sets the value of Username.
+func (s *DockerfileCredentialsItem) SetUsername(val OptString) {
+	s.Username = val
+}
+
+// SetToken sets the value of Token.
+func (s *DockerfileCredentialsItem) SetToken(val OptString) {
+	s.Token = val
+}
+
 type Duration string
 
 type EnableTwoFactorAuthOK struct {
@@ -17344,6 +20335,630 @@ func (s *EnvironmentAbout) SetFavorite(val bool) {
 	s.Favorite = val
 }
 
+// Settings for creating an environment in a pipeline.
+// Ref: #/components/schemas/EnvironmentCreateStep
+type EnvironmentCreateStep struct {
+	// An identifier for the step.
+	Identifier OptString                       `json:"identifier"`
+	Options    OptEnvironmentCreateStepOptions `json:"options"`
+	Details    EnvironmentCreateStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *EnvironmentCreateStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *EnvironmentCreateStep) GetOptions() OptEnvironmentCreateStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *EnvironmentCreateStep) GetDetails() EnvironmentCreateStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *EnvironmentCreateStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *EnvironmentCreateStep) SetOptions(val OptEnvironmentCreateStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *EnvironmentCreateStep) SetDetails(val EnvironmentCreateStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type EnvironmentCreateStepAction string
+
+const (
+	EnvironmentCreateStepActionEnvironmentCreate EnvironmentCreateStepAction = "environment.create"
+)
+
+// AllValues returns all EnvironmentCreateStepAction values.
+func (EnvironmentCreateStepAction) AllValues() []EnvironmentCreateStepAction {
+	return []EnvironmentCreateStepAction{
+		EnvironmentCreateStepActionEnvironmentCreate,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentCreateStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentCreateStepActionEnvironmentCreate:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentCreateStepAction) UnmarshalText(data []byte) error {
+	switch EnvironmentCreateStepAction(data) {
+	case EnvironmentCreateStepActionEnvironmentCreate:
+		*s = EnvironmentCreateStepActionEnvironmentCreate
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type EnvironmentCreateStepDetails struct {
+	Name     string              `json:"name"`
+	About    OptEnvironmentAbout `json:"about"`
+	Cluster  string              `json:"cluster"`
+	Features EnvironmentFeatures `json:"features"`
+}
+
+// GetName returns the value of Name.
+func (s *EnvironmentCreateStepDetails) GetName() string {
+	return s.Name
+}
+
+// GetAbout returns the value of About.
+func (s *EnvironmentCreateStepDetails) GetAbout() OptEnvironmentAbout {
+	return s.About
+}
+
+// GetCluster returns the value of Cluster.
+func (s *EnvironmentCreateStepDetails) GetCluster() string {
+	return s.Cluster
+}
+
+// GetFeatures returns the value of Features.
+func (s *EnvironmentCreateStepDetails) GetFeatures() EnvironmentFeatures {
+	return s.Features
+}
+
+// SetName sets the value of Name.
+func (s *EnvironmentCreateStepDetails) SetName(val string) {
+	s.Name = val
+}
+
+// SetAbout sets the value of About.
+func (s *EnvironmentCreateStepDetails) SetAbout(val OptEnvironmentAbout) {
+	s.About = val
+}
+
+// SetCluster sets the value of Cluster.
+func (s *EnvironmentCreateStepDetails) SetCluster(val string) {
+	s.Cluster = val
+}
+
+// SetFeatures sets the value of Features.
+func (s *EnvironmentCreateStepDetails) SetFeatures(val EnvironmentFeatures) {
+	s.Features = val
+}
+
+type EnvironmentCreateStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *EnvironmentCreateStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *EnvironmentCreateStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// Settings for deleting an environment in a pipeline.
+// Ref: #/components/schemas/EnvironmentDeleteStep
+type EnvironmentDeleteStep struct {
+	// An identifier for the step.
+	Identifier OptString                       `json:"identifier"`
+	Options    OptEnvironmentDeleteStepOptions `json:"options"`
+	Details    EnvironmentDeleteStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *EnvironmentDeleteStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *EnvironmentDeleteStep) GetOptions() OptEnvironmentDeleteStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *EnvironmentDeleteStep) GetDetails() EnvironmentDeleteStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *EnvironmentDeleteStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *EnvironmentDeleteStep) SetOptions(val OptEnvironmentDeleteStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *EnvironmentDeleteStep) SetDetails(val EnvironmentDeleteStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type EnvironmentDeleteStepAction string
+
+const (
+	EnvironmentDeleteStepActionEnvironmentDelete EnvironmentDeleteStepAction = "environment.delete"
+)
+
+// AllValues returns all EnvironmentDeleteStepAction values.
+func (EnvironmentDeleteStepAction) AllValues() []EnvironmentDeleteStepAction {
+	return []EnvironmentDeleteStepAction{
+		EnvironmentDeleteStepActionEnvironmentDelete,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentDeleteStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentDeleteStepActionEnvironmentDelete:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentDeleteStepAction) UnmarshalText(data []byte) error {
+	switch EnvironmentDeleteStepAction(data) {
+	case EnvironmentDeleteStepActionEnvironmentDelete:
+		*s = EnvironmentDeleteStepActionEnvironmentDelete
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type EnvironmentDeleteStepDetails struct {
+	Environment FluidIdentifier `json:"environment"`
+}
+
+// GetEnvironment returns the value of Environment.
+func (s *EnvironmentDeleteStepDetails) GetEnvironment() FluidIdentifier {
+	return s.Environment
+}
+
+// SetEnvironment sets the value of Environment.
+func (s *EnvironmentDeleteStepDetails) SetEnvironment(val FluidIdentifier) {
+	s.Environment = val
+}
+
+type EnvironmentDeleteStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *EnvironmentDeleteStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *EnvironmentDeleteStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// Waits for a deployment to be considered 'healthy' before allowing the pipeline to continue.
+// A deployement is considered 'healthy' when all instances of all containers that have had a state
+// change in the last 15 minutes
+// that have health checks defined, become healthy.
+// Ref: #/components/schemas/EnvironmentDeploymentHealthyWatchStep
+type EnvironmentDeploymentHealthyWatchStep struct {
+	// An identifier for the step.
+	Identifier OptString                                       `json:"identifier"`
+	Options    OptEnvironmentDeploymentHealthyWatchStepOptions `json:"options"`
+	Details    EnvironmentDeploymentHealthyWatchStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *EnvironmentDeploymentHealthyWatchStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *EnvironmentDeploymentHealthyWatchStep) GetOptions() OptEnvironmentDeploymentHealthyWatchStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *EnvironmentDeploymentHealthyWatchStep) GetDetails() EnvironmentDeploymentHealthyWatchStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *EnvironmentDeploymentHealthyWatchStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *EnvironmentDeploymentHealthyWatchStep) SetOptions(val OptEnvironmentDeploymentHealthyWatchStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *EnvironmentDeploymentHealthyWatchStep) SetDetails(val EnvironmentDeploymentHealthyWatchStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type EnvironmentDeploymentHealthyWatchStepAction string
+
+const (
+	EnvironmentDeploymentHealthyWatchStepActionEnvironmentDeploymentHealthyWatch EnvironmentDeploymentHealthyWatchStepAction = "environment.deployment.healthy.watch"
+)
+
+// AllValues returns all EnvironmentDeploymentHealthyWatchStepAction values.
+func (EnvironmentDeploymentHealthyWatchStepAction) AllValues() []EnvironmentDeploymentHealthyWatchStepAction {
+	return []EnvironmentDeploymentHealthyWatchStepAction{
+		EnvironmentDeploymentHealthyWatchStepActionEnvironmentDeploymentHealthyWatch,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentDeploymentHealthyWatchStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentDeploymentHealthyWatchStepActionEnvironmentDeploymentHealthyWatch:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentDeploymentHealthyWatchStepAction) UnmarshalText(data []byte) error {
+	switch EnvironmentDeploymentHealthyWatchStepAction(data) {
+	case EnvironmentDeploymentHealthyWatchStepActionEnvironmentDeploymentHealthyWatch:
+		*s = EnvironmentDeploymentHealthyWatchStepActionEnvironmentDeploymentHealthyWatch
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type EnvironmentDeploymentHealthyWatchStepDetails struct {
+	Environment FluidIdentifier `json:"environment"`
+	Tag         OptNilString    `json:"tag"`
+	Version     OptNilString    `json:"version"`
+	// The maximum amount of time to wait for the deployment to become healthy before failing this step.
+	MaxWait OptDuration `json:"max_wait"`
+}
+
+// GetEnvironment returns the value of Environment.
+func (s *EnvironmentDeploymentHealthyWatchStepDetails) GetEnvironment() FluidIdentifier {
+	return s.Environment
+}
+
+// GetTag returns the value of Tag.
+func (s *EnvironmentDeploymentHealthyWatchStepDetails) GetTag() OptNilString {
+	return s.Tag
+}
+
+// GetVersion returns the value of Version.
+func (s *EnvironmentDeploymentHealthyWatchStepDetails) GetVersion() OptNilString {
+	return s.Version
+}
+
+// GetMaxWait returns the value of MaxWait.
+func (s *EnvironmentDeploymentHealthyWatchStepDetails) GetMaxWait() OptDuration {
+	return s.MaxWait
+}
+
+// SetEnvironment sets the value of Environment.
+func (s *EnvironmentDeploymentHealthyWatchStepDetails) SetEnvironment(val FluidIdentifier) {
+	s.Environment = val
+}
+
+// SetTag sets the value of Tag.
+func (s *EnvironmentDeploymentHealthyWatchStepDetails) SetTag(val OptNilString) {
+	s.Tag = val
+}
+
+// SetVersion sets the value of Version.
+func (s *EnvironmentDeploymentHealthyWatchStepDetails) SetVersion(val OptNilString) {
+	s.Version = val
+}
+
+// SetMaxWait sets the value of MaxWait.
+func (s *EnvironmentDeploymentHealthyWatchStepDetails) SetMaxWait(val OptDuration) {
+	s.MaxWait = val
+}
+
+type EnvironmentDeploymentHealthyWatchStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *EnvironmentDeploymentHealthyWatchStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *EnvironmentDeploymentHealthyWatchStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// Start all containers with a specific deployment version/tag within an environment.
+// Ref: #/components/schemas/EnvironmentDeploymentStartStep
+type EnvironmentDeploymentStartStep struct {
+	// An identifier for the step.
+	Identifier OptString                                `json:"identifier"`
+	Options    OptEnvironmentDeploymentStartStepOptions `json:"options"`
+	Details    EnvironmentDeploymentStartStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *EnvironmentDeploymentStartStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *EnvironmentDeploymentStartStep) GetOptions() OptEnvironmentDeploymentStartStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *EnvironmentDeploymentStartStep) GetDetails() EnvironmentDeploymentStartStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *EnvironmentDeploymentStartStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *EnvironmentDeploymentStartStep) SetOptions(val OptEnvironmentDeploymentStartStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *EnvironmentDeploymentStartStep) SetDetails(val EnvironmentDeploymentStartStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type EnvironmentDeploymentStartStepAction string
+
+const (
+	EnvironmentDeploymentStartStepActionEnvironmentDeploymentStart EnvironmentDeploymentStartStepAction = "environment.deployment.start"
+)
+
+// AllValues returns all EnvironmentDeploymentStartStepAction values.
+func (EnvironmentDeploymentStartStepAction) AllValues() []EnvironmentDeploymentStartStepAction {
+	return []EnvironmentDeploymentStartStepAction{
+		EnvironmentDeploymentStartStepActionEnvironmentDeploymentStart,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentDeploymentStartStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentDeploymentStartStepActionEnvironmentDeploymentStart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentDeploymentStartStepAction) UnmarshalText(data []byte) error {
+	switch EnvironmentDeploymentStartStepAction(data) {
+	case EnvironmentDeploymentStartStepActionEnvironmentDeploymentStart:
+		*s = EnvironmentDeploymentStartStepActionEnvironmentDeploymentStart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type EnvironmentDeploymentStartStepDetails struct {
+	Environment FluidIdentifier `json:"environment"`
+	Tag         OptNilString    `json:"tag"`
+	Version     OptNilString    `json:"version"`
+}
+
+// GetEnvironment returns the value of Environment.
+func (s *EnvironmentDeploymentStartStepDetails) GetEnvironment() FluidIdentifier {
+	return s.Environment
+}
+
+// GetTag returns the value of Tag.
+func (s *EnvironmentDeploymentStartStepDetails) GetTag() OptNilString {
+	return s.Tag
+}
+
+// GetVersion returns the value of Version.
+func (s *EnvironmentDeploymentStartStepDetails) GetVersion() OptNilString {
+	return s.Version
+}
+
+// SetEnvironment sets the value of Environment.
+func (s *EnvironmentDeploymentStartStepDetails) SetEnvironment(val FluidIdentifier) {
+	s.Environment = val
+}
+
+// SetTag sets the value of Tag.
+func (s *EnvironmentDeploymentStartStepDetails) SetTag(val OptNilString) {
+	s.Tag = val
+}
+
+// SetVersion sets the value of Version.
+func (s *EnvironmentDeploymentStartStepDetails) SetVersion(val OptNilString) {
+	s.Version = val
+}
+
+type EnvironmentDeploymentStartStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *EnvironmentDeploymentStartStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *EnvironmentDeploymentStartStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// Stop all containers with a specific deployment version/tag within an environment.
+// Ref: #/components/schemas/EnvironmentDeploymentStopStep
+type EnvironmentDeploymentStopStep struct {
+	// An identifier for the step.
+	Identifier OptString                               `json:"identifier"`
+	Options    OptEnvironmentDeploymentStopStepOptions `json:"options"`
+	Details    EnvironmentDeploymentStopStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *EnvironmentDeploymentStopStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *EnvironmentDeploymentStopStep) GetOptions() OptEnvironmentDeploymentStopStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *EnvironmentDeploymentStopStep) GetDetails() EnvironmentDeploymentStopStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *EnvironmentDeploymentStopStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *EnvironmentDeploymentStopStep) SetOptions(val OptEnvironmentDeploymentStopStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *EnvironmentDeploymentStopStep) SetDetails(val EnvironmentDeploymentStopStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type EnvironmentDeploymentStopStepAction string
+
+const (
+	EnvironmentDeploymentStopStepActionEnvironmentDeploymentStop EnvironmentDeploymentStopStepAction = "environment.deployment.stop"
+)
+
+// AllValues returns all EnvironmentDeploymentStopStepAction values.
+func (EnvironmentDeploymentStopStepAction) AllValues() []EnvironmentDeploymentStopStepAction {
+	return []EnvironmentDeploymentStopStepAction{
+		EnvironmentDeploymentStopStepActionEnvironmentDeploymentStop,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentDeploymentStopStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentDeploymentStopStepActionEnvironmentDeploymentStop:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentDeploymentStopStepAction) UnmarshalText(data []byte) error {
+	switch EnvironmentDeploymentStopStepAction(data) {
+	case EnvironmentDeploymentStopStepActionEnvironmentDeploymentStop:
+		*s = EnvironmentDeploymentStopStepActionEnvironmentDeploymentStop
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type EnvironmentDeploymentStopStepDetails struct {
+	Environment FluidIdentifier `json:"environment"`
+	Tag         OptNilString    `json:"tag"`
+	Version     OptNilString    `json:"version"`
+}
+
+// GetEnvironment returns the value of Environment.
+func (s *EnvironmentDeploymentStopStepDetails) GetEnvironment() FluidIdentifier {
+	return s.Environment
+}
+
+// GetTag returns the value of Tag.
+func (s *EnvironmentDeploymentStopStepDetails) GetTag() OptNilString {
+	return s.Tag
+}
+
+// GetVersion returns the value of Version.
+func (s *EnvironmentDeploymentStopStepDetails) GetVersion() OptNilString {
+	return s.Version
+}
+
+// SetEnvironment sets the value of Environment.
+func (s *EnvironmentDeploymentStopStepDetails) SetEnvironment(val FluidIdentifier) {
+	s.Environment = val
+}
+
+// SetTag sets the value of Tag.
+func (s *EnvironmentDeploymentStopStepDetails) SetTag(val OptNilString) {
+	s.Tag = val
+}
+
+// SetVersion sets the value of Version.
+func (s *EnvironmentDeploymentStopStepDetails) SetVersion(val OptNilString) {
+	s.Version = val
+}
+
+type EnvironmentDeploymentStopStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *EnvironmentDeploymentStopStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *EnvironmentDeploymentStopStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
 // A map of custom tags to deployment versions. Allows for defining a custom, persistent tag with a
 // changing version number.
 // For example, `dev -> v1.2.3-dev`. This is useful when dealing with DNS LINKED records, where you
@@ -17378,6 +20993,236 @@ func (s *EnvironmentDeployments) GetTags() EnvironmentDeploymentTags {
 // SetTags sets the value of Tags.
 func (s *EnvironmentDeployments) SetTags(val EnvironmentDeploymentTags) {
 	s.Tags = val
+}
+
+// Remove any containers that are part of a deployment that does NOT have a tag associated with it.
+// Ref: #/components/schemas/EnvironmentDeploymentsPruneStep
+type EnvironmentDeploymentsPruneStep struct {
+	// An identifier for the step.
+	Identifier OptString                                 `json:"identifier"`
+	Options    OptEnvironmentDeploymentsPruneStepOptions `json:"options"`
+	Details    EnvironmentDeploymentsPruneStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *EnvironmentDeploymentsPruneStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *EnvironmentDeploymentsPruneStep) GetOptions() OptEnvironmentDeploymentsPruneStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *EnvironmentDeploymentsPruneStep) GetDetails() EnvironmentDeploymentsPruneStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *EnvironmentDeploymentsPruneStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *EnvironmentDeploymentsPruneStep) SetOptions(val OptEnvironmentDeploymentsPruneStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *EnvironmentDeploymentsPruneStep) SetDetails(val EnvironmentDeploymentsPruneStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type EnvironmentDeploymentsPruneStepAction string
+
+const (
+	EnvironmentDeploymentsPruneStepActionEnvironmentDeploymentsPrune EnvironmentDeploymentsPruneStepAction = "environment.deployments.prune"
+)
+
+// AllValues returns all EnvironmentDeploymentsPruneStepAction values.
+func (EnvironmentDeploymentsPruneStepAction) AllValues() []EnvironmentDeploymentsPruneStepAction {
+	return []EnvironmentDeploymentsPruneStepAction{
+		EnvironmentDeploymentsPruneStepActionEnvironmentDeploymentsPrune,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentDeploymentsPruneStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentDeploymentsPruneStepActionEnvironmentDeploymentsPrune:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentDeploymentsPruneStepAction) UnmarshalText(data []byte) error {
+	switch EnvironmentDeploymentsPruneStepAction(data) {
+	case EnvironmentDeploymentsPruneStepActionEnvironmentDeploymentsPrune:
+		*s = EnvironmentDeploymentsPruneStepActionEnvironmentDeploymentsPrune
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type EnvironmentDeploymentsPruneStepDetails struct {
+	Environment FluidIdentifier `json:"environment"`
+}
+
+// GetEnvironment returns the value of Environment.
+func (s *EnvironmentDeploymentsPruneStepDetails) GetEnvironment() FluidIdentifier {
+	return s.Environment
+}
+
+// SetEnvironment sets the value of Environment.
+func (s *EnvironmentDeploymentsPruneStepDetails) SetEnvironment(val FluidIdentifier) {
+	s.Environment = val
+}
+
+type EnvironmentDeploymentsPruneStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *EnvironmentDeploymentsPruneStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *EnvironmentDeploymentsPruneStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// Settings for updating a deployment tag to another deployment version.
+// Ref: #/components/schemas/EnvironmentDeploymentsTagStep
+type EnvironmentDeploymentsTagStep struct {
+	// An identifier for the step.
+	Identifier OptString                               `json:"identifier"`
+	Options    OptEnvironmentDeploymentsTagStepOptions `json:"options"`
+	Details    EnvironmentDeploymentsTagStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *EnvironmentDeploymentsTagStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *EnvironmentDeploymentsTagStep) GetOptions() OptEnvironmentDeploymentsTagStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *EnvironmentDeploymentsTagStep) GetDetails() EnvironmentDeploymentsTagStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *EnvironmentDeploymentsTagStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *EnvironmentDeploymentsTagStep) SetOptions(val OptEnvironmentDeploymentsTagStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *EnvironmentDeploymentsTagStep) SetDetails(val EnvironmentDeploymentsTagStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type EnvironmentDeploymentsTagStepAction string
+
+const (
+	EnvironmentDeploymentsTagStepActionEnvironmentDeploymentsTag EnvironmentDeploymentsTagStepAction = "environment.deployments.tag"
+)
+
+// AllValues returns all EnvironmentDeploymentsTagStepAction values.
+func (EnvironmentDeploymentsTagStepAction) AllValues() []EnvironmentDeploymentsTagStepAction {
+	return []EnvironmentDeploymentsTagStepAction{
+		EnvironmentDeploymentsTagStepActionEnvironmentDeploymentsTag,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentDeploymentsTagStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentDeploymentsTagStepActionEnvironmentDeploymentsTag:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentDeploymentsTagStepAction) UnmarshalText(data []byte) error {
+	switch EnvironmentDeploymentsTagStepAction(data) {
+	case EnvironmentDeploymentsTagStepActionEnvironmentDeploymentsTag:
+		*s = EnvironmentDeploymentsTagStepActionEnvironmentDeploymentsTag
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type EnvironmentDeploymentsTagStepDetails struct {
+	Environment FluidIdentifier `json:"environment"`
+	Tag         Identifier      `json:"tag"`
+	// The selector for which deployment to apply the new tag to.
+	Deployment EnvironmentDeploymentsTagStepDetailsDeployment `json:"deployment"`
+}
+
+// GetEnvironment returns the value of Environment.
+func (s *EnvironmentDeploymentsTagStepDetails) GetEnvironment() FluidIdentifier {
+	return s.Environment
+}
+
+// GetTag returns the value of Tag.
+func (s *EnvironmentDeploymentsTagStepDetails) GetTag() Identifier {
+	return s.Tag
+}
+
+// GetDeployment returns the value of Deployment.
+func (s *EnvironmentDeploymentsTagStepDetails) GetDeployment() EnvironmentDeploymentsTagStepDetailsDeployment {
+	return s.Deployment
+}
+
+// SetEnvironment sets the value of Environment.
+func (s *EnvironmentDeploymentsTagStepDetails) SetEnvironment(val FluidIdentifier) {
+	s.Environment = val
+}
+
+// SetTag sets the value of Tag.
+func (s *EnvironmentDeploymentsTagStepDetails) SetTag(val Identifier) {
+	s.Tag = val
+}
+
+// SetDeployment sets the value of Deployment.
+func (s *EnvironmentDeploymentsTagStepDetails) SetDeployment(val EnvironmentDeploymentsTagStepDetailsDeployment) {
+	s.Deployment = val
+}
+
+// The selector for which deployment to apply the new tag to.
+type EnvironmentDeploymentsTagStepDetailsDeployment struct{}
+
+type EnvironmentDeploymentsTagStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *EnvironmentDeploymentsTagStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *EnvironmentDeploymentsTagStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
 }
 
 // A collection of timestamps for each event in the environment's lifetime.
@@ -17532,6 +21377,45 @@ func (s *EnvironmentIncludes) init() EnvironmentIncludes {
 		*s = m
 	}
 	return m
+}
+
+// A task to initialize an environment.
+// Ref: #/components/schemas/EnvironmentInitializeAction
+type EnvironmentInitializeAction struct{}
+
+// The name of the action to perform.
+type EnvironmentInitializeActionAction string
+
+const (
+	EnvironmentInitializeActionActionInitialize EnvironmentInitializeActionAction = "initialize"
+)
+
+// AllValues returns all EnvironmentInitializeActionAction values.
+func (EnvironmentInitializeActionAction) AllValues() []EnvironmentInitializeActionAction {
+	return []EnvironmentInitializeActionAction{
+		EnvironmentInitializeActionActionInitialize,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentInitializeActionAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentInitializeActionActionInitialize:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentInitializeActionAction) UnmarshalText(data []byte) error {
+	switch EnvironmentInitializeActionAction(data) {
+	case EnvironmentInitializeActionActionInitialize:
+		*s = EnvironmentInitializeActionActionInitialize
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // A list of meta fields that can be applied to this environment.
@@ -17749,6 +21633,71 @@ func (s *EnvironmentNetworkSummaryLegacy) SetIpv4(val IPNet) {
 	s.Ipv4 = val
 }
 
+// A task to reconfigure deployment mappings on an environment.
+// Ref: #/components/schemas/EnvironmentReconfigureDeploymentsAction
+type EnvironmentReconfigureDeploymentsAction struct {
+	Contents EnvironmentReconfigureDeploymentsActionContents `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *EnvironmentReconfigureDeploymentsAction) GetContents() EnvironmentReconfigureDeploymentsActionContents {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *EnvironmentReconfigureDeploymentsAction) SetContents(val EnvironmentReconfigureDeploymentsActionContents) {
+	s.Contents = val
+}
+
+// The action to take.
+type EnvironmentReconfigureDeploymentsActionAction string
+
+const (
+	EnvironmentReconfigureDeploymentsActionActionDeploymentsReconfigure EnvironmentReconfigureDeploymentsActionAction = "deployments.reconfigure"
+)
+
+// AllValues returns all EnvironmentReconfigureDeploymentsActionAction values.
+func (EnvironmentReconfigureDeploymentsActionAction) AllValues() []EnvironmentReconfigureDeploymentsActionAction {
+	return []EnvironmentReconfigureDeploymentsActionAction{
+		EnvironmentReconfigureDeploymentsActionActionDeploymentsReconfigure,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentReconfigureDeploymentsActionAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentReconfigureDeploymentsActionActionDeploymentsReconfigure:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentReconfigureDeploymentsActionAction) UnmarshalText(data []byte) error {
+	switch EnvironmentReconfigureDeploymentsActionAction(data) {
+	case EnvironmentReconfigureDeploymentsActionActionDeploymentsReconfigure:
+		*s = EnvironmentReconfigureDeploymentsActionActionDeploymentsReconfigure
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type EnvironmentReconfigureDeploymentsActionContents struct {
+	Tags EnvironmentDeploymentTags `json:"tags"`
+}
+
+// GetTags returns the value of Tags.
+func (s *EnvironmentReconfigureDeploymentsActionContents) GetTags() EnvironmentDeploymentTags {
+	return s.Tags
+}
+
+// SetTags sets the value of Tags.
+func (s *EnvironmentReconfigureDeploymentsActionContents) SetTags(val EnvironmentDeploymentTags) {
+	s.Tags = val
+}
+
 // An object containing information about a service container associated with this environment.
 // Ref: #/components/schemas/EnvironmentServiceContainerSummary
 type EnvironmentServiceContainerSummary struct {
@@ -17860,6 +21809,147 @@ func (s *EnvironmentServices) SetVpn(val OptVpnEnvironmentService) {
 // SetScheduler sets the value of Scheduler.
 func (s *EnvironmentServices) SetScheduler(val OptSchedulerEnvironmentService) {
 	s.Scheduler = val
+}
+
+// A task to start an environment.
+// Ref: #/components/schemas/EnvironmentStartAction
+type EnvironmentStartAction struct{}
+
+// The name of the action to perform.
+type EnvironmentStartActionAction string
+
+const (
+	EnvironmentStartActionActionStart EnvironmentStartActionAction = "start"
+)
+
+// AllValues returns all EnvironmentStartActionAction values.
+func (EnvironmentStartActionAction) AllValues() []EnvironmentStartActionAction {
+	return []EnvironmentStartActionAction{
+		EnvironmentStartActionActionStart,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentStartActionAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentStartActionActionStart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentStartActionAction) UnmarshalText(data []byte) error {
+	switch EnvironmentStartActionAction(data) {
+	case EnvironmentStartActionActionStart:
+		*s = EnvironmentStartActionActionStart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Settings for starting an environment in a pipeline.
+// Ref: #/components/schemas/EnvironmentStartStep
+type EnvironmentStartStep struct {
+	// An identifier for the step.
+	Identifier OptString                      `json:"identifier"`
+	Options    OptEnvironmentStartStepOptions `json:"options"`
+	Details    EnvironmentStartStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *EnvironmentStartStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *EnvironmentStartStep) GetOptions() OptEnvironmentStartStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *EnvironmentStartStep) GetDetails() EnvironmentStartStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *EnvironmentStartStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *EnvironmentStartStep) SetOptions(val OptEnvironmentStartStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *EnvironmentStartStep) SetDetails(val EnvironmentStartStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type EnvironmentStartStepAction string
+
+const (
+	EnvironmentStartStepActionEnvironmentStart EnvironmentStartStepAction = "environment.start"
+)
+
+// AllValues returns all EnvironmentStartStepAction values.
+func (EnvironmentStartStepAction) AllValues() []EnvironmentStartStepAction {
+	return []EnvironmentStartStepAction{
+		EnvironmentStartStepActionEnvironmentStart,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentStartStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentStartStepActionEnvironmentStart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentStartStepAction) UnmarshalText(data []byte) error {
+	switch EnvironmentStartStepAction(data) {
+	case EnvironmentStartStepActionEnvironmentStart:
+		*s = EnvironmentStartStepActionEnvironmentStart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type EnvironmentStartStepDetails struct {
+	Environment FluidIdentifier `json:"environment"`
+}
+
+// GetEnvironment returns the value of Environment.
+func (s *EnvironmentStartStepDetails) GetEnvironment() FluidIdentifier {
+	return s.Environment
+}
+
+// SetEnvironment sets the value of Environment.
+func (s *EnvironmentStartStepDetails) SetEnvironment(val FluidIdentifier) {
+	s.Environment = val
+}
+
+type EnvironmentStartStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *EnvironmentStartStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *EnvironmentStartStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
 }
 
 // Merged schema.
@@ -17991,6 +22081,147 @@ func (s *EnvironmentStateError) SetMessage(val OptString) {
 // SetTime sets the value of Time.
 func (s *EnvironmentStateError) SetTime(val OptDateTime) {
 	s.Time = val
+}
+
+// A task to stop an environment.
+// Ref: #/components/schemas/EnvironmentStopAction
+type EnvironmentStopAction struct{}
+
+// The name of the action to perform.
+type EnvironmentStopActionAction string
+
+const (
+	EnvironmentStopActionActionStop EnvironmentStopActionAction = "stop"
+)
+
+// AllValues returns all EnvironmentStopActionAction values.
+func (EnvironmentStopActionAction) AllValues() []EnvironmentStopActionAction {
+	return []EnvironmentStopActionAction{
+		EnvironmentStopActionActionStop,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentStopActionAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentStopActionActionStop:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentStopActionAction) UnmarshalText(data []byte) error {
+	switch EnvironmentStopActionAction(data) {
+	case EnvironmentStopActionActionStop:
+		*s = EnvironmentStopActionActionStop
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Settings for stopping an environment in a pipeline.
+// Ref: #/components/schemas/EnvironmentStopStep
+type EnvironmentStopStep struct {
+	// An identifier for the step.
+	Identifier OptString                     `json:"identifier"`
+	Options    OptEnvironmentStopStepOptions `json:"options"`
+	Details    EnvironmentStopStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *EnvironmentStopStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *EnvironmentStopStep) GetOptions() OptEnvironmentStopStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *EnvironmentStopStep) GetDetails() EnvironmentStopStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *EnvironmentStopStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *EnvironmentStopStep) SetOptions(val OptEnvironmentStopStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *EnvironmentStopStep) SetDetails(val EnvironmentStopStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type EnvironmentStopStepAction string
+
+const (
+	EnvironmentStopStepActionEnvironmentStop EnvironmentStopStepAction = "environment.stop"
+)
+
+// AllValues returns all EnvironmentStopStepAction values.
+func (EnvironmentStopStepAction) AllValues() []EnvironmentStopStepAction {
+	return []EnvironmentStopStepAction{
+		EnvironmentStopStepActionEnvironmentStop,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentStopStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentStopStepActionEnvironmentStop:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentStopStepAction) UnmarshalText(data []byte) error {
+	switch EnvironmentStopStepAction(data) {
+	case EnvironmentStopStepActionEnvironmentStop:
+		*s = EnvironmentStopStepActionEnvironmentStop
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type EnvironmentStopStepDetails struct {
+	Environment FluidIdentifier `json:"environment"`
+}
+
+// GetEnvironment returns the value of Environment.
+func (s *EnvironmentStopStepDetails) GetEnvironment() FluidIdentifier {
+	return s.Environment
+}
+
+// SetEnvironment sets the value of Environment.
+func (s *EnvironmentStopStepDetails) SetEnvironment(val FluidIdentifier) {
+	s.Environment = val
+}
+
+type EnvironmentStopStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *EnvironmentStopStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *EnvironmentStopStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
 }
 
 // Contains useful and relevant data/statistics for an environment that would otherwise be several
@@ -18997,6 +23228,122 @@ func (ErrorStatus) AllValues() []ErrorStatus {
 	}
 }
 
+// Ref: #/components/schemas/EvacuateServer
+type EvacuateServer struct {
+	Contents EvacuateServerContents `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *EvacuateServer) GetContents() EvacuateServerContents {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *EvacuateServer) SetContents(val EvacuateServerContents) {
+	s.Contents = val
+}
+
+// The action to take.
+type EvacuateServerAction string
+
+const (
+	EvacuateServerActionEvacuationStart EvacuateServerAction = "evacuation.start"
+)
+
+// AllValues returns all EvacuateServerAction values.
+func (EvacuateServerAction) AllValues() []EvacuateServerAction {
+	return []EvacuateServerAction{
+		EvacuateServerActionEvacuationStart,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EvacuateServerAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EvacuateServerActionEvacuationStart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EvacuateServerAction) UnmarshalText(data []byte) error {
+	switch EvacuateServerAction(data) {
+	case EvacuateServerActionEvacuationStart:
+		*s = EvacuateServerActionEvacuationStart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type EvacuateServerContents struct {
+	Destination EvacuateServerContentsDestination `json:"destination"`
+}
+
+// GetDestination returns the value of Destination.
+func (s *EvacuateServerContents) GetDestination() EvacuateServerContentsDestination {
+	return s.Destination
+}
+
+// SetDestination sets the value of Destination.
+func (s *EvacuateServerContents) SetDestination(val EvacuateServerContentsDestination) {
+	s.Destination = val
+}
+
+type EvacuateServerContentsDestination struct {
+	ServerID OptID `json:"server_id"`
+}
+
+// GetServerID returns the value of ServerID.
+func (s *EvacuateServerContentsDestination) GetServerID() OptID {
+	return s.ServerID
+}
+
+// SetServerID sets the value of ServerID.
+func (s *EvacuateServerContentsDestination) SetServerID(val OptID) {
+	s.ServerID = val
+}
+
+// Ref: #/components/schemas/EvacuateServerReset
+type EvacuateServerReset struct{}
+
+// The action to take.
+type EvacuateServerResetAction string
+
+const (
+	EvacuateServerResetActionEvacuationReset EvacuateServerResetAction = "evacuation.reset"
+)
+
+// AllValues returns all EvacuateServerResetAction values.
+func (EvacuateServerResetAction) AllValues() []EvacuateServerResetAction {
+	return []EvacuateServerResetAction{
+		EvacuateServerResetActionEvacuationReset,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EvacuateServerResetAction) MarshalText() ([]byte, error) {
+	switch s {
+	case EvacuateServerResetActionEvacuationReset:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EvacuateServerResetAction) UnmarshalText(data []byte) error {
+	switch EvacuateServerResetAction(data) {
+	case EvacuateServerResetActionEvacuationReset:
+		*s = EvacuateServerResetActionEvacuationReset
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // A platform-generated event. Describes something happening on the platform at a specific time. Can
 // be informational, security related, or a notice of something important.
 // Ref: #/components/schemas/Event
@@ -19744,6 +24091,25 @@ func (s *Events) init() Events {
 	return m
 }
 
+// In a stack, specifies an image source ID from which Cycle will derive any values not specified in
+// the stack file. This is useful for avoiding direct placement of credentials in a stack file, for
+// example.
+// Ref: #/components/schemas/ExistingSource
+type ExistingSource struct {
+	// The ID of the image source this image should be built from.
+	SourceID OptID `json:"source_id"`
+}
+
+// GetSourceID returns the value of SourceID.
+func (s *ExistingSource) GetSourceID() OptID {
+	return s.SourceID
+}
+
+// SetSourceID sets the value of SourceID.
+func (s *ExistingSource) SetSourceID(val OptID) {
+	s.SourceID = val
+}
+
 type ExpireInstanceSSHCredentialsOK struct {
 	// The number of tokens expired.
 	Data ExpireInstanceSSHCredentialsOKData `json:"data"`
@@ -19823,6 +24189,84 @@ func (s *ExportStackReq) SetResolveOrigins(val OptBool) {
 	s.ResolveOrigins = val
 }
 
+// Ref: #/components/schemas/ExtendVolume
+type ExtendVolume struct {
+	Contents ExtendVolumeContents `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *ExtendVolume) GetContents() ExtendVolumeContents {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *ExtendVolume) SetContents(val ExtendVolumeContents) {
+	s.Contents = val
+}
+
+// The name of the action to perform.
+type ExtendVolumeAction string
+
+const (
+	ExtendVolumeActionVolumeExtend ExtendVolumeAction = "volume.extend"
+)
+
+// AllValues returns all ExtendVolumeAction values.
+func (ExtendVolumeAction) AllValues() []ExtendVolumeAction {
+	return []ExtendVolumeAction{
+		ExtendVolumeActionVolumeExtend,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ExtendVolumeAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ExtendVolumeActionVolumeExtend:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ExtendVolumeAction) UnmarshalText(data []byte) error {
+	switch ExtendVolumeAction(data) {
+	case ExtendVolumeActionVolumeExtend:
+		*s = ExtendVolumeActionVolumeExtend
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ExtendVolumeContents struct {
+	// The ID of the volume that will be extended through this task.
+	VolumeID string `json:"volume_id"`
+	// The amount of storage to extend the volume by. Container volumes on Cycle are thinly provisioned,
+	// meaning this isn't an allocation - the volume will only use the space it needs up to this size.
+	ExtendSize string `json:"extend_size"`
+}
+
+// GetVolumeID returns the value of VolumeID.
+func (s *ExtendVolumeContents) GetVolumeID() string {
+	return s.VolumeID
+}
+
+// GetExtendSize returns the value of ExtendSize.
+func (s *ExtendVolumeContents) GetExtendSize() string {
+	return s.ExtendSize
+}
+
+// SetVolumeID sets the value of VolumeID.
+func (s *ExtendVolumeContents) SetVolumeID(val string) {
+	s.VolumeID = val
+}
+
+// SetExtendSize sets the value of ExtendSize.
+func (s *ExtendVolumeContents) SetExtendSize(val string) {
+	s.ExtendSize = val
+}
+
 // The spec for server features.
 // Ref: #/components/schemas/FeaturesSpec
 type FeaturesSpec struct {
@@ -19877,6 +24321,8 @@ func (s *FeaturesSpecExtra) init() FeaturesSpecExtra {
 	}
 	return m
 }
+
+type FluidIdentifier string
 
 // Variables that affect the runtime of a function container.
 // Ref: #/components/schemas/FunctionRuntimeVariables
@@ -20216,6 +24662,44 @@ func (s *GenerateInstanceSSHCredentialsOK) GetData() SSHResponse {
 // SetData sets the value of Data.
 func (s *GenerateInstanceSSHCredentialsOK) SetData(val SSHResponse) {
 	s.Data = val
+}
+
+// Ref: #/components/schemas/GenerateStackBuildAction
+type GenerateStackBuildAction struct{}
+
+// The job to do.
+type GenerateStackBuildActionAction string
+
+const (
+	GenerateStackBuildActionActionGenerate GenerateStackBuildActionAction = "generate"
+)
+
+// AllValues returns all GenerateStackBuildActionAction values.
+func (GenerateStackBuildActionAction) AllValues() []GenerateStackBuildActionAction {
+	return []GenerateStackBuildActionAction{
+		GenerateStackBuildActionActionGenerate,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s GenerateStackBuildActionAction) MarshalText() ([]byte, error) {
+	switch s {
+	case GenerateStackBuildActionActionGenerate:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *GenerateStackBuildActionAction) UnmarshalText(data []byte) error {
+	switch GenerateStackBuildActionAction(data) {
+	case GenerateStackBuildActionActionGenerate:
+		*s = GenerateStackBuildActionActionGenerate
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 type GetAPIKeyIncludeItem string
@@ -30241,6 +34725,600 @@ func (s *HaProxyConfigSetFrontendTimeouts) SetHTTPRequestMs(val NilInt) {
 	s.HTTPRequestMs = val
 }
 
+// Ref: #/components/schemas/HaProxyLbType
+type HaProxyLbType struct {
+	// Allow / disallow traffic to be routed via IPv4.
+	Ipv4 bool `json:"ipv4"`
+	// Allow / disallow traffic to be routed via IPv6.
+	Ipv6    bool          `json:"ipv6"`
+	Details HaProxyConfig `json:"details"`
+	// Binds the load balancer to the host server IP address.
+	// **Pros**: This allows for significantly lower cost (utilizing fewer IPv4 addresses), and enables
+	// building out a true edge network with lower latency.
+	// **Cons**: Only 1 environment is allowed on the host. This is because the load balancer is the only
+	// ingress point for an environment, and if it is sharing
+	// the same IP as the host, that host can only operate under that environment.
+	BindHost OptNilBool `json:"bind_host"`
+}
+
+// GetIpv4 returns the value of Ipv4.
+func (s *HaProxyLbType) GetIpv4() bool {
+	return s.Ipv4
+}
+
+// GetIpv6 returns the value of Ipv6.
+func (s *HaProxyLbType) GetIpv6() bool {
+	return s.Ipv6
+}
+
+// GetDetails returns the value of Details.
+func (s *HaProxyLbType) GetDetails() HaProxyConfig {
+	return s.Details
+}
+
+// GetBindHost returns the value of BindHost.
+func (s *HaProxyLbType) GetBindHost() OptNilBool {
+	return s.BindHost
+}
+
+// SetIpv4 sets the value of Ipv4.
+func (s *HaProxyLbType) SetIpv4(val bool) {
+	s.Ipv4 = val
+}
+
+// SetIpv6 sets the value of Ipv6.
+func (s *HaProxyLbType) SetIpv6(val bool) {
+	s.Ipv6 = val
+}
+
+// SetDetails sets the value of Details.
+func (s *HaProxyLbType) SetDetails(val HaProxyConfig) {
+	s.Details = val
+}
+
+// SetBindHost sets the value of BindHost.
+func (s *HaProxyLbType) SetBindHost(val OptNilBool) {
+	s.BindHost = val
+}
+
+type HaProxyLbTypeType string
+
+const (
+	HaProxyLbTypeTypeHaproxy HaProxyLbTypeType = "haproxy"
+)
+
+// AllValues returns all HaProxyLbTypeType values.
+func (HaProxyLbTypeType) AllValues() []HaProxyLbTypeType {
+	return []HaProxyLbTypeType{
+		HaProxyLbTypeTypeHaproxy,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s HaProxyLbTypeType) MarshalText() ([]byte, error) {
+	switch s {
+	case HaProxyLbTypeTypeHaproxy:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *HaProxyLbTypeType) UnmarshalText(data []byte) error {
+	switch HaProxyLbTypeType(data) {
+	case HaProxyLbTypeTypeHaproxy:
+		*s = HaProxyLbTypeTypeHaproxy
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Additional configuration options for HTTP mode routers.
+// Ref: #/components/schemas/HttpRouterConfig
+type HttpRouterConfig struct {
+	Details HttpRouterConfigDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *HttpRouterConfig) GetDetails() HttpRouterConfigDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *HttpRouterConfig) SetDetails(val HttpRouterConfigDetails) {
+	s.Details = val
+}
+
+type HttpRouterConfigDetails struct {
+	// Defines a built-in redirect for HTTP mode routers.
+	Redirect OptNilHttpRouterConfigDetailsRedirect `json:"redirect"`
+	Forward  OptNilHttpRouterConfigDetailsForward  `json:"forward"`
+	Proxy    OptNilHttpRouterConfigDetailsProxy    `json:"proxy"`
+	Caching  OptNilHttpRouterConfigDetailsCaching  `json:"caching"`
+}
+
+// GetRedirect returns the value of Redirect.
+func (s *HttpRouterConfigDetails) GetRedirect() OptNilHttpRouterConfigDetailsRedirect {
+	return s.Redirect
+}
+
+// GetForward returns the value of Forward.
+func (s *HttpRouterConfigDetails) GetForward() OptNilHttpRouterConfigDetailsForward {
+	return s.Forward
+}
+
+// GetProxy returns the value of Proxy.
+func (s *HttpRouterConfigDetails) GetProxy() OptNilHttpRouterConfigDetailsProxy {
+	return s.Proxy
+}
+
+// GetCaching returns the value of Caching.
+func (s *HttpRouterConfigDetails) GetCaching() OptNilHttpRouterConfigDetailsCaching {
+	return s.Caching
+}
+
+// SetRedirect sets the value of Redirect.
+func (s *HttpRouterConfigDetails) SetRedirect(val OptNilHttpRouterConfigDetailsRedirect) {
+	s.Redirect = val
+}
+
+// SetForward sets the value of Forward.
+func (s *HttpRouterConfigDetails) SetForward(val OptNilHttpRouterConfigDetailsForward) {
+	s.Forward = val
+}
+
+// SetProxy sets the value of Proxy.
+func (s *HttpRouterConfigDetails) SetProxy(val OptNilHttpRouterConfigDetailsProxy) {
+	s.Proxy = val
+}
+
+// SetCaching sets the value of Caching.
+func (s *HttpRouterConfigDetails) SetCaching(val OptNilHttpRouterConfigDetailsCaching) {
+	s.Caching = val
+}
+
+type HttpRouterConfigDetailsCaching struct {
+	Files OptNilHttpRouterConfigDetailsCachingFilesItemArray `json:"files"`
+}
+
+// GetFiles returns the value of Files.
+func (s *HttpRouterConfigDetailsCaching) GetFiles() OptNilHttpRouterConfigDetailsCachingFilesItemArray {
+	return s.Files
+}
+
+// SetFiles sets the value of Files.
+func (s *HttpRouterConfigDetailsCaching) SetFiles(val OptNilHttpRouterConfigDetailsCachingFilesItemArray) {
+	s.Files = val
+}
+
+type HttpRouterConfigDetailsCachingFilesItem struct {
+	// Regex string that describes the files to cache.
+	Match string `json:"match"`
+	// Time string that describes the time to live.
+	TTL Duration `json:"ttl"`
+}
+
+// GetMatch returns the value of Match.
+func (s *HttpRouterConfigDetailsCachingFilesItem) GetMatch() string {
+	return s.Match
+}
+
+// GetTTL returns the value of TTL.
+func (s *HttpRouterConfigDetailsCachingFilesItem) GetTTL() Duration {
+	return s.TTL
+}
+
+// SetMatch sets the value of Match.
+func (s *HttpRouterConfigDetailsCachingFilesItem) SetMatch(val string) {
+	s.Match = val
+}
+
+// SetTTL sets the value of TTL.
+func (s *HttpRouterConfigDetailsCachingFilesItem) SetTTL(val Duration) {
+	s.TTL = val
+}
+
+type HttpRouterConfigDetailsForward struct {
+	Scheme OptNilString `json:"scheme"`
+	// Allows the load balancer to modify content before it reaches the user.
+	ContentMod OptNilHttpRouterConfigDetailsForwardContentMod `json:"content_mod"`
+	// The URL to forward the request to.
+	// Given a path match of `^/example/(.*)$`, a route such as `/example/wow.jpg` would be forwarded as
+	// /wow.jpg.
+	URL OptString `json:"url"`
+}
+
+// GetScheme returns the value of Scheme.
+func (s *HttpRouterConfigDetailsForward) GetScheme() OptNilString {
+	return s.Scheme
+}
+
+// GetContentMod returns the value of ContentMod.
+func (s *HttpRouterConfigDetailsForward) GetContentMod() OptNilHttpRouterConfigDetailsForwardContentMod {
+	return s.ContentMod
+}
+
+// GetURL returns the value of URL.
+func (s *HttpRouterConfigDetailsForward) GetURL() OptString {
+	return s.URL
+}
+
+// SetScheme sets the value of Scheme.
+func (s *HttpRouterConfigDetailsForward) SetScheme(val OptNilString) {
+	s.Scheme = val
+}
+
+// SetContentMod sets the value of ContentMod.
+func (s *HttpRouterConfigDetailsForward) SetContentMod(val OptNilHttpRouterConfigDetailsForwardContentMod) {
+	s.ContentMod = val
+}
+
+// SetURL sets the value of URL.
+func (s *HttpRouterConfigDetailsForward) SetURL(val OptString) {
+	s.URL = val
+}
+
+// Allows the load balancer to modify content before it reaches the user.
+type HttpRouterConfigDetailsForwardContentMod struct {
+	// An array that describes a list of replacement match/value pairs.
+	Replace OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray `json:"replace"`
+}
+
+// GetReplace returns the value of Replace.
+func (s *HttpRouterConfigDetailsForwardContentMod) GetReplace() OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray {
+	return s.Replace
+}
+
+// SetReplace sets the value of Replace.
+func (s *HttpRouterConfigDetailsForwardContentMod) SetReplace(val OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray) {
+	s.Replace = val
+}
+
+type HttpRouterConfigDetailsForwardContentModReplaceItem struct {
+	// String that will be replaced.
+	Match string `json:"match"`
+	// Replacement value.
+	Value string `json:"value"`
+}
+
+// GetMatch returns the value of Match.
+func (s *HttpRouterConfigDetailsForwardContentModReplaceItem) GetMatch() string {
+	return s.Match
+}
+
+// GetValue returns the value of Value.
+func (s *HttpRouterConfigDetailsForwardContentModReplaceItem) GetValue() string {
+	return s.Value
+}
+
+// SetMatch sets the value of Match.
+func (s *HttpRouterConfigDetailsForwardContentModReplaceItem) SetMatch(val string) {
+	s.Match = val
+}
+
+// SetValue sets the value of Value.
+func (s *HttpRouterConfigDetailsForwardContentModReplaceItem) SetValue(val string) {
+	s.Value = val
+}
+
+type HttpRouterConfigDetailsProxy struct {
+	// The domain that this router will proxy.
+	Domain OptNilString `json:"domain"`
+	// The full URL that this router will proxy.
+	URL OptNilString `json:"url"`
+	// Allows the load balancer to modify content before it reaches the user.
+	ContentMod OptNilHttpRouterConfigDetailsProxyContentMod `json:"content_mod"`
+}
+
+// GetDomain returns the value of Domain.
+func (s *HttpRouterConfigDetailsProxy) GetDomain() OptNilString {
+	return s.Domain
+}
+
+// GetURL returns the value of URL.
+func (s *HttpRouterConfigDetailsProxy) GetURL() OptNilString {
+	return s.URL
+}
+
+// GetContentMod returns the value of ContentMod.
+func (s *HttpRouterConfigDetailsProxy) GetContentMod() OptNilHttpRouterConfigDetailsProxyContentMod {
+	return s.ContentMod
+}
+
+// SetDomain sets the value of Domain.
+func (s *HttpRouterConfigDetailsProxy) SetDomain(val OptNilString) {
+	s.Domain = val
+}
+
+// SetURL sets the value of URL.
+func (s *HttpRouterConfigDetailsProxy) SetURL(val OptNilString) {
+	s.URL = val
+}
+
+// SetContentMod sets the value of ContentMod.
+func (s *HttpRouterConfigDetailsProxy) SetContentMod(val OptNilHttpRouterConfigDetailsProxyContentMod) {
+	s.ContentMod = val
+}
+
+// Allows the load balancer to modify content before it reaches the user.
+type HttpRouterConfigDetailsProxyContentMod struct {
+	// An array that describes a list of replacement match/value pairs.
+	Replace OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray `json:"replace"`
+}
+
+// GetReplace returns the value of Replace.
+func (s *HttpRouterConfigDetailsProxyContentMod) GetReplace() OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray {
+	return s.Replace
+}
+
+// SetReplace sets the value of Replace.
+func (s *HttpRouterConfigDetailsProxyContentMod) SetReplace(val OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray) {
+	s.Replace = val
+}
+
+type HttpRouterConfigDetailsProxyContentModReplaceItem struct {
+	// String that will be replaced.
+	Match string `json:"match"`
+	// Replacement value.
+	Value string `json:"value"`
+}
+
+// GetMatch returns the value of Match.
+func (s *HttpRouterConfigDetailsProxyContentModReplaceItem) GetMatch() string {
+	return s.Match
+}
+
+// GetValue returns the value of Value.
+func (s *HttpRouterConfigDetailsProxyContentModReplaceItem) GetValue() string {
+	return s.Value
+}
+
+// SetMatch sets the value of Match.
+func (s *HttpRouterConfigDetailsProxyContentModReplaceItem) SetMatch(val string) {
+	s.Match = val
+}
+
+// SetValue sets the value of Value.
+func (s *HttpRouterConfigDetailsProxyContentModReplaceItem) SetValue(val string) {
+	s.Value = val
+}
+
+// Defines a built-in redirect for HTTP mode routers.
+type HttpRouterConfigDetailsRedirect struct {
+	// If enabled and a sibling controller exists for port 443, requests will be auto redirected to it.
+	// Essentially sets up automatic TLS redirection for this router.
+	AutoHTTPSRedirect bool `json:"auto_https_redirect"`
+	// If true, any request comes in with "www" prefix will be permanently redirected to the same path
+	// without www.
+	RemoveWww bool `json:"remove_www"`
+	// The port to redirect traffic to.
+	Port OptNilInt `json:"port"`
+	// The scheme to redirect to. (i.e. `https`).
+	Scheme OptNilString `json:"scheme"`
+	// A specific URL to redirect to.
+	URL OptNilString `json:"url"`
+}
+
+// GetAutoHTTPSRedirect returns the value of AutoHTTPSRedirect.
+func (s *HttpRouterConfigDetailsRedirect) GetAutoHTTPSRedirect() bool {
+	return s.AutoHTTPSRedirect
+}
+
+// GetRemoveWww returns the value of RemoveWww.
+func (s *HttpRouterConfigDetailsRedirect) GetRemoveWww() bool {
+	return s.RemoveWww
+}
+
+// GetPort returns the value of Port.
+func (s *HttpRouterConfigDetailsRedirect) GetPort() OptNilInt {
+	return s.Port
+}
+
+// GetScheme returns the value of Scheme.
+func (s *HttpRouterConfigDetailsRedirect) GetScheme() OptNilString {
+	return s.Scheme
+}
+
+// GetURL returns the value of URL.
+func (s *HttpRouterConfigDetailsRedirect) GetURL() OptNilString {
+	return s.URL
+}
+
+// SetAutoHTTPSRedirect sets the value of AutoHTTPSRedirect.
+func (s *HttpRouterConfigDetailsRedirect) SetAutoHTTPSRedirect(val bool) {
+	s.AutoHTTPSRedirect = val
+}
+
+// SetRemoveWww sets the value of RemoveWww.
+func (s *HttpRouterConfigDetailsRedirect) SetRemoveWww(val bool) {
+	s.RemoveWww = val
+}
+
+// SetPort sets the value of Port.
+func (s *HttpRouterConfigDetailsRedirect) SetPort(val OptNilInt) {
+	s.Port = val
+}
+
+// SetScheme sets the value of Scheme.
+func (s *HttpRouterConfigDetailsRedirect) SetScheme(val OptNilString) {
+	s.Scheme = val
+}
+
+// SetURL sets the value of URL.
+func (s *HttpRouterConfigDetailsRedirect) SetURL(val OptNilString) {
+	s.URL = val
+}
+
+type HttpRouterConfigType string
+
+const (
+	HttpRouterConfigTypeHTTP HttpRouterConfigType = "http"
+)
+
+// AllValues returns all HttpRouterConfigType values.
+func (HttpRouterConfigType) AllValues() []HttpRouterConfigType {
+	return []HttpRouterConfigType{
+		HttpRouterConfigTypeHTTP,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s HttpRouterConfigType) MarshalText() ([]byte, error) {
+	switch s {
+	case HttpRouterConfigTypeHTTP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *HttpRouterConfigType) UnmarshalText(data []byte) error {
+	switch HttpRouterConfigType(data) {
+	case HttpRouterConfigTypeHTTP:
+		*s = HttpRouterConfigTypeHTTP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Additional configuration options for the HTTP transport mode.
+// Ref: #/components/schemas/HttpTransportConfig
+type HttpTransportConfig struct {
+	Details HttpTransportConfigDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *HttpTransportConfig) GetDetails() HttpTransportConfigDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *HttpTransportConfig) SetDetails(val HttpTransportConfigDetails) {
+	s.Details = val
+}
+
+type HttpTransportConfigDetails struct {
+	// Defines extra configuration options connections to the load balancer.
+	Connections HttpTransportConfigDetailsConnections `json:"connections"`
+	// Configuration options for how telemetry is handled.
+	Telemetry HttpTransportConfigDetailsTelemetry `json:"telemetry"`
+}
+
+// GetConnections returns the value of Connections.
+func (s *HttpTransportConfigDetails) GetConnections() HttpTransportConfigDetailsConnections {
+	return s.Connections
+}
+
+// GetTelemetry returns the value of Telemetry.
+func (s *HttpTransportConfigDetails) GetTelemetry() HttpTransportConfigDetailsTelemetry {
+	return s.Telemetry
+}
+
+// SetConnections sets the value of Connections.
+func (s *HttpTransportConfigDetails) SetConnections(val HttpTransportConfigDetailsConnections) {
+	s.Connections = val
+}
+
+// SetTelemetry sets the value of Telemetry.
+func (s *HttpTransportConfigDetails) SetTelemetry(val HttpTransportConfigDetailsTelemetry) {
+	s.Telemetry = val
+}
+
+// Defines extra configuration options connections to the load balancer.
+type HttpTransportConfigDetailsConnections struct {
+	// Maximum number of simultaneous connections (via http/2) per connection.
+	MaxIdleConnsPerConnection NilInt `json:"max_idle_conns_per_connection"`
+}
+
+// GetMaxIdleConnsPerConnection returns the value of MaxIdleConnsPerConnection.
+func (s *HttpTransportConfigDetailsConnections) GetMaxIdleConnsPerConnection() NilInt {
+	return s.MaxIdleConnsPerConnection
+}
+
+// SetMaxIdleConnsPerConnection sets the value of MaxIdleConnsPerConnection.
+func (s *HttpTransportConfigDetailsConnections) SetMaxIdleConnsPerConnection(val NilInt) {
+	s.MaxIdleConnsPerConnection = val
+}
+
+// Configuration options for how telemetry is handled.
+type HttpTransportConfigDetailsTelemetry struct {
+	// Determines how many URLs the load balancer will track at one time. Defaults to 150.
+	MaxTrackableUrls OptNilInt `json:"max_trackable_urls"`
+	// Whether or not to track invalid requests. An invalid request is a request that came in that no
+	// router existed for. Usually this means bot requests. Defaults to false.
+	TrackInvalidRequests OptNilBool `json:"track_invalid_requests"`
+	// An array of paths to exclude from tracking.
+	IgnorePaths OptNilStringArray `json:"ignore_paths"`
+}
+
+// GetMaxTrackableUrls returns the value of MaxTrackableUrls.
+func (s *HttpTransportConfigDetailsTelemetry) GetMaxTrackableUrls() OptNilInt {
+	return s.MaxTrackableUrls
+}
+
+// GetTrackInvalidRequests returns the value of TrackInvalidRequests.
+func (s *HttpTransportConfigDetailsTelemetry) GetTrackInvalidRequests() OptNilBool {
+	return s.TrackInvalidRequests
+}
+
+// GetIgnorePaths returns the value of IgnorePaths.
+func (s *HttpTransportConfigDetailsTelemetry) GetIgnorePaths() OptNilStringArray {
+	return s.IgnorePaths
+}
+
+// SetMaxTrackableUrls sets the value of MaxTrackableUrls.
+func (s *HttpTransportConfigDetailsTelemetry) SetMaxTrackableUrls(val OptNilInt) {
+	s.MaxTrackableUrls = val
+}
+
+// SetTrackInvalidRequests sets the value of TrackInvalidRequests.
+func (s *HttpTransportConfigDetailsTelemetry) SetTrackInvalidRequests(val OptNilBool) {
+	s.TrackInvalidRequests = val
+}
+
+// SetIgnorePaths sets the value of IgnorePaths.
+func (s *HttpTransportConfigDetailsTelemetry) SetIgnorePaths(val OptNilStringArray) {
+	s.IgnorePaths = val
+}
+
+type HttpTransportConfigType string
+
+const (
+	HttpTransportConfigTypeHTTP HttpTransportConfigType = "http"
+)
+
+// AllValues returns all HttpTransportConfigType values.
+func (HttpTransportConfigType) AllValues() []HttpTransportConfigType {
+	return []HttpTransportConfigType{
+		HttpTransportConfigTypeHTTP,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s HttpTransportConfigType) MarshalText() ([]byte, error) {
+	switch s {
+	case HttpTransportConfigTypeHTTP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *HttpTransportConfigType) UnmarshalText(data []byte) error {
+	switch HttpTransportConfigType(data) {
+	case HttpTransportConfigTypeHTTP:
+		*s = HttpTransportConfigTypeHTTP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // A hub resource.
 // Ref: #/components/schemas/Hub
 type Hub struct {
@@ -31698,9 +36776,9 @@ type Image struct {
 	// Configuration options regarding the builder used to create/import this Image.
 	Builder OptNilImageBuilder `json:"builder"`
 	// Configuration settings for the image.
-	Config  ImageConfig         `json:"config"`
-	Source  *ImageSourceDetails `json:"source"`
-	Creator OptCreatorScope     `json:"creator"`
+	Config  ImageConfig           `json:"config"`
+	Source  OptImageSourceDetails `json:"source"`
+	Creator OptCreatorScope       `json:"creator"`
 	// Information about the Factory service that built/imported the Image into Cycle.
 	Factory OptNilImageFactory `json:"factory"`
 	State   ImageState         `json:"state"`
@@ -31760,7 +36838,7 @@ func (s *Image) GetConfig() ImageConfig {
 }
 
 // GetSource returns the value of Source.
-func (s *Image) GetSource() *ImageSourceDetails {
+func (s *Image) GetSource() OptImageSourceDetails {
 	return s.Source
 }
 
@@ -31840,7 +36918,7 @@ func (s *Image) SetConfig(val ImageConfig) {
 }
 
 // SetSource sets the value of Source.
-func (s *Image) SetSource(val *ImageSourceDetails) {
+func (s *Image) SetSource(val OptImageSourceDetails) {
 	s.Source = val
 }
 
@@ -32223,6 +37301,396 @@ func (s *ImageConfigVolumesItemMode) UnmarshalText(data []byte) error {
 	}
 }
 
+// A pipeline step for creating and importing an image in one go.
+// Ref: #/components/schemas/ImageCreateImportStep
+type ImageCreateImportStep struct {
+	// An identifier for the step.
+	Identifier OptString                       `json:"identifier"`
+	Options    OptImageCreateImportStepOptions `json:"options"`
+	Details    ImageCreateImportStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ImageCreateImportStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ImageCreateImportStep) GetOptions() OptImageCreateImportStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ImageCreateImportStep) GetDetails() ImageCreateImportStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ImageCreateImportStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ImageCreateImportStep) SetOptions(val OptImageCreateImportStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ImageCreateImportStep) SetDetails(val ImageCreateImportStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ImageCreateImportStepAction string
+
+const (
+	ImageCreateImportStepActionImageCreateImport ImageCreateImportStepAction = "image.create-import"
+)
+
+// AllValues returns all ImageCreateImportStepAction values.
+func (ImageCreateImportStepAction) AllValues() []ImageCreateImportStepAction {
+	return []ImageCreateImportStepAction{
+		ImageCreateImportStepActionImageCreateImport,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ImageCreateImportStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ImageCreateImportStepActionImageCreateImport:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ImageCreateImportStepAction) UnmarshalText(data []byte) error {
+	switch ImageCreateImportStepAction(data) {
+	case ImageCreateImportStepActionImageCreateImport:
+		*s = ImageCreateImportStepActionImageCreateImport
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ImageCreateImportStepDetails struct {
+	Name   OptNilString    `json:"name"`
+	Source FluidIdentifier `json:"source"`
+	// Optional build-time options for when this image is built on pipeline run.
+	Build OptImageCreateImportStepDetailsBuild `json:"build"`
+	// An override object to be used for a single image create request.
+	Override OptNilImageCreateImportStepDetailsOverride `json:"override"`
+}
+
+// GetName returns the value of Name.
+func (s *ImageCreateImportStepDetails) GetName() OptNilString {
+	return s.Name
+}
+
+// GetSource returns the value of Source.
+func (s *ImageCreateImportStepDetails) GetSource() FluidIdentifier {
+	return s.Source
+}
+
+// GetBuild returns the value of Build.
+func (s *ImageCreateImportStepDetails) GetBuild() OptImageCreateImportStepDetailsBuild {
+	return s.Build
+}
+
+// GetOverride returns the value of Override.
+func (s *ImageCreateImportStepDetails) GetOverride() OptNilImageCreateImportStepDetailsOverride {
+	return s.Override
+}
+
+// SetName sets the value of Name.
+func (s *ImageCreateImportStepDetails) SetName(val OptNilString) {
+	s.Name = val
+}
+
+// SetSource sets the value of Source.
+func (s *ImageCreateImportStepDetails) SetSource(val FluidIdentifier) {
+	s.Source = val
+}
+
+// SetBuild sets the value of Build.
+func (s *ImageCreateImportStepDetails) SetBuild(val OptImageCreateImportStepDetailsBuild) {
+	s.Build = val
+}
+
+// SetOverride sets the value of Override.
+func (s *ImageCreateImportStepDetails) SetOverride(val OptNilImageCreateImportStepDetailsOverride) {
+	s.Override = val
+}
+
+// Optional build-time options for when this image is built on pipeline run.
+type ImageCreateImportStepDetailsBuild struct {
+	// Build args passed into the container image build process during pipeline run.
+	Args OptNilImageCreateImportStepDetailsBuildArgs `json:"args"`
+}
+
+// GetArgs returns the value of Args.
+func (s *ImageCreateImportStepDetailsBuild) GetArgs() OptNilImageCreateImportStepDetailsBuildArgs {
+	return s.Args
+}
+
+// SetArgs sets the value of Args.
+func (s *ImageCreateImportStepDetailsBuild) SetArgs(val OptNilImageCreateImportStepDetailsBuildArgs) {
+	s.Args = val
+}
+
+// Build args passed into the container image build process during pipeline run.
+type ImageCreateImportStepDetailsBuildArgs map[string]string
+
+func (s *ImageCreateImportStepDetailsBuildArgs) init() ImageCreateImportStepDetailsBuildArgs {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+// An override object to be used for a single image create request.
+type ImageCreateImportStepDetailsOverride struct {
+	// For image sources with `docker-hub` or `docker-registry` origin types. A target to be used for
+	// overridding the default target - should include an image and a tag.
+	Target OptNilString `json:"target"`
+	// For image sources with `docker-file` origin types. A URL pointing to a .tar.gz file of a repo with
+	// a Dockerfile in it - can be used instead of linking Cycle directly to a repository.
+	TargzURL OptNilString `json:"targz_url"`
+}
+
+// GetTarget returns the value of Target.
+func (s *ImageCreateImportStepDetailsOverride) GetTarget() OptNilString {
+	return s.Target
+}
+
+// GetTargzURL returns the value of TargzURL.
+func (s *ImageCreateImportStepDetailsOverride) GetTargzURL() OptNilString {
+	return s.TargzURL
+}
+
+// SetTarget sets the value of Target.
+func (s *ImageCreateImportStepDetailsOverride) SetTarget(val OptNilString) {
+	s.Target = val
+}
+
+// SetTargzURL sets the value of TargzURL.
+func (s *ImageCreateImportStepDetailsOverride) SetTargzURL(val OptNilString) {
+	s.TargzURL = val
+}
+
+type ImageCreateImportStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ImageCreateImportStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ImageCreateImportStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// Settings for the image create step for a pipeline.
+// Ref: #/components/schemas/ImageCreateStep
+type ImageCreateStep struct {
+	// An identifier for the step.
+	Identifier OptString                 `json:"identifier"`
+	Options    OptImageCreateStepOptions `json:"options"`
+	Details    ImageCreateStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ImageCreateStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ImageCreateStep) GetOptions() OptImageCreateStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ImageCreateStep) GetDetails() ImageCreateStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ImageCreateStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ImageCreateStep) SetOptions(val OptImageCreateStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ImageCreateStep) SetDetails(val ImageCreateStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ImageCreateStepAction string
+
+const (
+	ImageCreateStepActionImageCreate ImageCreateStepAction = "image.create"
+)
+
+// AllValues returns all ImageCreateStepAction values.
+func (ImageCreateStepAction) AllValues() []ImageCreateStepAction {
+	return []ImageCreateStepAction{
+		ImageCreateStepActionImageCreate,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ImageCreateStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ImageCreateStepActionImageCreate:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ImageCreateStepAction) UnmarshalText(data []byte) error {
+	switch ImageCreateStepAction(data) {
+	case ImageCreateStepActionImageCreate:
+		*s = ImageCreateStepActionImageCreate
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ImageCreateStepDetails struct {
+	Name   OptNilString    `json:"name"`
+	Source FluidIdentifier `json:"source"`
+	// Optional build-time options for when this image is built on pipeline run.
+	Build OptImageCreateStepDetailsBuild `json:"build"`
+	// An override object to be used for a single image create request.
+	Override OptNilImageCreateStepDetailsOverride `json:"override"`
+}
+
+// GetName returns the value of Name.
+func (s *ImageCreateStepDetails) GetName() OptNilString {
+	return s.Name
+}
+
+// GetSource returns the value of Source.
+func (s *ImageCreateStepDetails) GetSource() FluidIdentifier {
+	return s.Source
+}
+
+// GetBuild returns the value of Build.
+func (s *ImageCreateStepDetails) GetBuild() OptImageCreateStepDetailsBuild {
+	return s.Build
+}
+
+// GetOverride returns the value of Override.
+func (s *ImageCreateStepDetails) GetOverride() OptNilImageCreateStepDetailsOverride {
+	return s.Override
+}
+
+// SetName sets the value of Name.
+func (s *ImageCreateStepDetails) SetName(val OptNilString) {
+	s.Name = val
+}
+
+// SetSource sets the value of Source.
+func (s *ImageCreateStepDetails) SetSource(val FluidIdentifier) {
+	s.Source = val
+}
+
+// SetBuild sets the value of Build.
+func (s *ImageCreateStepDetails) SetBuild(val OptImageCreateStepDetailsBuild) {
+	s.Build = val
+}
+
+// SetOverride sets the value of Override.
+func (s *ImageCreateStepDetails) SetOverride(val OptNilImageCreateStepDetailsOverride) {
+	s.Override = val
+}
+
+// Optional build-time options for when this image is built on pipeline run.
+type ImageCreateStepDetailsBuild struct {
+	// Build args passed into the container image build process during pipeline run.
+	Args OptNilImageCreateStepDetailsBuildArgs `json:"args"`
+}
+
+// GetArgs returns the value of Args.
+func (s *ImageCreateStepDetailsBuild) GetArgs() OptNilImageCreateStepDetailsBuildArgs {
+	return s.Args
+}
+
+// SetArgs sets the value of Args.
+func (s *ImageCreateStepDetailsBuild) SetArgs(val OptNilImageCreateStepDetailsBuildArgs) {
+	s.Args = val
+}
+
+// Build args passed into the container image build process during pipeline run.
+type ImageCreateStepDetailsBuildArgs map[string]string
+
+func (s *ImageCreateStepDetailsBuildArgs) init() ImageCreateStepDetailsBuildArgs {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+// An override object to be used for a single image create request.
+type ImageCreateStepDetailsOverride struct {
+	// For image sources with `docker-hub` or `docker-registry` origin types. A target to be used for
+	// overridding the default target - should include an image and a tag.
+	Target OptNilString `json:"target"`
+	// For image sources with `docker-file` origin types. A URL pointing to a .tar.gz file of a repo with
+	// a Dockerfile in it - can be used instead of linking Cycle directly to a repository.
+	TargzURL OptNilString `json:"targz_url"`
+}
+
+// GetTarget returns the value of Target.
+func (s *ImageCreateStepDetailsOverride) GetTarget() OptNilString {
+	return s.Target
+}
+
+// GetTargzURL returns the value of TargzURL.
+func (s *ImageCreateStepDetailsOverride) GetTargzURL() OptNilString {
+	return s.TargzURL
+}
+
+// SetTarget sets the value of Target.
+func (s *ImageCreateStepDetailsOverride) SetTarget(val OptNilString) {
+	s.Target = val
+}
+
+// SetTargzURL sets the value of TargzURL.
+func (s *ImageCreateStepDetailsOverride) SetTargzURL(val OptNilString) {
+	s.TargzURL = val
+}
+
+type ImageCreateStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ImageCreateStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ImageCreateStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
 // A collection of timestamps for each event in the image's lifetime.
 type ImageEvents struct {
 	// The timestamp of when the image was created.
@@ -32301,6 +37769,108 @@ func (s *ImageFactory) SetCached(val DateTime) {
 // SetAcknowledged sets the value of Acknowledged.
 func (s *ImageFactory) SetAcknowledged(val DateTime) {
 	s.Acknowledged = val
+}
+
+// Settings for the image import step for a pipeline.
+// Ref: #/components/schemas/ImageImportStep
+type ImageImportStep struct {
+	// An identifier for the step.
+	Identifier OptString                 `json:"identifier"`
+	Options    OptImageImportStepOptions `json:"options"`
+	Details    ImageImportStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ImageImportStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ImageImportStep) GetOptions() OptImageImportStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ImageImportStep) GetDetails() ImageImportStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ImageImportStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ImageImportStep) SetOptions(val OptImageImportStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ImageImportStep) SetDetails(val ImageImportStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ImageImportStepAction string
+
+const (
+	ImageImportStepActionImageImport ImageImportStepAction = "image.import"
+)
+
+// AllValues returns all ImageImportStepAction values.
+func (ImageImportStepAction) AllValues() []ImageImportStepAction {
+	return []ImageImportStepAction{
+		ImageImportStepActionImageImport,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ImageImportStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ImageImportStepActionImageImport:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ImageImportStepAction) UnmarshalText(data []byte) error {
+	switch ImageImportStepAction(data) {
+	case ImageImportStepActionImageImport:
+		*s = ImageImportStepActionImageImport
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ImageImportStepDetails struct {
+	Image FluidIdentifier `json:"image"`
+}
+
+// GetImage returns the value of Image.
+func (s *ImageImportStepDetails) GetImage() FluidIdentifier {
+	return s.Image
+}
+
+// SetImage sets the value of Image.
+func (s *ImageImportStepDetails) SetImage(val FluidIdentifier) {
+	s.Image = val
+}
+
+type ImageImportStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ImageImportStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ImageImportStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
 }
 
 // All includable resources linkable to the given image.
@@ -32414,7 +37984,215 @@ func (s *ImageMeta) SetContainersCount(val OptStateCountSummary) {
 
 // The origin of the image.
 // Ref: #/components/schemas/ImageOrigin
-type ImageOrigin struct{}
+type ImageOrigin struct {
+	OneOf ImageOriginSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *ImageOrigin) GetOneOf() ImageOriginSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *ImageOrigin) SetOneOf(val ImageOriginSum) {
+	s.OneOf = val
+}
+
+// ImageOriginSum represents sum type.
+type ImageOriginSum struct {
+	Type                 ImageOriginSumType // switch on this field
+	DockerHubOrigin      DockerHubOrigin
+	DockerFileOrigin     DockerFileOrigin
+	DockerRegistryOrigin DockerRegistryOrigin
+	OciRegistryOrigin    OciRegistryOrigin
+	CycleUploadOrigin    CycleUploadOrigin
+	CycleSourceOrigin    CycleSourceOrigin
+	NoneOrigin           NoneOrigin
+}
+
+// ImageOriginSumType is oneOf type of ImageOriginSum.
+type ImageOriginSumType string
+
+// Possible values for ImageOriginSumType.
+const (
+	DockerHubOriginImageOriginSum      ImageOriginSumType = "docker-hub"
+	DockerFileOriginImageOriginSum     ImageOriginSumType = "docker-file"
+	DockerRegistryOriginImageOriginSum ImageOriginSumType = "docker-registry"
+	OciRegistryOriginImageOriginSum    ImageOriginSumType = "oci-registry"
+	CycleUploadOriginImageOriginSum    ImageOriginSumType = "cycle-upload"
+	CycleSourceOriginImageOriginSum    ImageOriginSumType = "cycle-source"
+	NoneOriginImageOriginSum           ImageOriginSumType = "none"
+)
+
+// IsDockerHubOrigin reports whether ImageOriginSum is DockerHubOrigin.
+func (s ImageOriginSum) IsDockerHubOrigin() bool { return s.Type == DockerHubOriginImageOriginSum }
+
+// IsDockerFileOrigin reports whether ImageOriginSum is DockerFileOrigin.
+func (s ImageOriginSum) IsDockerFileOrigin() bool { return s.Type == DockerFileOriginImageOriginSum }
+
+// IsDockerRegistryOrigin reports whether ImageOriginSum is DockerRegistryOrigin.
+func (s ImageOriginSum) IsDockerRegistryOrigin() bool {
+	return s.Type == DockerRegistryOriginImageOriginSum
+}
+
+// IsOciRegistryOrigin reports whether ImageOriginSum is OciRegistryOrigin.
+func (s ImageOriginSum) IsOciRegistryOrigin() bool { return s.Type == OciRegistryOriginImageOriginSum }
+
+// IsCycleUploadOrigin reports whether ImageOriginSum is CycleUploadOrigin.
+func (s ImageOriginSum) IsCycleUploadOrigin() bool { return s.Type == CycleUploadOriginImageOriginSum }
+
+// IsCycleSourceOrigin reports whether ImageOriginSum is CycleSourceOrigin.
+func (s ImageOriginSum) IsCycleSourceOrigin() bool { return s.Type == CycleSourceOriginImageOriginSum }
+
+// IsNoneOrigin reports whether ImageOriginSum is NoneOrigin.
+func (s ImageOriginSum) IsNoneOrigin() bool { return s.Type == NoneOriginImageOriginSum }
+
+// SetDockerHubOrigin sets ImageOriginSum to DockerHubOrigin.
+func (s *ImageOriginSum) SetDockerHubOrigin(v DockerHubOrigin) {
+	s.Type = DockerHubOriginImageOriginSum
+	s.DockerHubOrigin = v
+}
+
+// GetDockerHubOrigin returns DockerHubOrigin and true boolean if ImageOriginSum is DockerHubOrigin.
+func (s ImageOriginSum) GetDockerHubOrigin() (v DockerHubOrigin, ok bool) {
+	if !s.IsDockerHubOrigin() {
+		return v, false
+	}
+	return s.DockerHubOrigin, true
+}
+
+// NewDockerHubOriginImageOriginSum returns new ImageOriginSum from DockerHubOrigin.
+func NewDockerHubOriginImageOriginSum(v DockerHubOrigin) ImageOriginSum {
+	var s ImageOriginSum
+	s.SetDockerHubOrigin(v)
+	return s
+}
+
+// SetDockerFileOrigin sets ImageOriginSum to DockerFileOrigin.
+func (s *ImageOriginSum) SetDockerFileOrigin(v DockerFileOrigin) {
+	s.Type = DockerFileOriginImageOriginSum
+	s.DockerFileOrigin = v
+}
+
+// GetDockerFileOrigin returns DockerFileOrigin and true boolean if ImageOriginSum is DockerFileOrigin.
+func (s ImageOriginSum) GetDockerFileOrigin() (v DockerFileOrigin, ok bool) {
+	if !s.IsDockerFileOrigin() {
+		return v, false
+	}
+	return s.DockerFileOrigin, true
+}
+
+// NewDockerFileOriginImageOriginSum returns new ImageOriginSum from DockerFileOrigin.
+func NewDockerFileOriginImageOriginSum(v DockerFileOrigin) ImageOriginSum {
+	var s ImageOriginSum
+	s.SetDockerFileOrigin(v)
+	return s
+}
+
+// SetDockerRegistryOrigin sets ImageOriginSum to DockerRegistryOrigin.
+func (s *ImageOriginSum) SetDockerRegistryOrigin(v DockerRegistryOrigin) {
+	s.Type = DockerRegistryOriginImageOriginSum
+	s.DockerRegistryOrigin = v
+}
+
+// GetDockerRegistryOrigin returns DockerRegistryOrigin and true boolean if ImageOriginSum is DockerRegistryOrigin.
+func (s ImageOriginSum) GetDockerRegistryOrigin() (v DockerRegistryOrigin, ok bool) {
+	if !s.IsDockerRegistryOrigin() {
+		return v, false
+	}
+	return s.DockerRegistryOrigin, true
+}
+
+// NewDockerRegistryOriginImageOriginSum returns new ImageOriginSum from DockerRegistryOrigin.
+func NewDockerRegistryOriginImageOriginSum(v DockerRegistryOrigin) ImageOriginSum {
+	var s ImageOriginSum
+	s.SetDockerRegistryOrigin(v)
+	return s
+}
+
+// SetOciRegistryOrigin sets ImageOriginSum to OciRegistryOrigin.
+func (s *ImageOriginSum) SetOciRegistryOrigin(v OciRegistryOrigin) {
+	s.Type = OciRegistryOriginImageOriginSum
+	s.OciRegistryOrigin = v
+}
+
+// GetOciRegistryOrigin returns OciRegistryOrigin and true boolean if ImageOriginSum is OciRegistryOrigin.
+func (s ImageOriginSum) GetOciRegistryOrigin() (v OciRegistryOrigin, ok bool) {
+	if !s.IsOciRegistryOrigin() {
+		return v, false
+	}
+	return s.OciRegistryOrigin, true
+}
+
+// NewOciRegistryOriginImageOriginSum returns new ImageOriginSum from OciRegistryOrigin.
+func NewOciRegistryOriginImageOriginSum(v OciRegistryOrigin) ImageOriginSum {
+	var s ImageOriginSum
+	s.SetOciRegistryOrigin(v)
+	return s
+}
+
+// SetCycleUploadOrigin sets ImageOriginSum to CycleUploadOrigin.
+func (s *ImageOriginSum) SetCycleUploadOrigin(v CycleUploadOrigin) {
+	s.Type = CycleUploadOriginImageOriginSum
+	s.CycleUploadOrigin = v
+}
+
+// GetCycleUploadOrigin returns CycleUploadOrigin and true boolean if ImageOriginSum is CycleUploadOrigin.
+func (s ImageOriginSum) GetCycleUploadOrigin() (v CycleUploadOrigin, ok bool) {
+	if !s.IsCycleUploadOrigin() {
+		return v, false
+	}
+	return s.CycleUploadOrigin, true
+}
+
+// NewCycleUploadOriginImageOriginSum returns new ImageOriginSum from CycleUploadOrigin.
+func NewCycleUploadOriginImageOriginSum(v CycleUploadOrigin) ImageOriginSum {
+	var s ImageOriginSum
+	s.SetCycleUploadOrigin(v)
+	return s
+}
+
+// SetCycleSourceOrigin sets ImageOriginSum to CycleSourceOrigin.
+func (s *ImageOriginSum) SetCycleSourceOrigin(v CycleSourceOrigin) {
+	s.Type = CycleSourceOriginImageOriginSum
+	s.CycleSourceOrigin = v
+}
+
+// GetCycleSourceOrigin returns CycleSourceOrigin and true boolean if ImageOriginSum is CycleSourceOrigin.
+func (s ImageOriginSum) GetCycleSourceOrigin() (v CycleSourceOrigin, ok bool) {
+	if !s.IsCycleSourceOrigin() {
+		return v, false
+	}
+	return s.CycleSourceOrigin, true
+}
+
+// NewCycleSourceOriginImageOriginSum returns new ImageOriginSum from CycleSourceOrigin.
+func NewCycleSourceOriginImageOriginSum(v CycleSourceOrigin) ImageOriginSum {
+	var s ImageOriginSum
+	s.SetCycleSourceOrigin(v)
+	return s
+}
+
+// SetNoneOrigin sets ImageOriginSum to NoneOrigin.
+func (s *ImageOriginSum) SetNoneOrigin(v NoneOrigin) {
+	s.Type = NoneOriginImageOriginSum
+	s.NoneOrigin = v
+}
+
+// GetNoneOrigin returns NoneOrigin and true boolean if ImageOriginSum is NoneOrigin.
+func (s ImageOriginSum) GetNoneOrigin() (v NoneOrigin, ok bool) {
+	if !s.IsNoneOrigin() {
+		return v, false
+	}
+	return s.NoneOrigin, true
+}
+
+// NewNoneOriginImageOriginSum returns new ImageOriginSum from NoneOrigin.
+func NewNoneOriginImageOriginSum(v NoneOrigin) ImageOriginSum {
+	var s ImageOriginSum
+	s.SetNoneOrigin(v)
+	return s
+}
 
 // Any restrictions or requirements needed to run this image as a container.
 type ImageRequires struct {
@@ -32617,7 +38395,115 @@ func (s *ImageSourceBuilder) SetIntegrationID(val OptHybridIdentifier) {
 	s.IntegrationID = val
 }
 
-type ImageSourceDetails struct{}
+type ImageSourceDetails struct {
+	OneOf ImageSourceDetailsSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *ImageSourceDetails) GetOneOf() ImageSourceDetailsSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *ImageSourceDetails) SetOneOf(val ImageSourceDetailsSum) {
+	s.OneOf = val
+}
+
+// ImageSourceDetailsSum represents sum type.
+type ImageSourceDetailsSum struct {
+	Type                  ImageSourceDetailsSumType // switch on this field
+	DirectImageSourceType DirectImageSourceType
+	StackImageSourceType  StackImageSourceType
+	BucketImageSourceType BucketImageSourceType
+}
+
+// ImageSourceDetailsSumType is oneOf type of ImageSourceDetailsSum.
+type ImageSourceDetailsSumType string
+
+// Possible values for ImageSourceDetailsSumType.
+const (
+	DirectImageSourceTypeImageSourceDetailsSum ImageSourceDetailsSumType = "direct"
+	StackImageSourceTypeImageSourceDetailsSum  ImageSourceDetailsSumType = "stack-build"
+	BucketImageSourceTypeImageSourceDetailsSum ImageSourceDetailsSumType = "bucket"
+)
+
+// IsDirectImageSourceType reports whether ImageSourceDetailsSum is DirectImageSourceType.
+func (s ImageSourceDetailsSum) IsDirectImageSourceType() bool {
+	return s.Type == DirectImageSourceTypeImageSourceDetailsSum
+}
+
+// IsStackImageSourceType reports whether ImageSourceDetailsSum is StackImageSourceType.
+func (s ImageSourceDetailsSum) IsStackImageSourceType() bool {
+	return s.Type == StackImageSourceTypeImageSourceDetailsSum
+}
+
+// IsBucketImageSourceType reports whether ImageSourceDetailsSum is BucketImageSourceType.
+func (s ImageSourceDetailsSum) IsBucketImageSourceType() bool {
+	return s.Type == BucketImageSourceTypeImageSourceDetailsSum
+}
+
+// SetDirectImageSourceType sets ImageSourceDetailsSum to DirectImageSourceType.
+func (s *ImageSourceDetailsSum) SetDirectImageSourceType(v DirectImageSourceType) {
+	s.Type = DirectImageSourceTypeImageSourceDetailsSum
+	s.DirectImageSourceType = v
+}
+
+// GetDirectImageSourceType returns DirectImageSourceType and true boolean if ImageSourceDetailsSum is DirectImageSourceType.
+func (s ImageSourceDetailsSum) GetDirectImageSourceType() (v DirectImageSourceType, ok bool) {
+	if !s.IsDirectImageSourceType() {
+		return v, false
+	}
+	return s.DirectImageSourceType, true
+}
+
+// NewDirectImageSourceTypeImageSourceDetailsSum returns new ImageSourceDetailsSum from DirectImageSourceType.
+func NewDirectImageSourceTypeImageSourceDetailsSum(v DirectImageSourceType) ImageSourceDetailsSum {
+	var s ImageSourceDetailsSum
+	s.SetDirectImageSourceType(v)
+	return s
+}
+
+// SetStackImageSourceType sets ImageSourceDetailsSum to StackImageSourceType.
+func (s *ImageSourceDetailsSum) SetStackImageSourceType(v StackImageSourceType) {
+	s.Type = StackImageSourceTypeImageSourceDetailsSum
+	s.StackImageSourceType = v
+}
+
+// GetStackImageSourceType returns StackImageSourceType and true boolean if ImageSourceDetailsSum is StackImageSourceType.
+func (s ImageSourceDetailsSum) GetStackImageSourceType() (v StackImageSourceType, ok bool) {
+	if !s.IsStackImageSourceType() {
+		return v, false
+	}
+	return s.StackImageSourceType, true
+}
+
+// NewStackImageSourceTypeImageSourceDetailsSum returns new ImageSourceDetailsSum from StackImageSourceType.
+func NewStackImageSourceTypeImageSourceDetailsSum(v StackImageSourceType) ImageSourceDetailsSum {
+	var s ImageSourceDetailsSum
+	s.SetStackImageSourceType(v)
+	return s
+}
+
+// SetBucketImageSourceType sets ImageSourceDetailsSum to BucketImageSourceType.
+func (s *ImageSourceDetailsSum) SetBucketImageSourceType(v BucketImageSourceType) {
+	s.Type = BucketImageSourceTypeImageSourceDetailsSum
+	s.BucketImageSourceType = v
+}
+
+// GetBucketImageSourceType returns BucketImageSourceType and true boolean if ImageSourceDetailsSum is BucketImageSourceType.
+func (s ImageSourceDetailsSum) GetBucketImageSourceType() (v BucketImageSourceType, ok bool) {
+	if !s.IsBucketImageSourceType() {
+		return v, false
+	}
+	return s.BucketImageSourceType, true
+}
+
+// NewBucketImageSourceTypeImageSourceDetailsSum returns new ImageSourceDetailsSum from BucketImageSourceType.
+func NewBucketImageSourceTypeImageSourceDetailsSum(v BucketImageSourceType) ImageSourceDetailsSum {
+	var s ImageSourceDetailsSum
+	s.SetBucketImageSourceType(v)
+	return s
+}
 
 // A collection of timestamps for each event in the image source's lifetime.
 type ImageSourceEvents struct {
@@ -33238,6 +39124,108 @@ func (s *ImagesIncludes) init() ImagesIncludes {
 		*s = m
 	}
 	return m
+}
+
+// Settings for the images prune step for a pipeline.
+// Ref: #/components/schemas/ImagesPruneStep
+type ImagesPruneStep struct {
+	// An identifier for the step.
+	Identifier OptString                 `json:"identifier"`
+	Options    OptImagesPruneStepOptions `json:"options"`
+	Details    ImagesPruneStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *ImagesPruneStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *ImagesPruneStep) GetOptions() OptImagesPruneStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *ImagesPruneStep) GetDetails() ImagesPruneStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *ImagesPruneStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ImagesPruneStep) SetOptions(val OptImagesPruneStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *ImagesPruneStep) SetDetails(val ImagesPruneStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type ImagesPruneStepAction string
+
+const (
+	ImagesPruneStepActionImagesPrune ImagesPruneStepAction = "images.prune"
+)
+
+// AllValues returns all ImagesPruneStepAction values.
+func (ImagesPruneStepAction) AllValues() []ImagesPruneStepAction {
+	return []ImagesPruneStepAction{
+		ImagesPruneStepActionImagesPrune,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ImagesPruneStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ImagesPruneStepActionImagesPrune:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ImagesPruneStepAction) UnmarshalText(data []byte) error {
+	switch ImagesPruneStepAction(data) {
+	case ImagesPruneStepActionImagesPrune:
+		*s = ImagesPruneStepActionImagesPrune
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ImagesPruneStepDetails struct {
+	SourceIds []ID `json:"source_ids"`
+}
+
+// GetSourceIds returns the value of SourceIds.
+func (s *ImagesPruneStepDetails) GetSourceIds() []ID {
+	return s.SourceIds
+}
+
+// SetSourceIds sets the value of SourceIds.
+func (s *ImagesPruneStepDetails) SetSourceIds(val []ID) {
+	s.SourceIds = val
+}
+
+type ImagesPruneStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *ImagesPruneStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *ImagesPruneStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
 }
 
 // An index that enables search in the portal.
@@ -37345,7 +43333,113 @@ func (s *LegacyNetwork) SetIpv4(val OptIPNet) {
 
 // The config object for the loadbalancer service.
 // Ref: #/components/schemas/LoadBalancerConfig
-type LoadBalancerConfig struct{}
+type LoadBalancerConfig struct {
+	OneOf LoadBalancerConfigSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *LoadBalancerConfig) GetOneOf() LoadBalancerConfigSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *LoadBalancerConfig) SetOneOf(val LoadBalancerConfigSum) {
+	s.OneOf = val
+}
+
+// LoadBalancerConfigSum represents sum type.
+type LoadBalancerConfigSum struct {
+	Type          LoadBalancerConfigSumType // switch on this field
+	V1LbType      V1LbType
+	HaProxyLbType HaProxyLbType
+	DefaultLbType DefaultLbType
+}
+
+// LoadBalancerConfigSumType is oneOf type of LoadBalancerConfigSum.
+type LoadBalancerConfigSumType string
+
+// Possible values for LoadBalancerConfigSumType.
+const (
+	V1LbTypeLoadBalancerConfigSum      LoadBalancerConfigSumType = "v1"
+	HaProxyLbTypeLoadBalancerConfigSum LoadBalancerConfigSumType = "haproxy"
+	DefaultLbTypeLoadBalancerConfigSum LoadBalancerConfigSumType = "default"
+)
+
+// IsV1LbType reports whether LoadBalancerConfigSum is V1LbType.
+func (s LoadBalancerConfigSum) IsV1LbType() bool { return s.Type == V1LbTypeLoadBalancerConfigSum }
+
+// IsHaProxyLbType reports whether LoadBalancerConfigSum is HaProxyLbType.
+func (s LoadBalancerConfigSum) IsHaProxyLbType() bool {
+	return s.Type == HaProxyLbTypeLoadBalancerConfigSum
+}
+
+// IsDefaultLbType reports whether LoadBalancerConfigSum is DefaultLbType.
+func (s LoadBalancerConfigSum) IsDefaultLbType() bool {
+	return s.Type == DefaultLbTypeLoadBalancerConfigSum
+}
+
+// SetV1LbType sets LoadBalancerConfigSum to V1LbType.
+func (s *LoadBalancerConfigSum) SetV1LbType(v V1LbType) {
+	s.Type = V1LbTypeLoadBalancerConfigSum
+	s.V1LbType = v
+}
+
+// GetV1LbType returns V1LbType and true boolean if LoadBalancerConfigSum is V1LbType.
+func (s LoadBalancerConfigSum) GetV1LbType() (v V1LbType, ok bool) {
+	if !s.IsV1LbType() {
+		return v, false
+	}
+	return s.V1LbType, true
+}
+
+// NewV1LbTypeLoadBalancerConfigSum returns new LoadBalancerConfigSum from V1LbType.
+func NewV1LbTypeLoadBalancerConfigSum(v V1LbType) LoadBalancerConfigSum {
+	var s LoadBalancerConfigSum
+	s.SetV1LbType(v)
+	return s
+}
+
+// SetHaProxyLbType sets LoadBalancerConfigSum to HaProxyLbType.
+func (s *LoadBalancerConfigSum) SetHaProxyLbType(v HaProxyLbType) {
+	s.Type = HaProxyLbTypeLoadBalancerConfigSum
+	s.HaProxyLbType = v
+}
+
+// GetHaProxyLbType returns HaProxyLbType and true boolean if LoadBalancerConfigSum is HaProxyLbType.
+func (s LoadBalancerConfigSum) GetHaProxyLbType() (v HaProxyLbType, ok bool) {
+	if !s.IsHaProxyLbType() {
+		return v, false
+	}
+	return s.HaProxyLbType, true
+}
+
+// NewHaProxyLbTypeLoadBalancerConfigSum returns new LoadBalancerConfigSum from HaProxyLbType.
+func NewHaProxyLbTypeLoadBalancerConfigSum(v HaProxyLbType) LoadBalancerConfigSum {
+	var s LoadBalancerConfigSum
+	s.SetHaProxyLbType(v)
+	return s
+}
+
+// SetDefaultLbType sets LoadBalancerConfigSum to DefaultLbType.
+func (s *LoadBalancerConfigSum) SetDefaultLbType(v DefaultLbType) {
+	s.Type = DefaultLbTypeLoadBalancerConfigSum
+	s.DefaultLbType = v
+}
+
+// GetDefaultLbType returns DefaultLbType and true boolean if LoadBalancerConfigSum is DefaultLbType.
+func (s LoadBalancerConfigSum) GetDefaultLbType() (v DefaultLbType, ok bool) {
+	if !s.IsDefaultLbType() {
+		return v, false
+	}
+	return s.DefaultLbType, true
+}
+
+// NewDefaultLbTypeLoadBalancerConfigSum returns new LoadBalancerConfigSum from DefaultLbType.
+func NewDefaultLbTypeLoadBalancerConfigSum(v DefaultLbType) LoadBalancerConfigSum {
+	var s LoadBalancerConfigSum
+	s.SetDefaultLbType(v)
+	return s
+}
 
 // Information about the environments loadbalancer service(s).
 // Ref: #/components/schemas/LoadBalancerEnvironmentService
@@ -39135,7 +45229,69 @@ func (s *MethodEvents) SetDeleted(val DateTime) {
 
 // The underlying source (credit card, bank account, etc) used by a payment method.
 // Ref: #/components/schemas/MethodSource
-type MethodSource struct{}
+// MethodSource represents sum type.
+type MethodSource struct {
+	Type             MethodSourceType // switch on this field
+	StripeCreditCard StripeCreditCard
+	StripeUsBankAcct StripeUsBankAcct
+}
+
+// MethodSourceType is oneOf type of MethodSource.
+type MethodSourceType string
+
+// Possible values for MethodSourceType.
+const (
+	StripeCreditCardMethodSource MethodSourceType = "stripe-credit-card"
+	StripeUsBankAcctMethodSource MethodSourceType = "stripe-us-bank-acct"
+)
+
+// IsStripeCreditCard reports whether MethodSource is StripeCreditCard.
+func (s MethodSource) IsStripeCreditCard() bool { return s.Type == StripeCreditCardMethodSource }
+
+// IsStripeUsBankAcct reports whether MethodSource is StripeUsBankAcct.
+func (s MethodSource) IsStripeUsBankAcct() bool { return s.Type == StripeUsBankAcctMethodSource }
+
+// SetStripeCreditCard sets MethodSource to StripeCreditCard.
+func (s *MethodSource) SetStripeCreditCard(v StripeCreditCard) {
+	s.Type = StripeCreditCardMethodSource
+	s.StripeCreditCard = v
+}
+
+// GetStripeCreditCard returns StripeCreditCard and true boolean if MethodSource is StripeCreditCard.
+func (s MethodSource) GetStripeCreditCard() (v StripeCreditCard, ok bool) {
+	if !s.IsStripeCreditCard() {
+		return v, false
+	}
+	return s.StripeCreditCard, true
+}
+
+// NewStripeCreditCardMethodSource returns new MethodSource from StripeCreditCard.
+func NewStripeCreditCardMethodSource(v StripeCreditCard) MethodSource {
+	var s MethodSource
+	s.SetStripeCreditCard(v)
+	return s
+}
+
+// SetStripeUsBankAcct sets MethodSource to StripeUsBankAcct.
+func (s *MethodSource) SetStripeUsBankAcct(v StripeUsBankAcct) {
+	s.Type = StripeUsBankAcctMethodSource
+	s.StripeUsBankAcct = v
+}
+
+// GetStripeUsBankAcct returns StripeUsBankAcct and true boolean if MethodSource is StripeUsBankAcct.
+func (s MethodSource) GetStripeUsBankAcct() (v StripeUsBankAcct, ok bool) {
+	if !s.IsStripeUsBankAcct() {
+		return v, false
+	}
+	return s.StripeUsBankAcct, true
+}
+
+// NewStripeUsBankAcctMethodSource returns new MethodSource from StripeUsBankAcct.
+func NewStripeUsBankAcctMethodSource(v StripeUsBankAcct) MethodSource {
+	var s MethodSource
+	s.SetStripeUsBankAcct(v)
+	return s
+}
 
 // Merged schema.
 type MethodState struct {
@@ -39644,6 +45800,100 @@ func NewIntMetricPointsItemItem(v int) MetricPointsItemItem {
 	var s MetricPointsItemItem
 	s.SetInt(v)
 	return s
+}
+
+// Ref: #/components/schemas/Migrate
+type Migrate struct {
+	Contents MigrateContents `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *Migrate) GetContents() MigrateContents {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *Migrate) SetContents(val MigrateContents) {
+	s.Contents = val
+}
+
+// The name of the action to perform.
+type MigrateAction string
+
+const (
+	MigrateActionMigrationStart MigrateAction = "migration.start"
+)
+
+// AllValues returns all MigrateAction values.
+func (MigrateAction) AllValues() []MigrateAction {
+	return []MigrateAction{
+		MigrateActionMigrationStart,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s MigrateAction) MarshalText() ([]byte, error) {
+	switch s {
+	case MigrateActionMigrationStart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *MigrateAction) UnmarshalText(data []byte) error {
+	switch MigrateAction(data) {
+	case MigrateActionMigrationStart:
+		*s = MigrateActionMigrationStart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type MigrateContents struct {
+	// The ID of the server being migrated to.
+	DestinationServerID string `json:"destination_server_id"`
+	// Information about additonal configuration settings used when migrating a stateful instance.
+	Stateful OptMigrateContentsStateful `json:"stateful"`
+}
+
+// GetDestinationServerID returns the value of DestinationServerID.
+func (s *MigrateContents) GetDestinationServerID() string {
+	return s.DestinationServerID
+}
+
+// GetStateful returns the value of Stateful.
+func (s *MigrateContents) GetStateful() OptMigrateContentsStateful {
+	return s.Stateful
+}
+
+// SetDestinationServerID sets the value of DestinationServerID.
+func (s *MigrateContents) SetDestinationServerID(val string) {
+	s.DestinationServerID = val
+}
+
+// SetStateful sets the value of Stateful.
+func (s *MigrateContents) SetStateful(val OptMigrateContentsStateful) {
+	s.Stateful = val
+}
+
+// Information about additonal configuration settings used when migrating a stateful instance.
+type MigrateContentsStateful struct {
+	// A boolean where true represents the desire to copy the contents of the volume for a given stateful
+	// instance with the migration.
+	CopyVolumes bool `json:"copy_volumes"`
+}
+
+// GetCopyVolumes returns the value of CopyVolumes.
+func (s *MigrateContentsStateful) GetCopyVolumes() bool {
+	return s.CopyVolumes
+}
+
+// SetCopyVolumes sets the value of CopyVolumes.
+func (s *MigrateContentsStateful) SetCopyVolumes(val bool) {
+	s.CopyVolumes = val
 }
 
 // Information about a migrated instance.
@@ -41464,6 +47714,51 @@ func (o NilSessionToken) Or(d SessionToken) SessionToken {
 	return d
 }
 
+// NewNilStackBuildDeploymentUpdatesScopedVariables returns new NilStackBuildDeploymentUpdatesScopedVariables with value set to v.
+func NewNilStackBuildDeploymentUpdatesScopedVariables(v StackBuildDeploymentUpdatesScopedVariables) NilStackBuildDeploymentUpdatesScopedVariables {
+	return NilStackBuildDeploymentUpdatesScopedVariables{
+		Value: v,
+	}
+}
+
+// NilStackBuildDeploymentUpdatesScopedVariables is nullable StackBuildDeploymentUpdatesScopedVariables.
+type NilStackBuildDeploymentUpdatesScopedVariables struct {
+	Value StackBuildDeploymentUpdatesScopedVariables
+	Null  bool
+}
+
+// SetTo sets value to v.
+func (o *NilStackBuildDeploymentUpdatesScopedVariables) SetTo(v StackBuildDeploymentUpdatesScopedVariables) {
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o NilStackBuildDeploymentUpdatesScopedVariables) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *NilStackBuildDeploymentUpdatesScopedVariables) SetToNull() {
+	o.Null = true
+	var v StackBuildDeploymentUpdatesScopedVariables
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o NilStackBuildDeploymentUpdatesScopedVariables) Get() (v StackBuildDeploymentUpdatesScopedVariables, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o NilStackBuildDeploymentUpdatesScopedVariables) Or(d StackBuildDeploymentUpdatesScopedVariables) StackBuildDeploymentUpdatesScopedVariables {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewNilStackSpecContainerConfigDeployStateful0Options returns new NilStackSpecContainerConfigDeployStateful0Options with value set to v.
 func NewNilStackSpecContainerConfigDeployStateful0Options(v StackSpecContainerConfigDeployStateful0Options) NilStackSpecContainerConfigDeployStateful0Options {
 	return NilStackSpecContainerConfigDeployStateful0Options{
@@ -41822,6 +48117,144 @@ func (s *NodeStateError) SetMessage(val OptString) {
 // SetTime sets the value of Time.
 func (s *NodeStateError) SetTime(val OptDateTime) {
 	s.Time = val
+}
+
+// An empty origin. No details are provided for this image.
+// Ref: #/components/schemas/NoneOrigin
+type NoneOrigin struct{}
+
+type NoneOriginType string
+
+const (
+	NoneOriginTypeNone NoneOriginType = "none"
+)
+
+// AllValues returns all NoneOriginType values.
+func (NoneOriginType) AllValues() []NoneOriginType {
+	return []NoneOriginType{
+		NoneOriginTypeNone,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s NoneOriginType) MarshalText() ([]byte, error) {
+	switch s {
+	case NoneOriginTypeNone:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *NoneOriginType) UnmarshalText(data []byte) error {
+	switch NoneOriginType(data) {
+	case NoneOriginTypeNone:
+		*s = NoneOriginTypeNone
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// An image origin that pulls images fro an OCI-compatible registry. Also used for provider-native
+// registries, such as AWS ECR.
+// Ref: #/components/schemas/OciRegistryOrigin
+type OciRegistryOrigin struct {
+	Details OciRegistryOriginDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *OciRegistryOrigin) GetDetails() OciRegistryOriginDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *OciRegistryOrigin) SetDetails(val OciRegistryOriginDetails) {
+	s.Details = val
+}
+
+type OciRegistryOriginDetails struct {
+	Existing OptExistingSource `json:"existing"`
+	// The image name on the registry.
+	Target string `json:"target"`
+	// The url of the remote registry.
+	URL  string          `json:"url"`
+	Auth OptRegistryAuth `json:"auth"`
+}
+
+// GetExisting returns the value of Existing.
+func (s *OciRegistryOriginDetails) GetExisting() OptExistingSource {
+	return s.Existing
+}
+
+// GetTarget returns the value of Target.
+func (s *OciRegistryOriginDetails) GetTarget() string {
+	return s.Target
+}
+
+// GetURL returns the value of URL.
+func (s *OciRegistryOriginDetails) GetURL() string {
+	return s.URL
+}
+
+// GetAuth returns the value of Auth.
+func (s *OciRegistryOriginDetails) GetAuth() OptRegistryAuth {
+	return s.Auth
+}
+
+// SetExisting sets the value of Existing.
+func (s *OciRegistryOriginDetails) SetExisting(val OptExistingSource) {
+	s.Existing = val
+}
+
+// SetTarget sets the value of Target.
+func (s *OciRegistryOriginDetails) SetTarget(val string) {
+	s.Target = val
+}
+
+// SetURL sets the value of URL.
+func (s *OciRegistryOriginDetails) SetURL(val string) {
+	s.URL = val
+}
+
+// SetAuth sets the value of Auth.
+func (s *OciRegistryOriginDetails) SetAuth(val OptRegistryAuth) {
+	s.Auth = val
+}
+
+type OciRegistryOriginType string
+
+const (
+	OciRegistryOriginTypeOciRegistry OciRegistryOriginType = "oci-registry"
+)
+
+// AllValues returns all OciRegistryOriginType values.
+func (OciRegistryOriginType) AllValues() []OciRegistryOriginType {
+	return []OciRegistryOriginType{
+		OciRegistryOriginTypeOciRegistry,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s OciRegistryOriginType) MarshalText() ([]byte, error) {
+	switch s {
+	case OciRegistryOriginTypeOciRegistry:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *OciRegistryOriginType) UnmarshalText(data []byte) error {
+	switch OciRegistryOriginType(data) {
+	case OciRegistryOriginTypeOciRegistry:
+		*s = OciRegistryOriginTypeOciRegistry
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // NewOptACL returns new OptACL with value set to v.
@@ -43158,6 +49591,52 @@ func (o OptBool) Or(d bool) bool {
 	return d
 }
 
+// NewOptBucketImageSourceTypeOverride returns new OptBucketImageSourceTypeOverride with value set to v.
+func NewOptBucketImageSourceTypeOverride(v BucketImageSourceTypeOverride) OptBucketImageSourceTypeOverride {
+	return OptBucketImageSourceTypeOverride{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptBucketImageSourceTypeOverride is optional BucketImageSourceTypeOverride.
+type OptBucketImageSourceTypeOverride struct {
+	Value BucketImageSourceTypeOverride
+	Set   bool
+}
+
+// IsSet returns true if OptBucketImageSourceTypeOverride was set.
+func (o OptBucketImageSourceTypeOverride) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptBucketImageSourceTypeOverride) Reset() {
+	var v BucketImageSourceTypeOverride
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptBucketImageSourceTypeOverride) SetTo(v BucketImageSourceTypeOverride) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptBucketImageSourceTypeOverride) Get() (v BucketImageSourceTypeOverride, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptBucketImageSourceTypeOverride) Or(d BucketImageSourceTypeOverride) BucketImageSourceTypeOverride {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCPUSpecExtra returns new OptCPUSpecExtra with value set to v.
 func NewOptCPUSpecExtra(v CPUSpecExtra) OptCPUSpecExtra {
 	return OptCPUSpecExtra{
@@ -43520,6 +49999,98 @@ func (o OptContainerBackupStateError) Get() (v ContainerBackupStateError, ok boo
 
 // Or returns value if set, or given parameter if does not.
 func (o OptContainerBackupStateError) Or(d ContainerBackupStateError) ContainerBackupStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptContainerCreateStepOptions returns new OptContainerCreateStepOptions with value set to v.
+func NewOptContainerCreateStepOptions(v ContainerCreateStepOptions) OptContainerCreateStepOptions {
+	return OptContainerCreateStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerCreateStepOptions is optional ContainerCreateStepOptions.
+type OptContainerCreateStepOptions struct {
+	Value ContainerCreateStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptContainerCreateStepOptions was set.
+func (o OptContainerCreateStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerCreateStepOptions) Reset() {
+	var v ContainerCreateStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerCreateStepOptions) SetTo(v ContainerCreateStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerCreateStepOptions) Get() (v ContainerCreateStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerCreateStepOptions) Or(d ContainerCreateStepOptions) ContainerCreateStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptContainerDeleteStepOptions returns new OptContainerDeleteStepOptions with value set to v.
+func NewOptContainerDeleteStepOptions(v ContainerDeleteStepOptions) OptContainerDeleteStepOptions {
+	return OptContainerDeleteStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerDeleteStepOptions is optional ContainerDeleteStepOptions.
+type OptContainerDeleteStepOptions struct {
+	Value ContainerDeleteStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptContainerDeleteStepOptions was set.
+func (o OptContainerDeleteStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerDeleteStepOptions) Reset() {
+	var v ContainerDeleteStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerDeleteStepOptions) SetTo(v ContainerDeleteStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerDeleteStepOptions) Get() (v ContainerDeleteStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerDeleteStepOptions) Or(d ContainerDeleteStepOptions) ContainerDeleteStepOptions {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -43940,6 +50511,52 @@ func (o OptContainerDeployUpdate) Or(d ContainerDeployUpdate) ContainerDeployUpd
 	return d
 }
 
+// NewOptContainerFunctionTriggerStepOptions returns new OptContainerFunctionTriggerStepOptions with value set to v.
+func NewOptContainerFunctionTriggerStepOptions(v ContainerFunctionTriggerStepOptions) OptContainerFunctionTriggerStepOptions {
+	return OptContainerFunctionTriggerStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerFunctionTriggerStepOptions is optional ContainerFunctionTriggerStepOptions.
+type OptContainerFunctionTriggerStepOptions struct {
+	Value ContainerFunctionTriggerStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptContainerFunctionTriggerStepOptions was set.
+func (o OptContainerFunctionTriggerStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerFunctionTriggerStepOptions) Reset() {
+	var v ContainerFunctionTriggerStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerFunctionTriggerStepOptions) SetTo(v ContainerFunctionTriggerStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerFunctionTriggerStepOptions) Get() (v ContainerFunctionTriggerStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerFunctionTriggerStepOptions) Or(d ContainerFunctionTriggerStepOptions) ContainerFunctionTriggerStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptContainerIncludes returns new OptContainerIncludes with value set to v.
 func NewOptContainerIncludes(v ContainerIncludes) OptContainerIncludes {
 	return OptContainerIncludes{
@@ -44216,6 +50833,98 @@ func (o OptContainerIntegrationsWebhooksEvents) Or(d ContainerIntegrationsWebhoo
 	return d
 }
 
+// NewOptContainerReimageStepDetailsOptions returns new OptContainerReimageStepDetailsOptions with value set to v.
+func NewOptContainerReimageStepDetailsOptions(v ContainerReimageStepDetailsOptions) OptContainerReimageStepDetailsOptions {
+	return OptContainerReimageStepDetailsOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerReimageStepDetailsOptions is optional ContainerReimageStepDetailsOptions.
+type OptContainerReimageStepDetailsOptions struct {
+	Value ContainerReimageStepDetailsOptions
+	Set   bool
+}
+
+// IsSet returns true if OptContainerReimageStepDetailsOptions was set.
+func (o OptContainerReimageStepDetailsOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerReimageStepDetailsOptions) Reset() {
+	var v ContainerReimageStepDetailsOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerReimageStepDetailsOptions) SetTo(v ContainerReimageStepDetailsOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerReimageStepDetailsOptions) Get() (v ContainerReimageStepDetailsOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerReimageStepDetailsOptions) Or(d ContainerReimageStepDetailsOptions) ContainerReimageStepDetailsOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptContainerReimageStepOptions returns new OptContainerReimageStepOptions with value set to v.
+func NewOptContainerReimageStepOptions(v ContainerReimageStepOptions) OptContainerReimageStepOptions {
+	return OptContainerReimageStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerReimageStepOptions is optional ContainerReimageStepOptions.
+type OptContainerReimageStepOptions struct {
+	Value ContainerReimageStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptContainerReimageStepOptions was set.
+func (o OptContainerReimageStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerReimageStepOptions) Reset() {
+	var v ContainerReimageStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerReimageStepOptions) SetTo(v ContainerReimageStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerReimageStepOptions) Get() (v ContainerReimageStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerReimageStepOptions) Or(d ContainerReimageStepOptions) ContainerReimageStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptContainerResources returns new OptContainerResources with value set to v.
 func NewOptContainerResources(v ContainerResources) OptContainerResources {
 	return OptContainerResources{
@@ -44302,6 +51011,52 @@ func (o OptContainerResourcesCPUShares) Get() (v ContainerResourcesCPUShares, ok
 
 // Or returns value if set, or given parameter if does not.
 func (o OptContainerResourcesCPUShares) Or(d ContainerResourcesCPUShares) ContainerResourcesCPUShares {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptContainerRestartStepOptions returns new OptContainerRestartStepOptions with value set to v.
+func NewOptContainerRestartStepOptions(v ContainerRestartStepOptions) OptContainerRestartStepOptions {
+	return OptContainerRestartStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerRestartStepOptions is optional ContainerRestartStepOptions.
+type OptContainerRestartStepOptions struct {
+	Value ContainerRestartStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptContainerRestartStepOptions was set.
+func (o OptContainerRestartStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerRestartStepOptions) Reset() {
+	var v ContainerRestartStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerRestartStepOptions) SetTo(v ContainerRestartStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerRestartStepOptions) Get() (v ContainerRestartStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerRestartStepOptions) Or(d ContainerRestartStepOptions) ContainerRestartStepOptions {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -44630,6 +51385,52 @@ func (o OptContainerScale) Or(d ContainerScale) ContainerScale {
 	return d
 }
 
+// NewOptContainerStartStepOptions returns new OptContainerStartStepOptions with value set to v.
+func NewOptContainerStartStepOptions(v ContainerStartStepOptions) OptContainerStartStepOptions {
+	return OptContainerStartStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerStartStepOptions is optional ContainerStartStepOptions.
+type OptContainerStartStepOptions struct {
+	Value ContainerStartStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptContainerStartStepOptions was set.
+func (o OptContainerStartStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerStartStepOptions) Reset() {
+	var v ContainerStartStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerStartStepOptions) SetTo(v ContainerStartStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerStartStepOptions) Get() (v ContainerStartStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerStartStepOptions) Or(d ContainerStartStepOptions) ContainerStartStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptContainerStateDesired returns new OptContainerStateDesired with value set to v.
 func NewOptContainerStateDesired(v ContainerStateDesired) OptContainerStateDesired {
 	return OptContainerStateDesired{
@@ -44716,6 +51517,52 @@ func (o OptContainerStateError) Get() (v ContainerStateError, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptContainerStateError) Or(d ContainerStateError) ContainerStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptContainerStopStepOptions returns new OptContainerStopStepOptions with value set to v.
+func NewOptContainerStopStepOptions(v ContainerStopStepOptions) OptContainerStopStepOptions {
+	return OptContainerStopStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptContainerStopStepOptions is optional ContainerStopStepOptions.
+type OptContainerStopStepOptions struct {
+	Value ContainerStopStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptContainerStopStepOptions was set.
+func (o OptContainerStopStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptContainerStopStepOptions) Reset() {
+	var v ContainerStopStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptContainerStopStepOptions) SetTo(v ContainerStopStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptContainerStopStepOptions) Get() (v ContainerStopStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptContainerStopStepOptions) Or(d ContainerStopStepOptions) ContainerStopStepOptions {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -45320,6 +52167,52 @@ func (o OptCreateContainerBackupJobReq) Or(d CreateContainerBackupJobReq) Create
 	return d
 }
 
+// NewOptCreateContainerJobReq returns new OptCreateContainerJobReq with value set to v.
+func NewOptCreateContainerJobReq(v CreateContainerJobReq) OptCreateContainerJobReq {
+	return OptCreateContainerJobReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateContainerJobReq is optional CreateContainerJobReq.
+type OptCreateContainerJobReq struct {
+	Value CreateContainerJobReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateContainerJobReq was set.
+func (o OptCreateContainerJobReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateContainerJobReq) Reset() {
+	var v CreateContainerJobReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateContainerJobReq) SetTo(v CreateContainerJobReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateContainerJobReq) Get() (v CreateContainerJobReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateContainerJobReq) Or(d CreateContainerJobReq) CreateContainerJobReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCreateContainerReq returns new OptCreateContainerReq with value set to v.
 func NewOptCreateContainerReq(v CreateContainerReq) OptCreateContainerReq {
 	return OptCreateContainerReq{
@@ -45590,6 +52483,52 @@ func (o OptCreateDiscoveryServiceJobReq) Get() (v CreateDiscoveryServiceJobReq, 
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCreateDiscoveryServiceJobReq) Or(d CreateDiscoveryServiceJobReq) CreateDiscoveryServiceJobReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateEnvironmentJobReq returns new OptCreateEnvironmentJobReq with value set to v.
+func NewOptCreateEnvironmentJobReq(v CreateEnvironmentJobReq) OptCreateEnvironmentJobReq {
+	return OptCreateEnvironmentJobReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateEnvironmentJobReq is optional CreateEnvironmentJobReq.
+type OptCreateEnvironmentJobReq struct {
+	Value CreateEnvironmentJobReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateEnvironmentJobReq was set.
+func (o OptCreateEnvironmentJobReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateEnvironmentJobReq) Reset() {
+	var v CreateEnvironmentJobReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateEnvironmentJobReq) SetTo(v CreateEnvironmentJobReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateEnvironmentJobReq) Get() (v CreateEnvironmentJobReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateEnvironmentJobReq) Or(d CreateEnvironmentJobReq) CreateEnvironmentJobReq {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -46148,6 +53087,52 @@ func (o OptCreateImagesJobReq) Or(d CreateImagesJobReq) CreateImagesJobReq {
 	return d
 }
 
+// NewOptCreateInstanceJobReq returns new OptCreateInstanceJobReq with value set to v.
+func NewOptCreateInstanceJobReq(v CreateInstanceJobReq) OptCreateInstanceJobReq {
+	return OptCreateInstanceJobReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateInstanceJobReq is optional CreateInstanceJobReq.
+type OptCreateInstanceJobReq struct {
+	Value CreateInstanceJobReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateInstanceJobReq was set.
+func (o OptCreateInstanceJobReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateInstanceJobReq) Reset() {
+	var v CreateInstanceJobReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateInstanceJobReq) SetTo(v CreateInstanceJobReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateInstanceJobReq) Get() (v CreateInstanceJobReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateInstanceJobReq) Or(d CreateInstanceJobReq) CreateInstanceJobReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCreateIntegrationJobReq returns new OptCreateIntegrationJobReq with value set to v.
 func NewOptCreateIntegrationJobReq(v CreateIntegrationJobReq) OptCreateIntegrationJobReq {
 	return OptCreateIntegrationJobReq{
@@ -46608,6 +53593,52 @@ func (o OptCreateOrderReqTermLength) Or(d CreateOrderReqTermLength) CreateOrderR
 	return d
 }
 
+// NewOptCreatePipelineJobReq returns new OptCreatePipelineJobReq with value set to v.
+func NewOptCreatePipelineJobReq(v CreatePipelineJobReq) OptCreatePipelineJobReq {
+	return OptCreatePipelineJobReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreatePipelineJobReq is optional CreatePipelineJobReq.
+type OptCreatePipelineJobReq struct {
+	Value CreatePipelineJobReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreatePipelineJobReq was set.
+func (o OptCreatePipelineJobReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreatePipelineJobReq) Reset() {
+	var v CreatePipelineJobReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreatePipelineJobReq) SetTo(v CreatePipelineJobReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreatePipelineJobReq) Get() (v CreatePipelineJobReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreatePipelineJobReq) Or(d CreatePipelineJobReq) CreatePipelineJobReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCreatePipelineReq returns new OptCreatePipelineReq with value set to v.
 func NewOptCreatePipelineReq(v CreatePipelineReq) OptCreatePipelineReq {
 	return OptCreatePipelineReq{
@@ -46838,6 +53869,52 @@ func (o OptCreateScopedVariableReq) Or(d CreateScopedVariableReq) CreateScopedVa
 	return d
 }
 
+// NewOptCreateServerJobReq returns new OptCreateServerJobReq with value set to v.
+func NewOptCreateServerJobReq(v CreateServerJobReq) OptCreateServerJobReq {
+	return OptCreateServerJobReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateServerJobReq is optional CreateServerJobReq.
+type OptCreateServerJobReq struct {
+	Value CreateServerJobReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateServerJobReq was set.
+func (o OptCreateServerJobReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateServerJobReq) Reset() {
+	var v CreateServerJobReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateServerJobReq) SetTo(v CreateServerJobReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateServerJobReq) Get() (v CreateServerJobReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateServerJobReq) Or(d CreateServerJobReq) CreateServerJobReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCreateServerReq returns new OptCreateServerReq with value set to v.
 func NewOptCreateServerReq(v CreateServerReq) OptCreateServerReq {
 	return OptCreateServerReq{
@@ -46878,6 +53955,52 @@ func (o OptCreateServerReq) Get() (v CreateServerReq, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCreateServerReq) Or(d CreateServerReq) CreateServerReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateStackBuildJobReq returns new OptCreateStackBuildJobReq with value set to v.
+func NewOptCreateStackBuildJobReq(v CreateStackBuildJobReq) OptCreateStackBuildJobReq {
+	return OptCreateStackBuildJobReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateStackBuildJobReq is optional CreateStackBuildJobReq.
+type OptCreateStackBuildJobReq struct {
+	Value CreateStackBuildJobReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateStackBuildJobReq was set.
+func (o OptCreateStackBuildJobReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateStackBuildJobReq) Reset() {
+	var v CreateStackBuildJobReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateStackBuildJobReq) SetTo(v CreateStackBuildJobReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateStackBuildJobReq) Get() (v CreateStackBuildJobReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateStackBuildJobReq) Or(d CreateStackBuildJobReq) CreateStackBuildJobReq {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -47068,6 +54191,52 @@ func (o OptCreateStackReqVariables) Or(d CreateStackReqVariables) CreateStackReq
 	return d
 }
 
+// NewOptCreateVPNServiceJobReq returns new OptCreateVPNServiceJobReq with value set to v.
+func NewOptCreateVPNServiceJobReq(v CreateVPNServiceJobReq) OptCreateVPNServiceJobReq {
+	return OptCreateVPNServiceJobReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateVPNServiceJobReq is optional CreateVPNServiceJobReq.
+type OptCreateVPNServiceJobReq struct {
+	Value CreateVPNServiceJobReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateVPNServiceJobReq was set.
+func (o OptCreateVPNServiceJobReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateVPNServiceJobReq) Reset() {
+	var v CreateVPNServiceJobReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateVPNServiceJobReq) SetTo(v CreateVPNServiceJobReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateVPNServiceJobReq) Get() (v CreateVPNServiceJobReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateVPNServiceJobReq) Or(d CreateVPNServiceJobReq) CreateVPNServiceJobReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptCreateVPNUserReq returns new OptCreateVPNUserReq with value set to v.
 func NewOptCreateVPNUserReq(v CreateVPNUserReq) OptCreateVPNUserReq {
 	return OptCreateVPNUserReq{
@@ -47108,6 +54277,52 @@ func (o OptCreateVPNUserReq) Get() (v CreateVPNUserReq, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptCreateVPNUserReq) Or(d CreateVPNUserReq) CreateVPNUserReq {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptCreateVirtualMachineJobReq returns new OptCreateVirtualMachineJobReq with value set to v.
+func NewOptCreateVirtualMachineJobReq(v CreateVirtualMachineJobReq) OptCreateVirtualMachineJobReq {
+	return OptCreateVirtualMachineJobReq{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptCreateVirtualMachineJobReq is optional CreateVirtualMachineJobReq.
+type OptCreateVirtualMachineJobReq struct {
+	Value CreateVirtualMachineJobReq
+	Set   bool
+}
+
+// IsSet returns true if OptCreateVirtualMachineJobReq was set.
+func (o OptCreateVirtualMachineJobReq) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptCreateVirtualMachineJobReq) Reset() {
+	var v CreateVirtualMachineJobReq
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptCreateVirtualMachineJobReq) SetTo(v CreateVirtualMachineJobReq) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptCreateVirtualMachineJobReq) Get() (v CreateVirtualMachineJobReq, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptCreateVirtualMachineJobReq) Or(d CreateVirtualMachineJobReq) CreateVirtualMachineJobReq {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -47804,6 +55019,52 @@ func (o OptDetail) Or(d Detail) Detail {
 	return d
 }
 
+// NewOptDirectImageSourceTypeOverride returns new OptDirectImageSourceTypeOverride with value set to v.
+func NewOptDirectImageSourceTypeOverride(v DirectImageSourceTypeOverride) OptDirectImageSourceTypeOverride {
+	return OptDirectImageSourceTypeOverride{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptDirectImageSourceTypeOverride is optional DirectImageSourceTypeOverride.
+type OptDirectImageSourceTypeOverride struct {
+	Value DirectImageSourceTypeOverride
+	Set   bool
+}
+
+// IsSet returns true if OptDirectImageSourceTypeOverride was set.
+func (o OptDirectImageSourceTypeOverride) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptDirectImageSourceTypeOverride) Reset() {
+	var v DirectImageSourceTypeOverride
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptDirectImageSourceTypeOverride) SetTo(v DirectImageSourceTypeOverride) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptDirectImageSourceTypeOverride) Get() (v DirectImageSourceTypeOverride, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptDirectImageSourceTypeOverride) Or(d DirectImageSourceTypeOverride) DirectImageSourceTypeOverride {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptDisableTwoFactorAuthReq returns new OptDisableTwoFactorAuthReq with value set to v.
 func NewOptDisableTwoFactorAuthReq(v DisableTwoFactorAuthReq) OptDisableTwoFactorAuthReq {
 	return OptDisableTwoFactorAuthReq{
@@ -48080,6 +55341,328 @@ func (o OptEnvironmentAbout) Or(d EnvironmentAbout) EnvironmentAbout {
 	return d
 }
 
+// NewOptEnvironmentCreateStepOptions returns new OptEnvironmentCreateStepOptions with value set to v.
+func NewOptEnvironmentCreateStepOptions(v EnvironmentCreateStepOptions) OptEnvironmentCreateStepOptions {
+	return OptEnvironmentCreateStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptEnvironmentCreateStepOptions is optional EnvironmentCreateStepOptions.
+type OptEnvironmentCreateStepOptions struct {
+	Value EnvironmentCreateStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptEnvironmentCreateStepOptions was set.
+func (o OptEnvironmentCreateStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptEnvironmentCreateStepOptions) Reset() {
+	var v EnvironmentCreateStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptEnvironmentCreateStepOptions) SetTo(v EnvironmentCreateStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptEnvironmentCreateStepOptions) Get() (v EnvironmentCreateStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptEnvironmentCreateStepOptions) Or(d EnvironmentCreateStepOptions) EnvironmentCreateStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptEnvironmentDeleteStepOptions returns new OptEnvironmentDeleteStepOptions with value set to v.
+func NewOptEnvironmentDeleteStepOptions(v EnvironmentDeleteStepOptions) OptEnvironmentDeleteStepOptions {
+	return OptEnvironmentDeleteStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptEnvironmentDeleteStepOptions is optional EnvironmentDeleteStepOptions.
+type OptEnvironmentDeleteStepOptions struct {
+	Value EnvironmentDeleteStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptEnvironmentDeleteStepOptions was set.
+func (o OptEnvironmentDeleteStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptEnvironmentDeleteStepOptions) Reset() {
+	var v EnvironmentDeleteStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptEnvironmentDeleteStepOptions) SetTo(v EnvironmentDeleteStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptEnvironmentDeleteStepOptions) Get() (v EnvironmentDeleteStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptEnvironmentDeleteStepOptions) Or(d EnvironmentDeleteStepOptions) EnvironmentDeleteStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptEnvironmentDeploymentHealthyWatchStepOptions returns new OptEnvironmentDeploymentHealthyWatchStepOptions with value set to v.
+func NewOptEnvironmentDeploymentHealthyWatchStepOptions(v EnvironmentDeploymentHealthyWatchStepOptions) OptEnvironmentDeploymentHealthyWatchStepOptions {
+	return OptEnvironmentDeploymentHealthyWatchStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptEnvironmentDeploymentHealthyWatchStepOptions is optional EnvironmentDeploymentHealthyWatchStepOptions.
+type OptEnvironmentDeploymentHealthyWatchStepOptions struct {
+	Value EnvironmentDeploymentHealthyWatchStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptEnvironmentDeploymentHealthyWatchStepOptions was set.
+func (o OptEnvironmentDeploymentHealthyWatchStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptEnvironmentDeploymentHealthyWatchStepOptions) Reset() {
+	var v EnvironmentDeploymentHealthyWatchStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptEnvironmentDeploymentHealthyWatchStepOptions) SetTo(v EnvironmentDeploymentHealthyWatchStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptEnvironmentDeploymentHealthyWatchStepOptions) Get() (v EnvironmentDeploymentHealthyWatchStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptEnvironmentDeploymentHealthyWatchStepOptions) Or(d EnvironmentDeploymentHealthyWatchStepOptions) EnvironmentDeploymentHealthyWatchStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptEnvironmentDeploymentStartStepOptions returns new OptEnvironmentDeploymentStartStepOptions with value set to v.
+func NewOptEnvironmentDeploymentStartStepOptions(v EnvironmentDeploymentStartStepOptions) OptEnvironmentDeploymentStartStepOptions {
+	return OptEnvironmentDeploymentStartStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptEnvironmentDeploymentStartStepOptions is optional EnvironmentDeploymentStartStepOptions.
+type OptEnvironmentDeploymentStartStepOptions struct {
+	Value EnvironmentDeploymentStartStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptEnvironmentDeploymentStartStepOptions was set.
+func (o OptEnvironmentDeploymentStartStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptEnvironmentDeploymentStartStepOptions) Reset() {
+	var v EnvironmentDeploymentStartStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptEnvironmentDeploymentStartStepOptions) SetTo(v EnvironmentDeploymentStartStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptEnvironmentDeploymentStartStepOptions) Get() (v EnvironmentDeploymentStartStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptEnvironmentDeploymentStartStepOptions) Or(d EnvironmentDeploymentStartStepOptions) EnvironmentDeploymentStartStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptEnvironmentDeploymentStopStepOptions returns new OptEnvironmentDeploymentStopStepOptions with value set to v.
+func NewOptEnvironmentDeploymentStopStepOptions(v EnvironmentDeploymentStopStepOptions) OptEnvironmentDeploymentStopStepOptions {
+	return OptEnvironmentDeploymentStopStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptEnvironmentDeploymentStopStepOptions is optional EnvironmentDeploymentStopStepOptions.
+type OptEnvironmentDeploymentStopStepOptions struct {
+	Value EnvironmentDeploymentStopStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptEnvironmentDeploymentStopStepOptions was set.
+func (o OptEnvironmentDeploymentStopStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptEnvironmentDeploymentStopStepOptions) Reset() {
+	var v EnvironmentDeploymentStopStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptEnvironmentDeploymentStopStepOptions) SetTo(v EnvironmentDeploymentStopStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptEnvironmentDeploymentStopStepOptions) Get() (v EnvironmentDeploymentStopStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptEnvironmentDeploymentStopStepOptions) Or(d EnvironmentDeploymentStopStepOptions) EnvironmentDeploymentStopStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptEnvironmentDeploymentsPruneStepOptions returns new OptEnvironmentDeploymentsPruneStepOptions with value set to v.
+func NewOptEnvironmentDeploymentsPruneStepOptions(v EnvironmentDeploymentsPruneStepOptions) OptEnvironmentDeploymentsPruneStepOptions {
+	return OptEnvironmentDeploymentsPruneStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptEnvironmentDeploymentsPruneStepOptions is optional EnvironmentDeploymentsPruneStepOptions.
+type OptEnvironmentDeploymentsPruneStepOptions struct {
+	Value EnvironmentDeploymentsPruneStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptEnvironmentDeploymentsPruneStepOptions was set.
+func (o OptEnvironmentDeploymentsPruneStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptEnvironmentDeploymentsPruneStepOptions) Reset() {
+	var v EnvironmentDeploymentsPruneStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptEnvironmentDeploymentsPruneStepOptions) SetTo(v EnvironmentDeploymentsPruneStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptEnvironmentDeploymentsPruneStepOptions) Get() (v EnvironmentDeploymentsPruneStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptEnvironmentDeploymentsPruneStepOptions) Or(d EnvironmentDeploymentsPruneStepOptions) EnvironmentDeploymentsPruneStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptEnvironmentDeploymentsTagStepOptions returns new OptEnvironmentDeploymentsTagStepOptions with value set to v.
+func NewOptEnvironmentDeploymentsTagStepOptions(v EnvironmentDeploymentsTagStepOptions) OptEnvironmentDeploymentsTagStepOptions {
+	return OptEnvironmentDeploymentsTagStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptEnvironmentDeploymentsTagStepOptions is optional EnvironmentDeploymentsTagStepOptions.
+type OptEnvironmentDeploymentsTagStepOptions struct {
+	Value EnvironmentDeploymentsTagStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptEnvironmentDeploymentsTagStepOptions was set.
+func (o OptEnvironmentDeploymentsTagStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptEnvironmentDeploymentsTagStepOptions) Reset() {
+	var v EnvironmentDeploymentsTagStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptEnvironmentDeploymentsTagStepOptions) SetTo(v EnvironmentDeploymentsTagStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptEnvironmentDeploymentsTagStepOptions) Get() (v EnvironmentDeploymentsTagStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptEnvironmentDeploymentsTagStepOptions) Or(d EnvironmentDeploymentsTagStepOptions) EnvironmentDeploymentsTagStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptEnvironmentIncludes returns new OptEnvironmentIncludes with value set to v.
 func NewOptEnvironmentIncludes(v EnvironmentIncludes) OptEnvironmentIncludes {
 	return OptEnvironmentIncludes{
@@ -48218,6 +55801,52 @@ func (o OptEnvironmentServiceContainerSummary) Or(d EnvironmentServiceContainerS
 	return d
 }
 
+// NewOptEnvironmentStartStepOptions returns new OptEnvironmentStartStepOptions with value set to v.
+func NewOptEnvironmentStartStepOptions(v EnvironmentStartStepOptions) OptEnvironmentStartStepOptions {
+	return OptEnvironmentStartStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptEnvironmentStartStepOptions is optional EnvironmentStartStepOptions.
+type OptEnvironmentStartStepOptions struct {
+	Value EnvironmentStartStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptEnvironmentStartStepOptions was set.
+func (o OptEnvironmentStartStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptEnvironmentStartStepOptions) Reset() {
+	var v EnvironmentStartStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptEnvironmentStartStepOptions) SetTo(v EnvironmentStartStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptEnvironmentStartStepOptions) Get() (v EnvironmentStartStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptEnvironmentStartStepOptions) Or(d EnvironmentStartStepOptions) EnvironmentStartStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptEnvironmentStateError returns new OptEnvironmentStateError with value set to v.
 func NewOptEnvironmentStateError(v EnvironmentStateError) OptEnvironmentStateError {
 	return OptEnvironmentStateError{
@@ -48258,6 +55887,52 @@ func (o OptEnvironmentStateError) Get() (v EnvironmentStateError, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptEnvironmentStateError) Or(d EnvironmentStateError) EnvironmentStateError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptEnvironmentStopStepOptions returns new OptEnvironmentStopStepOptions with value set to v.
+func NewOptEnvironmentStopStepOptions(v EnvironmentStopStepOptions) OptEnvironmentStopStepOptions {
+	return OptEnvironmentStopStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptEnvironmentStopStepOptions is optional EnvironmentStopStepOptions.
+type OptEnvironmentStopStepOptions struct {
+	Value EnvironmentStopStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptEnvironmentStopStepOptions was set.
+func (o OptEnvironmentStopStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptEnvironmentStopStepOptions) Reset() {
+	var v EnvironmentStopStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptEnvironmentStopStepOptions) SetTo(v EnvironmentStopStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptEnvironmentStopStepOptions) Get() (v EnvironmentStopStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptEnvironmentStopStepOptions) Or(d EnvironmentStopStepOptions) EnvironmentStopStepOptions {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -48488,6 +56163,52 @@ func (o OptEventType) Get() (v EventType, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptEventType) Or(d EventType) EventType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptExistingSource returns new OptExistingSource with value set to v.
+func NewOptExistingSource(v ExistingSource) OptExistingSource {
+	return OptExistingSource{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptExistingSource is optional ExistingSource.
+type OptExistingSource struct {
+	Value ExistingSource
+	Set   bool
+}
+
+// IsSet returns true if OptExistingSource was set.
+func (o OptExistingSource) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptExistingSource) Reset() {
+	var v ExistingSource
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptExistingSource) SetTo(v ExistingSource) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptExistingSource) Get() (v ExistingSource, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptExistingSource) Or(d ExistingSource) ExistingSource {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -54566,6 +62287,236 @@ func (o OptImageConfigVolumesItemMode) Or(d ImageConfigVolumesItemMode) ImageCon
 	return d
 }
 
+// NewOptImageCreateImportStepDetailsBuild returns new OptImageCreateImportStepDetailsBuild with value set to v.
+func NewOptImageCreateImportStepDetailsBuild(v ImageCreateImportStepDetailsBuild) OptImageCreateImportStepDetailsBuild {
+	return OptImageCreateImportStepDetailsBuild{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageCreateImportStepDetailsBuild is optional ImageCreateImportStepDetailsBuild.
+type OptImageCreateImportStepDetailsBuild struct {
+	Value ImageCreateImportStepDetailsBuild
+	Set   bool
+}
+
+// IsSet returns true if OptImageCreateImportStepDetailsBuild was set.
+func (o OptImageCreateImportStepDetailsBuild) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageCreateImportStepDetailsBuild) Reset() {
+	var v ImageCreateImportStepDetailsBuild
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageCreateImportStepDetailsBuild) SetTo(v ImageCreateImportStepDetailsBuild) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageCreateImportStepDetailsBuild) Get() (v ImageCreateImportStepDetailsBuild, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageCreateImportStepDetailsBuild) Or(d ImageCreateImportStepDetailsBuild) ImageCreateImportStepDetailsBuild {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageCreateImportStepOptions returns new OptImageCreateImportStepOptions with value set to v.
+func NewOptImageCreateImportStepOptions(v ImageCreateImportStepOptions) OptImageCreateImportStepOptions {
+	return OptImageCreateImportStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageCreateImportStepOptions is optional ImageCreateImportStepOptions.
+type OptImageCreateImportStepOptions struct {
+	Value ImageCreateImportStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptImageCreateImportStepOptions was set.
+func (o OptImageCreateImportStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageCreateImportStepOptions) Reset() {
+	var v ImageCreateImportStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageCreateImportStepOptions) SetTo(v ImageCreateImportStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageCreateImportStepOptions) Get() (v ImageCreateImportStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageCreateImportStepOptions) Or(d ImageCreateImportStepOptions) ImageCreateImportStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageCreateStepDetailsBuild returns new OptImageCreateStepDetailsBuild with value set to v.
+func NewOptImageCreateStepDetailsBuild(v ImageCreateStepDetailsBuild) OptImageCreateStepDetailsBuild {
+	return OptImageCreateStepDetailsBuild{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageCreateStepDetailsBuild is optional ImageCreateStepDetailsBuild.
+type OptImageCreateStepDetailsBuild struct {
+	Value ImageCreateStepDetailsBuild
+	Set   bool
+}
+
+// IsSet returns true if OptImageCreateStepDetailsBuild was set.
+func (o OptImageCreateStepDetailsBuild) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageCreateStepDetailsBuild) Reset() {
+	var v ImageCreateStepDetailsBuild
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageCreateStepDetailsBuild) SetTo(v ImageCreateStepDetailsBuild) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageCreateStepDetailsBuild) Get() (v ImageCreateStepDetailsBuild, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageCreateStepDetailsBuild) Or(d ImageCreateStepDetailsBuild) ImageCreateStepDetailsBuild {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageCreateStepOptions returns new OptImageCreateStepOptions with value set to v.
+func NewOptImageCreateStepOptions(v ImageCreateStepOptions) OptImageCreateStepOptions {
+	return OptImageCreateStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageCreateStepOptions is optional ImageCreateStepOptions.
+type OptImageCreateStepOptions struct {
+	Value ImageCreateStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptImageCreateStepOptions was set.
+func (o OptImageCreateStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageCreateStepOptions) Reset() {
+	var v ImageCreateStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageCreateStepOptions) SetTo(v ImageCreateStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageCreateStepOptions) Get() (v ImageCreateStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageCreateStepOptions) Or(d ImageCreateStepOptions) ImageCreateStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageImportStepOptions returns new OptImageImportStepOptions with value set to v.
+func NewOptImageImportStepOptions(v ImageImportStepOptions) OptImageImportStepOptions {
+	return OptImageImportStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageImportStepOptions is optional ImageImportStepOptions.
+type OptImageImportStepOptions struct {
+	Value ImageImportStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptImageImportStepOptions was set.
+func (o OptImageImportStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageImportStepOptions) Reset() {
+	var v ImageImportStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageImportStepOptions) SetTo(v ImageImportStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageImportStepOptions) Get() (v ImageImportStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageImportStepOptions) Or(d ImageImportStepOptions) ImageImportStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptImageIncludes returns new OptImageIncludes with value set to v.
 func NewOptImageIncludes(v ImageIncludes) OptImageIncludes {
 	return OptImageIncludes{
@@ -54658,6 +62609,52 @@ func (o OptImageMeta) Or(d ImageMeta) ImageMeta {
 	return d
 }
 
+// NewOptImageOrigin returns new OptImageOrigin with value set to v.
+func NewOptImageOrigin(v ImageOrigin) OptImageOrigin {
+	return OptImageOrigin{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageOrigin is optional ImageOrigin.
+type OptImageOrigin struct {
+	Value ImageOrigin
+	Set   bool
+}
+
+// IsSet returns true if OptImageOrigin was set.
+func (o OptImageOrigin) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageOrigin) Reset() {
+	var v ImageOrigin
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageOrigin) SetTo(v ImageOrigin) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageOrigin) Get() (v ImageOrigin, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageOrigin) Or(d ImageOrigin) ImageOrigin {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptImageSourceAbout returns new OptImageSourceAbout with value set to v.
 func NewOptImageSourceAbout(v ImageSourceAbout) OptImageSourceAbout {
 	return OptImageSourceAbout{
@@ -54698,6 +62695,52 @@ func (o OptImageSourceAbout) Get() (v ImageSourceAbout, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptImageSourceAbout) Or(d ImageSourceAbout) ImageSourceAbout {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImageSourceDetails returns new OptImageSourceDetails with value set to v.
+func NewOptImageSourceDetails(v ImageSourceDetails) OptImageSourceDetails {
+	return OptImageSourceDetails{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImageSourceDetails is optional ImageSourceDetails.
+type OptImageSourceDetails struct {
+	Value ImageSourceDetails
+	Set   bool
+}
+
+// IsSet returns true if OptImageSourceDetails was set.
+func (o OptImageSourceDetails) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImageSourceDetails) Reset() {
+	var v ImageSourceDetails
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImageSourceDetails) SetTo(v ImageSourceDetails) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImageSourceDetails) Get() (v ImageSourceDetails, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImageSourceDetails) Or(d ImageSourceDetails) ImageSourceDetails {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -54974,6 +63017,52 @@ func (o OptImagesIncludes) Get() (v ImagesIncludes, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptImagesIncludes) Or(d ImagesIncludes) ImagesIncludes {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptImagesPruneStepOptions returns new OptImagesPruneStepOptions with value set to v.
+func NewOptImagesPruneStepOptions(v ImagesPruneStepOptions) OptImagesPruneStepOptions {
+	return OptImagesPruneStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptImagesPruneStepOptions is optional ImagesPruneStepOptions.
+type OptImagesPruneStepOptions struct {
+	Value ImagesPruneStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptImagesPruneStepOptions was set.
+func (o OptImagesPruneStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptImagesPruneStepOptions) Reset() {
+	var v ImagesPruneStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptImagesPruneStepOptions) SetTo(v ImagesPruneStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptImagesPruneStepOptions) Get() (v ImagesPruneStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptImagesPruneStepOptions) Or(d ImagesPruneStepOptions) ImagesPruneStepOptions {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -55808,6 +63897,52 @@ func (o OptLegacyNetwork) Or(d LegacyNetwork) LegacyNetwork {
 	return d
 }
 
+// NewOptLoadBalancerConfig returns new OptLoadBalancerConfig with value set to v.
+func NewOptLoadBalancerConfig(v LoadBalancerConfig) OptLoadBalancerConfig {
+	return OptLoadBalancerConfig{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptLoadBalancerConfig is optional LoadBalancerConfig.
+type OptLoadBalancerConfig struct {
+	Value LoadBalancerConfig
+	Set   bool
+}
+
+// IsSet returns true if OptLoadBalancerConfig was set.
+func (o OptLoadBalancerConfig) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptLoadBalancerConfig) Reset() {
+	var v LoadBalancerConfig
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptLoadBalancerConfig) SetTo(v LoadBalancerConfig) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptLoadBalancerConfig) Get() (v LoadBalancerConfig, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptLoadBalancerConfig) Or(d LoadBalancerConfig) LoadBalancerConfig {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptLoadBalancerTelemetryRouterMetrics returns new OptLoadBalancerTelemetryRouterMetrics with value set to v.
 func NewOptLoadBalancerTelemetryRouterMetrics(v LoadBalancerTelemetryRouterMetrics) OptLoadBalancerTelemetryRouterMetrics {
 	return OptLoadBalancerTelemetryRouterMetrics{
@@ -56506,6 +64641,52 @@ func (o OptMetricLabels) Or(d MetricLabels) MetricLabels {
 	return d
 }
 
+// NewOptMigrateContentsStateful returns new OptMigrateContentsStateful with value set to v.
+func NewOptMigrateContentsStateful(v MigrateContentsStateful) OptMigrateContentsStateful {
+	return OptMigrateContentsStateful{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptMigrateContentsStateful is optional MigrateContentsStateful.
+type OptMigrateContentsStateful struct {
+	Value MigrateContentsStateful
+	Set   bool
+}
+
+// IsSet returns true if OptMigrateContentsStateful was set.
+func (o OptMigrateContentsStateful) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptMigrateContentsStateful) Reset() {
+	var v MigrateContentsStateful
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptMigrateContentsStateful) SetTo(v MigrateContentsStateful) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptMigrateContentsStateful) Get() (v MigrateContentsStateful, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptMigrateContentsStateful) Or(d MigrateContentsStateful) MigrateContentsStateful {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptMigrationInstance returns new OptMigrationInstance with value set to v.
 func NewOptMigrationInstance(v MigrationInstance) OptMigrationInstance {
 	return OptMigrationInstance{
@@ -56999,6 +65180,69 @@ func (o OptNilContainerBackupLogsError) Get() (v ContainerBackupLogsError, ok bo
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilContainerBackupLogsError) Or(d ContainerBackupLogsError) ContainerBackupLogsError {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilContainerCreateStepDetailsAnnotations returns new OptNilContainerCreateStepDetailsAnnotations with value set to v.
+func NewOptNilContainerCreateStepDetailsAnnotations(v ContainerCreateStepDetailsAnnotations) OptNilContainerCreateStepDetailsAnnotations {
+	return OptNilContainerCreateStepDetailsAnnotations{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilContainerCreateStepDetailsAnnotations is optional nullable ContainerCreateStepDetailsAnnotations.
+type OptNilContainerCreateStepDetailsAnnotations struct {
+	Value ContainerCreateStepDetailsAnnotations
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilContainerCreateStepDetailsAnnotations was set.
+func (o OptNilContainerCreateStepDetailsAnnotations) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilContainerCreateStepDetailsAnnotations) Reset() {
+	var v ContainerCreateStepDetailsAnnotations
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilContainerCreateStepDetailsAnnotations) SetTo(v ContainerCreateStepDetailsAnnotations) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilContainerCreateStepDetailsAnnotations) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilContainerCreateStepDetailsAnnotations) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ContainerCreateStepDetailsAnnotations
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilContainerCreateStepDetailsAnnotations) Get() (v ContainerCreateStepDetailsAnnotations, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilContainerCreateStepDetailsAnnotations) Or(d ContainerCreateStepDetailsAnnotations) ContainerCreateStepDetailsAnnotations {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -58391,6 +66635,573 @@ func (o OptNilFunctionRuntimeVariablesEnvironmentVariables) Or(d FunctionRuntime
 	return d
 }
 
+// NewOptNilHttpRouterConfigDetailsCaching returns new OptNilHttpRouterConfigDetailsCaching with value set to v.
+func NewOptNilHttpRouterConfigDetailsCaching(v HttpRouterConfigDetailsCaching) OptNilHttpRouterConfigDetailsCaching {
+	return OptNilHttpRouterConfigDetailsCaching{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilHttpRouterConfigDetailsCaching is optional nullable HttpRouterConfigDetailsCaching.
+type OptNilHttpRouterConfigDetailsCaching struct {
+	Value HttpRouterConfigDetailsCaching
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilHttpRouterConfigDetailsCaching was set.
+func (o OptNilHttpRouterConfigDetailsCaching) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilHttpRouterConfigDetailsCaching) Reset() {
+	var v HttpRouterConfigDetailsCaching
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilHttpRouterConfigDetailsCaching) SetTo(v HttpRouterConfigDetailsCaching) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilHttpRouterConfigDetailsCaching) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilHttpRouterConfigDetailsCaching) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v HttpRouterConfigDetailsCaching
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilHttpRouterConfigDetailsCaching) Get() (v HttpRouterConfigDetailsCaching, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilHttpRouterConfigDetailsCaching) Or(d HttpRouterConfigDetailsCaching) HttpRouterConfigDetailsCaching {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilHttpRouterConfigDetailsCachingFilesItemArray returns new OptNilHttpRouterConfigDetailsCachingFilesItemArray with value set to v.
+func NewOptNilHttpRouterConfigDetailsCachingFilesItemArray(v []HttpRouterConfigDetailsCachingFilesItem) OptNilHttpRouterConfigDetailsCachingFilesItemArray {
+	return OptNilHttpRouterConfigDetailsCachingFilesItemArray{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilHttpRouterConfigDetailsCachingFilesItemArray is optional nullable []HttpRouterConfigDetailsCachingFilesItem.
+type OptNilHttpRouterConfigDetailsCachingFilesItemArray struct {
+	Value []HttpRouterConfigDetailsCachingFilesItem
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilHttpRouterConfigDetailsCachingFilesItemArray was set.
+func (o OptNilHttpRouterConfigDetailsCachingFilesItemArray) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilHttpRouterConfigDetailsCachingFilesItemArray) Reset() {
+	var v []HttpRouterConfigDetailsCachingFilesItem
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilHttpRouterConfigDetailsCachingFilesItemArray) SetTo(v []HttpRouterConfigDetailsCachingFilesItem) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilHttpRouterConfigDetailsCachingFilesItemArray) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilHttpRouterConfigDetailsCachingFilesItemArray) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v []HttpRouterConfigDetailsCachingFilesItem
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilHttpRouterConfigDetailsCachingFilesItemArray) Get() (v []HttpRouterConfigDetailsCachingFilesItem, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilHttpRouterConfigDetailsCachingFilesItemArray) Or(d []HttpRouterConfigDetailsCachingFilesItem) []HttpRouterConfigDetailsCachingFilesItem {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilHttpRouterConfigDetailsForward returns new OptNilHttpRouterConfigDetailsForward with value set to v.
+func NewOptNilHttpRouterConfigDetailsForward(v HttpRouterConfigDetailsForward) OptNilHttpRouterConfigDetailsForward {
+	return OptNilHttpRouterConfigDetailsForward{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilHttpRouterConfigDetailsForward is optional nullable HttpRouterConfigDetailsForward.
+type OptNilHttpRouterConfigDetailsForward struct {
+	Value HttpRouterConfigDetailsForward
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilHttpRouterConfigDetailsForward was set.
+func (o OptNilHttpRouterConfigDetailsForward) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilHttpRouterConfigDetailsForward) Reset() {
+	var v HttpRouterConfigDetailsForward
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilHttpRouterConfigDetailsForward) SetTo(v HttpRouterConfigDetailsForward) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilHttpRouterConfigDetailsForward) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilHttpRouterConfigDetailsForward) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v HttpRouterConfigDetailsForward
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilHttpRouterConfigDetailsForward) Get() (v HttpRouterConfigDetailsForward, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilHttpRouterConfigDetailsForward) Or(d HttpRouterConfigDetailsForward) HttpRouterConfigDetailsForward {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilHttpRouterConfigDetailsForwardContentMod returns new OptNilHttpRouterConfigDetailsForwardContentMod with value set to v.
+func NewOptNilHttpRouterConfigDetailsForwardContentMod(v HttpRouterConfigDetailsForwardContentMod) OptNilHttpRouterConfigDetailsForwardContentMod {
+	return OptNilHttpRouterConfigDetailsForwardContentMod{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilHttpRouterConfigDetailsForwardContentMod is optional nullable HttpRouterConfigDetailsForwardContentMod.
+type OptNilHttpRouterConfigDetailsForwardContentMod struct {
+	Value HttpRouterConfigDetailsForwardContentMod
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilHttpRouterConfigDetailsForwardContentMod was set.
+func (o OptNilHttpRouterConfigDetailsForwardContentMod) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilHttpRouterConfigDetailsForwardContentMod) Reset() {
+	var v HttpRouterConfigDetailsForwardContentMod
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilHttpRouterConfigDetailsForwardContentMod) SetTo(v HttpRouterConfigDetailsForwardContentMod) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilHttpRouterConfigDetailsForwardContentMod) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilHttpRouterConfigDetailsForwardContentMod) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v HttpRouterConfigDetailsForwardContentMod
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilHttpRouterConfigDetailsForwardContentMod) Get() (v HttpRouterConfigDetailsForwardContentMod, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilHttpRouterConfigDetailsForwardContentMod) Or(d HttpRouterConfigDetailsForwardContentMod) HttpRouterConfigDetailsForwardContentMod {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray returns new OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray with value set to v.
+func NewOptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray(v []HttpRouterConfigDetailsForwardContentModReplaceItem) OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray {
+	return OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray is optional nullable []HttpRouterConfigDetailsForwardContentModReplaceItem.
+type OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray struct {
+	Value []HttpRouterConfigDetailsForwardContentModReplaceItem
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray was set.
+func (o OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray) Reset() {
+	var v []HttpRouterConfigDetailsForwardContentModReplaceItem
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray) SetTo(v []HttpRouterConfigDetailsForwardContentModReplaceItem) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v []HttpRouterConfigDetailsForwardContentModReplaceItem
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray) Get() (v []HttpRouterConfigDetailsForwardContentModReplaceItem, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilHttpRouterConfigDetailsForwardContentModReplaceItemArray) Or(d []HttpRouterConfigDetailsForwardContentModReplaceItem) []HttpRouterConfigDetailsForwardContentModReplaceItem {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilHttpRouterConfigDetailsProxy returns new OptNilHttpRouterConfigDetailsProxy with value set to v.
+func NewOptNilHttpRouterConfigDetailsProxy(v HttpRouterConfigDetailsProxy) OptNilHttpRouterConfigDetailsProxy {
+	return OptNilHttpRouterConfigDetailsProxy{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilHttpRouterConfigDetailsProxy is optional nullable HttpRouterConfigDetailsProxy.
+type OptNilHttpRouterConfigDetailsProxy struct {
+	Value HttpRouterConfigDetailsProxy
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilHttpRouterConfigDetailsProxy was set.
+func (o OptNilHttpRouterConfigDetailsProxy) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilHttpRouterConfigDetailsProxy) Reset() {
+	var v HttpRouterConfigDetailsProxy
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilHttpRouterConfigDetailsProxy) SetTo(v HttpRouterConfigDetailsProxy) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilHttpRouterConfigDetailsProxy) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilHttpRouterConfigDetailsProxy) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v HttpRouterConfigDetailsProxy
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilHttpRouterConfigDetailsProxy) Get() (v HttpRouterConfigDetailsProxy, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilHttpRouterConfigDetailsProxy) Or(d HttpRouterConfigDetailsProxy) HttpRouterConfigDetailsProxy {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilHttpRouterConfigDetailsProxyContentMod returns new OptNilHttpRouterConfigDetailsProxyContentMod with value set to v.
+func NewOptNilHttpRouterConfigDetailsProxyContentMod(v HttpRouterConfigDetailsProxyContentMod) OptNilHttpRouterConfigDetailsProxyContentMod {
+	return OptNilHttpRouterConfigDetailsProxyContentMod{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilHttpRouterConfigDetailsProxyContentMod is optional nullable HttpRouterConfigDetailsProxyContentMod.
+type OptNilHttpRouterConfigDetailsProxyContentMod struct {
+	Value HttpRouterConfigDetailsProxyContentMod
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilHttpRouterConfigDetailsProxyContentMod was set.
+func (o OptNilHttpRouterConfigDetailsProxyContentMod) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilHttpRouterConfigDetailsProxyContentMod) Reset() {
+	var v HttpRouterConfigDetailsProxyContentMod
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilHttpRouterConfigDetailsProxyContentMod) SetTo(v HttpRouterConfigDetailsProxyContentMod) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilHttpRouterConfigDetailsProxyContentMod) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilHttpRouterConfigDetailsProxyContentMod) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v HttpRouterConfigDetailsProxyContentMod
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilHttpRouterConfigDetailsProxyContentMod) Get() (v HttpRouterConfigDetailsProxyContentMod, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilHttpRouterConfigDetailsProxyContentMod) Or(d HttpRouterConfigDetailsProxyContentMod) HttpRouterConfigDetailsProxyContentMod {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray returns new OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray with value set to v.
+func NewOptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray(v []HttpRouterConfigDetailsProxyContentModReplaceItem) OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray {
+	return OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray is optional nullable []HttpRouterConfigDetailsProxyContentModReplaceItem.
+type OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray struct {
+	Value []HttpRouterConfigDetailsProxyContentModReplaceItem
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray was set.
+func (o OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray) Reset() {
+	var v []HttpRouterConfigDetailsProxyContentModReplaceItem
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray) SetTo(v []HttpRouterConfigDetailsProxyContentModReplaceItem) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v []HttpRouterConfigDetailsProxyContentModReplaceItem
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray) Get() (v []HttpRouterConfigDetailsProxyContentModReplaceItem, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilHttpRouterConfigDetailsProxyContentModReplaceItemArray) Or(d []HttpRouterConfigDetailsProxyContentModReplaceItem) []HttpRouterConfigDetailsProxyContentModReplaceItem {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilHttpRouterConfigDetailsRedirect returns new OptNilHttpRouterConfigDetailsRedirect with value set to v.
+func NewOptNilHttpRouterConfigDetailsRedirect(v HttpRouterConfigDetailsRedirect) OptNilHttpRouterConfigDetailsRedirect {
+	return OptNilHttpRouterConfigDetailsRedirect{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilHttpRouterConfigDetailsRedirect is optional nullable HttpRouterConfigDetailsRedirect.
+type OptNilHttpRouterConfigDetailsRedirect struct {
+	Value HttpRouterConfigDetailsRedirect
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilHttpRouterConfigDetailsRedirect was set.
+func (o OptNilHttpRouterConfigDetailsRedirect) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilHttpRouterConfigDetailsRedirect) Reset() {
+	var v HttpRouterConfigDetailsRedirect
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilHttpRouterConfigDetailsRedirect) SetTo(v HttpRouterConfigDetailsRedirect) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilHttpRouterConfigDetailsRedirect) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilHttpRouterConfigDetailsRedirect) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v HttpRouterConfigDetailsRedirect
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilHttpRouterConfigDetailsRedirect) Get() (v HttpRouterConfigDetailsRedirect, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilHttpRouterConfigDetailsRedirect) Or(d HttpRouterConfigDetailsRedirect) HttpRouterConfigDetailsRedirect {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilIPAssignment returns new OptNilIPAssignment with value set to v.
 func NewOptNilIPAssignment(v IPAssignment) OptNilIPAssignment {
 	return OptNilIPAssignment{
@@ -58637,6 +67448,258 @@ func (o OptNilImageBuilder) Get() (v ImageBuilder, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilImageBuilder) Or(d ImageBuilder) ImageBuilder {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilImageCreateImportStepDetailsBuildArgs returns new OptNilImageCreateImportStepDetailsBuildArgs with value set to v.
+func NewOptNilImageCreateImportStepDetailsBuildArgs(v ImageCreateImportStepDetailsBuildArgs) OptNilImageCreateImportStepDetailsBuildArgs {
+	return OptNilImageCreateImportStepDetailsBuildArgs{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilImageCreateImportStepDetailsBuildArgs is optional nullable ImageCreateImportStepDetailsBuildArgs.
+type OptNilImageCreateImportStepDetailsBuildArgs struct {
+	Value ImageCreateImportStepDetailsBuildArgs
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilImageCreateImportStepDetailsBuildArgs was set.
+func (o OptNilImageCreateImportStepDetailsBuildArgs) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilImageCreateImportStepDetailsBuildArgs) Reset() {
+	var v ImageCreateImportStepDetailsBuildArgs
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilImageCreateImportStepDetailsBuildArgs) SetTo(v ImageCreateImportStepDetailsBuildArgs) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilImageCreateImportStepDetailsBuildArgs) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilImageCreateImportStepDetailsBuildArgs) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ImageCreateImportStepDetailsBuildArgs
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilImageCreateImportStepDetailsBuildArgs) Get() (v ImageCreateImportStepDetailsBuildArgs, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilImageCreateImportStepDetailsBuildArgs) Or(d ImageCreateImportStepDetailsBuildArgs) ImageCreateImportStepDetailsBuildArgs {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilImageCreateImportStepDetailsOverride returns new OptNilImageCreateImportStepDetailsOverride with value set to v.
+func NewOptNilImageCreateImportStepDetailsOverride(v ImageCreateImportStepDetailsOverride) OptNilImageCreateImportStepDetailsOverride {
+	return OptNilImageCreateImportStepDetailsOverride{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilImageCreateImportStepDetailsOverride is optional nullable ImageCreateImportStepDetailsOverride.
+type OptNilImageCreateImportStepDetailsOverride struct {
+	Value ImageCreateImportStepDetailsOverride
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilImageCreateImportStepDetailsOverride was set.
+func (o OptNilImageCreateImportStepDetailsOverride) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilImageCreateImportStepDetailsOverride) Reset() {
+	var v ImageCreateImportStepDetailsOverride
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilImageCreateImportStepDetailsOverride) SetTo(v ImageCreateImportStepDetailsOverride) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilImageCreateImportStepDetailsOverride) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilImageCreateImportStepDetailsOverride) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ImageCreateImportStepDetailsOverride
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilImageCreateImportStepDetailsOverride) Get() (v ImageCreateImportStepDetailsOverride, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilImageCreateImportStepDetailsOverride) Or(d ImageCreateImportStepDetailsOverride) ImageCreateImportStepDetailsOverride {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilImageCreateStepDetailsBuildArgs returns new OptNilImageCreateStepDetailsBuildArgs with value set to v.
+func NewOptNilImageCreateStepDetailsBuildArgs(v ImageCreateStepDetailsBuildArgs) OptNilImageCreateStepDetailsBuildArgs {
+	return OptNilImageCreateStepDetailsBuildArgs{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilImageCreateStepDetailsBuildArgs is optional nullable ImageCreateStepDetailsBuildArgs.
+type OptNilImageCreateStepDetailsBuildArgs struct {
+	Value ImageCreateStepDetailsBuildArgs
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilImageCreateStepDetailsBuildArgs was set.
+func (o OptNilImageCreateStepDetailsBuildArgs) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilImageCreateStepDetailsBuildArgs) Reset() {
+	var v ImageCreateStepDetailsBuildArgs
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilImageCreateStepDetailsBuildArgs) SetTo(v ImageCreateStepDetailsBuildArgs) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilImageCreateStepDetailsBuildArgs) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilImageCreateStepDetailsBuildArgs) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ImageCreateStepDetailsBuildArgs
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilImageCreateStepDetailsBuildArgs) Get() (v ImageCreateStepDetailsBuildArgs, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilImageCreateStepDetailsBuildArgs) Or(d ImageCreateStepDetailsBuildArgs) ImageCreateStepDetailsBuildArgs {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilImageCreateStepDetailsOverride returns new OptNilImageCreateStepDetailsOverride with value set to v.
+func NewOptNilImageCreateStepDetailsOverride(v ImageCreateStepDetailsOverride) OptNilImageCreateStepDetailsOverride {
+	return OptNilImageCreateStepDetailsOverride{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilImageCreateStepDetailsOverride is optional nullable ImageCreateStepDetailsOverride.
+type OptNilImageCreateStepDetailsOverride struct {
+	Value ImageCreateStepDetailsOverride
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilImageCreateStepDetailsOverride was set.
+func (o OptNilImageCreateStepDetailsOverride) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilImageCreateStepDetailsOverride) Reset() {
+	var v ImageCreateStepDetailsOverride
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilImageCreateStepDetailsOverride) SetTo(v ImageCreateStepDetailsOverride) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilImageCreateStepDetailsOverride) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilImageCreateStepDetailsOverride) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ImageCreateStepDetailsOverride
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilImageCreateStepDetailsOverride) Get() (v ImageCreateStepDetailsOverride, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilImageCreateStepDetailsOverride) Or(d ImageCreateStepDetailsOverride) ImageCreateStepDetailsOverride {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -59210,6 +68273,69 @@ func (o OptNilInt) Get() (v int, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilInt) Or(d int) int {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilIntArray returns new OptNilIntArray with value set to v.
+func NewOptNilIntArray(v []int) OptNilIntArray {
+	return OptNilIntArray{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilIntArray is optional nullable []int.
+type OptNilIntArray struct {
+	Value []int
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilIntArray was set.
+func (o OptNilIntArray) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilIntArray) Reset() {
+	var v []int
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilIntArray) SetTo(v []int) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilIntArray) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilIntArray) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v []int
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilIntArray) Get() (v []int, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilIntArray) Or(d []int) []int {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -60226,6 +69352,195 @@ func (o OptNilPipelineRunStepError) Or(d PipelineRunStepError) PipelineRunStepEr
 	return d
 }
 
+// NewOptNilRawSourceDetailsSecret returns new OptNilRawSourceDetailsSecret with value set to v.
+func NewOptNilRawSourceDetailsSecret(v RawSourceDetailsSecret) OptNilRawSourceDetailsSecret {
+	return OptNilRawSourceDetailsSecret{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilRawSourceDetailsSecret is optional nullable RawSourceDetailsSecret.
+type OptNilRawSourceDetailsSecret struct {
+	Value RawSourceDetailsSecret
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilRawSourceDetailsSecret was set.
+func (o OptNilRawSourceDetailsSecret) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilRawSourceDetailsSecret) Reset() {
+	var v RawSourceDetailsSecret
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilRawSourceDetailsSecret) SetTo(v RawSourceDetailsSecret) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilRawSourceDetailsSecret) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilRawSourceDetailsSecret) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v RawSourceDetailsSecret
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilRawSourceDetailsSecret) Get() (v RawSourceDetailsSecret, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilRawSourceDetailsSecret) Or(d RawSourceDetailsSecret) RawSourceDetailsSecret {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilReconfigureSharedFsContentsDirectories returns new OptNilReconfigureSharedFsContentsDirectories with value set to v.
+func NewOptNilReconfigureSharedFsContentsDirectories(v ReconfigureSharedFsContentsDirectories) OptNilReconfigureSharedFsContentsDirectories {
+	return OptNilReconfigureSharedFsContentsDirectories{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilReconfigureSharedFsContentsDirectories is optional nullable ReconfigureSharedFsContentsDirectories.
+type OptNilReconfigureSharedFsContentsDirectories struct {
+	Value ReconfigureSharedFsContentsDirectories
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilReconfigureSharedFsContentsDirectories was set.
+func (o OptNilReconfigureSharedFsContentsDirectories) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilReconfigureSharedFsContentsDirectories) Reset() {
+	var v ReconfigureSharedFsContentsDirectories
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilReconfigureSharedFsContentsDirectories) SetTo(v ReconfigureSharedFsContentsDirectories) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilReconfigureSharedFsContentsDirectories) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilReconfigureSharedFsContentsDirectories) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ReconfigureSharedFsContentsDirectories
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilReconfigureSharedFsContentsDirectories) Get() (v ReconfigureSharedFsContentsDirectories, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilReconfigureSharedFsContentsDirectories) Or(d ReconfigureSharedFsContentsDirectories) ReconfigureSharedFsContentsDirectories {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilReconfigureSharedFsContentsMounts returns new OptNilReconfigureSharedFsContentsMounts with value set to v.
+func NewOptNilReconfigureSharedFsContentsMounts(v ReconfigureSharedFsContentsMounts) OptNilReconfigureSharedFsContentsMounts {
+	return OptNilReconfigureSharedFsContentsMounts{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilReconfigureSharedFsContentsMounts is optional nullable ReconfigureSharedFsContentsMounts.
+type OptNilReconfigureSharedFsContentsMounts struct {
+	Value ReconfigureSharedFsContentsMounts
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilReconfigureSharedFsContentsMounts was set.
+func (o OptNilReconfigureSharedFsContentsMounts) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilReconfigureSharedFsContentsMounts) Reset() {
+	var v ReconfigureSharedFsContentsMounts
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilReconfigureSharedFsContentsMounts) SetTo(v ReconfigureSharedFsContentsMounts) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilReconfigureSharedFsContentsMounts) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilReconfigureSharedFsContentsMounts) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v ReconfigureSharedFsContentsMounts
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilReconfigureSharedFsContentsMounts) Get() (v ReconfigureSharedFsContentsMounts, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilReconfigureSharedFsContentsMounts) Or(d ReconfigureSharedFsContentsMounts) ReconfigureSharedFsContentsMounts {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptNilRecordTypesLinkedFeaturesWildcard returns new OptNilRecordTypesLinkedFeaturesWildcard with value set to v.
 func NewOptNilRecordTypesLinkedFeaturesWildcard(v RecordTypesLinkedFeaturesWildcard) OptNilRecordTypesLinkedFeaturesWildcard {
 	return OptNilRecordTypesLinkedFeaturesWildcard{
@@ -60283,6 +69598,69 @@ func (o OptNilRecordTypesLinkedFeaturesWildcard) Get() (v RecordTypesLinkedFeatu
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilRecordTypesLinkedFeaturesWildcard) Or(d RecordTypesLinkedFeaturesWildcard) RecordTypesLinkedFeaturesWildcard {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilRepoTypeRef returns new OptNilRepoTypeRef with value set to v.
+func NewOptNilRepoTypeRef(v RepoTypeRef) OptNilRepoTypeRef {
+	return OptNilRepoTypeRef{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilRepoTypeRef is optional nullable RepoTypeRef.
+type OptNilRepoTypeRef struct {
+	Value RepoTypeRef
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilRepoTypeRef was set.
+func (o OptNilRepoTypeRef) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilRepoTypeRef) Reset() {
+	var v RepoTypeRef
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilRepoTypeRef) SetTo(v RepoTypeRef) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilRepoTypeRef) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilRepoTypeRef) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v RepoTypeRef
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilRepoTypeRef) Get() (v RepoTypeRef, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilRepoTypeRef) Or(d RepoTypeRef) RepoTypeRef {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -60598,6 +69976,195 @@ func (o OptNilServerSharedFileSystemsMounts) Get() (v ServerSharedFileSystemsMou
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilServerSharedFileSystemsMounts) Or(d ServerSharedFileSystemsMounts) ServerSharedFileSystemsMounts {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilStackBuildCreateStepDetailsAbout returns new OptNilStackBuildCreateStepDetailsAbout with value set to v.
+func NewOptNilStackBuildCreateStepDetailsAbout(v StackBuildCreateStepDetailsAbout) OptNilStackBuildCreateStepDetailsAbout {
+	return OptNilStackBuildCreateStepDetailsAbout{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStackBuildCreateStepDetailsAbout is optional nullable StackBuildCreateStepDetailsAbout.
+type OptNilStackBuildCreateStepDetailsAbout struct {
+	Value StackBuildCreateStepDetailsAbout
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStackBuildCreateStepDetailsAbout was set.
+func (o OptNilStackBuildCreateStepDetailsAbout) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStackBuildCreateStepDetailsAbout) Reset() {
+	var v StackBuildCreateStepDetailsAbout
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStackBuildCreateStepDetailsAbout) SetTo(v StackBuildCreateStepDetailsAbout) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilStackBuildCreateStepDetailsAbout) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilStackBuildCreateStepDetailsAbout) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v StackBuildCreateStepDetailsAbout
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStackBuildCreateStepDetailsAbout) Get() (v StackBuildCreateStepDetailsAbout, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStackBuildCreateStepDetailsAbout) Or(d StackBuildCreateStepDetailsAbout) StackBuildCreateStepDetailsAbout {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilStackBuildCreateStepDetailsInstructions returns new OptNilStackBuildCreateStepDetailsInstructions with value set to v.
+func NewOptNilStackBuildCreateStepDetailsInstructions(v StackBuildCreateStepDetailsInstructions) OptNilStackBuildCreateStepDetailsInstructions {
+	return OptNilStackBuildCreateStepDetailsInstructions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStackBuildCreateStepDetailsInstructions is optional nullable StackBuildCreateStepDetailsInstructions.
+type OptNilStackBuildCreateStepDetailsInstructions struct {
+	Value StackBuildCreateStepDetailsInstructions
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStackBuildCreateStepDetailsInstructions was set.
+func (o OptNilStackBuildCreateStepDetailsInstructions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStackBuildCreateStepDetailsInstructions) Reset() {
+	var v StackBuildCreateStepDetailsInstructions
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStackBuildCreateStepDetailsInstructions) SetTo(v StackBuildCreateStepDetailsInstructions) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilStackBuildCreateStepDetailsInstructions) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilStackBuildCreateStepDetailsInstructions) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v StackBuildCreateStepDetailsInstructions
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStackBuildCreateStepDetailsInstructions) Get() (v StackBuildCreateStepDetailsInstructions, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStackBuildCreateStepDetailsInstructions) Or(d StackBuildCreateStepDetailsInstructions) StackBuildCreateStepDetailsInstructions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilStackPruneStepDetailsCriteria returns new OptNilStackPruneStepDetailsCriteria with value set to v.
+func NewOptNilStackPruneStepDetailsCriteria(v StackPruneStepDetailsCriteria) OptNilStackPruneStepDetailsCriteria {
+	return OptNilStackPruneStepDetailsCriteria{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilStackPruneStepDetailsCriteria is optional nullable StackPruneStepDetailsCriteria.
+type OptNilStackPruneStepDetailsCriteria struct {
+	Value StackPruneStepDetailsCriteria
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilStackPruneStepDetailsCriteria was set.
+func (o OptNilStackPruneStepDetailsCriteria) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilStackPruneStepDetailsCriteria) Reset() {
+	var v StackPruneStepDetailsCriteria
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilStackPruneStepDetailsCriteria) SetTo(v StackPruneStepDetailsCriteria) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilStackPruneStepDetailsCriteria) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilStackPruneStepDetailsCriteria) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v StackPruneStepDetailsCriteria
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilStackPruneStepDetailsCriteria) Get() (v StackPruneStepDetailsCriteria, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilStackPruneStepDetailsCriteria) Or(d StackPruneStepDetailsCriteria) StackPruneStepDetailsCriteria {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -61480,6 +71047,321 @@ func (o OptNilVirtualMachineAnnotations) Get() (v VirtualMachineAnnotations, ok 
 
 // Or returns value if set, or given parameter if does not.
 func (o OptNilVirtualMachineAnnotations) Or(d VirtualMachineAnnotations) VirtualMachineAnnotations {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilVpnReconfigureTaskContentsConfig returns new OptNilVpnReconfigureTaskContentsConfig with value set to v.
+func NewOptNilVpnReconfigureTaskContentsConfig(v VpnReconfigureTaskContentsConfig) OptNilVpnReconfigureTaskContentsConfig {
+	return OptNilVpnReconfigureTaskContentsConfig{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilVpnReconfigureTaskContentsConfig is optional nullable VpnReconfigureTaskContentsConfig.
+type OptNilVpnReconfigureTaskContentsConfig struct {
+	Value VpnReconfigureTaskContentsConfig
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilVpnReconfigureTaskContentsConfig was set.
+func (o OptNilVpnReconfigureTaskContentsConfig) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilVpnReconfigureTaskContentsConfig) Reset() {
+	var v VpnReconfigureTaskContentsConfig
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilVpnReconfigureTaskContentsConfig) SetTo(v VpnReconfigureTaskContentsConfig) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilVpnReconfigureTaskContentsConfig) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilVpnReconfigureTaskContentsConfig) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v VpnReconfigureTaskContentsConfig
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilVpnReconfigureTaskContentsConfig) Get() (v VpnReconfigureTaskContentsConfig, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilVpnReconfigureTaskContentsConfig) Or(d VpnReconfigureTaskContentsConfig) VpnReconfigureTaskContentsConfig {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilWebhookGetStepDetailsHeaders returns new OptNilWebhookGetStepDetailsHeaders with value set to v.
+func NewOptNilWebhookGetStepDetailsHeaders(v WebhookGetStepDetailsHeaders) OptNilWebhookGetStepDetailsHeaders {
+	return OptNilWebhookGetStepDetailsHeaders{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilWebhookGetStepDetailsHeaders is optional nullable WebhookGetStepDetailsHeaders.
+type OptNilWebhookGetStepDetailsHeaders struct {
+	Value WebhookGetStepDetailsHeaders
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilWebhookGetStepDetailsHeaders was set.
+func (o OptNilWebhookGetStepDetailsHeaders) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilWebhookGetStepDetailsHeaders) Reset() {
+	var v WebhookGetStepDetailsHeaders
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilWebhookGetStepDetailsHeaders) SetTo(v WebhookGetStepDetailsHeaders) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilWebhookGetStepDetailsHeaders) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilWebhookGetStepDetailsHeaders) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v WebhookGetStepDetailsHeaders
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilWebhookGetStepDetailsHeaders) Get() (v WebhookGetStepDetailsHeaders, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilWebhookGetStepDetailsHeaders) Or(d WebhookGetStepDetailsHeaders) WebhookGetStepDetailsHeaders {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilWebhookPostStepDetailsHeaders returns new OptNilWebhookPostStepDetailsHeaders with value set to v.
+func NewOptNilWebhookPostStepDetailsHeaders(v WebhookPostStepDetailsHeaders) OptNilWebhookPostStepDetailsHeaders {
+	return OptNilWebhookPostStepDetailsHeaders{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilWebhookPostStepDetailsHeaders is optional nullable WebhookPostStepDetailsHeaders.
+type OptNilWebhookPostStepDetailsHeaders struct {
+	Value WebhookPostStepDetailsHeaders
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilWebhookPostStepDetailsHeaders was set.
+func (o OptNilWebhookPostStepDetailsHeaders) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilWebhookPostStepDetailsHeaders) Reset() {
+	var v WebhookPostStepDetailsHeaders
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilWebhookPostStepDetailsHeaders) SetTo(v WebhookPostStepDetailsHeaders) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilWebhookPostStepDetailsHeaders) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilWebhookPostStepDetailsHeaders) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v WebhookPostStepDetailsHeaders
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilWebhookPostStepDetailsHeaders) Get() (v WebhookPostStepDetailsHeaders, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilWebhookPostStepDetailsHeaders) Or(d WebhookPostStepDetailsHeaders) WebhookPostStepDetailsHeaders {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilWebhookStepOptionsFailOn returns new OptNilWebhookStepOptionsFailOn with value set to v.
+func NewOptNilWebhookStepOptionsFailOn(v WebhookStepOptionsFailOn) OptNilWebhookStepOptionsFailOn {
+	return OptNilWebhookStepOptionsFailOn{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilWebhookStepOptionsFailOn is optional nullable WebhookStepOptionsFailOn.
+type OptNilWebhookStepOptionsFailOn struct {
+	Value WebhookStepOptionsFailOn
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilWebhookStepOptionsFailOn was set.
+func (o OptNilWebhookStepOptionsFailOn) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilWebhookStepOptionsFailOn) Reset() {
+	var v WebhookStepOptionsFailOn
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilWebhookStepOptionsFailOn) SetTo(v WebhookStepOptionsFailOn) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilWebhookStepOptionsFailOn) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilWebhookStepOptionsFailOn) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v WebhookStepOptionsFailOn
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilWebhookStepOptionsFailOn) Get() (v WebhookStepOptionsFailOn, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilWebhookStepOptionsFailOn) Or(d WebhookStepOptionsFailOn) WebhookStepOptionsFailOn {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptNilWebhookStepOptionsRetryOn returns new OptNilWebhookStepOptionsRetryOn with value set to v.
+func NewOptNilWebhookStepOptionsRetryOn(v WebhookStepOptionsRetryOn) OptNilWebhookStepOptionsRetryOn {
+	return OptNilWebhookStepOptionsRetryOn{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptNilWebhookStepOptionsRetryOn is optional nullable WebhookStepOptionsRetryOn.
+type OptNilWebhookStepOptionsRetryOn struct {
+	Value WebhookStepOptionsRetryOn
+	Set   bool
+	Null  bool
+}
+
+// IsSet returns true if OptNilWebhookStepOptionsRetryOn was set.
+func (o OptNilWebhookStepOptionsRetryOn) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptNilWebhookStepOptionsRetryOn) Reset() {
+	var v WebhookStepOptionsRetryOn
+	o.Value = v
+	o.Set = false
+	o.Null = false
+}
+
+// SetTo sets value to v.
+func (o *OptNilWebhookStepOptionsRetryOn) SetTo(v WebhookStepOptionsRetryOn) {
+	o.Set = true
+	o.Null = false
+	o.Value = v
+}
+
+// IsSet returns true if value is Null.
+func (o OptNilWebhookStepOptionsRetryOn) IsNull() bool { return o.Null }
+
+// SetNull sets value to null.
+func (o *OptNilWebhookStepOptionsRetryOn) SetToNull() {
+	o.Set = true
+	o.Null = true
+	var v WebhookStepOptionsRetryOn
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptNilWebhookStepOptionsRetryOn) Get() (v WebhookStepOptionsRetryOn, ok bool) {
+	if o.Null {
+		return v, false
+	}
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptNilWebhookStepOptionsRetryOn) Or(d WebhookStepOptionsRetryOn) WebhookStepOptionsRetryOn {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -62958,6 +72840,190 @@ func (o OptRecoverTwoFactorAuthReq) Or(d RecoverTwoFactorAuthReq) RecoverTwoFact
 	return d
 }
 
+// NewOptRegistryAuth returns new OptRegistryAuth with value set to v.
+func NewOptRegistryAuth(v RegistryAuth) OptRegistryAuth {
+	return OptRegistryAuth{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRegistryAuth is optional RegistryAuth.
+type OptRegistryAuth struct {
+	Value RegistryAuth
+	Set   bool
+}
+
+// IsSet returns true if OptRegistryAuth was set.
+func (o OptRegistryAuth) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRegistryAuth) Reset() {
+	var v RegistryAuth
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRegistryAuth) SetTo(v RegistryAuth) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRegistryAuth) Get() (v RegistryAuth, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRegistryAuth) Or(d RegistryAuth) RegistryAuth {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRepoType returns new OptRepoType with value set to v.
+func NewOptRepoType(v RepoType) OptRepoType {
+	return OptRepoType{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRepoType is optional RepoType.
+type OptRepoType struct {
+	Value RepoType
+	Set   bool
+}
+
+// IsSet returns true if OptRepoType was set.
+func (o OptRepoType) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRepoType) Reset() {
+	var v RepoType
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRepoType) SetTo(v RepoType) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRepoType) Get() (v RepoType, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRepoType) Or(d RepoType) RepoType {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRepoTypeAuth returns new OptRepoTypeAuth with value set to v.
+func NewOptRepoTypeAuth(v RepoTypeAuth) OptRepoTypeAuth {
+	return OptRepoTypeAuth{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRepoTypeAuth is optional RepoTypeAuth.
+type OptRepoTypeAuth struct {
+	Value RepoTypeAuth
+	Set   bool
+}
+
+// IsSet returns true if OptRepoTypeAuth was set.
+func (o OptRepoTypeAuth) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRepoTypeAuth) Reset() {
+	var v RepoTypeAuth
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRepoTypeAuth) SetTo(v RepoTypeAuth) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRepoTypeAuth) Get() (v RepoTypeAuth, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRepoTypeAuth) Or(d RepoTypeAuth) RepoTypeAuth {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptRerunPipelineActionContents returns new OptRerunPipelineActionContents with value set to v.
+func NewOptRerunPipelineActionContents(v RerunPipelineActionContents) OptRerunPipelineActionContents {
+	return OptRerunPipelineActionContents{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptRerunPipelineActionContents is optional RerunPipelineActionContents.
+type OptRerunPipelineActionContents struct {
+	Value RerunPipelineActionContents
+	Set   bool
+}
+
+// IsSet returns true if OptRerunPipelineActionContents was set.
+func (o OptRerunPipelineActionContents) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptRerunPipelineActionContents) Reset() {
+	var v RerunPipelineActionContents
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptRerunPipelineActionContents) SetTo(v RerunPipelineActionContents) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptRerunPipelineActionContents) Get() (v RerunPipelineActionContents, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptRerunPipelineActionContents) Or(d RerunPipelineActionContents) RerunPipelineActionContents {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptRole returns new OptRole with value set to v.
 func NewOptRole(v Role) OptRole {
 	return OptRole{
@@ -64246,6 +74312,52 @@ func (o OptServiceItemTier) Or(d ServiceItemTier) ServiceItemTier {
 	return d
 }
 
+// NewOptSleepStepOptions returns new OptSleepStepOptions with value set to v.
+func NewOptSleepStepOptions(v SleepStepOptions) OptSleepStepOptions {
+	return OptSleepStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptSleepStepOptions is optional SleepStepOptions.
+type OptSleepStepOptions struct {
+	Value SleepStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptSleepStepOptions was set.
+func (o OptSleepStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptSleepStepOptions) Reset() {
+	var v SleepStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptSleepStepOptions) SetTo(v SleepStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptSleepStepOptions) Get() (v SleepStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptSleepStepOptions) Or(d SleepStepOptions) SleepStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptSourceIncludes returns new OptSourceIncludes with value set to v.
 func NewOptSourceIncludes(v SourceIncludes) OptSourceIncludes {
 	return OptSourceIncludes{
@@ -64332,6 +74444,282 @@ func (o OptStackBuildAbout) Get() (v StackBuildAbout, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptStackBuildAbout) Or(d StackBuildAbout) StackBuildAbout {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildCreateStepDetailsInstructionsGit returns new OptStackBuildCreateStepDetailsInstructionsGit with value set to v.
+func NewOptStackBuildCreateStepDetailsInstructionsGit(v StackBuildCreateStepDetailsInstructionsGit) OptStackBuildCreateStepDetailsInstructionsGit {
+	return OptStackBuildCreateStepDetailsInstructionsGit{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildCreateStepDetailsInstructionsGit is optional StackBuildCreateStepDetailsInstructionsGit.
+type OptStackBuildCreateStepDetailsInstructionsGit struct {
+	Value StackBuildCreateStepDetailsInstructionsGit
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildCreateStepDetailsInstructionsGit was set.
+func (o OptStackBuildCreateStepDetailsInstructionsGit) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildCreateStepDetailsInstructionsGit) Reset() {
+	var v StackBuildCreateStepDetailsInstructionsGit
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildCreateStepDetailsInstructionsGit) SetTo(v StackBuildCreateStepDetailsInstructionsGit) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildCreateStepDetailsInstructionsGit) Get() (v StackBuildCreateStepDetailsInstructionsGit, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildCreateStepDetailsInstructionsGit) Or(d StackBuildCreateStepDetailsInstructionsGit) StackBuildCreateStepDetailsInstructionsGit {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildCreateStepDetailsInstructionsVariables returns new OptStackBuildCreateStepDetailsInstructionsVariables with value set to v.
+func NewOptStackBuildCreateStepDetailsInstructionsVariables(v StackBuildCreateStepDetailsInstructionsVariables) OptStackBuildCreateStepDetailsInstructionsVariables {
+	return OptStackBuildCreateStepDetailsInstructionsVariables{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildCreateStepDetailsInstructionsVariables is optional StackBuildCreateStepDetailsInstructionsVariables.
+type OptStackBuildCreateStepDetailsInstructionsVariables struct {
+	Value StackBuildCreateStepDetailsInstructionsVariables
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildCreateStepDetailsInstructionsVariables was set.
+func (o OptStackBuildCreateStepDetailsInstructionsVariables) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildCreateStepDetailsInstructionsVariables) Reset() {
+	var v StackBuildCreateStepDetailsInstructionsVariables
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildCreateStepDetailsInstructionsVariables) SetTo(v StackBuildCreateStepDetailsInstructionsVariables) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildCreateStepDetailsInstructionsVariables) Get() (v StackBuildCreateStepDetailsInstructionsVariables, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildCreateStepDetailsInstructionsVariables) Or(d StackBuildCreateStepDetailsInstructionsVariables) StackBuildCreateStepDetailsInstructionsVariables {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildCreateStepOptions returns new OptStackBuildCreateStepOptions with value set to v.
+func NewOptStackBuildCreateStepOptions(v StackBuildCreateStepOptions) OptStackBuildCreateStepOptions {
+	return OptStackBuildCreateStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildCreateStepOptions is optional StackBuildCreateStepOptions.
+type OptStackBuildCreateStepOptions struct {
+	Value StackBuildCreateStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildCreateStepOptions was set.
+func (o OptStackBuildCreateStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildCreateStepOptions) Reset() {
+	var v StackBuildCreateStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildCreateStepOptions) SetTo(v StackBuildCreateStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildCreateStepOptions) Get() (v StackBuildCreateStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildCreateStepOptions) Or(d StackBuildCreateStepOptions) StackBuildCreateStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildDeployStepOptions returns new OptStackBuildDeployStepOptions with value set to v.
+func NewOptStackBuildDeployStepOptions(v StackBuildDeployStepOptions) OptStackBuildDeployStepOptions {
+	return OptStackBuildDeployStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildDeployStepOptions is optional StackBuildDeployStepOptions.
+type OptStackBuildDeployStepOptions struct {
+	Value StackBuildDeployStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildDeployStepOptions was set.
+func (o OptStackBuildDeployStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildDeployStepOptions) Reset() {
+	var v StackBuildDeployStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildDeployStepOptions) SetTo(v StackBuildDeployStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildDeployStepOptions) Get() (v StackBuildDeployStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildDeployStepOptions) Or(d StackBuildDeployStepOptions) StackBuildDeployStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildDeploymentUpdates returns new OptStackBuildDeploymentUpdates with value set to v.
+func NewOptStackBuildDeploymentUpdates(v StackBuildDeploymentUpdates) OptStackBuildDeploymentUpdates {
+	return OptStackBuildDeploymentUpdates{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildDeploymentUpdates is optional StackBuildDeploymentUpdates.
+type OptStackBuildDeploymentUpdates struct {
+	Value StackBuildDeploymentUpdates
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildDeploymentUpdates was set.
+func (o OptStackBuildDeploymentUpdates) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildDeploymentUpdates) Reset() {
+	var v StackBuildDeploymentUpdates
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildDeploymentUpdates) SetTo(v StackBuildDeploymentUpdates) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildDeploymentUpdates) Get() (v StackBuildDeploymentUpdates, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildDeploymentUpdates) Or(d StackBuildDeploymentUpdates) StackBuildDeploymentUpdates {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackBuildGenerateStepOptions returns new OptStackBuildGenerateStepOptions with value set to v.
+func NewOptStackBuildGenerateStepOptions(v StackBuildGenerateStepOptions) OptStackBuildGenerateStepOptions {
+	return OptStackBuildGenerateStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackBuildGenerateStepOptions is optional StackBuildGenerateStepOptions.
+type OptStackBuildGenerateStepOptions struct {
+	Value StackBuildGenerateStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptStackBuildGenerateStepOptions was set.
+func (o OptStackBuildGenerateStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackBuildGenerateStepOptions) Reset() {
+	var v StackBuildGenerateStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackBuildGenerateStepOptions) SetTo(v StackBuildGenerateStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackBuildGenerateStepOptions) Get() (v StackBuildGenerateStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackBuildGenerateStepOptions) Or(d StackBuildGenerateStepOptions) StackBuildGenerateStepOptions {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -64660,6 +75048,52 @@ func (o OptStackGitCommit) Or(d StackGitCommit) StackGitCommit {
 	return d
 }
 
+// NewOptStackImageSourceTypeOverride returns new OptStackImageSourceTypeOverride with value set to v.
+func NewOptStackImageSourceTypeOverride(v StackImageSourceTypeOverride) OptStackImageSourceTypeOverride {
+	return OptStackImageSourceTypeOverride{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackImageSourceTypeOverride is optional StackImageSourceTypeOverride.
+type OptStackImageSourceTypeOverride struct {
+	Value StackImageSourceTypeOverride
+	Set   bool
+}
+
+// IsSet returns true if OptStackImageSourceTypeOverride was set.
+func (o OptStackImageSourceTypeOverride) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackImageSourceTypeOverride) Reset() {
+	var v StackImageSourceTypeOverride
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackImageSourceTypeOverride) SetTo(v StackImageSourceTypeOverride) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackImageSourceTypeOverride) Get() (v StackImageSourceTypeOverride, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackImageSourceTypeOverride) Or(d StackImageSourceTypeOverride) StackImageSourceTypeOverride {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptStackInclude returns new OptStackInclude with value set to v.
 func NewOptStackInclude(v StackInclude) OptStackInclude {
 	return OptStackInclude{
@@ -64792,6 +75226,190 @@ func (o OptStackMeta) Get() (v StackMeta, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptStackMeta) Or(d StackMeta) StackMeta {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackPruneStepOptions returns new OptStackPruneStepOptions with value set to v.
+func NewOptStackPruneStepOptions(v StackPruneStepOptions) OptStackPruneStepOptions {
+	return OptStackPruneStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackPruneStepOptions is optional StackPruneStepOptions.
+type OptStackPruneStepOptions struct {
+	Value StackPruneStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptStackPruneStepOptions was set.
+func (o OptStackPruneStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackPruneStepOptions) Reset() {
+	var v StackPruneStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackPruneStepOptions) SetTo(v StackPruneStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackPruneStepOptions) Get() (v StackPruneStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackPruneStepOptions) Or(d StackPruneStepOptions) StackPruneStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackRepoSourceDetailsAuth returns new OptStackRepoSourceDetailsAuth with value set to v.
+func NewOptStackRepoSourceDetailsAuth(v StackRepoSourceDetailsAuth) OptStackRepoSourceDetailsAuth {
+	return OptStackRepoSourceDetailsAuth{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackRepoSourceDetailsAuth is optional StackRepoSourceDetailsAuth.
+type OptStackRepoSourceDetailsAuth struct {
+	Value StackRepoSourceDetailsAuth
+	Set   bool
+}
+
+// IsSet returns true if OptStackRepoSourceDetailsAuth was set.
+func (o OptStackRepoSourceDetailsAuth) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackRepoSourceDetailsAuth) Reset() {
+	var v StackRepoSourceDetailsAuth
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackRepoSourceDetailsAuth) SetTo(v StackRepoSourceDetailsAuth) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackRepoSourceDetailsAuth) Get() (v StackRepoSourceDetailsAuth, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackRepoSourceDetailsAuth) Or(d StackRepoSourceDetailsAuth) StackRepoSourceDetailsAuth {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackRepoSourceDetailsRef returns new OptStackRepoSourceDetailsRef with value set to v.
+func NewOptStackRepoSourceDetailsRef(v StackRepoSourceDetailsRef) OptStackRepoSourceDetailsRef {
+	return OptStackRepoSourceDetailsRef{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackRepoSourceDetailsRef is optional StackRepoSourceDetailsRef.
+type OptStackRepoSourceDetailsRef struct {
+	Value StackRepoSourceDetailsRef
+	Set   bool
+}
+
+// IsSet returns true if OptStackRepoSourceDetailsRef was set.
+func (o OptStackRepoSourceDetailsRef) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackRepoSourceDetailsRef) Reset() {
+	var v StackRepoSourceDetailsRef
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackRepoSourceDetailsRef) SetTo(v StackRepoSourceDetailsRef) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackRepoSourceDetailsRef) Get() (v StackRepoSourceDetailsRef, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackRepoSourceDetailsRef) Or(d StackRepoSourceDetailsRef) StackRepoSourceDetailsRef {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptStackSource returns new OptStackSource with value set to v.
+func NewOptStackSource(v StackSource) OptStackSource {
+	return OptStackSource{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptStackSource is optional StackSource.
+type OptStackSource struct {
+	Value StackSource
+	Set   bool
+}
+
+// IsSet returns true if OptStackSource was set.
+func (o OptStackSource) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptStackSource) Reset() {
+	var v StackSource
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptStackSource) SetTo(v StackSource) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptStackSource) Get() (v StackSource, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptStackSource) Or(d StackSource) StackSource {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -66914,6 +77532,98 @@ func (o OptTriggerKeyStateError) Or(d TriggerKeyStateError) TriggerKeyStateError
 	return d
 }
 
+// NewOptTriggerPipelineActionContents returns new OptTriggerPipelineActionContents with value set to v.
+func NewOptTriggerPipelineActionContents(v TriggerPipelineActionContents) OptTriggerPipelineActionContents {
+	return OptTriggerPipelineActionContents{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTriggerPipelineActionContents is optional TriggerPipelineActionContents.
+type OptTriggerPipelineActionContents struct {
+	Value TriggerPipelineActionContents
+	Set   bool
+}
+
+// IsSet returns true if OptTriggerPipelineActionContents was set.
+func (o OptTriggerPipelineActionContents) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTriggerPipelineActionContents) Reset() {
+	var v TriggerPipelineActionContents
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTriggerPipelineActionContents) SetTo(v TriggerPipelineActionContents) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTriggerPipelineActionContents) Get() (v TriggerPipelineActionContents, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTriggerPipelineActionContents) Or(d TriggerPipelineActionContents) TriggerPipelineActionContents {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptTriggerPipelineActionContentsVariables returns new OptTriggerPipelineActionContentsVariables with value set to v.
+func NewOptTriggerPipelineActionContentsVariables(v TriggerPipelineActionContentsVariables) OptTriggerPipelineActionContentsVariables {
+	return OptTriggerPipelineActionContentsVariables{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptTriggerPipelineActionContentsVariables is optional TriggerPipelineActionContentsVariables.
+type OptTriggerPipelineActionContentsVariables struct {
+	Value TriggerPipelineActionContentsVariables
+	Set   bool
+}
+
+// IsSet returns true if OptTriggerPipelineActionContentsVariables was set.
+func (o OptTriggerPipelineActionContentsVariables) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptTriggerPipelineActionContentsVariables) Reset() {
+	var v TriggerPipelineActionContentsVariables
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptTriggerPipelineActionContentsVariables) SetTo(v TriggerPipelineActionContentsVariables) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptTriggerPipelineActionContentsVariables) Get() (v TriggerPipelineActionContentsVariables, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptTriggerPipelineActionContentsVariables) Or(d TriggerPipelineActionContentsVariables) TriggerPipelineActionContentsVariables {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptTriggerPipelineReq returns new OptTriggerPipelineReq with value set to v.
 func NewOptTriggerPipelineReq(v TriggerPipelineReq) OptTriggerPipelineReq {
 	return OptTriggerPipelineReq{
@@ -68432,6 +79142,52 @@ func (o OptUpdateScopedVariableReq) Or(d UpdateScopedVariableReq) UpdateScopedVa
 	return d
 }
 
+// NewOptUpdateScopedVariableReqSource returns new OptUpdateScopedVariableReqSource with value set to v.
+func NewOptUpdateScopedVariableReqSource(v UpdateScopedVariableReqSource) OptUpdateScopedVariableReqSource {
+	return OptUpdateScopedVariableReqSource{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptUpdateScopedVariableReqSource is optional UpdateScopedVariableReqSource.
+type OptUpdateScopedVariableReqSource struct {
+	Value UpdateScopedVariableReqSource
+	Set   bool
+}
+
+// IsSet returns true if OptUpdateScopedVariableReqSource was set.
+func (o OptUpdateScopedVariableReqSource) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptUpdateScopedVariableReqSource) Reset() {
+	var v UpdateScopedVariableReqSource
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptUpdateScopedVariableReqSource) SetTo(v UpdateScopedVariableReqSource) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptUpdateScopedVariableReqSource) Get() (v UpdateScopedVariableReqSource, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptUpdateScopedVariableReqSource) Or(d UpdateScopedVariableReqSource) UpdateScopedVariableReqSource {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptUpdateServerReq returns new OptUpdateServerReq with value set to v.
 func NewOptUpdateServerReq(v UpdateServerReq) OptUpdateServerReq {
 	return OptUpdateServerReq{
@@ -68800,6 +79556,52 @@ func (o OptV1LbConfigRouterConfigDestinationPrioritization) Or(d V1LbConfigRoute
 	return d
 }
 
+// NewOptV1LbConfigRouterConfigExtension returns new OptV1LbConfigRouterConfigExtension with value set to v.
+func NewOptV1LbConfigRouterConfigExtension(v V1LbConfigRouterConfigExtension) OptV1LbConfigRouterConfigExtension {
+	return OptV1LbConfigRouterConfigExtension{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptV1LbConfigRouterConfigExtension is optional V1LbConfigRouterConfigExtension.
+type OptV1LbConfigRouterConfigExtension struct {
+	Value V1LbConfigRouterConfigExtension
+	Set   bool
+}
+
+// IsSet returns true if OptV1LbConfigRouterConfigExtension was set.
+func (o OptV1LbConfigRouterConfigExtension) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptV1LbConfigRouterConfigExtension) Reset() {
+	var v V1LbConfigRouterConfigExtension
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptV1LbConfigRouterConfigExtension) SetTo(v V1LbConfigRouterConfigExtension) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptV1LbConfigRouterConfigExtension) Get() (v V1LbConfigRouterConfigExtension, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptV1LbConfigRouterConfigExtension) Or(d V1LbConfigRouterConfigExtension) V1LbConfigRouterConfigExtension {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptV1LbConfigRouterConfigTLSClientAuth returns new OptV1LbConfigRouterConfigTLSClientAuth with value set to v.
 func NewOptV1LbConfigRouterConfigTLSClientAuth(v V1LbConfigRouterConfigTLSClientAuth) OptV1LbConfigRouterConfigTLSClientAuth {
 	return OptV1LbConfigRouterConfigTLSClientAuth{
@@ -68886,6 +79688,98 @@ func (o OptV1LbController) Get() (v V1LbController, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptV1LbController) Or(d V1LbController) V1LbController {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptV1LbControllerTransportConfigExtension returns new OptV1LbControllerTransportConfigExtension with value set to v.
+func NewOptV1LbControllerTransportConfigExtension(v V1LbControllerTransportConfigExtension) OptV1LbControllerTransportConfigExtension {
+	return OptV1LbControllerTransportConfigExtension{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptV1LbControllerTransportConfigExtension is optional V1LbControllerTransportConfigExtension.
+type OptV1LbControllerTransportConfigExtension struct {
+	Value V1LbControllerTransportConfigExtension
+	Set   bool
+}
+
+// IsSet returns true if OptV1LbControllerTransportConfigExtension was set.
+func (o OptV1LbControllerTransportConfigExtension) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptV1LbControllerTransportConfigExtension) Reset() {
+	var v V1LbControllerTransportConfigExtension
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptV1LbControllerTransportConfigExtension) SetTo(v V1LbControllerTransportConfigExtension) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptV1LbControllerTransportConfigExtension) Get() (v V1LbControllerTransportConfigExtension, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptV1LbControllerTransportConfigExtension) Or(d V1LbControllerTransportConfigExtension) V1LbControllerTransportConfigExtension {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptVariableString returns new OptVariableString with value set to v.
+func NewOptVariableString(v VariableString) OptVariableString {
+	return OptVariableString{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVariableString is optional VariableString.
+type OptVariableString struct {
+	Value VariableString
+	Set   bool
+}
+
+// IsSet returns true if OptVariableString was set.
+func (o OptVariableString) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVariableString) Reset() {
+	var v VariableString
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVariableString) SetTo(v VariableString) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVariableString) Get() (v VariableString, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVariableString) Or(d VariableString) VariableString {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -69582,6 +80476,52 @@ func (o OptVpnEnvironmentService) Or(d VpnEnvironmentService) VpnEnvironmentServ
 	return d
 }
 
+// NewOptVpnReconfigureTaskContentsConfigAuth returns new OptVpnReconfigureTaskContentsConfigAuth with value set to v.
+func NewOptVpnReconfigureTaskContentsConfigAuth(v VpnReconfigureTaskContentsConfigAuth) OptVpnReconfigureTaskContentsConfigAuth {
+	return OptVpnReconfigureTaskContentsConfigAuth{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptVpnReconfigureTaskContentsConfigAuth is optional VpnReconfigureTaskContentsConfigAuth.
+type OptVpnReconfigureTaskContentsConfigAuth struct {
+	Value VpnReconfigureTaskContentsConfigAuth
+	Set   bool
+}
+
+// IsSet returns true if OptVpnReconfigureTaskContentsConfigAuth was set.
+func (o OptVpnReconfigureTaskContentsConfigAuth) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptVpnReconfigureTaskContentsConfigAuth) Reset() {
+	var v VpnReconfigureTaskContentsConfigAuth
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptVpnReconfigureTaskContentsConfigAuth) SetTo(v VpnReconfigureTaskContentsConfigAuth) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptVpnReconfigureTaskContentsConfigAuth) Get() (v VpnReconfigureTaskContentsConfigAuth, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptVpnReconfigureTaskContentsConfigAuth) Or(d VpnReconfigureTaskContentsConfigAuth) VpnReconfigureTaskContentsConfigAuth {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
 // NewOptWafConfig returns new OptWafConfig with value set to v.
 func NewOptWafConfig(v WafConfig) OptWafConfig {
 	return OptWafConfig{
@@ -69622,6 +80562,144 @@ func (o OptWafConfig) Get() (v WafConfig, ok bool) {
 
 // Or returns value if set, or given parameter if does not.
 func (o OptWafConfig) Or(d WafConfig) WafConfig {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptWebhookGetStepOptions returns new OptWebhookGetStepOptions with value set to v.
+func NewOptWebhookGetStepOptions(v WebhookGetStepOptions) OptWebhookGetStepOptions {
+	return OptWebhookGetStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptWebhookGetStepOptions is optional WebhookGetStepOptions.
+type OptWebhookGetStepOptions struct {
+	Value WebhookGetStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptWebhookGetStepOptions was set.
+func (o OptWebhookGetStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptWebhookGetStepOptions) Reset() {
+	var v WebhookGetStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptWebhookGetStepOptions) SetTo(v WebhookGetStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptWebhookGetStepOptions) Get() (v WebhookGetStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptWebhookGetStepOptions) Or(d WebhookGetStepOptions) WebhookGetStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptWebhookPostStepOptions returns new OptWebhookPostStepOptions with value set to v.
+func NewOptWebhookPostStepOptions(v WebhookPostStepOptions) OptWebhookPostStepOptions {
+	return OptWebhookPostStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptWebhookPostStepOptions is optional WebhookPostStepOptions.
+type OptWebhookPostStepOptions struct {
+	Value WebhookPostStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptWebhookPostStepOptions was set.
+func (o OptWebhookPostStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptWebhookPostStepOptions) Reset() {
+	var v WebhookPostStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptWebhookPostStepOptions) SetTo(v WebhookPostStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptWebhookPostStepOptions) Get() (v WebhookPostStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptWebhookPostStepOptions) Or(d WebhookPostStepOptions) WebhookPostStepOptions {
+	if v, ok := o.Get(); ok {
+		return v
+	}
+	return d
+}
+
+// NewOptWebhookStepOptions returns new OptWebhookStepOptions with value set to v.
+func NewOptWebhookStepOptions(v WebhookStepOptions) OptWebhookStepOptions {
+	return OptWebhookStepOptions{
+		Value: v,
+		Set:   true,
+	}
+}
+
+// OptWebhookStepOptions is optional WebhookStepOptions.
+type OptWebhookStepOptions struct {
+	Value WebhookStepOptions
+	Set   bool
+}
+
+// IsSet returns true if OptWebhookStepOptions was set.
+func (o OptWebhookStepOptions) IsSet() bool { return o.Set }
+
+// Reset unsets value.
+func (o *OptWebhookStepOptions) Reset() {
+	var v WebhookStepOptions
+	o.Value = v
+	o.Set = false
+}
+
+// SetTo sets value to v.
+func (o *OptWebhookStepOptions) SetTo(v WebhookStepOptions) {
+	o.Set = true
+	o.Value = v
+}
+
+// Get returns value and boolean that denotes whether value was set.
+func (o OptWebhookStepOptions) Get() (v WebhookStepOptions, ok bool) {
+	if !o.Set {
+		return v, false
+	}
+	return o.Value, true
+}
+
+// Or returns value if set, or given parameter if does not.
+func (o OptWebhookStepOptions) Or(d WebhookStepOptions) WebhookStepOptions {
 	if v, ok := o.Get(); ok {
 		return v
 	}
@@ -71442,7 +82520,755 @@ func (s *PipelineStateError) SetTime(val OptDateTime) {
 
 // A step for a pipeline stage.
 // Ref: #/components/schemas/PipelineSteps
-type PipelineSteps struct{}
+// PipelineSteps represents sum type.
+type PipelineSteps struct {
+	Type                                  PipelineStepsType // switch on this field
+	ImageCreateStep                       ImageCreateStep
+	ImageImportStep                       ImageImportStep
+	ImagesPruneStep                       ImagesPruneStep
+	ImageCreateImportStep                 ImageCreateImportStep
+	ContainerCreateStep                   ContainerCreateStep
+	ContainerStartStep                    ContainerStartStep
+	ContainerStopStep                     ContainerStopStep
+	ContainerDeleteStep                   ContainerDeleteStep
+	ContainerReimageStep                  ContainerReimageStep
+	ContainerRestartStep                  ContainerRestartStep
+	ContainerFunctionTriggerStep          ContainerFunctionTriggerStep
+	EnvironmentCreateStep                 EnvironmentCreateStep
+	EnvironmentStartStep                  EnvironmentStartStep
+	EnvironmentStopStep                   EnvironmentStopStep
+	EnvironmentDeleteStep                 EnvironmentDeleteStep
+	EnvironmentDeploymentStartStep        EnvironmentDeploymentStartStep
+	EnvironmentDeploymentStopStep         EnvironmentDeploymentStopStep
+	EnvironmentDeploymentsTagStep         EnvironmentDeploymentsTagStep
+	EnvironmentDeploymentsPruneStep       EnvironmentDeploymentsPruneStep
+	EnvironmentDeploymentHealthyWatchStep EnvironmentDeploymentHealthyWatchStep
+	StackBuildCreateStep                  StackBuildCreateStep
+	StackBuildGenerateStep                StackBuildGenerateStep
+	StackBuildDeployStep                  StackBuildDeployStep
+	StackPruneStep                        StackPruneStep
+	WebhookPostStep                       WebhookPostStep
+	WebhookGetStep                        WebhookGetStep
+	SleepStep                             SleepStep
+}
+
+// PipelineStepsType is oneOf type of PipelineSteps.
+type PipelineStepsType string
+
+// Possible values for PipelineStepsType.
+const (
+	ImageCreateStepPipelineSteps                       PipelineStepsType = "image.create"
+	ImageImportStepPipelineSteps                       PipelineStepsType = "image.import"
+	ImagesPruneStepPipelineSteps                       PipelineStepsType = "images.prune"
+	ImageCreateImportStepPipelineSteps                 PipelineStepsType = "image.create-import"
+	ContainerCreateStepPipelineSteps                   PipelineStepsType = "container.create"
+	ContainerStartStepPipelineSteps                    PipelineStepsType = "container.start"
+	ContainerStopStepPipelineSteps                     PipelineStepsType = "container.stop"
+	ContainerDeleteStepPipelineSteps                   PipelineStepsType = "container.delete"
+	ContainerReimageStepPipelineSteps                  PipelineStepsType = "container.reimage"
+	ContainerRestartStepPipelineSteps                  PipelineStepsType = "container.restart"
+	ContainerFunctionTriggerStepPipelineSteps          PipelineStepsType = "container.function.trigger"
+	EnvironmentCreateStepPipelineSteps                 PipelineStepsType = "environment.create"
+	EnvironmentStartStepPipelineSteps                  PipelineStepsType = "environment.start"
+	EnvironmentStopStepPipelineSteps                   PipelineStepsType = "environment.stop"
+	EnvironmentDeleteStepPipelineSteps                 PipelineStepsType = "environment.delete"
+	EnvironmentDeploymentStartStepPipelineSteps        PipelineStepsType = "environment.deployment.start"
+	EnvironmentDeploymentStopStepPipelineSteps         PipelineStepsType = "environment.deployment.stop"
+	EnvironmentDeploymentsTagStepPipelineSteps         PipelineStepsType = "environment.deployments.tag"
+	EnvironmentDeploymentsPruneStepPipelineSteps       PipelineStepsType = "environment.deployments.prune"
+	EnvironmentDeploymentHealthyWatchStepPipelineSteps PipelineStepsType = "environment.deployment.healthy.watch"
+	StackBuildCreateStepPipelineSteps                  PipelineStepsType = "stack.build.create"
+	StackBuildGenerateStepPipelineSteps                PipelineStepsType = "stack.build.generate"
+	StackBuildDeployStepPipelineSteps                  PipelineStepsType = "stack.build.deploy"
+	StackPruneStepPipelineSteps                        PipelineStepsType = "stack.prune"
+	WebhookPostStepPipelineSteps                       PipelineStepsType = "webhook.post"
+	WebhookGetStepPipelineSteps                        PipelineStepsType = "webhook.get"
+	SleepStepPipelineSteps                             PipelineStepsType = "sleep"
+)
+
+// IsImageCreateStep reports whether PipelineSteps is ImageCreateStep.
+func (s PipelineSteps) IsImageCreateStep() bool { return s.Type == ImageCreateStepPipelineSteps }
+
+// IsImageImportStep reports whether PipelineSteps is ImageImportStep.
+func (s PipelineSteps) IsImageImportStep() bool { return s.Type == ImageImportStepPipelineSteps }
+
+// IsImagesPruneStep reports whether PipelineSteps is ImagesPruneStep.
+func (s PipelineSteps) IsImagesPruneStep() bool { return s.Type == ImagesPruneStepPipelineSteps }
+
+// IsImageCreateImportStep reports whether PipelineSteps is ImageCreateImportStep.
+func (s PipelineSteps) IsImageCreateImportStep() bool {
+	return s.Type == ImageCreateImportStepPipelineSteps
+}
+
+// IsContainerCreateStep reports whether PipelineSteps is ContainerCreateStep.
+func (s PipelineSteps) IsContainerCreateStep() bool {
+	return s.Type == ContainerCreateStepPipelineSteps
+}
+
+// IsContainerStartStep reports whether PipelineSteps is ContainerStartStep.
+func (s PipelineSteps) IsContainerStartStep() bool { return s.Type == ContainerStartStepPipelineSteps }
+
+// IsContainerStopStep reports whether PipelineSteps is ContainerStopStep.
+func (s PipelineSteps) IsContainerStopStep() bool { return s.Type == ContainerStopStepPipelineSteps }
+
+// IsContainerDeleteStep reports whether PipelineSteps is ContainerDeleteStep.
+func (s PipelineSteps) IsContainerDeleteStep() bool {
+	return s.Type == ContainerDeleteStepPipelineSteps
+}
+
+// IsContainerReimageStep reports whether PipelineSteps is ContainerReimageStep.
+func (s PipelineSteps) IsContainerReimageStep() bool {
+	return s.Type == ContainerReimageStepPipelineSteps
+}
+
+// IsContainerRestartStep reports whether PipelineSteps is ContainerRestartStep.
+func (s PipelineSteps) IsContainerRestartStep() bool {
+	return s.Type == ContainerRestartStepPipelineSteps
+}
+
+// IsContainerFunctionTriggerStep reports whether PipelineSteps is ContainerFunctionTriggerStep.
+func (s PipelineSteps) IsContainerFunctionTriggerStep() bool {
+	return s.Type == ContainerFunctionTriggerStepPipelineSteps
+}
+
+// IsEnvironmentCreateStep reports whether PipelineSteps is EnvironmentCreateStep.
+func (s PipelineSteps) IsEnvironmentCreateStep() bool {
+	return s.Type == EnvironmentCreateStepPipelineSteps
+}
+
+// IsEnvironmentStartStep reports whether PipelineSteps is EnvironmentStartStep.
+func (s PipelineSteps) IsEnvironmentStartStep() bool {
+	return s.Type == EnvironmentStartStepPipelineSteps
+}
+
+// IsEnvironmentStopStep reports whether PipelineSteps is EnvironmentStopStep.
+func (s PipelineSteps) IsEnvironmentStopStep() bool {
+	return s.Type == EnvironmentStopStepPipelineSteps
+}
+
+// IsEnvironmentDeleteStep reports whether PipelineSteps is EnvironmentDeleteStep.
+func (s PipelineSteps) IsEnvironmentDeleteStep() bool {
+	return s.Type == EnvironmentDeleteStepPipelineSteps
+}
+
+// IsEnvironmentDeploymentStartStep reports whether PipelineSteps is EnvironmentDeploymentStartStep.
+func (s PipelineSteps) IsEnvironmentDeploymentStartStep() bool {
+	return s.Type == EnvironmentDeploymentStartStepPipelineSteps
+}
+
+// IsEnvironmentDeploymentStopStep reports whether PipelineSteps is EnvironmentDeploymentStopStep.
+func (s PipelineSteps) IsEnvironmentDeploymentStopStep() bool {
+	return s.Type == EnvironmentDeploymentStopStepPipelineSteps
+}
+
+// IsEnvironmentDeploymentsTagStep reports whether PipelineSteps is EnvironmentDeploymentsTagStep.
+func (s PipelineSteps) IsEnvironmentDeploymentsTagStep() bool {
+	return s.Type == EnvironmentDeploymentsTagStepPipelineSteps
+}
+
+// IsEnvironmentDeploymentsPruneStep reports whether PipelineSteps is EnvironmentDeploymentsPruneStep.
+func (s PipelineSteps) IsEnvironmentDeploymentsPruneStep() bool {
+	return s.Type == EnvironmentDeploymentsPruneStepPipelineSteps
+}
+
+// IsEnvironmentDeploymentHealthyWatchStep reports whether PipelineSteps is EnvironmentDeploymentHealthyWatchStep.
+func (s PipelineSteps) IsEnvironmentDeploymentHealthyWatchStep() bool {
+	return s.Type == EnvironmentDeploymentHealthyWatchStepPipelineSteps
+}
+
+// IsStackBuildCreateStep reports whether PipelineSteps is StackBuildCreateStep.
+func (s PipelineSteps) IsStackBuildCreateStep() bool {
+	return s.Type == StackBuildCreateStepPipelineSteps
+}
+
+// IsStackBuildGenerateStep reports whether PipelineSteps is StackBuildGenerateStep.
+func (s PipelineSteps) IsStackBuildGenerateStep() bool {
+	return s.Type == StackBuildGenerateStepPipelineSteps
+}
+
+// IsStackBuildDeployStep reports whether PipelineSteps is StackBuildDeployStep.
+func (s PipelineSteps) IsStackBuildDeployStep() bool {
+	return s.Type == StackBuildDeployStepPipelineSteps
+}
+
+// IsStackPruneStep reports whether PipelineSteps is StackPruneStep.
+func (s PipelineSteps) IsStackPruneStep() bool { return s.Type == StackPruneStepPipelineSteps }
+
+// IsWebhookPostStep reports whether PipelineSteps is WebhookPostStep.
+func (s PipelineSteps) IsWebhookPostStep() bool { return s.Type == WebhookPostStepPipelineSteps }
+
+// IsWebhookGetStep reports whether PipelineSteps is WebhookGetStep.
+func (s PipelineSteps) IsWebhookGetStep() bool { return s.Type == WebhookGetStepPipelineSteps }
+
+// IsSleepStep reports whether PipelineSteps is SleepStep.
+func (s PipelineSteps) IsSleepStep() bool { return s.Type == SleepStepPipelineSteps }
+
+// SetImageCreateStep sets PipelineSteps to ImageCreateStep.
+func (s *PipelineSteps) SetImageCreateStep(v ImageCreateStep) {
+	s.Type = ImageCreateStepPipelineSteps
+	s.ImageCreateStep = v
+}
+
+// GetImageCreateStep returns ImageCreateStep and true boolean if PipelineSteps is ImageCreateStep.
+func (s PipelineSteps) GetImageCreateStep() (v ImageCreateStep, ok bool) {
+	if !s.IsImageCreateStep() {
+		return v, false
+	}
+	return s.ImageCreateStep, true
+}
+
+// NewImageCreateStepPipelineSteps returns new PipelineSteps from ImageCreateStep.
+func NewImageCreateStepPipelineSteps(v ImageCreateStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetImageCreateStep(v)
+	return s
+}
+
+// SetImageImportStep sets PipelineSteps to ImageImportStep.
+func (s *PipelineSteps) SetImageImportStep(v ImageImportStep) {
+	s.Type = ImageImportStepPipelineSteps
+	s.ImageImportStep = v
+}
+
+// GetImageImportStep returns ImageImportStep and true boolean if PipelineSteps is ImageImportStep.
+func (s PipelineSteps) GetImageImportStep() (v ImageImportStep, ok bool) {
+	if !s.IsImageImportStep() {
+		return v, false
+	}
+	return s.ImageImportStep, true
+}
+
+// NewImageImportStepPipelineSteps returns new PipelineSteps from ImageImportStep.
+func NewImageImportStepPipelineSteps(v ImageImportStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetImageImportStep(v)
+	return s
+}
+
+// SetImagesPruneStep sets PipelineSteps to ImagesPruneStep.
+func (s *PipelineSteps) SetImagesPruneStep(v ImagesPruneStep) {
+	s.Type = ImagesPruneStepPipelineSteps
+	s.ImagesPruneStep = v
+}
+
+// GetImagesPruneStep returns ImagesPruneStep and true boolean if PipelineSteps is ImagesPruneStep.
+func (s PipelineSteps) GetImagesPruneStep() (v ImagesPruneStep, ok bool) {
+	if !s.IsImagesPruneStep() {
+		return v, false
+	}
+	return s.ImagesPruneStep, true
+}
+
+// NewImagesPruneStepPipelineSteps returns new PipelineSteps from ImagesPruneStep.
+func NewImagesPruneStepPipelineSteps(v ImagesPruneStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetImagesPruneStep(v)
+	return s
+}
+
+// SetImageCreateImportStep sets PipelineSteps to ImageCreateImportStep.
+func (s *PipelineSteps) SetImageCreateImportStep(v ImageCreateImportStep) {
+	s.Type = ImageCreateImportStepPipelineSteps
+	s.ImageCreateImportStep = v
+}
+
+// GetImageCreateImportStep returns ImageCreateImportStep and true boolean if PipelineSteps is ImageCreateImportStep.
+func (s PipelineSteps) GetImageCreateImportStep() (v ImageCreateImportStep, ok bool) {
+	if !s.IsImageCreateImportStep() {
+		return v, false
+	}
+	return s.ImageCreateImportStep, true
+}
+
+// NewImageCreateImportStepPipelineSteps returns new PipelineSteps from ImageCreateImportStep.
+func NewImageCreateImportStepPipelineSteps(v ImageCreateImportStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetImageCreateImportStep(v)
+	return s
+}
+
+// SetContainerCreateStep sets PipelineSteps to ContainerCreateStep.
+func (s *PipelineSteps) SetContainerCreateStep(v ContainerCreateStep) {
+	s.Type = ContainerCreateStepPipelineSteps
+	s.ContainerCreateStep = v
+}
+
+// GetContainerCreateStep returns ContainerCreateStep and true boolean if PipelineSteps is ContainerCreateStep.
+func (s PipelineSteps) GetContainerCreateStep() (v ContainerCreateStep, ok bool) {
+	if !s.IsContainerCreateStep() {
+		return v, false
+	}
+	return s.ContainerCreateStep, true
+}
+
+// NewContainerCreateStepPipelineSteps returns new PipelineSteps from ContainerCreateStep.
+func NewContainerCreateStepPipelineSteps(v ContainerCreateStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetContainerCreateStep(v)
+	return s
+}
+
+// SetContainerStartStep sets PipelineSteps to ContainerStartStep.
+func (s *PipelineSteps) SetContainerStartStep(v ContainerStartStep) {
+	s.Type = ContainerStartStepPipelineSteps
+	s.ContainerStartStep = v
+}
+
+// GetContainerStartStep returns ContainerStartStep and true boolean if PipelineSteps is ContainerStartStep.
+func (s PipelineSteps) GetContainerStartStep() (v ContainerStartStep, ok bool) {
+	if !s.IsContainerStartStep() {
+		return v, false
+	}
+	return s.ContainerStartStep, true
+}
+
+// NewContainerStartStepPipelineSteps returns new PipelineSteps from ContainerStartStep.
+func NewContainerStartStepPipelineSteps(v ContainerStartStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetContainerStartStep(v)
+	return s
+}
+
+// SetContainerStopStep sets PipelineSteps to ContainerStopStep.
+func (s *PipelineSteps) SetContainerStopStep(v ContainerStopStep) {
+	s.Type = ContainerStopStepPipelineSteps
+	s.ContainerStopStep = v
+}
+
+// GetContainerStopStep returns ContainerStopStep and true boolean if PipelineSteps is ContainerStopStep.
+func (s PipelineSteps) GetContainerStopStep() (v ContainerStopStep, ok bool) {
+	if !s.IsContainerStopStep() {
+		return v, false
+	}
+	return s.ContainerStopStep, true
+}
+
+// NewContainerStopStepPipelineSteps returns new PipelineSteps from ContainerStopStep.
+func NewContainerStopStepPipelineSteps(v ContainerStopStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetContainerStopStep(v)
+	return s
+}
+
+// SetContainerDeleteStep sets PipelineSteps to ContainerDeleteStep.
+func (s *PipelineSteps) SetContainerDeleteStep(v ContainerDeleteStep) {
+	s.Type = ContainerDeleteStepPipelineSteps
+	s.ContainerDeleteStep = v
+}
+
+// GetContainerDeleteStep returns ContainerDeleteStep and true boolean if PipelineSteps is ContainerDeleteStep.
+func (s PipelineSteps) GetContainerDeleteStep() (v ContainerDeleteStep, ok bool) {
+	if !s.IsContainerDeleteStep() {
+		return v, false
+	}
+	return s.ContainerDeleteStep, true
+}
+
+// NewContainerDeleteStepPipelineSteps returns new PipelineSteps from ContainerDeleteStep.
+func NewContainerDeleteStepPipelineSteps(v ContainerDeleteStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetContainerDeleteStep(v)
+	return s
+}
+
+// SetContainerReimageStep sets PipelineSteps to ContainerReimageStep.
+func (s *PipelineSteps) SetContainerReimageStep(v ContainerReimageStep) {
+	s.Type = ContainerReimageStepPipelineSteps
+	s.ContainerReimageStep = v
+}
+
+// GetContainerReimageStep returns ContainerReimageStep and true boolean if PipelineSteps is ContainerReimageStep.
+func (s PipelineSteps) GetContainerReimageStep() (v ContainerReimageStep, ok bool) {
+	if !s.IsContainerReimageStep() {
+		return v, false
+	}
+	return s.ContainerReimageStep, true
+}
+
+// NewContainerReimageStepPipelineSteps returns new PipelineSteps from ContainerReimageStep.
+func NewContainerReimageStepPipelineSteps(v ContainerReimageStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetContainerReimageStep(v)
+	return s
+}
+
+// SetContainerRestartStep sets PipelineSteps to ContainerRestartStep.
+func (s *PipelineSteps) SetContainerRestartStep(v ContainerRestartStep) {
+	s.Type = ContainerRestartStepPipelineSteps
+	s.ContainerRestartStep = v
+}
+
+// GetContainerRestartStep returns ContainerRestartStep and true boolean if PipelineSteps is ContainerRestartStep.
+func (s PipelineSteps) GetContainerRestartStep() (v ContainerRestartStep, ok bool) {
+	if !s.IsContainerRestartStep() {
+		return v, false
+	}
+	return s.ContainerRestartStep, true
+}
+
+// NewContainerRestartStepPipelineSteps returns new PipelineSteps from ContainerRestartStep.
+func NewContainerRestartStepPipelineSteps(v ContainerRestartStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetContainerRestartStep(v)
+	return s
+}
+
+// SetContainerFunctionTriggerStep sets PipelineSteps to ContainerFunctionTriggerStep.
+func (s *PipelineSteps) SetContainerFunctionTriggerStep(v ContainerFunctionTriggerStep) {
+	s.Type = ContainerFunctionTriggerStepPipelineSteps
+	s.ContainerFunctionTriggerStep = v
+}
+
+// GetContainerFunctionTriggerStep returns ContainerFunctionTriggerStep and true boolean if PipelineSteps is ContainerFunctionTriggerStep.
+func (s PipelineSteps) GetContainerFunctionTriggerStep() (v ContainerFunctionTriggerStep, ok bool) {
+	if !s.IsContainerFunctionTriggerStep() {
+		return v, false
+	}
+	return s.ContainerFunctionTriggerStep, true
+}
+
+// NewContainerFunctionTriggerStepPipelineSteps returns new PipelineSteps from ContainerFunctionTriggerStep.
+func NewContainerFunctionTriggerStepPipelineSteps(v ContainerFunctionTriggerStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetContainerFunctionTriggerStep(v)
+	return s
+}
+
+// SetEnvironmentCreateStep sets PipelineSteps to EnvironmentCreateStep.
+func (s *PipelineSteps) SetEnvironmentCreateStep(v EnvironmentCreateStep) {
+	s.Type = EnvironmentCreateStepPipelineSteps
+	s.EnvironmentCreateStep = v
+}
+
+// GetEnvironmentCreateStep returns EnvironmentCreateStep and true boolean if PipelineSteps is EnvironmentCreateStep.
+func (s PipelineSteps) GetEnvironmentCreateStep() (v EnvironmentCreateStep, ok bool) {
+	if !s.IsEnvironmentCreateStep() {
+		return v, false
+	}
+	return s.EnvironmentCreateStep, true
+}
+
+// NewEnvironmentCreateStepPipelineSteps returns new PipelineSteps from EnvironmentCreateStep.
+func NewEnvironmentCreateStepPipelineSteps(v EnvironmentCreateStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetEnvironmentCreateStep(v)
+	return s
+}
+
+// SetEnvironmentStartStep sets PipelineSteps to EnvironmentStartStep.
+func (s *PipelineSteps) SetEnvironmentStartStep(v EnvironmentStartStep) {
+	s.Type = EnvironmentStartStepPipelineSteps
+	s.EnvironmentStartStep = v
+}
+
+// GetEnvironmentStartStep returns EnvironmentStartStep and true boolean if PipelineSteps is EnvironmentStartStep.
+func (s PipelineSteps) GetEnvironmentStartStep() (v EnvironmentStartStep, ok bool) {
+	if !s.IsEnvironmentStartStep() {
+		return v, false
+	}
+	return s.EnvironmentStartStep, true
+}
+
+// NewEnvironmentStartStepPipelineSteps returns new PipelineSteps from EnvironmentStartStep.
+func NewEnvironmentStartStepPipelineSteps(v EnvironmentStartStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetEnvironmentStartStep(v)
+	return s
+}
+
+// SetEnvironmentStopStep sets PipelineSteps to EnvironmentStopStep.
+func (s *PipelineSteps) SetEnvironmentStopStep(v EnvironmentStopStep) {
+	s.Type = EnvironmentStopStepPipelineSteps
+	s.EnvironmentStopStep = v
+}
+
+// GetEnvironmentStopStep returns EnvironmentStopStep and true boolean if PipelineSteps is EnvironmentStopStep.
+func (s PipelineSteps) GetEnvironmentStopStep() (v EnvironmentStopStep, ok bool) {
+	if !s.IsEnvironmentStopStep() {
+		return v, false
+	}
+	return s.EnvironmentStopStep, true
+}
+
+// NewEnvironmentStopStepPipelineSteps returns new PipelineSteps from EnvironmentStopStep.
+func NewEnvironmentStopStepPipelineSteps(v EnvironmentStopStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetEnvironmentStopStep(v)
+	return s
+}
+
+// SetEnvironmentDeleteStep sets PipelineSteps to EnvironmentDeleteStep.
+func (s *PipelineSteps) SetEnvironmentDeleteStep(v EnvironmentDeleteStep) {
+	s.Type = EnvironmentDeleteStepPipelineSteps
+	s.EnvironmentDeleteStep = v
+}
+
+// GetEnvironmentDeleteStep returns EnvironmentDeleteStep and true boolean if PipelineSteps is EnvironmentDeleteStep.
+func (s PipelineSteps) GetEnvironmentDeleteStep() (v EnvironmentDeleteStep, ok bool) {
+	if !s.IsEnvironmentDeleteStep() {
+		return v, false
+	}
+	return s.EnvironmentDeleteStep, true
+}
+
+// NewEnvironmentDeleteStepPipelineSteps returns new PipelineSteps from EnvironmentDeleteStep.
+func NewEnvironmentDeleteStepPipelineSteps(v EnvironmentDeleteStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetEnvironmentDeleteStep(v)
+	return s
+}
+
+// SetEnvironmentDeploymentStartStep sets PipelineSteps to EnvironmentDeploymentStartStep.
+func (s *PipelineSteps) SetEnvironmentDeploymentStartStep(v EnvironmentDeploymentStartStep) {
+	s.Type = EnvironmentDeploymentStartStepPipelineSteps
+	s.EnvironmentDeploymentStartStep = v
+}
+
+// GetEnvironmentDeploymentStartStep returns EnvironmentDeploymentStartStep and true boolean if PipelineSteps is EnvironmentDeploymentStartStep.
+func (s PipelineSteps) GetEnvironmentDeploymentStartStep() (v EnvironmentDeploymentStartStep, ok bool) {
+	if !s.IsEnvironmentDeploymentStartStep() {
+		return v, false
+	}
+	return s.EnvironmentDeploymentStartStep, true
+}
+
+// NewEnvironmentDeploymentStartStepPipelineSteps returns new PipelineSteps from EnvironmentDeploymentStartStep.
+func NewEnvironmentDeploymentStartStepPipelineSteps(v EnvironmentDeploymentStartStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetEnvironmentDeploymentStartStep(v)
+	return s
+}
+
+// SetEnvironmentDeploymentStopStep sets PipelineSteps to EnvironmentDeploymentStopStep.
+func (s *PipelineSteps) SetEnvironmentDeploymentStopStep(v EnvironmentDeploymentStopStep) {
+	s.Type = EnvironmentDeploymentStopStepPipelineSteps
+	s.EnvironmentDeploymentStopStep = v
+}
+
+// GetEnvironmentDeploymentStopStep returns EnvironmentDeploymentStopStep and true boolean if PipelineSteps is EnvironmentDeploymentStopStep.
+func (s PipelineSteps) GetEnvironmentDeploymentStopStep() (v EnvironmentDeploymentStopStep, ok bool) {
+	if !s.IsEnvironmentDeploymentStopStep() {
+		return v, false
+	}
+	return s.EnvironmentDeploymentStopStep, true
+}
+
+// NewEnvironmentDeploymentStopStepPipelineSteps returns new PipelineSteps from EnvironmentDeploymentStopStep.
+func NewEnvironmentDeploymentStopStepPipelineSteps(v EnvironmentDeploymentStopStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetEnvironmentDeploymentStopStep(v)
+	return s
+}
+
+// SetEnvironmentDeploymentsTagStep sets PipelineSteps to EnvironmentDeploymentsTagStep.
+func (s *PipelineSteps) SetEnvironmentDeploymentsTagStep(v EnvironmentDeploymentsTagStep) {
+	s.Type = EnvironmentDeploymentsTagStepPipelineSteps
+	s.EnvironmentDeploymentsTagStep = v
+}
+
+// GetEnvironmentDeploymentsTagStep returns EnvironmentDeploymentsTagStep and true boolean if PipelineSteps is EnvironmentDeploymentsTagStep.
+func (s PipelineSteps) GetEnvironmentDeploymentsTagStep() (v EnvironmentDeploymentsTagStep, ok bool) {
+	if !s.IsEnvironmentDeploymentsTagStep() {
+		return v, false
+	}
+	return s.EnvironmentDeploymentsTagStep, true
+}
+
+// NewEnvironmentDeploymentsTagStepPipelineSteps returns new PipelineSteps from EnvironmentDeploymentsTagStep.
+func NewEnvironmentDeploymentsTagStepPipelineSteps(v EnvironmentDeploymentsTagStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetEnvironmentDeploymentsTagStep(v)
+	return s
+}
+
+// SetEnvironmentDeploymentsPruneStep sets PipelineSteps to EnvironmentDeploymentsPruneStep.
+func (s *PipelineSteps) SetEnvironmentDeploymentsPruneStep(v EnvironmentDeploymentsPruneStep) {
+	s.Type = EnvironmentDeploymentsPruneStepPipelineSteps
+	s.EnvironmentDeploymentsPruneStep = v
+}
+
+// GetEnvironmentDeploymentsPruneStep returns EnvironmentDeploymentsPruneStep and true boolean if PipelineSteps is EnvironmentDeploymentsPruneStep.
+func (s PipelineSteps) GetEnvironmentDeploymentsPruneStep() (v EnvironmentDeploymentsPruneStep, ok bool) {
+	if !s.IsEnvironmentDeploymentsPruneStep() {
+		return v, false
+	}
+	return s.EnvironmentDeploymentsPruneStep, true
+}
+
+// NewEnvironmentDeploymentsPruneStepPipelineSteps returns new PipelineSteps from EnvironmentDeploymentsPruneStep.
+func NewEnvironmentDeploymentsPruneStepPipelineSteps(v EnvironmentDeploymentsPruneStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetEnvironmentDeploymentsPruneStep(v)
+	return s
+}
+
+// SetEnvironmentDeploymentHealthyWatchStep sets PipelineSteps to EnvironmentDeploymentHealthyWatchStep.
+func (s *PipelineSteps) SetEnvironmentDeploymentHealthyWatchStep(v EnvironmentDeploymentHealthyWatchStep) {
+	s.Type = EnvironmentDeploymentHealthyWatchStepPipelineSteps
+	s.EnvironmentDeploymentHealthyWatchStep = v
+}
+
+// GetEnvironmentDeploymentHealthyWatchStep returns EnvironmentDeploymentHealthyWatchStep and true boolean if PipelineSteps is EnvironmentDeploymentHealthyWatchStep.
+func (s PipelineSteps) GetEnvironmentDeploymentHealthyWatchStep() (v EnvironmentDeploymentHealthyWatchStep, ok bool) {
+	if !s.IsEnvironmentDeploymentHealthyWatchStep() {
+		return v, false
+	}
+	return s.EnvironmentDeploymentHealthyWatchStep, true
+}
+
+// NewEnvironmentDeploymentHealthyWatchStepPipelineSteps returns new PipelineSteps from EnvironmentDeploymentHealthyWatchStep.
+func NewEnvironmentDeploymentHealthyWatchStepPipelineSteps(v EnvironmentDeploymentHealthyWatchStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetEnvironmentDeploymentHealthyWatchStep(v)
+	return s
+}
+
+// SetStackBuildCreateStep sets PipelineSteps to StackBuildCreateStep.
+func (s *PipelineSteps) SetStackBuildCreateStep(v StackBuildCreateStep) {
+	s.Type = StackBuildCreateStepPipelineSteps
+	s.StackBuildCreateStep = v
+}
+
+// GetStackBuildCreateStep returns StackBuildCreateStep and true boolean if PipelineSteps is StackBuildCreateStep.
+func (s PipelineSteps) GetStackBuildCreateStep() (v StackBuildCreateStep, ok bool) {
+	if !s.IsStackBuildCreateStep() {
+		return v, false
+	}
+	return s.StackBuildCreateStep, true
+}
+
+// NewStackBuildCreateStepPipelineSteps returns new PipelineSteps from StackBuildCreateStep.
+func NewStackBuildCreateStepPipelineSteps(v StackBuildCreateStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetStackBuildCreateStep(v)
+	return s
+}
+
+// SetStackBuildGenerateStep sets PipelineSteps to StackBuildGenerateStep.
+func (s *PipelineSteps) SetStackBuildGenerateStep(v StackBuildGenerateStep) {
+	s.Type = StackBuildGenerateStepPipelineSteps
+	s.StackBuildGenerateStep = v
+}
+
+// GetStackBuildGenerateStep returns StackBuildGenerateStep and true boolean if PipelineSteps is StackBuildGenerateStep.
+func (s PipelineSteps) GetStackBuildGenerateStep() (v StackBuildGenerateStep, ok bool) {
+	if !s.IsStackBuildGenerateStep() {
+		return v, false
+	}
+	return s.StackBuildGenerateStep, true
+}
+
+// NewStackBuildGenerateStepPipelineSteps returns new PipelineSteps from StackBuildGenerateStep.
+func NewStackBuildGenerateStepPipelineSteps(v StackBuildGenerateStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetStackBuildGenerateStep(v)
+	return s
+}
+
+// SetStackBuildDeployStep sets PipelineSteps to StackBuildDeployStep.
+func (s *PipelineSteps) SetStackBuildDeployStep(v StackBuildDeployStep) {
+	s.Type = StackBuildDeployStepPipelineSteps
+	s.StackBuildDeployStep = v
+}
+
+// GetStackBuildDeployStep returns StackBuildDeployStep and true boolean if PipelineSteps is StackBuildDeployStep.
+func (s PipelineSteps) GetStackBuildDeployStep() (v StackBuildDeployStep, ok bool) {
+	if !s.IsStackBuildDeployStep() {
+		return v, false
+	}
+	return s.StackBuildDeployStep, true
+}
+
+// NewStackBuildDeployStepPipelineSteps returns new PipelineSteps from StackBuildDeployStep.
+func NewStackBuildDeployStepPipelineSteps(v StackBuildDeployStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetStackBuildDeployStep(v)
+	return s
+}
+
+// SetStackPruneStep sets PipelineSteps to StackPruneStep.
+func (s *PipelineSteps) SetStackPruneStep(v StackPruneStep) {
+	s.Type = StackPruneStepPipelineSteps
+	s.StackPruneStep = v
+}
+
+// GetStackPruneStep returns StackPruneStep and true boolean if PipelineSteps is StackPruneStep.
+func (s PipelineSteps) GetStackPruneStep() (v StackPruneStep, ok bool) {
+	if !s.IsStackPruneStep() {
+		return v, false
+	}
+	return s.StackPruneStep, true
+}
+
+// NewStackPruneStepPipelineSteps returns new PipelineSteps from StackPruneStep.
+func NewStackPruneStepPipelineSteps(v StackPruneStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetStackPruneStep(v)
+	return s
+}
+
+// SetWebhookPostStep sets PipelineSteps to WebhookPostStep.
+func (s *PipelineSteps) SetWebhookPostStep(v WebhookPostStep) {
+	s.Type = WebhookPostStepPipelineSteps
+	s.WebhookPostStep = v
+}
+
+// GetWebhookPostStep returns WebhookPostStep and true boolean if PipelineSteps is WebhookPostStep.
+func (s PipelineSteps) GetWebhookPostStep() (v WebhookPostStep, ok bool) {
+	if !s.IsWebhookPostStep() {
+		return v, false
+	}
+	return s.WebhookPostStep, true
+}
+
+// NewWebhookPostStepPipelineSteps returns new PipelineSteps from WebhookPostStep.
+func NewWebhookPostStepPipelineSteps(v WebhookPostStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetWebhookPostStep(v)
+	return s
+}
+
+// SetWebhookGetStep sets PipelineSteps to WebhookGetStep.
+func (s *PipelineSteps) SetWebhookGetStep(v WebhookGetStep) {
+	s.Type = WebhookGetStepPipelineSteps
+	s.WebhookGetStep = v
+}
+
+// GetWebhookGetStep returns WebhookGetStep and true boolean if PipelineSteps is WebhookGetStep.
+func (s PipelineSteps) GetWebhookGetStep() (v WebhookGetStep, ok bool) {
+	if !s.IsWebhookGetStep() {
+		return v, false
+	}
+	return s.WebhookGetStep, true
+}
+
+// NewWebhookGetStepPipelineSteps returns new PipelineSteps from WebhookGetStep.
+func NewWebhookGetStepPipelineSteps(v WebhookGetStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetWebhookGetStep(v)
+	return s
+}
+
+// SetSleepStep sets PipelineSteps to SleepStep.
+func (s *PipelineSteps) SetSleepStep(v SleepStep) {
+	s.Type = SleepStepPipelineSteps
+	s.SleepStep = v
+}
+
+// GetSleepStep returns SleepStep and true boolean if PipelineSteps is SleepStep.
+func (s PipelineSteps) GetSleepStep() (v SleepStep, ok bool) {
+	if !s.IsSleepStep() {
+		return v, false
+	}
+	return s.SleepStep, true
+}
+
+// NewSleepStepPipelineSteps returns new PipelineSteps from SleepStep.
+func NewSleepStepPipelineSteps(v SleepStep) PipelineSteps {
+	var s PipelineSteps
+	s.SetSleepStep(v)
+	return s
+}
 
 // An IP Pool.
 // Ref: #/components/schemas/Pool
@@ -72907,6 +84733,443 @@ func (s *Range) SetEnd(val DateTime) {
 	s.End = val
 }
 
+// The `raw` type of scoped variable `value`, referred to as a source.  This means that the value is
+// static, not the result of a call to an external or internal URL.
+// Ref: #/components/schemas/RawSource
+type RawSource struct {
+	Details RawSourceDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *RawSource) GetDetails() RawSourceDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *RawSource) SetDetails(val RawSourceDetails) {
+	s.Details = val
+}
+
+type RawSourceDetails struct {
+	// The value of the variable.
+	Value string `json:"value"`
+	// A boolean where true represents the text the user is entering will be multi line.
+	Blob   bool                         `json:"blob"`
+	Secret OptNilRawSourceDetailsSecret `json:"secret"`
+}
+
+// GetValue returns the value of Value.
+func (s *RawSourceDetails) GetValue() string {
+	return s.Value
+}
+
+// GetBlob returns the value of Blob.
+func (s *RawSourceDetails) GetBlob() bool {
+	return s.Blob
+}
+
+// GetSecret returns the value of Secret.
+func (s *RawSourceDetails) GetSecret() OptNilRawSourceDetailsSecret {
+	return s.Secret
+}
+
+// SetValue sets the value of Value.
+func (s *RawSourceDetails) SetValue(val string) {
+	s.Value = val
+}
+
+// SetBlob sets the value of Blob.
+func (s *RawSourceDetails) SetBlob(val bool) {
+	s.Blob = val
+}
+
+// SetSecret sets the value of Secret.
+func (s *RawSourceDetails) SetSecret(val OptNilRawSourceDetailsSecret) {
+	s.Secret = val
+}
+
+type RawSourceDetailsSecret struct {
+	// A string describing the IV Hex associated with the encryption of the variable.
+	Iv OptString `json:"iv"`
+	// A user specified hint that will suggest what the encryption key might be.
+	Hint OptNilString `json:"hint"`
+}
+
+// GetIv returns the value of Iv.
+func (s *RawSourceDetailsSecret) GetIv() OptString {
+	return s.Iv
+}
+
+// GetHint returns the value of Hint.
+func (s *RawSourceDetailsSecret) GetHint() OptNilString {
+	return s.Hint
+}
+
+// SetIv sets the value of Iv.
+func (s *RawSourceDetailsSecret) SetIv(val OptString) {
+	s.Iv = val
+}
+
+// SetHint sets the value of Hint.
+func (s *RawSourceDetailsSecret) SetHint(val OptNilString) {
+	s.Hint = val
+}
+
+// The type of source value, can be either `raw` or `url`.
+type RawSourceType string
+
+const (
+	RawSourceTypeRaw RawSourceType = "raw"
+)
+
+// AllValues returns all RawSourceType values.
+func (RawSourceType) AllValues() []RawSourceType {
+	return []RawSourceType{
+		RawSourceTypeRaw,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RawSourceType) MarshalText() ([]byte, error) {
+	switch s {
+	case RawSourceTypeRaw:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RawSourceType) UnmarshalText(data []byte) error {
+	switch RawSourceType(data) {
+	case RawSourceTypeRaw:
+		*s = RawSourceTypeRaw
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/ReconfigureContainer
+type ReconfigureContainer struct {
+	Contents Config `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *ReconfigureContainer) GetContents() Config {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *ReconfigureContainer) SetContents(val Config) {
+	s.Contents = val
+}
+
+// The action to take.
+type ReconfigureContainerAction string
+
+const (
+	ReconfigureContainerActionReconfigure ReconfigureContainerAction = "reconfigure"
+)
+
+// AllValues returns all ReconfigureContainerAction values.
+func (ReconfigureContainerAction) AllValues() []ReconfigureContainerAction {
+	return []ReconfigureContainerAction{
+		ReconfigureContainerActionReconfigure,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReconfigureContainerAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ReconfigureContainerActionReconfigure:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReconfigureContainerAction) UnmarshalText(data []byte) error {
+	switch ReconfigureContainerAction(data) {
+	case ReconfigureContainerActionReconfigure:
+		*s = ReconfigureContainerActionReconfigure
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/ReconfigureServer
+type ReconfigureServer struct {
+	// Supplemental information needed to perform the action.
+	Contents ReconfigureServerContents `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *ReconfigureServer) GetContents() ReconfigureServerContents {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *ReconfigureServer) SetContents(val ReconfigureServerContents) {
+	s.Contents = val
+}
+
+// The action to take.
+type ReconfigureServerAction string
+
+const (
+	ReconfigureServerActionFeaturesReconfigure ReconfigureServerAction = "features.reconfigure"
+)
+
+// AllValues returns all ReconfigureServerAction values.
+func (ReconfigureServerAction) AllValues() []ReconfigureServerAction {
+	return []ReconfigureServerAction{
+		ReconfigureServerActionFeaturesReconfigure,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReconfigureServerAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ReconfigureServerActionFeaturesReconfigure:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReconfigureServerAction) UnmarshalText(data []byte) error {
+	switch ReconfigureServerAction(data) {
+	case ReconfigureServerActionFeaturesReconfigure:
+		*s = ReconfigureServerActionFeaturesReconfigure
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Supplemental information needed to perform the action.
+type ReconfigureServerContents struct {
+	// A boolean where true represents the desire for the server to accept incoming SFTP requests for
+	// container volumes.
+	Sftp bool `json:"sftp"`
+	// A number in GB for how big the base volume should be.  This cannot be lower than the currently set
+	// value for the server.
+	BaseVolumeGB NilInt `json:"base_volume_gb"`
+}
+
+// GetSftp returns the value of Sftp.
+func (s *ReconfigureServerContents) GetSftp() bool {
+	return s.Sftp
+}
+
+// GetBaseVolumeGB returns the value of BaseVolumeGB.
+func (s *ReconfigureServerContents) GetBaseVolumeGB() NilInt {
+	return s.BaseVolumeGB
+}
+
+// SetSftp sets the value of Sftp.
+func (s *ReconfigureServerContents) SetSftp(val bool) {
+	s.Sftp = val
+}
+
+// SetBaseVolumeGB sets the value of BaseVolumeGB.
+func (s *ReconfigureServerContents) SetBaseVolumeGB(val NilInt) {
+	s.BaseVolumeGB = val
+}
+
+// Ref: #/components/schemas/ReconfigureSharedFs
+type ReconfigureSharedFs struct {
+	Contents ReconfigureSharedFsContents `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *ReconfigureSharedFs) GetContents() ReconfigureSharedFsContents {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *ReconfigureSharedFs) SetContents(val ReconfigureSharedFsContents) {
+	s.Contents = val
+}
+
+// The action to take.
+type ReconfigureSharedFsAction string
+
+const (
+	ReconfigureSharedFsActionSharedfsReconfigure ReconfigureSharedFsAction = "sharedfs.reconfigure"
+)
+
+// AllValues returns all ReconfigureSharedFsAction values.
+func (ReconfigureSharedFsAction) AllValues() []ReconfigureSharedFsAction {
+	return []ReconfigureSharedFsAction{
+		ReconfigureSharedFsActionSharedfsReconfigure,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReconfigureSharedFsAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ReconfigureSharedFsActionSharedfsReconfigure:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReconfigureSharedFsAction) UnmarshalText(data []byte) error {
+	switch ReconfigureSharedFsAction(data) {
+	case ReconfigureSharedFsActionSharedfsReconfigure:
+		*s = ReconfigureSharedFsActionSharedfsReconfigure
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type ReconfigureSharedFsContents struct {
+	Mounts OptNilReconfigureSharedFsContentsMounts `json:"mounts"`
+	// An object describing directory identifiers with value {}.
+	Directories OptNilReconfigureSharedFsContentsDirectories `json:"directories"`
+}
+
+// GetMounts returns the value of Mounts.
+func (s *ReconfigureSharedFsContents) GetMounts() OptNilReconfigureSharedFsContentsMounts {
+	return s.Mounts
+}
+
+// GetDirectories returns the value of Directories.
+func (s *ReconfigureSharedFsContents) GetDirectories() OptNilReconfigureSharedFsContentsDirectories {
+	return s.Directories
+}
+
+// SetMounts sets the value of Mounts.
+func (s *ReconfigureSharedFsContents) SetMounts(val OptNilReconfigureSharedFsContentsMounts) {
+	s.Mounts = val
+}
+
+// SetDirectories sets the value of Directories.
+func (s *ReconfigureSharedFsContents) SetDirectories(val OptNilReconfigureSharedFsContentsDirectories) {
+	s.Directories = val
+}
+
+// An object describing directory identifiers with value {}.
+type ReconfigureSharedFsContentsDirectories map[string]jx.Raw
+
+func (s *ReconfigureSharedFsContentsDirectories) init() ReconfigureSharedFsContentsDirectories {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+type ReconfigureSharedFsContentsMounts map[string]ReconfigureSharedFsContentsMountsItem
+
+func (s *ReconfigureSharedFsContentsMounts) init() ReconfigureSharedFsContentsMounts {
+	m := *s
+	if m == nil {
+		m = map[string]ReconfigureSharedFsContentsMountsItem{}
+		*s = m
+	}
+	return m
+}
+
+type ReconfigureSharedFsContentsMountsItem struct {
+	// String describing the server mount type.
+	Type string `json:"type"`
+	// Comma separated string describing the server mount options.
+	Options string `json:"options"`
+	// String describing the server mount source.
+	Source string `json:"source"`
+}
+
+// GetType returns the value of Type.
+func (s *ReconfigureSharedFsContentsMountsItem) GetType() string {
+	return s.Type
+}
+
+// GetOptions returns the value of Options.
+func (s *ReconfigureSharedFsContentsMountsItem) GetOptions() string {
+	return s.Options
+}
+
+// GetSource returns the value of Source.
+func (s *ReconfigureSharedFsContentsMountsItem) GetSource() string {
+	return s.Source
+}
+
+// SetType sets the value of Type.
+func (s *ReconfigureSharedFsContentsMountsItem) SetType(val string) {
+	s.Type = val
+}
+
+// SetOptions sets the value of Options.
+func (s *ReconfigureSharedFsContentsMountsItem) SetOptions(val string) {
+	s.Options = val
+}
+
+// SetSource sets the value of Source.
+func (s *ReconfigureSharedFsContentsMountsItem) SetSource(val string) {
+	s.Source = val
+}
+
+// Ref: #/components/schemas/ReconfigureVolumes
+type ReconfigureVolumes struct {
+	// An array of volume objects to be reconfigured.
+	Contents []VolumeSummary `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *ReconfigureVolumes) GetContents() []VolumeSummary {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *ReconfigureVolumes) SetContents(val []VolumeSummary) {
+	s.Contents = val
+}
+
+// The action to take.
+type ReconfigureVolumesAction string
+
+const (
+	ReconfigureVolumesActionVolumesReconfigure ReconfigureVolumesAction = "volumes.reconfigure"
+)
+
+// AllValues returns all ReconfigureVolumesAction values.
+func (ReconfigureVolumesAction) AllValues() []ReconfigureVolumesAction {
+	return []ReconfigureVolumesAction{
+		ReconfigureVolumesActionVolumesReconfigure,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReconfigureVolumesAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ReconfigureVolumesActionVolumesReconfigure:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReconfigureVolumesAction) UnmarshalText(data []byte) error {
+	switch ReconfigureVolumesAction(data) {
+	case ReconfigureVolumesActionVolumesReconfigure:
+		*s = ReconfigureVolumesActionVolumesReconfigure
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // A DNS record.
 // Ref: #/components/schemas/Record
 type Record struct {
@@ -73764,6 +86027,764 @@ func (s *Refund) SetGateway(val PaymentGateway) {
 	s.Gateway = val
 }
 
+// Authentication details for a third party image registry/source.
+// Ref: #/components/schemas/RegistryAuth
+type RegistryAuth struct {
+	OneOf RegistryAuthSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *RegistryAuth) GetOneOf() RegistryAuthSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *RegistryAuth) SetOneOf(val RegistryAuthSum) {
+	s.OneOf = val
+}
+
+// Credentials for authentication to a provider-native image registry, such as AWS ECR.
+// Ref: #/components/schemas/RegistryAuthProvider
+type RegistryAuthProvider struct {
+	Details RegistryAuthProviderDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *RegistryAuthProvider) GetDetails() RegistryAuthProviderDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *RegistryAuthProvider) SetDetails(val RegistryAuthProviderDetails) {
+	s.Details = val
+}
+
+type RegistryAuthProviderDetails struct {
+	Flavor      RegistryAuthProviderDetailsFlavor      `json:"flavor"`
+	Credentials RegistryAuthProviderDetailsCredentials `json:"credentials"`
+}
+
+// GetFlavor returns the value of Flavor.
+func (s *RegistryAuthProviderDetails) GetFlavor() RegistryAuthProviderDetailsFlavor {
+	return s.Flavor
+}
+
+// GetCredentials returns the value of Credentials.
+func (s *RegistryAuthProviderDetails) GetCredentials() RegistryAuthProviderDetailsCredentials {
+	return s.Credentials
+}
+
+// SetFlavor sets the value of Flavor.
+func (s *RegistryAuthProviderDetails) SetFlavor(val RegistryAuthProviderDetailsFlavor) {
+	s.Flavor = val
+}
+
+// SetCredentials sets the value of Credentials.
+func (s *RegistryAuthProviderDetails) SetCredentials(val RegistryAuthProviderDetailsCredentials) {
+	s.Credentials = val
+}
+
+type RegistryAuthProviderDetailsCredentials struct {
+	Region         OptString `json:"region"`
+	Namespace      OptString `json:"namespace"`
+	APIKey         OptString `json:"api_key"`
+	Secret         OptString `json:"secret"`
+	SubscriptionID OptString `json:"subscription_id"`
+	ClientID       OptString `json:"client_id"`
+	// A base64'd string of additional configuration options.
+	Config OptString `json:"config"`
+}
+
+// GetRegion returns the value of Region.
+func (s *RegistryAuthProviderDetailsCredentials) GetRegion() OptString {
+	return s.Region
+}
+
+// GetNamespace returns the value of Namespace.
+func (s *RegistryAuthProviderDetailsCredentials) GetNamespace() OptString {
+	return s.Namespace
+}
+
+// GetAPIKey returns the value of APIKey.
+func (s *RegistryAuthProviderDetailsCredentials) GetAPIKey() OptString {
+	return s.APIKey
+}
+
+// GetSecret returns the value of Secret.
+func (s *RegistryAuthProviderDetailsCredentials) GetSecret() OptString {
+	return s.Secret
+}
+
+// GetSubscriptionID returns the value of SubscriptionID.
+func (s *RegistryAuthProviderDetailsCredentials) GetSubscriptionID() OptString {
+	return s.SubscriptionID
+}
+
+// GetClientID returns the value of ClientID.
+func (s *RegistryAuthProviderDetailsCredentials) GetClientID() OptString {
+	return s.ClientID
+}
+
+// GetConfig returns the value of Config.
+func (s *RegistryAuthProviderDetailsCredentials) GetConfig() OptString {
+	return s.Config
+}
+
+// SetRegion sets the value of Region.
+func (s *RegistryAuthProviderDetailsCredentials) SetRegion(val OptString) {
+	s.Region = val
+}
+
+// SetNamespace sets the value of Namespace.
+func (s *RegistryAuthProviderDetailsCredentials) SetNamespace(val OptString) {
+	s.Namespace = val
+}
+
+// SetAPIKey sets the value of APIKey.
+func (s *RegistryAuthProviderDetailsCredentials) SetAPIKey(val OptString) {
+	s.APIKey = val
+}
+
+// SetSecret sets the value of Secret.
+func (s *RegistryAuthProviderDetailsCredentials) SetSecret(val OptString) {
+	s.Secret = val
+}
+
+// SetSubscriptionID sets the value of SubscriptionID.
+func (s *RegistryAuthProviderDetailsCredentials) SetSubscriptionID(val OptString) {
+	s.SubscriptionID = val
+}
+
+// SetClientID sets the value of ClientID.
+func (s *RegistryAuthProviderDetailsCredentials) SetClientID(val OptString) {
+	s.ClientID = val
+}
+
+// SetConfig sets the value of Config.
+func (s *RegistryAuthProviderDetailsCredentials) SetConfig(val OptString) {
+	s.Config = val
+}
+
+type RegistryAuthProviderDetailsFlavor string
+
+const (
+	RegistryAuthProviderDetailsFlavorEcr RegistryAuthProviderDetailsFlavor = "ecr"
+)
+
+// AllValues returns all RegistryAuthProviderDetailsFlavor values.
+func (RegistryAuthProviderDetailsFlavor) AllValues() []RegistryAuthProviderDetailsFlavor {
+	return []RegistryAuthProviderDetailsFlavor{
+		RegistryAuthProviderDetailsFlavorEcr,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RegistryAuthProviderDetailsFlavor) MarshalText() ([]byte, error) {
+	switch s {
+	case RegistryAuthProviderDetailsFlavorEcr:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RegistryAuthProviderDetailsFlavor) UnmarshalText(data []byte) error {
+	switch RegistryAuthProviderDetailsFlavor(data) {
+	case RegistryAuthProviderDetailsFlavorEcr:
+		*s = RegistryAuthProviderDetailsFlavorEcr
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type RegistryAuthProviderType string
+
+const (
+	RegistryAuthProviderTypeProvider RegistryAuthProviderType = "provider"
+)
+
+// AllValues returns all RegistryAuthProviderType values.
+func (RegistryAuthProviderType) AllValues() []RegistryAuthProviderType {
+	return []RegistryAuthProviderType{
+		RegistryAuthProviderTypeProvider,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RegistryAuthProviderType) MarshalText() ([]byte, error) {
+	switch s {
+	case RegistryAuthProviderTypeProvider:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RegistryAuthProviderType) UnmarshalText(data []byte) error {
+	switch RegistryAuthProviderType(data) {
+	case RegistryAuthProviderTypeProvider:
+		*s = RegistryAuthProviderTypeProvider
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// RegistryAuthSum represents sum type.
+type RegistryAuthSum struct {
+	Type                 RegistryAuthSumType // switch on this field
+	RegistryAuthUser     RegistryAuthUser
+	RegistryAuthProvider RegistryAuthProvider
+	RegistryAuthWebhook  RegistryAuthWebhook
+}
+
+// RegistryAuthSumType is oneOf type of RegistryAuthSum.
+type RegistryAuthSumType string
+
+// Possible values for RegistryAuthSumType.
+const (
+	RegistryAuthUserRegistryAuthSum     RegistryAuthSumType = "user"
+	RegistryAuthProviderRegistryAuthSum RegistryAuthSumType = "provider"
+	RegistryAuthWebhookRegistryAuthSum  RegistryAuthSumType = "webhook"
+)
+
+// IsRegistryAuthUser reports whether RegistryAuthSum is RegistryAuthUser.
+func (s RegistryAuthSum) IsRegistryAuthUser() bool { return s.Type == RegistryAuthUserRegistryAuthSum }
+
+// IsRegistryAuthProvider reports whether RegistryAuthSum is RegistryAuthProvider.
+func (s RegistryAuthSum) IsRegistryAuthProvider() bool {
+	return s.Type == RegistryAuthProviderRegistryAuthSum
+}
+
+// IsRegistryAuthWebhook reports whether RegistryAuthSum is RegistryAuthWebhook.
+func (s RegistryAuthSum) IsRegistryAuthWebhook() bool {
+	return s.Type == RegistryAuthWebhookRegistryAuthSum
+}
+
+// SetRegistryAuthUser sets RegistryAuthSum to RegistryAuthUser.
+func (s *RegistryAuthSum) SetRegistryAuthUser(v RegistryAuthUser) {
+	s.Type = RegistryAuthUserRegistryAuthSum
+	s.RegistryAuthUser = v
+}
+
+// GetRegistryAuthUser returns RegistryAuthUser and true boolean if RegistryAuthSum is RegistryAuthUser.
+func (s RegistryAuthSum) GetRegistryAuthUser() (v RegistryAuthUser, ok bool) {
+	if !s.IsRegistryAuthUser() {
+		return v, false
+	}
+	return s.RegistryAuthUser, true
+}
+
+// NewRegistryAuthUserRegistryAuthSum returns new RegistryAuthSum from RegistryAuthUser.
+func NewRegistryAuthUserRegistryAuthSum(v RegistryAuthUser) RegistryAuthSum {
+	var s RegistryAuthSum
+	s.SetRegistryAuthUser(v)
+	return s
+}
+
+// SetRegistryAuthProvider sets RegistryAuthSum to RegistryAuthProvider.
+func (s *RegistryAuthSum) SetRegistryAuthProvider(v RegistryAuthProvider) {
+	s.Type = RegistryAuthProviderRegistryAuthSum
+	s.RegistryAuthProvider = v
+}
+
+// GetRegistryAuthProvider returns RegistryAuthProvider and true boolean if RegistryAuthSum is RegistryAuthProvider.
+func (s RegistryAuthSum) GetRegistryAuthProvider() (v RegistryAuthProvider, ok bool) {
+	if !s.IsRegistryAuthProvider() {
+		return v, false
+	}
+	return s.RegistryAuthProvider, true
+}
+
+// NewRegistryAuthProviderRegistryAuthSum returns new RegistryAuthSum from RegistryAuthProvider.
+func NewRegistryAuthProviderRegistryAuthSum(v RegistryAuthProvider) RegistryAuthSum {
+	var s RegistryAuthSum
+	s.SetRegistryAuthProvider(v)
+	return s
+}
+
+// SetRegistryAuthWebhook sets RegistryAuthSum to RegistryAuthWebhook.
+func (s *RegistryAuthSum) SetRegistryAuthWebhook(v RegistryAuthWebhook) {
+	s.Type = RegistryAuthWebhookRegistryAuthSum
+	s.RegistryAuthWebhook = v
+}
+
+// GetRegistryAuthWebhook returns RegistryAuthWebhook and true boolean if RegistryAuthSum is RegistryAuthWebhook.
+func (s RegistryAuthSum) GetRegistryAuthWebhook() (v RegistryAuthWebhook, ok bool) {
+	if !s.IsRegistryAuthWebhook() {
+		return v, false
+	}
+	return s.RegistryAuthWebhook, true
+}
+
+// NewRegistryAuthWebhookRegistryAuthSum returns new RegistryAuthSum from RegistryAuthWebhook.
+func NewRegistryAuthWebhookRegistryAuthSum(v RegistryAuthWebhook) RegistryAuthSum {
+	var s RegistryAuthSum
+	s.SetRegistryAuthWebhook(v)
+	return s
+}
+
+// User/token based credentials for authentication to a third-party image source.
+// Ref: #/components/schemas/RegistryAuthUser
+type RegistryAuthUser struct {
+	Details RegistryAuthUserDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *RegistryAuthUser) GetDetails() RegistryAuthUserDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *RegistryAuthUser) SetDetails(val RegistryAuthUserDetails) {
+	s.Details = val
+}
+
+type RegistryAuthUserDetails struct {
+	Username OptString `json:"username"`
+	Token    OptString `json:"token"`
+}
+
+// GetUsername returns the value of Username.
+func (s *RegistryAuthUserDetails) GetUsername() OptString {
+	return s.Username
+}
+
+// GetToken returns the value of Token.
+func (s *RegistryAuthUserDetails) GetToken() OptString {
+	return s.Token
+}
+
+// SetUsername sets the value of Username.
+func (s *RegistryAuthUserDetails) SetUsername(val OptString) {
+	s.Username = val
+}
+
+// SetToken sets the value of Token.
+func (s *RegistryAuthUserDetails) SetToken(val OptString) {
+	s.Token = val
+}
+
+type RegistryAuthUserType string
+
+const (
+	RegistryAuthUserTypeUser RegistryAuthUserType = "user"
+)
+
+// AllValues returns all RegistryAuthUserType values.
+func (RegistryAuthUserType) AllValues() []RegistryAuthUserType {
+	return []RegistryAuthUserType{
+		RegistryAuthUserTypeUser,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RegistryAuthUserType) MarshalText() ([]byte, error) {
+	switch s {
+	case RegistryAuthUserTypeUser:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RegistryAuthUserType) UnmarshalText(data []byte) error {
+	switch RegistryAuthUserType(data) {
+	case RegistryAuthUserTypeUser:
+		*s = RegistryAuthUserTypeUser
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Webhook-based authentication to the provided URL. This webhook expects to receive a base-64 string
+// that when decoded is in the format `username:password`.
+// Ref: #/components/schemas/RegistryAuthWebhook
+type RegistryAuthWebhook struct {
+	Details RegistryAuthWebhookDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *RegistryAuthWebhook) GetDetails() RegistryAuthWebhookDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *RegistryAuthWebhook) SetDetails(val RegistryAuthWebhookDetails) {
+	s.Details = val
+}
+
+type RegistryAuthWebhookDetails struct {
+	URL string `json:"url"`
+}
+
+// GetURL returns the value of URL.
+func (s *RegistryAuthWebhookDetails) GetURL() string {
+	return s.URL
+}
+
+// SetURL sets the value of URL.
+func (s *RegistryAuthWebhookDetails) SetURL(val string) {
+	s.URL = val
+}
+
+type RegistryAuthWebhookType string
+
+const (
+	RegistryAuthWebhookTypeWebhook RegistryAuthWebhookType = "webhook"
+)
+
+// AllValues returns all RegistryAuthWebhookType values.
+func (RegistryAuthWebhookType) AllValues() []RegistryAuthWebhookType {
+	return []RegistryAuthWebhookType{
+		RegistryAuthWebhookTypeWebhook,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RegistryAuthWebhookType) MarshalText() ([]byte, error) {
+	switch s {
+	case RegistryAuthWebhookTypeWebhook:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RegistryAuthWebhookType) UnmarshalText(data []byte) error {
+	switch RegistryAuthWebhookType(data) {
+	case RegistryAuthWebhookTypeWebhook:
+		*s = RegistryAuthWebhookTypeWebhook
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/Reimage
+type Reimage struct {
+	// Additional information needed to complete the job.
+	Contents ReimageContents `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *Reimage) GetContents() ReimageContents {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *Reimage) SetContents(val ReimageContents) {
+	s.Contents = val
+}
+
+// The action to take.
+type ReimageAction string
+
+const (
+	ReimageActionReimage ReimageAction = "reimage"
+)
+
+// AllValues returns all ReimageAction values.
+func (ReimageAction) AllValues() []ReimageAction {
+	return []ReimageAction{
+		ReimageActionReimage,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ReimageAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ReimageActionReimage:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ReimageAction) UnmarshalText(data []byte) error {
+	switch ReimageAction(data) {
+	case ReimageActionReimage:
+		*s = ReimageActionReimage
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Additional information needed to complete the job.
+type ReimageContents struct {
+	// The ID of the image to use when reimaging.
+	ImageID string `json:"image_id"`
+	// A boolean where true signifies the image being used to reimage does not have to have compatibility
+	// with the image being replaced.
+	AllowIncompatible OptBool `json:"allow_incompatible"`
+	// A boolean where true signifies the user wishes to overwrite the current runtime configuration for
+	// the given container during the reimage process.
+	OverwriteRuntimeConfig OptBool `json:"overwrite_runtime_config"`
+}
+
+// GetImageID returns the value of ImageID.
+func (s *ReimageContents) GetImageID() string {
+	return s.ImageID
+}
+
+// GetAllowIncompatible returns the value of AllowIncompatible.
+func (s *ReimageContents) GetAllowIncompatible() OptBool {
+	return s.AllowIncompatible
+}
+
+// GetOverwriteRuntimeConfig returns the value of OverwriteRuntimeConfig.
+func (s *ReimageContents) GetOverwriteRuntimeConfig() OptBool {
+	return s.OverwriteRuntimeConfig
+}
+
+// SetImageID sets the value of ImageID.
+func (s *ReimageContents) SetImageID(val string) {
+	s.ImageID = val
+}
+
+// SetAllowIncompatible sets the value of AllowIncompatible.
+func (s *ReimageContents) SetAllowIncompatible(val OptBool) {
+	s.AllowIncompatible = val
+}
+
+// SetOverwriteRuntimeConfig sets the value of OverwriteRuntimeConfig.
+func (s *ReimageContents) SetOverwriteRuntimeConfig(val OptBool) {
+	s.OverwriteRuntimeConfig = val
+}
+
+// Information about the repository.
+// Ref: #/components/schemas/RepoType
+type RepoType struct {
+	// The URL of the repository.
+	URL string `json:"url"`
+	// An optional branch arguement.  Default value is `master`.
+	Branch OptString `json:"branch"`
+	// Authentication information for the repository.
+	Auth OptRepoTypeAuth `json:"auth"`
+	// Repository reference information.
+	Ref OptNilRepoTypeRef `json:"ref"`
+}
+
+// GetURL returns the value of URL.
+func (s *RepoType) GetURL() string {
+	return s.URL
+}
+
+// GetBranch returns the value of Branch.
+func (s *RepoType) GetBranch() OptString {
+	return s.Branch
+}
+
+// GetAuth returns the value of Auth.
+func (s *RepoType) GetAuth() OptRepoTypeAuth {
+	return s.Auth
+}
+
+// GetRef returns the value of Ref.
+func (s *RepoType) GetRef() OptNilRepoTypeRef {
+	return s.Ref
+}
+
+// SetURL sets the value of URL.
+func (s *RepoType) SetURL(val string) {
+	s.URL = val
+}
+
+// SetBranch sets the value of Branch.
+func (s *RepoType) SetBranch(val OptString) {
+	s.Branch = val
+}
+
+// SetAuth sets the value of Auth.
+func (s *RepoType) SetAuth(val OptRepoTypeAuth) {
+	s.Auth = val
+}
+
+// SetRef sets the value of Ref.
+func (s *RepoType) SetRef(val OptNilRepoTypeRef) {
+	s.Ref = val
+}
+
+// Authentication information for the repository.
+type RepoTypeAuth struct {
+	OneOf RepoTypeAuthSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *RepoTypeAuth) GetOneOf() RepoTypeAuthSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *RepoTypeAuth) SetOneOf(val RepoTypeAuthSum) {
+	s.OneOf = val
+}
+
+// RepoTypeAuthSum represents sum type.
+type RepoTypeAuthSum struct {
+	Type            RepoTypeAuthSumType // switch on this field
+	CredentialsHTTP CredentialsHTTP
+	CredentialsSSH  CredentialsSSH
+}
+
+// RepoTypeAuthSumType is oneOf type of RepoTypeAuthSum.
+type RepoTypeAuthSumType string
+
+// Possible values for RepoTypeAuthSumType.
+const (
+	CredentialsHTTPRepoTypeAuthSum RepoTypeAuthSumType = "http"
+	CredentialsSSHRepoTypeAuthSum  RepoTypeAuthSumType = "ssh"
+)
+
+// IsCredentialsHTTP reports whether RepoTypeAuthSum is CredentialsHTTP.
+func (s RepoTypeAuthSum) IsCredentialsHTTP() bool { return s.Type == CredentialsHTTPRepoTypeAuthSum }
+
+// IsCredentialsSSH reports whether RepoTypeAuthSum is CredentialsSSH.
+func (s RepoTypeAuthSum) IsCredentialsSSH() bool { return s.Type == CredentialsSSHRepoTypeAuthSum }
+
+// SetCredentialsHTTP sets RepoTypeAuthSum to CredentialsHTTP.
+func (s *RepoTypeAuthSum) SetCredentialsHTTP(v CredentialsHTTP) {
+	s.Type = CredentialsHTTPRepoTypeAuthSum
+	s.CredentialsHTTP = v
+}
+
+// GetCredentialsHTTP returns CredentialsHTTP and true boolean if RepoTypeAuthSum is CredentialsHTTP.
+func (s RepoTypeAuthSum) GetCredentialsHTTP() (v CredentialsHTTP, ok bool) {
+	if !s.IsCredentialsHTTP() {
+		return v, false
+	}
+	return s.CredentialsHTTP, true
+}
+
+// NewCredentialsHTTPRepoTypeAuthSum returns new RepoTypeAuthSum from CredentialsHTTP.
+func NewCredentialsHTTPRepoTypeAuthSum(v CredentialsHTTP) RepoTypeAuthSum {
+	var s RepoTypeAuthSum
+	s.SetCredentialsHTTP(v)
+	return s
+}
+
+// SetCredentialsSSH sets RepoTypeAuthSum to CredentialsSSH.
+func (s *RepoTypeAuthSum) SetCredentialsSSH(v CredentialsSSH) {
+	s.Type = CredentialsSSHRepoTypeAuthSum
+	s.CredentialsSSH = v
+}
+
+// GetCredentialsSSH returns CredentialsSSH and true boolean if RepoTypeAuthSum is CredentialsSSH.
+func (s RepoTypeAuthSum) GetCredentialsSSH() (v CredentialsSSH, ok bool) {
+	if !s.IsCredentialsSSH() {
+		return v, false
+	}
+	return s.CredentialsSSH, true
+}
+
+// NewCredentialsSSHRepoTypeAuthSum returns new RepoTypeAuthSum from CredentialsSSH.
+func NewCredentialsSSHRepoTypeAuthSum(v CredentialsSSH) RepoTypeAuthSum {
+	var s RepoTypeAuthSum
+	s.SetCredentialsSSH(v)
+	return s
+}
+
+// Repository reference information.
+type RepoTypeRef struct {
+	// The type of reference being used.
+	Type string `json:"type"`
+	// The value for the given reference type.
+	Value string `json:"value"`
+}
+
+// GetType returns the value of Type.
+func (s *RepoTypeRef) GetType() string {
+	return s.Type
+}
+
+// GetValue returns the value of Value.
+func (s *RepoTypeRef) GetValue() string {
+	return s.Value
+}
+
+// SetType sets the value of Type.
+func (s *RepoTypeRef) SetType(val string) {
+	s.Type = val
+}
+
+// SetValue sets the value of Value.
+func (s *RepoTypeRef) SetValue(val string) {
+	s.Value = val
+}
+
+// Ref: #/components/schemas/RerunPipelineAction
+type RerunPipelineAction struct {
+	Contents OptRerunPipelineActionContents `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *RerunPipelineAction) GetContents() OptRerunPipelineActionContents {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *RerunPipelineAction) SetContents(val OptRerunPipelineActionContents) {
+	s.Contents = val
+}
+
+// The requested action to perform.
+type RerunPipelineActionAction string
+
+const (
+	RerunPipelineActionActionRerun RerunPipelineActionAction = "rerun"
+)
+
+// AllValues returns all RerunPipelineActionAction values.
+func (RerunPipelineActionAction) AllValues() []RerunPipelineActionAction {
+	return []RerunPipelineActionAction{
+		RerunPipelineActionActionRerun,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RerunPipelineActionAction) MarshalText() ([]byte, error) {
+	switch s {
+	case RerunPipelineActionActionRerun:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RerunPipelineActionAction) UnmarshalText(data []byte) error {
+	switch RerunPipelineActionAction(data) {
+	case RerunPipelineActionActionRerun:
+		*s = RerunPipelineActionActionRerun
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type RerunPipelineActionContents struct {
+	// The ID of the run to retry.
+	RunID OptID `json:"run_id"`
+}
+
+// GetRunID returns the value of RunID.
+func (s *RerunPipelineActionContents) GetRunID() OptID {
+	return s.RunID
+}
+
+// SetRunID sets the value of RunID.
+func (s *RerunPipelineActionContents) SetRunID(val OptID) {
+	s.RunID = val
+}
+
 type ResetPasswordOK struct {
 	Data ResetPasswordOKData `json:"data"`
 }
@@ -74129,6 +87150,161 @@ func (s *ResourceType) UnmarshalText(data []byte) error {
 		return nil
 	case ResourceTypeEnvironmentScopedVariable:
 		*s = ResourceTypeEnvironmentScopedVariable
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A job that restarts compute service on a given server.
+// Ref: #/components/schemas/RestartCompute
+type RestartCompute struct{}
+
+// The action to take.
+type RestartComputeAction string
+
+const (
+	RestartComputeActionComputeRestart RestartComputeAction = "compute.restart"
+)
+
+// AllValues returns all RestartComputeAction values.
+func (RestartComputeAction) AllValues() []RestartComputeAction {
+	return []RestartComputeAction{
+		RestartComputeActionComputeRestart,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RestartComputeAction) MarshalText() ([]byte, error) {
+	switch s {
+	case RestartComputeActionComputeRestart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RestartComputeAction) UnmarshalText(data []byte) error {
+	switch RestartComputeAction(data) {
+	case RestartComputeActionComputeRestart:
+		*s = RestartComputeActionComputeRestart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A job that restarts compute service on a given server.
+// Ref: #/components/schemas/RestartComputeSpawner
+type RestartComputeSpawner struct{}
+
+// The action to take.
+type RestartComputeSpawnerAction string
+
+const (
+	RestartComputeSpawnerActionComputeSpawnerRestart RestartComputeSpawnerAction = "compute.spawner.restart"
+)
+
+// AllValues returns all RestartComputeSpawnerAction values.
+func (RestartComputeSpawnerAction) AllValues() []RestartComputeSpawnerAction {
+	return []RestartComputeSpawnerAction{
+		RestartComputeSpawnerActionComputeSpawnerRestart,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RestartComputeSpawnerAction) MarshalText() ([]byte, error) {
+	switch s {
+	case RestartComputeSpawnerActionComputeSpawnerRestart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RestartComputeSpawnerAction) UnmarshalText(data []byte) error {
+	switch RestartComputeSpawnerAction(data) {
+	case RestartComputeSpawnerActionComputeSpawnerRestart:
+		*s = RestartComputeSpawnerActionComputeSpawnerRestart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A job that restarts the server.
+// Ref: #/components/schemas/RestartServer
+type RestartServer struct{}
+
+// The action to take.
+type RestartServerAction string
+
+const (
+	RestartServerActionRestart RestartServerAction = "restart"
+)
+
+// AllValues returns all RestartServerAction values.
+func (RestartServerAction) AllValues() []RestartServerAction {
+	return []RestartServerAction{
+		RestartServerActionRestart,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RestartServerAction) MarshalText() ([]byte, error) {
+	switch s {
+	case RestartServerActionRestart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RestartServerAction) UnmarshalText(data []byte) error {
+	switch RestartServerAction(data) {
+	case RestartServerActionRestart:
+		*s = RestartServerActionRestart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/RevertMigration
+type RevertMigration struct{}
+
+// The name of the action to perform.
+type RevertMigrationAction string
+
+const (
+	RevertMigrationActionMigrationRevert RevertMigrationAction = "migration.revert"
+)
+
+// AllValues returns all RevertMigrationAction values.
+func (RevertMigrationAction) AllValues() []RevertMigrationAction {
+	return []RevertMigrationAction{
+		RevertMigrationActionMigrationRevert,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s RevertMigrationAction) MarshalText() ([]byte, error) {
+	switch s {
+	case RevertMigrationActionMigrationRevert:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *RevertMigrationAction) UnmarshalText(data []byte) error {
+	switch RevertMigrationAction(data) {
+	case RevertMigrationActionMigrationRevert:
+		*s = RevertMigrationActionMigrationRevert
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -74941,10 +88117,668 @@ func (s *SSHTokenEvents) SetExpires(val DateTime) {
 	s.Expires = val
 }
 
+// Ref: #/components/schemas/Scale
+type Scale struct {
+	// Additional information needed to complete the job.
+	Contents ScaleContents `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *Scale) GetContents() ScaleContents {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *Scale) SetContents(val ScaleContents) {
+	s.Contents = val
+}
+
+// The action to take.
+type ScaleAction string
+
+const (
+	ScaleActionScale ScaleAction = "scale"
+)
+
+// AllValues returns all ScaleAction values.
+func (ScaleAction) AllValues() []ScaleAction {
+	return []ScaleAction{
+		ScaleActionScale,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ScaleAction) MarshalText() ([]byte, error) {
+	switch s {
+	case ScaleActionScale:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ScaleAction) UnmarshalText(data []byte) error {
+	switch ScaleAction(data) {
+	case ScaleActionScale:
+		*s = ScaleActionScale
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Additional information needed to complete the job.
+type ScaleContents struct {
+	// The number of desired instances to scale to.
+	Instances int `json:"instances"`
+}
+
+// GetInstances returns the value of Instances.
+func (s *ScaleContents) GetInstances() int {
+	return s.Instances
+}
+
+// SetInstances sets the value of Instances.
+func (s *ScaleContents) SetInstances(val int) {
+	s.Instances = val
+}
+
 // Discriminated union describing the different types of scaling threshold and their respective
 // details.
 // Ref: #/components/schemas/ScaleThresholdMetric
-type ScaleThresholdMetric struct{}
+type ScaleThresholdMetric struct {
+	OneOf ScaleThresholdMetricSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *ScaleThresholdMetric) GetOneOf() ScaleThresholdMetricSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *ScaleThresholdMetric) SetOneOf(val ScaleThresholdMetricSum) {
+	s.OneOf = val
+}
+
+// Describes the CPU threshold at which scaling will occur.
+// Ref: #/components/schemas/ScaleThresholdMetricCpu
+type ScaleThresholdMetricCpu struct {
+	Details ScaleThresholdMetricCpuDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *ScaleThresholdMetricCpu) GetDetails() ScaleThresholdMetricCpuDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *ScaleThresholdMetricCpu) SetDetails(val ScaleThresholdMetricCpuDetails) {
+	s.Details = val
+}
+
+type ScaleThresholdMetricCpuDetails struct {
+	Utilization int `json:"utilization"`
+}
+
+// GetUtilization returns the value of Utilization.
+func (s *ScaleThresholdMetricCpuDetails) GetUtilization() int {
+	return s.Utilization
+}
+
+// SetUtilization sets the value of Utilization.
+func (s *ScaleThresholdMetricCpuDetails) SetUtilization(val int) {
+	s.Utilization = val
+}
+
+type ScaleThresholdMetricCpuType string
+
+const (
+	ScaleThresholdMetricCpuTypeCPU ScaleThresholdMetricCpuType = "cpu"
+)
+
+// AllValues returns all ScaleThresholdMetricCpuType values.
+func (ScaleThresholdMetricCpuType) AllValues() []ScaleThresholdMetricCpuType {
+	return []ScaleThresholdMetricCpuType{
+		ScaleThresholdMetricCpuTypeCPU,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ScaleThresholdMetricCpuType) MarshalText() ([]byte, error) {
+	switch s {
+	case ScaleThresholdMetricCpuTypeCPU:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ScaleThresholdMetricCpuType) UnmarshalText(data []byte) error {
+	switch ScaleThresholdMetricCpuType(data) {
+	case ScaleThresholdMetricCpuTypeCPU:
+		*s = ScaleThresholdMetricCpuTypeCPU
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A custom threshold for defining a scaling event.
+// Ref: #/components/schemas/ScaleThresholdMetricCustom
+type ScaleThresholdMetricCustom struct {
+	Details ScaleThresholdMetricCustomDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *ScaleThresholdMetricCustom) GetDetails() ScaleThresholdMetricCustomDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *ScaleThresholdMetricCustom) SetDetails(val ScaleThresholdMetricCustomDetails) {
+	s.Details = val
+}
+
+type ScaleThresholdMetricCustomDetails struct {
+	Webhook WebhookURL `json:"webhook"`
+}
+
+// GetWebhook returns the value of Webhook.
+func (s *ScaleThresholdMetricCustomDetails) GetWebhook() WebhookURL {
+	return s.Webhook
+}
+
+// SetWebhook sets the value of Webhook.
+func (s *ScaleThresholdMetricCustomDetails) SetWebhook(val WebhookURL) {
+	s.Webhook = val
+}
+
+type ScaleThresholdMetricCustomType string
+
+const (
+	ScaleThresholdMetricCustomTypeCustom ScaleThresholdMetricCustomType = "custom"
+)
+
+// AllValues returns all ScaleThresholdMetricCustomType values.
+func (ScaleThresholdMetricCustomType) AllValues() []ScaleThresholdMetricCustomType {
+	return []ScaleThresholdMetricCustomType{
+		ScaleThresholdMetricCustomTypeCustom,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ScaleThresholdMetricCustomType) MarshalText() ([]byte, error) {
+	switch s {
+	case ScaleThresholdMetricCustomTypeCustom:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ScaleThresholdMetricCustomType) UnmarshalText(data []byte) error {
+	switch ScaleThresholdMetricCustomType(data) {
+	case ScaleThresholdMetricCustomTypeCustom:
+		*s = ScaleThresholdMetricCustomTypeCustom
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Describes the network connections threshold at which scaling will occur.
+// Ref: #/components/schemas/ScaleThresholdMetricNetworkConnections
+type ScaleThresholdMetricNetworkConnections struct {
+	Details ScaleThresholdMetricNetworkConnectionsDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *ScaleThresholdMetricNetworkConnections) GetDetails() ScaleThresholdMetricNetworkConnectionsDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *ScaleThresholdMetricNetworkConnections) SetDetails(val ScaleThresholdMetricNetworkConnectionsDetails) {
+	s.Details = val
+}
+
+type ScaleThresholdMetricNetworkConnectionsDetails struct {
+	ConnectionsTotal int `json:"connections_total"`
+}
+
+// GetConnectionsTotal returns the value of ConnectionsTotal.
+func (s *ScaleThresholdMetricNetworkConnectionsDetails) GetConnectionsTotal() int {
+	return s.ConnectionsTotal
+}
+
+// SetConnectionsTotal sets the value of ConnectionsTotal.
+func (s *ScaleThresholdMetricNetworkConnectionsDetails) SetConnectionsTotal(val int) {
+	s.ConnectionsTotal = val
+}
+
+type ScaleThresholdMetricNetworkConnectionsType string
+
+const (
+	ScaleThresholdMetricNetworkConnectionsTypeNetworkConnections ScaleThresholdMetricNetworkConnectionsType = "network-connections"
+)
+
+// AllValues returns all ScaleThresholdMetricNetworkConnectionsType values.
+func (ScaleThresholdMetricNetworkConnectionsType) AllValues() []ScaleThresholdMetricNetworkConnectionsType {
+	return []ScaleThresholdMetricNetworkConnectionsType{
+		ScaleThresholdMetricNetworkConnectionsTypeNetworkConnections,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ScaleThresholdMetricNetworkConnectionsType) MarshalText() ([]byte, error) {
+	switch s {
+	case ScaleThresholdMetricNetworkConnectionsTypeNetworkConnections:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ScaleThresholdMetricNetworkConnectionsType) UnmarshalText(data []byte) error {
+	switch ScaleThresholdMetricNetworkConnectionsType(data) {
+	case ScaleThresholdMetricNetworkConnectionsTypeNetworkConnections:
+		*s = ScaleThresholdMetricNetworkConnectionsTypeNetworkConnections
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Describes the network requests threshold at which scaling will occur.
+// Ref: #/components/schemas/ScaleThresholdMetricNetworkRequests
+type ScaleThresholdMetricNetworkRequests struct {
+	Details ScaleThresholdMetricNetworkRequestsDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *ScaleThresholdMetricNetworkRequests) GetDetails() ScaleThresholdMetricNetworkRequestsDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *ScaleThresholdMetricNetworkRequests) SetDetails(val ScaleThresholdMetricNetworkRequestsDetails) {
+	s.Details = val
+}
+
+type ScaleThresholdMetricNetworkRequestsDetails struct {
+	RequestsTotal int `json:"requests_total"`
+}
+
+// GetRequestsTotal returns the value of RequestsTotal.
+func (s *ScaleThresholdMetricNetworkRequestsDetails) GetRequestsTotal() int {
+	return s.RequestsTotal
+}
+
+// SetRequestsTotal sets the value of RequestsTotal.
+func (s *ScaleThresholdMetricNetworkRequestsDetails) SetRequestsTotal(val int) {
+	s.RequestsTotal = val
+}
+
+type ScaleThresholdMetricNetworkRequestsType string
+
+const (
+	ScaleThresholdMetricNetworkRequestsTypeNetworkRequests ScaleThresholdMetricNetworkRequestsType = "network-requests"
+)
+
+// AllValues returns all ScaleThresholdMetricNetworkRequestsType values.
+func (ScaleThresholdMetricNetworkRequestsType) AllValues() []ScaleThresholdMetricNetworkRequestsType {
+	return []ScaleThresholdMetricNetworkRequestsType{
+		ScaleThresholdMetricNetworkRequestsTypeNetworkRequests,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ScaleThresholdMetricNetworkRequestsType) MarshalText() ([]byte, error) {
+	switch s {
+	case ScaleThresholdMetricNetworkRequestsTypeNetworkRequests:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ScaleThresholdMetricNetworkRequestsType) UnmarshalText(data []byte) error {
+	switch ScaleThresholdMetricNetworkRequestsType(data) {
+	case ScaleThresholdMetricNetworkRequestsTypeNetworkRequests:
+		*s = ScaleThresholdMetricNetworkRequestsTypeNetworkRequests
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Describes the network throughput threshold at which scaling will occur.
+// Ref: #/components/schemas/ScaleThresholdMetricNetworkThroughput
+type ScaleThresholdMetricNetworkThroughput struct {
+	Details ScaleThresholdMetricNetworkThroughputDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *ScaleThresholdMetricNetworkThroughput) GetDetails() ScaleThresholdMetricNetworkThroughputDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *ScaleThresholdMetricNetworkThroughput) SetDetails(val ScaleThresholdMetricNetworkThroughputDetails) {
+	s.Details = val
+}
+
+type ScaleThresholdMetricNetworkThroughputDetails struct {
+	Private bool `json:"private"`
+	// The limit (maximum) amount of throughput each instance of the given container can use before
+	// triggering a scaling event.
+	Bandwidth string `json:"bandwidth"`
+}
+
+// GetPrivate returns the value of Private.
+func (s *ScaleThresholdMetricNetworkThroughputDetails) GetPrivate() bool {
+	return s.Private
+}
+
+// GetBandwidth returns the value of Bandwidth.
+func (s *ScaleThresholdMetricNetworkThroughputDetails) GetBandwidth() string {
+	return s.Bandwidth
+}
+
+// SetPrivate sets the value of Private.
+func (s *ScaleThresholdMetricNetworkThroughputDetails) SetPrivate(val bool) {
+	s.Private = val
+}
+
+// SetBandwidth sets the value of Bandwidth.
+func (s *ScaleThresholdMetricNetworkThroughputDetails) SetBandwidth(val string) {
+	s.Bandwidth = val
+}
+
+type ScaleThresholdMetricNetworkThroughputType string
+
+const (
+	ScaleThresholdMetricNetworkThroughputTypeNetworkThroughput ScaleThresholdMetricNetworkThroughputType = "network-throughput"
+)
+
+// AllValues returns all ScaleThresholdMetricNetworkThroughputType values.
+func (ScaleThresholdMetricNetworkThroughputType) AllValues() []ScaleThresholdMetricNetworkThroughputType {
+	return []ScaleThresholdMetricNetworkThroughputType{
+		ScaleThresholdMetricNetworkThroughputTypeNetworkThroughput,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ScaleThresholdMetricNetworkThroughputType) MarshalText() ([]byte, error) {
+	switch s {
+	case ScaleThresholdMetricNetworkThroughputTypeNetworkThroughput:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ScaleThresholdMetricNetworkThroughputType) UnmarshalText(data []byte) error {
+	switch ScaleThresholdMetricNetworkThroughputType(data) {
+	case ScaleThresholdMetricNetworkThroughputTypeNetworkThroughput:
+		*s = ScaleThresholdMetricNetworkThroughputTypeNetworkThroughput
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Describes the RAM threshold at which scaling will occur.
+// Ref: #/components/schemas/ScaleThresholdMetricRam
+type ScaleThresholdMetricRam struct {
+	Details ScaleThresholdMetricRamDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *ScaleThresholdMetricRam) GetDetails() ScaleThresholdMetricRamDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *ScaleThresholdMetricRam) SetDetails(val ScaleThresholdMetricRamDetails) {
+	s.Details = val
+}
+
+type ScaleThresholdMetricRamDetails struct {
+	// The target average RAM usage of all instances of this container. Going above this threshold will
+	// trigger a scaling event. This threshold must be greater than 25MB.
+	Usage string `json:"usage"`
+}
+
+// GetUsage returns the value of Usage.
+func (s *ScaleThresholdMetricRamDetails) GetUsage() string {
+	return s.Usage
+}
+
+// SetUsage sets the value of Usage.
+func (s *ScaleThresholdMetricRamDetails) SetUsage(val string) {
+	s.Usage = val
+}
+
+type ScaleThresholdMetricRamType string
+
+const (
+	ScaleThresholdMetricRamTypeRAM ScaleThresholdMetricRamType = "ram"
+)
+
+// AllValues returns all ScaleThresholdMetricRamType values.
+func (ScaleThresholdMetricRamType) AllValues() []ScaleThresholdMetricRamType {
+	return []ScaleThresholdMetricRamType{
+		ScaleThresholdMetricRamTypeRAM,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s ScaleThresholdMetricRamType) MarshalText() ([]byte, error) {
+	switch s {
+	case ScaleThresholdMetricRamTypeRAM:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *ScaleThresholdMetricRamType) UnmarshalText(data []byte) error {
+	switch ScaleThresholdMetricRamType(data) {
+	case ScaleThresholdMetricRamTypeRAM:
+		*s = ScaleThresholdMetricRamTypeRAM
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// ScaleThresholdMetricSum represents sum type.
+type ScaleThresholdMetricSum struct {
+	Type                                   ScaleThresholdMetricSumType // switch on this field
+	ScaleThresholdMetricRam                ScaleThresholdMetricRam
+	ScaleThresholdMetricCpu                ScaleThresholdMetricCpu
+	ScaleThresholdMetricNetworkConnections ScaleThresholdMetricNetworkConnections
+	ScaleThresholdMetricNetworkRequests    ScaleThresholdMetricNetworkRequests
+	ScaleThresholdMetricNetworkThroughput  ScaleThresholdMetricNetworkThroughput
+	ScaleThresholdMetricCustom             ScaleThresholdMetricCustom
+}
+
+// ScaleThresholdMetricSumType is oneOf type of ScaleThresholdMetricSum.
+type ScaleThresholdMetricSumType string
+
+// Possible values for ScaleThresholdMetricSumType.
+const (
+	ScaleThresholdMetricRamScaleThresholdMetricSum                ScaleThresholdMetricSumType = "ram"
+	ScaleThresholdMetricCpuScaleThresholdMetricSum                ScaleThresholdMetricSumType = "cpu"
+	ScaleThresholdMetricNetworkConnectionsScaleThresholdMetricSum ScaleThresholdMetricSumType = "network-connections"
+	ScaleThresholdMetricNetworkRequestsScaleThresholdMetricSum    ScaleThresholdMetricSumType = "network-requests"
+	ScaleThresholdMetricNetworkThroughputScaleThresholdMetricSum  ScaleThresholdMetricSumType = "network-throughput"
+	ScaleThresholdMetricCustomScaleThresholdMetricSum             ScaleThresholdMetricSumType = "custom"
+)
+
+// IsScaleThresholdMetricRam reports whether ScaleThresholdMetricSum is ScaleThresholdMetricRam.
+func (s ScaleThresholdMetricSum) IsScaleThresholdMetricRam() bool {
+	return s.Type == ScaleThresholdMetricRamScaleThresholdMetricSum
+}
+
+// IsScaleThresholdMetricCpu reports whether ScaleThresholdMetricSum is ScaleThresholdMetricCpu.
+func (s ScaleThresholdMetricSum) IsScaleThresholdMetricCpu() bool {
+	return s.Type == ScaleThresholdMetricCpuScaleThresholdMetricSum
+}
+
+// IsScaleThresholdMetricNetworkConnections reports whether ScaleThresholdMetricSum is ScaleThresholdMetricNetworkConnections.
+func (s ScaleThresholdMetricSum) IsScaleThresholdMetricNetworkConnections() bool {
+	return s.Type == ScaleThresholdMetricNetworkConnectionsScaleThresholdMetricSum
+}
+
+// IsScaleThresholdMetricNetworkRequests reports whether ScaleThresholdMetricSum is ScaleThresholdMetricNetworkRequests.
+func (s ScaleThresholdMetricSum) IsScaleThresholdMetricNetworkRequests() bool {
+	return s.Type == ScaleThresholdMetricNetworkRequestsScaleThresholdMetricSum
+}
+
+// IsScaleThresholdMetricNetworkThroughput reports whether ScaleThresholdMetricSum is ScaleThresholdMetricNetworkThroughput.
+func (s ScaleThresholdMetricSum) IsScaleThresholdMetricNetworkThroughput() bool {
+	return s.Type == ScaleThresholdMetricNetworkThroughputScaleThresholdMetricSum
+}
+
+// IsScaleThresholdMetricCustom reports whether ScaleThresholdMetricSum is ScaleThresholdMetricCustom.
+func (s ScaleThresholdMetricSum) IsScaleThresholdMetricCustom() bool {
+	return s.Type == ScaleThresholdMetricCustomScaleThresholdMetricSum
+}
+
+// SetScaleThresholdMetricRam sets ScaleThresholdMetricSum to ScaleThresholdMetricRam.
+func (s *ScaleThresholdMetricSum) SetScaleThresholdMetricRam(v ScaleThresholdMetricRam) {
+	s.Type = ScaleThresholdMetricRamScaleThresholdMetricSum
+	s.ScaleThresholdMetricRam = v
+}
+
+// GetScaleThresholdMetricRam returns ScaleThresholdMetricRam and true boolean if ScaleThresholdMetricSum is ScaleThresholdMetricRam.
+func (s ScaleThresholdMetricSum) GetScaleThresholdMetricRam() (v ScaleThresholdMetricRam, ok bool) {
+	if !s.IsScaleThresholdMetricRam() {
+		return v, false
+	}
+	return s.ScaleThresholdMetricRam, true
+}
+
+// NewScaleThresholdMetricRamScaleThresholdMetricSum returns new ScaleThresholdMetricSum from ScaleThresholdMetricRam.
+func NewScaleThresholdMetricRamScaleThresholdMetricSum(v ScaleThresholdMetricRam) ScaleThresholdMetricSum {
+	var s ScaleThresholdMetricSum
+	s.SetScaleThresholdMetricRam(v)
+	return s
+}
+
+// SetScaleThresholdMetricCpu sets ScaleThresholdMetricSum to ScaleThresholdMetricCpu.
+func (s *ScaleThresholdMetricSum) SetScaleThresholdMetricCpu(v ScaleThresholdMetricCpu) {
+	s.Type = ScaleThresholdMetricCpuScaleThresholdMetricSum
+	s.ScaleThresholdMetricCpu = v
+}
+
+// GetScaleThresholdMetricCpu returns ScaleThresholdMetricCpu and true boolean if ScaleThresholdMetricSum is ScaleThresholdMetricCpu.
+func (s ScaleThresholdMetricSum) GetScaleThresholdMetricCpu() (v ScaleThresholdMetricCpu, ok bool) {
+	if !s.IsScaleThresholdMetricCpu() {
+		return v, false
+	}
+	return s.ScaleThresholdMetricCpu, true
+}
+
+// NewScaleThresholdMetricCpuScaleThresholdMetricSum returns new ScaleThresholdMetricSum from ScaleThresholdMetricCpu.
+func NewScaleThresholdMetricCpuScaleThresholdMetricSum(v ScaleThresholdMetricCpu) ScaleThresholdMetricSum {
+	var s ScaleThresholdMetricSum
+	s.SetScaleThresholdMetricCpu(v)
+	return s
+}
+
+// SetScaleThresholdMetricNetworkConnections sets ScaleThresholdMetricSum to ScaleThresholdMetricNetworkConnections.
+func (s *ScaleThresholdMetricSum) SetScaleThresholdMetricNetworkConnections(v ScaleThresholdMetricNetworkConnections) {
+	s.Type = ScaleThresholdMetricNetworkConnectionsScaleThresholdMetricSum
+	s.ScaleThresholdMetricNetworkConnections = v
+}
+
+// GetScaleThresholdMetricNetworkConnections returns ScaleThresholdMetricNetworkConnections and true boolean if ScaleThresholdMetricSum is ScaleThresholdMetricNetworkConnections.
+func (s ScaleThresholdMetricSum) GetScaleThresholdMetricNetworkConnections() (v ScaleThresholdMetricNetworkConnections, ok bool) {
+	if !s.IsScaleThresholdMetricNetworkConnections() {
+		return v, false
+	}
+	return s.ScaleThresholdMetricNetworkConnections, true
+}
+
+// NewScaleThresholdMetricNetworkConnectionsScaleThresholdMetricSum returns new ScaleThresholdMetricSum from ScaleThresholdMetricNetworkConnections.
+func NewScaleThresholdMetricNetworkConnectionsScaleThresholdMetricSum(v ScaleThresholdMetricNetworkConnections) ScaleThresholdMetricSum {
+	var s ScaleThresholdMetricSum
+	s.SetScaleThresholdMetricNetworkConnections(v)
+	return s
+}
+
+// SetScaleThresholdMetricNetworkRequests sets ScaleThresholdMetricSum to ScaleThresholdMetricNetworkRequests.
+func (s *ScaleThresholdMetricSum) SetScaleThresholdMetricNetworkRequests(v ScaleThresholdMetricNetworkRequests) {
+	s.Type = ScaleThresholdMetricNetworkRequestsScaleThresholdMetricSum
+	s.ScaleThresholdMetricNetworkRequests = v
+}
+
+// GetScaleThresholdMetricNetworkRequests returns ScaleThresholdMetricNetworkRequests and true boolean if ScaleThresholdMetricSum is ScaleThresholdMetricNetworkRequests.
+func (s ScaleThresholdMetricSum) GetScaleThresholdMetricNetworkRequests() (v ScaleThresholdMetricNetworkRequests, ok bool) {
+	if !s.IsScaleThresholdMetricNetworkRequests() {
+		return v, false
+	}
+	return s.ScaleThresholdMetricNetworkRequests, true
+}
+
+// NewScaleThresholdMetricNetworkRequestsScaleThresholdMetricSum returns new ScaleThresholdMetricSum from ScaleThresholdMetricNetworkRequests.
+func NewScaleThresholdMetricNetworkRequestsScaleThresholdMetricSum(v ScaleThresholdMetricNetworkRequests) ScaleThresholdMetricSum {
+	var s ScaleThresholdMetricSum
+	s.SetScaleThresholdMetricNetworkRequests(v)
+	return s
+}
+
+// SetScaleThresholdMetricNetworkThroughput sets ScaleThresholdMetricSum to ScaleThresholdMetricNetworkThroughput.
+func (s *ScaleThresholdMetricSum) SetScaleThresholdMetricNetworkThroughput(v ScaleThresholdMetricNetworkThroughput) {
+	s.Type = ScaleThresholdMetricNetworkThroughputScaleThresholdMetricSum
+	s.ScaleThresholdMetricNetworkThroughput = v
+}
+
+// GetScaleThresholdMetricNetworkThroughput returns ScaleThresholdMetricNetworkThroughput and true boolean if ScaleThresholdMetricSum is ScaleThresholdMetricNetworkThroughput.
+func (s ScaleThresholdMetricSum) GetScaleThresholdMetricNetworkThroughput() (v ScaleThresholdMetricNetworkThroughput, ok bool) {
+	if !s.IsScaleThresholdMetricNetworkThroughput() {
+		return v, false
+	}
+	return s.ScaleThresholdMetricNetworkThroughput, true
+}
+
+// NewScaleThresholdMetricNetworkThroughputScaleThresholdMetricSum returns new ScaleThresholdMetricSum from ScaleThresholdMetricNetworkThroughput.
+func NewScaleThresholdMetricNetworkThroughputScaleThresholdMetricSum(v ScaleThresholdMetricNetworkThroughput) ScaleThresholdMetricSum {
+	var s ScaleThresholdMetricSum
+	s.SetScaleThresholdMetricNetworkThroughput(v)
+	return s
+}
+
+// SetScaleThresholdMetricCustom sets ScaleThresholdMetricSum to ScaleThresholdMetricCustom.
+func (s *ScaleThresholdMetricSum) SetScaleThresholdMetricCustom(v ScaleThresholdMetricCustom) {
+	s.Type = ScaleThresholdMetricCustomScaleThresholdMetricSum
+	s.ScaleThresholdMetricCustom = v
+}
+
+// GetScaleThresholdMetricCustom returns ScaleThresholdMetricCustom and true boolean if ScaleThresholdMetricSum is ScaleThresholdMetricCustom.
+func (s ScaleThresholdMetricSum) GetScaleThresholdMetricCustom() (v ScaleThresholdMetricCustom, ok bool) {
+	if !s.IsScaleThresholdMetricCustom() {
+		return v, false
+	}
+	return s.ScaleThresholdMetricCustom, true
+}
+
+// NewScaleThresholdMetricCustomScaleThresholdMetricSum returns new ScaleThresholdMetricSum from ScaleThresholdMetricCustom.
+func NewScaleThresholdMetricCustomScaleThresholdMetricSum(v ScaleThresholdMetricCustom) ScaleThresholdMetricSum {
+	var s ScaleThresholdMetricSum
+	s.SetScaleThresholdMetricCustom(v)
+	return s
+}
 
 // Custom authorization keys for the scheduler service.
 // Ref: #/components/schemas/SchedulerAccessKey
@@ -75408,7 +89242,87 @@ func (s *ScopedVariableScopeContainers) SetIdentifiers(val []string) {
 }
 
 // The source or value of the scoped variable.
-type ScopedVariableSource struct{}
+type ScopedVariableSource struct {
+	OneOf ScopedVariableSourceSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *ScopedVariableSource) GetOneOf() ScopedVariableSourceSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *ScopedVariableSource) SetOneOf(val ScopedVariableSourceSum) {
+	s.OneOf = val
+}
+
+// ScopedVariableSourceSum represents sum type.
+type ScopedVariableSourceSum struct {
+	Type      ScopedVariableSourceSumType // switch on this field
+	URLSource URLSource
+	RawSource RawSource
+}
+
+// ScopedVariableSourceSumType is oneOf type of ScopedVariableSourceSum.
+type ScopedVariableSourceSumType string
+
+// Possible values for ScopedVariableSourceSumType.
+const (
+	URLSourceScopedVariableSourceSum ScopedVariableSourceSumType = "url"
+	RawSourceScopedVariableSourceSum ScopedVariableSourceSumType = "raw"
+)
+
+// IsURLSource reports whether ScopedVariableSourceSum is URLSource.
+func (s ScopedVariableSourceSum) IsURLSource() bool {
+	return s.Type == URLSourceScopedVariableSourceSum
+}
+
+// IsRawSource reports whether ScopedVariableSourceSum is RawSource.
+func (s ScopedVariableSourceSum) IsRawSource() bool {
+	return s.Type == RawSourceScopedVariableSourceSum
+}
+
+// SetURLSource sets ScopedVariableSourceSum to URLSource.
+func (s *ScopedVariableSourceSum) SetURLSource(v URLSource) {
+	s.Type = URLSourceScopedVariableSourceSum
+	s.URLSource = v
+}
+
+// GetURLSource returns URLSource and true boolean if ScopedVariableSourceSum is URLSource.
+func (s ScopedVariableSourceSum) GetURLSource() (v URLSource, ok bool) {
+	if !s.IsURLSource() {
+		return v, false
+	}
+	return s.URLSource, true
+}
+
+// NewURLSourceScopedVariableSourceSum returns new ScopedVariableSourceSum from URLSource.
+func NewURLSourceScopedVariableSourceSum(v URLSource) ScopedVariableSourceSum {
+	var s ScopedVariableSourceSum
+	s.SetURLSource(v)
+	return s
+}
+
+// SetRawSource sets ScopedVariableSourceSum to RawSource.
+func (s *ScopedVariableSourceSum) SetRawSource(v RawSource) {
+	s.Type = RawSourceScopedVariableSourceSum
+	s.RawSource = v
+}
+
+// GetRawSource returns RawSource and true boolean if ScopedVariableSourceSum is RawSource.
+func (s ScopedVariableSourceSum) GetRawSource() (v RawSource, ok bool) {
+	if !s.IsRawSource() {
+		return v, false
+	}
+	return s.RawSource, true
+}
+
+// NewRawSourceScopedVariableSourceSum returns new ScopedVariableSourceSum from RawSource.
+func NewRawSourceScopedVariableSourceSum(v RawSource) ScopedVariableSourceSum {
+	var s ScopedVariableSourceSum
+	s.SetRawSource(v)
+	return s
+}
 
 // Merged schema.
 // Ref: #/components/schemas/ScopedVariableState
@@ -77884,6 +91798,109 @@ func (s *SessionToken) SetApplicationCapabilitiesVersion(val int) {
 	s.ApplicationCapabilitiesVersion = val
 }
 
+// Settings for the sleep step for a pipeline.
+// Ref: #/components/schemas/SleepStep
+type SleepStep struct {
+	// An identifier for the step.
+	Identifier OptString           `json:"identifier"`
+	Options    OptSleepStepOptions `json:"options"`
+	Details    SleepStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *SleepStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *SleepStep) GetOptions() OptSleepStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *SleepStep) GetDetails() SleepStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *SleepStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *SleepStep) SetOptions(val OptSleepStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *SleepStep) SetDetails(val SleepStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type SleepStepAction string
+
+const (
+	SleepStepActionSleep SleepStepAction = "sleep"
+)
+
+// AllValues returns all SleepStepAction values.
+func (SleepStepAction) AllValues() []SleepStepAction {
+	return []SleepStepAction{
+		SleepStepActionSleep,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s SleepStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case SleepStepActionSleep:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *SleepStepAction) UnmarshalText(data []byte) error {
+	switch SleepStepAction(data) {
+	case SleepStepActionSleep:
+		*s = SleepStepActionSleep
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type SleepStepDetails struct {
+	// Total duration to run this step for, before moving on to the next step.
+	Duration OptDuration `json:"duration"`
+}
+
+// GetDuration returns the value of Duration.
+func (s *SleepStepDetails) GetDuration() OptDuration {
+	return s.Duration
+}
+
+// SetDuration sets the value of Duration.
+func (s *SleepStepDetails) SetDuration(val OptDuration) {
+	s.Duration = val
+}
+
+type SleepStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *SleepStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *SleepStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
 // A resource associate with an image source.
 // Ref: #/components/schemas/SourceIncludes
 type SourceIncludes struct {
@@ -78239,6 +92256,487 @@ func (s *StackBuildAboutDetails) SetGitCommit(val OptStackGitCommit) {
 	s.GitCommit = val
 }
 
+// Settings for creating a stack build in a pipeline.
+// Ref: #/components/schemas/StackBuildCreateStep
+type StackBuildCreateStep struct {
+	// An identifier for the step.
+	Identifier OptString                      `json:"identifier"`
+	Options    OptStackBuildCreateStepOptions `json:"options"`
+	Details    StackBuildCreateStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *StackBuildCreateStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *StackBuildCreateStep) GetOptions() OptStackBuildCreateStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *StackBuildCreateStep) GetDetails() StackBuildCreateStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *StackBuildCreateStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *StackBuildCreateStep) SetOptions(val OptStackBuildCreateStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *StackBuildCreateStep) SetDetails(val StackBuildCreateStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type StackBuildCreateStepAction string
+
+const (
+	StackBuildCreateStepActionStackBuildCreate StackBuildCreateStepAction = "stack.build.create"
+)
+
+// AllValues returns all StackBuildCreateStepAction values.
+func (StackBuildCreateStepAction) AllValues() []StackBuildCreateStepAction {
+	return []StackBuildCreateStepAction{
+		StackBuildCreateStepActionStackBuildCreate,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackBuildCreateStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case StackBuildCreateStepActionStackBuildCreate:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackBuildCreateStepAction) UnmarshalText(data []byte) error {
+	switch StackBuildCreateStepAction(data) {
+	case StackBuildCreateStepActionStackBuildCreate:
+		*s = StackBuildCreateStepActionStackBuildCreate
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type StackBuildCreateStepDetails struct {
+	Stack FluidIdentifier `json:"stack"`
+	// Additional instructions used when generating this stack build.
+	Instructions OptNilStackBuildCreateStepDetailsInstructions `json:"instructions"`
+	// Information about the stack build.
+	About OptNilStackBuildCreateStepDetailsAbout `json:"about"`
+}
+
+// GetStack returns the value of Stack.
+func (s *StackBuildCreateStepDetails) GetStack() FluidIdentifier {
+	return s.Stack
+}
+
+// GetInstructions returns the value of Instructions.
+func (s *StackBuildCreateStepDetails) GetInstructions() OptNilStackBuildCreateStepDetailsInstructions {
+	return s.Instructions
+}
+
+// GetAbout returns the value of About.
+func (s *StackBuildCreateStepDetails) GetAbout() OptNilStackBuildCreateStepDetailsAbout {
+	return s.About
+}
+
+// SetStack sets the value of Stack.
+func (s *StackBuildCreateStepDetails) SetStack(val FluidIdentifier) {
+	s.Stack = val
+}
+
+// SetInstructions sets the value of Instructions.
+func (s *StackBuildCreateStepDetails) SetInstructions(val OptNilStackBuildCreateStepDetailsInstructions) {
+	s.Instructions = val
+}
+
+// SetAbout sets the value of About.
+func (s *StackBuildCreateStepDetails) SetAbout(val OptNilStackBuildCreateStepDetailsAbout) {
+	s.About = val
+}
+
+// Information about the stack build.
+type StackBuildCreateStepDetailsAbout struct {
+	// A user defined version of the build.
+	Version string `json:"version"`
+	// A user defined description for the build.
+	Description string `json:"description"`
+}
+
+// GetVersion returns the value of Version.
+func (s *StackBuildCreateStepDetailsAbout) GetVersion() string {
+	return s.Version
+}
+
+// GetDescription returns the value of Description.
+func (s *StackBuildCreateStepDetailsAbout) GetDescription() string {
+	return s.Description
+}
+
+// SetVersion sets the value of Version.
+func (s *StackBuildCreateStepDetailsAbout) SetVersion(val string) {
+	s.Version = val
+}
+
+// SetDescription sets the value of Description.
+func (s *StackBuildCreateStepDetailsAbout) SetDescription(val string) {
+	s.Description = val
+}
+
+// Additional instructions used when generating this stack build.
+type StackBuildCreateStepDetailsInstructions struct {
+	// Git information specifics.
+	Git OptStackBuildCreateStepDetailsInstructionsGit `json:"git"`
+	// Custom variables applied to the stack during build. Any place in the stack where a `{{variable}}`
+	// is used is replaced with the value of the variable supplied in this map.
+	Variables OptStackBuildCreateStepDetailsInstructionsVariables `json:"variables"`
+}
+
+// GetGit returns the value of Git.
+func (s *StackBuildCreateStepDetailsInstructions) GetGit() OptStackBuildCreateStepDetailsInstructionsGit {
+	return s.Git
+}
+
+// GetVariables returns the value of Variables.
+func (s *StackBuildCreateStepDetailsInstructions) GetVariables() OptStackBuildCreateStepDetailsInstructionsVariables {
+	return s.Variables
+}
+
+// SetGit sets the value of Git.
+func (s *StackBuildCreateStepDetailsInstructions) SetGit(val OptStackBuildCreateStepDetailsInstructionsGit) {
+	s.Git = val
+}
+
+// SetVariables sets the value of Variables.
+func (s *StackBuildCreateStepDetailsInstructions) SetVariables(val OptStackBuildCreateStepDetailsInstructionsVariables) {
+	s.Variables = val
+}
+
+// Git information specifics.
+type StackBuildCreateStepDetailsInstructionsGit struct {
+	// The type of information the user is passing.
+	Type StackBuildCreateStepDetailsInstructionsGitType `json:"type"`
+	// The actual value to be passed.
+	Value string `json:"value"`
+}
+
+// GetType returns the value of Type.
+func (s *StackBuildCreateStepDetailsInstructionsGit) GetType() StackBuildCreateStepDetailsInstructionsGitType {
+	return s.Type
+}
+
+// GetValue returns the value of Value.
+func (s *StackBuildCreateStepDetailsInstructionsGit) GetValue() string {
+	return s.Value
+}
+
+// SetType sets the value of Type.
+func (s *StackBuildCreateStepDetailsInstructionsGit) SetType(val StackBuildCreateStepDetailsInstructionsGitType) {
+	s.Type = val
+}
+
+// SetValue sets the value of Value.
+func (s *StackBuildCreateStepDetailsInstructionsGit) SetValue(val string) {
+	s.Value = val
+}
+
+// The type of information the user is passing.
+type StackBuildCreateStepDetailsInstructionsGitType string
+
+const (
+	StackBuildCreateStepDetailsInstructionsGitTypeBranch StackBuildCreateStepDetailsInstructionsGitType = "branch"
+	StackBuildCreateStepDetailsInstructionsGitTypeHash   StackBuildCreateStepDetailsInstructionsGitType = "hash"
+	StackBuildCreateStepDetailsInstructionsGitTypeTag    StackBuildCreateStepDetailsInstructionsGitType = "tag"
+)
+
+// AllValues returns all StackBuildCreateStepDetailsInstructionsGitType values.
+func (StackBuildCreateStepDetailsInstructionsGitType) AllValues() []StackBuildCreateStepDetailsInstructionsGitType {
+	return []StackBuildCreateStepDetailsInstructionsGitType{
+		StackBuildCreateStepDetailsInstructionsGitTypeBranch,
+		StackBuildCreateStepDetailsInstructionsGitTypeHash,
+		StackBuildCreateStepDetailsInstructionsGitTypeTag,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackBuildCreateStepDetailsInstructionsGitType) MarshalText() ([]byte, error) {
+	switch s {
+	case StackBuildCreateStepDetailsInstructionsGitTypeBranch:
+		return []byte(s), nil
+	case StackBuildCreateStepDetailsInstructionsGitTypeHash:
+		return []byte(s), nil
+	case StackBuildCreateStepDetailsInstructionsGitTypeTag:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackBuildCreateStepDetailsInstructionsGitType) UnmarshalText(data []byte) error {
+	switch StackBuildCreateStepDetailsInstructionsGitType(data) {
+	case StackBuildCreateStepDetailsInstructionsGitTypeBranch:
+		*s = StackBuildCreateStepDetailsInstructionsGitTypeBranch
+		return nil
+	case StackBuildCreateStepDetailsInstructionsGitTypeHash:
+		*s = StackBuildCreateStepDetailsInstructionsGitTypeHash
+		return nil
+	case StackBuildCreateStepDetailsInstructionsGitTypeTag:
+		*s = StackBuildCreateStepDetailsInstructionsGitTypeTag
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Custom variables applied to the stack during build. Any place in the stack where a `{{variable}}`
+// is used is replaced with the value of the variable supplied in this map.
+type StackBuildCreateStepDetailsInstructionsVariables map[string]string
+
+func (s *StackBuildCreateStepDetailsInstructionsVariables) init() StackBuildCreateStepDetailsInstructionsVariables {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+type StackBuildCreateStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *StackBuildCreateStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *StackBuildCreateStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// Settings for deploying a stack build in a pipeline.
+// Ref: #/components/schemas/StackBuildDeployStep
+type StackBuildDeployStep struct {
+	// An identifier for the step.
+	Identifier OptString                      `json:"identifier"`
+	Options    OptStackBuildDeployStepOptions `json:"options"`
+	Details    StackBuildDeployStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *StackBuildDeployStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *StackBuildDeployStep) GetOptions() OptStackBuildDeployStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *StackBuildDeployStep) GetDetails() StackBuildDeployStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *StackBuildDeployStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *StackBuildDeployStep) SetOptions(val OptStackBuildDeployStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *StackBuildDeployStep) SetDetails(val StackBuildDeployStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type StackBuildDeployStepAction string
+
+const (
+	StackBuildDeployStepActionStackBuildDeploy StackBuildDeployStepAction = "stack.build.deploy"
+)
+
+// AllValues returns all StackBuildDeployStepAction values.
+func (StackBuildDeployStepAction) AllValues() []StackBuildDeployStepAction {
+	return []StackBuildDeployStepAction{
+		StackBuildDeployStepActionStackBuildDeploy,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackBuildDeployStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case StackBuildDeployStepActionStackBuildDeploy:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackBuildDeployStepAction) UnmarshalText(data []byte) error {
+	switch StackBuildDeployStepAction(data) {
+	case StackBuildDeployStepActionStackBuildDeploy:
+		*s = StackBuildDeployStepActionStackBuildDeploy
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type StackBuildDeployStepDetails struct {
+	Build       FluidIdentifier                `json:"build"`
+	Environment FluidIdentifier                `json:"environment"`
+	Update      OptStackBuildDeploymentUpdates `json:"update"`
+	Deployment  OptDeployment                  `json:"deployment"`
+}
+
+// GetBuild returns the value of Build.
+func (s *StackBuildDeployStepDetails) GetBuild() FluidIdentifier {
+	return s.Build
+}
+
+// GetEnvironment returns the value of Environment.
+func (s *StackBuildDeployStepDetails) GetEnvironment() FluidIdentifier {
+	return s.Environment
+}
+
+// GetUpdate returns the value of Update.
+func (s *StackBuildDeployStepDetails) GetUpdate() OptStackBuildDeploymentUpdates {
+	return s.Update
+}
+
+// GetDeployment returns the value of Deployment.
+func (s *StackBuildDeployStepDetails) GetDeployment() OptDeployment {
+	return s.Deployment
+}
+
+// SetBuild sets the value of Build.
+func (s *StackBuildDeployStepDetails) SetBuild(val FluidIdentifier) {
+	s.Build = val
+}
+
+// SetEnvironment sets the value of Environment.
+func (s *StackBuildDeployStepDetails) SetEnvironment(val FluidIdentifier) {
+	s.Environment = val
+}
+
+// SetUpdate sets the value of Update.
+func (s *StackBuildDeployStepDetails) SetUpdate(val OptStackBuildDeploymentUpdates) {
+	s.Update = val
+}
+
+// SetDeployment sets the value of Deployment.
+func (s *StackBuildDeployStepDetails) SetDeployment(val OptDeployment) {
+	s.Deployment = val
+}
+
+type StackBuildDeployStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *StackBuildDeployStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *StackBuildDeployStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// Optional update object used to specify specific params to update from the stack build.
+// Ref: #/components/schemas/StackBuildDeploymentUpdates
+type StackBuildDeploymentUpdates struct {
+	// A map of the container names to update within the environment.
+	Containers StackBuildDeploymentUpdatesContainers `json:"containers"`
+	// An object that describes configuration options for scoped variables on stack build. If null,
+	// scoped variables will be ignored during deployment events.
+	ScopedVariables NilStackBuildDeploymentUpdatesScopedVariables `json:"scoped_variables"`
+}
+
+// GetContainers returns the value of Containers.
+func (s *StackBuildDeploymentUpdates) GetContainers() StackBuildDeploymentUpdatesContainers {
+	return s.Containers
+}
+
+// GetScopedVariables returns the value of ScopedVariables.
+func (s *StackBuildDeploymentUpdates) GetScopedVariables() NilStackBuildDeploymentUpdatesScopedVariables {
+	return s.ScopedVariables
+}
+
+// SetContainers sets the value of Containers.
+func (s *StackBuildDeploymentUpdates) SetContainers(val StackBuildDeploymentUpdatesContainers) {
+	s.Containers = val
+}
+
+// SetScopedVariables sets the value of ScopedVariables.
+func (s *StackBuildDeploymentUpdates) SetScopedVariables(val NilStackBuildDeploymentUpdatesScopedVariables) {
+	s.ScopedVariables = val
+}
+
+// A map of the container names to update within the environment.
+type StackBuildDeploymentUpdatesContainers map[string]StackDeployContainersObject
+
+func (s *StackBuildDeploymentUpdatesContainers) init() StackBuildDeploymentUpdatesContainers {
+	m := *s
+	if m == nil {
+		m = map[string]StackDeployContainersObject{}
+		*s = m
+	}
+	return m
+}
+
+// An object that describes configuration options for scoped variables on stack build. If null,
+// scoped variables will be ignored during deployment events.
+type StackBuildDeploymentUpdatesScopedVariables struct {
+	// If set to true, any scoped variables that are new to the environment will be created when deployed.
+	AddNew bool `json:"add_new"`
+	// When deploying to the environment, any scoped variables defined in the build that match an
+	// existing scoped variable in the environment will cause the existing scoped variable to be updated
+	// to the new value.
+	ReplaceExisting bool `json:"replace_existing"`
+}
+
+// GetAddNew returns the value of AddNew.
+func (s *StackBuildDeploymentUpdatesScopedVariables) GetAddNew() bool {
+	return s.AddNew
+}
+
+// GetReplaceExisting returns the value of ReplaceExisting.
+func (s *StackBuildDeploymentUpdatesScopedVariables) GetReplaceExisting() bool {
+	return s.ReplaceExisting
+}
+
+// SetAddNew sets the value of AddNew.
+func (s *StackBuildDeploymentUpdatesScopedVariables) SetAddNew(val bool) {
+	s.AddNew = val
+}
+
+// SetReplaceExisting sets the value of ReplaceExisting.
+func (s *StackBuildDeploymentUpdatesScopedVariables) SetReplaceExisting(val bool) {
+	s.ReplaceExisting = val
+}
+
 // A collection of timestamps for each event in the stack build's lifetime.
 type StackBuildEvents struct {
 	// The timestamp of when the stack build was created.
@@ -78277,6 +92775,108 @@ func (s *StackBuildEvents) SetUpdated(val DateTime) {
 // SetDeleted sets the value of Deleted.
 func (s *StackBuildEvents) SetDeleted(val DateTime) {
 	s.Deleted = val
+}
+
+// Settings for the stack build generate step for a pipeline.
+// Ref: #/components/schemas/StackBuildGenerateStep
+type StackBuildGenerateStep struct {
+	// An identifier for the step.
+	Identifier OptString                        `json:"identifier"`
+	Options    OptStackBuildGenerateStepOptions `json:"options"`
+	Details    StackBuildGenerateStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *StackBuildGenerateStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *StackBuildGenerateStep) GetOptions() OptStackBuildGenerateStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *StackBuildGenerateStep) GetDetails() StackBuildGenerateStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *StackBuildGenerateStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *StackBuildGenerateStep) SetOptions(val OptStackBuildGenerateStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *StackBuildGenerateStep) SetDetails(val StackBuildGenerateStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type StackBuildGenerateStepAction string
+
+const (
+	StackBuildGenerateStepActionStackBuildGenerate StackBuildGenerateStepAction = "stack.build.generate"
+)
+
+// AllValues returns all StackBuildGenerateStepAction values.
+func (StackBuildGenerateStepAction) AllValues() []StackBuildGenerateStepAction {
+	return []StackBuildGenerateStepAction{
+		StackBuildGenerateStepActionStackBuildGenerate,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackBuildGenerateStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case StackBuildGenerateStepActionStackBuildGenerate:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackBuildGenerateStepAction) UnmarshalText(data []byte) error {
+	switch StackBuildGenerateStepAction(data) {
+	case StackBuildGenerateStepActionStackBuildGenerate:
+		*s = StackBuildGenerateStepActionStackBuildGenerate
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type StackBuildGenerateStepDetails struct {
+	Build FluidIdentifier `json:"build"`
+}
+
+// GetBuild returns the value of Build.
+func (s *StackBuildGenerateStepDetails) GetBuild() FluidIdentifier {
+	return s.Build
+}
+
+// SetBuild sets the value of Build.
+func (s *StackBuildGenerateStepDetails) SetBuild(val FluidIdentifier) {
+	s.Build = val
+}
+
+type StackBuildGenerateStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *StackBuildGenerateStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *StackBuildGenerateStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
 }
 
 // A resource that is associated with a stack build.
@@ -78587,6 +93187,35 @@ func (s *StackBuildStateError) SetTime(val OptDateTime) {
 	s.Time = val
 }
 
+// Options to control how a container behaves when a stack build is deployed.
+// Ref: #/components/schemas/StackDeployContainersObject
+type StackDeployContainersObject struct {
+	// A boolean where true represents the container is to be reimaged.
+	Reimage bool `json:"reimage"`
+	// A boolean where true represents the container is to be reconfigured.
+	Reconfigure bool `json:"reconfigure"`
+}
+
+// GetReimage returns the value of Reimage.
+func (s *StackDeployContainersObject) GetReimage() bool {
+	return s.Reimage
+}
+
+// GetReconfigure returns the value of Reconfigure.
+func (s *StackDeployContainersObject) GetReconfigure() bool {
+	return s.Reconfigure
+}
+
+// SetReimage sets the value of Reimage.
+func (s *StackDeployContainersObject) SetReimage(val bool) {
+	s.Reimage = val
+}
+
+// SetReconfigure sets the value of Reconfigure.
+func (s *StackDeployContainersObject) SetReconfigure(val bool) {
+	s.Reconfigure = val
+}
+
 // A collection of timestamps for each event in the Stacks lifetime.
 type StackEvents struct {
 	// The timestamp of when the stack was created.
@@ -78720,6 +93349,138 @@ func (s *StackGitCommitAuthor) SetEmail(val string) {
 	s.Email = val
 }
 
+// Ref: #/components/schemas/StackImageSourceType
+type StackImageSourceType struct {
+	Details  StackImageSourceTypeDetails     `json:"details"`
+	Override OptStackImageSourceTypeOverride `json:"override"`
+}
+
+// GetDetails returns the value of Details.
+func (s *StackImageSourceType) GetDetails() StackImageSourceTypeDetails {
+	return s.Details
+}
+
+// GetOverride returns the value of Override.
+func (s *StackImageSourceType) GetOverride() OptStackImageSourceTypeOverride {
+	return s.Override
+}
+
+// SetDetails sets the value of Details.
+func (s *StackImageSourceType) SetDetails(val StackImageSourceTypeDetails) {
+	s.Details = val
+}
+
+// SetOverride sets the value of Override.
+func (s *StackImageSourceType) SetOverride(val OptStackImageSourceTypeOverride) {
+	s.Override = val
+}
+
+type StackImageSourceTypeDetails struct {
+	ID         string       `json:"id"`
+	StackID    string       `json:"stack_id"`
+	Containers []Identifier `json:"containers"`
+	Origin     ImageOrigin  `json:"origin"`
+}
+
+// GetID returns the value of ID.
+func (s *StackImageSourceTypeDetails) GetID() string {
+	return s.ID
+}
+
+// GetStackID returns the value of StackID.
+func (s *StackImageSourceTypeDetails) GetStackID() string {
+	return s.StackID
+}
+
+// GetContainers returns the value of Containers.
+func (s *StackImageSourceTypeDetails) GetContainers() []Identifier {
+	return s.Containers
+}
+
+// GetOrigin returns the value of Origin.
+func (s *StackImageSourceTypeDetails) GetOrigin() ImageOrigin {
+	return s.Origin
+}
+
+// SetID sets the value of ID.
+func (s *StackImageSourceTypeDetails) SetID(val string) {
+	s.ID = val
+}
+
+// SetStackID sets the value of StackID.
+func (s *StackImageSourceTypeDetails) SetStackID(val string) {
+	s.StackID = val
+}
+
+// SetContainers sets the value of Containers.
+func (s *StackImageSourceTypeDetails) SetContainers(val []Identifier) {
+	s.Containers = val
+}
+
+// SetOrigin sets the value of Origin.
+func (s *StackImageSourceTypeDetails) SetOrigin(val ImageOrigin) {
+	s.Origin = val
+}
+
+type StackImageSourceTypeOverride struct {
+	Target   OptString `json:"target"`
+	TargzURL OptString `json:"targz_url"`
+}
+
+// GetTarget returns the value of Target.
+func (s *StackImageSourceTypeOverride) GetTarget() OptString {
+	return s.Target
+}
+
+// GetTargzURL returns the value of TargzURL.
+func (s *StackImageSourceTypeOverride) GetTargzURL() OptString {
+	return s.TargzURL
+}
+
+// SetTarget sets the value of Target.
+func (s *StackImageSourceTypeOverride) SetTarget(val OptString) {
+	s.Target = val
+}
+
+// SetTargzURL sets the value of TargzURL.
+func (s *StackImageSourceTypeOverride) SetTargzURL(val OptString) {
+	s.TargzURL = val
+}
+
+type StackImageSourceTypeType string
+
+const (
+	StackImageSourceTypeTypeStackBuild StackImageSourceTypeType = "stack-build"
+)
+
+// AllValues returns all StackImageSourceTypeType values.
+func (StackImageSourceTypeType) AllValues() []StackImageSourceTypeType {
+	return []StackImageSourceTypeType{
+		StackImageSourceTypeTypeStackBuild,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackImageSourceTypeType) MarshalText() ([]byte, error) {
+	switch s {
+	case StackImageSourceTypeTypeStackBuild:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackImageSourceTypeType) UnmarshalText(data []byte) error {
+	switch StackImageSourceTypeType(data) {
+	case StackImageSourceTypeTypeStackBuild:
+		*s = StackImageSourceTypeTypeStackBuild
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // All includable resources linkable to the given stack.
 // Ref: #/components/schemas/StackInclude
 type StackInclude struct {
@@ -78776,9 +93537,487 @@ func (s *StackMeta) SetBuildsCount(val OptStateCountSummary) {
 	s.BuildsCount = val
 }
 
+// Settings for pruning a stack in a pipeline.
+// Ref: #/components/schemas/StackPruneStep
+type StackPruneStep struct {
+	// An identifier for the step.
+	Identifier OptString                `json:"identifier"`
+	Options    OptStackPruneStepOptions `json:"options"`
+	Details    StackPruneStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *StackPruneStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *StackPruneStep) GetOptions() OptStackPruneStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *StackPruneStep) GetDetails() StackPruneStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *StackPruneStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *StackPruneStep) SetOptions(val OptStackPruneStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *StackPruneStep) SetDetails(val StackPruneStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type StackPruneStepAction string
+
+const (
+	StackPruneStepActionStackPrune StackPruneStepAction = "stack.prune"
+)
+
+// AllValues returns all StackPruneStepAction values.
+func (StackPruneStepAction) AllValues() []StackPruneStepAction {
+	return []StackPruneStepAction{
+		StackPruneStepActionStackPrune,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackPruneStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case StackPruneStepActionStackPrune:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackPruneStepAction) UnmarshalText(data []byte) error {
+	switch StackPruneStepAction(data) {
+	case StackPruneStepActionStackPrune:
+		*s = StackPruneStepActionStackPrune
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type StackPruneStepDetails struct {
+	Stack    FluidIdentifier                     `json:"stack"`
+	Criteria OptNilStackPruneStepDetailsCriteria `json:"criteria"`
+}
+
+// GetStack returns the value of Stack.
+func (s *StackPruneStepDetails) GetStack() FluidIdentifier {
+	return s.Stack
+}
+
+// GetCriteria returns the value of Criteria.
+func (s *StackPruneStepDetails) GetCriteria() OptNilStackPruneStepDetailsCriteria {
+	return s.Criteria
+}
+
+// SetStack sets the value of Stack.
+func (s *StackPruneStepDetails) SetStack(val FluidIdentifier) {
+	s.Stack = val
+}
+
+// SetCriteria sets the value of Criteria.
+func (s *StackPruneStepDetails) SetCriteria(val OptNilStackPruneStepDetailsCriteria) {
+	s.Criteria = val
+}
+
+type StackPruneStepDetailsCriteria struct {
+	Expire OptDuration `json:"expire"`
+}
+
+// GetExpire returns the value of Expire.
+func (s *StackPruneStepDetailsCriteria) GetExpire() OptDuration {
+	return s.Expire
+}
+
+// SetExpire sets the value of Expire.
+func (s *StackPruneStepDetailsCriteria) SetExpire(val OptDuration) {
+	s.Expire = val
+}
+
+type StackPruneStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *StackPruneStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *StackPruneStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// A stack spec resource.
+// Ref: #/components/schemas/StackRawSource
+type StackRawSource struct {
+	Details StackSpec `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *StackRawSource) GetDetails() StackSpec {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *StackRawSource) SetDetails(val StackSpec) {
+	s.Details = val
+}
+
+type StackRawSourceType string
+
+const (
+	StackRawSourceTypeRaw StackRawSourceType = "raw"
+)
+
+// AllValues returns all StackRawSourceType values.
+func (StackRawSourceType) AllValues() []StackRawSourceType {
+	return []StackRawSourceType{
+		StackRawSourceTypeRaw,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackRawSourceType) MarshalText() ([]byte, error) {
+	switch s {
+	case StackRawSourceTypeRaw:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackRawSourceType) UnmarshalText(data []byte) error {
+	switch StackRawSourceType(data) {
+	case StackRawSourceTypeRaw:
+		*s = StackRawSourceTypeRaw
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A repo source type for a stack.
+// Ref: #/components/schemas/StackRepoSource
+type StackRepoSource struct {
+	Details StackRepoSourceDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *StackRepoSource) GetDetails() StackRepoSourceDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *StackRepoSource) SetDetails(val StackRepoSourceDetails) {
+	s.Details = val
+}
+
+type StackRepoSourceDetails struct {
+	// Specify which file in the repo contains the stack spec. By default, it is `cycle.json` in the root
+	// of the repo.
+	StackFile OptNilString `json:"stack_file"`
+	// The URL of the repository.
+	URL string `json:"url"`
+	// An optional branch arguement.  Default value is `master`.
+	Branch OptString `json:"branch"`
+	// Authentication information for the repository.
+	Auth OptStackRepoSourceDetailsAuth `json:"auth"`
+	// Repository reference information.
+	Ref OptStackRepoSourceDetailsRef `json:"ref"`
+}
+
+// GetStackFile returns the value of StackFile.
+func (s *StackRepoSourceDetails) GetStackFile() OptNilString {
+	return s.StackFile
+}
+
+// GetURL returns the value of URL.
+func (s *StackRepoSourceDetails) GetURL() string {
+	return s.URL
+}
+
+// GetBranch returns the value of Branch.
+func (s *StackRepoSourceDetails) GetBranch() OptString {
+	return s.Branch
+}
+
+// GetAuth returns the value of Auth.
+func (s *StackRepoSourceDetails) GetAuth() OptStackRepoSourceDetailsAuth {
+	return s.Auth
+}
+
+// GetRef returns the value of Ref.
+func (s *StackRepoSourceDetails) GetRef() OptStackRepoSourceDetailsRef {
+	return s.Ref
+}
+
+// SetStackFile sets the value of StackFile.
+func (s *StackRepoSourceDetails) SetStackFile(val OptNilString) {
+	s.StackFile = val
+}
+
+// SetURL sets the value of URL.
+func (s *StackRepoSourceDetails) SetURL(val string) {
+	s.URL = val
+}
+
+// SetBranch sets the value of Branch.
+func (s *StackRepoSourceDetails) SetBranch(val OptString) {
+	s.Branch = val
+}
+
+// SetAuth sets the value of Auth.
+func (s *StackRepoSourceDetails) SetAuth(val OptStackRepoSourceDetailsAuth) {
+	s.Auth = val
+}
+
+// SetRef sets the value of Ref.
+func (s *StackRepoSourceDetails) SetRef(val OptStackRepoSourceDetailsRef) {
+	s.Ref = val
+}
+
+// Authentication information for the repository.
+type StackRepoSourceDetailsAuth struct {
+	OneOf StackRepoSourceDetailsAuthSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *StackRepoSourceDetailsAuth) GetOneOf() StackRepoSourceDetailsAuthSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *StackRepoSourceDetailsAuth) SetOneOf(val StackRepoSourceDetailsAuthSum) {
+	s.OneOf = val
+}
+
+// StackRepoSourceDetailsAuthSum represents sum type.
+type StackRepoSourceDetailsAuthSum struct {
+	Type            StackRepoSourceDetailsAuthSumType // switch on this field
+	CredentialsHTTP CredentialsHTTP
+	CredentialsSSH  CredentialsSSH
+}
+
+// StackRepoSourceDetailsAuthSumType is oneOf type of StackRepoSourceDetailsAuthSum.
+type StackRepoSourceDetailsAuthSumType string
+
+// Possible values for StackRepoSourceDetailsAuthSumType.
+const (
+	CredentialsHTTPStackRepoSourceDetailsAuthSum StackRepoSourceDetailsAuthSumType = "http"
+	CredentialsSSHStackRepoSourceDetailsAuthSum  StackRepoSourceDetailsAuthSumType = "ssh"
+)
+
+// IsCredentialsHTTP reports whether StackRepoSourceDetailsAuthSum is CredentialsHTTP.
+func (s StackRepoSourceDetailsAuthSum) IsCredentialsHTTP() bool {
+	return s.Type == CredentialsHTTPStackRepoSourceDetailsAuthSum
+}
+
+// IsCredentialsSSH reports whether StackRepoSourceDetailsAuthSum is CredentialsSSH.
+func (s StackRepoSourceDetailsAuthSum) IsCredentialsSSH() bool {
+	return s.Type == CredentialsSSHStackRepoSourceDetailsAuthSum
+}
+
+// SetCredentialsHTTP sets StackRepoSourceDetailsAuthSum to CredentialsHTTP.
+func (s *StackRepoSourceDetailsAuthSum) SetCredentialsHTTP(v CredentialsHTTP) {
+	s.Type = CredentialsHTTPStackRepoSourceDetailsAuthSum
+	s.CredentialsHTTP = v
+}
+
+// GetCredentialsHTTP returns CredentialsHTTP and true boolean if StackRepoSourceDetailsAuthSum is CredentialsHTTP.
+func (s StackRepoSourceDetailsAuthSum) GetCredentialsHTTP() (v CredentialsHTTP, ok bool) {
+	if !s.IsCredentialsHTTP() {
+		return v, false
+	}
+	return s.CredentialsHTTP, true
+}
+
+// NewCredentialsHTTPStackRepoSourceDetailsAuthSum returns new StackRepoSourceDetailsAuthSum from CredentialsHTTP.
+func NewCredentialsHTTPStackRepoSourceDetailsAuthSum(v CredentialsHTTP) StackRepoSourceDetailsAuthSum {
+	var s StackRepoSourceDetailsAuthSum
+	s.SetCredentialsHTTP(v)
+	return s
+}
+
+// SetCredentialsSSH sets StackRepoSourceDetailsAuthSum to CredentialsSSH.
+func (s *StackRepoSourceDetailsAuthSum) SetCredentialsSSH(v CredentialsSSH) {
+	s.Type = CredentialsSSHStackRepoSourceDetailsAuthSum
+	s.CredentialsSSH = v
+}
+
+// GetCredentialsSSH returns CredentialsSSH and true boolean if StackRepoSourceDetailsAuthSum is CredentialsSSH.
+func (s StackRepoSourceDetailsAuthSum) GetCredentialsSSH() (v CredentialsSSH, ok bool) {
+	if !s.IsCredentialsSSH() {
+		return v, false
+	}
+	return s.CredentialsSSH, true
+}
+
+// NewCredentialsSSHStackRepoSourceDetailsAuthSum returns new StackRepoSourceDetailsAuthSum from CredentialsSSH.
+func NewCredentialsSSHStackRepoSourceDetailsAuthSum(v CredentialsSSH) StackRepoSourceDetailsAuthSum {
+	var s StackRepoSourceDetailsAuthSum
+	s.SetCredentialsSSH(v)
+	return s
+}
+
+// Repository reference information.
+type StackRepoSourceDetailsRef struct {
+	// The type of reference being used.
+	Type string `json:"type"`
+	// The value for the given reference type.
+	Value string `json:"value"`
+}
+
+// GetType returns the value of Type.
+func (s *StackRepoSourceDetailsRef) GetType() string {
+	return s.Type
+}
+
+// GetValue returns the value of Value.
+func (s *StackRepoSourceDetailsRef) GetValue() string {
+	return s.Value
+}
+
+// SetType sets the value of Type.
+func (s *StackRepoSourceDetailsRef) SetType(val string) {
+	s.Type = val
+}
+
+// SetValue sets the value of Value.
+func (s *StackRepoSourceDetailsRef) SetValue(val string) {
+	s.Value = val
+}
+
+type StackRepoSourceType string
+
+const (
+	StackRepoSourceTypeGitRepo StackRepoSourceType = "git-repo"
+)
+
+// AllValues returns all StackRepoSourceType values.
+func (StackRepoSourceType) AllValues() []StackRepoSourceType {
+	return []StackRepoSourceType{
+		StackRepoSourceTypeGitRepo,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StackRepoSourceType) MarshalText() ([]byte, error) {
+	switch s {
+	case StackRepoSourceTypeGitRepo:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StackRepoSourceType) UnmarshalText(data []byte) error {
+	switch StackRepoSourceType(data) {
+	case StackRepoSourceTypeGitRepo:
+		*s = StackRepoSourceTypeGitRepo
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // A source for a stack to be created from.
 // Ref: #/components/schemas/StackSource
-type StackSource struct{}
+type StackSource struct {
+	OneOf StackSourceSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *StackSource) GetOneOf() StackSourceSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *StackSource) SetOneOf(val StackSourceSum) {
+	s.OneOf = val
+}
+
+// StackSourceSum represents sum type.
+type StackSourceSum struct {
+	Type            StackSourceSumType // switch on this field
+	StackRepoSource StackRepoSource
+	StackRawSource  StackRawSource
+}
+
+// StackSourceSumType is oneOf type of StackSourceSum.
+type StackSourceSumType string
+
+// Possible values for StackSourceSumType.
+const (
+	StackRepoSourceStackSourceSum StackSourceSumType = "git-repo"
+	StackRawSourceStackSourceSum  StackSourceSumType = "raw"
+)
+
+// IsStackRepoSource reports whether StackSourceSum is StackRepoSource.
+func (s StackSourceSum) IsStackRepoSource() bool { return s.Type == StackRepoSourceStackSourceSum }
+
+// IsStackRawSource reports whether StackSourceSum is StackRawSource.
+func (s StackSourceSum) IsStackRawSource() bool { return s.Type == StackRawSourceStackSourceSum }
+
+// SetStackRepoSource sets StackSourceSum to StackRepoSource.
+func (s *StackSourceSum) SetStackRepoSource(v StackRepoSource) {
+	s.Type = StackRepoSourceStackSourceSum
+	s.StackRepoSource = v
+}
+
+// GetStackRepoSource returns StackRepoSource and true boolean if StackSourceSum is StackRepoSource.
+func (s StackSourceSum) GetStackRepoSource() (v StackRepoSource, ok bool) {
+	if !s.IsStackRepoSource() {
+		return v, false
+	}
+	return s.StackRepoSource, true
+}
+
+// NewStackRepoSourceStackSourceSum returns new StackSourceSum from StackRepoSource.
+func NewStackRepoSourceStackSourceSum(v StackRepoSource) StackSourceSum {
+	var s StackSourceSum
+	s.SetStackRepoSource(v)
+	return s
+}
+
+// SetStackRawSource sets StackSourceSum to StackRawSource.
+func (s *StackSourceSum) SetStackRawSource(v StackRawSource) {
+	s.Type = StackRawSourceStackSourceSum
+	s.StackRawSource = v
+}
+
+// GetStackRawSource returns StackRawSource and true boolean if StackSourceSum is StackRawSource.
+func (s StackSourceSum) GetStackRawSource() (v StackRawSource, ok bool) {
+	if !s.IsStackRawSource() {
+		return v, false
+	}
+	return s.StackRawSource, true
+}
+
+// NewStackRawSourceStackSourceSum returns new StackSourceSum from StackRawSource.
+func NewStackRawSourceStackSourceSum(v StackRawSource) StackSourceSum {
+	var s StackSourceSum
+	s.SetStackRawSource(v)
+	return s
+}
 
 // A Cycle stack file is an "environment as code". This allows an environment to be generated
 // consistently based on a fixed specification.
@@ -83523,7 +98762,171 @@ func (s *StackSpecContainers0) init() StackSpecContainers0 {
 
 // The origin of the image.
 // Ref: #/components/schemas/StackSpecImageOrigin
-type StackSpecImageOrigin struct{}
+type StackSpecImageOrigin struct {
+	OneOf StackSpecImageOriginSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *StackSpecImageOrigin) GetOneOf() StackSpecImageOriginSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *StackSpecImageOrigin) SetOneOf(val StackSpecImageOriginSum) {
+	s.OneOf = val
+}
+
+// StackSpecImageOriginSum represents sum type.
+type StackSpecImageOriginSum struct {
+	Type                 StackSpecImageOriginSumType // switch on this field
+	DockerHubOrigin      DockerHubOrigin
+	DockerFileOrigin     DockerFileOrigin
+	DockerRegistryOrigin DockerRegistryOrigin
+	OciRegistryOrigin    OciRegistryOrigin
+	CycleSourceOrigin    CycleSourceOrigin
+}
+
+// StackSpecImageOriginSumType is oneOf type of StackSpecImageOriginSum.
+type StackSpecImageOriginSumType string
+
+// Possible values for StackSpecImageOriginSumType.
+const (
+	DockerHubOriginStackSpecImageOriginSum      StackSpecImageOriginSumType = "docker-hub"
+	DockerFileOriginStackSpecImageOriginSum     StackSpecImageOriginSumType = "docker-file"
+	DockerRegistryOriginStackSpecImageOriginSum StackSpecImageOriginSumType = "docker-registry"
+	OciRegistryOriginStackSpecImageOriginSum    StackSpecImageOriginSumType = "oci-registry"
+	CycleSourceOriginStackSpecImageOriginSum    StackSpecImageOriginSumType = "cycle-source"
+)
+
+// IsDockerHubOrigin reports whether StackSpecImageOriginSum is DockerHubOrigin.
+func (s StackSpecImageOriginSum) IsDockerHubOrigin() bool {
+	return s.Type == DockerHubOriginStackSpecImageOriginSum
+}
+
+// IsDockerFileOrigin reports whether StackSpecImageOriginSum is DockerFileOrigin.
+func (s StackSpecImageOriginSum) IsDockerFileOrigin() bool {
+	return s.Type == DockerFileOriginStackSpecImageOriginSum
+}
+
+// IsDockerRegistryOrigin reports whether StackSpecImageOriginSum is DockerRegistryOrigin.
+func (s StackSpecImageOriginSum) IsDockerRegistryOrigin() bool {
+	return s.Type == DockerRegistryOriginStackSpecImageOriginSum
+}
+
+// IsOciRegistryOrigin reports whether StackSpecImageOriginSum is OciRegistryOrigin.
+func (s StackSpecImageOriginSum) IsOciRegistryOrigin() bool {
+	return s.Type == OciRegistryOriginStackSpecImageOriginSum
+}
+
+// IsCycleSourceOrigin reports whether StackSpecImageOriginSum is CycleSourceOrigin.
+func (s StackSpecImageOriginSum) IsCycleSourceOrigin() bool {
+	return s.Type == CycleSourceOriginStackSpecImageOriginSum
+}
+
+// SetDockerHubOrigin sets StackSpecImageOriginSum to DockerHubOrigin.
+func (s *StackSpecImageOriginSum) SetDockerHubOrigin(v DockerHubOrigin) {
+	s.Type = DockerHubOriginStackSpecImageOriginSum
+	s.DockerHubOrigin = v
+}
+
+// GetDockerHubOrigin returns DockerHubOrigin and true boolean if StackSpecImageOriginSum is DockerHubOrigin.
+func (s StackSpecImageOriginSum) GetDockerHubOrigin() (v DockerHubOrigin, ok bool) {
+	if !s.IsDockerHubOrigin() {
+		return v, false
+	}
+	return s.DockerHubOrigin, true
+}
+
+// NewDockerHubOriginStackSpecImageOriginSum returns new StackSpecImageOriginSum from DockerHubOrigin.
+func NewDockerHubOriginStackSpecImageOriginSum(v DockerHubOrigin) StackSpecImageOriginSum {
+	var s StackSpecImageOriginSum
+	s.SetDockerHubOrigin(v)
+	return s
+}
+
+// SetDockerFileOrigin sets StackSpecImageOriginSum to DockerFileOrigin.
+func (s *StackSpecImageOriginSum) SetDockerFileOrigin(v DockerFileOrigin) {
+	s.Type = DockerFileOriginStackSpecImageOriginSum
+	s.DockerFileOrigin = v
+}
+
+// GetDockerFileOrigin returns DockerFileOrigin and true boolean if StackSpecImageOriginSum is DockerFileOrigin.
+func (s StackSpecImageOriginSum) GetDockerFileOrigin() (v DockerFileOrigin, ok bool) {
+	if !s.IsDockerFileOrigin() {
+		return v, false
+	}
+	return s.DockerFileOrigin, true
+}
+
+// NewDockerFileOriginStackSpecImageOriginSum returns new StackSpecImageOriginSum from DockerFileOrigin.
+func NewDockerFileOriginStackSpecImageOriginSum(v DockerFileOrigin) StackSpecImageOriginSum {
+	var s StackSpecImageOriginSum
+	s.SetDockerFileOrigin(v)
+	return s
+}
+
+// SetDockerRegistryOrigin sets StackSpecImageOriginSum to DockerRegistryOrigin.
+func (s *StackSpecImageOriginSum) SetDockerRegistryOrigin(v DockerRegistryOrigin) {
+	s.Type = DockerRegistryOriginStackSpecImageOriginSum
+	s.DockerRegistryOrigin = v
+}
+
+// GetDockerRegistryOrigin returns DockerRegistryOrigin and true boolean if StackSpecImageOriginSum is DockerRegistryOrigin.
+func (s StackSpecImageOriginSum) GetDockerRegistryOrigin() (v DockerRegistryOrigin, ok bool) {
+	if !s.IsDockerRegistryOrigin() {
+		return v, false
+	}
+	return s.DockerRegistryOrigin, true
+}
+
+// NewDockerRegistryOriginStackSpecImageOriginSum returns new StackSpecImageOriginSum from DockerRegistryOrigin.
+func NewDockerRegistryOriginStackSpecImageOriginSum(v DockerRegistryOrigin) StackSpecImageOriginSum {
+	var s StackSpecImageOriginSum
+	s.SetDockerRegistryOrigin(v)
+	return s
+}
+
+// SetOciRegistryOrigin sets StackSpecImageOriginSum to OciRegistryOrigin.
+func (s *StackSpecImageOriginSum) SetOciRegistryOrigin(v OciRegistryOrigin) {
+	s.Type = OciRegistryOriginStackSpecImageOriginSum
+	s.OciRegistryOrigin = v
+}
+
+// GetOciRegistryOrigin returns OciRegistryOrigin and true boolean if StackSpecImageOriginSum is OciRegistryOrigin.
+func (s StackSpecImageOriginSum) GetOciRegistryOrigin() (v OciRegistryOrigin, ok bool) {
+	if !s.IsOciRegistryOrigin() {
+		return v, false
+	}
+	return s.OciRegistryOrigin, true
+}
+
+// NewOciRegistryOriginStackSpecImageOriginSum returns new StackSpecImageOriginSum from OciRegistryOrigin.
+func NewOciRegistryOriginStackSpecImageOriginSum(v OciRegistryOrigin) StackSpecImageOriginSum {
+	var s StackSpecImageOriginSum
+	s.SetOciRegistryOrigin(v)
+	return s
+}
+
+// SetCycleSourceOrigin sets StackSpecImageOriginSum to CycleSourceOrigin.
+func (s *StackSpecImageOriginSum) SetCycleSourceOrigin(v CycleSourceOrigin) {
+	s.Type = CycleSourceOriginStackSpecImageOriginSum
+	s.CycleSourceOrigin = v
+}
+
+// GetCycleSourceOrigin returns CycleSourceOrigin and true boolean if StackSpecImageOriginSum is CycleSourceOrigin.
+func (s StackSpecImageOriginSum) GetCycleSourceOrigin() (v CycleSourceOrigin, ok bool) {
+	if !s.IsCycleSourceOrigin() {
+		return v, false
+	}
+	return s.CycleSourceOrigin, true
+}
+
+// NewCycleSourceOriginStackSpecImageOriginSum returns new StackSpecImageOriginSum from CycleSourceOrigin.
+func NewCycleSourceOriginStackSpecImageOriginSum(v CycleSourceOrigin) StackSpecImageOriginSum {
+	var s StackSpecImageOriginSum
+	s.SetCycleSourceOrigin(v)
+	return s
+}
 
 // Ref: #/components/schemas/StackSpecScopedVariable
 type StackSpecScopedVariable struct {
@@ -85005,6 +100408,210 @@ func (s *StorageSpecExtra) init() StorageSpecExtra {
 	return m
 }
 
+// A payment method that utilizes a credit card via Stripe.
+// Ref: #/components/schemas/StripeCreditCard
+type StripeCreditCard struct {
+	Details StripeCreditCardDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *StripeCreditCard) GetDetails() StripeCreditCardDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *StripeCreditCard) SetDetails(val StripeCreditCardDetails) {
+	s.Details = val
+}
+
+type StripeCreditCardDetails struct {
+	// The name on the credit card.
+	Name string `json:"name"`
+	// The brand of card.
+	Brand      string                            `json:"brand"`
+	Expiration StripeCreditCardDetailsExpiration `json:"expiration"`
+	// The last 4 digits of the card.
+	Last4 string `json:"last_4"`
+}
+
+// GetName returns the value of Name.
+func (s *StripeCreditCardDetails) GetName() string {
+	return s.Name
+}
+
+// GetBrand returns the value of Brand.
+func (s *StripeCreditCardDetails) GetBrand() string {
+	return s.Brand
+}
+
+// GetExpiration returns the value of Expiration.
+func (s *StripeCreditCardDetails) GetExpiration() StripeCreditCardDetailsExpiration {
+	return s.Expiration
+}
+
+// GetLast4 returns the value of Last4.
+func (s *StripeCreditCardDetails) GetLast4() string {
+	return s.Last4
+}
+
+// SetName sets the value of Name.
+func (s *StripeCreditCardDetails) SetName(val string) {
+	s.Name = val
+}
+
+// SetBrand sets the value of Brand.
+func (s *StripeCreditCardDetails) SetBrand(val string) {
+	s.Brand = val
+}
+
+// SetExpiration sets the value of Expiration.
+func (s *StripeCreditCardDetails) SetExpiration(val StripeCreditCardDetailsExpiration) {
+	s.Expiration = val
+}
+
+// SetLast4 sets the value of Last4.
+func (s *StripeCreditCardDetails) SetLast4(val string) {
+	s.Last4 = val
+}
+
+type StripeCreditCardDetailsExpiration struct {
+	// The month the billing method expires.
+	Month int `json:"month"`
+	// The year the billing method expires.
+	Year int `json:"year"`
+}
+
+// GetMonth returns the value of Month.
+func (s *StripeCreditCardDetailsExpiration) GetMonth() int {
+	return s.Month
+}
+
+// GetYear returns the value of Year.
+func (s *StripeCreditCardDetailsExpiration) GetYear() int {
+	return s.Year
+}
+
+// SetMonth sets the value of Month.
+func (s *StripeCreditCardDetailsExpiration) SetMonth(val int) {
+	s.Month = val
+}
+
+// SetYear sets the value of Year.
+func (s *StripeCreditCardDetailsExpiration) SetYear(val int) {
+	s.Year = val
+}
+
+type StripeCreditCardType string
+
+const (
+	StripeCreditCardTypeStripeCreditCard StripeCreditCardType = "stripe-credit-card"
+)
+
+// AllValues returns all StripeCreditCardType values.
+func (StripeCreditCardType) AllValues() []StripeCreditCardType {
+	return []StripeCreditCardType{
+		StripeCreditCardTypeStripeCreditCard,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StripeCreditCardType) MarshalText() ([]byte, error) {
+	switch s {
+	case StripeCreditCardTypeStripeCreditCard:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StripeCreditCardType) UnmarshalText(data []byte) error {
+	switch StripeCreditCardType(data) {
+	case StripeCreditCardTypeStripeCreditCard:
+		*s = StripeCreditCardTypeStripeCreditCard
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A payment method that utilizes a US bank account via Stripe.
+// Ref: #/components/schemas/StripeUsBankAcct
+type StripeUsBankAcct struct {
+	Details StripeUsBankAcctDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *StripeUsBankAcct) GetDetails() StripeUsBankAcctDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *StripeUsBankAcct) SetDetails(val StripeUsBankAcctDetails) {
+	s.Details = val
+}
+
+type StripeUsBankAcctDetails struct {
+	// The name of the owner of the bank account.
+	Name string `json:"name"`
+	// The last 4 numbers of the bank account number.
+	Last4 string `json:"last_4"`
+}
+
+// GetName returns the value of Name.
+func (s *StripeUsBankAcctDetails) GetName() string {
+	return s.Name
+}
+
+// GetLast4 returns the value of Last4.
+func (s *StripeUsBankAcctDetails) GetLast4() string {
+	return s.Last4
+}
+
+// SetName sets the value of Name.
+func (s *StripeUsBankAcctDetails) SetName(val string) {
+	s.Name = val
+}
+
+// SetLast4 sets the value of Last4.
+func (s *StripeUsBankAcctDetails) SetLast4(val string) {
+	s.Last4 = val
+}
+
+type StripeUsBankAcctType string
+
+const (
+	StripeUsBankAcctTypeStripeUsBankAcct StripeUsBankAcctType = "stripe-us-bank-acct"
+)
+
+// AllValues returns all StripeUsBankAcctType values.
+func (StripeUsBankAcctType) AllValues() []StripeUsBankAcctType {
+	return []StripeUsBankAcctType{
+		StripeUsBankAcctTypeStripeUsBankAcct,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s StripeUsBankAcctType) MarshalText() ([]byte, error) {
+	switch s {
+	case StripeUsBankAcctTypeStripeUsBankAcct:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *StripeUsBankAcctType) UnmarshalText(data []byte) error {
+	switch StripeUsBankAcctType(data) {
+	case StripeUsBankAcctTypeStripeUsBankAcct:
+		*s = StripeUsBankAcctTypeStripeUsBankAcct
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // Information about a billing support plan.
 // Ref: #/components/schemas/SupportPlan
 type SupportPlan struct {
@@ -85255,6 +100862,166 @@ func (s *TaskStep) SetStarted(val DateTime) {
 // SetCompleted sets the value of Completed.
 func (s *TaskStep) SetCompleted(val DateTime) {
 	s.Completed = val
+}
+
+// Additional configuration options for TCP mode routers.
+// Ref: #/components/schemas/TcpRouterConfig
+type TcpRouterConfig struct {
+	Details TcpRouterConfigDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *TcpRouterConfig) GetDetails() TcpRouterConfigDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *TcpRouterConfig) SetDetails(val TcpRouterConfigDetails) {
+	s.Details = val
+}
+
+type TcpRouterConfigDetails map[string]jx.Raw
+
+func (s *TcpRouterConfigDetails) init() TcpRouterConfigDetails {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+type TcpRouterConfigType string
+
+const (
+	TcpRouterConfigTypeTCP TcpRouterConfigType = "tcp"
+)
+
+// AllValues returns all TcpRouterConfigType values.
+func (TcpRouterConfigType) AllValues() []TcpRouterConfigType {
+	return []TcpRouterConfigType{
+		TcpRouterConfigTypeTCP,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s TcpRouterConfigType) MarshalText() ([]byte, error) {
+	switch s {
+	case TcpRouterConfigTypeTCP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *TcpRouterConfigType) UnmarshalText(data []byte) error {
+	switch TcpRouterConfigType(data) {
+	case TcpRouterConfigTypeTCP:
+		*s = TcpRouterConfigTypeTCP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Additional configuration options for the TCP transport mode.
+// Ref: #/components/schemas/TcpTransportConfig
+type TcpTransportConfig struct {
+	Details TcpTransportConfigDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *TcpTransportConfig) GetDetails() TcpTransportConfigDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *TcpTransportConfig) SetDetails(val TcpTransportConfigDetails) {
+	s.Details = val
+}
+
+type TcpTransportConfigDetails struct {
+	Connections TcpTransportConfigDetailsConnections `json:"connections"`
+	// Configuration options for how telemetry is handled on the load balancer.
+	Telemetry TcpTransportConfigDetailsTelemetry `json:"telemetry"`
+}
+
+// GetConnections returns the value of Connections.
+func (s *TcpTransportConfigDetails) GetConnections() TcpTransportConfigDetailsConnections {
+	return s.Connections
+}
+
+// GetTelemetry returns the value of Telemetry.
+func (s *TcpTransportConfigDetails) GetTelemetry() TcpTransportConfigDetailsTelemetry {
+	return s.Telemetry
+}
+
+// SetConnections sets the value of Connections.
+func (s *TcpTransportConfigDetails) SetConnections(val TcpTransportConfigDetailsConnections) {
+	s.Connections = val
+}
+
+// SetTelemetry sets the value of Telemetry.
+func (s *TcpTransportConfigDetails) SetTelemetry(val TcpTransportConfigDetailsTelemetry) {
+	s.Telemetry = val
+}
+
+type TcpTransportConfigDetailsConnections map[string]jx.Raw
+
+func (s *TcpTransportConfigDetailsConnections) init() TcpTransportConfigDetailsConnections {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+// Configuration options for how telemetry is handled on the load balancer.
+type TcpTransportConfigDetailsTelemetry map[string]jx.Raw
+
+func (s *TcpTransportConfigDetailsTelemetry) init() TcpTransportConfigDetailsTelemetry {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+type TcpTransportConfigType string
+
+const (
+	TcpTransportConfigTypeTCP TcpTransportConfigType = "tcp"
+)
+
+// AllValues returns all TcpTransportConfigType values.
+func (TcpTransportConfigType) AllValues() []TcpTransportConfigType {
+	return []TcpTransportConfigType{
+		TcpTransportConfigTypeTCP,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s TcpTransportConfigType) MarshalText() ([]byte, error) {
+	switch s {
+	case TcpTransportConfigTypeTCP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *TcpTransportConfigType) UnmarshalText(data []byte) error {
+	switch TcpTransportConfigType(data) {
+	case TcpTransportConfigTypeTCP:
+		*s = TcpTransportConfigTypeTCP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // A summary of report requests and when they occured.
@@ -86044,6 +101811,83 @@ func (s *TriggerKeyStateError) SetTime(val OptDateTime) {
 	s.Time = val
 }
 
+// Ref: #/components/schemas/TriggerPipelineAction
+type TriggerPipelineAction struct {
+	Contents OptTriggerPipelineActionContents `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *TriggerPipelineAction) GetContents() OptTriggerPipelineActionContents {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *TriggerPipelineAction) SetContents(val OptTriggerPipelineActionContents) {
+	s.Contents = val
+}
+
+// The requested action to perform.
+type TriggerPipelineActionAction string
+
+const (
+	TriggerPipelineActionActionTrigger TriggerPipelineActionAction = "trigger"
+)
+
+// AllValues returns all TriggerPipelineActionAction values.
+func (TriggerPipelineActionAction) AllValues() []TriggerPipelineActionAction {
+	return []TriggerPipelineActionAction{
+		TriggerPipelineActionActionTrigger,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s TriggerPipelineActionAction) MarshalText() ([]byte, error) {
+	switch s {
+	case TriggerPipelineActionActionTrigger:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *TriggerPipelineActionAction) UnmarshalText(data []byte) error {
+	switch TriggerPipelineActionAction(data) {
+	case TriggerPipelineActionActionTrigger:
+		*s = TriggerPipelineActionActionTrigger
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type TriggerPipelineActionContents struct {
+	// A map of variables to pass into the pipeline when it runs.
+	Variables OptTriggerPipelineActionContentsVariables `json:"variables"`
+}
+
+// GetVariables returns the value of Variables.
+func (s *TriggerPipelineActionContents) GetVariables() OptTriggerPipelineActionContentsVariables {
+	return s.Variables
+}
+
+// SetVariables sets the value of Variables.
+func (s *TriggerPipelineActionContents) SetVariables(val OptTriggerPipelineActionContentsVariables) {
+	s.Variables = val
+}
+
+// A map of variables to pass into the pipeline when it runs.
+type TriggerPipelineActionContentsVariables map[string]string
+
+func (s *TriggerPipelineActionContentsVariables) init() TriggerPipelineActionContentsVariables {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
 type TriggerPipelineCreated struct {
 	Data Pipeline `json:"data"`
 }
@@ -86188,6 +102032,252 @@ func (s *TwoFactorAuthSetup) SetQr(val string) {
 // SetSecret sets the value of Secret.
 func (s *TwoFactorAuthSetup) SetSecret(val string) {
 	s.Secret = val
+}
+
+// The `URL` type of scoped variable `value`, referred to as a source. This means the value of this
+// variable is the result of calling the given URL. It is dynamic, in that Cycle will refetch the
+// contents on every start.
+// Ref: #/components/schemas/URLSource
+type URLSource struct {
+	Details URLSourceDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *URLSource) GetDetails() URLSourceDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *URLSource) SetDetails(val URLSourceDetails) {
+	s.Details = val
+}
+
+type URLSourceDetails struct {
+	// The URL to call to produce the value.
+	URL string `json:"url"`
+	// Additional headers that can be attached to the URL request. Useful for adding metadata to
+	// third-party services.
+	Headers URLSourceDetailsHeaders `json:"headers"`
+	// A URL that can be provided to authenticate with a third party secret service. Cycle will make a
+	// request to this URL before fetching the secret URL, and use the response as the value of an
+	// Authorization header when requesting the secret.
+	AuthTokenURL NilString `json:"auth_token_url"`
+}
+
+// GetURL returns the value of URL.
+func (s *URLSourceDetails) GetURL() string {
+	return s.URL
+}
+
+// GetHeaders returns the value of Headers.
+func (s *URLSourceDetails) GetHeaders() URLSourceDetailsHeaders {
+	return s.Headers
+}
+
+// GetAuthTokenURL returns the value of AuthTokenURL.
+func (s *URLSourceDetails) GetAuthTokenURL() NilString {
+	return s.AuthTokenURL
+}
+
+// SetURL sets the value of URL.
+func (s *URLSourceDetails) SetURL(val string) {
+	s.URL = val
+}
+
+// SetHeaders sets the value of Headers.
+func (s *URLSourceDetails) SetHeaders(val URLSourceDetailsHeaders) {
+	s.Headers = val
+}
+
+// SetAuthTokenURL sets the value of AuthTokenURL.
+func (s *URLSourceDetails) SetAuthTokenURL(val NilString) {
+	s.AuthTokenURL = val
+}
+
+// Additional headers that can be attached to the URL request. Useful for adding metadata to
+// third-party services.
+type URLSourceDetailsHeaders map[string]jx.Raw
+
+func (s *URLSourceDetailsHeaders) init() URLSourceDetailsHeaders {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+// The type of source value, can be either `raw` or `url`.
+type URLSourceType string
+
+const (
+	URLSourceTypeURL URLSourceType = "url"
+)
+
+// AllValues returns all URLSourceType values.
+func (URLSourceType) AllValues() []URLSourceType {
+	return []URLSourceType{
+		URLSourceTypeURL,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s URLSourceType) MarshalText() ([]byte, error) {
+	switch s {
+	case URLSourceTypeURL:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *URLSourceType) UnmarshalText(data []byte) error {
+	switch URLSourceType(data) {
+	case URLSourceTypeURL:
+		*s = URLSourceTypeURL
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Additional configuration options for UDP mode routers.
+// Ref: #/components/schemas/UdpRouterConfig
+type UdpRouterConfig struct {
+	Details UdpRouterConfigDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *UdpRouterConfig) GetDetails() UdpRouterConfigDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *UdpRouterConfig) SetDetails(val UdpRouterConfigDetails) {
+	s.Details = val
+}
+
+type UdpRouterConfigDetails map[string]jx.Raw
+
+func (s *UdpRouterConfigDetails) init() UdpRouterConfigDetails {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+type UdpRouterConfigType string
+
+const (
+	UdpRouterConfigTypeUDP UdpRouterConfigType = "udp"
+)
+
+// AllValues returns all UdpRouterConfigType values.
+func (UdpRouterConfigType) AllValues() []UdpRouterConfigType {
+	return []UdpRouterConfigType{
+		UdpRouterConfigTypeUDP,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s UdpRouterConfigType) MarshalText() ([]byte, error) {
+	switch s {
+	case UdpRouterConfigTypeUDP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *UdpRouterConfigType) UnmarshalText(data []byte) error {
+	switch UdpRouterConfigType(data) {
+	case UdpRouterConfigTypeUDP:
+		*s = UdpRouterConfigTypeUDP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Additional configuration options for the UDP transport mode.
+// Ref: #/components/schemas/UdpTransportConfig
+type UdpTransportConfig struct {
+	Details UdpTransportConfigDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *UdpTransportConfig) GetDetails() UdpTransportConfigDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *UdpTransportConfig) SetDetails(val UdpTransportConfigDetails) {
+	s.Details = val
+}
+
+type UdpTransportConfigDetails struct {
+	// Configuration options for how telemetry is handled on the load balancer.
+	Telemetry UdpTransportConfigDetailsTelemetry `json:"telemetry"`
+}
+
+// GetTelemetry returns the value of Telemetry.
+func (s *UdpTransportConfigDetails) GetTelemetry() UdpTransportConfigDetailsTelemetry {
+	return s.Telemetry
+}
+
+// SetTelemetry sets the value of Telemetry.
+func (s *UdpTransportConfigDetails) SetTelemetry(val UdpTransportConfigDetailsTelemetry) {
+	s.Telemetry = val
+}
+
+// Configuration options for how telemetry is handled on the load balancer.
+type UdpTransportConfigDetailsTelemetry map[string]jx.Raw
+
+func (s *UdpTransportConfigDetailsTelemetry) init() UdpTransportConfigDetailsTelemetry {
+	m := *s
+	if m == nil {
+		m = map[string]jx.Raw{}
+		*s = m
+	}
+	return m
+}
+
+type UdpTransportConfigType string
+
+const (
+	UdpTransportConfigTypeUDP UdpTransportConfigType = "udp"
+)
+
+// AllValues returns all UdpTransportConfigType values.
+func (UdpTransportConfigType) AllValues() []UdpTransportConfigType {
+	return []UdpTransportConfigType{
+		UdpTransportConfigTypeUDP,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s UdpTransportConfigType) MarshalText() ([]byte, error) {
+	switch s {
+	case UdpTransportConfigTypeUDP:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *UdpTransportConfigType) UnmarshalText(data []byte) error {
+	switch UdpTransportConfigType(data) {
+	case UdpTransportConfigTypeUDP:
+		*s = UdpTransportConfigTypeUDP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 type UpdateAPIKeyOK struct {
@@ -87377,7 +103467,7 @@ type UpdateImageSourceReq struct {
 	// A name for the image source.
 	Name       OptString                         `json:"name"`
 	Identifier OptIdentifier                     `json:"identifier"`
-	Origin     *ImageOrigin                      `json:"origin"`
+	Origin     OptImageOrigin                    `json:"origin"`
 	Builder    OptNilUpdateImageSourceReqBuilder `json:"builder"`
 	// User defined information about the image source.
 	About OptUpdateImageSourceReqAbout `json:"about"`
@@ -87394,7 +103484,7 @@ func (s *UpdateImageSourceReq) GetIdentifier() OptIdentifier {
 }
 
 // GetOrigin returns the value of Origin.
-func (s *UpdateImageSourceReq) GetOrigin() *ImageOrigin {
+func (s *UpdateImageSourceReq) GetOrigin() OptImageOrigin {
 	return s.Origin
 }
 
@@ -87419,7 +103509,7 @@ func (s *UpdateImageSourceReq) SetIdentifier(val OptIdentifier) {
 }
 
 // SetOrigin sets the value of Origin.
-func (s *UpdateImageSourceReq) SetOrigin(val *ImageOrigin) {
+func (s *UpdateImageSourceReq) SetOrigin(val OptImageOrigin) {
 	s.Origin = val
 }
 
@@ -88003,7 +104093,7 @@ type UpdateScopedVariableReq struct {
 	Scope      OptScopedVariableScope  `json:"scope"`
 	Access     OptScopedVariableAccess `json:"access"`
 	// The source or value of the Scoped Variable.
-	Source *UpdateScopedVariableReqSource `json:"source"`
+	Source OptUpdateScopedVariableReqSource `json:"source"`
 }
 
 // GetIdentifier returns the value of Identifier.
@@ -88022,7 +104112,7 @@ func (s *UpdateScopedVariableReq) GetAccess() OptScopedVariableAccess {
 }
 
 // GetSource returns the value of Source.
-func (s *UpdateScopedVariableReq) GetSource() *UpdateScopedVariableReqSource {
+func (s *UpdateScopedVariableReq) GetSource() OptUpdateScopedVariableReqSource {
 	return s.Source
 }
 
@@ -88042,12 +104132,92 @@ func (s *UpdateScopedVariableReq) SetAccess(val OptScopedVariableAccess) {
 }
 
 // SetSource sets the value of Source.
-func (s *UpdateScopedVariableReq) SetSource(val *UpdateScopedVariableReqSource) {
+func (s *UpdateScopedVariableReq) SetSource(val OptUpdateScopedVariableReqSource) {
 	s.Source = val
 }
 
 // The source or value of the Scoped Variable.
-type UpdateScopedVariableReqSource struct{}
+type UpdateScopedVariableReqSource struct {
+	OneOf UpdateScopedVariableReqSourceSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *UpdateScopedVariableReqSource) GetOneOf() UpdateScopedVariableReqSourceSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *UpdateScopedVariableReqSource) SetOneOf(val UpdateScopedVariableReqSourceSum) {
+	s.OneOf = val
+}
+
+// UpdateScopedVariableReqSourceSum represents sum type.
+type UpdateScopedVariableReqSourceSum struct {
+	Type      UpdateScopedVariableReqSourceSumType // switch on this field
+	RawSource RawSource
+	URLSource URLSource
+}
+
+// UpdateScopedVariableReqSourceSumType is oneOf type of UpdateScopedVariableReqSourceSum.
+type UpdateScopedVariableReqSourceSumType string
+
+// Possible values for UpdateScopedVariableReqSourceSumType.
+const (
+	RawSourceUpdateScopedVariableReqSourceSum UpdateScopedVariableReqSourceSumType = "raw"
+	URLSourceUpdateScopedVariableReqSourceSum UpdateScopedVariableReqSourceSumType = "url"
+)
+
+// IsRawSource reports whether UpdateScopedVariableReqSourceSum is RawSource.
+func (s UpdateScopedVariableReqSourceSum) IsRawSource() bool {
+	return s.Type == RawSourceUpdateScopedVariableReqSourceSum
+}
+
+// IsURLSource reports whether UpdateScopedVariableReqSourceSum is URLSource.
+func (s UpdateScopedVariableReqSourceSum) IsURLSource() bool {
+	return s.Type == URLSourceUpdateScopedVariableReqSourceSum
+}
+
+// SetRawSource sets UpdateScopedVariableReqSourceSum to RawSource.
+func (s *UpdateScopedVariableReqSourceSum) SetRawSource(v RawSource) {
+	s.Type = RawSourceUpdateScopedVariableReqSourceSum
+	s.RawSource = v
+}
+
+// GetRawSource returns RawSource and true boolean if UpdateScopedVariableReqSourceSum is RawSource.
+func (s UpdateScopedVariableReqSourceSum) GetRawSource() (v RawSource, ok bool) {
+	if !s.IsRawSource() {
+		return v, false
+	}
+	return s.RawSource, true
+}
+
+// NewRawSourceUpdateScopedVariableReqSourceSum returns new UpdateScopedVariableReqSourceSum from RawSource.
+func NewRawSourceUpdateScopedVariableReqSourceSum(v RawSource) UpdateScopedVariableReqSourceSum {
+	var s UpdateScopedVariableReqSourceSum
+	s.SetRawSource(v)
+	return s
+}
+
+// SetURLSource sets UpdateScopedVariableReqSourceSum to URLSource.
+func (s *UpdateScopedVariableReqSourceSum) SetURLSource(v URLSource) {
+	s.Type = URLSourceUpdateScopedVariableReqSourceSum
+	s.URLSource = v
+}
+
+// GetURLSource returns URLSource and true boolean if UpdateScopedVariableReqSourceSum is URLSource.
+func (s UpdateScopedVariableReqSourceSum) GetURLSource() (v URLSource, ok bool) {
+	if !s.IsURLSource() {
+		return v, false
+	}
+	return s.URLSource, true
+}
+
+// NewURLSourceUpdateScopedVariableReqSourceSum returns new UpdateScopedVariableReqSourceSum from URLSource.
+func NewURLSourceUpdateScopedVariableReqSourceSum(v URLSource) UpdateScopedVariableReqSourceSum {
+	var s UpdateScopedVariableReqSourceSum
+	s.SetURLSource(v)
+	return s
+}
 
 type UpdateServerOK struct {
 	Data InfraServer `json:"data"`
@@ -88208,7 +104378,7 @@ type UpdateStackReq struct {
 	// A map of default variable values used when building this Stack. A variable can be added anywhere
 	// in a Stack using the format `{{var}}` where `var` would be a key in this map.
 	Variables OptUpdateStackReqVariables `json:"variables"`
-	Source    *StackSource               `json:"source"`
+	Source    OptStackSource             `json:"source"`
 }
 
 // GetName returns the value of Name.
@@ -88222,7 +104392,7 @@ func (s *UpdateStackReq) GetVariables() OptUpdateStackReqVariables {
 }
 
 // GetSource returns the value of Source.
-func (s *UpdateStackReq) GetSource() *StackSource {
+func (s *UpdateStackReq) GetSource() OptStackSource {
 	return s.Source
 }
 
@@ -88237,7 +104407,7 @@ func (s *UpdateStackReq) SetVariables(val OptUpdateStackReqVariables) {
 }
 
 // SetSource sets the value of Source.
-func (s *UpdateStackReq) SetSource(val *StackSource) {
+func (s *UpdateStackReq) SetSource(val OptStackSource) {
 	s.Source = val
 }
 
@@ -88586,7 +104756,7 @@ type V1LbConfigRouterConfig struct {
 	// Defines how the length of various sorts of timeouts when communicating with the destination.
 	Timeouts V1LbConfigRouterConfigTimeouts `json:"timeouts"`
 	// Additional configuration options specific to the selected mode (tcp/http).
-	Extension *V1LbConfigRouterConfigExtension `json:"extension"`
+	Extension OptV1LbConfigRouterConfigExtension `json:"extension"`
 }
 
 // GetStickySessions returns the value of StickySessions.
@@ -88615,7 +104785,7 @@ func (s *V1LbConfigRouterConfig) GetTimeouts() V1LbConfigRouterConfigTimeouts {
 }
 
 // GetExtension returns the value of Extension.
-func (s *V1LbConfigRouterConfig) GetExtension() *V1LbConfigRouterConfigExtension {
+func (s *V1LbConfigRouterConfig) GetExtension() OptV1LbConfigRouterConfigExtension {
 	return s.Extension
 }
 
@@ -88645,7 +104815,7 @@ func (s *V1LbConfigRouterConfig) SetTimeouts(val V1LbConfigRouterConfigTimeouts)
 }
 
 // SetExtension sets the value of Extension.
-func (s *V1LbConfigRouterConfig) SetExtension(val *V1LbConfigRouterConfigExtension) {
+func (s *V1LbConfigRouterConfig) SetExtension(val OptV1LbConfigRouterConfigExtension) {
 	s.Extension = val
 }
 
@@ -88693,7 +104863,115 @@ func (s *V1LbConfigRouterConfigDestinationPrioritization) UnmarshalText(data []b
 }
 
 // Additional configuration options specific to the selected mode (tcp/http).
-type V1LbConfigRouterConfigExtension struct{}
+type V1LbConfigRouterConfigExtension struct {
+	OneOf V1LbConfigRouterConfigExtensionSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *V1LbConfigRouterConfigExtension) GetOneOf() V1LbConfigRouterConfigExtensionSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *V1LbConfigRouterConfigExtension) SetOneOf(val V1LbConfigRouterConfigExtensionSum) {
+	s.OneOf = val
+}
+
+// V1LbConfigRouterConfigExtensionSum represents sum type.
+type V1LbConfigRouterConfigExtensionSum struct {
+	Type             V1LbConfigRouterConfigExtensionSumType // switch on this field
+	TcpRouterConfig  TcpRouterConfig
+	HttpRouterConfig HttpRouterConfig
+	UdpRouterConfig  UdpRouterConfig
+}
+
+// V1LbConfigRouterConfigExtensionSumType is oneOf type of V1LbConfigRouterConfigExtensionSum.
+type V1LbConfigRouterConfigExtensionSumType string
+
+// Possible values for V1LbConfigRouterConfigExtensionSumType.
+const (
+	TcpRouterConfigV1LbConfigRouterConfigExtensionSum  V1LbConfigRouterConfigExtensionSumType = "tcp"
+	HttpRouterConfigV1LbConfigRouterConfigExtensionSum V1LbConfigRouterConfigExtensionSumType = "http"
+	UdpRouterConfigV1LbConfigRouterConfigExtensionSum  V1LbConfigRouterConfigExtensionSumType = "udp"
+)
+
+// IsTcpRouterConfig reports whether V1LbConfigRouterConfigExtensionSum is TcpRouterConfig.
+func (s V1LbConfigRouterConfigExtensionSum) IsTcpRouterConfig() bool {
+	return s.Type == TcpRouterConfigV1LbConfigRouterConfigExtensionSum
+}
+
+// IsHttpRouterConfig reports whether V1LbConfigRouterConfigExtensionSum is HttpRouterConfig.
+func (s V1LbConfigRouterConfigExtensionSum) IsHttpRouterConfig() bool {
+	return s.Type == HttpRouterConfigV1LbConfigRouterConfigExtensionSum
+}
+
+// IsUdpRouterConfig reports whether V1LbConfigRouterConfigExtensionSum is UdpRouterConfig.
+func (s V1LbConfigRouterConfigExtensionSum) IsUdpRouterConfig() bool {
+	return s.Type == UdpRouterConfigV1LbConfigRouterConfigExtensionSum
+}
+
+// SetTcpRouterConfig sets V1LbConfigRouterConfigExtensionSum to TcpRouterConfig.
+func (s *V1LbConfigRouterConfigExtensionSum) SetTcpRouterConfig(v TcpRouterConfig) {
+	s.Type = TcpRouterConfigV1LbConfigRouterConfigExtensionSum
+	s.TcpRouterConfig = v
+}
+
+// GetTcpRouterConfig returns TcpRouterConfig and true boolean if V1LbConfigRouterConfigExtensionSum is TcpRouterConfig.
+func (s V1LbConfigRouterConfigExtensionSum) GetTcpRouterConfig() (v TcpRouterConfig, ok bool) {
+	if !s.IsTcpRouterConfig() {
+		return v, false
+	}
+	return s.TcpRouterConfig, true
+}
+
+// NewTcpRouterConfigV1LbConfigRouterConfigExtensionSum returns new V1LbConfigRouterConfigExtensionSum from TcpRouterConfig.
+func NewTcpRouterConfigV1LbConfigRouterConfigExtensionSum(v TcpRouterConfig) V1LbConfigRouterConfigExtensionSum {
+	var s V1LbConfigRouterConfigExtensionSum
+	s.SetTcpRouterConfig(v)
+	return s
+}
+
+// SetHttpRouterConfig sets V1LbConfigRouterConfigExtensionSum to HttpRouterConfig.
+func (s *V1LbConfigRouterConfigExtensionSum) SetHttpRouterConfig(v HttpRouterConfig) {
+	s.Type = HttpRouterConfigV1LbConfigRouterConfigExtensionSum
+	s.HttpRouterConfig = v
+}
+
+// GetHttpRouterConfig returns HttpRouterConfig and true boolean if V1LbConfigRouterConfigExtensionSum is HttpRouterConfig.
+func (s V1LbConfigRouterConfigExtensionSum) GetHttpRouterConfig() (v HttpRouterConfig, ok bool) {
+	if !s.IsHttpRouterConfig() {
+		return v, false
+	}
+	return s.HttpRouterConfig, true
+}
+
+// NewHttpRouterConfigV1LbConfigRouterConfigExtensionSum returns new V1LbConfigRouterConfigExtensionSum from HttpRouterConfig.
+func NewHttpRouterConfigV1LbConfigRouterConfigExtensionSum(v HttpRouterConfig) V1LbConfigRouterConfigExtensionSum {
+	var s V1LbConfigRouterConfigExtensionSum
+	s.SetHttpRouterConfig(v)
+	return s
+}
+
+// SetUdpRouterConfig sets V1LbConfigRouterConfigExtensionSum to UdpRouterConfig.
+func (s *V1LbConfigRouterConfigExtensionSum) SetUdpRouterConfig(v UdpRouterConfig) {
+	s.Type = UdpRouterConfigV1LbConfigRouterConfigExtensionSum
+	s.UdpRouterConfig = v
+}
+
+// GetUdpRouterConfig returns UdpRouterConfig and true boolean if V1LbConfigRouterConfigExtensionSum is UdpRouterConfig.
+func (s V1LbConfigRouterConfigExtensionSum) GetUdpRouterConfig() (v UdpRouterConfig, ok bool) {
+	if !s.IsUdpRouterConfig() {
+		return v, false
+	}
+	return s.UdpRouterConfig, true
+}
+
+// NewUdpRouterConfigV1LbConfigRouterConfigExtensionSum returns new V1LbConfigRouterConfigExtensionSum from UdpRouterConfig.
+func NewUdpRouterConfigV1LbConfigRouterConfigExtensionSum(v UdpRouterConfig) V1LbConfigRouterConfigExtensionSum {
+	var s V1LbConfigRouterConfigExtensionSum
+	s.SetUdpRouterConfig(v)
+	return s
+}
 
 // TLS termination configuration. If null, the platform will use the default configuration. Port 443
 // by default has TLS termination enabled.
@@ -89076,7 +105354,7 @@ type V1LbControllerTransportConfig struct {
 	// Verbosity describes the level of logging detail for the controller.
 	Verbosity V1LbControllerTransportConfigVerbosity `json:"verbosity"`
 	// Extended configurations for the specified transport mode (http/tcp).
-	Extension *V1LbControllerTransportConfigExtension `json:"extension"`
+	Extension OptV1LbControllerTransportConfigExtension `json:"extension"`
 }
 
 // GetPerformance returns the value of Performance.
@@ -89100,7 +105378,7 @@ func (s *V1LbControllerTransportConfig) GetVerbosity() V1LbControllerTransportCo
 }
 
 // GetExtension returns the value of Extension.
-func (s *V1LbControllerTransportConfig) GetExtension() *V1LbControllerTransportConfigExtension {
+func (s *V1LbControllerTransportConfig) GetExtension() OptV1LbControllerTransportConfigExtension {
 	return s.Extension
 }
 
@@ -89125,12 +105403,120 @@ func (s *V1LbControllerTransportConfig) SetVerbosity(val V1LbControllerTransport
 }
 
 // SetExtension sets the value of Extension.
-func (s *V1LbControllerTransportConfig) SetExtension(val *V1LbControllerTransportConfigExtension) {
+func (s *V1LbControllerTransportConfig) SetExtension(val OptV1LbControllerTransportConfigExtension) {
 	s.Extension = val
 }
 
 // Extended configurations for the specified transport mode (http/tcp).
-type V1LbControllerTransportConfigExtension struct{}
+type V1LbControllerTransportConfigExtension struct {
+	OneOf V1LbControllerTransportConfigExtensionSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *V1LbControllerTransportConfigExtension) GetOneOf() V1LbControllerTransportConfigExtensionSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *V1LbControllerTransportConfigExtension) SetOneOf(val V1LbControllerTransportConfigExtensionSum) {
+	s.OneOf = val
+}
+
+// V1LbControllerTransportConfigExtensionSum represents sum type.
+type V1LbControllerTransportConfigExtensionSum struct {
+	Type                V1LbControllerTransportConfigExtensionSumType // switch on this field
+	TcpTransportConfig  TcpTransportConfig
+	HttpTransportConfig HttpTransportConfig
+	UdpTransportConfig  UdpTransportConfig
+}
+
+// V1LbControllerTransportConfigExtensionSumType is oneOf type of V1LbControllerTransportConfigExtensionSum.
+type V1LbControllerTransportConfigExtensionSumType string
+
+// Possible values for V1LbControllerTransportConfigExtensionSumType.
+const (
+	TcpTransportConfigV1LbControllerTransportConfigExtensionSum  V1LbControllerTransportConfigExtensionSumType = "tcp"
+	HttpTransportConfigV1LbControllerTransportConfigExtensionSum V1LbControllerTransportConfigExtensionSumType = "http"
+	UdpTransportConfigV1LbControllerTransportConfigExtensionSum  V1LbControllerTransportConfigExtensionSumType = "udp"
+)
+
+// IsTcpTransportConfig reports whether V1LbControllerTransportConfigExtensionSum is TcpTransportConfig.
+func (s V1LbControllerTransportConfigExtensionSum) IsTcpTransportConfig() bool {
+	return s.Type == TcpTransportConfigV1LbControllerTransportConfigExtensionSum
+}
+
+// IsHttpTransportConfig reports whether V1LbControllerTransportConfigExtensionSum is HttpTransportConfig.
+func (s V1LbControllerTransportConfigExtensionSum) IsHttpTransportConfig() bool {
+	return s.Type == HttpTransportConfigV1LbControllerTransportConfigExtensionSum
+}
+
+// IsUdpTransportConfig reports whether V1LbControllerTransportConfigExtensionSum is UdpTransportConfig.
+func (s V1LbControllerTransportConfigExtensionSum) IsUdpTransportConfig() bool {
+	return s.Type == UdpTransportConfigV1LbControllerTransportConfigExtensionSum
+}
+
+// SetTcpTransportConfig sets V1LbControllerTransportConfigExtensionSum to TcpTransportConfig.
+func (s *V1LbControllerTransportConfigExtensionSum) SetTcpTransportConfig(v TcpTransportConfig) {
+	s.Type = TcpTransportConfigV1LbControllerTransportConfigExtensionSum
+	s.TcpTransportConfig = v
+}
+
+// GetTcpTransportConfig returns TcpTransportConfig and true boolean if V1LbControllerTransportConfigExtensionSum is TcpTransportConfig.
+func (s V1LbControllerTransportConfigExtensionSum) GetTcpTransportConfig() (v TcpTransportConfig, ok bool) {
+	if !s.IsTcpTransportConfig() {
+		return v, false
+	}
+	return s.TcpTransportConfig, true
+}
+
+// NewTcpTransportConfigV1LbControllerTransportConfigExtensionSum returns new V1LbControllerTransportConfigExtensionSum from TcpTransportConfig.
+func NewTcpTransportConfigV1LbControllerTransportConfigExtensionSum(v TcpTransportConfig) V1LbControllerTransportConfigExtensionSum {
+	var s V1LbControllerTransportConfigExtensionSum
+	s.SetTcpTransportConfig(v)
+	return s
+}
+
+// SetHttpTransportConfig sets V1LbControllerTransportConfigExtensionSum to HttpTransportConfig.
+func (s *V1LbControllerTransportConfigExtensionSum) SetHttpTransportConfig(v HttpTransportConfig) {
+	s.Type = HttpTransportConfigV1LbControllerTransportConfigExtensionSum
+	s.HttpTransportConfig = v
+}
+
+// GetHttpTransportConfig returns HttpTransportConfig and true boolean if V1LbControllerTransportConfigExtensionSum is HttpTransportConfig.
+func (s V1LbControllerTransportConfigExtensionSum) GetHttpTransportConfig() (v HttpTransportConfig, ok bool) {
+	if !s.IsHttpTransportConfig() {
+		return v, false
+	}
+	return s.HttpTransportConfig, true
+}
+
+// NewHttpTransportConfigV1LbControllerTransportConfigExtensionSum returns new V1LbControllerTransportConfigExtensionSum from HttpTransportConfig.
+func NewHttpTransportConfigV1LbControllerTransportConfigExtensionSum(v HttpTransportConfig) V1LbControllerTransportConfigExtensionSum {
+	var s V1LbControllerTransportConfigExtensionSum
+	s.SetHttpTransportConfig(v)
+	return s
+}
+
+// SetUdpTransportConfig sets V1LbControllerTransportConfigExtensionSum to UdpTransportConfig.
+func (s *V1LbControllerTransportConfigExtensionSum) SetUdpTransportConfig(v UdpTransportConfig) {
+	s.Type = UdpTransportConfigV1LbControllerTransportConfigExtensionSum
+	s.UdpTransportConfig = v
+}
+
+// GetUdpTransportConfig returns UdpTransportConfig and true boolean if V1LbControllerTransportConfigExtensionSum is UdpTransportConfig.
+func (s V1LbControllerTransportConfigExtensionSum) GetUdpTransportConfig() (v UdpTransportConfig, ok bool) {
+	if !s.IsUdpTransportConfig() {
+		return v, false
+	}
+	return s.UdpTransportConfig, true
+}
+
+// NewUdpTransportConfigV1LbControllerTransportConfigExtensionSum returns new V1LbControllerTransportConfigExtensionSum from UdpTransportConfig.
+func NewUdpTransportConfigV1LbControllerTransportConfigExtensionSum(v UdpTransportConfig) V1LbControllerTransportConfigExtensionSum {
+	var s V1LbControllerTransportConfigExtensionSum
+	s.SetUdpTransportConfig(v)
+	return s
+}
 
 // Defines how traffic gets into the load balancer.
 type V1LbControllerTransportConfigIngress struct {
@@ -89277,6 +105663,96 @@ func (s *V1LbControllerTransportMode) UnmarshalText(data []byte) error {
 		return nil
 	case V1LbControllerTransportModeHTTP:
 		*s = V1LbControllerTransportModeHTTP
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Ref: #/components/schemas/V1LbType
+type V1LbType struct {
+	// Allow / disallow traffic to be routed via IPv4.
+	Ipv4 bool `json:"ipv4"`
+	// Allow / disallow traffic to be routed via IPv6.
+	Ipv6    bool       `json:"ipv6"`
+	Details V1LbConfig `json:"details"`
+	// Binds the load balancer to the host server IP address.
+	// **Pros**: This allows for significantly lower cost (utilizing fewer IPv4 addresses), and enables
+	// building out a true edge network with lower latency.
+	// **Cons**: Only 1 environment is allowed on the host. This is because the load balancer is the only
+	// ingress point for an environment, and if it is sharing
+	// the same IP as the host, that host can only operate under that environment.
+	BindHost OptNilBool `json:"bind_host"`
+}
+
+// GetIpv4 returns the value of Ipv4.
+func (s *V1LbType) GetIpv4() bool {
+	return s.Ipv4
+}
+
+// GetIpv6 returns the value of Ipv6.
+func (s *V1LbType) GetIpv6() bool {
+	return s.Ipv6
+}
+
+// GetDetails returns the value of Details.
+func (s *V1LbType) GetDetails() V1LbConfig {
+	return s.Details
+}
+
+// GetBindHost returns the value of BindHost.
+func (s *V1LbType) GetBindHost() OptNilBool {
+	return s.BindHost
+}
+
+// SetIpv4 sets the value of Ipv4.
+func (s *V1LbType) SetIpv4(val bool) {
+	s.Ipv4 = val
+}
+
+// SetIpv6 sets the value of Ipv6.
+func (s *V1LbType) SetIpv6(val bool) {
+	s.Ipv6 = val
+}
+
+// SetDetails sets the value of Details.
+func (s *V1LbType) SetDetails(val V1LbConfig) {
+	s.Details = val
+}
+
+// SetBindHost sets the value of BindHost.
+func (s *V1LbType) SetBindHost(val OptNilBool) {
+	s.BindHost = val
+}
+
+type V1LbTypeType string
+
+const (
+	V1LbTypeTypeV1 V1LbTypeType = "v1"
+)
+
+// AllValues returns all V1LbTypeType values.
+func (V1LbTypeType) AllValues() []V1LbTypeType {
+	return []V1LbTypeType{
+		V1LbTypeTypeV1,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s V1LbTypeType) MarshalText() ([]byte, error) {
+	switch s {
+	case V1LbTypeTypeV1:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *V1LbTypeType) UnmarshalText(data []byte) error {
+	switch V1LbTypeType(data) {
+	case V1LbTypeTypeV1:
+		*s = V1LbTypeTypeV1
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -89512,6 +105988,8 @@ func (s *VPNUsersEvents) SetUpdated(val DateTime) {
 func (s *VPNUsersEvents) SetDeleted(val DateTime) {
 	s.Deleted = val
 }
+
+type VariableString string
 
 type Version string
 
@@ -90197,7 +106675,322 @@ func (s *VirtualMachineEvents) SetStarted(val DateTime) {
 // located or specify a base image provided by Cycle. The `base` field allows users to specify the
 // name of a desired Cycle-hosted base image, removing the need for a custom image URL.
 // Ref: #/components/schemas/VirtualMachineImage
-type VirtualMachineImage struct{}
+type VirtualMachineImage struct {
+	OneOf VirtualMachineImageSum
+}
+
+// GetOneOf returns the value of OneOf.
+func (s *VirtualMachineImage) GetOneOf() VirtualMachineImageSum {
+	return s.OneOf
+}
+
+// SetOneOf sets the value of OneOf.
+func (s *VirtualMachineImage) SetOneOf(val VirtualMachineImageSum) {
+	s.OneOf = val
+}
+
+// A virtual machine image sourced from a Cycle base image.
+// Ref: #/components/schemas/VirtualMachineImageSourceBase
+type VirtualMachineImageSourceBase struct {
+	Details VirtualMachineImageSourceBaseDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *VirtualMachineImageSourceBase) GetDetails() VirtualMachineImageSourceBaseDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *VirtualMachineImageSourceBase) SetDetails(val VirtualMachineImageSourceBaseDetails) {
+	s.Details = val
+}
+
+type VirtualMachineImageSourceBaseDetails struct {
+	// The base image identifier.
+	Identifier string `json:"identifier"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *VirtualMachineImageSourceBaseDetails) GetIdentifier() string {
+	return s.Identifier
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *VirtualMachineImageSourceBaseDetails) SetIdentifier(val string) {
+	s.Identifier = val
+}
+
+type VirtualMachineImageSourceBaseType string
+
+const (
+	VirtualMachineImageSourceBaseTypeBase VirtualMachineImageSourceBaseType = "base"
+)
+
+// AllValues returns all VirtualMachineImageSourceBaseType values.
+func (VirtualMachineImageSourceBaseType) AllValues() []VirtualMachineImageSourceBaseType {
+	return []VirtualMachineImageSourceBaseType{
+		VirtualMachineImageSourceBaseTypeBase,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VirtualMachineImageSourceBaseType) MarshalText() ([]byte, error) {
+	switch s {
+	case VirtualMachineImageSourceBaseTypeBase:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VirtualMachineImageSourceBaseType) UnmarshalText(data []byte) error {
+	switch VirtualMachineImageSourceBaseType(data) {
+	case VirtualMachineImageSourceBaseTypeBase:
+		*s = VirtualMachineImageSourceBaseTypeBase
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A virtual machine image sourced from an IPXE script.
+// Ref: #/components/schemas/VirtualMachineImageSourceIpxe
+type VirtualMachineImageSourceIpxe struct {
+	Details VirtualMachineImageSourceIpxeDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *VirtualMachineImageSourceIpxe) GetDetails() VirtualMachineImageSourceIpxeDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *VirtualMachineImageSourceIpxe) SetDetails(val VirtualMachineImageSourceIpxeDetails) {
+	s.Details = val
+}
+
+type VirtualMachineImageSourceIpxeDetails struct {
+	// A URL that points to an IPXE script.
+	ChainURL OptNilString `json:"chain_url"`
+	// An inline IPXE script.
+	Script OptNilString `json:"script"`
+}
+
+// GetChainURL returns the value of ChainURL.
+func (s *VirtualMachineImageSourceIpxeDetails) GetChainURL() OptNilString {
+	return s.ChainURL
+}
+
+// GetScript returns the value of Script.
+func (s *VirtualMachineImageSourceIpxeDetails) GetScript() OptNilString {
+	return s.Script
+}
+
+// SetChainURL sets the value of ChainURL.
+func (s *VirtualMachineImageSourceIpxeDetails) SetChainURL(val OptNilString) {
+	s.ChainURL = val
+}
+
+// SetScript sets the value of Script.
+func (s *VirtualMachineImageSourceIpxeDetails) SetScript(val OptNilString) {
+	s.Script = val
+}
+
+type VirtualMachineImageSourceIpxeType string
+
+const (
+	VirtualMachineImageSourceIpxeTypeIpxe VirtualMachineImageSourceIpxeType = "ipxe"
+)
+
+// AllValues returns all VirtualMachineImageSourceIpxeType values.
+func (VirtualMachineImageSourceIpxeType) AllValues() []VirtualMachineImageSourceIpxeType {
+	return []VirtualMachineImageSourceIpxeType{
+		VirtualMachineImageSourceIpxeTypeIpxe,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VirtualMachineImageSourceIpxeType) MarshalText() ([]byte, error) {
+	switch s {
+	case VirtualMachineImageSourceIpxeTypeIpxe:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VirtualMachineImageSourceIpxeType) UnmarshalText(data []byte) error {
+	switch VirtualMachineImageSourceIpxeType(data) {
+	case VirtualMachineImageSourceIpxeTypeIpxe:
+		*s = VirtualMachineImageSourceIpxeTypeIpxe
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A virtual machine image sourced from a URL.
+// Ref: #/components/schemas/VirtualMachineImageSourceUrl
+type VirtualMachineImageSourceUrl struct {
+	Details VirtualMachineImageSourceUrlDetails `json:"details"`
+}
+
+// GetDetails returns the value of Details.
+func (s *VirtualMachineImageSourceUrl) GetDetails() VirtualMachineImageSourceUrlDetails {
+	return s.Details
+}
+
+// SetDetails sets the value of Details.
+func (s *VirtualMachineImageSourceUrl) SetDetails(val VirtualMachineImageSourceUrlDetails) {
+	s.Details = val
+}
+
+type VirtualMachineImageSourceUrlDetails struct {
+	// The URL where a custom image is located.
+	URL string `json:"url"`
+}
+
+// GetURL returns the value of URL.
+func (s *VirtualMachineImageSourceUrlDetails) GetURL() string {
+	return s.URL
+}
+
+// SetURL sets the value of URL.
+func (s *VirtualMachineImageSourceUrlDetails) SetURL(val string) {
+	s.URL = val
+}
+
+type VirtualMachineImageSourceUrlType string
+
+const (
+	VirtualMachineImageSourceUrlTypeURL VirtualMachineImageSourceUrlType = "url"
+)
+
+// AllValues returns all VirtualMachineImageSourceUrlType values.
+func (VirtualMachineImageSourceUrlType) AllValues() []VirtualMachineImageSourceUrlType {
+	return []VirtualMachineImageSourceUrlType{
+		VirtualMachineImageSourceUrlTypeURL,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VirtualMachineImageSourceUrlType) MarshalText() ([]byte, error) {
+	switch s {
+	case VirtualMachineImageSourceUrlTypeURL:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VirtualMachineImageSourceUrlType) UnmarshalText(data []byte) error {
+	switch VirtualMachineImageSourceUrlType(data) {
+	case VirtualMachineImageSourceUrlTypeURL:
+		*s = VirtualMachineImageSourceUrlTypeURL
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// VirtualMachineImageSum represents sum type.
+type VirtualMachineImageSum struct {
+	Type                          VirtualMachineImageSumType // switch on this field
+	VirtualMachineImageSourceUrl  VirtualMachineImageSourceUrl
+	VirtualMachineImageSourceIpxe VirtualMachineImageSourceIpxe
+	VirtualMachineImageSourceBase VirtualMachineImageSourceBase
+}
+
+// VirtualMachineImageSumType is oneOf type of VirtualMachineImageSum.
+type VirtualMachineImageSumType string
+
+// Possible values for VirtualMachineImageSumType.
+const (
+	VirtualMachineImageSourceUrlVirtualMachineImageSum  VirtualMachineImageSumType = "url"
+	VirtualMachineImageSourceIpxeVirtualMachineImageSum VirtualMachineImageSumType = "ipxe"
+	VirtualMachineImageSourceBaseVirtualMachineImageSum VirtualMachineImageSumType = "base"
+)
+
+// IsVirtualMachineImageSourceUrl reports whether VirtualMachineImageSum is VirtualMachineImageSourceUrl.
+func (s VirtualMachineImageSum) IsVirtualMachineImageSourceUrl() bool {
+	return s.Type == VirtualMachineImageSourceUrlVirtualMachineImageSum
+}
+
+// IsVirtualMachineImageSourceIpxe reports whether VirtualMachineImageSum is VirtualMachineImageSourceIpxe.
+func (s VirtualMachineImageSum) IsVirtualMachineImageSourceIpxe() bool {
+	return s.Type == VirtualMachineImageSourceIpxeVirtualMachineImageSum
+}
+
+// IsVirtualMachineImageSourceBase reports whether VirtualMachineImageSum is VirtualMachineImageSourceBase.
+func (s VirtualMachineImageSum) IsVirtualMachineImageSourceBase() bool {
+	return s.Type == VirtualMachineImageSourceBaseVirtualMachineImageSum
+}
+
+// SetVirtualMachineImageSourceUrl sets VirtualMachineImageSum to VirtualMachineImageSourceUrl.
+func (s *VirtualMachineImageSum) SetVirtualMachineImageSourceUrl(v VirtualMachineImageSourceUrl) {
+	s.Type = VirtualMachineImageSourceUrlVirtualMachineImageSum
+	s.VirtualMachineImageSourceUrl = v
+}
+
+// GetVirtualMachineImageSourceUrl returns VirtualMachineImageSourceUrl and true boolean if VirtualMachineImageSum is VirtualMachineImageSourceUrl.
+func (s VirtualMachineImageSum) GetVirtualMachineImageSourceUrl() (v VirtualMachineImageSourceUrl, ok bool) {
+	if !s.IsVirtualMachineImageSourceUrl() {
+		return v, false
+	}
+	return s.VirtualMachineImageSourceUrl, true
+}
+
+// NewVirtualMachineImageSourceUrlVirtualMachineImageSum returns new VirtualMachineImageSum from VirtualMachineImageSourceUrl.
+func NewVirtualMachineImageSourceUrlVirtualMachineImageSum(v VirtualMachineImageSourceUrl) VirtualMachineImageSum {
+	var s VirtualMachineImageSum
+	s.SetVirtualMachineImageSourceUrl(v)
+	return s
+}
+
+// SetVirtualMachineImageSourceIpxe sets VirtualMachineImageSum to VirtualMachineImageSourceIpxe.
+func (s *VirtualMachineImageSum) SetVirtualMachineImageSourceIpxe(v VirtualMachineImageSourceIpxe) {
+	s.Type = VirtualMachineImageSourceIpxeVirtualMachineImageSum
+	s.VirtualMachineImageSourceIpxe = v
+}
+
+// GetVirtualMachineImageSourceIpxe returns VirtualMachineImageSourceIpxe and true boolean if VirtualMachineImageSum is VirtualMachineImageSourceIpxe.
+func (s VirtualMachineImageSum) GetVirtualMachineImageSourceIpxe() (v VirtualMachineImageSourceIpxe, ok bool) {
+	if !s.IsVirtualMachineImageSourceIpxe() {
+		return v, false
+	}
+	return s.VirtualMachineImageSourceIpxe, true
+}
+
+// NewVirtualMachineImageSourceIpxeVirtualMachineImageSum returns new VirtualMachineImageSum from VirtualMachineImageSourceIpxe.
+func NewVirtualMachineImageSourceIpxeVirtualMachineImageSum(v VirtualMachineImageSourceIpxe) VirtualMachineImageSum {
+	var s VirtualMachineImageSum
+	s.SetVirtualMachineImageSourceIpxe(v)
+	return s
+}
+
+// SetVirtualMachineImageSourceBase sets VirtualMachineImageSum to VirtualMachineImageSourceBase.
+func (s *VirtualMachineImageSum) SetVirtualMachineImageSourceBase(v VirtualMachineImageSourceBase) {
+	s.Type = VirtualMachineImageSourceBaseVirtualMachineImageSum
+	s.VirtualMachineImageSourceBase = v
+}
+
+// GetVirtualMachineImageSourceBase returns VirtualMachineImageSourceBase and true boolean if VirtualMachineImageSum is VirtualMachineImageSourceBase.
+func (s VirtualMachineImageSum) GetVirtualMachineImageSourceBase() (v VirtualMachineImageSourceBase, ok bool) {
+	if !s.IsVirtualMachineImageSourceBase() {
+		return v, false
+	}
+	return s.VirtualMachineImageSourceBase, true
+}
+
+// NewVirtualMachineImageSourceBaseVirtualMachineImageSum returns new VirtualMachineImageSum from VirtualMachineImageSourceBase.
+func NewVirtualMachineImageSourceBaseVirtualMachineImageSum(v VirtualMachineImageSourceBase) VirtualMachineImageSum {
+	var s VirtualMachineImageSum
+	s.SetVirtualMachineImageSourceBase(v)
+	return s
+}
 
 // All includable resources linkable to the given virtual machine.
 // Ref: #/components/schemas/VirtualMachineIncludes
@@ -90623,6 +107416,43 @@ func (s *VirtualMachineShutdownPolicy) SetSignals(val []string) {
 	s.Signals = val
 }
 
+// Ref: #/components/schemas/VirtualMachineStartTask
+type VirtualMachineStartTask struct{}
+
+type VirtualMachineStartTaskAction string
+
+const (
+	VirtualMachineStartTaskActionStart VirtualMachineStartTaskAction = "start"
+)
+
+// AllValues returns all VirtualMachineStartTaskAction values.
+func (VirtualMachineStartTaskAction) AllValues() []VirtualMachineStartTaskAction {
+	return []VirtualMachineStartTaskAction{
+		VirtualMachineStartTaskActionStart,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VirtualMachineStartTaskAction) MarshalText() ([]byte, error) {
+	switch s {
+	case VirtualMachineStartTaskActionStart:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VirtualMachineStartTaskAction) UnmarshalText(data []byte) error {
+	switch VirtualMachineStartTaskAction(data) {
+	case VirtualMachineStartTaskActionStart:
+		*s = VirtualMachineStartTaskActionStart
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // The startup policy defines how the virtual machine should handle startup, including a possible
 // delay before starting the machine.
 // Ref: #/components/schemas/VirtualMachineStartupPolicy
@@ -90784,6 +107614,43 @@ func (s *VirtualMachineStateError) SetMessage(val OptString) {
 // SetTime sets the value of Time.
 func (s *VirtualMachineStateError) SetTime(val OptDateTime) {
 	s.Time = val
+}
+
+// Ref: #/components/schemas/VirtualMachineStopTask
+type VirtualMachineStopTask struct{}
+
+type VirtualMachineStopTaskAction string
+
+const (
+	VirtualMachineStopTaskActionStop VirtualMachineStopTaskAction = "stop"
+)
+
+// AllValues returns all VirtualMachineStopTaskAction values.
+func (VirtualMachineStopTaskAction) AllValues() []VirtualMachineStopTaskAction {
+	return []VirtualMachineStopTaskAction{
+		VirtualMachineStopTaskActionStop,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VirtualMachineStopTaskAction) MarshalText() ([]byte, error) {
+	switch s {
+	case VirtualMachineStopTaskActionStop:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VirtualMachineStopTaskAction) UnmarshalText(data []byte) error {
+	switch VirtualMachineStopTaskAction(data) {
+	case VirtualMachineStopTaskActionStop:
+		*s = VirtualMachineStopTaskActionStop
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // The telemetry configuration defines how telemetry data is handled, including retention, interval,
@@ -91096,6 +107963,223 @@ func (s *VpnEnvironmentServiceConfigAuth) SetCycleAccounts(val bool) {
 // SetVpnAccounts sets the value of VpnAccounts.
 func (s *VpnEnvironmentServiceConfigAuth) SetVpnAccounts(val OptBool) {
 	s.VpnAccounts = val
+}
+
+// Ref: #/components/schemas/VpnReconfigureTask
+type VpnReconfigureTask struct {
+	// Additional information the platform needs to create this job.
+	Contents VpnReconfigureTaskContents `json:"contents"`
+}
+
+// GetContents returns the value of Contents.
+func (s *VpnReconfigureTask) GetContents() VpnReconfigureTaskContents {
+	return s.Contents
+}
+
+// SetContents sets the value of Contents.
+func (s *VpnReconfigureTask) SetContents(val VpnReconfigureTaskContents) {
+	s.Contents = val
+}
+
+// The action to take.
+type VpnReconfigureTaskAction string
+
+const (
+	VpnReconfigureTaskActionReconfigure VpnReconfigureTaskAction = "reconfigure"
+)
+
+// AllValues returns all VpnReconfigureTaskAction values.
+func (VpnReconfigureTaskAction) AllValues() []VpnReconfigureTaskAction {
+	return []VpnReconfigureTaskAction{
+		VpnReconfigureTaskActionReconfigure,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VpnReconfigureTaskAction) MarshalText() ([]byte, error) {
+	switch s {
+	case VpnReconfigureTaskActionReconfigure:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VpnReconfigureTaskAction) UnmarshalText(data []byte) error {
+	switch VpnReconfigureTaskAction(data) {
+	case VpnReconfigureTaskActionReconfigure:
+		*s = VpnReconfigureTaskActionReconfigure
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// Additional information the platform needs to create this job.
+type VpnReconfigureTaskContents struct {
+	// A boolean where true means the VPN service is enabled.
+	Enable OptBool `json:"enable"`
+	// A boolean where `true` represents the desire to run the environment vpn service in high
+	// availability mode.
+	HighAvailability OptNilBool `json:"high_availability"`
+	// A boolean representing if this service container is set to autoupdate or not.
+	AutoUpdate OptNilBool `json:"auto_update"`
+	// The config object for the VPN service, in this case without the required fields normally found in
+	// a VPN config object.
+	Config OptNilVpnReconfigureTaskContentsConfig `json:"config"`
+}
+
+// GetEnable returns the value of Enable.
+func (s *VpnReconfigureTaskContents) GetEnable() OptBool {
+	return s.Enable
+}
+
+// GetHighAvailability returns the value of HighAvailability.
+func (s *VpnReconfigureTaskContents) GetHighAvailability() OptNilBool {
+	return s.HighAvailability
+}
+
+// GetAutoUpdate returns the value of AutoUpdate.
+func (s *VpnReconfigureTaskContents) GetAutoUpdate() OptNilBool {
+	return s.AutoUpdate
+}
+
+// GetConfig returns the value of Config.
+func (s *VpnReconfigureTaskContents) GetConfig() OptNilVpnReconfigureTaskContentsConfig {
+	return s.Config
+}
+
+// SetEnable sets the value of Enable.
+func (s *VpnReconfigureTaskContents) SetEnable(val OptBool) {
+	s.Enable = val
+}
+
+// SetHighAvailability sets the value of HighAvailability.
+func (s *VpnReconfigureTaskContents) SetHighAvailability(val OptNilBool) {
+	s.HighAvailability = val
+}
+
+// SetAutoUpdate sets the value of AutoUpdate.
+func (s *VpnReconfigureTaskContents) SetAutoUpdate(val OptNilBool) {
+	s.AutoUpdate = val
+}
+
+// SetConfig sets the value of Config.
+func (s *VpnReconfigureTaskContents) SetConfig(val OptNilVpnReconfigureTaskContentsConfig) {
+	s.Config = val
+}
+
+// The config object for the VPN service, in this case without the required fields normally found in
+// a VPN config object.
+type VpnReconfigureTaskContentsConfig struct {
+	// If true, routes all traffic through the VPN, even non-Cycle traffic.
+	AllowInternet OptBool `json:"allow_internet"`
+	// Auth configuration for the VPN.
+	Auth OptVpnReconfigureTaskContentsConfigAuth `json:"auth"`
+}
+
+// GetAllowInternet returns the value of AllowInternet.
+func (s *VpnReconfigureTaskContentsConfig) GetAllowInternet() OptBool {
+	return s.AllowInternet
+}
+
+// GetAuth returns the value of Auth.
+func (s *VpnReconfigureTaskContentsConfig) GetAuth() OptVpnReconfigureTaskContentsConfigAuth {
+	return s.Auth
+}
+
+// SetAllowInternet sets the value of AllowInternet.
+func (s *VpnReconfigureTaskContentsConfig) SetAllowInternet(val OptBool) {
+	s.AllowInternet = val
+}
+
+// SetAuth sets the value of Auth.
+func (s *VpnReconfigureTaskContentsConfig) SetAuth(val OptVpnReconfigureTaskContentsConfigAuth) {
+	s.Auth = val
+}
+
+// Auth configuration for the VPN.
+type VpnReconfigureTaskContentsConfigAuth struct {
+	// A webhook endpoint to hit. Will be passed the login credentials provided to the user, and should
+	// return a 200 status if the login is permitted.
+	Webhook NilString `json:"webhook"`
+	// If true, allows any Cycle account with access to the environment to log in to the VPN using their
+	// Cycle email and password.
+	CycleAccounts bool `json:"cycle_accounts"`
+	// If true, allows the custom VPN accounts to log in to the VPN.
+	VpnAccounts OptBool `json:"vpn_accounts"`
+}
+
+// GetWebhook returns the value of Webhook.
+func (s *VpnReconfigureTaskContentsConfigAuth) GetWebhook() NilString {
+	return s.Webhook
+}
+
+// GetCycleAccounts returns the value of CycleAccounts.
+func (s *VpnReconfigureTaskContentsConfigAuth) GetCycleAccounts() bool {
+	return s.CycleAccounts
+}
+
+// GetVpnAccounts returns the value of VpnAccounts.
+func (s *VpnReconfigureTaskContentsConfigAuth) GetVpnAccounts() OptBool {
+	return s.VpnAccounts
+}
+
+// SetWebhook sets the value of Webhook.
+func (s *VpnReconfigureTaskContentsConfigAuth) SetWebhook(val NilString) {
+	s.Webhook = val
+}
+
+// SetCycleAccounts sets the value of CycleAccounts.
+func (s *VpnReconfigureTaskContentsConfigAuth) SetCycleAccounts(val bool) {
+	s.CycleAccounts = val
+}
+
+// SetVpnAccounts sets the value of VpnAccounts.
+func (s *VpnReconfigureTaskContentsConfigAuth) SetVpnAccounts(val OptBool) {
+	s.VpnAccounts = val
+}
+
+// This will reset the VPN certificates and restart the container. Should be done when the
+// certificates expire, every 1000 days. Then, you will need to redownload the VPN config in order to
+// connect.
+// Ref: #/components/schemas/VpnResetTask
+type VpnResetTask struct{}
+
+// The name of the action to perform.
+type VpnResetTaskAction string
+
+const (
+	VpnResetTaskActionReset VpnResetTaskAction = "reset"
+)
+
+// AllValues returns all VpnResetTaskAction values.
+func (VpnResetTaskAction) AllValues() []VpnResetTaskAction {
+	return []VpnResetTaskAction{
+		VpnResetTaskActionReset,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s VpnResetTaskAction) MarshalText() ([]byte, error) {
+	switch s {
+	case VpnResetTaskActionReset:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *VpnResetTaskAction) UnmarshalText(data []byte) error {
+	switch VpnResetTaskAction(data) {
+	case VpnResetTaskActionReset:
+		*s = VpnResetTaskActionReset
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // Additional configuration options for the web application firewall.
@@ -91434,6 +108518,417 @@ func (s *WafConfigRulesItemType) UnmarshalText(data []byte) error {
 		return errors.Errorf("invalid value: %q", data)
 	}
 }
+
+// A pipeline step that will make a GET request to the specified endpoint.
+// Ref: #/components/schemas/WebhookGetStep
+type WebhookGetStep struct {
+	// An identifier for the step.
+	Identifier OptString                `json:"identifier"`
+	Options    OptWebhookGetStepOptions `json:"options"`
+	Details    WebhookGetStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *WebhookGetStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *WebhookGetStep) GetOptions() OptWebhookGetStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *WebhookGetStep) GetDetails() WebhookGetStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *WebhookGetStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *WebhookGetStep) SetOptions(val OptWebhookGetStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *WebhookGetStep) SetDetails(val WebhookGetStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type WebhookGetStepAction string
+
+const (
+	WebhookGetStepActionWebhookGet WebhookGetStepAction = "webhook.get"
+)
+
+// AllValues returns all WebhookGetStepAction values.
+func (WebhookGetStepAction) AllValues() []WebhookGetStepAction {
+	return []WebhookGetStepAction{
+		WebhookGetStepActionWebhookGet,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s WebhookGetStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case WebhookGetStepActionWebhookGet:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *WebhookGetStepAction) UnmarshalText(data []byte) error {
+	switch WebhookGetStepAction(data) {
+	case WebhookGetStepActionWebhookGet:
+		*s = WebhookGetStepActionWebhookGet
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type WebhookGetStepDetails struct {
+	// The url to submit a POST request to.
+	URL string `json:"url"`
+	// An optional map of headers to send with the request.
+	Headers OptNilWebhookGetStepDetailsHeaders `json:"headers"`
+	Options OptWebhookStepOptions              `json:"options"`
+}
+
+// GetURL returns the value of URL.
+func (s *WebhookGetStepDetails) GetURL() string {
+	return s.URL
+}
+
+// GetHeaders returns the value of Headers.
+func (s *WebhookGetStepDetails) GetHeaders() OptNilWebhookGetStepDetailsHeaders {
+	return s.Headers
+}
+
+// GetOptions returns the value of Options.
+func (s *WebhookGetStepDetails) GetOptions() OptWebhookStepOptions {
+	return s.Options
+}
+
+// SetURL sets the value of URL.
+func (s *WebhookGetStepDetails) SetURL(val string) {
+	s.URL = val
+}
+
+// SetHeaders sets the value of Headers.
+func (s *WebhookGetStepDetails) SetHeaders(val OptNilWebhookGetStepDetailsHeaders) {
+	s.Headers = val
+}
+
+// SetOptions sets the value of Options.
+func (s *WebhookGetStepDetails) SetOptions(val OptWebhookStepOptions) {
+	s.Options = val
+}
+
+// An optional map of headers to send with the request.
+type WebhookGetStepDetailsHeaders map[string]string
+
+func (s *WebhookGetStepDetailsHeaders) init() WebhookGetStepDetailsHeaders {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+type WebhookGetStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *WebhookGetStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *WebhookGetStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// A pipeline step that will make a POST request to the specified endpoints. The webhook will post
+// the full body of the resource referenced by the step.
+// For example if you were to reference a step creating a container, you would receive that container
+// object in the post body.
+// You may also specify a custom body instead.
+// Ref: #/components/schemas/WebhookPostStep
+type WebhookPostStep struct {
+	// An identifier for the step.
+	Identifier OptString                 `json:"identifier"`
+	Options    OptWebhookPostStepOptions `json:"options"`
+	Details    WebhookPostStepDetails    `json:"details"`
+}
+
+// GetIdentifier returns the value of Identifier.
+func (s *WebhookPostStep) GetIdentifier() OptString {
+	return s.Identifier
+}
+
+// GetOptions returns the value of Options.
+func (s *WebhookPostStep) GetOptions() OptWebhookPostStepOptions {
+	return s.Options
+}
+
+// GetDetails returns the value of Details.
+func (s *WebhookPostStep) GetDetails() WebhookPostStepDetails {
+	return s.Details
+}
+
+// SetIdentifier sets the value of Identifier.
+func (s *WebhookPostStep) SetIdentifier(val OptString) {
+	s.Identifier = val
+}
+
+// SetOptions sets the value of Options.
+func (s *WebhookPostStep) SetOptions(val OptWebhookPostStepOptions) {
+	s.Options = val
+}
+
+// SetDetails sets the value of Details.
+func (s *WebhookPostStep) SetDetails(val WebhookPostStepDetails) {
+	s.Details = val
+}
+
+// The action that the step takes.
+type WebhookPostStepAction string
+
+const (
+	WebhookPostStepActionWebhookPost WebhookPostStepAction = "webhook.post"
+)
+
+// AllValues returns all WebhookPostStepAction values.
+func (WebhookPostStepAction) AllValues() []WebhookPostStepAction {
+	return []WebhookPostStepAction{
+		WebhookPostStepActionWebhookPost,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s WebhookPostStepAction) MarshalText() ([]byte, error) {
+	switch s {
+	case WebhookPostStepActionWebhookPost:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *WebhookPostStepAction) UnmarshalText(data []byte) error {
+	switch WebhookPostStepAction(data) {
+	case WebhookPostStepActionWebhookPost:
+		*s = WebhookPostStepActionWebhookPost
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+type WebhookPostStepDetails struct {
+	// The url to submit a POST request to.
+	URL string `json:"url"`
+	// An optional map of headers to send with the request.
+	Headers OptNilWebhookPostStepDetailsHeaders `json:"headers"`
+	Options OptWebhookStepOptions               `json:"options"`
+	// An optional POST body to send with the request. Cannot be used with `from``.
+	Body OptNilString `json:"body"`
+	// Takes the output from a previous step and uses it as the body for the POST request. Cannot be used
+	// with `body`. String format is <stageIdentifier/stepIdentifier>.
+	From OptNilString `json:"from"`
+}
+
+// GetURL returns the value of URL.
+func (s *WebhookPostStepDetails) GetURL() string {
+	return s.URL
+}
+
+// GetHeaders returns the value of Headers.
+func (s *WebhookPostStepDetails) GetHeaders() OptNilWebhookPostStepDetailsHeaders {
+	return s.Headers
+}
+
+// GetOptions returns the value of Options.
+func (s *WebhookPostStepDetails) GetOptions() OptWebhookStepOptions {
+	return s.Options
+}
+
+// GetBody returns the value of Body.
+func (s *WebhookPostStepDetails) GetBody() OptNilString {
+	return s.Body
+}
+
+// GetFrom returns the value of From.
+func (s *WebhookPostStepDetails) GetFrom() OptNilString {
+	return s.From
+}
+
+// SetURL sets the value of URL.
+func (s *WebhookPostStepDetails) SetURL(val string) {
+	s.URL = val
+}
+
+// SetHeaders sets the value of Headers.
+func (s *WebhookPostStepDetails) SetHeaders(val OptNilWebhookPostStepDetailsHeaders) {
+	s.Headers = val
+}
+
+// SetOptions sets the value of Options.
+func (s *WebhookPostStepDetails) SetOptions(val OptWebhookStepOptions) {
+	s.Options = val
+}
+
+// SetBody sets the value of Body.
+func (s *WebhookPostStepDetails) SetBody(val OptNilString) {
+	s.Body = val
+}
+
+// SetFrom sets the value of From.
+func (s *WebhookPostStepDetails) SetFrom(val OptNilString) {
+	s.From = val
+}
+
+// An optional map of headers to send with the request.
+type WebhookPostStepDetailsHeaders map[string]string
+
+func (s *WebhookPostStepDetailsHeaders) init() WebhookPostStepDetailsHeaders {
+	m := *s
+	if m == nil {
+		m = map[string]string{}
+		*s = m
+	}
+	return m
+}
+
+type WebhookPostStepOptions struct {
+	Skip OptBool `json:"skip"`
+}
+
+// GetSkip returns the value of Skip.
+func (s *WebhookPostStepOptions) GetSkip() OptBool {
+	return s.Skip
+}
+
+// SetSkip sets the value of Skip.
+func (s *WebhookPostStepOptions) SetSkip(val OptBool) {
+	s.Skip = val
+}
+
+// Options for configuring webhook pipeline steps.
+// Ref: #/components/schemas/WebhookStepOptions
+type WebhookStepOptions struct {
+	MaxAttempts OptNilInt `json:"max_attempts"`
+	// How long to wait between retries on wait.
+	Interval OptDuration                     `json:"interval"`
+	FailOn   OptNilWebhookStepOptionsFailOn  `json:"fail_on"`
+	RetryOn  OptNilWebhookStepOptionsRetryOn `json:"retry_on"`
+}
+
+// GetMaxAttempts returns the value of MaxAttempts.
+func (s *WebhookStepOptions) GetMaxAttempts() OptNilInt {
+	return s.MaxAttempts
+}
+
+// GetInterval returns the value of Interval.
+func (s *WebhookStepOptions) GetInterval() OptDuration {
+	return s.Interval
+}
+
+// GetFailOn returns the value of FailOn.
+func (s *WebhookStepOptions) GetFailOn() OptNilWebhookStepOptionsFailOn {
+	return s.FailOn
+}
+
+// GetRetryOn returns the value of RetryOn.
+func (s *WebhookStepOptions) GetRetryOn() OptNilWebhookStepOptionsRetryOn {
+	return s.RetryOn
+}
+
+// SetMaxAttempts sets the value of MaxAttempts.
+func (s *WebhookStepOptions) SetMaxAttempts(val OptNilInt) {
+	s.MaxAttempts = val
+}
+
+// SetInterval sets the value of Interval.
+func (s *WebhookStepOptions) SetInterval(val OptDuration) {
+	s.Interval = val
+}
+
+// SetFailOn sets the value of FailOn.
+func (s *WebhookStepOptions) SetFailOn(val OptNilWebhookStepOptionsFailOn) {
+	s.FailOn = val
+}
+
+// SetRetryOn sets the value of RetryOn.
+func (s *WebhookStepOptions) SetRetryOn(val OptNilWebhookStepOptionsRetryOn) {
+	s.RetryOn = val
+}
+
+type WebhookStepOptionsFailOn struct {
+	// If true, will fail on any codes NOT defined in the http_codes array.
+	Not bool `json:"not"`
+	// A list of http response codes that will trigger a failure.
+	HTTPCodes OptNilIntArray `json:"http_codes"`
+}
+
+// GetNot returns the value of Not.
+func (s *WebhookStepOptionsFailOn) GetNot() bool {
+	return s.Not
+}
+
+// GetHTTPCodes returns the value of HTTPCodes.
+func (s *WebhookStepOptionsFailOn) GetHTTPCodes() OptNilIntArray {
+	return s.HTTPCodes
+}
+
+// SetNot sets the value of Not.
+func (s *WebhookStepOptionsFailOn) SetNot(val bool) {
+	s.Not = val
+}
+
+// SetHTTPCodes sets the value of HTTPCodes.
+func (s *WebhookStepOptionsFailOn) SetHTTPCodes(val OptNilIntArray) {
+	s.HTTPCodes = val
+}
+
+type WebhookStepOptionsRetryOn struct {
+	// If true, will retry on any codes NOT defined in the http_codes array.
+	Not bool `json:"not"`
+	// A list of http response codes that will trigger a retry.
+	HTTPCodes OptNilIntArray `json:"http_codes"`
+}
+
+// GetNot returns the value of Not.
+func (s *WebhookStepOptionsRetryOn) GetNot() bool {
+	return s.Not
+}
+
+// GetHTTPCodes returns the value of HTTPCodes.
+func (s *WebhookStepOptionsRetryOn) GetHTTPCodes() OptNilIntArray {
+	return s.HTTPCodes
+}
+
+// SetNot sets the value of Not.
+func (s *WebhookStepOptionsRetryOn) SetNot(val bool) {
+	s.Not = val
+}
+
+// SetHTTPCodes sets the value of HTTPCodes.
+func (s *WebhookStepOptionsRetryOn) SetHTTPCodes(val OptNilIntArray) {
+	s.HTTPCodes = val
+}
+
+type WebhookURL string
 
 // DNS (Domain Name System), in short, is a decentralized naming system for computers, services, or
 // other resources connected to the internet or a private network. It is what allows the translation

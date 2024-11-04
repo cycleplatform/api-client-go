@@ -96,7 +96,7 @@ type Invoker interface {
 	// `scale`: `containers-manage`.
 	//
 	// POST /v1/containers/{containerId}/tasks
-	CreateContainerJob(ctx context.Context, request *CreateContainerJobReq, params CreateContainerJobParams) (*CreateContainerJobAccepted, error)
+	CreateContainerJob(ctx context.Context, request OptCreateContainerJobReq, params CreateContainerJobParams) (*CreateContainerJobAccepted, error)
 	// CreateDNSZone invokes createDNSZone operation.
 	//
 	// Requires the `dns-manage` capability.
@@ -141,7 +141,7 @@ type Invoker interface {
 	// Requires the `environments-manage` capability.
 	//
 	// POST /v1/environments/{environmentId}/tasks
-	CreateEnvironmentJob(ctx context.Context, request *CreateEnvironmentJobReq, params CreateEnvironmentJobParams) (*CreateEnvironmentJobAccepted, error)
+	CreateEnvironmentJob(ctx context.Context, request OptCreateEnvironmentJobReq, params CreateEnvironmentJobParams) (*CreateEnvironmentJobAccepted, error)
 	// CreateFunctionJob invokes createFunctionJob operation.
 	//
 	// Used to perform different actions on a given Function Container.
@@ -194,7 +194,7 @@ type Invoker interface {
 	// Requires the `containers-instance-migrate` capability.
 	//
 	// POST /v1/containers/{containerId}/instances/{instanceId}/tasks
-	CreateInstanceJob(ctx context.Context, request *CreateInstanceJobReq, params CreateInstanceJobParams) (*CreateInstanceJobAccepted, error)
+	CreateInstanceJob(ctx context.Context, request OptCreateInstanceJobReq, params CreateInstanceJobParams) (*CreateInstanceJobAccepted, error)
 	// CreateInstances invokes createInstances operation.
 	//
 	// Manually create Instances of a Container.
@@ -266,7 +266,7 @@ type Invoker interface {
 	// Requires the `pipelines-manage` capability.
 	//
 	// POST /v1/pipelines/{pipelineId}/tasks
-	CreatePipelineJob(ctx context.Context, request *CreatePipelineJobReq, params CreatePipelineJobParams) (*CreatePipelineJobAccepted, error)
+	CreatePipelineJob(ctx context.Context, request OptCreatePipelineJobReq, params CreatePipelineJobParams) (*CreatePipelineJobAccepted, error)
 	// CreatePipelineTriggerKey invokes createPipelineTriggerKey operation.
 	//
 	// Requires the `pipelines-manage` capability.
@@ -303,7 +303,7 @@ type Invoker interface {
 	// Used to perform different actions on a given Server. Requires the `servers-manage` capability.
 	//
 	// POST /v1/infrastructure/servers/{serverId}/tasks
-	CreateServerJob(ctx context.Context, request *CreateServerJobReq, params CreateServerJobParams) (*CreateServerJobAccepted, error)
+	CreateServerJob(ctx context.Context, request OptCreateServerJobReq, params CreateServerJobParams) (*CreateServerJobAccepted, error)
 	// CreateStack invokes createStack operation.
 	//
 	// Requires the `stacks-manage` capability.
@@ -321,7 +321,7 @@ type Invoker interface {
 	// Requires the `stacks-manage` capability.
 	//
 	// POST /v1/stacks/{stackId}/builds/{buildId}/tasks
-	CreateStackBuildJob(ctx context.Context, request *CreateStackBuildJobReq, params CreateStackBuildJobParams) (*CreateStackBuildJobAccepted, error)
+	CreateStackBuildJob(ctx context.Context, request OptCreateStackBuildJobReq, params CreateStackBuildJobParams) (*CreateStackBuildJobAccepted, error)
 	// CreateStackJob invokes createStackJob operation.
 	//
 	// Requires the `stacks-manage` capability.
@@ -334,7 +334,7 @@ type Invoker interface {
 	// capability.
 	//
 	// POST /v1/environments/{environmentId}/services/vpn/tasks
-	CreateVPNServiceJob(ctx context.Context, request *CreateVPNServiceJobReq, params CreateVPNServiceJobParams) (*CreateVPNServiceJobAccepted, error)
+	CreateVPNServiceJob(ctx context.Context, request OptCreateVPNServiceJobReq, params CreateVPNServiceJobParams) (*CreateVPNServiceJobAccepted, error)
 	// CreateVPNUser invokes createVPNUser operation.
 	//
 	// Requires the `environments-vpn-manage` capability.
@@ -355,7 +355,7 @@ type Invoker interface {
 	// `stop`: `virtual-machines-manage`.
 	//
 	// POST /v1/virtual-machines/{virtualMachineId}/tasks
-	CreateVirtualMachineJob(ctx context.Context, request *CreateVirtualMachineJobReq, params CreateVirtualMachineJobParams) (*CreateVirtualMachineJobAccepted, error)
+	CreateVirtualMachineJob(ctx context.Context, request OptCreateVirtualMachineJobReq, params CreateVirtualMachineJobParams) (*CreateVirtualMachineJobAccepted, error)
 	// DeleteAPIKey invokes deleteAPIKey operation.
 	//
 	// Requires the 'api-keys-manage' capability.
@@ -2547,12 +2547,12 @@ func (c *Client) sendCreateContainerBackupJob(ctx context.Context, request OptCr
 // `scale`: `containers-manage`.
 //
 // POST /v1/containers/{containerId}/tasks
-func (c *Client) CreateContainerJob(ctx context.Context, request *CreateContainerJobReq, params CreateContainerJobParams) (*CreateContainerJobAccepted, error) {
+func (c *Client) CreateContainerJob(ctx context.Context, request OptCreateContainerJobReq, params CreateContainerJobParams) (*CreateContainerJobAccepted, error) {
 	res, err := c.sendCreateContainerJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateContainerJob(ctx context.Context, request *CreateContainerJobReq, params CreateContainerJobParams) (res *CreateContainerJobAccepted, err error) {
+func (c *Client) sendCreateContainerJob(ctx context.Context, request OptCreateContainerJobReq, params CreateContainerJobParams) (res *CreateContainerJobAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -3245,12 +3245,12 @@ func (c *Client) sendCreateEnvironment(ctx context.Context, request OptCreateEnv
 // Requires the `environments-manage` capability.
 //
 // POST /v1/environments/{environmentId}/tasks
-func (c *Client) CreateEnvironmentJob(ctx context.Context, request *CreateEnvironmentJobReq, params CreateEnvironmentJobParams) (*CreateEnvironmentJobAccepted, error) {
+func (c *Client) CreateEnvironmentJob(ctx context.Context, request OptCreateEnvironmentJobReq, params CreateEnvironmentJobParams) (*CreateEnvironmentJobAccepted, error) {
 	res, err := c.sendCreateEnvironmentJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateEnvironmentJob(ctx context.Context, request *CreateEnvironmentJobReq, params CreateEnvironmentJobParams) (res *CreateEnvironmentJobAccepted, err error) {
+func (c *Client) sendCreateEnvironmentJob(ctx context.Context, request OptCreateEnvironmentJobReq, params CreateEnvironmentJobParams) (res *CreateEnvironmentJobAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -3960,12 +3960,12 @@ func (c *Client) sendCreateImagesJob(ctx context.Context, request OptCreateImage
 // Requires the `containers-instance-migrate` capability.
 //
 // POST /v1/containers/{containerId}/instances/{instanceId}/tasks
-func (c *Client) CreateInstanceJob(ctx context.Context, request *CreateInstanceJobReq, params CreateInstanceJobParams) (*CreateInstanceJobAccepted, error) {
+func (c *Client) CreateInstanceJob(ctx context.Context, request OptCreateInstanceJobReq, params CreateInstanceJobParams) (*CreateInstanceJobAccepted, error) {
 	res, err := c.sendCreateInstanceJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateInstanceJob(ctx context.Context, request *CreateInstanceJobReq, params CreateInstanceJobParams) (res *CreateInstanceJobAccepted, err error) {
+func (c *Client) sendCreateInstanceJob(ctx context.Context, request OptCreateInstanceJobReq, params CreateInstanceJobParams) (res *CreateInstanceJobAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [5]string
@@ -5121,12 +5121,12 @@ func (c *Client) sendCreatePipeline(ctx context.Context, request OptCreatePipeli
 // Requires the `pipelines-manage` capability.
 //
 // POST /v1/pipelines/{pipelineId}/tasks
-func (c *Client) CreatePipelineJob(ctx context.Context, request *CreatePipelineJobReq, params CreatePipelineJobParams) (*CreatePipelineJobAccepted, error) {
+func (c *Client) CreatePipelineJob(ctx context.Context, request OptCreatePipelineJobReq, params CreatePipelineJobParams) (*CreatePipelineJobAccepted, error) {
 	res, err := c.sendCreatePipelineJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreatePipelineJob(ctx context.Context, request *CreatePipelineJobReq, params CreatePipelineJobParams) (res *CreatePipelineJobAccepted, err error) {
+func (c *Client) sendCreatePipelineJob(ctx context.Context, request OptCreatePipelineJobReq, params CreatePipelineJobParams) (res *CreatePipelineJobAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -5696,12 +5696,12 @@ func (c *Client) sendCreateServer(ctx context.Context, request OptCreateServerRe
 // Used to perform different actions on a given Server. Requires the `servers-manage` capability.
 //
 // POST /v1/infrastructure/servers/{serverId}/tasks
-func (c *Client) CreateServerJob(ctx context.Context, request *CreateServerJobReq, params CreateServerJobParams) (*CreateServerJobAccepted, error) {
+func (c *Client) CreateServerJob(ctx context.Context, request OptCreateServerJobReq, params CreateServerJobParams) (*CreateServerJobAccepted, error) {
 	res, err := c.sendCreateServerJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateServerJob(ctx context.Context, request *CreateServerJobReq, params CreateServerJobParams) (res *CreateServerJobAccepted, err error) {
+func (c *Client) sendCreateServerJob(ctx context.Context, request OptCreateServerJobReq, params CreateServerJobParams) (res *CreateServerJobAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -5983,12 +5983,12 @@ func (c *Client) sendCreateStackBuild(ctx context.Context, request OptCreateStac
 // Requires the `stacks-manage` capability.
 //
 // POST /v1/stacks/{stackId}/builds/{buildId}/tasks
-func (c *Client) CreateStackBuildJob(ctx context.Context, request *CreateStackBuildJobReq, params CreateStackBuildJobParams) (*CreateStackBuildJobAccepted, error) {
+func (c *Client) CreateStackBuildJob(ctx context.Context, request OptCreateStackBuildJobReq, params CreateStackBuildJobParams) (*CreateStackBuildJobAccepted, error) {
 	res, err := c.sendCreateStackBuildJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateStackBuildJob(ctx context.Context, request *CreateStackBuildJobReq, params CreateStackBuildJobParams) (res *CreateStackBuildJobAccepted, err error) {
+func (c *Client) sendCreateStackBuildJob(ctx context.Context, request OptCreateStackBuildJobReq, params CreateStackBuildJobParams) (res *CreateStackBuildJobAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [5]string
@@ -6207,12 +6207,12 @@ func (c *Client) sendCreateStackJob(ctx context.Context, request OptCreateStackJ
 // capability.
 //
 // POST /v1/environments/{environmentId}/services/vpn/tasks
-func (c *Client) CreateVPNServiceJob(ctx context.Context, request *CreateVPNServiceJobReq, params CreateVPNServiceJobParams) (*CreateVPNServiceJobAccepted, error) {
+func (c *Client) CreateVPNServiceJob(ctx context.Context, request OptCreateVPNServiceJobReq, params CreateVPNServiceJobParams) (*CreateVPNServiceJobAccepted, error) {
 	res, err := c.sendCreateVPNServiceJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateVPNServiceJob(ctx context.Context, request *CreateVPNServiceJobReq, params CreateVPNServiceJobParams) (res *CreateVPNServiceJobAccepted, err error) {
+func (c *Client) sendCreateVPNServiceJob(ctx context.Context, request OptCreateVPNServiceJobReq, params CreateVPNServiceJobParams) (res *CreateVPNServiceJobAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
@@ -6546,12 +6546,12 @@ func (c *Client) sendCreateVirtualMachine(ctx context.Context, request OptCreate
 // `stop`: `virtual-machines-manage`.
 //
 // POST /v1/virtual-machines/{virtualMachineId}/tasks
-func (c *Client) CreateVirtualMachineJob(ctx context.Context, request *CreateVirtualMachineJobReq, params CreateVirtualMachineJobParams) (*CreateVirtualMachineJobAccepted, error) {
+func (c *Client) CreateVirtualMachineJob(ctx context.Context, request OptCreateVirtualMachineJobReq, params CreateVirtualMachineJobParams) (*CreateVirtualMachineJobAccepted, error) {
 	res, err := c.sendCreateVirtualMachineJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateVirtualMachineJob(ctx context.Context, request *CreateVirtualMachineJobReq, params CreateVirtualMachineJobParams) (res *CreateVirtualMachineJobAccepted, err error) {
+func (c *Client) sendCreateVirtualMachineJob(ctx context.Context, request OptCreateVirtualMachineJobReq, params CreateVirtualMachineJobParams) (res *CreateVirtualMachineJobAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string

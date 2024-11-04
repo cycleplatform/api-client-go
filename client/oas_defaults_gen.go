@@ -135,10 +135,26 @@ func (s *DiscoveryConfig) setDefaults() {
 }
 
 // setDefaults set default value of fields.
+func (s *EnvironmentDeploymentHealthyWatchStepDetails) setDefaults() {
+	{
+		val := Duration("365d")
+		s.MaxWait.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
 func (s *ExportStackReq) setDefaults() {
 	{
 		val := bool(false)
 		s.ResolveOrigins.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *HttpRouterConfigDetailsCachingFilesItem) setDefaults() {
+	{
+		val := Duration("365d")
+		s.TTL = val
 	}
 }
 
@@ -183,6 +199,22 @@ func (s *ScopedVariableAccessInternalAPI) setDefaults() {
 	{
 		val := Duration("365d")
 		s.Duration.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *SleepStepDetails) setDefaults() {
+	{
+		val := Duration("365d")
+		s.Duration.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *StackPruneStepDetailsCriteria) setDefaults() {
+	{
+		val := Duration("365d")
+		s.Expire.SetTo(val)
 	}
 }
 
@@ -352,6 +384,14 @@ func (s *VirtualMachineTelemetryConfig) setDefaults() {
 		val := Duration("365d")
 		s.Retention.SetTo(val)
 	}
+	{
+		val := Duration("365d")
+		s.Interval.SetTo(val)
+	}
+}
+
+// setDefaults set default value of fields.
+func (s *WebhookStepOptions) setDefaults() {
 	{
 		val := Duration("365d")
 		s.Interval.SetTo(val)
