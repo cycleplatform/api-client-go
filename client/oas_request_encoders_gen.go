@@ -372,7 +372,7 @@ func encodeCreateEnvironmentJobRequest(
 }
 
 func encodeCreateFunctionJobRequest(
-	req OptTrigger,
+	req OptCreateFunctionJobReq,
 	r *http.Request,
 ) error {
 	const contentType = "application/json"

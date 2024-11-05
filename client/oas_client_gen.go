@@ -148,7 +148,7 @@ type Invoker interface {
 	// Requires the `containers-functions-trigger` capability.
 	//
 	// POST /v1/containers/{containerId}/functions/tasks
-	CreateFunctionJob(ctx context.Context, request OptTrigger, params CreateFunctionJobParams) (*CreateFunctionJobAccepted, error)
+	CreateFunctionJob(ctx context.Context, request OptCreateFunctionJobReq, params CreateFunctionJobParams) (*CreateFunctionJobAccepted, error)
 	// CreateHub invokes createHub operation.
 	//
 	// Create a Hub.
@@ -3348,12 +3348,12 @@ func (c *Client) sendCreateEnvironmentJob(ctx context.Context, request OptCreate
 // Requires the `containers-functions-trigger` capability.
 //
 // POST /v1/containers/{containerId}/functions/tasks
-func (c *Client) CreateFunctionJob(ctx context.Context, request OptTrigger, params CreateFunctionJobParams) (*CreateFunctionJobAccepted, error) {
+func (c *Client) CreateFunctionJob(ctx context.Context, request OptCreateFunctionJobReq, params CreateFunctionJobParams) (*CreateFunctionJobAccepted, error) {
 	res, err := c.sendCreateFunctionJob(ctx, request, params)
 	return res, err
 }
 
-func (c *Client) sendCreateFunctionJob(ctx context.Context, request OptTrigger, params CreateFunctionJobParams) (res *CreateFunctionJobAccepted, err error) {
+func (c *Client) sendCreateFunctionJob(ctx context.Context, request OptCreateFunctionJobReq, params CreateFunctionJobParams) (res *CreateFunctionJobAccepted, err error) {
 
 	u := uri.Clone(c.requestURL(ctx))
 	var pathParts [3]string
