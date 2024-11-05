@@ -22365,17 +22365,72 @@ func (s *EnvironmentFeatures) SetMonitoring(val OptNilEnvironmentFeaturesMonitor
 // The level of monitoring to enable for this environment. There is a cost associated with higher
 // levels of monitoring.
 type EnvironmentFeaturesMonitoring struct {
-	Tier string `json:"tier"`
+	Tier EnvironmentFeaturesMonitoringTier `json:"tier"`
 }
 
 // GetTier returns the value of Tier.
-func (s *EnvironmentFeaturesMonitoring) GetTier() string {
+func (s *EnvironmentFeaturesMonitoring) GetTier() EnvironmentFeaturesMonitoringTier {
 	return s.Tier
 }
 
 // SetTier sets the value of Tier.
-func (s *EnvironmentFeaturesMonitoring) SetTier(val string) {
+func (s *EnvironmentFeaturesMonitoring) SetTier(val EnvironmentFeaturesMonitoringTier) {
 	s.Tier = val
+}
+
+type EnvironmentFeaturesMonitoringTier string
+
+const (
+	EnvironmentFeaturesMonitoringTierLimited    EnvironmentFeaturesMonitoringTier = "limited"
+	EnvironmentFeaturesMonitoringTierBasic      EnvironmentFeaturesMonitoringTier = "basic"
+	EnvironmentFeaturesMonitoringTierPremium    EnvironmentFeaturesMonitoringTier = "premium"
+	EnvironmentFeaturesMonitoringTierEnterprise EnvironmentFeaturesMonitoringTier = "enterprise"
+)
+
+// AllValues returns all EnvironmentFeaturesMonitoringTier values.
+func (EnvironmentFeaturesMonitoringTier) AllValues() []EnvironmentFeaturesMonitoringTier {
+	return []EnvironmentFeaturesMonitoringTier{
+		EnvironmentFeaturesMonitoringTierLimited,
+		EnvironmentFeaturesMonitoringTierBasic,
+		EnvironmentFeaturesMonitoringTierPremium,
+		EnvironmentFeaturesMonitoringTierEnterprise,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s EnvironmentFeaturesMonitoringTier) MarshalText() ([]byte, error) {
+	switch s {
+	case EnvironmentFeaturesMonitoringTierLimited:
+		return []byte(s), nil
+	case EnvironmentFeaturesMonitoringTierBasic:
+		return []byte(s), nil
+	case EnvironmentFeaturesMonitoringTierPremium:
+		return []byte(s), nil
+	case EnvironmentFeaturesMonitoringTierEnterprise:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *EnvironmentFeaturesMonitoringTier) UnmarshalText(data []byte) error {
+	switch EnvironmentFeaturesMonitoringTier(data) {
+	case EnvironmentFeaturesMonitoringTierLimited:
+		*s = EnvironmentFeaturesMonitoringTierLimited
+		return nil
+	case EnvironmentFeaturesMonitoringTierBasic:
+		*s = EnvironmentFeaturesMonitoringTierBasic
+		return nil
+	case EnvironmentFeaturesMonitoringTierPremium:
+		*s = EnvironmentFeaturesMonitoringTierPremium
+		return nil
+	case EnvironmentFeaturesMonitoringTierEnterprise:
+		*s = EnvironmentFeaturesMonitoringTierEnterprise
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
 }
 
 // An identity that is associated with an environment.
@@ -119496,7 +119551,7 @@ type V1LbConfigControllerTemplateWafRulesItem struct {
 	Type V1LbConfigControllerTemplateWafRulesItemType `json:"type"`
 	// A string that describes if both attributes need to be true (match all) or if only one of the
 	// conditions needs to be true (match any).
-	Match string `json:"match"`
+	Match V1LbConfigControllerTemplateWafRulesItemMatch `json:"match"`
 	// An array of the specific conditions for the rule.
 	Conditions []V1LbConfigControllerTemplateWafRulesItemConditionsItem `json:"conditions"`
 }
@@ -119517,7 +119572,7 @@ func (s *V1LbConfigControllerTemplateWafRulesItem) GetType() V1LbConfigControlle
 }
 
 // GetMatch returns the value of Match.
-func (s *V1LbConfigControllerTemplateWafRulesItem) GetMatch() string {
+func (s *V1LbConfigControllerTemplateWafRulesItem) GetMatch() V1LbConfigControllerTemplateWafRulesItemMatch {
 	return s.Match
 }
 
@@ -119542,7 +119597,7 @@ func (s *V1LbConfigControllerTemplateWafRulesItem) SetType(val V1LbConfigControl
 }
 
 // SetMatch sets the value of Match.
-func (s *V1LbConfigControllerTemplateWafRulesItem) SetMatch(val string) {
+func (s *V1LbConfigControllerTemplateWafRulesItem) SetMatch(val V1LbConfigControllerTemplateWafRulesItemMatch) {
 	s.Match = val
 }
 
@@ -119717,6 +119772,56 @@ func (s *V1LbConfigControllerTemplateWafRulesItemConditionsItemType) UnmarshalTe
 		return nil
 	case V1LbConfigControllerTemplateWafRulesItemConditionsItemTypeHeaderMatch:
 		*s = V1LbConfigControllerTemplateWafRulesItemConditionsItemTypeHeaderMatch
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A string that describes if both attributes need to be true (match all) or if only one of the
+// conditions needs to be true (match any).
+type V1LbConfigControllerTemplateWafRulesItemMatch string
+
+const (
+	V1LbConfigControllerTemplateWafRulesItemMatchAny   V1LbConfigControllerTemplateWafRulesItemMatch = "any"
+	V1LbConfigControllerTemplateWafRulesItemMatchAll   V1LbConfigControllerTemplateWafRulesItemMatch = "all"
+	V1LbConfigControllerTemplateWafRulesItemMatchEmpty V1LbConfigControllerTemplateWafRulesItemMatch = ""
+)
+
+// AllValues returns all V1LbConfigControllerTemplateWafRulesItemMatch values.
+func (V1LbConfigControllerTemplateWafRulesItemMatch) AllValues() []V1LbConfigControllerTemplateWafRulesItemMatch {
+	return []V1LbConfigControllerTemplateWafRulesItemMatch{
+		V1LbConfigControllerTemplateWafRulesItemMatchAny,
+		V1LbConfigControllerTemplateWafRulesItemMatchAll,
+		V1LbConfigControllerTemplateWafRulesItemMatchEmpty,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s V1LbConfigControllerTemplateWafRulesItemMatch) MarshalText() ([]byte, error) {
+	switch s {
+	case V1LbConfigControllerTemplateWafRulesItemMatchAny:
+		return []byte(s), nil
+	case V1LbConfigControllerTemplateWafRulesItemMatchAll:
+		return []byte(s), nil
+	case V1LbConfigControllerTemplateWafRulesItemMatchEmpty:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *V1LbConfigControllerTemplateWafRulesItemMatch) UnmarshalText(data []byte) error {
+	switch V1LbConfigControllerTemplateWafRulesItemMatch(data) {
+	case V1LbConfigControllerTemplateWafRulesItemMatchAny:
+		*s = V1LbConfigControllerTemplateWafRulesItemMatchAny
+		return nil
+	case V1LbConfigControllerTemplateWafRulesItemMatchAll:
+		*s = V1LbConfigControllerTemplateWafRulesItemMatchAll
+		return nil
+	case V1LbConfigControllerTemplateWafRulesItemMatchEmpty:
+		*s = V1LbConfigControllerTemplateWafRulesItemMatchEmpty
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -120329,7 +120434,7 @@ type V1LbConfigWafRulesItem struct {
 	Type V1LbConfigWafRulesItemType `json:"type"`
 	// A string that describes if both attributes need to be true (match all) or if only one of the
 	// conditions needs to be true (match any).
-	Match string `json:"match"`
+	Match V1LbConfigWafRulesItemMatch `json:"match"`
 	// An array of the specific conditions for the rule.
 	Conditions []V1LbConfigWafRulesItemConditionsItem `json:"conditions"`
 }
@@ -120350,7 +120455,7 @@ func (s *V1LbConfigWafRulesItem) GetType() V1LbConfigWafRulesItemType {
 }
 
 // GetMatch returns the value of Match.
-func (s *V1LbConfigWafRulesItem) GetMatch() string {
+func (s *V1LbConfigWafRulesItem) GetMatch() V1LbConfigWafRulesItemMatch {
 	return s.Match
 }
 
@@ -120375,7 +120480,7 @@ func (s *V1LbConfigWafRulesItem) SetType(val V1LbConfigWafRulesItemType) {
 }
 
 // SetMatch sets the value of Match.
-func (s *V1LbConfigWafRulesItem) SetMatch(val string) {
+func (s *V1LbConfigWafRulesItem) SetMatch(val V1LbConfigWafRulesItemMatch) {
 	s.Match = val
 }
 
@@ -120550,6 +120655,56 @@ func (s *V1LbConfigWafRulesItemConditionsItemType) UnmarshalText(data []byte) er
 		return nil
 	case V1LbConfigWafRulesItemConditionsItemTypeHeaderMatch:
 		*s = V1LbConfigWafRulesItemConditionsItemTypeHeaderMatch
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A string that describes if both attributes need to be true (match all) or if only one of the
+// conditions needs to be true (match any).
+type V1LbConfigWafRulesItemMatch string
+
+const (
+	V1LbConfigWafRulesItemMatchAny   V1LbConfigWafRulesItemMatch = "any"
+	V1LbConfigWafRulesItemMatchAll   V1LbConfigWafRulesItemMatch = "all"
+	V1LbConfigWafRulesItemMatchEmpty V1LbConfigWafRulesItemMatch = ""
+)
+
+// AllValues returns all V1LbConfigWafRulesItemMatch values.
+func (V1LbConfigWafRulesItemMatch) AllValues() []V1LbConfigWafRulesItemMatch {
+	return []V1LbConfigWafRulesItemMatch{
+		V1LbConfigWafRulesItemMatchAny,
+		V1LbConfigWafRulesItemMatchAll,
+		V1LbConfigWafRulesItemMatchEmpty,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s V1LbConfigWafRulesItemMatch) MarshalText() ([]byte, error) {
+	switch s {
+	case V1LbConfigWafRulesItemMatchAny:
+		return []byte(s), nil
+	case V1LbConfigWafRulesItemMatchAll:
+		return []byte(s), nil
+	case V1LbConfigWafRulesItemMatchEmpty:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *V1LbConfigWafRulesItemMatch) UnmarshalText(data []byte) error {
+	switch V1LbConfigWafRulesItemMatch(data) {
+	case V1LbConfigWafRulesItemMatchAny:
+		*s = V1LbConfigWafRulesItemMatchAny
+		return nil
+	case V1LbConfigWafRulesItemMatchAll:
+		*s = V1LbConfigWafRulesItemMatchAll
+		return nil
+	case V1LbConfigWafRulesItemMatchEmpty:
+		*s = V1LbConfigWafRulesItemMatchEmpty
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -121054,7 +121209,7 @@ type V1LbControllerWafRulesItem struct {
 	Type V1LbControllerWafRulesItemType `json:"type"`
 	// A string that describes if both attributes need to be true (match all) or if only one of the
 	// conditions needs to be true (match any).
-	Match string `json:"match"`
+	Match V1LbControllerWafRulesItemMatch `json:"match"`
 	// An array of the specific conditions for the rule.
 	Conditions []V1LbControllerWafRulesItemConditionsItem `json:"conditions"`
 }
@@ -121075,7 +121230,7 @@ func (s *V1LbControllerWafRulesItem) GetType() V1LbControllerWafRulesItemType {
 }
 
 // GetMatch returns the value of Match.
-func (s *V1LbControllerWafRulesItem) GetMatch() string {
+func (s *V1LbControllerWafRulesItem) GetMatch() V1LbControllerWafRulesItemMatch {
 	return s.Match
 }
 
@@ -121100,7 +121255,7 @@ func (s *V1LbControllerWafRulesItem) SetType(val V1LbControllerWafRulesItemType)
 }
 
 // SetMatch sets the value of Match.
-func (s *V1LbControllerWafRulesItem) SetMatch(val string) {
+func (s *V1LbControllerWafRulesItem) SetMatch(val V1LbControllerWafRulesItemMatch) {
 	s.Match = val
 }
 
@@ -121275,6 +121430,56 @@ func (s *V1LbControllerWafRulesItemConditionsItemType) UnmarshalText(data []byte
 		return nil
 	case V1LbControllerWafRulesItemConditionsItemTypeHeaderMatch:
 		*s = V1LbControllerWafRulesItemConditionsItemTypeHeaderMatch
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A string that describes if both attributes need to be true (match all) or if only one of the
+// conditions needs to be true (match any).
+type V1LbControllerWafRulesItemMatch string
+
+const (
+	V1LbControllerWafRulesItemMatchAny   V1LbControllerWafRulesItemMatch = "any"
+	V1LbControllerWafRulesItemMatchAll   V1LbControllerWafRulesItemMatch = "all"
+	V1LbControllerWafRulesItemMatchEmpty V1LbControllerWafRulesItemMatch = ""
+)
+
+// AllValues returns all V1LbControllerWafRulesItemMatch values.
+func (V1LbControllerWafRulesItemMatch) AllValues() []V1LbControllerWafRulesItemMatch {
+	return []V1LbControllerWafRulesItemMatch{
+		V1LbControllerWafRulesItemMatchAny,
+		V1LbControllerWafRulesItemMatchAll,
+		V1LbControllerWafRulesItemMatchEmpty,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s V1LbControllerWafRulesItemMatch) MarshalText() ([]byte, error) {
+	switch s {
+	case V1LbControllerWafRulesItemMatchAny:
+		return []byte(s), nil
+	case V1LbControllerWafRulesItemMatchAll:
+		return []byte(s), nil
+	case V1LbControllerWafRulesItemMatchEmpty:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *V1LbControllerWafRulesItemMatch) UnmarshalText(data []byte) error {
+	switch V1LbControllerWafRulesItemMatch(data) {
+	case V1LbControllerWafRulesItemMatchAny:
+		*s = V1LbControllerWafRulesItemMatchAny
+		return nil
+	case V1LbControllerWafRulesItemMatchAll:
+		*s = V1LbControllerWafRulesItemMatchAll
+		return nil
+	case V1LbControllerWafRulesItemMatchEmpty:
+		*s = V1LbControllerWafRulesItemMatchEmpty
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)
@@ -121871,7 +122076,7 @@ type V1LbTypeDetailsControllerTemplateWafRulesItem struct {
 	Type V1LbTypeDetailsControllerTemplateWafRulesItemType `json:"type"`
 	// A string that describes if both attributes need to be true (match all) or if only one of the
 	// conditions needs to be true (match any).
-	Match string `json:"match"`
+	Match V1LbTypeDetailsControllerTemplateWafRulesItemMatch `json:"match"`
 	// An array of the specific conditions for the rule.
 	Conditions []V1LbTypeDetailsControllerTemplateWafRulesItemConditionsItem `json:"conditions"`
 }
@@ -121892,7 +122097,7 @@ func (s *V1LbTypeDetailsControllerTemplateWafRulesItem) GetType() V1LbTypeDetail
 }
 
 // GetMatch returns the value of Match.
-func (s *V1LbTypeDetailsControllerTemplateWafRulesItem) GetMatch() string {
+func (s *V1LbTypeDetailsControllerTemplateWafRulesItem) GetMatch() V1LbTypeDetailsControllerTemplateWafRulesItemMatch {
 	return s.Match
 }
 
@@ -121917,7 +122122,7 @@ func (s *V1LbTypeDetailsControllerTemplateWafRulesItem) SetType(val V1LbTypeDeta
 }
 
 // SetMatch sets the value of Match.
-func (s *V1LbTypeDetailsControllerTemplateWafRulesItem) SetMatch(val string) {
+func (s *V1LbTypeDetailsControllerTemplateWafRulesItem) SetMatch(val V1LbTypeDetailsControllerTemplateWafRulesItemMatch) {
 	s.Match = val
 }
 
@@ -122098,6 +122303,56 @@ func (s *V1LbTypeDetailsControllerTemplateWafRulesItemConditionsItemType) Unmars
 	}
 }
 
+// A string that describes if both attributes need to be true (match all) or if only one of the
+// conditions needs to be true (match any).
+type V1LbTypeDetailsControllerTemplateWafRulesItemMatch string
+
+const (
+	V1LbTypeDetailsControllerTemplateWafRulesItemMatchAny   V1LbTypeDetailsControllerTemplateWafRulesItemMatch = "any"
+	V1LbTypeDetailsControllerTemplateWafRulesItemMatchAll   V1LbTypeDetailsControllerTemplateWafRulesItemMatch = "all"
+	V1LbTypeDetailsControllerTemplateWafRulesItemMatchEmpty V1LbTypeDetailsControllerTemplateWafRulesItemMatch = ""
+)
+
+// AllValues returns all V1LbTypeDetailsControllerTemplateWafRulesItemMatch values.
+func (V1LbTypeDetailsControllerTemplateWafRulesItemMatch) AllValues() []V1LbTypeDetailsControllerTemplateWafRulesItemMatch {
+	return []V1LbTypeDetailsControllerTemplateWafRulesItemMatch{
+		V1LbTypeDetailsControllerTemplateWafRulesItemMatchAny,
+		V1LbTypeDetailsControllerTemplateWafRulesItemMatchAll,
+		V1LbTypeDetailsControllerTemplateWafRulesItemMatchEmpty,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s V1LbTypeDetailsControllerTemplateWafRulesItemMatch) MarshalText() ([]byte, error) {
+	switch s {
+	case V1LbTypeDetailsControllerTemplateWafRulesItemMatchAny:
+		return []byte(s), nil
+	case V1LbTypeDetailsControllerTemplateWafRulesItemMatchAll:
+		return []byte(s), nil
+	case V1LbTypeDetailsControllerTemplateWafRulesItemMatchEmpty:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *V1LbTypeDetailsControllerTemplateWafRulesItemMatch) UnmarshalText(data []byte) error {
+	switch V1LbTypeDetailsControllerTemplateWafRulesItemMatch(data) {
+	case V1LbTypeDetailsControllerTemplateWafRulesItemMatchAny:
+		*s = V1LbTypeDetailsControllerTemplateWafRulesItemMatchAny
+		return nil
+	case V1LbTypeDetailsControllerTemplateWafRulesItemMatchAll:
+		*s = V1LbTypeDetailsControllerTemplateWafRulesItemMatchAll
+		return nil
+	case V1LbTypeDetailsControllerTemplateWafRulesItemMatchEmpty:
+		*s = V1LbTypeDetailsControllerTemplateWafRulesItemMatchEmpty
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
 // A string that describes if the role should allow or deny traffic based on the conditions.
 type V1LbTypeDetailsControllerTemplateWafRulesItemType string
 
@@ -122164,7 +122419,7 @@ type V1LbTypeDetailsWafRulesItem struct {
 	Type V1LbTypeDetailsWafRulesItemType `json:"type"`
 	// A string that describes if both attributes need to be true (match all) or if only one of the
 	// conditions needs to be true (match any).
-	Match string `json:"match"`
+	Match V1LbTypeDetailsWafRulesItemMatch `json:"match"`
 	// An array of the specific conditions for the rule.
 	Conditions []V1LbTypeDetailsWafRulesItemConditionsItem `json:"conditions"`
 }
@@ -122185,7 +122440,7 @@ func (s *V1LbTypeDetailsWafRulesItem) GetType() V1LbTypeDetailsWafRulesItemType 
 }
 
 // GetMatch returns the value of Match.
-func (s *V1LbTypeDetailsWafRulesItem) GetMatch() string {
+func (s *V1LbTypeDetailsWafRulesItem) GetMatch() V1LbTypeDetailsWafRulesItemMatch {
 	return s.Match
 }
 
@@ -122210,7 +122465,7 @@ func (s *V1LbTypeDetailsWafRulesItem) SetType(val V1LbTypeDetailsWafRulesItemTyp
 }
 
 // SetMatch sets the value of Match.
-func (s *V1LbTypeDetailsWafRulesItem) SetMatch(val string) {
+func (s *V1LbTypeDetailsWafRulesItem) SetMatch(val V1LbTypeDetailsWafRulesItemMatch) {
 	s.Match = val
 }
 
@@ -122385,6 +122640,56 @@ func (s *V1LbTypeDetailsWafRulesItemConditionsItemType) UnmarshalText(data []byt
 		return nil
 	case V1LbTypeDetailsWafRulesItemConditionsItemTypeHeaderMatch:
 		*s = V1LbTypeDetailsWafRulesItemConditionsItemTypeHeaderMatch
+		return nil
+	default:
+		return errors.Errorf("invalid value: %q", data)
+	}
+}
+
+// A string that describes if both attributes need to be true (match all) or if only one of the
+// conditions needs to be true (match any).
+type V1LbTypeDetailsWafRulesItemMatch string
+
+const (
+	V1LbTypeDetailsWafRulesItemMatchAny   V1LbTypeDetailsWafRulesItemMatch = "any"
+	V1LbTypeDetailsWafRulesItemMatchAll   V1LbTypeDetailsWafRulesItemMatch = "all"
+	V1LbTypeDetailsWafRulesItemMatchEmpty V1LbTypeDetailsWafRulesItemMatch = ""
+)
+
+// AllValues returns all V1LbTypeDetailsWafRulesItemMatch values.
+func (V1LbTypeDetailsWafRulesItemMatch) AllValues() []V1LbTypeDetailsWafRulesItemMatch {
+	return []V1LbTypeDetailsWafRulesItemMatch{
+		V1LbTypeDetailsWafRulesItemMatchAny,
+		V1LbTypeDetailsWafRulesItemMatchAll,
+		V1LbTypeDetailsWafRulesItemMatchEmpty,
+	}
+}
+
+// MarshalText implements encoding.TextMarshaler.
+func (s V1LbTypeDetailsWafRulesItemMatch) MarshalText() ([]byte, error) {
+	switch s {
+	case V1LbTypeDetailsWafRulesItemMatchAny:
+		return []byte(s), nil
+	case V1LbTypeDetailsWafRulesItemMatchAll:
+		return []byte(s), nil
+	case V1LbTypeDetailsWafRulesItemMatchEmpty:
+		return []byte(s), nil
+	default:
+		return nil, errors.Errorf("invalid value: %q", s)
+	}
+}
+
+// UnmarshalText implements encoding.TextUnmarshaler.
+func (s *V1LbTypeDetailsWafRulesItemMatch) UnmarshalText(data []byte) error {
+	switch V1LbTypeDetailsWafRulesItemMatch(data) {
+	case V1LbTypeDetailsWafRulesItemMatchAny:
+		*s = V1LbTypeDetailsWafRulesItemMatchAny
+		return nil
+	case V1LbTypeDetailsWafRulesItemMatchAll:
+		*s = V1LbTypeDetailsWafRulesItemMatchAll
+		return nil
+	case V1LbTypeDetailsWafRulesItemMatchEmpty:
+		*s = V1LbTypeDetailsWafRulesItemMatchEmpty
 		return nil
 	default:
 		return errors.Errorf("invalid value: %q", data)

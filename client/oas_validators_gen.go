@@ -5409,6 +5409,29 @@ func (s *CreateEnvironmentCreated) Validate() error {
 	return nil
 }
 
+func (s *CreateEnvironmentReq) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Features.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "features",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
 func (s *CreateHubInviteCreated) Validate() error {
 	if s == nil {
 		return validate.ErrNilPointer
@@ -7365,6 +7388,17 @@ func (s *Environment) Validate() error {
 		})
 	}
 	if err := func() error {
+		if err := s.Features.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "features",
+			Error: err,
+		})
+	}
+	if err := func() error {
 		if err := s.Services.Validate(); err != nil {
 			return err
 		}
@@ -7399,6 +7433,29 @@ func (s *Environment) Validate() error {
 	return nil
 }
 
+func (s *EnvironmentCreateStep) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Details.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "details",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
 func (s EnvironmentCreateStepAction) Validate() error {
 	switch s {
 	case "environment.create":
@@ -7406,6 +7463,29 @@ func (s EnvironmentCreateStepAction) Validate() error {
 	default:
 		return errors.Errorf("invalid value: %v", s)
 	}
+}
+
+func (s *EnvironmentCreateStepDetails) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Features.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "features",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
 }
 
 func (s EnvironmentDeleteStepAction) Validate() error {
@@ -7456,6 +7536,74 @@ func (s EnvironmentDeploymentsPruneStepAction) Validate() error {
 func (s EnvironmentDeploymentsTagStepAction) Validate() error {
 	switch s {
 	case "environment.deployments.tag":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s *EnvironmentFeatures) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if value, ok := s.Monitoring.Get(); ok {
+			if err := func() error {
+				if err := value.Validate(); err != nil {
+					return err
+				}
+				return nil
+			}(); err != nil {
+				return err
+			}
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "monitoring",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s *EnvironmentFeaturesMonitoring) Validate() error {
+	if s == nil {
+		return validate.ErrNilPointer
+	}
+
+	var failures []validate.FieldError
+	if err := func() error {
+		if err := s.Tier.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "tier",
+			Error: err,
+		})
+	}
+	if len(failures) > 0 {
+		return &validate.Error{Fields: failures}
+	}
+	return nil
+}
+
+func (s EnvironmentFeaturesMonitoringTier) Validate() error {
+	switch s {
+	case "limited":
+		return nil
+	case "basic":
+		return nil
+	case "premium":
+		return nil
+	case "enterprise":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -22741,7 +22889,10 @@ func (s PipelineSteps) Validate() error {
 	case ContainerFunctionTriggerStepPipelineSteps:
 		return nil // no validation needed
 	case EnvironmentCreateStepPipelineSteps:
-		return nil // no validation needed
+		if err := s.EnvironmentCreateStep.Validate(); err != nil {
+			return err
+		}
+		return nil
 	case EnvironmentStartStepPipelineSteps:
 		return nil // no validation needed
 	case EnvironmentStopStepPipelineSteps:
@@ -32182,6 +32333,17 @@ func (s *V1LbConfigControllerTemplateWafRulesItem) Validate() error {
 		})
 	}
 	if err := func() error {
+		if err := s.Match.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "match",
+			Error: err,
+		})
+	}
+	if err := func() error {
 		if s.Conditions == nil {
 			return errors.New("nil is invalid value")
 		}
@@ -32279,6 +32441,19 @@ func (s V1LbConfigControllerTemplateWafRulesItemConditionsItemType) Validate() e
 	case "method-match":
 		return nil
 	case "header-match":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s V1LbConfigControllerTemplateWafRulesItemMatch) Validate() error {
+	switch s {
+	case "any":
+		return nil
+	case "all":
+		return nil
+	case "":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -32649,6 +32824,17 @@ func (s *V1LbConfigWafRulesItem) Validate() error {
 		})
 	}
 	if err := func() error {
+		if err := s.Match.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "match",
+			Error: err,
+		})
+	}
+	if err := func() error {
 		if s.Conditions == nil {
 			return errors.New("nil is invalid value")
 		}
@@ -32746,6 +32932,19 @@ func (s V1LbConfigWafRulesItemConditionsItemType) Validate() error {
 	case "method-match":
 		return nil
 	case "header-match":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s V1LbConfigWafRulesItemMatch) Validate() error {
+	switch s {
+	case "any":
+		return nil
+	case "all":
+		return nil
+	case "":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -33039,6 +33238,17 @@ func (s *V1LbControllerWafRulesItem) Validate() error {
 		})
 	}
 	if err := func() error {
+		if err := s.Match.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "match",
+			Error: err,
+		})
+	}
+	if err := func() error {
 		if s.Conditions == nil {
 			return errors.New("nil is invalid value")
 		}
@@ -33136,6 +33346,19 @@ func (s V1LbControllerWafRulesItemConditionsItemType) Validate() error {
 	case "method-match":
 		return nil
 	case "header-match":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s V1LbControllerWafRulesItemMatch) Validate() error {
+	switch s {
+	case "any":
+		return nil
+	case "all":
+		return nil
+	case "":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
@@ -33535,6 +33758,17 @@ func (s *V1LbTypeDetailsControllerTemplateWafRulesItem) Validate() error {
 		})
 	}
 	if err := func() error {
+		if err := s.Match.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "match",
+			Error: err,
+		})
+	}
+	if err := func() error {
 		if s.Conditions == nil {
 			return errors.New("nil is invalid value")
 		}
@@ -33638,6 +33872,19 @@ func (s V1LbTypeDetailsControllerTemplateWafRulesItemConditionsItemType) Validat
 	}
 }
 
+func (s V1LbTypeDetailsControllerTemplateWafRulesItemMatch) Validate() error {
+	switch s {
+	case "any":
+		return nil
+	case "all":
+		return nil
+	case "":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
 func (s V1LbTypeDetailsControllerTemplateWafRulesItemType) Validate() error {
 	switch s {
 	case "allow":
@@ -33703,6 +33950,17 @@ func (s *V1LbTypeDetailsWafRulesItem) Validate() error {
 	}(); err != nil {
 		failures = append(failures, validate.FieldError{
 			Name:  "type",
+			Error: err,
+		})
+	}
+	if err := func() error {
+		if err := s.Match.Validate(); err != nil {
+			return err
+		}
+		return nil
+	}(); err != nil {
+		failures = append(failures, validate.FieldError{
+			Name:  "match",
 			Error: err,
 		})
 	}
@@ -33804,6 +34062,19 @@ func (s V1LbTypeDetailsWafRulesItemConditionsItemType) Validate() error {
 	case "method-match":
 		return nil
 	case "header-match":
+		return nil
+	default:
+		return errors.Errorf("invalid value: %v", s)
+	}
+}
+
+func (s V1LbTypeDetailsWafRulesItemMatch) Validate() error {
+	switch s {
+	case "any":
+		return nil
+	case "all":
+		return nil
+	case "":
 		return nil
 	default:
 		return errors.Errorf("invalid value: %v", s)
