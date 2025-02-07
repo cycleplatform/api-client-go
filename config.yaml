@@ -1,0 +1,11 @@
+package: cycle
+output: generated.go
+generate:
+  models: true
+  client: true
+# output-options:
+#   include-tags:
+#     - Jobs
+#     - Environments
+#     - Zones
+#     - Containers
