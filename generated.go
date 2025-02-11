@@ -593,6 +593,21 @@ const (
 	ContainerNetworkPublicEnable     ContainerNetworkPublic = "enable"
 )
 
+// Defines values for ContainerReconfigureActionAction.
+const (
+	ContainerReconfigureActionActionReconfigure ContainerReconfigureActionAction = "reconfigure"
+)
+
+// Defines values for ContainerReconfigureVolumesActionAction.
+const (
+	VolumesReconfigure ContainerReconfigureVolumesActionAction = "volumes.reconfigure"
+)
+
+// Defines values for ContainerReimageActionAction.
+const (
+	Reimage ContainerReimageActionAction = "reimage"
+)
+
 // Defines values for ContainerReimageStepAction.
 const (
 	ContainerReimage ContainerReimageStepAction = "container.reimage"
@@ -654,6 +669,11 @@ const (
 	ContainerRuntimeNamespacesPid     ContainerRuntimeNamespaces = "pid"
 	ContainerRuntimeNamespacesUser    ContainerRuntimeNamespaces = "user"
 	ContainerRuntimeNamespacesUts     ContainerRuntimeNamespaces = "uts"
+)
+
+// Defines values for ContainerScaleActionAction.
+const (
+	Scale ContainerScaleActionAction = "scale"
 )
 
 // Defines values for ContainerStartActionAction.
@@ -750,11 +770,6 @@ const (
 	Default DefaultLbTypeType = "default"
 )
 
-// Defines values for DeployStackBuildActionAction.
-const (
-	Deploy DeployStackBuildActionAction = "deploy"
-)
-
 // Defines values for DeploymentStrategyName.
 const (
 	DeploymentStrategyNameEdge             DeploymentStrategyName = "edge"
@@ -819,14 +834,6 @@ const (
 // Defines values for EnvironmentDeploymentsTagStepAction.
 const (
 	EnvironmentDeploymentsTag EnvironmentDeploymentsTagStepAction = "environment.deployments.tag"
-)
-
-// Defines values for EnvironmentFeaturesMonitoringTier.
-const (
-	EnvironmentFeaturesMonitoringTierBasic      EnvironmentFeaturesMonitoringTier = "basic"
-	EnvironmentFeaturesMonitoringTierEnterprise EnvironmentFeaturesMonitoringTier = "enterprise"
-	EnvironmentFeaturesMonitoringTierLimited    EnvironmentFeaturesMonitoringTier = "limited"
-	EnvironmentFeaturesMonitoringTierPremium    EnvironmentFeaturesMonitoringTier = "premium"
 )
 
 // Defines values for EnvironmentInitializeActionAction.
@@ -988,16 +995,6 @@ const (
 	N504 ErrorStatus = 504
 )
 
-// Defines values for EvacuateServerResetTaskAction.
-const (
-	EvacuationReset EvacuateServerResetTaskAction = "evacuation.reset"
-)
-
-// Defines values for EvacuateServerTaskAction.
-const (
-	EvacuationStart EvacuateServerTaskAction = "evacuation.start"
-)
-
 // Defines values for EventMetadataPriority.
 const (
 	EventMetadataPriorityCritical EventMetadataPriority = "critical"
@@ -1075,14 +1072,9 @@ const (
 	InfrastructureServerSftpLoginFailed                  EventType = "infrastructure.server.sftp.login.failed"
 )
 
-// Defines values for ExtendVolumeAction.
+// Defines values for FunctionTriggerActionAction.
 const (
-	VolumeExtend ExtendVolumeAction = "volume.extend"
-)
-
-// Defines values for GenerateStackBuildActionAction.
-const (
-	Generate GenerateStackBuildActionAction = "generate"
+	FunctionTriggerActionActionTrigger FunctionTriggerActionAction = "trigger"
 )
 
 // Defines values for HaProxyConfigSetBackendBalance.
@@ -1184,6 +1176,21 @@ const (
 	InstanceReadyStateConfiguring InstanceReadyState = "configuring"
 	InstanceReadyStateHibernate   InstanceReadyState = "hibernate"
 	InstanceReadyStatePurge       InstanceReadyState = "purge"
+)
+
+// Defines values for InstanceExtendVolumeActionAction.
+const (
+	VolumeExtend InstanceExtendVolumeActionAction = "volume.extend"
+)
+
+// Defines values for InstanceMigrateActionAction.
+const (
+	MigrationStart InstanceMigrateActionAction = "migration.start"
+)
+
+// Defines values for InstanceRevertMigrationActionAction.
+const (
+	MigrationRevert InstanceRevertMigrationActionAction = "migration.revert"
 )
 
 // Defines values for InstanceStateCurrent.
@@ -1294,9 +1301,12 @@ const (
 	MetricMetadataTypeSet          MetricMetadataType = "set"
 )
 
-// Defines values for MigrateAction.
+// Defines values for MonitoringTier.
 const (
-	MigrationStart MigrateAction = "migration.start"
+	Basic      MonitoringTier = "basic"
+	Enterprise MonitoringTier = "enterprise"
+	Limited    MonitoringTier = "limited"
+	Premium    MonitoringTier = "premium"
 )
 
 // Defines values for NetworkSpecScope.
@@ -1353,6 +1363,11 @@ const (
 	PaymentResultStatusSuccess    PaymentResultStatus = "success"
 )
 
+// Defines values for PipelineRerunActionAction.
+const (
+	Rerun PipelineRerunActionAction = "rerun"
+)
+
 // Defines values for PipelineRunStepAction.
 const (
 	PipelineRunStepActionContainerCreate                   PipelineRunStepAction = "container.create"
@@ -1392,6 +1407,11 @@ const (
 	PipelineStateCurrentLive      PipelineStateCurrent = "live"
 )
 
+// Defines values for PipelineTriggerActionAction.
+const (
+	PipelineTriggerActionActionTrigger PipelineTriggerActionAction = "trigger"
+)
+
 // Defines values for PoolKind.
 const (
 	PoolKindIpv4 PoolKind = "ipv4"
@@ -1414,32 +1434,6 @@ const (
 // Defines values for RawSourceType.
 const (
 	RawSourceTypeRaw RawSourceType = "raw"
-)
-
-// Defines values for ReconfigureContainerAction.
-const (
-	ReconfigureContainerActionReconfigure ReconfigureContainerAction = "reconfigure"
-)
-
-// Defines values for ReconfigureServerFeaturesTaskAction.
-const (
-	FeaturesReconfigure ReconfigureServerFeaturesTaskAction = "features.reconfigure"
-)
-
-// Defines values for ReconfigureServerFeaturesTaskContentsGatewayType.
-const (
-	ReconfigureServerFeaturesTaskContentsGatewayTypeBgp    ReconfigureServerFeaturesTaskContentsGatewayType = "bgp"
-	ReconfigureServerFeaturesTaskContentsGatewayTypeStatic ReconfigureServerFeaturesTaskContentsGatewayType = "static"
-)
-
-// Defines values for ReconfigureSharedFsTaskAction.
-const (
-	SharedfsReconfigure ReconfigureSharedFsTaskAction = "sharedfs.reconfigure"
-)
-
-// Defines values for ReconfigureVolumesAction.
-const (
-	VolumesReconfigure ReconfigureVolumesAction = "volumes.reconfigure"
 )
 
 // Defines values for RecordStateCurrent.
@@ -1468,16 +1462,6 @@ const (
 // Defines values for RegistryAuthWebhookType.
 const (
 	Webhook RegistryAuthWebhookType = "webhook"
-)
-
-// Defines values for ReimageAction.
-const (
-	ReimageActionReimage ReimageAction = "reimage"
-)
-
-// Defines values for RerunPipelineActionAction.
-const (
-	Rerun RerunPipelineActionAction = "rerun"
 )
 
 // Defines values for ResourceType.
@@ -1512,26 +1496,6 @@ const (
 	ResourceTypeVirtualMachineSshKey         ResourceType = "virtual-machine.ssh-key"
 )
 
-// Defines values for RestartComputeSpawnerTaskAction.
-const (
-	ComputeSpawnerRestart RestartComputeSpawnerTaskAction = "compute.spawner.restart"
-)
-
-// Defines values for RestartComputeTaskAction.
-const (
-	ComputeRestart RestartComputeTaskAction = "compute.restart"
-)
-
-// Defines values for RestartServerTaskAction.
-const (
-	Restart RestartServerTaskAction = "restart"
-)
-
-// Defines values for RevertMigrationAction.
-const (
-	MigrationRevert RevertMigrationAction = "migration.revert"
-)
-
 // Defines values for RoleStateCurrent.
 const (
 	RoleStateCurrentLive RoleStateCurrent = "live"
@@ -1552,11 +1516,6 @@ const (
 	SFTPPasswordAlgorithmMd5    SFTPPasswordAlgorithm = "md5"
 	SFTPPasswordAlgorithmRaw    SFTPPasswordAlgorithm = "raw"
 	SFTPPasswordAlgorithmSha512 SFTPPasswordAlgorithm = "sha512"
-)
-
-// Defines values for ScaleAction.
-const (
-	ScaleActionScale ScaleAction = "scale"
 )
 
 // Defines values for ScaleThresholdMetricCpuType.
@@ -1596,10 +1555,51 @@ const (
 	ScopedVariableStateCurrentLive     ScopedVariableStateCurrent = "live"
 )
 
+// Defines values for ServerEvacuateActionAction.
+const (
+	EvacuationStart ServerEvacuateActionAction = "evacuation.start"
+)
+
+// Defines values for ServerEvacuateResetActionAction.
+const (
+	EvacuationReset ServerEvacuateResetActionAction = "evacuation.reset"
+)
+
 // Defines values for ServerFeaturesGatewayType.
 const (
 	ServerFeaturesGatewayTypeBgp    ServerFeaturesGatewayType = "bgp"
 	ServerFeaturesGatewayTypeStatic ServerFeaturesGatewayType = "static"
+)
+
+// Defines values for ServerReconfigureFeaturesActionAction.
+const (
+	FeaturesReconfigure ServerReconfigureFeaturesActionAction = "features.reconfigure"
+)
+
+// Defines values for ServerReconfigureFeaturesActionContentsGatewayType.
+const (
+	ServerReconfigureFeaturesActionContentsGatewayTypeBgp    ServerReconfigureFeaturesActionContentsGatewayType = "bgp"
+	ServerReconfigureFeaturesActionContentsGatewayTypeStatic ServerReconfigureFeaturesActionContentsGatewayType = "static"
+)
+
+// Defines values for ServerReconfigureSharedFsActionAction.
+const (
+	SharedfsReconfigure ServerReconfigureSharedFsActionAction = "sharedfs.reconfigure"
+)
+
+// Defines values for ServerRestartActionAction.
+const (
+	Restart ServerRestartActionAction = "restart"
+)
+
+// Defines values for ServerRestartComputeActionAction.
+const (
+	ComputeRestart ServerRestartComputeActionAction = "compute.restart"
+)
+
+// Defines values for ServerRestartComputeSpawnerActionAction.
+const (
+	ComputeSpawnerRestart ServerRestartComputeSpawnerActionAction = "compute.spawner.restart"
 )
 
 // Defines values for ServerStateCurrent.
@@ -1648,9 +1648,19 @@ const (
 	StackBuildCreateStepDetailsInstructionsGitTypeTag    StackBuildCreateStepDetailsInstructionsGitType = "tag"
 )
 
+// Defines values for StackBuildDeployActionAction.
+const (
+	Deploy StackBuildDeployActionAction = "deploy"
+)
+
 // Defines values for StackBuildDeployStepAction.
 const (
 	StackBuildDeploy StackBuildDeployStepAction = "stack.build.deploy"
+)
+
+// Defines values for StackBuildGenerateActionAction.
+const (
+	Generate StackBuildGenerateActionAction = "generate"
 )
 
 // Defines values for StackBuildGenerateStepAction.
@@ -1765,11 +1775,6 @@ const (
 	TriggerKeyStateCurrentLive     TriggerKeyStateCurrent = "live"
 )
 
-// Defines values for TriggerPipelineActionAction.
-const (
-	TriggerPipelineActionActionTrigger TriggerPipelineActionAction = "trigger"
-)
-
 // Defines values for URLSourceType.
 const (
 	URLSourceTypeUrl URLSourceType = "url"
@@ -1851,14 +1856,14 @@ const (
 	VirtualMachineImageSourceUrlTypeUrl VirtualMachineImageSourceUrlType = "url"
 )
 
-// Defines values for VirtualMachineIpAllocateTaskAction.
+// Defines values for VirtualMachineIpAllocateActionAction.
 const (
-	IpAllocate VirtualMachineIpAllocateTaskAction = "ip.allocate"
+	IpAllocate VirtualMachineIpAllocateActionAction = "ip.allocate"
 )
 
-// Defines values for VirtualMachineIpUnallocateTaskAction.
+// Defines values for VirtualMachineIpUnallocateActionAction.
 const (
-	IpUnallocate VirtualMachineIpUnallocateTaskAction = "ip.unallocate"
+	IpUnallocate VirtualMachineIpUnallocateActionAction = "ip.unallocate"
 )
 
 // Defines values for VirtualMachineNetworkConfigPublic.
@@ -1868,14 +1873,14 @@ const (
 	VirtualMachineNetworkConfigPublicEnable     VirtualMachineNetworkConfigPublic = "enable"
 )
 
-// Defines values for VirtualMachineReconfigureTaskAction.
+// Defines values for VirtualMachineReconfigureActionAction.
 const (
-	VirtualMachineReconfigureTaskActionReconfigure VirtualMachineReconfigureTaskAction = "reconfigure"
+	VirtualMachineReconfigureActionActionReconfigure VirtualMachineReconfigureActionAction = "reconfigure"
 )
 
-// Defines values for VirtualMachineRootPwChangeTaskAction.
+// Defines values for VirtualMachineRootPwChangeActionAction.
 const (
-	RootpwChange VirtualMachineRootPwChangeTaskAction = "rootpw.change"
+	RootpwChange VirtualMachineRootPwChangeActionAction = "rootpw.change"
 )
 
 // Defines values for VirtualMachineSshKeyStateCurrent.
@@ -1885,9 +1890,9 @@ const (
 	VirtualMachineSshKeyStateCurrentLive     VirtualMachineSshKeyStateCurrent = "live"
 )
 
-// Defines values for VirtualMachineStartTaskAction.
+// Defines values for VirtualMachineStartActionAction.
 const (
-	Start VirtualMachineStartTaskAction = "start"
+	Start VirtualMachineStartActionAction = "start"
 )
 
 // Defines values for VirtualMachineStateCurrent.
@@ -1901,19 +1906,19 @@ const (
 	VirtualMachineStateCurrentStopping VirtualMachineStateCurrent = "stopping"
 )
 
-// Defines values for VirtualMachineStopTaskAction.
+// Defines values for VirtualMachineStopActionAction.
 const (
-	Stop VirtualMachineStopTaskAction = "stop"
+	Stop VirtualMachineStopActionAction = "stop"
 )
 
-// Defines values for VpnReconfigureTaskAction.
+// Defines values for VpnReconfigureActionAction.
 const (
-	VpnReconfigureTaskActionReconfigure VpnReconfigureTaskAction = "reconfigure"
+	VpnReconfigureActionActionReconfigure VpnReconfigureActionAction = "reconfigure"
 )
 
-// Defines values for VpnResetTaskAction.
+// Defines values for VpnResetActionAction.
 const (
-	Reset VpnResetTaskAction = "reset"
+	Reset VpnResetActionAction = "reset"
 )
 
 // Defines values for WafConfigRulesConditionsOperator.
@@ -1967,11 +1972,6 @@ const (
 	ZoneStateCurrentNew       ZoneStateCurrent = "new"
 	ZoneStateCurrentPending   ZoneStateCurrent = "pending"
 	ZoneStateCurrentVerifying ZoneStateCurrent = "verifying"
-)
-
-// Defines values for TriggerAction.
-const (
-	TriggerActionTrigger TriggerAction = "trigger"
 )
 
 // Defines values for GetAccountInvitesParamsMeta.
@@ -2266,14 +2266,6 @@ const (
 const (
 	GetEnvironmentParamsIncludeCreators GetEnvironmentParamsInclude = "creators"
 	GetEnvironmentParamsIncludeStacks   GetEnvironmentParamsInclude = "stacks"
-)
-
-// Defines values for UpdateEnvironmentJSONBodyMonitoringTier.
-const (
-	UpdateEnvironmentJSONBodyMonitoringTierEnterprise UpdateEnvironmentJSONBodyMonitoringTier = "enterprise"
-	UpdateEnvironmentJSONBodyMonitoringTierLimited    UpdateEnvironmentJSONBodyMonitoringTier = "limited"
-	UpdateEnvironmentJSONBodyMonitoringTierPremium    UpdateEnvironmentJSONBodyMonitoringTier = "premium"
-	UpdateEnvironmentJSONBodyMonitoringTierStandard   UpdateEnvironmentJSONBodyMonitoringTier = "standard"
 )
 
 // Defines values for CreateDiscoveryServiceJobJSONBodyAction.
@@ -4246,6 +4238,51 @@ type ContainerNetwork struct {
 // ContainerNetworkPublic The public network settings for the given container
 type ContainerNetworkPublic string
 
+// ContainerReconfigureAction defines model for ContainerReconfigureAction.
+type ContainerReconfigureAction struct {
+	// Action The action to take.
+	Action ContainerReconfigureActionAction `json:"action"`
+
+	// Contents A container configuration.
+	Contents Config `json:"contents"`
+}
+
+// ContainerReconfigureActionAction The action to take.
+type ContainerReconfigureActionAction string
+
+// ContainerReconfigureVolumesAction defines model for ContainerReconfigureVolumesAction.
+type ContainerReconfigureVolumesAction struct {
+	// Action The action to take.
+	Action ContainerReconfigureVolumesActionAction `json:"action"`
+
+	// Contents An array of volume objects to be reconfigured.
+	Contents []VolumeSummary `json:"contents"`
+}
+
+// ContainerReconfigureVolumesActionAction The action to take.
+type ContainerReconfigureVolumesActionAction string
+
+// ContainerReimageAction defines model for ContainerReimageAction.
+type ContainerReimageAction struct {
+	// Action The action to take.
+	Action ContainerReimageActionAction `json:"action"`
+
+	// Contents Additional information needed to complete the job.
+	Contents struct {
+		// AllowIncompatible A boolean where true signifies the image being used to reimage does not have to have compatibility with the image being replaced.
+		AllowIncompatible *bool `json:"allow_incompatible,omitempty"`
+
+		// ImageId The ID of the image to use when reimaging.
+		ImageId string `json:"image_id"`
+
+		// OverwriteRuntimeConfig A boolean where true signifies the user wishes to overwrite the current runtime configuration for the given container during the reimage process.
+		OverwriteRuntimeConfig *bool `json:"overwrite_runtime_config,omitempty"`
+	} `json:"contents"`
+}
+
+// ContainerReimageActionAction The action to take.
+type ContainerReimageActionAction string
+
 // ContainerReimageStep Settings for reimaging a container in a pipeline
 type ContainerReimageStep struct {
 	// Action The action that the step takes.
@@ -4416,6 +4453,21 @@ type ContainerScale struct {
 	Window Duration `json:"window"`
 }
 
+// ContainerScaleAction defines model for ContainerScaleAction.
+type ContainerScaleAction struct {
+	// Action The action to take.
+	Action ContainerScaleActionAction `json:"action"`
+
+	// Contents Additional information needed to complete the job.
+	Contents struct {
+		// Instances The number of desired instances to scale to.
+		Instances int `json:"instances"`
+	} `json:"contents"`
+}
+
+// ContainerScaleActionAction The action to take.
+type ContainerScaleActionAction string
+
 // ContainerStartAction defines model for ContainerStartAction.
 type ContainerStartAction struct {
 	// Action The name of the action to perform.
@@ -4503,6 +4555,11 @@ type ContainerStopStep struct {
 
 // ContainerStopStepAction The action that the step takes.
 type ContainerStopStepAction string
+
+// ContainerTask defines model for ContainerTask.
+type ContainerTask struct {
+	union json.RawMessage
+}
 
 // ContainerVolume Configuration settings for container volumes.
 type ContainerVolume struct {
@@ -4754,24 +4811,6 @@ type DefaultLbType struct {
 
 // DefaultLbTypeType defines model for DefaultLbType.Type.
 type DefaultLbTypeType string
-
-// DeployStackBuildAction defines model for DeployStackBuildAction.
-type DeployStackBuildAction struct {
-	// Action The action the job takes.
-	Action DeployStackBuildActionAction `json:"action"`
-
-	// Contents Additional information needed for the job.
-	Contents struct {
-		Deployment *Deployment `json:"deployment"`
-
-		// EnvironmentId The ID for the environment this stack build will be deployed to.
-		EnvironmentId string                       `json:"environment_id"`
-		Update        *StackBuildDeploymentUpdates `json:"update"`
-	} `json:"contents"`
-}
-
-// DeployStackBuildActionAction The action the job takes.
-type DeployStackBuildActionAction string
 
 // DeployedVolume A deployed volume resource.
 type DeployedVolume struct {
@@ -5241,12 +5280,10 @@ type EnvironmentFeatures struct {
 
 	// Monitoring The level of monitoring to enable for this environment. There is a cost associated with higher levels of monitoring.
 	Monitoring *struct {
-		Tier EnvironmentFeaturesMonitoringTier `json:"tier"`
+		// Tier The tier of monitoring, that determines the frequency that metrics are aggregated by the platform, on a per-environment basis.
+		Tier MonitoringTier `json:"tier"`
 	} `json:"monitoring"`
 }
-
-// EnvironmentFeaturesMonitoringTier defines model for EnvironmentFeatures.Monitoring.Tier.
-type EnvironmentFeaturesMonitoringTier string
 
 // EnvironmentIncludes An identity that is associated with an environment.
 type EnvironmentIncludes map[string]Environment
@@ -5450,6 +5487,11 @@ type EnvironmentSummary struct {
 	} `json:"stats"`
 }
 
+// EnvironmentTask defines model for EnvironmentTask.
+type EnvironmentTask struct {
+	union json.RawMessage
+}
+
 // Error The Cycle API uses standard HTTP response codes to indicate the success or failure of an API request. Codes in the `2xx` range indicate success. Codes in the `4xx` range indicate a request that failed due to input, and codes in the `5xx` range indicate an error on Cycle's part (rare).
 // There are two types of error response objects. Errors with authentication are formatted to follow the OAuth spec, while all other errors follow the same convention. If you're using one of our API Libraries, they will standardize OAuth errors to fit the general convention.
 type Error struct {
@@ -5489,29 +5531,6 @@ type ErrorEnvelope struct {
 	// There are two types of error response objects. Errors with authentication are formatted to follow the OAuth spec, while all other errors follow the same convention. If you're using one of our API Libraries, they will standardize OAuth errors to fit the general convention.
 	Error Error `json:"error"`
 }
-
-// EvacuateServerResetTask defines model for EvacuateServerResetTask.
-type EvacuateServerResetTask struct {
-	// Action The action to take.
-	Action EvacuateServerResetTaskAction `json:"action"`
-}
-
-// EvacuateServerResetTaskAction The action to take.
-type EvacuateServerResetTaskAction string
-
-// EvacuateServerTask defines model for EvacuateServerTask.
-type EvacuateServerTask struct {
-	// Action The action to take.
-	Action   EvacuateServerTaskAction `json:"action"`
-	Contents struct {
-		Destination struct {
-			ServerId *ID `json:"server_id"`
-		} `json:"destination"`
-	} `json:"contents"`
-}
-
-// EvacuateServerTaskAction The action to take.
-type EvacuateServerTaskAction string
 
 // Event A platform-generated event. Describes something happening on the platform at a specific time. Can be informational, security related, or a notice of something important.
 type Event struct {
@@ -5584,22 +5603,6 @@ type ExistingSource struct {
 	SourceId *ID `json:"source_id,omitempty"`
 }
 
-// ExtendVolume defines model for ExtendVolume.
-type ExtendVolume struct {
-	// Action The name of the action to perform.
-	Action   ExtendVolumeAction `json:"action"`
-	Contents struct {
-		// ExtendSize The amount of storage to extend the volume by. Container volumes on Cycle are thinly provisioned, meaning this isn't an allocation - the volume will only use the space it needs up to this size.
-		ExtendSize string `json:"extend_size"`
-
-		// VolumeId The ID of the volume that will be extended through this task.
-		VolumeId string `json:"volume_id"`
-	} `json:"contents"`
-}
-
-// ExtendVolumeAction The name of the action to perform.
-type ExtendVolumeAction string
-
 // FeaturesSpec The spec for server features.
 type FeaturesSpec struct {
 	// Extra Provider specific features, allowing for additional, unspecified properties. This is an open map for any key-value pairs, accommodating various types of values.
@@ -5624,6 +5627,27 @@ type FunctionRuntimeVariables struct {
 	// EnvironmentVariables Environment variables to inject into the container.
 	EnvironmentVariables *map[string]string `json:"environment_variables"`
 }
+
+// FunctionTask defines model for FunctionTask.
+type FunctionTask struct {
+	union json.RawMessage
+}
+
+// FunctionTriggerAction defines model for FunctionTriggerAction.
+type FunctionTriggerAction struct {
+	// Action The name of the action to perform.
+	Action   FunctionTriggerActionAction `json:"action"`
+	Contents struct {
+		// RuntimeVariables Variables that affect the runtime of a function container.
+		RuntimeVariables FunctionRuntimeVariables `json:"runtime_variables"`
+
+		// Token A custom token used for identifying and managing a claim. Can be any valid string 5 characters or more.
+		Token string `json:"token"`
+	} `json:"contents"`
+}
+
+// FunctionTriggerActionAction The name of the action to perform.
+type FunctionTriggerActionAction string
 
 // GPUSpec Information about a given servers GPU resources.
 type GPUSpec struct {
@@ -5660,15 +5684,6 @@ type GatewayEnvironmentService struct {
 	// HighAvailability A boolean representing if this service container is set to high availability mode or not.
 	HighAvailability bool `json:"high_availability"`
 }
-
-// GenerateStackBuildAction defines model for GenerateStackBuildAction.
-type GenerateStackBuildAction struct {
-	// Action The job to do.
-	Action GenerateStackBuildActionAction `json:"action"`
-}
-
-// GenerateStackBuildActionAction The job to do.
-type GenerateStackBuildActionAction string
 
 // HaProxyConfig Describes settings that are passed to HAProxy within the load balancer.
 type HaProxyConfig struct {
@@ -6758,6 +6773,22 @@ type InstanceAutoScale struct {
 	MinTtl DateTime `json:"min_ttl"`
 }
 
+// InstanceExtendVolumeAction defines model for InstanceExtendVolumeAction.
+type InstanceExtendVolumeAction struct {
+	// Action The name of the action to perform.
+	Action   InstanceExtendVolumeActionAction `json:"action"`
+	Contents struct {
+		// ExtendSize The amount of storage to extend the volume by. Container volumes on Cycle are thinly provisioned, meaning this isn't an allocation - the volume will only use the space it needs up to this size.
+		ExtendSize string `json:"extend_size"`
+
+		// VolumeId The ID of the volume that will be extended through this task.
+		VolumeId string `json:"volume_id"`
+	} `json:"contents"`
+}
+
+// InstanceExtendVolumeActionAction The name of the action to perform.
+type InstanceExtendVolumeActionAction string
+
 // InstanceIncludes A resource associated with an instance.
 type InstanceIncludes struct {
 	// Containers A resource that is associated with a container.
@@ -6788,6 +6819,25 @@ type InstanceIncludes struct {
 	Servers *ServersIncludes `json:"servers,omitempty"`
 }
 
+// InstanceMigrateAction defines model for InstanceMigrateAction.
+type InstanceMigrateAction struct {
+	// Action The name of the action to perform.
+	Action   InstanceMigrateActionAction `json:"action"`
+	Contents struct {
+		// DestinationServerId The ID of the server being migrated to.
+		DestinationServerId string `json:"destination_server_id"`
+
+		// Stateful Information about additonal configuration settings used when migrating a stateful instance.
+		Stateful *struct {
+			// CopyVolumes A boolean where true represents the desire to copy the contents of the volume for a given stateful instance with the migration.
+			CopyVolumes bool `json:"copy_volumes"`
+		} `json:"stateful,omitempty"`
+	} `json:"contents"`
+}
+
+// InstanceMigrateActionAction The name of the action to perform.
+type InstanceMigrateActionAction string
+
 // InstanceMigration Information regarding the migration of an instance, such as the server that the instance came from or the server that the instance was moved to.
 type InstanceMigration struct {
 	Completed *DateTime `json:"completed,omitempty"`
@@ -6813,6 +6863,15 @@ type InstanceProvider struct {
 	// Vendor The vendor of the hub provider integration related to the server this instance runs on.
 	Vendor string `json:"vendor"`
 }
+
+// InstanceRevertMigrationAction defines model for InstanceRevertMigrationAction.
+type InstanceRevertMigrationAction struct {
+	// Action The name of the action to perform.
+	Action InstanceRevertMigrationActionAction `json:"action"`
+}
+
+// InstanceRevertMigrationActionAction The name of the action to perform.
+type InstanceRevertMigrationActionAction string
 
 // InstanceState defines model for InstanceState.
 type InstanceState struct {
@@ -6841,6 +6900,11 @@ type InstanceState struct {
 
 // InstanceStateCurrent The current state of the instance.
 type InstanceStateCurrent string
+
+// InstanceTask defines model for InstanceTask.
+type InstanceTask struct {
+	union json.RawMessage
+}
 
 // InstanceTelemetryReport An Instance telemetry report.
 type InstanceTelemetryReport struct {
@@ -7818,25 +7882,6 @@ type Metric_Points_Item struct {
 	union json.RawMessage
 }
 
-// Migrate defines model for Migrate.
-type Migrate struct {
-	// Action The name of the action to perform.
-	Action   MigrateAction `json:"action"`
-	Contents struct {
-		// DestinationServerId The ID of the server being migrated to.
-		DestinationServerId string `json:"destination_server_id"`
-
-		// Stateful Information about additonal configuration settings used when migrating a stateful instance.
-		Stateful *struct {
-			// CopyVolumes A boolean where true represents the desire to copy the contents of the volume for a given stateful instance with the migration.
-			CopyVolumes bool `json:"copy_volumes"`
-		} `json:"stateful,omitempty"`
-	} `json:"contents"`
-}
-
-// MigrateAction The name of the action to perform.
-type MigrateAction string
-
 // MigrationInstance Information about a migrated instance.
 type MigrationInstance struct {
 	// InstanceId The ID of the instance.
@@ -7869,6 +7914,9 @@ type Monitor struct {
 	// Region The name of the region (state, province, prefecture, etc.) where this monitor is located.
 	Region string `json:"region"`
 }
+
+// MonitoringTier The tier of monitoring, that determines the frequency that metrics are aggregated by the platform, on a per-environment basis.
+type MonitoringTier string
 
 // MonitoringTierDetails Detailed information about a monitoring tier's features.
 type MonitoringTierDetails struct {
@@ -8297,6 +8345,19 @@ type PipelineIncludes struct {
 	Name *string `json:"name,omitempty"`
 }
 
+// PipelineRerunAction defines model for PipelineRerunAction.
+type PipelineRerunAction struct {
+	// Action The requested action to perform.
+	Action   PipelineRerunActionAction `json:"action"`
+	Contents *struct {
+		// RunId A 24 character hex string used to identify a unique resource.
+		RunId *ID `json:"run_id,omitempty"`
+	} `json:"contents,omitempty"`
+}
+
+// PipelineRerunActionAction The requested action to perform.
+type PipelineRerunActionAction string
+
 // PipelineRun A pipeline run resource.
 type PipelineRun struct {
 	// Creator The creator scope is embedded in resource objects to describe who created them
@@ -8408,6 +8469,33 @@ type PipelineStateCurrent string
 type PipelineSteps struct {
 	union json.RawMessage
 }
+
+// PipelineTask defines model for PipelineTask.
+type PipelineTask struct {
+	union json.RawMessage
+}
+
+// PipelineTriggerAction defines model for PipelineTriggerAction.
+type PipelineTriggerAction struct {
+	// Action The requested action to perform.
+	Action   PipelineTriggerActionAction `json:"action"`
+	Contents *struct {
+		Advanced *struct {
+			// SkipLocks To enable skip locks, pass the current UNIX timestamp. Must be accurate within 10 minutes of the current UTC time.
+			// This will skip lock checks when running a pipeline - the user takes all risk of ensuring two pipeline runs won't make conflicting changes.
+			SkipLocks *int `json:"skip_locks"`
+
+			// SubQueue Sub queue allows multiple concurrent pipeline runs.
+			SubQueue *string `json:"sub_queue"`
+		} `json:"advanced,omitempty"`
+
+		// Variables A map of variables to pass into the pipeline when it runs.
+		Variables *map[string]string `json:"variables,omitempty"`
+	} `json:"contents,omitempty"`
+}
+
+// PipelineTriggerActionAction The requested action to perform.
+type PipelineTriggerActionAction string
 
 // Pool An IP Pool
 type Pool struct {
@@ -8758,80 +8846,6 @@ type RawSource struct {
 // RawSourceType The type of source value, can be either `raw` or `url`.
 type RawSourceType string
 
-// ReconfigureContainer defines model for ReconfigureContainer.
-type ReconfigureContainer struct {
-	// Action The action to take.
-	Action ReconfigureContainerAction `json:"action"`
-
-	// Contents A container configuration.
-	Contents Config `json:"contents"`
-}
-
-// ReconfigureContainerAction The action to take.
-type ReconfigureContainerAction string
-
-// ReconfigureServerFeaturesTask defines model for ReconfigureServerFeaturesTask.
-type ReconfigureServerFeaturesTask struct {
-	// Action The action to take.
-	Action ReconfigureServerFeaturesTaskAction `json:"action"`
-
-	// Contents Supplemental information needed to perform the action.
-	Contents struct {
-		// BaseVolumeGb A number in GB for how big the base volume should be.  This cannot be lower than the currently set value for the server.
-		BaseVolumeGb *int `json:"base_volume_gb"`
-
-		// Gateway Configuration options for running gateway services on this server.
-		Gateway *struct {
-			// Type The type of gateway service that can be run on this server.
-			Type ReconfigureServerFeaturesTaskContentsGatewayType `json:"type"`
-		} `json:"gateway"`
-
-		// Sftp A boolean where true represents the desire for the server to accept incoming SFTP requests for container volumes.
-		Sftp *bool `json:"sftp,omitempty"`
-	} `json:"contents"`
-}
-
-// ReconfigureServerFeaturesTaskAction The action to take.
-type ReconfigureServerFeaturesTaskAction string
-
-// ReconfigureServerFeaturesTaskContentsGatewayType The type of gateway service that can be run on this server.
-type ReconfigureServerFeaturesTaskContentsGatewayType string
-
-// ReconfigureSharedFsTask defines model for ReconfigureSharedFsTask.
-type ReconfigureSharedFsTask struct {
-	// Action The action to take.
-	Action   ReconfigureSharedFsTaskAction `json:"action"`
-	Contents struct {
-		// Directories An object describing directory identifiers with value {}.
-		Directories *map[string]interface{} `json:"directories"`
-		Mounts      *map[string]struct {
-			// Options Comma separated string describing the server mount options.
-			Options string `json:"options"`
-
-			// Source String describing the server mount source.
-			Source string `json:"source"`
-
-			// Type String describing the server mount type.
-			Type string `json:"type"`
-		} `json:"mounts"`
-	} `json:"contents"`
-}
-
-// ReconfigureSharedFsTaskAction The action to take.
-type ReconfigureSharedFsTaskAction string
-
-// ReconfigureVolumes defines model for ReconfigureVolumes.
-type ReconfigureVolumes struct {
-	// Action The action to take.
-	Action ReconfigureVolumesAction `json:"action"`
-
-	// Contents An array of volume objects to be reconfigured.
-	Contents []VolumeSummary `json:"contents"`
-}
-
-// ReconfigureVolumesAction The action to take.
-type ReconfigureVolumesAction string
-
 // Record A DNS record.
 type Record struct {
 	// Creator The creator scope is embedded in resource objects to describe who created them
@@ -9072,27 +9086,6 @@ type RegistryAuthWebhook struct {
 // RegistryAuthWebhookType defines model for RegistryAuthWebhook.Type.
 type RegistryAuthWebhookType string
 
-// Reimage defines model for Reimage.
-type Reimage struct {
-	// Action The action to take.
-	Action ReimageAction `json:"action"`
-
-	// Contents Additional information needed to complete the job.
-	Contents struct {
-		// AllowIncompatible A boolean where true signifies the image being used to reimage does not have to have compatibility with the image being replaced.
-		AllowIncompatible *bool `json:"allow_incompatible,omitempty"`
-
-		// ImageId The ID of the image to use when reimaging.
-		ImageId string `json:"image_id"`
-
-		// OverwriteRuntimeConfig A boolean where true signifies the user wishes to overwrite the current runtime configuration for the given container during the reimage process.
-		OverwriteRuntimeConfig *bool `json:"overwrite_runtime_config,omitempty"`
-	} `json:"contents"`
-}
-
-// ReimageAction The action to take.
-type ReimageAction string
-
 // RepoType Information about the repository.
 type RepoType struct {
 	// Auth Authentication information for the repository.
@@ -9118,19 +9111,6 @@ type RepoType struct {
 type RepoType_Auth struct {
 	union json.RawMessage
 }
-
-// RerunPipelineAction defines model for RerunPipelineAction.
-type RerunPipelineAction struct {
-	// Action The requested action to perform.
-	Action   RerunPipelineActionAction `json:"action"`
-	Contents *struct {
-		// RunId A 24 character hex string used to identify a unique resource.
-		RunId *ID `json:"run_id,omitempty"`
-	} `json:"contents,omitempty"`
-}
-
-// RerunPipelineActionAction The requested action to perform.
-type RerunPipelineActionAction string
 
 // ResourceSnapshot A resource snapshot that shows instance telemetry.
 type ResourceSnapshot struct {
@@ -9160,42 +9140,6 @@ type ResourceSnapshot struct {
 
 // ResourceType defines model for ResourceType.
 type ResourceType string
-
-// RestartComputeSpawnerTask A job that restarts compute service on a given server.
-type RestartComputeSpawnerTask struct {
-	// Action The action to take.
-	Action RestartComputeSpawnerTaskAction `json:"action"`
-}
-
-// RestartComputeSpawnerTaskAction The action to take.
-type RestartComputeSpawnerTaskAction string
-
-// RestartComputeTask A job that restarts compute service on a given server.
-type RestartComputeTask struct {
-	// Action The action to take.
-	Action RestartComputeTaskAction `json:"action"`
-}
-
-// RestartComputeTaskAction The action to take.
-type RestartComputeTaskAction string
-
-// RestartServerTask A job that restarts the server.
-type RestartServerTask struct {
-	// Action The action to take.
-	Action RestartServerTaskAction `json:"action"`
-}
-
-// RestartServerTaskAction The action to take.
-type RestartServerTaskAction string
-
-// RevertMigration defines model for RevertMigration.
-type RevertMigration struct {
-	// Action The name of the action to perform.
-	Action RevertMigrationAction `json:"action"`
-}
-
-// RevertMigrationAction The name of the action to perform.
-type RevertMigrationAction string
 
 // Role A Role is a custom combination of platform-level capabilities, allowing for fully customizable role-based access controls across the platform.
 type Role struct {
@@ -9349,21 +9293,6 @@ type SSHToken struct {
 	// Valid A boolean where true represents the token as being a valid token to be used for connection.
 	Valid bool `json:"valid"`
 }
-
-// Scale defines model for Scale.
-type Scale struct {
-	// Action The action to take.
-	Action ScaleAction `json:"action"`
-
-	// Contents Additional information needed to complete the job.
-	Contents struct {
-		// Instances The number of desired instances to scale to.
-		Instances int `json:"instances"`
-	} `json:"contents"`
-}
-
-// ScaleAction The action to take.
-type ScaleAction string
 
 // ScaleThresholdMetric Discriminated union describing the different types of scaling threshold and their respective details
 type ScaleThresholdMetric struct {
@@ -9685,6 +9614,29 @@ type ServerConstraints struct {
 	Tags []string `json:"tags"`
 }
 
+// ServerEvacuateAction defines model for ServerEvacuateAction.
+type ServerEvacuateAction struct {
+	// Action The action to take.
+	Action   ServerEvacuateActionAction `json:"action"`
+	Contents struct {
+		Destination struct {
+			ServerId *ID `json:"server_id"`
+		} `json:"destination"`
+	} `json:"contents"`
+}
+
+// ServerEvacuateActionAction The action to take.
+type ServerEvacuateActionAction string
+
+// ServerEvacuateResetAction defines model for ServerEvacuateResetAction.
+type ServerEvacuateResetAction struct {
+	// Action The action to take.
+	Action ServerEvacuateResetActionAction `json:"action"`
+}
+
+// ServerEvacuateResetActionAction The action to take.
+type ServerEvacuateResetActionAction string
+
 // ServerFeatures A set of features a given server can have and their information.
 type ServerFeatures struct {
 	// BaseVolumeGb The size of the base volume (where Cycle stores container images on this server).
@@ -9800,6 +9752,83 @@ type ServerProvider struct {
 	// Zone The zone of the server that is deployed, if defined.
 	Zone *string `json:"zone"`
 }
+
+// ServerReconfigureFeaturesAction defines model for ServerReconfigureFeaturesAction.
+type ServerReconfigureFeaturesAction struct {
+	// Action The action to take.
+	Action ServerReconfigureFeaturesActionAction `json:"action"`
+
+	// Contents Supplemental information needed to perform the action.
+	Contents struct {
+		// BaseVolumeGb A number in GB for how big the base volume should be.  This cannot be lower than the currently set value for the server.
+		BaseVolumeGb *int `json:"base_volume_gb"`
+
+		// Gateway Configuration options for running gateway services on this server.
+		Gateway *struct {
+			// Type The type of gateway service that can be run on this server.
+			Type ServerReconfigureFeaturesActionContentsGatewayType `json:"type"`
+		} `json:"gateway"`
+
+		// Sftp A boolean where true represents the desire for the server to accept incoming SFTP requests for container volumes.
+		Sftp *bool `json:"sftp,omitempty"`
+	} `json:"contents"`
+}
+
+// ServerReconfigureFeaturesActionAction The action to take.
+type ServerReconfigureFeaturesActionAction string
+
+// ServerReconfigureFeaturesActionContentsGatewayType The type of gateway service that can be run on this server.
+type ServerReconfigureFeaturesActionContentsGatewayType string
+
+// ServerReconfigureSharedFsAction defines model for ServerReconfigureSharedFsAction.
+type ServerReconfigureSharedFsAction struct {
+	// Action The action to take.
+	Action   ServerReconfigureSharedFsActionAction `json:"action"`
+	Contents struct {
+		// Directories An object describing directory identifiers with value {}.
+		Directories *map[string]interface{} `json:"directories"`
+		Mounts      *map[string]struct {
+			// Options Comma separated string describing the server mount options.
+			Options string `json:"options"`
+
+			// Source String describing the server mount source.
+			Source string `json:"source"`
+
+			// Type String describing the server mount type.
+			Type string `json:"type"`
+		} `json:"mounts"`
+	} `json:"contents"`
+}
+
+// ServerReconfigureSharedFsActionAction The action to take.
+type ServerReconfigureSharedFsActionAction string
+
+// ServerRestartAction A job that restarts the server.
+type ServerRestartAction struct {
+	// Action The action to take.
+	Action ServerRestartActionAction `json:"action"`
+}
+
+// ServerRestartActionAction The action to take.
+type ServerRestartActionAction string
+
+// ServerRestartComputeAction A job that restarts compute service on a given server.
+type ServerRestartComputeAction struct {
+	// Action The action to take.
+	Action ServerRestartComputeActionAction `json:"action"`
+}
+
+// ServerRestartComputeActionAction The action to take.
+type ServerRestartComputeActionAction string
+
+// ServerRestartComputeSpawnerAction A job that restarts compute service on a given server.
+type ServerRestartComputeSpawnerAction struct {
+	// Action The action to take.
+	Action ServerRestartComputeSpawnerActionAction `json:"action"`
+}
+
+// ServerRestartComputeSpawnerActionAction The action to take.
+type ServerRestartComputeSpawnerActionAction string
 
 // ServerSharedFileSystems defines model for ServerSharedFileSystems.
 type ServerSharedFileSystems struct {
@@ -10079,6 +10108,11 @@ type ServerTags struct {
 	Data []string `json:"data"`
 }
 
+// ServerTask defines model for ServerTask.
+type ServerTask struct {
+	union json.RawMessage
+}
+
 // ServersIncludes A resource that is associated with a server.
 type ServersIncludes map[string]Server
 
@@ -10346,6 +10380,24 @@ type StackBuildCreateStepAction string
 // StackBuildCreateStepDetailsInstructionsGitType The type of information the user is passing.
 type StackBuildCreateStepDetailsInstructionsGitType string
 
+// StackBuildDeployAction defines model for StackBuildDeployAction.
+type StackBuildDeployAction struct {
+	// Action The action the job takes.
+	Action StackBuildDeployActionAction `json:"action"`
+
+	// Contents Additional information needed for the job.
+	Contents struct {
+		Deployment *Deployment `json:"deployment"`
+
+		// EnvironmentId The ID for the environment this stack build will be deployed to.
+		EnvironmentId string                       `json:"environment_id"`
+		Update        *StackBuildDeploymentUpdates `json:"update"`
+	} `json:"contents"`
+}
+
+// StackBuildDeployActionAction The action the job takes.
+type StackBuildDeployActionAction string
+
 // StackBuildDeployStep Settings for deploying a stack build in a pipeline.
 type StackBuildDeployStep struct {
 	// Action The action that the step takes.
@@ -10392,6 +10444,15 @@ type StackBuildDeploymentUpdates struct {
 		ReplaceExisting bool `json:"replace_existing"`
 	} `json:"scoped_variables"`
 }
+
+// StackBuildGenerateAction defines model for StackBuildGenerateAction.
+type StackBuildGenerateAction struct {
+	// Action The job to do.
+	Action StackBuildGenerateActionAction `json:"action"`
+}
+
+// StackBuildGenerateActionAction The job to do.
+type StackBuildGenerateActionAction string
 
 // StackBuildGenerateStep Settings for the stack build generate step for a pipeline.
 type StackBuildGenerateStep struct {
@@ -10485,6 +10546,11 @@ type StackBuildState struct {
 
 // StackBuildStateCurrent The current state of the stack build.
 type StackBuildStateCurrent string
+
+// StackBuildTask defines model for StackBuildTask.
+type StackBuildTask struct {
+	union json.RawMessage
+}
 
 // StackDeployContainersObject Options to control how a container behaves when a stack build is deployed.
 type StackDeployContainersObject struct {
@@ -11720,28 +11786,6 @@ type TriggerKeyState struct {
 // TriggerKeyStateCurrent The current state of the trigger key.
 type TriggerKeyStateCurrent string
 
-// TriggerPipelineAction defines model for TriggerPipelineAction.
-type TriggerPipelineAction struct {
-	// Action The requested action to perform.
-	Action   TriggerPipelineActionAction `json:"action"`
-	Contents *struct {
-		Advanced *struct {
-			// SkipLocks To enable skip locks, pass the current UNIX timestamp. Must be accurate within 10 minutes of the current UTC time.
-			// This will skip lock checks when running a pipeline - the user takes all risk of ensuring two pipeline runs won't make conflicting changes.
-			SkipLocks *int `json:"skip_locks"`
-
-			// SubQueue Sub queue allows multiple concurrent pipeline runs.
-			SubQueue *string `json:"sub_queue"`
-		} `json:"advanced,omitempty"`
-
-		// Variables A map of variables to pass into the pipeline when it runs.
-		Variables *map[string]string `json:"variables,omitempty"`
-	} `json:"contents,omitempty"`
-}
-
-// TriggerPipelineActionAction The requested action to perform.
-type TriggerPipelineActionAction string
-
 // TwoFactorAuthRecovery defines model for TwoFactorAuthRecovery.
 type TwoFactorAuthRecovery struct {
 	RecoveryCodes []string `json:"recovery_codes"`
@@ -11981,8 +12025,8 @@ type V1LbType struct {
 	// **Pros**: This allows for significantly lower cost (utilizing fewer IPv4 addresses), and enables building out a true edge network with lower latency.
 	// **Cons**: Only 1 environment is allowed on the host. This is because the load balancer is the only ingress point for an environment, and if it is sharing
 	// the same IP as the host, that host can only operate under that environment.
-	BindHost *bool       `json:"bind_host"`
-	Details  *V1LbConfig `json:"details"`
+	BindHost *bool      `json:"bind_host"`
+	Details  V1LbConfig `json:"details"`
 
 	// Ipv4 Allow / disallow traffic to be routed via IPv4.
 	Ipv4 bool `json:"ipv4"`
@@ -12264,31 +12308,31 @@ type VirtualMachineIncludes struct {
 	EnvironmentsIdentifiers *map[string]ID          `json:"environments:identifiers,omitempty"`
 }
 
-// VirtualMachineIpAllocateTask defines model for VirtualMachineIpAllocateTask.
-type VirtualMachineIpAllocateTask struct {
+// VirtualMachineIpAllocateAction defines model for VirtualMachineIpAllocateAction.
+type VirtualMachineIpAllocateAction struct {
 	// Action The action to take.
-	Action   VirtualMachineIpAllocateTaskAction `json:"action"`
+	Action   VirtualMachineIpAllocateActionAction `json:"action"`
 	Contents struct {
 		// IpId A 24 character hex string used to identify a unique resource.
 		IpId *ID `json:"ip_id,omitempty"`
 	} `json:"contents"`
 }
 
-// VirtualMachineIpAllocateTaskAction The action to take.
-type VirtualMachineIpAllocateTaskAction string
+// VirtualMachineIpAllocateActionAction The action to take.
+type VirtualMachineIpAllocateActionAction string
 
-// VirtualMachineIpUnallocateTask defines model for VirtualMachineIpUnallocateTask.
-type VirtualMachineIpUnallocateTask struct {
+// VirtualMachineIpUnallocateAction defines model for VirtualMachineIpUnallocateAction.
+type VirtualMachineIpUnallocateAction struct {
 	// Action The action to take.
-	Action   VirtualMachineIpUnallocateTaskAction `json:"action"`
+	Action   VirtualMachineIpUnallocateActionAction `json:"action"`
 	Contents struct {
 		// IpId A 24 character hex string used to identify a unique resource.
 		IpId ID `json:"ip_id"`
 	} `json:"contents"`
 }
 
-// VirtualMachineIpUnallocateTaskAction The action to take.
-type VirtualMachineIpUnallocateTaskAction string
+// VirtualMachineIpUnallocateActionAction The action to take.
+type VirtualMachineIpUnallocateActionAction string
 
 // VirtualMachineMeta Fields that can be included on a per-virtual machine basis, specific to that virtual machine.
 type VirtualMachineMeta struct {
@@ -12341,17 +12385,17 @@ type VirtualMachineRamResources struct {
 	Limit string `json:"limit"`
 }
 
-// VirtualMachineReconfigureTask defines model for VirtualMachineReconfigureTask.
-type VirtualMachineReconfigureTask struct {
+// VirtualMachineReconfigureAction defines model for VirtualMachineReconfigureAction.
+type VirtualMachineReconfigureAction struct {
 	// Action The action to take.
-	Action VirtualMachineReconfigureTaskAction `json:"action"`
+	Action VirtualMachineReconfigureActionAction `json:"action"`
 
 	// Contents Defines the network and deployment configurations for a virtual machine.
 	Contents VirtualMachineConfig `json:"contents"`
 }
 
-// VirtualMachineReconfigureTaskAction The action to take.
-type VirtualMachineReconfigureTaskAction string
+// VirtualMachineReconfigureActionAction The action to take.
+type VirtualMachineReconfigureActionAction string
 
 // VirtualMachineResourcesConfig Defines the resource settings for a virtual machine, including CPU and RAM.
 type VirtualMachineResourcesConfig struct {
@@ -12362,18 +12406,18 @@ type VirtualMachineResourcesConfig struct {
 	Ram VirtualMachineRamResources `json:"ram"`
 }
 
-// VirtualMachineRootPwChangeTask defines model for VirtualMachineRootPwChangeTask.
-type VirtualMachineRootPwChangeTask struct {
+// VirtualMachineRootPwChangeAction defines model for VirtualMachineRootPwChangeAction.
+type VirtualMachineRootPwChangeAction struct {
 	// Action The action to take.
-	Action   VirtualMachineRootPwChangeTaskAction `json:"action"`
+	Action   VirtualMachineRootPwChangeActionAction `json:"action"`
 	Contents struct {
 		// Password The new password. Must be at least 10 characters.
 		Password string `json:"password"`
 	} `json:"contents"`
 }
 
-// VirtualMachineRootPwChangeTaskAction The action to take.
-type VirtualMachineRootPwChangeTaskAction string
+// VirtualMachineRootPwChangeActionAction The action to take.
+type VirtualMachineRootPwChangeActionAction string
 
 // VirtualMachineShutdownPolicy The shutdown policy defines how the virtual machine should handle shutdown, including a timeout and signals to be sent during shutdown.
 type VirtualMachineShutdownPolicy struct {
@@ -12463,13 +12507,13 @@ type VirtualMachineSshKey struct {
 // VirtualMachineSshKeyStateCurrent The current state of the SSH key.
 type VirtualMachineSshKeyStateCurrent string
 
-// VirtualMachineStartTask defines model for VirtualMachineStartTask.
-type VirtualMachineStartTask struct {
-	Action VirtualMachineStartTaskAction `json:"action"`
+// VirtualMachineStartAction defines model for VirtualMachineStartAction.
+type VirtualMachineStartAction struct {
+	Action VirtualMachineStartActionAction `json:"action"`
 }
 
-// VirtualMachineStartTaskAction defines model for VirtualMachineStartTask.Action.
-type VirtualMachineStartTaskAction string
+// VirtualMachineStartActionAction defines model for VirtualMachineStartAction.Action.
+type VirtualMachineStartActionAction string
 
 // VirtualMachineStartupPolicy The startup policy defines how the virtual machine should handle startup, including a possible delay before starting the machine.
 type VirtualMachineStartupPolicy struct {
@@ -12495,13 +12539,18 @@ type VirtualMachineState struct {
 // VirtualMachineStateCurrent The current state of the virtual machine.
 type VirtualMachineStateCurrent string
 
-// VirtualMachineStopTask defines model for VirtualMachineStopTask.
-type VirtualMachineStopTask struct {
-	Action VirtualMachineStopTaskAction `json:"action"`
+// VirtualMachineStopAction defines model for VirtualMachineStopAction.
+type VirtualMachineStopAction struct {
+	Action VirtualMachineStopActionAction `json:"action"`
 }
 
-// VirtualMachineStopTaskAction defines model for VirtualMachineStopTask.Action.
-type VirtualMachineStopTaskAction string
+// VirtualMachineStopActionAction defines model for VirtualMachineStopAction.Action.
+type VirtualMachineStopActionAction string
+
+// VirtualMachineTask defines model for VirtualMachineTask.
+type VirtualMachineTask struct {
+	union json.RawMessage
+}
 
 // VirtualMachineTelemetryConfig The telemetry configuration defines how telemetry data is handled, including retention, interval, and whether telemetry is disabled.
 type VirtualMachineTelemetryConfig struct {
@@ -12591,10 +12640,10 @@ type VpnEnvironmentService struct {
 	Enable bool `json:"enable"`
 }
 
-// VpnReconfigureTask defines model for VpnReconfigureTask.
-type VpnReconfigureTask struct {
+// VpnReconfigureAction defines model for VpnReconfigureAction.
+type VpnReconfigureAction struct {
 	// Action The action to take.
-	Action VpnReconfigureTaskAction `json:"action"`
+	Action VpnReconfigureActionAction `json:"action"`
 
 	// Contents Additional information the platform needs to create this job.
 	Contents struct {
@@ -12627,17 +12676,22 @@ type VpnReconfigureTask struct {
 	} `json:"contents"`
 }
 
-// VpnReconfigureTaskAction The action to take.
-type VpnReconfigureTaskAction string
+// VpnReconfigureActionAction The action to take.
+type VpnReconfigureActionAction string
 
-// VpnResetTask This will reset the VPN certificates and restart the container. Should be done when the certificates expire, every 1000 days. Then, you will need to redownload the VPN config in order to connect.
-type VpnResetTask struct {
+// VpnResetAction This will reset the VPN certificates and restart the container. Should be done when the certificates expire, every 1000 days. Then, you will need to redownload the VPN config in order to connect.
+type VpnResetAction struct {
 	// Action The name of the action to perform.
-	Action VpnResetTaskAction `json:"action"`
+	Action VpnResetActionAction `json:"action"`
 }
 
-// VpnResetTaskAction The name of the action to perform.
-type VpnResetTaskAction string
+// VpnResetActionAction The name of the action to perform.
+type VpnResetActionAction string
+
+// VpnTask defines model for VpnTask.
+type VpnTask struct {
+	union json.RawMessage
+}
 
 // WafConfig Additional configuration options for the web application firewall.
 type WafConfig struct {
@@ -12827,22 +12881,6 @@ type Controllers struct {
 	// Stacks A resource associated with a stack.
 	Stacks *StackIncludes `json:"stacks,omitempty"`
 }
-
-// Trigger defines model for trigger.
-type Trigger struct {
-	// Action The name of the action to perform.
-	Action   TriggerAction `json:"action"`
-	Contents struct {
-		// RuntimeVariables Variables that affect the runtime of a function container.
-		RuntimeVariables FunctionRuntimeVariables `json:"runtime_variables"`
-
-		// Token A custom token used for identifying and managing a claim. Can be any valid string 5 characters or more.
-		Token string `json:"token"`
-	} `json:"contents"`
-}
-
-// TriggerAction The name of the action to perform.
-type TriggerAction string
 
 // FilterParam defines model for FilterParam.
 type FilterParam = map[string]interface{}
@@ -13432,11 +13470,6 @@ type GetCompatibleImagesParams struct {
 	Page *PageParam `json:"page,omitempty"`
 }
 
-// CreateFunctionJobJSONBody defines parameters for CreateFunctionJob.
-type CreateFunctionJobJSONBody struct {
-	union json.RawMessage
-}
-
 // GetInstancesParams defines parameters for GetInstances.
 type GetInstancesParams struct {
 	// Include A comma separated list of include values. Included resources will show up under the root document's `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.
@@ -13484,11 +13517,6 @@ type GetInstanceParams struct {
 
 // GetInstanceParamsInclude defines parameters for GetInstance.
 type GetInstanceParamsInclude string
-
-// CreateInstanceJobJSONBody defines parameters for CreateInstanceJob.
-type CreateInstanceJobJSONBody struct {
-	union json.RawMessage
-}
 
 // GetInstanceTelemetryReportParams defines parameters for GetInstanceTelemetryReport.
 type GetInstanceTelemetryReportParams struct {
@@ -13543,11 +13571,6 @@ type GetCompatibleServersParamsMeta string
 
 // GetCompatibleServersParamsInclude defines parameters for GetCompatibleServers.
 type GetCompatibleServersParamsInclude string
-
-// CreateContainerJobJSONBody defines parameters for CreateContainerJob.
-type CreateContainerJobJSONBody struct {
-	union json.RawMessage
-}
 
 // GetTLSGenerationAttemptsParams defines parameters for GetTLSGenerationAttempts.
 type GetTLSGenerationAttemptsParams struct {
@@ -13832,14 +13855,12 @@ type UpdateEnvironmentJSONBody struct {
 
 	// Monitoring The level of monitoring to enable for this environment. There is a cost associated with higher levels of monitoring.
 	Monitoring *struct {
-		Tier UpdateEnvironmentJSONBodyMonitoringTier `json:"tier"`
+		// Tier The tier of monitoring, that determines the frequency that metrics are aggregated by the platform, on a per-environment basis.
+		Tier MonitoringTier `json:"tier"`
 	} `json:"monitoring"`
 	Name    *string `json:"name"`
 	Version *string `json:"version"`
 }
-
-// UpdateEnvironmentJSONBodyMonitoringTier defines parameters for UpdateEnvironment.
-type UpdateEnvironmentJSONBodyMonitoringTier string
 
 // UpdateEnvironmentAccessJSONBody defines parameters for UpdateEnvironmentAccess.
 type UpdateEnvironmentAccessJSONBody struct {
@@ -14021,20 +14042,10 @@ type GetVPNLoginsParams struct {
 	Page *PageParam `json:"page,omitempty"`
 }
 
-// CreateVPNServiceJobJSONBody defines parameters for CreateVPNServiceJob.
-type CreateVPNServiceJobJSONBody struct {
-	union json.RawMessage
-}
-
 // CreateVPNUserJSONBody defines parameters for CreateVPNUser.
 type CreateVPNUserJSONBody struct {
 	Password string `json:"password"`
 	Username string `json:"username"`
-}
-
-// CreateEnvironmentJobJSONBody defines parameters for CreateEnvironmentJob.
-type CreateEnvironmentJobJSONBody struct {
-	union json.RawMessage
 }
 
 // GetHubsParams defines parameters for GetHubs.
@@ -15006,11 +15017,6 @@ type GetServerInstancesParams struct {
 // GetServerInstancesParamsInclude defines parameters for GetServerInstances.
 type GetServerInstancesParamsInclude string
 
-// CreateServerJobJSONBody defines parameters for CreateServerJob.
-type CreateServerJobJSONBody struct {
-	union json.RawMessage
-}
-
 // GetServerTelemetryParams defines parameters for GetServerTelemetry.
 type GetServerTelemetryParams struct {
 	// Filter The filter field is a key-value object, where the key is what you would like to filter, and the value is the value you're filtering for.
@@ -15370,11 +15376,6 @@ type GetPipelineRunParams struct {
 // GetPipelineRunParamsInclude defines parameters for GetPipelineRun.
 type GetPipelineRunParamsInclude string
 
-// CreatePipelineJobJSONBody defines parameters for CreatePipelineJob.
-type CreatePipelineJobJSONBody struct {
-	union json.RawMessage
-}
-
 // TriggerPipelineJSONBody defines parameters for TriggerPipeline.
 type TriggerPipelineJSONBody struct {
 	Advanced *struct {
@@ -15598,11 +15599,6 @@ type CreateStackBuildJSONBody struct {
 
 	// Instructions Additional instructions used when generating this stack build.
 	Instructions *StackBuildInstructions `json:"instructions,omitempty"`
-}
-
-// CreateStackBuildJobJSONBody defines parameters for CreateStackBuildJob.
-type CreateStackBuildJobJSONBody struct {
-	union json.RawMessage
 }
 
 // CreateStackJobJSONBody defines parameters for CreateStackJob.
@@ -15869,11 +15865,6 @@ type UpdateVirtualMachineJSONBody struct {
 	SshKeys *[]ID `json:"ssh_keys,omitempty"`
 }
 
-// CreateVirtualMachineJobJSONBody defines parameters for CreateVirtualMachineJob.
-type CreateVirtualMachineJobJSONBody struct {
-	union json.RawMessage
-}
-
 // UpdateAccountJSONRequestBody defines body for UpdateAccount for application/json ContentType.
 type UpdateAccountJSONRequestBody UpdateAccountJSONBody
 
@@ -15926,16 +15917,16 @@ type UpdateContainerJSONRequestBody UpdateContainerJSONBody
 type CreateContainerBackupJobJSONRequestBody CreateContainerBackupJobJSONBody
 
 // CreateFunctionJobJSONRequestBody defines body for CreateFunctionJob for application/json ContentType.
-type CreateFunctionJobJSONRequestBody CreateFunctionJobJSONBody
+type CreateFunctionJobJSONRequestBody = FunctionTask
 
 // CreateInstancesJSONRequestBody defines body for CreateInstances for application/json ContentType.
 type CreateInstancesJSONRequestBody = CreateInstancesJSONBody
 
 // CreateInstanceJobJSONRequestBody defines body for CreateInstanceJob for application/json ContentType.
-type CreateInstanceJobJSONRequestBody CreateInstanceJobJSONBody
+type CreateInstanceJobJSONRequestBody = InstanceTask
 
 // CreateContainerJobJSONRequestBody defines body for CreateContainerJob for application/json ContentType.
-type CreateContainerJobJSONRequestBody CreateContainerJobJSONBody
+type CreateContainerJobJSONRequestBody = ContainerTask
 
 // UploadUserSuppliedCertificateJSONRequestBody defines body for UploadUserSuppliedCertificate for application/json ContentType.
 type UploadUserSuppliedCertificateJSONRequestBody UploadUserSuppliedCertificateJSONBody
@@ -15995,13 +15986,13 @@ type CreateLoadBalancerServiceJobJSONRequestBody CreateLoadBalancerServiceJobJSO
 type CreateSchedulerServiceJobJSONRequestBody CreateSchedulerServiceJobJSONBody
 
 // CreateVPNServiceJobJSONRequestBody defines body for CreateVPNServiceJob for application/json ContentType.
-type CreateVPNServiceJobJSONRequestBody CreateVPNServiceJobJSONBody
+type CreateVPNServiceJobJSONRequestBody = VpnTask
 
 // CreateVPNUserJSONRequestBody defines body for CreateVPNUser for application/json ContentType.
 type CreateVPNUserJSONRequestBody CreateVPNUserJSONBody
 
 // CreateEnvironmentJobJSONRequestBody defines body for CreateEnvironmentJob for application/json ContentType.
-type CreateEnvironmentJobJSONRequestBody CreateEnvironmentJobJSONBody
+type CreateEnvironmentJobJSONRequestBody = EnvironmentTask
 
 // CreateHubJSONRequestBody defines body for CreateHub for application/json ContentType.
 type CreateHubJSONRequestBody CreateHubJSONBody
@@ -16088,7 +16079,7 @@ type DeleteServerJSONRequestBody DeleteServerJSONBody
 type UpdateServerJSONRequestBody UpdateServerJSONBody
 
 // CreateServerJobJSONRequestBody defines body for CreateServerJob for application/json ContentType.
-type CreateServerJobJSONRequestBody CreateServerJobJSONBody
+type CreateServerJobJSONRequestBody = ServerTask
 
 // GenerateAggregatedEventsJSONRequestBody defines body for GenerateAggregatedEvents for application/json ContentType.
 type GenerateAggregatedEventsJSONRequestBody GenerateAggregatedEventsJSONBody
@@ -16118,7 +16109,7 @@ type CreatePipelineTriggerKeyJSONRequestBody CreatePipelineTriggerKeyJSONBody
 type UpdatePipelineTriggerKeyJSONRequestBody UpdatePipelineTriggerKeyJSONBody
 
 // CreatePipelineJobJSONRequestBody defines body for CreatePipelineJob for application/json ContentType.
-type CreatePipelineJobJSONRequestBody CreatePipelineJobJSONBody
+type CreatePipelineJobJSONRequestBody = PipelineTask
 
 // TriggerPipelineJSONRequestBody defines body for TriggerPipeline for application/json ContentType.
 type TriggerPipelineJSONRequestBody TriggerPipelineJSONBody
@@ -16148,7 +16139,7 @@ type UpdateStackAccessJSONRequestBody UpdateStackAccessJSONBody
 type CreateStackBuildJSONRequestBody CreateStackBuildJSONBody
 
 // CreateStackBuildJobJSONRequestBody defines body for CreateStackBuildJob for application/json ContentType.
-type CreateStackBuildJobJSONRequestBody CreateStackBuildJobJSONBody
+type CreateStackBuildJobJSONRequestBody = StackBuildTask
 
 // CreateStackJobJSONRequestBody defines body for CreateStackJob for application/json ContentType.
 type CreateStackJobJSONRequestBody CreateStackJobJSONBody
@@ -16169,7 +16160,7 @@ type UpdateVirtualMachineSshKeyJSONRequestBody UpdateVirtualMachineSshKeyJSONBod
 type UpdateVirtualMachineJSONRequestBody UpdateVirtualMachineJSONBody
 
 // CreateVirtualMachineJobJSONRequestBody defines body for CreateVirtualMachineJob for application/json ContentType.
-type CreateVirtualMachineJobJSONRequestBody CreateVirtualMachineJobJSONBody
+type CreateVirtualMachineJobJSONRequestBody = VirtualMachineTask
 
 // Getter for additional properties for GetEventsParams_Filter. Returns the specified
 // element and whether it was found
@@ -16645,6 +16636,423 @@ func (a PublicAccount_Events) MarshalJSON() ([]byte, error) {
 	return json.Marshal(object)
 }
 
+// AsContainerStartAction returns the union data inside the ContainerTask as a ContainerStartAction
+func (t ContainerTask) AsContainerStartAction() (ContainerStartAction, error) {
+	var body ContainerStartAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromContainerStartAction overwrites any union data inside the ContainerTask as the provided ContainerStartAction
+func (t *ContainerTask) FromContainerStartAction(v ContainerStartAction) error {
+	v.Action = "start"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeContainerStartAction performs a merge with any union data inside the ContainerTask, using the provided ContainerStartAction
+func (t *ContainerTask) MergeContainerStartAction(v ContainerStartAction) error {
+	v.Action = "start"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsContainerStopAction returns the union data inside the ContainerTask as a ContainerStopAction
+func (t ContainerTask) AsContainerStopAction() (ContainerStopAction, error) {
+	var body ContainerStopAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromContainerStopAction overwrites any union data inside the ContainerTask as the provided ContainerStopAction
+func (t *ContainerTask) FromContainerStopAction(v ContainerStopAction) error {
+	v.Action = "stop"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeContainerStopAction performs a merge with any union data inside the ContainerTask, using the provided ContainerStopAction
+func (t *ContainerTask) MergeContainerStopAction(v ContainerStopAction) error {
+	v.Action = "stop"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsContainerReconfigureAction returns the union data inside the ContainerTask as a ContainerReconfigureAction
+func (t ContainerTask) AsContainerReconfigureAction() (ContainerReconfigureAction, error) {
+	var body ContainerReconfigureAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromContainerReconfigureAction overwrites any union data inside the ContainerTask as the provided ContainerReconfigureAction
+func (t *ContainerTask) FromContainerReconfigureAction(v ContainerReconfigureAction) error {
+	v.Action = "reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeContainerReconfigureAction performs a merge with any union data inside the ContainerTask, using the provided ContainerReconfigureAction
+func (t *ContainerTask) MergeContainerReconfigureAction(v ContainerReconfigureAction) error {
+	v.Action = "reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsContainerReconfigureVolumesAction returns the union data inside the ContainerTask as a ContainerReconfigureVolumesAction
+func (t ContainerTask) AsContainerReconfigureVolumesAction() (ContainerReconfigureVolumesAction, error) {
+	var body ContainerReconfigureVolumesAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromContainerReconfigureVolumesAction overwrites any union data inside the ContainerTask as the provided ContainerReconfigureVolumesAction
+func (t *ContainerTask) FromContainerReconfigureVolumesAction(v ContainerReconfigureVolumesAction) error {
+	v.Action = "volumes.reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeContainerReconfigureVolumesAction performs a merge with any union data inside the ContainerTask, using the provided ContainerReconfigureVolumesAction
+func (t *ContainerTask) MergeContainerReconfigureVolumesAction(v ContainerReconfigureVolumesAction) error {
+	v.Action = "volumes.reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsContainerReimageAction returns the union data inside the ContainerTask as a ContainerReimageAction
+func (t ContainerTask) AsContainerReimageAction() (ContainerReimageAction, error) {
+	var body ContainerReimageAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromContainerReimageAction overwrites any union data inside the ContainerTask as the provided ContainerReimageAction
+func (t *ContainerTask) FromContainerReimageAction(v ContainerReimageAction) error {
+	v.Action = "reimage"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeContainerReimageAction performs a merge with any union data inside the ContainerTask, using the provided ContainerReimageAction
+func (t *ContainerTask) MergeContainerReimageAction(v ContainerReimageAction) error {
+	v.Action = "reimage"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsContainerScaleAction returns the union data inside the ContainerTask as a ContainerScaleAction
+func (t ContainerTask) AsContainerScaleAction() (ContainerScaleAction, error) {
+	var body ContainerScaleAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromContainerScaleAction overwrites any union data inside the ContainerTask as the provided ContainerScaleAction
+func (t *ContainerTask) FromContainerScaleAction(v ContainerScaleAction) error {
+	v.Action = "scale"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeContainerScaleAction performs a merge with any union data inside the ContainerTask, using the provided ContainerScaleAction
+func (t *ContainerTask) MergeContainerScaleAction(v ContainerScaleAction) error {
+	v.Action = "scale"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ContainerTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t ContainerTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "reconfigure":
+		return t.AsContainerReconfigureAction()
+	case "reimage":
+		return t.AsContainerReimageAction()
+	case "scale":
+		return t.AsContainerScaleAction()
+	case "start":
+		return t.AsContainerStartAction()
+	case "stop":
+		return t.AsContainerStopAction()
+	case "volumes.reconfigure":
+		return t.AsContainerReconfigureVolumesAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t ContainerTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ContainerTask) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsEnvironmentStartAction returns the union data inside the EnvironmentTask as a EnvironmentStartAction
+func (t EnvironmentTask) AsEnvironmentStartAction() (EnvironmentStartAction, error) {
+	var body EnvironmentStartAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEnvironmentStartAction overwrites any union data inside the EnvironmentTask as the provided EnvironmentStartAction
+func (t *EnvironmentTask) FromEnvironmentStartAction(v EnvironmentStartAction) error {
+	v.Action = "start"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEnvironmentStartAction performs a merge with any union data inside the EnvironmentTask, using the provided EnvironmentStartAction
+func (t *EnvironmentTask) MergeEnvironmentStartAction(v EnvironmentStartAction) error {
+	v.Action = "start"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsEnvironmentStopAction returns the union data inside the EnvironmentTask as a EnvironmentStopAction
+func (t EnvironmentTask) AsEnvironmentStopAction() (EnvironmentStopAction, error) {
+	var body EnvironmentStopAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEnvironmentStopAction overwrites any union data inside the EnvironmentTask as the provided EnvironmentStopAction
+func (t *EnvironmentTask) FromEnvironmentStopAction(v EnvironmentStopAction) error {
+	v.Action = "stop"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEnvironmentStopAction performs a merge with any union data inside the EnvironmentTask, using the provided EnvironmentStopAction
+func (t *EnvironmentTask) MergeEnvironmentStopAction(v EnvironmentStopAction) error {
+	v.Action = "stop"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsEnvironmentInitializeAction returns the union data inside the EnvironmentTask as a EnvironmentInitializeAction
+func (t EnvironmentTask) AsEnvironmentInitializeAction() (EnvironmentInitializeAction, error) {
+	var body EnvironmentInitializeAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEnvironmentInitializeAction overwrites any union data inside the EnvironmentTask as the provided EnvironmentInitializeAction
+func (t *EnvironmentTask) FromEnvironmentInitializeAction(v EnvironmentInitializeAction) error {
+	v.Action = "initialize"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEnvironmentInitializeAction performs a merge with any union data inside the EnvironmentTask, using the provided EnvironmentInitializeAction
+func (t *EnvironmentTask) MergeEnvironmentInitializeAction(v EnvironmentInitializeAction) error {
+	v.Action = "initialize"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsEnvironmentReconfigureDeploymentsAction returns the union data inside the EnvironmentTask as a EnvironmentReconfigureDeploymentsAction
+func (t EnvironmentTask) AsEnvironmentReconfigureDeploymentsAction() (EnvironmentReconfigureDeploymentsAction, error) {
+	var body EnvironmentReconfigureDeploymentsAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEnvironmentReconfigureDeploymentsAction overwrites any union data inside the EnvironmentTask as the provided EnvironmentReconfigureDeploymentsAction
+func (t *EnvironmentTask) FromEnvironmentReconfigureDeploymentsAction(v EnvironmentReconfigureDeploymentsAction) error {
+	v.Action = "deployments.reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEnvironmentReconfigureDeploymentsAction performs a merge with any union data inside the EnvironmentTask, using the provided EnvironmentReconfigureDeploymentsAction
+func (t *EnvironmentTask) MergeEnvironmentReconfigureDeploymentsAction(v EnvironmentReconfigureDeploymentsAction) error {
+	v.Action = "deployments.reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t EnvironmentTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t EnvironmentTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "deployments.reconfigure":
+		return t.AsEnvironmentReconfigureDeploymentsAction()
+	case "initialize":
+		return t.AsEnvironmentInitializeAction()
+	case "start":
+		return t.AsEnvironmentStartAction()
+	case "stop":
+		return t.AsEnvironmentStopAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t EnvironmentTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *EnvironmentTask) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsFunctionTriggerAction returns the union data inside the FunctionTask as a FunctionTriggerAction
+func (t FunctionTask) AsFunctionTriggerAction() (FunctionTriggerAction, error) {
+	var body FunctionTriggerAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromFunctionTriggerAction overwrites any union data inside the FunctionTask as the provided FunctionTriggerAction
+func (t *FunctionTask) FromFunctionTriggerAction(v FunctionTriggerAction) error {
+	v.Action = "trigger"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeFunctionTriggerAction performs a merge with any union data inside the FunctionTask, using the provided FunctionTriggerAction
+func (t *FunctionTask) MergeFunctionTriggerAction(v FunctionTriggerAction) error {
+	v.Action = "trigger"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t FunctionTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t FunctionTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "trigger":
+		return t.AsFunctionTriggerAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t FunctionTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *FunctionTask) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsDirectImageSourceType returns the union data inside the Image_Source as a DirectImageSourceType
 func (t Image_Source) AsDirectImageSourceType() (DirectImageSourceType, error) {
 	var body DirectImageSourceType
@@ -16999,6 +17407,125 @@ func (t ImageOrigin) MarshalJSON() ([]byte, error) {
 }
 
 func (t *ImageOrigin) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsInstanceMigrateAction returns the union data inside the InstanceTask as a InstanceMigrateAction
+func (t InstanceTask) AsInstanceMigrateAction() (InstanceMigrateAction, error) {
+	var body InstanceMigrateAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInstanceMigrateAction overwrites any union data inside the InstanceTask as the provided InstanceMigrateAction
+func (t *InstanceTask) FromInstanceMigrateAction(v InstanceMigrateAction) error {
+	v.Action = "migration.start"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInstanceMigrateAction performs a merge with any union data inside the InstanceTask, using the provided InstanceMigrateAction
+func (t *InstanceTask) MergeInstanceMigrateAction(v InstanceMigrateAction) error {
+	v.Action = "migration.start"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsInstanceRevertMigrationAction returns the union data inside the InstanceTask as a InstanceRevertMigrationAction
+func (t InstanceTask) AsInstanceRevertMigrationAction() (InstanceRevertMigrationAction, error) {
+	var body InstanceRevertMigrationAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInstanceRevertMigrationAction overwrites any union data inside the InstanceTask as the provided InstanceRevertMigrationAction
+func (t *InstanceTask) FromInstanceRevertMigrationAction(v InstanceRevertMigrationAction) error {
+	v.Action = "migration.revert"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInstanceRevertMigrationAction performs a merge with any union data inside the InstanceTask, using the provided InstanceRevertMigrationAction
+func (t *InstanceTask) MergeInstanceRevertMigrationAction(v InstanceRevertMigrationAction) error {
+	v.Action = "migration.revert"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsInstanceExtendVolumeAction returns the union data inside the InstanceTask as a InstanceExtendVolumeAction
+func (t InstanceTask) AsInstanceExtendVolumeAction() (InstanceExtendVolumeAction, error) {
+	var body InstanceExtendVolumeAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInstanceExtendVolumeAction overwrites any union data inside the InstanceTask as the provided InstanceExtendVolumeAction
+func (t *InstanceTask) FromInstanceExtendVolumeAction(v InstanceExtendVolumeAction) error {
+	v.Action = "volume.extend"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInstanceExtendVolumeAction performs a merge with any union data inside the InstanceTask, using the provided InstanceExtendVolumeAction
+func (t *InstanceTask) MergeInstanceExtendVolumeAction(v InstanceExtendVolumeAction) error {
+	v.Action = "volume.extend"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t InstanceTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t InstanceTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "migration.revert":
+		return t.AsInstanceRevertMigrationAction()
+	case "migration.start":
+		return t.AsInstanceMigrateAction()
+	case "volume.extend":
+		return t.AsInstanceExtendVolumeAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t InstanceTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *InstanceTask) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -18231,6 +18758,95 @@ func (t *PipelineSteps) UnmarshalJSON(b []byte) error {
 	return err
 }
 
+// AsPipelineTriggerAction returns the union data inside the PipelineTask as a PipelineTriggerAction
+func (t PipelineTask) AsPipelineTriggerAction() (PipelineTriggerAction, error) {
+	var body PipelineTriggerAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromPipelineTriggerAction overwrites any union data inside the PipelineTask as the provided PipelineTriggerAction
+func (t *PipelineTask) FromPipelineTriggerAction(v PipelineTriggerAction) error {
+	v.Action = "trigger"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergePipelineTriggerAction performs a merge with any union data inside the PipelineTask, using the provided PipelineTriggerAction
+func (t *PipelineTask) MergePipelineTriggerAction(v PipelineTriggerAction) error {
+	v.Action = "trigger"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsPipelineRerunAction returns the union data inside the PipelineTask as a PipelineRerunAction
+func (t PipelineTask) AsPipelineRerunAction() (PipelineRerunAction, error) {
+	var body PipelineRerunAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromPipelineRerunAction overwrites any union data inside the PipelineTask as the provided PipelineRerunAction
+func (t *PipelineTask) FromPipelineRerunAction(v PipelineRerunAction) error {
+	v.Action = "rerun"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergePipelineRerunAction performs a merge with any union data inside the PipelineTask, using the provided PipelineRerunAction
+func (t *PipelineTask) MergePipelineRerunAction(v PipelineRerunAction) error {
+	v.Action = "rerun"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t PipelineTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t PipelineTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "rerun":
+		return t.AsPipelineRerunAction()
+	case "trigger":
+		return t.AsPipelineTriggerAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t PipelineTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *PipelineTask) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsRegistryAuthUser returns the union data inside the RegistryAuth as a RegistryAuthUser
 func (t RegistryAuth) AsRegistryAuthUser() (RegistryAuthUser, error) {
 	var body RegistryAuthUser
@@ -18733,6 +19349,334 @@ func (t ScopedVariable_Source) MarshalJSON() ([]byte, error) {
 }
 
 func (t *ScopedVariable_Source) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsServerReconfigureSharedFsAction returns the union data inside the ServerTask as a ServerReconfigureSharedFsAction
+func (t ServerTask) AsServerReconfigureSharedFsAction() (ServerReconfigureSharedFsAction, error) {
+	var body ServerReconfigureSharedFsAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServerReconfigureSharedFsAction overwrites any union data inside the ServerTask as the provided ServerReconfigureSharedFsAction
+func (t *ServerTask) FromServerReconfigureSharedFsAction(v ServerReconfigureSharedFsAction) error {
+	v.Action = "sharedfs.reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServerReconfigureSharedFsAction performs a merge with any union data inside the ServerTask, using the provided ServerReconfigureSharedFsAction
+func (t *ServerTask) MergeServerReconfigureSharedFsAction(v ServerReconfigureSharedFsAction) error {
+	v.Action = "sharedfs.reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsServerReconfigureFeaturesAction returns the union data inside the ServerTask as a ServerReconfigureFeaturesAction
+func (t ServerTask) AsServerReconfigureFeaturesAction() (ServerReconfigureFeaturesAction, error) {
+	var body ServerReconfigureFeaturesAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServerReconfigureFeaturesAction overwrites any union data inside the ServerTask as the provided ServerReconfigureFeaturesAction
+func (t *ServerTask) FromServerReconfigureFeaturesAction(v ServerReconfigureFeaturesAction) error {
+	v.Action = "features.reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServerReconfigureFeaturesAction performs a merge with any union data inside the ServerTask, using the provided ServerReconfigureFeaturesAction
+func (t *ServerTask) MergeServerReconfigureFeaturesAction(v ServerReconfigureFeaturesAction) error {
+	v.Action = "features.reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsServerRestartAction returns the union data inside the ServerTask as a ServerRestartAction
+func (t ServerTask) AsServerRestartAction() (ServerRestartAction, error) {
+	var body ServerRestartAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServerRestartAction overwrites any union data inside the ServerTask as the provided ServerRestartAction
+func (t *ServerTask) FromServerRestartAction(v ServerRestartAction) error {
+	v.Action = "restart"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServerRestartAction performs a merge with any union data inside the ServerTask, using the provided ServerRestartAction
+func (t *ServerTask) MergeServerRestartAction(v ServerRestartAction) error {
+	v.Action = "restart"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsServerRestartComputeAction returns the union data inside the ServerTask as a ServerRestartComputeAction
+func (t ServerTask) AsServerRestartComputeAction() (ServerRestartComputeAction, error) {
+	var body ServerRestartComputeAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServerRestartComputeAction overwrites any union data inside the ServerTask as the provided ServerRestartComputeAction
+func (t *ServerTask) FromServerRestartComputeAction(v ServerRestartComputeAction) error {
+	v.Action = "compute.restart"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServerRestartComputeAction performs a merge with any union data inside the ServerTask, using the provided ServerRestartComputeAction
+func (t *ServerTask) MergeServerRestartComputeAction(v ServerRestartComputeAction) error {
+	v.Action = "compute.restart"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsServerRestartComputeSpawnerAction returns the union data inside the ServerTask as a ServerRestartComputeSpawnerAction
+func (t ServerTask) AsServerRestartComputeSpawnerAction() (ServerRestartComputeSpawnerAction, error) {
+	var body ServerRestartComputeSpawnerAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServerRestartComputeSpawnerAction overwrites any union data inside the ServerTask as the provided ServerRestartComputeSpawnerAction
+func (t *ServerTask) FromServerRestartComputeSpawnerAction(v ServerRestartComputeSpawnerAction) error {
+	v.Action = "compute.spawner.restart"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServerRestartComputeSpawnerAction performs a merge with any union data inside the ServerTask, using the provided ServerRestartComputeSpawnerAction
+func (t *ServerTask) MergeServerRestartComputeSpawnerAction(v ServerRestartComputeSpawnerAction) error {
+	v.Action = "compute.spawner.restart"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsServerEvacuateAction returns the union data inside the ServerTask as a ServerEvacuateAction
+func (t ServerTask) AsServerEvacuateAction() (ServerEvacuateAction, error) {
+	var body ServerEvacuateAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServerEvacuateAction overwrites any union data inside the ServerTask as the provided ServerEvacuateAction
+func (t *ServerTask) FromServerEvacuateAction(v ServerEvacuateAction) error {
+	v.Action = "evacuation.start"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServerEvacuateAction performs a merge with any union data inside the ServerTask, using the provided ServerEvacuateAction
+func (t *ServerTask) MergeServerEvacuateAction(v ServerEvacuateAction) error {
+	v.Action = "evacuation.start"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsServerEvacuateResetAction returns the union data inside the ServerTask as a ServerEvacuateResetAction
+func (t ServerTask) AsServerEvacuateResetAction() (ServerEvacuateResetAction, error) {
+	var body ServerEvacuateResetAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServerEvacuateResetAction overwrites any union data inside the ServerTask as the provided ServerEvacuateResetAction
+func (t *ServerTask) FromServerEvacuateResetAction(v ServerEvacuateResetAction) error {
+	v.Action = "evacuation.reset"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServerEvacuateResetAction performs a merge with any union data inside the ServerTask, using the provided ServerEvacuateResetAction
+func (t *ServerTask) MergeServerEvacuateResetAction(v ServerEvacuateResetAction) error {
+	v.Action = "evacuation.reset"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ServerTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t ServerTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "compute.restart":
+		return t.AsServerRestartComputeAction()
+	case "compute.spawner.restart":
+		return t.AsServerRestartComputeSpawnerAction()
+	case "evacuation.reset":
+		return t.AsServerEvacuateResetAction()
+	case "evacuation.start":
+		return t.AsServerEvacuateAction()
+	case "features.reconfigure":
+		return t.AsServerReconfigureFeaturesAction()
+	case "restart":
+		return t.AsServerRestartAction()
+	case "sharedfs.reconfigure":
+		return t.AsServerReconfigureSharedFsAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t ServerTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ServerTask) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsStackBuildGenerateAction returns the union data inside the StackBuildTask as a StackBuildGenerateAction
+func (t StackBuildTask) AsStackBuildGenerateAction() (StackBuildGenerateAction, error) {
+	var body StackBuildGenerateAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStackBuildGenerateAction overwrites any union data inside the StackBuildTask as the provided StackBuildGenerateAction
+func (t *StackBuildTask) FromStackBuildGenerateAction(v StackBuildGenerateAction) error {
+	v.Action = "generate"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStackBuildGenerateAction performs a merge with any union data inside the StackBuildTask, using the provided StackBuildGenerateAction
+func (t *StackBuildTask) MergeStackBuildGenerateAction(v StackBuildGenerateAction) error {
+	v.Action = "generate"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsStackBuildDeployAction returns the union data inside the StackBuildTask as a StackBuildDeployAction
+func (t StackBuildTask) AsStackBuildDeployAction() (StackBuildDeployAction, error) {
+	var body StackBuildDeployAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStackBuildDeployAction overwrites any union data inside the StackBuildTask as the provided StackBuildDeployAction
+func (t *StackBuildTask) FromStackBuildDeployAction(v StackBuildDeployAction) error {
+	v.Action = "deploy"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStackBuildDeployAction performs a merge with any union data inside the StackBuildTask, using the provided StackBuildDeployAction
+func (t *StackBuildTask) MergeStackBuildDeployAction(v StackBuildDeployAction) error {
+	v.Action = "deploy"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t StackBuildTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t StackBuildTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "deploy":
+		return t.AsStackBuildDeployAction()
+	case "generate":
+		return t.AsStackBuildGenerateAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t StackBuildTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *StackBuildTask) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -22919,6 +23863,304 @@ func (t VirtualMachineImage) MarshalJSON() ([]byte, error) {
 }
 
 func (t *VirtualMachineImage) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsVirtualMachineStartAction returns the union data inside the VirtualMachineTask as a VirtualMachineStartAction
+func (t VirtualMachineTask) AsVirtualMachineStartAction() (VirtualMachineStartAction, error) {
+	var body VirtualMachineStartAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachineStartAction overwrites any union data inside the VirtualMachineTask as the provided VirtualMachineStartAction
+func (t *VirtualMachineTask) FromVirtualMachineStartAction(v VirtualMachineStartAction) error {
+	v.Action = "start"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachineStartAction performs a merge with any union data inside the VirtualMachineTask, using the provided VirtualMachineStartAction
+func (t *VirtualMachineTask) MergeVirtualMachineStartAction(v VirtualMachineStartAction) error {
+	v.Action = "start"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVirtualMachineStopAction returns the union data inside the VirtualMachineTask as a VirtualMachineStopAction
+func (t VirtualMachineTask) AsVirtualMachineStopAction() (VirtualMachineStopAction, error) {
+	var body VirtualMachineStopAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachineStopAction overwrites any union data inside the VirtualMachineTask as the provided VirtualMachineStopAction
+func (t *VirtualMachineTask) FromVirtualMachineStopAction(v VirtualMachineStopAction) error {
+	v.Action = "stop"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachineStopAction performs a merge with any union data inside the VirtualMachineTask, using the provided VirtualMachineStopAction
+func (t *VirtualMachineTask) MergeVirtualMachineStopAction(v VirtualMachineStopAction) error {
+	v.Action = "stop"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVirtualMachineReconfigureAction returns the union data inside the VirtualMachineTask as a VirtualMachineReconfigureAction
+func (t VirtualMachineTask) AsVirtualMachineReconfigureAction() (VirtualMachineReconfigureAction, error) {
+	var body VirtualMachineReconfigureAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachineReconfigureAction overwrites any union data inside the VirtualMachineTask as the provided VirtualMachineReconfigureAction
+func (t *VirtualMachineTask) FromVirtualMachineReconfigureAction(v VirtualMachineReconfigureAction) error {
+	v.Action = "reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachineReconfigureAction performs a merge with any union data inside the VirtualMachineTask, using the provided VirtualMachineReconfigureAction
+func (t *VirtualMachineTask) MergeVirtualMachineReconfigureAction(v VirtualMachineReconfigureAction) error {
+	v.Action = "reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVirtualMachineRootPwChangeAction returns the union data inside the VirtualMachineTask as a VirtualMachineRootPwChangeAction
+func (t VirtualMachineTask) AsVirtualMachineRootPwChangeAction() (VirtualMachineRootPwChangeAction, error) {
+	var body VirtualMachineRootPwChangeAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachineRootPwChangeAction overwrites any union data inside the VirtualMachineTask as the provided VirtualMachineRootPwChangeAction
+func (t *VirtualMachineTask) FromVirtualMachineRootPwChangeAction(v VirtualMachineRootPwChangeAction) error {
+	v.Action = "rootpw.change"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachineRootPwChangeAction performs a merge with any union data inside the VirtualMachineTask, using the provided VirtualMachineRootPwChangeAction
+func (t *VirtualMachineTask) MergeVirtualMachineRootPwChangeAction(v VirtualMachineRootPwChangeAction) error {
+	v.Action = "rootpw.change"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVirtualMachineIpAllocateAction returns the union data inside the VirtualMachineTask as a VirtualMachineIpAllocateAction
+func (t VirtualMachineTask) AsVirtualMachineIpAllocateAction() (VirtualMachineIpAllocateAction, error) {
+	var body VirtualMachineIpAllocateAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachineIpAllocateAction overwrites any union data inside the VirtualMachineTask as the provided VirtualMachineIpAllocateAction
+func (t *VirtualMachineTask) FromVirtualMachineIpAllocateAction(v VirtualMachineIpAllocateAction) error {
+	v.Action = "ip.allocate"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachineIpAllocateAction performs a merge with any union data inside the VirtualMachineTask, using the provided VirtualMachineIpAllocateAction
+func (t *VirtualMachineTask) MergeVirtualMachineIpAllocateAction(v VirtualMachineIpAllocateAction) error {
+	v.Action = "ip.allocate"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVirtualMachineIpUnallocateAction returns the union data inside the VirtualMachineTask as a VirtualMachineIpUnallocateAction
+func (t VirtualMachineTask) AsVirtualMachineIpUnallocateAction() (VirtualMachineIpUnallocateAction, error) {
+	var body VirtualMachineIpUnallocateAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachineIpUnallocateAction overwrites any union data inside the VirtualMachineTask as the provided VirtualMachineIpUnallocateAction
+func (t *VirtualMachineTask) FromVirtualMachineIpUnallocateAction(v VirtualMachineIpUnallocateAction) error {
+	v.Action = "ip.unallocate"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachineIpUnallocateAction performs a merge with any union data inside the VirtualMachineTask, using the provided VirtualMachineIpUnallocateAction
+func (t *VirtualMachineTask) MergeVirtualMachineIpUnallocateAction(v VirtualMachineIpUnallocateAction) error {
+	v.Action = "ip.unallocate"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t VirtualMachineTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t VirtualMachineTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "ip.allocate":
+		return t.AsVirtualMachineIpAllocateAction()
+	case "ip.unallocate":
+		return t.AsVirtualMachineIpUnallocateAction()
+	case "reconfigure":
+		return t.AsVirtualMachineReconfigureAction()
+	case "rootpw.change":
+		return t.AsVirtualMachineRootPwChangeAction()
+	case "start":
+		return t.AsVirtualMachineStartAction()
+	case "stop":
+		return t.AsVirtualMachineStopAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t VirtualMachineTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *VirtualMachineTask) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsVpnResetAction returns the union data inside the VpnTask as a VpnResetAction
+func (t VpnTask) AsVpnResetAction() (VpnResetAction, error) {
+	var body VpnResetAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVpnResetAction overwrites any union data inside the VpnTask as the provided VpnResetAction
+func (t *VpnTask) FromVpnResetAction(v VpnResetAction) error {
+	v.Action = "reset"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVpnResetAction performs a merge with any union data inside the VpnTask, using the provided VpnResetAction
+func (t *VpnTask) MergeVpnResetAction(v VpnResetAction) error {
+	v.Action = "reset"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVpnReconfigureAction returns the union data inside the VpnTask as a VpnReconfigureAction
+func (t VpnTask) AsVpnReconfigureAction() (VpnReconfigureAction, error) {
+	var body VpnReconfigureAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVpnReconfigureAction overwrites any union data inside the VpnTask as the provided VpnReconfigureAction
+func (t *VpnTask) FromVpnReconfigureAction(v VpnReconfigureAction) error {
+	v.Action = "reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVpnReconfigureAction performs a merge with any union data inside the VpnTask, using the provided VpnReconfigureAction
+func (t *VpnTask) MergeVpnReconfigureAction(v VpnReconfigureAction) error {
+	v.Action = "reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t VpnTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t VpnTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "reconfigure":
+		return t.AsVpnReconfigureAction()
+	case "reset":
+		return t.AsVpnResetAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t VpnTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *VpnTask) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }

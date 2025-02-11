@@ -1,7 +1,14 @@
 # Cycle API Go Client
 
-_This is an auto-generated API client based on the [OpenAPI Spec for Cycle](https://github.com/cycleplatform/api-spec). Please do not open any PRs for the generated code in `generated.go`. If you have any questions on what changes are made in the latest version, please refer to the spec above._
+<a href="https://cycle.io">
+<picture class="red">
+  <source media="(prefers-color-scheme: dark)" srcset="https://cycle.io/global/resources/images/logos/cycle-logo-white.svg">
+  <source media="(prefers-color-scheme: light)" srcset="https://static.cycle.io/icons/logo/cycle-logo-fullcolor.svg">
+  <img alt="cycle" width="300px" src="https://static.cycle.io/icons/logo/cycle-logo-fullcolor.svg">
+</picture>
+</a>
 
+_This is an auto-generated API client based on the [OpenAPI Spec for Cycle](https://github.com/cycleplatform/api-spec). Please do not open any PRs for the generated code in `generated.go`. If you have any questions on what changes are made in the latest version, please refer to the spec above._
 
 ## Usage
 
@@ -13,7 +20,12 @@ Create a client
 package main
 
 import (
-    cycle "github.com/cycleplatform/api-client-go"
+	"log" 
+	"os"
+	"context"
+	"net/http"
+	"fmt"
+    "github.com/cycleplatform/api-client-go"
 )
 
 func main() {
