@@ -786,6 +786,25 @@ const (
 	Direct DirectImageSourceTypeType = "direct"
 )
 
+// Defines values for DnsRecordStateCurrent.
+const (
+	DnsRecordStateCurrentDeleted  DnsRecordStateCurrent = "deleted"
+	DnsRecordStateCurrentDeleting DnsRecordStateCurrent = "deleting"
+	DnsRecordStateCurrentLive     DnsRecordStateCurrent = "live"
+	DnsRecordStateCurrentPending  DnsRecordStateCurrent = "pending"
+)
+
+// Defines values for DnsZoneStateCurrent.
+const (
+	DnsZoneStateCurrentDeleted   DnsZoneStateCurrent = "deleted"
+	DnsZoneStateCurrentDeleting  DnsZoneStateCurrent = "deleting"
+	DnsZoneStateCurrentDisabled  DnsZoneStateCurrent = "disabled"
+	DnsZoneStateCurrentLive      DnsZoneStateCurrent = "live"
+	DnsZoneStateCurrentNew       DnsZoneStateCurrent = "new"
+	DnsZoneStateCurrentPending   DnsZoneStateCurrent = "pending"
+	DnsZoneStateCurrentVerifying DnsZoneStateCurrent = "verifying"
+)
+
 // Defines values for DockerFileOriginType.
 const (
 	DockerFile DockerFileOriginType = "docker-file"
@@ -1436,14 +1455,6 @@ const (
 	RawSourceTypeRaw RawSourceType = "raw"
 )
 
-// Defines values for RecordStateCurrent.
-const (
-	RecordStateCurrentDeleted  RecordStateCurrent = "deleted"
-	RecordStateCurrentDeleting RecordStateCurrent = "deleting"
-	RecordStateCurrentLive     RecordStateCurrent = "live"
-	RecordStateCurrentPending  RecordStateCurrent = "pending"
-)
-
 // Defines values for RegistryAuthProviderDetailsFlavor.
 const (
 	Ecr RegistryAuthProviderDetailsFlavor = "ecr"
@@ -1961,17 +1972,6 @@ const (
 // Defines values for WebhookPostStepAction.
 const (
 	WebhookPost WebhookPostStepAction = "webhook.post"
-)
-
-// Defines values for ZoneStateCurrent.
-const (
-	ZoneStateCurrentDeleted   ZoneStateCurrent = "deleted"
-	ZoneStateCurrentDeleting  ZoneStateCurrent = "deleting"
-	ZoneStateCurrentDisabled  ZoneStateCurrent = "disabled"
-	ZoneStateCurrentLive      ZoneStateCurrent = "live"
-	ZoneStateCurrentNew       ZoneStateCurrent = "new"
-	ZoneStateCurrentPending   ZoneStateCurrent = "pending"
-	ZoneStateCurrentVerifying ZoneStateCurrent = "verifying"
 )
 
 // Defines values for GetAccountInvitesParamsMeta.
@@ -2666,8 +2666,8 @@ const (
 
 // Defines values for GetVirtualMachinesParamsFilterPublicNetwork.
 const (
-	GetVirtualMachinesParamsFilterPublicNetworkDisabled GetVirtualMachinesParamsFilterPublicNetwork = "disabled"
-	GetVirtualMachinesParamsFilterPublicNetworkEnabled  GetVirtualMachinesParamsFilterPublicNetwork = "enabled"
+	Disabled GetVirtualMachinesParamsFilterPublicNetwork = "disabled"
+	Enabled  GetVirtualMachinesParamsFilterPublicNetwork = "enabled"
 )
 
 // Defines values for GetVirtualMachinesParamsFilterState.
@@ -2697,9 +2697,9 @@ const (
 
 // Defines values for GetVirtualMachineSshKeysParamsFilterState.
 const (
-	GetVirtualMachineSshKeysParamsFilterStateDeleted  GetVirtualMachineSshKeysParamsFilterState = "deleted"
-	GetVirtualMachineSshKeysParamsFilterStateDeleting GetVirtualMachineSshKeysParamsFilterState = "deleting"
-	GetVirtualMachineSshKeysParamsFilterStateLive     GetVirtualMachineSshKeysParamsFilterState = "live"
+	Deleted  GetVirtualMachineSshKeysParamsFilterState = "deleted"
+	Deleting GetVirtualMachineSshKeysParamsFilterState = "deleting"
+	Live     GetVirtualMachineSshKeysParamsFilterState = "live"
 )
 
 // Defines values for GetVirtualMachineSshKeysParamsInclude.
@@ -4614,7 +4614,7 @@ type ContainersMeta struct {
 		Fqdn string `json:"fqdn"`
 
 		// Record A DNS record.
-		Record *Record `json:"record,omitempty"`
+		Record *DnsRecord `json:"record,omitempty"`
 	} `json:"domains"`
 
 	// InstancesCount A summary of resources by state
@@ -4934,6 +4934,220 @@ type DiscoveryEnvironmentService struct {
 	// HighAvailability A boolean representing if this service container is set to high availability mode or not.
 	HighAvailability bool `json:"high_availability"`
 }
+
+// DnsRecord A DNS record.
+type DnsRecord struct {
+	// Creator The creator scope is embedded in resource objects to describe who created them
+	Creator CreatorScope `json:"creator"`
+
+	// Events Describes the date and time at which certain events occurred in the lifetime of this resource.
+	Events Events `json:"events"`
+
+	// Features TLS features for the record.
+	Features *struct {
+		Certificate *DnsRecordTlsCertificate `json:"certificate"`
+	} `json:"features"`
+
+	// HubId The unique ID of the Hub this resource was created in.
+	HubId HubID `json:"hub_id"`
+
+	// Id A 24 character hex string used to identify a unique resource.
+	Id ID `json:"id"`
+
+	// Name A name used for the record, where `@` signifies the use of the root domain.
+	Name string `json:"name"`
+
+	// ResolvedDomain The name of the record and the origin as a domain name.
+	ResolvedDomain string         `json:"resolved_domain"`
+	State          DnsRecordState `json:"state"`
+
+	// Type DNS record types the platform supports.
+	Type DnsRecordTypes `json:"type"`
+
+	// ZoneId A unique identifier for the zone
+	ZoneId string `json:"zone_id"`
+}
+
+// DnsRecordState defines model for DnsRecordState.
+type DnsRecordState struct {
+	Changed DateTime `json:"changed"`
+
+	// Current The current state of the record.
+	Current DnsRecordStateCurrent `json:"current"`
+
+	// Error An error, if any, that has occurred for this resource.
+	Error *struct {
+		// Message Details about the error that has occurred.
+		Message *string   `json:"message,omitempty"`
+		Time    *DateTime `json:"time,omitempty"`
+	} `json:"error,omitempty"`
+}
+
+// DnsRecordStateCurrent The current state of the record.
+type DnsRecordStateCurrent string
+
+// DnsRecordTlsCertificate A TLS certificate assigned to a DNS record.
+type DnsRecordTlsCertificate struct {
+	Expires   *DateTime `json:"expires,omitempty"`
+	Generated DateTime  `json:"generated"`
+
+	// Id A 24 character hex string used to identify a unique resource.
+	Id ID `json:"id"`
+
+	// UserSupplied If true, this certificate was manually supplied, and was not auto-generated by the platform.
+	UserSupplied bool `json:"user_supplied"`
+
+	// WildcardChild A value where true represents that the certificate is using a shared wildcard cert.
+	WildcardChild bool `json:"wildcard_child"`
+}
+
+// DnsRecordTypes DNS record types the platform supports.
+type DnsRecordTypes struct {
+	// A A DNS A record
+	A *struct {
+		// Ip The IPv4 address that the A record should map to.
+		Ip string `json:"ip"`
+	} `json:"a,omitempty"`
+
+	// Aaaa A DNS AAAA record
+	Aaaa *struct {
+		// Ip The IPv6 address that the AAAA record should map to.
+		Ip string `json:"ip"`
+	} `json:"aaaa,omitempty"`
+
+	// Alias A DNS ALIAS record.
+	Alias *struct {
+		// Domain The domain string returned from the DNS server when this alias record is requested.
+		Domain string `json:"domain"`
+	} `json:"alias,omitempty"`
+
+	// Caa A DNS CAA record.
+	Caa *struct {
+		// Tag The ASCII string that represents the identifier of the property represented by the record.
+		Tag string `json:"tag"`
+
+		// Value The value associated with the tag.
+		Value string `json:"value"`
+	} `json:"caa,omitempty"`
+
+	// Cname A DNS CNAME record
+	Cname *struct {
+		// Domain The domain string the record resolves to.
+		Domain string `json:"domain"`
+	} `json:"cname,omitempty"`
+
+	// Linked A LINKED record is a record special to Cycle.  It represents a URL that points to a specific container or deployment of a container, however the IP address mapping in handled automatically by the platform.
+	Linked *struct {
+		// Features Features associated with this record.
+		Features struct {
+			// Geodns Options for the GeoDNS LINKED record feature.
+			Geodns struct {
+				// Enable If enabled, Cycle will attempt to match inbound requests to the closest load balancer geographically.
+				Enable bool `json:"enable"`
+			} `json:"geodns"`
+
+			// Tls TLS properties of the record.
+			Tls struct {
+				// Enable A boolean, where true represents this record will be paired with a TLS certificate automatically maintained by the platform.
+				Enable bool `json:"enable"`
+			} `json:"tls"`
+			Wildcard *struct {
+				// ResolveSubDomains If enabled, subdomains will resolve for wildcard records. If disabled, only the primary domain will resolve.
+				ResolveSubDomains bool `json:"resolve_sub_domains"`
+			} `json:"wildcard"`
+		} `json:"features"`
+	} `json:"linked,omitempty"`
+
+	// Mx A DNS MX record
+	Mx *struct {
+		// Domain The domain this mx record points to.
+		Domain string `json:"domain"`
+
+		// Priority The priority setting for this mx record.
+		Priority int `json:"priority"`
+	} `json:"mx,omitempty"`
+
+	// Ns A DNS NS record
+	Ns *struct {
+		// Domain The domain of the nameserver for this record.
+		Domain string `json:"domain"`
+	} `json:"ns,omitempty"`
+
+	// Srv A DNS SRV record.
+	Srv *struct {
+		// Domain The domain for the record.
+		Domain string `json:"domain"`
+
+		// Port The port number for the service.
+		Port int `json:"port"`
+
+		// Priority The priority for the record.
+		Priority int `json:"priority"`
+
+		// Weight Teh weight configured for this record - breaks ties for priority.
+		Weight int `json:"weight"`
+	} `json:"srv,omitempty"`
+
+	// Txt A DNS TXT record.
+	Txt *struct {
+		// Value The value for this TXT record.
+		Value string `json:"value"`
+	} `json:"txt,omitempty"`
+}
+
+// DnsZone DNS (Domain Name System), in short, is a decentralized naming system for computers, services, or other resources connected to the internet or a private network. It is what allows the translation of a URL, such as http://example.com, to an IP address.
+type DnsZone struct {
+	Acl *ACL `json:"acl"`
+
+	// Creator The creator scope is embedded in resource objects to describe who created them
+	Creator CreatorScope `json:"creator"`
+
+	// Events A collection of timestamps for each event in the DNS zone's lifetime.
+	Events struct {
+		Created          DateTime `json:"created"`
+		Deleted          DateTime `json:"deleted"`
+		LastVerification DateTime `json:"last_verification"`
+		Updated          DateTime `json:"updated"`
+		Verified         DateTime `json:"verified"`
+	} `json:"events"`
+
+	// Hosted A boolean where true represents this zone is a hosted zone.
+	Hosted bool `json:"hosted"`
+
+	// HubId The unique ID of the Hub this resource was created in.
+	HubId HubID `json:"hub_id"`
+
+	// Id A 24 character hex string used to identify a unique resource.
+	Id ID `json:"id"`
+
+	// Origin The origin for the given DNS zone.
+	Origin string       `json:"origin"`
+	State  DnsZoneState `json:"state"`
+}
+
+// DnsZoneIncludes All includable resources linkable to the given Zone.
+type DnsZoneIncludes struct {
+	// Creators An identity that created a resource.
+	Creators *CreatorInclude `json:"creators,omitempty"`
+}
+
+// DnsZoneState defines model for DnsZoneState.
+type DnsZoneState struct {
+	Changed DateTime `json:"changed"`
+
+	// Current The current state of the zone.
+	Current DnsZoneStateCurrent `json:"current"`
+
+	// Error An error, if any, that has occurred for this resource.
+	Error *struct {
+		// Message Details about the error that has occurred.
+		Message *string   `json:"message,omitempty"`
+		Time    *DateTime `json:"time,omitempty"`
+	} `json:"error,omitempty"`
+}
+
+// DnsZoneStateCurrent The current state of the zone.
+type DnsZoneStateCurrent string
 
 // DockerFileOrigin An image origin where the image is built from a Dockerfile located in a git repository.
 type DockerFileOrigin struct {
@@ -7030,12 +7244,15 @@ type IntegrationAuth struct {
 	SubscriptionId *string `json:"subscription_id"`
 }
 
-// IntegrationDefinition Describes an integration for a Cycle Hub that can be enabled by the Hub owner.
+// IntegrationDefinition Describes an integration for a Cycle hub that can be enabled by the hub owner.
 type IntegrationDefinition struct {
-	// Editable If true, the Integration can be edited. Otherwise, to make a change it will need to be deleted and recreated.
+	// Deprecated If true, this integration is no longer being supported and may be removed in the future. New instances of this integration will not be able to be created.
+	Deprecated *bool `json:"deprecated,omitempty"`
+
+	// Editable If true, the integration can be edited. Otherwise, to make a change it will need to be deleted and recreated.
 	Editable bool `json:"editable"`
 
-	// ExtendedConfiguration Additional configuration options that are available when using this Integration. These describe additional functionality that Cycle may utilize.
+	// ExtendedConfiguration Additional configuration options that are available when using this integration. These describe additional functionality that Cycle may utilize.
 	ExtendedConfiguration *struct {
 		Options *[]IntegrationDefinition_ExtendedConfiguration_Options_Item `json:"options"`
 	} `json:"extended_configuration"`
@@ -7043,7 +7260,7 @@ type IntegrationDefinition struct {
 	// Extends A list of functionality that this integration extends. i.e. ["backups"]
 	Extends *[]string `json:"extends"`
 
-	// Features A list of additional features supported by this Integration.
+	// Features A list of additional features supported by this integration.
 	Features *[]string `json:"features"`
 	Fields   *struct {
 		Auth *map[string]struct {
@@ -7062,8 +7279,10 @@ type IntegrationDefinition struct {
 	SupportsMultiple     bool   `json:"supports_multiple"`
 	SupportsVerification bool   `json:"supports_verification"`
 	Url                  string `json:"url"`
-	Usable               bool   `json:"usable"`
-	Vendor               string `json:"vendor"`
+
+	// Usable Whether or not this integration can be used at this time.
+	Usable bool   `json:"usable"`
+	Vendor string `json:"vendor"`
 }
 
 // IntegrationDefinition_ExtendedConfiguration_Options_Item defines model for IntegrationDefinition.ExtendedConfiguration.Options.Item.
@@ -7073,7 +7292,7 @@ type IntegrationDefinition_ExtendedConfiguration_Options_Item struct {
 
 // IntegrationMeta Additional fields that can be requested for an Integration on fetch.
 type IntegrationMeta struct {
-	// Definition Describes an integration for a Cycle Hub that can be enabled by the Hub owner.
+	// Definition Describes an integration for a Cycle hub that can be enabled by the hub owner.
 	Definition *IntegrationDefinition `json:"definition,omitempty"`
 }
 
@@ -8846,39 +9065,6 @@ type RawSource struct {
 // RawSourceType The type of source value, can be either `raw` or `url`.
 type RawSourceType string
 
-// Record A DNS record.
-type Record struct {
-	// Creator The creator scope is embedded in resource objects to describe who created them
-	Creator CreatorScope `json:"creator"`
-
-	// Events Describes the date and time at which certain events occurred in the lifetime of this resource.
-	Events Events `json:"events"`
-
-	// Features TLS features for the record.
-	Features *struct {
-		Certificate *RecordTlsCertificate `json:"certificate"`
-	} `json:"features"`
-
-	// HubId The unique ID of the Hub this resource was created in.
-	HubId HubID `json:"hub_id"`
-
-	// Id A 24 character hex string used to identify a unique resource.
-	Id ID `json:"id"`
-
-	// Name A name used for the record, where `@` signifies the use of the root domain.
-	Name string `json:"name"`
-
-	// ResolvedDomain The name of the record and the origin as a domain name.
-	ResolvedDomain string      `json:"resolved_domain"`
-	State          RecordState `json:"state"`
-
-	// Type DNS record types the platform supports.
-	Type RecordTypes `json:"type"`
-
-	// ZoneId A unique identifier for the zone
-	ZoneId string `json:"zone_id"`
-}
-
 // RecordIncludes All includable resources linkable to the given records.
 type RecordIncludes struct {
 	Containers            *map[string]Container `json:"containers,omitempty"`
@@ -8888,133 +9074,6 @@ type RecordIncludes struct {
 	Creators                   *CreatorInclude            `json:"creators,omitempty"`
 	VirtualMachines            *map[string]VirtualMachine `json:"virtual-machines,omitempty"`
 	VirtualMachinesIdentifiers *map[string]ID             `json:"virtual-machines:identifiers,omitempty"`
-}
-
-// RecordState defines model for RecordState.
-type RecordState struct {
-	Changed DateTime `json:"changed"`
-
-	// Current The current state of the record.
-	Current RecordStateCurrent `json:"current"`
-
-	// Error An error, if any, that has occurred for this resource.
-	Error *struct {
-		// Message Details about the error that has occurred.
-		Message *string   `json:"message,omitempty"`
-		Time    *DateTime `json:"time,omitempty"`
-	} `json:"error,omitempty"`
-}
-
-// RecordStateCurrent The current state of the record.
-type RecordStateCurrent string
-
-// RecordTlsCertificate A TLS certificate assigned to a DNS record.
-type RecordTlsCertificate struct {
-	Expires   *DateTime `json:"expires,omitempty"`
-	Generated DateTime  `json:"generated"`
-
-	// Id A 24 character hex string used to identify a unique resource.
-	Id ID `json:"id"`
-
-	// UserSupplied If true, this certificate was manually supplied, and was not auto-generated by the platform.
-	UserSupplied bool `json:"user_supplied"`
-
-	// WildcardChild A value where true represents that the certificate is using a shared wildcard cert.
-	WildcardChild bool `json:"wildcard_child"`
-}
-
-// RecordTypes DNS record types the platform supports.
-type RecordTypes struct {
-	// A A DNS A record
-	A *struct {
-		// Ip The IPv4 address that the A record should map to.
-		Ip string `json:"ip"`
-	} `json:"a,omitempty"`
-
-	// Aaaa A DNS AAAA record
-	Aaaa *struct {
-		// Ip The IPv6 address that the AAAA record should map to.
-		Ip string `json:"ip"`
-	} `json:"aaaa,omitempty"`
-
-	// Alias A DNS ALIAS record.
-	Alias *struct {
-		// Domain The domain string returned from the DNS server when this alias record is requested.
-		Domain string `json:"domain"`
-	} `json:"alias,omitempty"`
-
-	// Caa A DNS CAA record.
-	Caa *struct {
-		// Tag The ASCII string that represents the identifier of the property represented by the record.
-		Tag string `json:"tag"`
-
-		// Value The value associated with the tag.
-		Value string `json:"value"`
-	} `json:"caa,omitempty"`
-
-	// Cname A DNS CNAME record
-	Cname *struct {
-		// Domain The domain string the record resolves to.
-		Domain string `json:"domain"`
-	} `json:"cname,omitempty"`
-
-	// Linked A LINKED record is a record special to Cycle.  It represents a URL that points to a specific container or deployment of a container, however the IP address mapping in handled automatically by the platform.
-	Linked *struct {
-		// Features Features associated with this record.
-		Features struct {
-			// Geodns Options for the GeoDNS LINKED record feature.
-			Geodns struct {
-				// Enable If enabled, Cycle will attempt to match inbound requests to the closest load balancer geographically.
-				Enable bool `json:"enable"`
-			} `json:"geodns"`
-
-			// Tls TLS properties of the record.
-			Tls struct {
-				// Enable A boolean, where true represents this record will be paired with a TLS certificate automatically maintained by the platform.
-				Enable bool `json:"enable"`
-			} `json:"tls"`
-			Wildcard *struct {
-				// ResolveSubDomains If enabled, subdomains will resolve for wildcard records. If disabled, only the primary domain will resolve.
-				ResolveSubDomains bool `json:"resolve_sub_domains"`
-			} `json:"wildcard"`
-		} `json:"features"`
-	} `json:"linked,omitempty"`
-
-	// Mx A DNS MX record
-	Mx *struct {
-		// Domain The domain this mx record points to.
-		Domain string `json:"domain"`
-
-		// Priority The priority setting for this mx record.
-		Priority int `json:"priority"`
-	} `json:"mx,omitempty"`
-
-	// Ns A DNS NS record
-	Ns *struct {
-		// Domain The domain of the nameserver for this record.
-		Domain string `json:"domain"`
-	} `json:"ns,omitempty"`
-
-	// Srv A DNS SRV record.
-	Srv *struct {
-		// Domain The domain for the record.
-		Domain string `json:"domain"`
-
-		// Port The port number for the service.
-		Port int `json:"port"`
-
-		// Priority The priority for the record.
-		Priority int `json:"priority"`
-
-		// Weight Teh weight configured for this record - breaks ties for priority.
-		Weight int `json:"weight"`
-	} `json:"srv,omitempty"`
-
-	// Txt A DNS TXT record.
-	Txt *struct {
-		// Value The value for this TXT record.
-		Value string `json:"value"`
-	} `json:"txt,omitempty"`
 }
 
 // Refund A billing refund.
@@ -12338,8 +12397,8 @@ type VirtualMachineIpUnallocateActionAction string
 type VirtualMachineMeta struct {
 	Domains *[]struct {
 		// Fqdn The fully qualified domain name.
-		Fqdn   string  `json:"fqdn"`
-		Record *Record `json:"record"`
+		Fqdn   string     `json:"fqdn"`
+		Record *DnsRecord `json:"record"`
 	} `json:"domains,omitempty"`
 
 	// Ips An array of public IP addresses associated with this virtual machine.
@@ -12812,60 +12871,6 @@ type WebhookStepOptions struct {
 
 // WebhookURL A URL describing the destination Cycle should send a POST webhook payload to.
 type WebhookURL = string
-
-// Zone DNS (Domain Name System), in short, is a decentralized naming system for computers, services, or other resources connected to the internet or a private network. It is what allows the translation of a URL, such as http://example.com, to an IP address.
-type Zone struct {
-	Acl *ACL `json:"acl"`
-
-	// Creator The creator scope is embedded in resource objects to describe who created them
-	Creator CreatorScope `json:"creator"`
-
-	// Events A collection of timestamps for each event in the DNS zone's lifetime.
-	Events struct {
-		Created          DateTime `json:"created"`
-		Deleted          DateTime `json:"deleted"`
-		LastVerification DateTime `json:"last_verification"`
-		Updated          DateTime `json:"updated"`
-		Verified         DateTime `json:"verified"`
-	} `json:"events"`
-
-	// Hosted A boolean where true represents this zone is a hosted zone.
-	Hosted bool `json:"hosted"`
-
-	// HubId The unique ID of the Hub this resource was created in.
-	HubId HubID `json:"hub_id"`
-
-	// Id A 24 character hex string used to identify a unique resource.
-	Id ID `json:"id"`
-
-	// Origin The origin for the given DNS zone.
-	Origin string    `json:"origin"`
-	State  ZoneState `json:"state"`
-}
-
-// ZoneIncludes All includable resources linkable to the given Zone.
-type ZoneIncludes struct {
-	// Creators An identity that created a resource.
-	Creators *CreatorInclude `json:"creators,omitempty"`
-}
-
-// ZoneState defines model for ZoneState.
-type ZoneState struct {
-	Changed DateTime `json:"changed"`
-
-	// Current The current state of the zone.
-	Current ZoneStateCurrent `json:"current"`
-
-	// Error An error, if any, that has occurred for this resource.
-	Error *struct {
-		// Message Details about the error that has occurred.
-		Message *string   `json:"message,omitempty"`
-		Time    *DateTime `json:"time,omitempty"`
-	} `json:"error,omitempty"`
-}
-
-// ZoneStateCurrent The current state of the zone.
-type ZoneStateCurrent string
 
 // Controllers Optionally included resources for load balancer controllers
 type Controllers struct {
@@ -13723,7 +13728,7 @@ type CreateDNSZoneRecordJSONBody struct {
 	Name string `json:"name"`
 
 	// Type DNS record types the platform supports.
-	Type RecordTypes `json:"type"`
+	Type DnsRecordTypes `json:"type"`
 }
 
 // CreateDNSZoneRecordParams defines parameters for CreateDNSZoneRecord.
@@ -13738,7 +13743,7 @@ type CreateDNSZoneRecordParamsInclude string
 // UpdateDNSZoneRecordJSONBody defines parameters for UpdateDNSZoneRecord.
 type UpdateDNSZoneRecordJSONBody struct {
 	// Type DNS record types the platform supports.
-	Type RecordTypes `json:"type"`
+	Type DnsRecordTypes `json:"type"`
 }
 
 // UpdateDNSZoneRecordParams defines parameters for UpdateDNSZoneRecord.
@@ -14106,7 +14111,10 @@ type UpdateHubJSONBody struct {
 		Name              *string `json:"name"`
 		TaxId             *string `json:"tax_id"`
 	} `json:"billing_contact"`
-	Identifier *string `json:"identifier,omitempty"`
+
+	// BillingEmails Email addresses that will receive any invoices or billing related correspondence.
+	BillingEmails *[]string `json:"billing_emails,omitempty"`
+	Identifier    *string   `json:"identifier,omitempty"`
 
 	// Name A name for the hub.
 	Name *string `json:"name,omitempty"`
@@ -24371,6 +24379,9 @@ type ClientInterface interface {
 	// GetBillingService request
 	GetBillingService(ctx context.Context, servicesId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetBillingStatus request
+	GetBillingStatus(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetContainers request
 	GetContainers(ctx context.Context, params *GetContainersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -25783,6 +25794,18 @@ func (c *Client) GetBillingOverages(ctx context.Context, params *GetBillingOvera
 
 func (c *Client) GetBillingService(ctx context.Context, servicesId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetBillingServiceRequest(c.Server, servicesId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetBillingStatus(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetBillingStatusRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -31507,6 +31530,33 @@ func NewGetBillingServiceRequest(server string, servicesId string) (*http.Reques
 	}
 
 	operationPath := fmt.Sprintf("/v1/billing/services/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetBillingStatusRequest generates requests for GetBillingStatus
+func NewGetBillingStatusRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/billing/status")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -43753,6 +43803,9 @@ type ClientWithResponsesInterface interface {
 	// GetBillingServiceWithResponse request
 	GetBillingServiceWithResponse(ctx context.Context, servicesId string, reqEditors ...RequestEditorFn) (*GetBillingServiceResponse, error)
 
+	// GetBillingStatusWithResponse request
+	GetBillingStatusWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetBillingStatusResponse, error)
+
 	// GetContainersWithResponse request
 	GetContainersWithResponse(ctx context.Context, params *GetContainersParams, reqEditors ...RequestEditorFn) (*GetContainersResponse, error)
 
@@ -45496,6 +45549,34 @@ func (r GetBillingServiceResponse) StatusCode() int {
 	return 0
 }
 
+type GetBillingStatusResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Data struct {
+			// Enabled Whether billing is enabled for this core. Generally, this will only be false for dedicated cores.
+			Enabled *bool `json:"enabled,omitempty"`
+		} `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetBillingStatusResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetBillingStatusResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetContainersResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -46438,10 +46519,10 @@ type GetDNSZonesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *struct {
-		Data []Zone `json:"data"`
+		Data []DnsZone `json:"data"`
 
 		// Includes All includable resources linkable to the given Zone.
-		Includes *ZoneIncludes `json:"includes,omitempty"`
+		Includes *DnsZoneIncludes `json:"includes,omitempty"`
 	}
 	JSONDefault *DefaultError
 }
@@ -46467,7 +46548,7 @@ type CreateDNSZoneResponse struct {
 	HTTPResponse *http.Response
 	JSON201      *struct {
 		// Data DNS (Domain Name System), in short, is a decentralized naming system for computers, services, or other resources connected to the internet or a private network. It is what allows the translation of a URL, such as http://example.com, to an IP address.
-		Data Zone `json:"data"`
+		Data DnsZone `json:"data"`
 	}
 	JSONDefault *DefaultError
 }
@@ -46519,7 +46600,7 @@ type GetDNSZoneResponse struct {
 	HTTPResponse *http.Response
 	JSON200      *struct {
 		// Data DNS (Domain Name System), in short, is a decentralized naming system for computers, services, or other resources connected to the internet or a private network. It is what allows the translation of a URL, such as http://example.com, to an IP address.
-		Data Zone `json:"data"`
+		Data DnsZone `json:"data"`
 	}
 	JSONDefault *DefaultError
 }
@@ -46545,10 +46626,10 @@ type UpdateDNSZoneResponse struct {
 	HTTPResponse *http.Response
 	JSON200      *struct {
 		// Data DNS (Domain Name System), in short, is a decentralized naming system for computers, services, or other resources connected to the internet or a private network. It is what allows the translation of a URL, such as http://example.com, to an IP address.
-		Data Zone `json:"data"`
+		Data DnsZone `json:"data"`
 
 		// Includes All includable resources linkable to the given Zone.
-		Includes *ZoneIncludes `json:"includes,omitempty"`
+		Includes *DnsZoneIncludes `json:"includes,omitempty"`
 	}
 	JSONDefault *DefaultError
 }
@@ -46574,10 +46655,10 @@ type UpdateDNSZoneAccessResponse struct {
 	HTTPResponse *http.Response
 	JSON200      *struct {
 		// Data DNS (Domain Name System), in short, is a decentralized naming system for computers, services, or other resources connected to the internet or a private network. It is what allows the translation of a URL, such as http://example.com, to an IP address.
-		Data Zone `json:"data"`
+		Data DnsZone `json:"data"`
 
 		// Includes All includable resources linkable to the given Zone.
-		Includes *ZoneIncludes `json:"includes,omitempty"`
+		Includes *DnsZoneIncludes `json:"includes,omitempty"`
 	}
 	JSONDefault *DefaultError
 }
@@ -46602,7 +46683,7 @@ type GetDNSZoneRecordsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *struct {
-		Data []Record `json:"data"`
+		Data []DnsRecord `json:"data"`
 
 		// Includes All includable resources linkable to the given records.
 		Includes *RecordIncludes `json:"includes,omitempty"`
@@ -46631,7 +46712,7 @@ type CreateDNSZoneRecordResponse struct {
 	HTTPResponse *http.Response
 	JSON201      *struct {
 		// Data A DNS record.
-		Data Record `json:"data"`
+		Data DnsRecord `json:"data"`
 
 		// Includes All includable resources linkable to the given records.
 		Includes *RecordIncludes `json:"includes,omitempty"`
@@ -46686,7 +46767,7 @@ type UpdateDNSZoneRecordResponse struct {
 	HTTPResponse *http.Response
 	JSON200      *struct {
 		// Data A DNS record.
-		Data Record `json:"data"`
+		Data DnsRecord `json:"data"`
 
 		// Includes All includable resources linkable to the given records.
 		Includes *RecordIncludes `json:"includes,omitempty"`
@@ -51883,6 +51964,15 @@ func (c *ClientWithResponses) GetBillingServiceWithResponse(ctx context.Context,
 	return ParseGetBillingServiceResponse(rsp)
 }
 
+// GetBillingStatusWithResponse request returning *GetBillingStatusResponse
+func (c *ClientWithResponses) GetBillingStatusWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetBillingStatusResponse, error) {
+	rsp, err := c.GetBillingStatus(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetBillingStatusResponse(rsp)
+}
+
 // GetContainersWithResponse request returning *GetContainersResponse
 func (c *ClientWithResponses) GetContainersWithResponse(ctx context.Context, params *GetContainersParams, reqEditors ...RequestEditorFn) (*GetContainersResponse, error) {
 	rsp, err := c.GetContainers(ctx, params, reqEditors...)
@@ -55811,6 +55901,44 @@ func ParseGetBillingServiceResponse(rsp *http.Response) (*GetBillingServiceRespo
 	return response, nil
 }
 
+// ParseGetBillingStatusResponse parses an HTTP response from a GetBillingStatusWithResponse call
+func ParseGetBillingStatusResponse(rsp *http.Response) (*GetBillingStatusResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetBillingStatusResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Data struct {
+				// Enabled Whether billing is enabled for this core. Generally, this will only be false for dedicated cores.
+				Enabled *bool `json:"enabled,omitempty"`
+			} `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetContainersResponse parses an HTTP response from a GetContainersWithResponse call
 func ParseGetContainersResponse(rsp *http.Response) (*GetContainersResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -57105,10 +57233,10 @@ func ParseGetDNSZonesResponse(rsp *http.Response) (*GetDNSZonesResponse, error) 
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
-			Data []Zone `json:"data"`
+			Data []DnsZone `json:"data"`
 
 			// Includes All includable resources linkable to the given Zone.
-			Includes *ZoneIncludes `json:"includes,omitempty"`
+			Includes *DnsZoneIncludes `json:"includes,omitempty"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
@@ -57144,7 +57272,7 @@ func ParseCreateDNSZoneResponse(rsp *http.Response) (*CreateDNSZoneResponse, err
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
 		var dest struct {
 			// Data DNS (Domain Name System), in short, is a decentralized naming system for computers, services, or other resources connected to the internet or a private network. It is what allows the translation of a URL, such as http://example.com, to an IP address.
-			Data Zone `json:"data"`
+			Data DnsZone `json:"data"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
@@ -57216,7 +57344,7 @@ func ParseGetDNSZoneResponse(rsp *http.Response) (*GetDNSZoneResponse, error) {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
 			// Data DNS (Domain Name System), in short, is a decentralized naming system for computers, services, or other resources connected to the internet or a private network. It is what allows the translation of a URL, such as http://example.com, to an IP address.
-			Data Zone `json:"data"`
+			Data DnsZone `json:"data"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
@@ -57252,10 +57380,10 @@ func ParseUpdateDNSZoneResponse(rsp *http.Response) (*UpdateDNSZoneResponse, err
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
 			// Data DNS (Domain Name System), in short, is a decentralized naming system for computers, services, or other resources connected to the internet or a private network. It is what allows the translation of a URL, such as http://example.com, to an IP address.
-			Data Zone `json:"data"`
+			Data DnsZone `json:"data"`
 
 			// Includes All includable resources linkable to the given Zone.
-			Includes *ZoneIncludes `json:"includes,omitempty"`
+			Includes *DnsZoneIncludes `json:"includes,omitempty"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
@@ -57291,10 +57419,10 @@ func ParseUpdateDNSZoneAccessResponse(rsp *http.Response) (*UpdateDNSZoneAccessR
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
 			// Data DNS (Domain Name System), in short, is a decentralized naming system for computers, services, or other resources connected to the internet or a private network. It is what allows the translation of a URL, such as http://example.com, to an IP address.
-			Data Zone `json:"data"`
+			Data DnsZone `json:"data"`
 
 			// Includes All includable resources linkable to the given Zone.
-			Includes *ZoneIncludes `json:"includes,omitempty"`
+			Includes *DnsZoneIncludes `json:"includes,omitempty"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
@@ -57329,7 +57457,7 @@ func ParseGetDNSZoneRecordsResponse(rsp *http.Response) (*GetDNSZoneRecordsRespo
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
-			Data []Record `json:"data"`
+			Data []DnsRecord `json:"data"`
 
 			// Includes All includable resources linkable to the given records.
 			Includes *RecordIncludes `json:"includes,omitempty"`
@@ -57368,7 +57496,7 @@ func ParseCreateDNSZoneRecordResponse(rsp *http.Response) (*CreateDNSZoneRecordR
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
 		var dest struct {
 			// Data A DNS record.
-			Data Record `json:"data"`
+			Data DnsRecord `json:"data"`
 
 			// Includes All includable resources linkable to the given records.
 			Includes *RecordIncludes `json:"includes,omitempty"`
@@ -57443,7 +57571,7 @@ func ParseUpdateDNSZoneRecordResponse(rsp *http.Response) (*UpdateDNSZoneRecordR
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
 			// Data A DNS record.
-			Data Record `json:"data"`
+			Data DnsRecord `json:"data"`
 
 			// Includes All includable resources linkable to the given records.
 			Includes *RecordIncludes `json:"includes,omitempty"`

@@ -76,6 +76,6 @@ Using `npm`, run `(cd api-spec; npm run build:platform && npm run downconvert:pl
 
 ### Generating the client
 
-`go generate ./...`
+`go generate`
 
 See [ogen](https://ogen.dev/docs/intro/) for usage.
