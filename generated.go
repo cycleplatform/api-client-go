@@ -53,6 +53,7 @@ const (
 	ActivityEventContainerBackupTaskRestore                      ActivityEvent = "container.backup.task.restore"
 	ActivityEventContainerCreate                                 ActivityEvent = "container.create"
 	ActivityEventContainerDelete                                 ActivityEvent = "container.delete"
+	ActivityEventContainerDeprecate                              ActivityEvent = "container.deprecate"
 	ActivityEventContainerFunctionTaskTrigger                    ActivityEvent = "container.function.task.trigger"
 	ActivityEventContainerFunctionTrigger                        ActivityEvent = "container.function.trigger"
 	ActivityEventContainerInitialize                             ActivityEvent = "container.initialize"
@@ -66,6 +67,7 @@ const (
 	ActivityEventContainerInstanceTaskMigrationRevert            ActivityEvent = "container.instance.task.migration.revert"
 	ActivityEventContainerInstanceTaskMigrationStart             ActivityEvent = "container.instance.task.migration.start"
 	ActivityEventContainerInstanceTaskVolumeExtend               ActivityEvent = "container.instance.task.volume.extend"
+	ActivityEventContainerInstanceTrafficDrainReconfigure        ActivityEvent = "container.instance.traffic-drain.reconfigure"
 	ActivityEventContainerInstanceVolumeExtend                   ActivityEvent = "container.instance.volume.extend"
 	ActivityEventContainerInstancesAutoscaleDown                 ActivityEvent = "container.instances.autoscale.down"
 	ActivityEventContainerInstancesAutoscaleUp                   ActivityEvent = "container.instances.autoscale.up"
@@ -80,6 +82,7 @@ const (
 	ActivityEventContainerTaskDelete                             ActivityEvent = "container.task.delete"
 	ActivityEventContainerTaskReconfigure                        ActivityEvent = "container.task.reconfigure"
 	ActivityEventContainerTaskReimage                            ActivityEvent = "container.task.reimage"
+	ActivityEventContainerTaskRestart                            ActivityEvent = "container.task.restart"
 	ActivityEventContainerTaskScale                              ActivityEvent = "container.task.scale"
 	ActivityEventContainerTaskStart                              ActivityEvent = "container.task.start"
 	ActivityEventContainerTaskStop                               ActivityEvent = "container.task.stop"
@@ -142,6 +145,7 @@ const (
 	ActivityEventHubInactive                                     ActivityEvent = "hub.inactive"
 	ActivityEventHubIntegrationCreate                            ActivityEvent = "hub.integration.create"
 	ActivityEventHubIntegrationDelete                            ActivityEvent = "hub.integration.delete"
+	ActivityEventHubIntegrationTaskDelete                        ActivityEvent = "hub.integration.task.delete"
 	ActivityEventHubIntegrationUpdate                            ActivityEvent = "hub.integration.update"
 	ActivityEventHubMembershipCreate                             ActivityEvent = "hub.membership.create"
 	ActivityEventHubMembershipDelete                             ActivityEvent = "hub.membership.delete"
@@ -175,6 +179,7 @@ const (
 	ActivityEventInfrastructureProviderTaskDelete                ActivityEvent = "infrastructure.provider.task.delete"
 	ActivityEventInfrastructureProviderTaskVerify                ActivityEvent = "infrastructure.provider.task.verify"
 	ActivityEventInfrastructureProviderUpdate                    ActivityEvent = "infrastructure.provider.update"
+	ActivityEventInfrastructureServerAuthReset                   ActivityEvent = "infrastructure.server.auth.reset"
 	ActivityEventInfrastructureServerComputeRestart              ActivityEvent = "infrastructure.server.compute.restart"
 	ActivityEventInfrastructureServerComputeSpawnerRestart       ActivityEvent = "infrastructure.server.compute.spawner.restart"
 	ActivityEventInfrastructureServerConsole                     ActivityEvent = "infrastructure.server.console"
@@ -183,6 +188,7 @@ const (
 	ActivityEventInfrastructureServerEvacuationStart             ActivityEvent = "infrastructure.server.evacuation.start"
 	ActivityEventInfrastructureServerFeaturesReconfigure         ActivityEvent = "infrastructure.server.features.reconfigure"
 	ActivityEventInfrastructureServerLive                        ActivityEvent = "infrastructure.server.live"
+	ActivityEventInfrastructureServerPowerOff                    ActivityEvent = "infrastructure.server.power-off"
 	ActivityEventInfrastructureServerProvision                   ActivityEvent = "infrastructure.server.provision"
 	ActivityEventInfrastructureServerRestart                     ActivityEvent = "infrastructure.server.restart"
 	ActivityEventInfrastructureServerServicesInternalApiThrottle ActivityEvent = "infrastructure.server.services.internal-api.throttle"
@@ -197,7 +203,13 @@ const (
 	ActivityEventInfrastructureServerTaskProvision               ActivityEvent = "infrastructure.server.task.provision"
 	ActivityEventInfrastructureServerTaskRestart                 ActivityEvent = "infrastructure.server.task.restart"
 	ActivityEventInfrastructureServerTaskSharedfsReconfigure     ActivityEvent = "infrastructure.server.task.sharedfs.reconfigure"
+	ActivityEventInfrastructureServerUnquarantine                ActivityEvent = "infrastructure.server.unquarantine"
 	ActivityEventInfrastructureServerUpdate                      ActivityEvent = "infrastructure.server.update"
+	ActivityEventInfrastructureVirtualProvidersIsoCreate         ActivityEvent = "infrastructure.virtual-providers.iso.create"
+	ActivityEventInfrastructureVirtualProvidersIsoDelete         ActivityEvent = "infrastructure.virtual-providers.iso.delete"
+	ActivityEventInfrastructureVirtualProvidersIsoGenerate       ActivityEvent = "infrastructure.virtual-providers.iso.generate"
+	ActivityEventInfrastructureVirtualProvidersIsoTaskDelete     ActivityEvent = "infrastructure.virtual-providers.iso.task.delete"
+	ActivityEventInfrastructureVirtualProvidersIsoUpdate         ActivityEvent = "infrastructure.virtual-providers.iso.update"
 	ActivityEventPipelineCreate                                  ActivityEvent = "pipeline.create"
 	ActivityEventPipelineDelete                                  ActivityEvent = "pipeline.delete"
 	ActivityEventPipelineKeyCreate                               ActivityEvent = "pipeline.key.create"
@@ -613,6 +625,11 @@ const (
 	ContainerReimage ContainerReimageStepAction = "container.reimage"
 )
 
+// Defines values for ContainerRestartActionAction.
+const (
+	ContainerRestartActionActionRestart ContainerRestartActionAction = "restart"
+)
+
 // Defines values for ContainerRestartStepAction.
 const (
 	ContainerRestart ContainerRestartStepAction = "container.restart"
@@ -772,6 +789,7 @@ const (
 
 // Defines values for DeploymentStrategyName.
 const (
+	DeploymentStrategyNameDistributed      DeploymentStrategyName = "distributed"
 	DeploymentStrategyNameEdge             DeploymentStrategyName = "edge"
 	DeploymentStrategyNameFirstAvailable   DeploymentStrategyName = "first-available"
 	DeploymentStrategyNameFunction         DeploymentStrategyName = "function"
@@ -784,6 +802,18 @@ const (
 // Defines values for DirectImageSourceTypeType.
 const (
 	Direct DirectImageSourceTypeType = "direct"
+)
+
+// Defines values for DirectPaymentDetailsPreference.
+const (
+	DirectPaymentDetailsPreferenceAch   DirectPaymentDetailsPreference = "ach"
+	DirectPaymentDetailsPreferenceCheck DirectPaymentDetailsPreference = "check"
+	DirectPaymentDetailsPreferenceWire  DirectPaymentDetailsPreference = "wire"
+)
+
+// Defines values for DirectPaymentType.
+const (
+	DirectPaymentTypeDirectPayment DirectPaymentType = "direct-payment"
 )
 
 // Defines values for DnsRecordStateCurrent.
@@ -1067,6 +1097,8 @@ const (
 	EnvironmentServiceLbIpsSyncFailed                    EventType = "environment.service.lb.ips.sync.failed"
 	EnvironmentServiceVpnLoginFailed                     EventType = "environment.service.vpn.login.failed"
 	InfrastructureClusterResourcesRamFull                EventType = "infrastructure.cluster.resources.ram.full"
+	InfrastructureServerCheckinMissed                    EventType = "infrastructure.server.checkin.missed"
+	InfrastructureServerCheckinResumed                   EventType = "infrastructure.server.checkin.resumed"
 	InfrastructureServerComputeFullRestart               EventType = "infrastructure.server.compute.full_restart"
 	InfrastructureServerComputeSharedfsMountsMount       EventType = "infrastructure.server.compute.sharedfs.mounts.mount"
 	InfrastructureServerComputeSharedfsMountsMountFailed EventType = "infrastructure.server.compute.sharedfs.mounts.mount.failed"
@@ -1082,6 +1114,9 @@ const (
 	InfrastructureServerNeighborRebuild                  EventType = "infrastructure.server.neighbor.rebuild"
 	InfrastructureServerNeighborUnreachable              EventType = "infrastructure.server.neighbor.unreachable"
 	InfrastructureServerNeighborUpgraded                 EventType = "infrastructure.server.neighbor.upgraded"
+	InfrastructureServerNeighborsRebuild                 EventType = "infrastructure.server.neighbors.rebuild"
+	InfrastructureServerPowerPowerOff                    EventType = "infrastructure.server.power.power-off"
+	InfrastructureServerPowerReboot                      EventType = "infrastructure.server.power.reboot"
 	InfrastructureServerResourcesLoadHigh                EventType = "infrastructure.server.resources.load.high"
 	InfrastructureServerResourcesRamFull                 EventType = "infrastructure.server.resources.ram.full"
 	InfrastructureServerResourcesStorageCyclePoolFull    EventType = "infrastructure.server.resources.storage.cycle_pool.full"
@@ -1225,6 +1260,11 @@ const (
 	InstanceStateCurrentStopping  InstanceStateCurrent = "stopping"
 )
 
+// Defines values for InstanceTrafficDrainReconfigureAction.
+const (
+	TrafficDrainReconfigure InstanceTrafficDrainReconfigureAction = "traffic-drain.reconfigure"
+)
+
 // Defines values for IntegrationAdvancedOptionBooleanType.
 const (
 	Bool IntegrationAdvancedOptionBooleanType = "bool"
@@ -1232,12 +1272,20 @@ const (
 
 // Defines values for IntegrationAdvancedOptionIntType.
 const (
-	Int IntegrationAdvancedOptionIntType = "int"
+	IntegrationAdvancedOptionIntTypeInt IntegrationAdvancedOptionIntType = "int"
 )
 
 // Defines values for IntegrationAdvancedOptionStringType.
 const (
 	String IntegrationAdvancedOptionStringType = "string"
+)
+
+// Defines values for IntegrationDefinitionFieldType.
+const (
+	IntegrationDefinitionFieldTypeBlob   IntegrationDefinitionFieldType = "blob"
+	IntegrationDefinitionFieldTypeInt    IntegrationDefinitionFieldType = "int"
+	IntegrationDefinitionFieldTypeSelect IntegrationDefinitionFieldType = "select"
+	IntegrationDefinitionFieldTypeString IntegrationDefinitionFieldType = "string"
 )
 
 // Defines values for IntegrationStateCurrent.
@@ -1271,6 +1319,19 @@ const (
 const (
 	IpKindIpv4 IpKind = "ipv4"
 	IpKindIpv6 IpKind = "ipv6"
+)
+
+// Defines values for IpPoolKind.
+const (
+	IpPoolKindIpv4 IpPoolKind = "ipv4"
+	IpPoolKindIpv6 IpPoolKind = "ipv6"
+)
+
+// Defines values for IpPoolStateCurrent.
+const (
+	IpPoolStateCurrentLive      IpPoolStateCurrent = "live"
+	IpPoolStateCurrentReleased  IpPoolStateCurrent = "released"
+	IpPoolStateCurrentReleasing IpPoolStateCurrent = "releasing"
 )
 
 // Defines values for IpStateCurrent.
@@ -1342,6 +1403,16 @@ const (
 	NetworkStateCurrentLive     NetworkStateCurrent = "live"
 )
 
+// Defines values for NetworkVlanDhcpDetailsMethod.
+const (
+	Dhcp NetworkVlanDhcpDetailsMethod = "dhcp"
+)
+
+// Defines values for NetworkVlanStaticDetailsMethod.
+const (
+	NetworkVlanStaticDetailsMethodStatic NetworkVlanStaticDetailsMethod = "static"
+)
+
 // Defines values for NodeStateCurrent.
 const (
 	NodeStateCurrentAuthorizing    NodeStateCurrent = "authorizing"
@@ -1376,10 +1447,11 @@ const (
 
 // Defines values for PaymentResultStatus.
 const (
-	PaymentResultStatusCancelled  PaymentResultStatus = "cancelled"
-	PaymentResultStatusError      PaymentResultStatus = "error"
-	PaymentResultStatusProcessing PaymentResultStatus = "processing"
-	PaymentResultStatusSuccess    PaymentResultStatus = "success"
+	PaymentResultStatusAwaitingDirectPayment PaymentResultStatus = "awaiting-direct-payment"
+	PaymentResultStatusCancelled             PaymentResultStatus = "cancelled"
+	PaymentResultStatusError                 PaymentResultStatus = "error"
+	PaymentResultStatusProcessing            PaymentResultStatus = "processing"
+	PaymentResultStatusSuccess               PaymentResultStatus = "success"
 )
 
 // Defines values for PipelineRerunActionAction.
@@ -1391,6 +1463,7 @@ const (
 const (
 	PipelineRunStepActionContainerCreate                   PipelineRunStepAction = "container.create"
 	PipelineRunStepActionContainerDelete                   PipelineRunStepAction = "container.delete"
+	PipelineRunStepActionContainerDeprecate                PipelineRunStepAction = "container.deprecate"
 	PipelineRunStepActionContainerFunctionTrigger          PipelineRunStepAction = "container.function.trigger"
 	PipelineRunStepActionContainerReimage                  PipelineRunStepAction = "container.reimage"
 	PipelineRunStepActionContainerRestart                  PipelineRunStepAction = "container.restart"
@@ -1429,19 +1502,6 @@ const (
 // Defines values for PipelineTriggerActionAction.
 const (
 	PipelineTriggerActionActionTrigger PipelineTriggerActionAction = "trigger"
-)
-
-// Defines values for PoolKind.
-const (
-	PoolKindIpv4 PoolKind = "ipv4"
-	PoolKindIpv6 PoolKind = "ipv6"
-)
-
-// Defines values for PoolStateCurrent.
-const (
-	PoolStateCurrentLive      PoolStateCurrent = "live"
-	PoolStateCurrentReleased  PoolStateCurrent = "released"
-	PoolStateCurrentReleasing PoolStateCurrent = "releasing"
 )
 
 // Defines values for PromoCodeStateCurrent.
@@ -1566,6 +1626,11 @@ const (
 	ScopedVariableStateCurrentLive     ScopedVariableStateCurrent = "live"
 )
 
+// Defines values for ServerAuthResetActionAction.
+const (
+	AuthReset ServerAuthResetActionAction = "auth.reset"
+)
+
 // Defines values for ServerEvacuateActionAction.
 const (
 	EvacuationStart ServerEvacuateActionAction = "evacuation.start"
@@ -1582,6 +1647,11 @@ const (
 	ServerFeaturesGatewayTypeStatic ServerFeaturesGatewayType = "static"
 )
 
+// Defines values for ServerPowerOffActionAction.
+const (
+	PowerOff ServerPowerOffActionAction = "power-off"
+)
+
 // Defines values for ServerReconfigureFeaturesActionAction.
 const (
 	FeaturesReconfigure ServerReconfigureFeaturesActionAction = "features.reconfigure"
@@ -1589,8 +1659,8 @@ const (
 
 // Defines values for ServerReconfigureFeaturesActionContentsGatewayType.
 const (
-	ServerReconfigureFeaturesActionContentsGatewayTypeBgp    ServerReconfigureFeaturesActionContentsGatewayType = "bgp"
-	ServerReconfigureFeaturesActionContentsGatewayTypeStatic ServerReconfigureFeaturesActionContentsGatewayType = "static"
+	Bgp    ServerReconfigureFeaturesActionContentsGatewayType = "bgp"
+	Static ServerReconfigureFeaturesActionContentsGatewayType = "static"
 )
 
 // Defines values for ServerReconfigureSharedFsActionAction.
@@ -1600,7 +1670,7 @@ const (
 
 // Defines values for ServerRestartActionAction.
 const (
-	Restart ServerRestartActionAction = "restart"
+	ServerRestartActionActionRestart ServerRestartActionAction = "restart"
 )
 
 // Defines values for ServerRestartComputeActionAction.
@@ -1621,6 +1691,12 @@ const (
 	ServerStateCurrentLive         ServerStateCurrent = "live"
 	ServerStateCurrentNew          ServerStateCurrent = "new"
 	ServerStateCurrentProvisioning ServerStateCurrent = "provisioning"
+	ServerStateCurrentQuarantined  ServerStateCurrent = "quarantined"
+)
+
+// Defines values for ServerUnquarantineActionAction.
+const (
+	Unquarantine ServerUnquarantineActionAction = "unquarantine"
 )
 
 // Defines values for ServiceContainerIdentifier.
@@ -1671,7 +1747,7 @@ const (
 
 // Defines values for StackBuildGenerateActionAction.
 const (
-	Generate StackBuildGenerateActionAction = "generate"
+	StackBuildGenerateActionActionGenerate StackBuildGenerateActionAction = "generate"
 )
 
 // Defines values for StackBuildGenerateStepAction.
@@ -1830,6 +1906,7 @@ const (
 const (
 	V1LbConfigRouterModeRandom     V1LbConfigRouterMode = "random"
 	V1LbConfigRouterModeRoundRobin V1LbConfigRouterMode = "round-robin"
+	V1LbConfigRouterModeSourceIp   V1LbConfigRouterMode = "source-ip"
 )
 
 // Defines values for V1LbControllerTransportConfigVerbosity.
@@ -1920,6 +1997,49 @@ const (
 // Defines values for VirtualMachineStopActionAction.
 const (
 	Stop VirtualMachineStopActionAction = "stop"
+)
+
+// Defines values for VirtualProviderGenerateIsoActionAction.
+const (
+	VirtualProviderGenerateIsoActionActionGenerate VirtualProviderGenerateIsoActionAction = "generate"
+)
+
+// Defines values for VirtualProviderIsoBackendProvider.
+const (
+	AWS   VirtualProviderIsoBackendProvider = "AWS"
+	Azure VirtualProviderIsoBackendProvider = "Azure"
+	GCP   VirtualProviderIsoBackendProvider = "GCP"
+	Local VirtualProviderIsoBackendProvider = "Local"
+)
+
+// Defines values for VirtualProviderIsoConfigServerSdnNeighborPreference.
+const (
+	VirtualProviderIsoConfigServerSdnNeighborPreferenceIpv4 VirtualProviderIsoConfigServerSdnNeighborPreference = "ipv4"
+	VirtualProviderIsoConfigServerSdnNeighborPreferenceIpv6 VirtualProviderIsoConfigServerSdnNeighborPreference = "ipv6"
+)
+
+// Defines values for VirtualProviderIsoStateCurrent.
+const (
+	VirtualProviderIsoStateCurrentBuilding VirtualProviderIsoStateCurrent = "building"
+	VirtualProviderIsoStateCurrentDeleted  VirtualProviderIsoStateCurrent = "deleted"
+	VirtualProviderIsoStateCurrentDeleting VirtualProviderIsoStateCurrent = "deleting"
+	VirtualProviderIsoStateCurrentLive     VirtualProviderIsoStateCurrent = "live"
+	VirtualProviderIsoStateCurrentNew      VirtualProviderIsoStateCurrent = "new"
+)
+
+// Defines values for VirtualProviderIsoBondMode.
+const (
+	ActiveBackup VirtualProviderIsoBondMode = "active-backup"
+	Lacp         VirtualProviderIsoBondMode = "lacp"
+	RoundRobin   VirtualProviderIsoBondMode = "round-robin"
+)
+
+// Defines values for VirtualProviderIsoNicDhcpMode.
+const (
+	VirtualProviderIsoNicDhcpModeAll  VirtualProviderIsoNicDhcpMode = "all"
+	VirtualProviderIsoNicDhcpModeIpv4 VirtualProviderIsoNicDhcpMode = "ipv4"
+	VirtualProviderIsoNicDhcpModeIpv6 VirtualProviderIsoNicDhcpMode = "ipv6"
+	VirtualProviderIsoNicDhcpModeNone VirtualProviderIsoNicDhcpMode = "none"
 )
 
 // Defines values for VpnReconfigureActionAction.
@@ -2028,6 +2148,13 @@ const (
 // Defines values for CreateInvoiceJobJSONBodyAction.
 const (
 	Pay CreateInvoiceJobJSONBodyAction = "pay"
+)
+
+// Defines values for CreateBillingMethodJSONBodyDirectPaymentPreference.
+const (
+	CreateBillingMethodJSONBodyDirectPaymentPreferenceAch   CreateBillingMethodJSONBodyDirectPaymentPreference = "ach"
+	CreateBillingMethodJSONBodyDirectPaymentPreferenceCheck CreateBillingMethodJSONBodyDirectPaymentPreference = "check"
+	CreateBillingMethodJSONBodyDirectPaymentPreferenceWire  CreateBillingMethodJSONBodyDirectPaymentPreference = "wire"
 )
 
 // Defines values for CreateBillingMethodJSONBodyUsBankAcctAccountHolderType.
@@ -2157,6 +2284,16 @@ const (
 	GetInstancesParamsIncludeServers      GetInstancesParamsInclude = "servers"
 )
 
+// Defines values for GetInstancesParamsMeta.
+const (
+	GetInstancesParamsMetaNode GetInstancesParamsMeta = "node"
+)
+
+// Defines values for GetInstanceParamsMeta.
+const (
+	GetInstanceParamsMetaNode GetInstanceParamsMeta = "node"
+)
+
 // Defines values for GetInstanceParamsInclude.
 const (
 	GetInstanceParamsIncludeContainers   GetInstanceParamsInclude = "containers"
@@ -2264,6 +2401,7 @@ const (
 
 // Defines values for GetEnvironmentParamsInclude.
 const (
+	GetEnvironmentParamsIncludeClusters GetEnvironmentParamsInclude = "clusters"
 	GetEnvironmentParamsIncludeCreators GetEnvironmentParamsInclude = "creators"
 	GetEnvironmentParamsIncludeStacks   GetEnvironmentParamsInclude = "stacks"
 )
@@ -2465,11 +2603,11 @@ const (
 	GetAutoScaleGroupParamsIncludeModels       GetAutoScaleGroupParamsInclude = "models"
 )
 
-// Defines values for GetInfrastructureIPPoolsParamsInclude.
+// Defines values for GetIpPoolsParamsInclude.
 const (
-	GetInfrastructureIPPoolsParamsIncludeIntegrations GetInfrastructureIPPoolsParamsInclude = "integrations"
-	GetInfrastructureIPPoolsParamsIncludeLocations    GetInfrastructureIPPoolsParamsInclude = "locations"
-	GetInfrastructureIPPoolsParamsIncludeServers      GetInfrastructureIPPoolsParamsInclude = "servers"
+	GetIpPoolsParamsIncludeIntegrations GetIpPoolsParamsInclude = "integrations"
+	GetIpPoolsParamsIncludeLocations    GetIpPoolsParamsInclude = "locations"
+	GetIpPoolsParamsIncludeServers      GetIpPoolsParamsInclude = "servers"
 )
 
 // Defines values for GetIPPoolParamsInclude.
@@ -2516,6 +2654,28 @@ const (
 	GetServerInstancesParamsIncludeIntegrations GetServerInstancesParamsInclude = "integrations"
 	GetServerInstancesParamsIncludeLocations    GetServerInstancesParamsInclude = "locations"
 	GetServerInstancesParamsIncludeServers      GetServerInstancesParamsInclude = "servers"
+)
+
+// Defines values for GetVirtualProviderIsosParamsInclude.
+const (
+	GetVirtualProviderIsosParamsIncludeIntegrations GetVirtualProviderIsosParamsInclude = "integrations"
+)
+
+// Defines values for CreateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreference.
+const (
+	CreateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreferenceIpv4 CreateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreference = "ipv4"
+	CreateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreferenceIpv6 CreateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreference = "ipv6"
+)
+
+// Defines values for GetVirtualProviderIsoParamsInclude.
+const (
+	GetVirtualProviderIsoParamsIncludeIntegrations GetVirtualProviderIsoParamsInclude = "integrations"
+)
+
+// Defines values for UpdateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreference.
+const (
+	UpdateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreferenceIpv4 UpdateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreference = "ipv4"
+	UpdateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreferenceIpv6 UpdateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreference = "ipv6"
 )
 
 // Defines values for GetJobsParamsInclude.
@@ -2697,9 +2857,9 @@ const (
 
 // Defines values for GetVirtualMachineSshKeysParamsFilterState.
 const (
-	Deleted  GetVirtualMachineSshKeysParamsFilterState = "deleted"
-	Deleting GetVirtualMachineSshKeysParamsFilterState = "deleting"
-	Live     GetVirtualMachineSshKeysParamsFilterState = "live"
+	GetVirtualMachineSshKeysParamsFilterStateDeleted  GetVirtualMachineSshKeysParamsFilterState = "deleted"
+	GetVirtualMachineSshKeysParamsFilterStateDeleting GetVirtualMachineSshKeysParamsFilterState = "deleting"
+	GetVirtualMachineSshKeysParamsFilterStateLive     GetVirtualMachineSshKeysParamsFilterState = "live"
 )
 
 // Defines values for GetVirtualMachineSshKeysParamsInclude.
@@ -3555,6 +3715,10 @@ type Change struct {
 	Component string `json:"component"`
 }
 
+// Cidr A CIDR (Classless Inter-Domain Routing) string is a notation used to represent an IP address and its associated network prefix.
+// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
+type Cidr = string
+
 // Cluster Clusters are groups of servers that allow physical separation of resources.
 type Cluster struct {
 	Acl *ACL `json:"acl"`
@@ -3581,6 +3745,9 @@ type Cluster struct {
 	Identifier Identifier   `json:"identifier"`
 	State      ClusterState `json:"state"`
 }
+
+// ClusterIncludes A resource associated with a cluster.
+type ClusterIncludes map[string]Cluster
 
 // ClusterState defines model for ClusterState.
 type ClusterState struct {
@@ -4346,6 +4513,15 @@ type ContainerResources struct {
 	} `json:"ram"`
 }
 
+// ContainerRestartAction defines model for ContainerRestartAction.
+type ContainerRestartAction struct {
+	// Action The name of the action to perform.
+	Action ContainerRestartActionAction `json:"action"`
+}
+
+// ContainerRestartActionAction The name of the action to perform.
+type ContainerRestartActionAction string
+
 // ContainerRestartStep Settings for restarting a container in a pipeline
 type ContainerRestartStep struct {
 	// Action The action that the step takes.
@@ -4390,7 +4566,14 @@ type ContainerRuntime struct {
 	// EnvironmentVars A record of environment variables for the given container.
 	EnvironmentVars *map[string]string `json:"environment_vars,omitempty"`
 	Host            *struct {
+		// ExposeCgroups If true, Cycle will mount the host's `/sys/fs/cgroups` directory into the container at `/var/run/cycle/host/cgroups`.
+		ExposeCgroups *bool `json:"expose_cgroups"`
+
+		// ExposeProc If true, Cycle will mount the `/proc` directory into the container, giving it access to the host metrics. This is useful if you're running i.e. a monitoring agent.
 		ExposeProc *bool `json:"expose_proc"`
+
+		// PowerManagement If true, Cycle will give the container instances access via internal api to power off or reboot the host server.
+		PowerManagement *bool `json:"power_management"`
 	} `json:"host"`
 
 	// Namespaces Namespaces the given container will have access to.
@@ -4870,6 +5053,9 @@ type DeploymentStrategyName string
 
 // Detail Details about a given event that is part of an activity.
 type Detail struct {
+	// Boolean A boolean describing if a resource exists or not.
+	Boolean *string `json:"boolean,omitempty"`
+
 	// Id A 24 character hex string used to identify a unique resource.
 	Id *ID `json:"id,omitempty"`
 
@@ -4897,6 +5083,24 @@ type DirectImageSourceType struct {
 
 // DirectImageSourceTypeType defines model for DirectImageSourceType.Type.
 type DirectImageSourceTypeType string
+
+// DirectPayment A payment method that must be enabled by Cycle staff, solely for telling us they're going to send us checks, wires, ach, outside of Cycle.
+type DirectPayment struct {
+	Details struct {
+		// Instructions Any additional instructions for an organization's billing dept., etc. that should be known about this payment method.
+		Instructions string `json:"instructions"`
+
+		// Preference The preference for how the payment will be sent.
+		Preference DirectPaymentDetailsPreference `json:"preference"`
+	} `json:"details"`
+	Type DirectPaymentType `json:"type"`
+}
+
+// DirectPaymentDetailsPreference The preference for how the payment will be sent.
+type DirectPaymentDetailsPreference string
+
+// DirectPaymentType defines model for DirectPayment.Type.
+type DirectPaymentType string
 
 // DiscoveryConfig The config object for the discovery service.
 type DiscoveryConfig struct {
@@ -5980,13 +6184,7 @@ type HaProxyConfigSetFrontendMode string
 
 // HaProxyLbType defines model for HaProxyLbType.
 type HaProxyLbType struct {
-	// BindHost Binds the load balancer to the host server IP address.
-	//
-	// **Pros**: This allows for significantly lower cost (utilizing fewer IPv4 addresses), and enables building out a true edge network with lower latency.
-	// **Cons**: Only 1 environment is allowed on the host. This is because the load balancer is the only ingress point for an environment, and if it is sharing
-	// the same IP as the host, that host can only operate under that environment.
-	BindHost *bool          `json:"bind_host"`
-	Details  *HaProxyConfig `json:"details"`
+	Details *HaProxyConfig `json:"details"`
 
 	// Ipv4 Allow / disallow traffic to be routed via IPv4.
 	Ipv4 bool `json:"ipv4"`
@@ -6149,6 +6347,9 @@ type HubBillingContact struct {
 
 // HubBillingProfile A billing profile for a given hub.
 type HubBillingProfile struct {
+	// AllowDirectPayments When true, this hub is allowed to create 'direct' payment methods.
+	AllowDirectPayments *bool `json:"allow_direct_payments,omitempty"`
+
 	// AllowPrepaid A boolean where true represents this account being approved to use a prepaid card for billing transactions.
 	AllowPrepaid *bool `json:"allow_prepaid,omitempty"`
 
@@ -6951,6 +7152,7 @@ type Instance struct {
 
 	// LocationId A location identifier that's associated with the server this instance is deployed to.
 	LocationId string             `json:"location_id"`
+	Meta       *InstanceMeta      `json:"meta"`
 	Migration  *InstanceMigration `json:"migration"`
 	Provider   InstanceProvider   `json:"provider"`
 
@@ -6977,6 +7179,7 @@ type Instance struct {
 		// Id A 24 character hex string used to identify a unique resource.
 		Id ID `json:"id"`
 	} `json:"stateful"`
+	TrafficDrain *InstanceTrafficDrain `json:"traffic_drain"`
 }
 
 // InstanceReadyState The state as it relates to the following. * `active` - instance can be started or stopped. * `purge` - instance should be deleted. * `hibernate` - instance is active but not allowed to run. * `configuring` - this instance is not allowed to start yet
@@ -7031,6 +7234,16 @@ type InstanceIncludes struct {
 
 	// Servers A resource that is associated with a server.
 	Servers *ServersIncludes `json:"servers,omitempty"`
+}
+
+// InstanceMeta A list of meta fields that can be applied to an instance.
+type InstanceMeta struct {
+	Node *struct {
+		Healthy     *bool      `json:"healthy,omitempty"`
+		LastCheckin *DateTime  `json:"last_checkin,omitempty"`
+		Online      *bool      `json:"online,omitempty"`
+		State       *NodeState `json:"state,omitempty"`
+	} `json:"node,omitempty"`
 }
 
 // InstanceMigrateAction defines model for InstanceMigrateAction.
@@ -7128,6 +7341,24 @@ type InstanceTelemetryReport struct {
 	// Snapshots An array of telemetry snapshots.
 	Snapshots []ResourceSnapshot `json:"snapshots"`
 }
+
+// InstanceTrafficDrain Traffic drain details for instance.
+type InstanceTrafficDrain struct {
+	Started DateTime `json:"started"`
+}
+
+// InstanceTrafficDrainReconfigure defines model for InstanceTrafficDrainReconfigure.
+type InstanceTrafficDrainReconfigure struct {
+	// Action The name of the action to perform.
+	Action   InstanceTrafficDrainReconfigureAction `json:"action"`
+	Contents struct {
+		// Enable Enable or disable traffic drain for the instance.
+		Enable bool `json:"enable"`
+	} `json:"contents"`
+}
+
+// InstanceTrafficDrainReconfigureAction The name of the action to perform.
+type InstanceTrafficDrainReconfigureAction string
 
 // InstanceVolume A container instance volume resource.
 type InstanceVolume struct {
@@ -7263,16 +7494,8 @@ type IntegrationDefinition struct {
 	// Features A list of additional features supported by this integration.
 	Features *[]string `json:"features"`
 	Fields   *struct {
-		Auth *map[string]struct {
-			Description string  `json:"description"`
-			Regex       *string `json:"regex"`
-			Required    bool    `json:"required"`
-		} `json:"auth"`
-		Extra *map[string]struct {
-			Description string  `json:"description"`
-			Regex       *string `json:"regex"`
-			Required    bool    `json:"required"`
-		} `json:"extra"`
+		Auth  *map[string]IntegrationDefinitionField `json:"auth"`
+		Extra *map[string]IntegrationDefinitionField `json:"extra"`
 	} `json:"fields,omitempty"`
 	Name                 string `json:"name"`
 	Public               bool   `json:"public"`
@@ -7289,6 +7512,18 @@ type IntegrationDefinition struct {
 type IntegrationDefinition_ExtendedConfiguration_Options_Item struct {
 	union json.RawMessage
 }
+
+// IntegrationDefinitionField defines model for IntegrationDefinitionField.
+type IntegrationDefinitionField struct {
+	Description string                          `json:"description"`
+	Options     *[]string                       `json:"options"`
+	Regex       *string                         `json:"regex"`
+	Required    bool                            `json:"required"`
+	Type        *IntegrationDefinitionFieldType `json:"type,omitempty"`
+}
+
+// IntegrationDefinitionFieldType defines model for IntegrationDefinitionField.Type.
+type IntegrationDefinitionFieldType string
 
 // IntegrationMeta Additional fields that can be requested for an Integration on fetch.
 type IntegrationMeta struct {
@@ -7469,6 +7704,10 @@ type Ip struct {
 	// Kind The type of IP protocol this IP is.
 	Kind IpKind `json:"kind"`
 
+	// Network A CIDR (Classless Inter-Domain Routing) string is a notation used to represent an IP address and its associated network prefix.
+	// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
+	Network *Cidr `json:"network,omitempty"`
+
 	// PoolId A unique identifier that associates the IP with an IP pool.
 	PoolId string  `json:"pool_id"`
 	State  IpState `json:"state"`
@@ -7476,6 +7715,113 @@ type Ip struct {
 
 // IpKind The type of IP protocol this IP is.
 type IpKind string
+
+// IpAddress An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
+type IpAddress = string
+
+// IpPool An IP Pool
+type IpPool struct {
+	// Block Network information about the pool.
+	Block struct {
+		// Cidr A cidr for the pool.
+		Cidr string `json:"cidr"`
+
+		// Gateway A gateway for the pool.
+		Gateway string `json:"gateway"`
+
+		// Network A CIDR (Classless Inter-Domain Routing) string is a notation used to represent an IP address and its associated network prefix.
+		// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
+		Network *Cidr `json:"network,omitempty"`
+	} `json:"block"`
+
+	// Floating A boolean where true represents the pool as a floating IP pool.
+	Floating bool `json:"floating"`
+
+	// HubId The unique ID of the Hub this resource was created in.
+	HubId HubID `json:"hub_id"`
+
+	// Id A 24 character hex string used to identify a unique resource.
+	Id ID `json:"id"`
+
+	// Ips Data about IPs in the pool.
+	Ips struct {
+		// Available Of the total number of IP's how many are available to be assigned.
+		Available int `json:"available"`
+
+		// Total The total number of IPs in the pool.
+		Total int `json:"total"`
+	} `json:"ips"`
+
+	// Kind The type of IP pool.
+	Kind IpPoolKind `json:"kind"`
+
+	// LocationId An ID associated with a location resource.
+	LocationId string `json:"location_id"`
+
+	// Provider A IP Pool provider.
+	Provider IpPoolProvider `json:"provider"`
+
+	// ServerId An ID associated with a server resource.
+	ServerId string      `json:"server_id"`
+	State    IpPoolState `json:"state"`
+}
+
+// IpPoolKind The type of IP pool.
+type IpPoolKind string
+
+// IpPoolIncludes Resources associated with an IP Pool.
+type IpPoolIncludes struct {
+	// Creators An identity that created a resource.
+	Creators *CreatorInclude `json:"creators,omitempty"`
+
+	// Integrations A resource that is associated with an integration.
+	Integrations *IntegrationsIncludes `json:"integrations,omitempty"`
+
+	// Locations A resource that is associated with a provider location.
+	Locations *LocationsIncludes `json:"locations,omitempty"`
+
+	// Servers A resource that is associated with a server.
+	Servers *ServersIncludes `json:"servers,omitempty"`
+}
+
+// IpPoolProvider A IP Pool provider.
+type IpPoolProvider struct {
+	// IntegrationId A 24 character hex string used to identify a unique resource.
+	IntegrationId ID `json:"integration_id"`
+
+	// Location Information about the location of the provider this pool is associated with.
+	Location string `json:"location"`
+
+	// Reservation A reservation identifier associated with the pool reservation.
+	Reservation string `json:"reservation"`
+
+	// Server A server identifier associated with the pool.
+	Server string `json:"server"`
+
+	// ServerAssignment An identifier linked to the server assingment of the IP pool.
+	ServerAssignment string `json:"server_assignment"`
+
+	// Vendor A vendor for a provider.
+	Vendor string `json:"vendor"`
+}
+
+// IpPoolState defines model for IpPoolState.
+type IpPoolState struct {
+	Changed DateTime `json:"changed"`
+
+	// Current The current state of the pool.
+	Current IpPoolStateCurrent `json:"current"`
+
+	// Error An error, if any, that has occurred for this resource.
+	Error *struct {
+		// Message Details about the error that has occurred.
+		Message *string   `json:"message,omitempty"`
+		Time    *DateTime `json:"time,omitempty"`
+	} `json:"error,omitempty"`
+}
+
+// IpPoolStateCurrent The current state of the pool.
+type IpPoolStateCurrent string
 
 // IpState defines model for IpState.
 type IpState struct {
@@ -8226,6 +8572,7 @@ type Network struct {
 	Name           string                  `json:"name"`
 	PrivateNetwork *NetworkPrivacySettings `json:"private_network"`
 	State          NetworkState            `json:"state"`
+	Vlan           *NetworkVlan            `json:"vlan"`
 }
 
 // NetworkIncludes All includable resource linkable to the given network.
@@ -8304,6 +8651,68 @@ type NetworkState struct {
 // NetworkStateCurrent The current state of the network.
 type NetworkStateCurrent string
 
+// NetworkVlan VLAN information for a Cycle SDN.
+type NetworkVlan struct {
+	HostInterface *string         `json:"host_interface"`
+	Ips           NetworkVlan_Ips `json:"ips"`
+	LocationIds   []ID            `json:"location_ids"`
+
+	// Routes An array of defined VLAN routes
+	Routes *[]struct {
+		// Gateway An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
+		Gateway *IpAddress `json:"gateway,omitempty"`
+
+		// Network A CIDR (Classless Inter-Domain Routing) string is a notation used to represent an IP address and its associated network prefix.
+		// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
+		Network Cidr `json:"network"`
+	} `json:"routes,omitempty"`
+	Vid int `json:"vid"`
+}
+
+// NetworkVlan_Ips defines model for NetworkVlan.Ips.
+type NetworkVlan_Ips struct {
+	union json.RawMessage
+}
+
+// NetworkVlanDhcpDetails defines model for NetworkVlanDhcpDetails.
+type NetworkVlanDhcpDetails struct {
+	Details *map[string]interface{}      `json:"details,omitempty"`
+	Method  NetworkVlanDhcpDetailsMethod `json:"method"`
+}
+
+// NetworkVlanDhcpDetailsMethod defines model for NetworkVlanDhcpDetails.Method.
+type NetworkVlanDhcpDetailsMethod string
+
+// NetworkVlanStaticDetails defines model for NetworkVlanStaticDetails.
+type NetworkVlanStaticDetails struct {
+	Details struct {
+		Ipv4 *struct {
+			// Gateway The IP of the gateway
+			Gateway *string `json:"gateway"`
+
+			// Network The CIDR for the network.
+			Network string `json:"network"`
+
+			// Usable The usable CIDR.
+			Usable string `json:"usable"`
+		} `json:"ipv4"`
+		Ipv6 *struct {
+			// Gateway The IP of the gateway
+			Gateway *string `json:"gateway"`
+
+			// Network The CIDR for the network.
+			Network string `json:"network"`
+
+			// Usable The usable CIDR.
+			Usable string `json:"usable"`
+		} `json:"ipv6"`
+	} `json:"details"`
+	Method NetworkVlanStaticDetailsMethod `json:"method"`
+}
+
+// NetworkVlanStaticDetailsMethod defines model for NetworkVlanStaticDetails.Method.
+type NetworkVlanStaticDetailsMethod string
+
 // NodeMetaStats Statistics that pertain to a specific node.
 type NodeMetaStats struct {
 	// Cpu Statistics about the CPU resources on a server.
@@ -8326,6 +8735,9 @@ type NodeMetaStats struct {
 
 	// Uptime Statistics describing the uptime of a given server.
 	Uptime ServerStatsUptime `json:"uptime"`
+
+	// Vendor Details about the vendors for the server.
+	Vendor ServerStatsVendor `json:"vendor"`
 
 	// Versions Information about the versions of Cycle services on a given server.
 	Versions ServerStatsVersions `json:"versions"`
@@ -8716,112 +9128,6 @@ type PipelineTriggerAction struct {
 // PipelineTriggerActionAction The requested action to perform.
 type PipelineTriggerActionAction string
 
-// Pool An IP Pool
-type Pool struct {
-	// Block Network information about the pool.
-	Block struct {
-		// Cidr A cidr for the pool.
-		Cidr string `json:"cidr"`
-
-		// Gateway A gateway for the pool.
-		Gateway string `json:"gateway"`
-
-		// Netmask A netmask for the pool.
-		Netmask string `json:"netmask"`
-
-		// Network A network for the pool.
-		Network string `json:"network"`
-	} `json:"block"`
-
-	// Floating A boolean where true represents the pool as a floating IP pool.
-	Floating bool `json:"floating"`
-
-	// HubId The unique ID of the Hub this resource was created in.
-	HubId HubID `json:"hub_id"`
-
-	// Id A 24 character hex string used to identify a unique resource.
-	Id ID `json:"id"`
-
-	// Ips Data about IPs in the pool.
-	Ips struct {
-		// Available Of the total number of IP's how many are available to be assigned.
-		Available int `json:"available"`
-
-		// Total The total number of IPs in the pool.
-		Total int `json:"total"`
-	} `json:"ips"`
-
-	// Kind The type of IP pool.
-	Kind PoolKind `json:"kind"`
-
-	// LocationId An ID associated with a location resource.
-	LocationId string `json:"location_id"`
-
-	// Provider A IP Pool provider.
-	Provider PoolProvider `json:"provider"`
-
-	// ServerId An ID associated with a server resource.
-	ServerId string    `json:"server_id"`
-	State    PoolState `json:"state"`
-}
-
-// PoolKind The type of IP pool.
-type PoolKind string
-
-// PoolIncludes Resources associated with an IP Pool.
-type PoolIncludes struct {
-	// Creators An identity that created a resource.
-	Creators *CreatorInclude `json:"creators,omitempty"`
-
-	// Integrations A resource that is associated with an integration.
-	Integrations *IntegrationsIncludes `json:"integrations,omitempty"`
-
-	// Locations A resource that is associated with a provider location.
-	Locations *LocationsIncludes `json:"locations,omitempty"`
-
-	// Servers A resource that is associated with a server.
-	Servers *ServersIncludes `json:"servers,omitempty"`
-}
-
-// PoolProvider A IP Pool provider.
-type PoolProvider struct {
-	// IntegrationId A 24 character hex string used to identify a unique resource.
-	IntegrationId ID `json:"integration_id"`
-
-	// Location Information about the location of the provider this pool is associated with.
-	Location string `json:"location"`
-
-	// Reservation A reservation identifier associated with the pool reservation.
-	Reservation string `json:"reservation"`
-
-	// Server A server identifier associated with the pool.
-	Server string `json:"server"`
-
-	// ServerAssignment An identifier linked to the server assingment of the IP pool.
-	ServerAssignment string `json:"server_assignment"`
-
-	// Vendor A vendor for a provider.
-	Vendor string `json:"vendor"`
-}
-
-// PoolState defines model for PoolState.
-type PoolState struct {
-	Changed DateTime `json:"changed"`
-
-	// Current The current state of the pool.
-	Current PoolStateCurrent `json:"current"`
-
-	// Error An error, if any, that has occurred for this resource.
-	Error *struct {
-		// Message Details about the error that has occurred.
-		Message *string   `json:"message,omitempty"`
-		Time    *DateTime `json:"time,omitempty"`
-	} `json:"error,omitempty"`
-}
-
-// PoolStateCurrent The current state of the pool.
-type PoolStateCurrent string
-
 // PrivateNetwork defines model for PrivateNetwork.
 type PrivateNetwork struct {
 	Ipv6 struct {
@@ -8929,6 +9235,7 @@ type ProviderLocationDetails struct {
 
 	// Location A location name returned from the provider.
 	Location string `json:"location"`
+	Vendor   string `json:"vendor"`
 }
 
 // ProviderLocationGeography Geographic information about a provider location.
@@ -9521,8 +9828,17 @@ type ScopedVariableAccess struct {
 		// Decode When true, Cycle will interpret this variable as a base-64 encoded string, and decode it before passing it into the container.
 		Decode bool `json:"decode"`
 
+		// Gid The linux GID to set on the file.
+		Gid *int `json:"gid"`
+
 		// Path The path to mount the file to inside the container.
 		Path *string `json:"path"`
+
+		// Permissions A linux file mode that will be set on the injected file.
+		Permissions *string `json:"permissions"`
+
+		// Uid The linux UID to set on the file.
+		Uid *int `json:"uid"`
 	} `json:"file"`
 
 	// InternalApi If set, this scoped variable will be available over the internal API. Contains settings for accessing this variable over the internal API.
@@ -9646,6 +9962,9 @@ type Server struct {
 	// ModelId An identifier for the model of server that is deployed.
 	ModelId string `json:"model_id"`
 
+	// Nickname A custom name given to the server for identification purposes. Does not affect server hostname.
+	Nickname *string `json:"nickname"`
+
 	// NodeId An identifier for the node.
 	NodeId string `json:"node_id"`
 
@@ -9654,6 +9973,16 @@ type Server struct {
 	SharedFileSystems ServerSharedFileSystems `json:"shared_file_systems"`
 	State             ServerState             `json:"state"`
 }
+
+// ServerAuthResetAction A job that resets authentication for the server.
+// Only for servers deployed from a virtual provider.
+type ServerAuthResetAction struct {
+	// Action The action to take.
+	Action ServerAuthResetActionAction `json:"action"`
+}
+
+// ServerAuthResetActionAction The action to take.
+type ServerAuthResetActionAction string
 
 // ServerConstraints Constraints to apply to the server.
 type ServerConstraints struct {
@@ -9777,6 +10106,16 @@ type ServerModelIncludes map[string]ProviderServerModel
 
 // ServerModelsIncludes A resource associated with a server models.
 type ServerModelsIncludes map[string]ProviderServerModel
+
+// ServerPowerOffAction A job that powers the server off.
+// Only for servers deployed from a virtual provider.
+type ServerPowerOffAction struct {
+	// Action The action to take.
+	Action ServerPowerOffActionAction `json:"action"`
+}
+
+// ServerPowerOffActionAction The action to take.
+type ServerPowerOffActionAction string
 
 // ServerProvider A resource regarding the provider a given server is deployed from.
 type ServerProvider struct {
@@ -9954,6 +10293,9 @@ type ServerStatsCpu struct {
 		Speed *float32 `json:"speed,omitempty"`
 	} `json:"processors,omitempty"`
 	Usage *ServerStatsCpuUsage `json:"usage,omitempty"`
+
+	// Virtualization A true value indicates the server supports virtualization.
+	Virtualization *bool `json:"virtualization,omitempty"`
 }
 
 // ServerStatsCpuUsage defines model for ServerStatsCpuUsage.
@@ -10010,16 +10352,25 @@ type ServerStatsNetwork struct {
 		Addrs *[]string `json:"addrs"`
 
 		// Flags Flags for the given interface.
-		Flags *string `json:"flags,omitempty"`
+		Flags string `json:"flags"`
 
 		// Interface The interface name.
-		Interface *string `json:"interface,omitempty"`
+		Interface string `json:"interface"`
 
 		// MacAddr The mac address for the interface.
-		MacAddr *string `json:"mac_addr,omitempty"`
+		MacAddr string `json:"mac_addr"`
 
 		// Mtu The maximum transmission unit for the interface.
-		Mtu *int `json:"mtu,omitempty"`
+		Mtu int `json:"mtu"`
+
+		// RxBytes The bytes received over the interface.
+		RxBytes int `json:"rx_bytes"`
+
+		// Speed The link speed for the interface in megabits.
+		Speed int `json:"speed"`
+
+		// TxBytes The bytes transmitted over the interface.
+		TxBytes int `json:"tx_bytes"`
 	} `json:"interfaces,omitempty"`
 }
 
@@ -10155,6 +10506,24 @@ type ServerStatsUptime struct {
 	Seconds *float32 `json:"seconds,omitempty"`
 }
 
+// ServerStatsVendor Details about the vendors for the server.
+type ServerStatsVendor struct {
+	// BiosVendor The bios vendor of the server.
+	BiosVendor *string `json:"bios_vendor,omitempty"`
+
+	// BoardName The board name of the server.
+	BoardName *string `json:"board_name,omitempty"`
+
+	// BoardSerial The board serial number of the server.
+	BoardSerial *string `json:"board_serial,omitempty"`
+
+	// BoardVendor The board vendor of the server.
+	BoardVendor *string `json:"board_vendor,omitempty"`
+
+	// SystemVendor The system vendor of the server.
+	SystemVendor *string `json:"system_vendor,omitempty"`
+}
+
 // ServerStatsVersions Information about the versions of Cycle services on a given server.
 type ServerStatsVersions struct {
 	// Services A list of records about Cycle services.
@@ -10171,6 +10540,18 @@ type ServerTags struct {
 type ServerTask struct {
 	union json.RawMessage
 }
+
+// ServerUnquarantineAction defines model for ServerUnquarantineAction.
+type ServerUnquarantineAction struct {
+	// Action The action to take.
+	Action   ServerUnquarantineActionAction `json:"action"`
+	Contents struct {
+		Cluster string `json:"cluster"`
+	} `json:"contents"`
+}
+
+// ServerUnquarantineActionAction The action to take.
+type ServerUnquarantineActionAction string
 
 // ServersIncludes A resource that is associated with a server.
 type ServersIncludes map[string]Server
@@ -10957,9 +11338,10 @@ type StackSpecContainerConfigDeploy struct {
 	// Strategy The strategy Cycle will apply when deploying instances of this container.
 	//
 	// - ** resource-density **: Cycle will distribute instances across servers to maintain balanced resource usage.
-	// - ** high-availability **: Cycle will deploy instances over servers with an emphasis on geographic and physical separation
-	// - ** first-available **: Cycle will deploy one instance to every node that matches the specified criteria. (default)
-	// - ** node **: Cycle will deploy one instance to every node that matches the specified criteria.
+	// - ** high-availability **: Cycle will deploy instances across servers with an emphasis on geographic and physical separation. Requires multiple locations.
+	// - ** distributed **: Cycle will deploy instances across servers with an emphasis on physical separation. Does not require multiple locations.
+	// - ** first-available **: Cycle will deploy one instance to every server that matches the specified criteria. (default)
+	// - ** node **: Cycle will deploy one instance to every server that matches the specified criteria.
 	// - ** edge **: Cycle will prioritize geographic distribution of instances.
 	// - ** function **: Every ingress request/connection receives its own instance.
 	// - ** manual **: Cycle will not make any decisions on where instances are deployed. Instead, instances must be deployed manually using the portal or API.
@@ -11418,8 +11800,17 @@ type StackSpecScopedVariableAccess0File0 struct {
 	// Decode When true, Cycle will interpret this variable as a base-64 encoded string, and decode it before writing it to the file inside the container.
 	Decode StackSpecScopedVariable_Access_0_File_0_Decode `json:"decode"`
 
+	// Gid The linux GID to set on the file.
+	Gid *StackSpecScopedVariable_Access_0_File_0_Gid `json:"gid,omitempty"`
+
 	// Path The absolute path to write the variable to (including file name). If `null`, it will be written to `/var/run/cycle/variables/{variable-identifier}`.
 	Path string `json:"path"`
+
+	// Permissions A linux file mode that will be set on the injected file.
+	Permissions *string `json:"permissions,omitempty"`
+
+	// Uid The linux UID to set on the file.
+	Uid *StackSpecScopedVariable_Access_0_File_0_Uid `json:"uid,omitempty"`
 }
 
 // StackSpecScopedVariableAccess0File0Decode0 defines model for .
@@ -11427,6 +11818,22 @@ type StackSpecScopedVariableAccess0File0Decode0 = bool
 
 // StackSpecScopedVariable_Access_0_File_0_Decode When true, Cycle will interpret this variable as a base-64 encoded string, and decode it before writing it to the file inside the container.
 type StackSpecScopedVariable_Access_0_File_0_Decode struct {
+	union json.RawMessage
+}
+
+// StackSpecScopedVariableAccess0File0Gid0 defines model for .
+type StackSpecScopedVariableAccess0File0Gid0 = int
+
+// StackSpecScopedVariable_Access_0_File_0_Gid The linux GID to set on the file.
+type StackSpecScopedVariable_Access_0_File_0_Gid struct {
+	union json.RawMessage
+}
+
+// StackSpecScopedVariableAccess0File0Uid0 defines model for .
+type StackSpecScopedVariableAccess0File0Uid0 = int
+
+// StackSpecScopedVariable_Access_0_File_0_Uid The linux UID to set on the file.
+type StackSpecScopedVariable_Access_0_File_0_Uid struct {
 	union json.RawMessage
 }
 
@@ -11993,6 +12400,7 @@ type V1LbConfigRouter struct {
 	// Mode How to route the traffic to the destination.
 	// `random`: Pick a valid destination at random.
 	// `round-robin`: Send each request to the 'next' destination on the list, restarting from the beginning when the last destination is used.
+	// `source-ip`: Utilizes a hash function to ensure traffic from an IP will always hit the same destination instance.
 	Mode V1LbConfigRouterMode `json:"mode"`
 }
 
@@ -12015,6 +12423,7 @@ type V1LbConfigRouterConfigTlsClientAuth string
 // V1LbConfigRouterMode How to route the traffic to the destination.
 // `random`: Pick a valid destination at random.
 // `round-robin`: Send each request to the 'next' destination on the list, restarting from the beginning when the last destination is used.
+// `source-ip`: Utilizes a hash function to ensure traffic from an IP will always hit the same destination instance.
 type V1LbConfigRouterMode string
 
 // V1LbController defines model for V1LbController.
@@ -12079,13 +12488,7 @@ type V1LbControllerTransportMode string
 
 // V1LbType defines model for V1LbType.
 type V1LbType struct {
-	// BindHost Binds the load balancer to the host server IP address.
-	//
-	// **Pros**: This allows for significantly lower cost (utilizing fewer IPv4 addresses), and enables building out a true edge network with lower latency.
-	// **Cons**: Only 1 environment is allowed on the host. This is because the load balancer is the only ingress point for an environment, and if it is sharing
-	// the same IP as the host, that host can only operate under that environment.
-	BindHost *bool      `json:"bind_host"`
-	Details  V1LbConfig `json:"details"`
+	Details V1LbConfig `json:"details"`
 
 	// Ipv4 Allow / disallow traffic to be routed via IPv4.
 	Ipv4 bool `json:"ipv4"`
@@ -12657,6 +13060,173 @@ type VirtualMachineVolumeConfig struct {
 	ReadOnly bool `json:"read_only"`
 }
 
+// VirtualProviderGenerateIsoAction defines model for VirtualProviderGenerateIsoAction.
+type VirtualProviderGenerateIsoAction struct {
+	// Action The action to take.
+	Action VirtualProviderGenerateIsoActionAction `json:"action"`
+}
+
+// VirtualProviderGenerateIsoActionAction The action to take.
+type VirtualProviderGenerateIsoActionAction string
+
+// VirtualProviderIso The ISO image for a virtual provider.
+type VirtualProviderIso struct {
+	Backend *struct {
+		// FileId Unique identifier for the ISO file.
+		FileId *string `json:"file_id,omitempty"`
+
+		// FileName Name of the ISO file.
+		FileName *string `json:"file_name,omitempty"`
+
+		// Provider The provider responsible for storing the ISO.
+		Provider *VirtualProviderIsoBackendProvider `json:"provider,omitempty"`
+
+		// Size Size of the ISO file in bytes.
+		Size *int64 `json:"size,omitempty"`
+	} `json:"backend"`
+	Config struct {
+		Ipxe *struct {
+			// DnsIp DNS IP assigned to the IPXE boot.
+			DnsIp *string `json:"dns_ip"`
+
+			// GatewayIp Gateway IP assigned to the IPXE boot.
+			GatewayIp *string `json:"gateway_ip"`
+
+			// Netmask Netmask assigned to the IPXE boot.
+			Netmask *string `json:"netmask"`
+
+			// NetworkInterface Network interface for the IPXE boot.
+			NetworkInterface *int `json:"network_interface"`
+
+			// StaticIp Static IP assigned to the IPXE boot.
+			StaticIp *string `json:"static_ip"`
+
+			// VlanId VLAN ID for the IPXE boot.
+			VlanId *int `json:"vlan_id"`
+		} `json:"ipxe"`
+		Server *struct {
+			// Bonds An array of bonds
+			Bonds *[]VirtualProviderIsoBond `json:"bonds,omitempty"`
+
+			// Nics An array of server network interfaces.
+			Nics                  []VirtualProviderIsoNic                              `json:"nics"`
+			SdnNeighborPreference *VirtualProviderIsoConfigServerSdnNeighborPreference `json:"sdn_neighbor_preference"`
+			Storage               *struct {
+				ConditionalFormat *bool `json:"conditional_format,omitempty"`
+			} `json:"storage"`
+		} `json:"server"`
+
+		// Token Authentication token for the ISO.
+		Token string `json:"token"`
+	} `json:"config"`
+
+	// Creator The creator scope is embedded in resource objects to describe who created them
+	Creator CreatorScope `json:"creator"`
+
+	// Events A collection of timestamps for each event in the ISO's lifetime.
+	Events struct {
+		Created DateTime `json:"created"`
+		Deleted DateTime `json:"deleted"`
+		Updated DateTime `json:"updated"`
+	} `json:"events"`
+
+	// HubId A 24 character hex string used to identify a unique resource.
+	HubId ID `json:"hub_id"`
+
+	// Id A 24 character hex string used to identify a unique resource.
+	Id ID `json:"id"`
+
+	// IntegrationId A 24 character hex string used to identify a unique resource.
+	IntegrationId ID `json:"integration_id"`
+
+	// Name The name of the ISO.
+	Name  string `json:"name"`
+	State struct {
+		Changed DateTime `json:"changed"`
+
+		// Current The current state of the environment.
+		Current VirtualProviderIsoStateCurrent `json:"current"`
+
+		// Error An error, if any, that has occurred for this resource.
+		Error *struct {
+			// Message Details about the error that has occurred.
+			Message *string   `json:"message,omitempty"`
+			Time    *DateTime `json:"time,omitempty"`
+		} `json:"error,omitempty"`
+	} `json:"state"`
+}
+
+// VirtualProviderIsoBackendProvider The provider responsible for storing the ISO.
+type VirtualProviderIsoBackendProvider string
+
+// VirtualProviderIsoConfigServerSdnNeighborPreference defines model for VirtualProviderIso.Config.Server.SdnNeighborPreference.
+type VirtualProviderIsoConfigServerSdnNeighborPreference string
+
+// VirtualProviderIsoStateCurrent The current state of the environment.
+type VirtualProviderIsoStateCurrent string
+
+// VirtualProviderIsoBond Server ISO bond.
+type VirtualProviderIsoBond struct {
+	InterfaceName string `json:"interface_name"`
+	Interfaces    *[]struct {
+		// InterfaceName The name of the interface on the server.
+		InterfaceName *string `json:"interface_name"`
+
+		// MacAddress The mac address of the server.
+		MacAddress *string `json:"mac_address"`
+	} `json:"interfaces,omitempty"`
+	Mode VirtualProviderIsoBondMode `json:"mode"`
+}
+
+// VirtualProviderIsoBondMode defines model for VirtualProviderIsoBond.Mode.
+type VirtualProviderIsoBondMode string
+
+// VirtualProviderIsoIncludes A resource that is associated with an ISO.
+type VirtualProviderIsoIncludes struct {
+	Integrations *map[string]Integration `json:"integrations,omitempty"`
+}
+
+// VirtualProviderIsoNic Server ISO network interface.
+type VirtualProviderIsoNic struct {
+	// Dhcp The DHCP configuration for the network interface.
+	Dhcp *struct {
+		Mode VirtualProviderIsoNicDhcpMode `json:"mode"`
+	} `json:"dhcp"`
+
+	// Match The criteria used to match the server to the interface.
+	Match struct {
+		// InterfaceName The name of the interface on the server.
+		InterfaceName *string `json:"interface_name"`
+
+		// MacAddress The mac address of the server.
+		MacAddress *string `json:"mac_address"`
+	} `json:"match"`
+
+	// Static The static configuration for the network interface.
+	Static *struct {
+		// GatewayIp An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
+		GatewayIp *IpAddress `json:"gateway_ip,omitempty"`
+
+		// Network A CIDR (Classless Inter-Domain Routing) string is a notation used to represent an IP address and its associated network prefix.
+		// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
+		Network Cidr `json:"network"`
+
+		// StaticIp An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
+		StaticIp IpAddress `json:"static_ip"`
+	} `json:"static"`
+
+	// VlanId VLAN ID for the serer.
+	VlanId *int `json:"vlan_id"`
+}
+
+// VirtualProviderIsoNicDhcpMode defines model for VirtualProviderIsoNic.Dhcp.Mode.
+type VirtualProviderIsoNicDhcpMode string
+
+// VirtualProviderIsoTask defines model for VirtualProviderIsoTask.
+type VirtualProviderIsoTask struct {
+	union json.RawMessage
+}
+
 // VolumeSummary A summary of relevant volume information.
 type VolumeSummary struct {
 	// Config Configuration settings for container volumes.
@@ -12768,7 +13338,8 @@ type WafConfig struct {
 		} `json:"conditions"`
 
 		// Description Some information about the rule.
-		Description string `json:"description"`
+		Description string    `json:"description"`
+		Expires     *DateTime `json:"expires,omitempty"`
 
 		// Match A string that describes if both attributes need to be true (match all) or if only one of the conditions needs to be true (match any).
 		Match WafConfigRulesMatch `json:"match"`
@@ -13132,6 +13703,15 @@ type CreateBillingMethodJSONBody struct {
 		Number string `json:"number"`
 	} `json:"credit_card"`
 
+	// DirectPayment Only available for hubs that have direct billing enabled. Contact Cycle staff at support@cycle.io for any questions.
+	DirectPayment *struct {
+		// Instructions Any additional instructions for an organization's billing dept., etc. that should be known about this payment method.
+		Instructions string `json:"instructions"`
+
+		// Preference The preference for how the payment will be sent.
+		Preference CreateBillingMethodJSONBodyDirectPaymentPreference `json:"preference"`
+	} `json:"direct_payment"`
+
 	// Name A name for the billing method.
 	Name string `json:"name"`
 
@@ -13151,6 +13731,9 @@ type CreateBillingMethodJSONBody struct {
 		RoutingNumber string `json:"routing_number"`
 	} `json:"us_bank_acct"`
 }
+
+// CreateBillingMethodJSONBodyDirectPaymentPreference defines parameters for CreateBillingMethod.
+type CreateBillingMethodJSONBodyDirectPaymentPreference string
 
 // CreateBillingMethodJSONBodyUsBankAcctAccountHolderType defines parameters for CreateBillingMethod.
 type CreateBillingMethodJSONBodyUsBankAcctAccountHolderType string
@@ -13324,6 +13907,9 @@ type GetContainersParams struct {
 		// DeploymentStrategy `filter[deployment_strategy]=strategy` deployment strategy filtering by strategy string.  Submit the deployment strategy (example: "function") of the strategy you wish to filter for and the return will be any containers matching that description.
 		DeploymentStrategy *string `json:"deployment_strategy,omitempty"`
 
+		// Deprecated `filter[deprecated]=true` filter for containers that are deprecated.
+		Deprecated *string `json:"deprecated,omitempty"`
+
 		// Environment `filter[environment]=ID` environment filtering by ID.  Submit the ID of the environment you wish to filter for and the return will be any containers in that environment.
 		Environment *string `json:"environment,omitempty"`
 
@@ -13480,6 +14066,9 @@ type GetInstancesParams struct {
 	// Include A comma separated list of include values. Included resources will show up under the root document's `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.
 	Include *[]GetInstancesParamsInclude `form:"include,omitempty" json:"include,omitempty"`
 
+	// Meta A comma separated list of meta values. Meta values will show up under a resource's `meta` field. In the case of applying a meta to a collection of resources, each resource will have it's own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.
+	Meta *[]GetInstancesParamsMeta `form:"meta,omitempty" json:"meta,omitempty"`
+
 	// Filter The filter field is a key-value object, where the key is what you would like to filter, and the value is the value you're filtering for.
 	Filter *struct {
 		RangeEnd   *DateTime `json:"range-end,omitempty"`
@@ -13505,6 +14094,9 @@ type GetInstancesParams struct {
 // GetInstancesParamsInclude defines parameters for GetInstances.
 type GetInstancesParamsInclude string
 
+// GetInstancesParamsMeta defines parameters for GetInstances.
+type GetInstancesParamsMeta string
+
 // CreateInstancesJSONBody defines parameters for CreateInstances.
 type CreateInstancesJSONBody = []struct {
 	// NewInstances The number of new Instances to be created on the given Server.
@@ -13516,9 +14108,15 @@ type CreateInstancesJSONBody = []struct {
 
 // GetInstanceParams defines parameters for GetInstance.
 type GetInstanceParams struct {
+	// Meta A comma separated list of meta values. Meta values will show up under a resource's `meta` field. In the case of applying a meta to a collection of resources, each resource will have it's own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.
+	Meta *[]GetInstanceParamsMeta `form:"meta,omitempty" json:"meta,omitempty"`
+
 	// Include A comma separated list of include values. Included resources will show up under the root document's `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.
 	Include *[]GetInstanceParamsInclude `form:"include,omitempty" json:"include,omitempty"`
 }
+
+// GetInstanceParamsMeta defines parameters for GetInstance.
+type GetInstanceParamsMeta string
 
 // GetInstanceParamsInclude defines parameters for GetInstance.
 type GetInstanceParamsInclude string
@@ -14825,15 +15423,21 @@ type UpdateClusterAccessJSONBody struct {
 	Acl *ACL `json:"acl"`
 }
 
-// GetInfrastructureIPPoolsParams defines parameters for GetInfrastructureIPPools.
-type GetInfrastructureIPPoolsParams struct {
+// GetIpPoolsParams defines parameters for GetIpPools.
+type GetIpPoolsParams struct {
 	// Include A comma separated list of include values. Included resources will show up under the root document's `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.
-	Include *[]GetInfrastructureIPPoolsParamsInclude `form:"include,omitempty" json:"include,omitempty"`
+	Include *[]GetIpPoolsParamsInclude `form:"include,omitempty" json:"include,omitempty"`
 
 	// Filter The filter field is a key-value object, where the key is what you would like to filter, and the value is the value you're filtering for.
 	Filter *struct {
 		// Available `filter[available]=true` filter for IPs that are available for use.
 		Available *string `json:"available,omitempty"`
+
+		// Location `filter[location]=ID` location filtering by ID. Submit the ID of the location you wish to filter by.
+		Location *string `json:"location,omitempty"`
+
+		// Server `filter[server]=ID` server filtering by ID. Submit the ID of the server you wish to filter for and the return will be any IP pool associated with that server.
+		Server *string `json:"server,omitempty"`
 
 		// State `filter[state]=value1,value2` state filtering will allow you to filter by the IP's current state.
 		State *string `json:"state,omitempty"`
@@ -14846,8 +15450,27 @@ type GetInfrastructureIPPoolsParams struct {
 	Page *PageParam `json:"page,omitempty"`
 }
 
-// GetInfrastructureIPPoolsParamsInclude defines parameters for GetInfrastructureIPPools.
-type GetInfrastructureIPPoolsParamsInclude string
+// GetIpPoolsParamsInclude defines parameters for GetIpPools.
+type GetIpPoolsParamsInclude string
+
+// CreateIpPoolJSONBody defines parameters for CreateIpPool.
+type CreateIpPoolJSONBody struct {
+	Block struct {
+		// Cidr A CIDR (Classless Inter-Domain Routing) string is a notation used to represent an IP address and its associated network prefix.
+		// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
+		Cidr Cidr `json:"cidr"`
+
+		// Gateway An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
+		Gateway IpAddress `json:"gateway"`
+
+		// Network A CIDR (Classless Inter-Domain Routing) string is a notation used to represent an IP address and its associated network prefix.
+		// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
+		Network *Cidr `json:"network,omitempty"`
+	} `json:"block"`
+
+	// ServerId A 24 character hex string used to identify a unique resource.
+	ServerId ID `json:"server_id"`
+}
 
 // GetIPPoolParams defines parameters for GetIPPool.
 type GetIPPoolParams struct {
@@ -15011,6 +15634,9 @@ type UpdateServerJSONBody struct {
 		// Tags A list of Server tags.
 		Tags *[]string `json:"tags,omitempty"`
 	} `json:"constraints"`
+
+	// Nickname A custom name given to the server for identification purposes. Does not affect server hostname.
+	Nickname *string `json:"nickname"`
 }
 
 // GetServerInstancesParams defines parameters for GetServerInstances.
@@ -15048,6 +15674,92 @@ type GetInfrastructureSummaryParams struct {
 		Cluster *string `json:"cluster,omitempty"`
 	} `json:"filter,omitempty"`
 }
+
+// GetVirtualProviderIsosParams defines parameters for GetVirtualProviderIsos.
+type GetVirtualProviderIsosParams struct {
+	// Include A comma separated list of include values. Included resources will show up under the root document's `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.
+	Include *[]GetVirtualProviderIsosParamsInclude `form:"include,omitempty" json:"include,omitempty"`
+}
+
+// GetVirtualProviderIsosParamsInclude defines parameters for GetVirtualProviderIsos.
+type GetVirtualProviderIsosParamsInclude string
+
+// CreateVirtualProviderIsoJSONBody defines parameters for CreateVirtualProviderIso.
+type CreateVirtualProviderIsoJSONBody struct {
+	Config struct {
+		Ipxe *struct {
+			// DnsIp DNS IP assigned to the IPXE boot.
+			DnsIp *string `json:"dns_ip"`
+
+			// GatewayIp Gateway IP assigned to the IPXE boot.
+			GatewayIp *string `json:"gateway_ip"`
+
+			// Netmask Netmask assigned to the IPXE boot.
+			Netmask *string `json:"netmask"`
+
+			// NetworkInterface Network interface for the IPXE boot.
+			NetworkInterface *int `json:"network_interface"`
+
+			// StaticIp Static IP assigned to the IPXE boot.
+			StaticIp *string `json:"static_ip"`
+
+			// VlanId VLAN ID for the IPXE boot.
+			VlanId *int `json:"vlan_id"`
+		} `json:"ipxe"`
+		Server *struct {
+			// Bonds An array of bonds
+			Bonds *[]VirtualProviderIsoBond `json:"bonds,omitempty"`
+
+			// Nics An array of server network interfaces.
+			Nics                  *[]VirtualProviderIsoNic                                           `json:"nics,omitempty"`
+			SdnNeighborPreference *CreateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreference `json:"sdn_neighbor_preference"`
+			Storage               *struct {
+				ConditionalFormat *bool `json:"conditional_format,omitempty"`
+			} `json:"storage"`
+		} `json:"server"`
+
+		// Token Authentication token for the ISO.
+		Token string `json:"token"`
+	} `json:"config"`
+
+	// Name The name of the ISO.
+	Name string `json:"name"`
+}
+
+// CreateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreference defines parameters for CreateVirtualProviderIso.
+type CreateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreference string
+
+// GetVirtualProviderIsoParams defines parameters for GetVirtualProviderIso.
+type GetVirtualProviderIsoParams struct {
+	// Include A comma separated list of include values. Included resources will show up under the root document's `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.
+	Include *[]GetVirtualProviderIsoParamsInclude `form:"include,omitempty" json:"include,omitempty"`
+}
+
+// GetVirtualProviderIsoParamsInclude defines parameters for GetVirtualProviderIso.
+type GetVirtualProviderIsoParamsInclude string
+
+// UpdateVirtualProviderIsoJSONBody defines parameters for UpdateVirtualProviderIso.
+type UpdateVirtualProviderIsoJSONBody struct {
+	Config *struct {
+		Server *struct {
+			// Bonds An array of bonds
+			Bonds *[]VirtualProviderIsoBond `json:"bonds,omitempty"`
+
+			// Nics An array of server network interfaces.
+			Nics                  []VirtualProviderIsoNic                                            `json:"nics"`
+			SdnNeighborPreference *UpdateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreference `json:"sdn_neighbor_preference"`
+			Storage               *struct {
+				ConditionalFormat *bool `json:"conditional_format,omitempty"`
+			} `json:"storage"`
+		} `json:"server"`
+	} `json:"config,omitempty"`
+
+	// Name The name of the ISO.
+	Name *string `json:"name,omitempty"`
+}
+
+// UpdateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreference defines parameters for UpdateVirtualProviderIso.
+type UpdateVirtualProviderIsoJSONBodyConfigServerSdnNeighborPreference string
 
 // GetJobsParams defines parameters for GetJobs.
 type GetJobsParams struct {
@@ -15440,7 +16152,8 @@ type CreateNetworkJSONBody struct {
 	Identifier string `json:"identifier"`
 
 	// Name The name of the network.
-	Name string `json:"name"`
+	Name string       `json:"name"`
+	Vlan *NetworkVlan `json:"vlan"`
 }
 
 // CreateNetworkParams defines parameters for CreateNetwork.
@@ -15465,6 +16178,20 @@ type GetNetworkParamsInclude string
 type UpdateNetworkJSONBody struct {
 	// Name The name of the network.
 	Name *string `json:"name,omitempty"`
+	Vlan *struct {
+		HostInterface *string `json:"host_interface"`
+		LocationIds   *[]ID   `json:"location_ids,omitempty"`
+
+		// Routes An array of defined VLAN routes
+		Routes *[]struct {
+			// Gateway An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
+			Gateway *IpAddress `json:"gateway,omitempty"`
+
+			// Usable A CIDR (Classless Inter-Domain Routing) string is a notation used to represent an IP address and its associated network prefix.
+			// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
+			Usable *Cidr `json:"usable,omitempty"`
+		} `json:"routes,omitempty"`
+	} `json:"vlan"`
 }
 
 // UpdateNetworkParams defines parameters for UpdateNetwork.
@@ -16077,6 +16804,9 @@ type UpdateClusterJSONRequestBody = UpdateClusterJSONBody
 // UpdateClusterAccessJSONRequestBody defines body for UpdateClusterAccess for application/json ContentType.
 type UpdateClusterAccessJSONRequestBody UpdateClusterAccessJSONBody
 
+// CreateIpPoolJSONRequestBody defines body for CreateIpPool for application/json ContentType.
+type CreateIpPoolJSONRequestBody CreateIpPoolJSONBody
+
 // CreateServerJSONRequestBody defines body for CreateServer for application/json ContentType.
 type CreateServerJSONRequestBody CreateServerJSONBody
 
@@ -16088,6 +16818,15 @@ type UpdateServerJSONRequestBody UpdateServerJSONBody
 
 // CreateServerJobJSONRequestBody defines body for CreateServerJob for application/json ContentType.
 type CreateServerJobJSONRequestBody = ServerTask
+
+// CreateVirtualProviderIsoJSONRequestBody defines body for CreateVirtualProviderIso for application/json ContentType.
+type CreateVirtualProviderIsoJSONRequestBody CreateVirtualProviderIsoJSONBody
+
+// UpdateVirtualProviderIsoJSONRequestBody defines body for UpdateVirtualProviderIso for application/json ContentType.
+type UpdateVirtualProviderIsoJSONRequestBody UpdateVirtualProviderIsoJSONBody
+
+// CreateVirtualProviderIsoJobJSONRequestBody defines body for CreateVirtualProviderIsoJob for application/json ContentType.
+type CreateVirtualProviderIsoJobJSONRequestBody = VirtualProviderIsoTask
 
 // GenerateAggregatedEventsJSONRequestBody defines body for GenerateAggregatedEvents for application/json ContentType.
 type GenerateAggregatedEventsJSONRequestBody GenerateAggregatedEventsJSONBody
@@ -16700,6 +17439,34 @@ func (t *ContainerTask) MergeContainerStopAction(v ContainerStopAction) error {
 	return err
 }
 
+// AsContainerRestartAction returns the union data inside the ContainerTask as a ContainerRestartAction
+func (t ContainerTask) AsContainerRestartAction() (ContainerRestartAction, error) {
+	var body ContainerRestartAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromContainerRestartAction overwrites any union data inside the ContainerTask as the provided ContainerRestartAction
+func (t *ContainerTask) FromContainerRestartAction(v ContainerRestartAction) error {
+	v.Action = "restart"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeContainerRestartAction performs a merge with any union data inside the ContainerTask, using the provided ContainerRestartAction
+func (t *ContainerTask) MergeContainerRestartAction(v ContainerRestartAction) error {
+	v.Action = "restart"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
 // AsContainerReconfigureAction returns the union data inside the ContainerTask as a ContainerReconfigureAction
 func (t ContainerTask) AsContainerReconfigureAction() (ContainerReconfigureAction, error) {
 	var body ContainerReconfigureAction
@@ -16830,6 +17597,8 @@ func (t ContainerTask) ValueByDiscriminator() (interface{}, error) {
 		return t.AsContainerReconfigureAction()
 	case "reimage":
 		return t.AsContainerReimageAction()
+	case "restart":
+		return t.AsContainerRestartAction()
 	case "scale":
 		return t.AsContainerScaleAction()
 	case "start":
@@ -17503,6 +18272,34 @@ func (t *InstanceTask) MergeInstanceExtendVolumeAction(v InstanceExtendVolumeAct
 	return err
 }
 
+// AsInstanceTrafficDrainReconfigure returns the union data inside the InstanceTask as a InstanceTrafficDrainReconfigure
+func (t InstanceTask) AsInstanceTrafficDrainReconfigure() (InstanceTrafficDrainReconfigure, error) {
+	var body InstanceTrafficDrainReconfigure
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInstanceTrafficDrainReconfigure overwrites any union data inside the InstanceTask as the provided InstanceTrafficDrainReconfigure
+func (t *InstanceTask) FromInstanceTrafficDrainReconfigure(v InstanceTrafficDrainReconfigure) error {
+	v.Action = "traffic-drain.reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInstanceTrafficDrainReconfigure performs a merge with any union data inside the InstanceTask, using the provided InstanceTrafficDrainReconfigure
+func (t *InstanceTask) MergeInstanceTrafficDrainReconfigure(v InstanceTrafficDrainReconfigure) error {
+	v.Action = "traffic-drain.reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
 func (t InstanceTask) Discriminator() (string, error) {
 	var discriminator struct {
 		Discriminator string `json:"action"`
@@ -17521,6 +18318,8 @@ func (t InstanceTask) ValueByDiscriminator() (interface{}, error) {
 		return t.AsInstanceRevertMigrationAction()
 	case "migration.start":
 		return t.AsInstanceMigrateAction()
+	case "traffic-drain.reconfigure":
+		return t.AsInstanceTrafficDrainReconfigure()
 	case "volume.extend":
 		return t.AsInstanceExtendVolumeAction()
 	default:
@@ -17832,6 +18631,34 @@ func (t *MethodSource) MergeStripeUsBankAcct(v StripeUsBankAcct) error {
 	return err
 }
 
+// AsDirectPayment returns the union data inside the MethodSource as a DirectPayment
+func (t MethodSource) AsDirectPayment() (DirectPayment, error) {
+	var body DirectPayment
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDirectPayment overwrites any union data inside the MethodSource as the provided DirectPayment
+func (t *MethodSource) FromDirectPayment(v DirectPayment) error {
+	v.Type = "direct-payment"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDirectPayment performs a merge with any union data inside the MethodSource, using the provided DirectPayment
+func (t *MethodSource) MergeDirectPayment(v DirectPayment) error {
+	v.Type = "direct-payment"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
 func (t MethodSource) Discriminator() (string, error) {
 	var discriminator struct {
 		Discriminator string `json:"type"`
@@ -17846,6 +18673,8 @@ func (t MethodSource) ValueByDiscriminator() (interface{}, error) {
 		return nil, err
 	}
 	switch discriminator {
+	case "direct-payment":
+		return t.AsDirectPayment()
 	case "stripe-credit-card":
 		return t.AsStripeCreditCard()
 	case "stripe-us-bank-acct":
@@ -17923,6 +18752,95 @@ func (t Metric_Points_Item) MarshalJSON() ([]byte, error) {
 }
 
 func (t *Metric_Points_Item) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsNetworkVlanDhcpDetails returns the union data inside the NetworkVlan_Ips as a NetworkVlanDhcpDetails
+func (t NetworkVlan_Ips) AsNetworkVlanDhcpDetails() (NetworkVlanDhcpDetails, error) {
+	var body NetworkVlanDhcpDetails
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromNetworkVlanDhcpDetails overwrites any union data inside the NetworkVlan_Ips as the provided NetworkVlanDhcpDetails
+func (t *NetworkVlan_Ips) FromNetworkVlanDhcpDetails(v NetworkVlanDhcpDetails) error {
+	v.Method = "dhcp"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeNetworkVlanDhcpDetails performs a merge with any union data inside the NetworkVlan_Ips, using the provided NetworkVlanDhcpDetails
+func (t *NetworkVlan_Ips) MergeNetworkVlanDhcpDetails(v NetworkVlanDhcpDetails) error {
+	v.Method = "dhcp"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsNetworkVlanStaticDetails returns the union data inside the NetworkVlan_Ips as a NetworkVlanStaticDetails
+func (t NetworkVlan_Ips) AsNetworkVlanStaticDetails() (NetworkVlanStaticDetails, error) {
+	var body NetworkVlanStaticDetails
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromNetworkVlanStaticDetails overwrites any union data inside the NetworkVlan_Ips as the provided NetworkVlanStaticDetails
+func (t *NetworkVlan_Ips) FromNetworkVlanStaticDetails(v NetworkVlanStaticDetails) error {
+	v.Method = "static"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeNetworkVlanStaticDetails performs a merge with any union data inside the NetworkVlan_Ips, using the provided NetworkVlanStaticDetails
+func (t *NetworkVlan_Ips) MergeNetworkVlanStaticDetails(v NetworkVlanStaticDetails) error {
+	v.Method = "static"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t NetworkVlan_Ips) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"method"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t NetworkVlan_Ips) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "dhcp":
+		return t.AsNetworkVlanDhcpDetails()
+	case "static":
+		return t.AsNetworkVlanStaticDetails()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t NetworkVlan_Ips) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *NetworkVlan_Ips) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -19445,6 +20363,62 @@ func (t *ServerTask) MergeServerRestartAction(v ServerRestartAction) error {
 	return err
 }
 
+// AsServerPowerOffAction returns the union data inside the ServerTask as a ServerPowerOffAction
+func (t ServerTask) AsServerPowerOffAction() (ServerPowerOffAction, error) {
+	var body ServerPowerOffAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServerPowerOffAction overwrites any union data inside the ServerTask as the provided ServerPowerOffAction
+func (t *ServerTask) FromServerPowerOffAction(v ServerPowerOffAction) error {
+	v.Action = "power-off"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServerPowerOffAction performs a merge with any union data inside the ServerTask, using the provided ServerPowerOffAction
+func (t *ServerTask) MergeServerPowerOffAction(v ServerPowerOffAction) error {
+	v.Action = "power-off"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsServerAuthResetAction returns the union data inside the ServerTask as a ServerAuthResetAction
+func (t ServerTask) AsServerAuthResetAction() (ServerAuthResetAction, error) {
+	var body ServerAuthResetAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServerAuthResetAction overwrites any union data inside the ServerTask as the provided ServerAuthResetAction
+func (t *ServerTask) FromServerAuthResetAction(v ServerAuthResetAction) error {
+	v.Action = "auth.reset"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServerAuthResetAction performs a merge with any union data inside the ServerTask, using the provided ServerAuthResetAction
+func (t *ServerTask) MergeServerAuthResetAction(v ServerAuthResetAction) error {
+	v.Action = "auth.reset"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
 // AsServerRestartComputeAction returns the union data inside the ServerTask as a ServerRestartComputeAction
 func (t ServerTask) AsServerRestartComputeAction() (ServerRestartComputeAction, error) {
 	var body ServerRestartComputeAction
@@ -19557,6 +20531,34 @@ func (t *ServerTask) MergeServerEvacuateResetAction(v ServerEvacuateResetAction)
 	return err
 }
 
+// AsServerUnquarantineAction returns the union data inside the ServerTask as a ServerUnquarantineAction
+func (t ServerTask) AsServerUnquarantineAction() (ServerUnquarantineAction, error) {
+	var body ServerUnquarantineAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServerUnquarantineAction overwrites any union data inside the ServerTask as the provided ServerUnquarantineAction
+func (t *ServerTask) FromServerUnquarantineAction(v ServerUnquarantineAction) error {
+	v.Action = "unquarantine"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServerUnquarantineAction performs a merge with any union data inside the ServerTask, using the provided ServerUnquarantineAction
+func (t *ServerTask) MergeServerUnquarantineAction(v ServerUnquarantineAction) error {
+	v.Action = "unquarantine"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
 func (t ServerTask) Discriminator() (string, error) {
 	var discriminator struct {
 		Discriminator string `json:"action"`
@@ -19571,6 +20573,8 @@ func (t ServerTask) ValueByDiscriminator() (interface{}, error) {
 		return nil, err
 	}
 	switch discriminator {
+	case "auth.reset":
+		return t.AsServerAuthResetAction()
 	case "compute.restart":
 		return t.AsServerRestartComputeAction()
 	case "compute.spawner.restart":
@@ -19581,10 +20585,14 @@ func (t ServerTask) ValueByDiscriminator() (interface{}, error) {
 		return t.AsServerEvacuateAction()
 	case "features.reconfigure":
 		return t.AsServerReconfigureFeaturesAction()
+	case "power-off":
+		return t.AsServerPowerOffAction()
 	case "restart":
 		return t.AsServerRestartAction()
 	case "sharedfs.reconfigure":
 		return t.AsServerReconfigureSharedFsAction()
+	case "unquarantine":
+		return t.AsServerUnquarantineAction()
 	default:
 		return nil, errors.New("unknown discriminator value: " + discriminator)
 	}
@@ -23022,6 +24030,130 @@ func (t *StackSpecScopedVariable_Access_0_File_0_Decode) UnmarshalJSON(b []byte)
 	return err
 }
 
+// AsStackSpecScopedVariableAccess0File0Gid0 returns the union data inside the StackSpecScopedVariable_Access_0_File_0_Gid as a StackSpecScopedVariableAccess0File0Gid0
+func (t StackSpecScopedVariable_Access_0_File_0_Gid) AsStackSpecScopedVariableAccess0File0Gid0() (StackSpecScopedVariableAccess0File0Gid0, error) {
+	var body StackSpecScopedVariableAccess0File0Gid0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStackSpecScopedVariableAccess0File0Gid0 overwrites any union data inside the StackSpecScopedVariable_Access_0_File_0_Gid as the provided StackSpecScopedVariableAccess0File0Gid0
+func (t *StackSpecScopedVariable_Access_0_File_0_Gid) FromStackSpecScopedVariableAccess0File0Gid0(v StackSpecScopedVariableAccess0File0Gid0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStackSpecScopedVariableAccess0File0Gid0 performs a merge with any union data inside the StackSpecScopedVariable_Access_0_File_0_Gid, using the provided StackSpecScopedVariableAccess0File0Gid0
+func (t *StackSpecScopedVariable_Access_0_File_0_Gid) MergeStackSpecScopedVariableAccess0File0Gid0(v StackSpecScopedVariableAccess0File0Gid0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsStackVariable returns the union data inside the StackSpecScopedVariable_Access_0_File_0_Gid as a StackVariable
+func (t StackSpecScopedVariable_Access_0_File_0_Gid) AsStackVariable() (StackVariable, error) {
+	var body StackVariable
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStackVariable overwrites any union data inside the StackSpecScopedVariable_Access_0_File_0_Gid as the provided StackVariable
+func (t *StackSpecScopedVariable_Access_0_File_0_Gid) FromStackVariable(v StackVariable) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStackVariable performs a merge with any union data inside the StackSpecScopedVariable_Access_0_File_0_Gid, using the provided StackVariable
+func (t *StackSpecScopedVariable_Access_0_File_0_Gid) MergeStackVariable(v StackVariable) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t StackSpecScopedVariable_Access_0_File_0_Gid) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *StackSpecScopedVariable_Access_0_File_0_Gid) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsStackSpecScopedVariableAccess0File0Uid0 returns the union data inside the StackSpecScopedVariable_Access_0_File_0_Uid as a StackSpecScopedVariableAccess0File0Uid0
+func (t StackSpecScopedVariable_Access_0_File_0_Uid) AsStackSpecScopedVariableAccess0File0Uid0() (StackSpecScopedVariableAccess0File0Uid0, error) {
+	var body StackSpecScopedVariableAccess0File0Uid0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStackSpecScopedVariableAccess0File0Uid0 overwrites any union data inside the StackSpecScopedVariable_Access_0_File_0_Uid as the provided StackSpecScopedVariableAccess0File0Uid0
+func (t *StackSpecScopedVariable_Access_0_File_0_Uid) FromStackSpecScopedVariableAccess0File0Uid0(v StackSpecScopedVariableAccess0File0Uid0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStackSpecScopedVariableAccess0File0Uid0 performs a merge with any union data inside the StackSpecScopedVariable_Access_0_File_0_Uid, using the provided StackSpecScopedVariableAccess0File0Uid0
+func (t *StackSpecScopedVariable_Access_0_File_0_Uid) MergeStackSpecScopedVariableAccess0File0Uid0(v StackSpecScopedVariableAccess0File0Uid0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsStackVariable returns the union data inside the StackSpecScopedVariable_Access_0_File_0_Uid as a StackVariable
+func (t StackSpecScopedVariable_Access_0_File_0_Uid) AsStackVariable() (StackVariable, error) {
+	var body StackVariable
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStackVariable overwrites any union data inside the StackSpecScopedVariable_Access_0_File_0_Uid as the provided StackVariable
+func (t *StackSpecScopedVariable_Access_0_File_0_Uid) FromStackVariable(v StackVariable) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStackVariable performs a merge with any union data inside the StackSpecScopedVariable_Access_0_File_0_Uid, using the provided StackVariable
+func (t *StackSpecScopedVariable_Access_0_File_0_Uid) MergeStackVariable(v StackVariable) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t StackSpecScopedVariable_Access_0_File_0_Uid) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *StackSpecScopedVariable_Access_0_File_0_Uid) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsStackSpecScopedVariableAccess0File0 returns the union data inside the StackSpecScopedVariable_Access_0_File as a StackSpecScopedVariableAccess0File0
 func (t StackSpecScopedVariable_Access_0_File) AsStackSpecScopedVariableAccess0File0() (StackSpecScopedVariableAccess0File0, error) {
 	var body StackSpecScopedVariableAccess0File0
@@ -24084,6 +25216,65 @@ func (t *VirtualMachineTask) UnmarshalJSON(b []byte) error {
 	return err
 }
 
+// AsVirtualProviderGenerateIsoAction returns the union data inside the VirtualProviderIsoTask as a VirtualProviderGenerateIsoAction
+func (t VirtualProviderIsoTask) AsVirtualProviderGenerateIsoAction() (VirtualProviderGenerateIsoAction, error) {
+	var body VirtualProviderGenerateIsoAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualProviderGenerateIsoAction overwrites any union data inside the VirtualProviderIsoTask as the provided VirtualProviderGenerateIsoAction
+func (t *VirtualProviderIsoTask) FromVirtualProviderGenerateIsoAction(v VirtualProviderGenerateIsoAction) error {
+	v.Action = "generate"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualProviderGenerateIsoAction performs a merge with any union data inside the VirtualProviderIsoTask, using the provided VirtualProviderGenerateIsoAction
+func (t *VirtualProviderIsoTask) MergeVirtualProviderGenerateIsoAction(v VirtualProviderGenerateIsoAction) error {
+	v.Action = "generate"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t VirtualProviderIsoTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t VirtualProviderIsoTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "generate":
+		return t.AsVirtualProviderGenerateIsoAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t VirtualProviderIsoTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *VirtualProviderIsoTask) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsVpnResetAction returns the union data inside the VpnTask as a VpnResetAction
 func (t VpnTask) AsVpnResetAction() (VpnResetAction, error) {
 	var body VpnResetAction
@@ -24907,8 +26098,13 @@ type ClientInterface interface {
 	// GetDeploymentStrategies request
 	GetDeploymentStrategies(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetInfrastructureIPPools request
-	GetInfrastructureIPPools(ctx context.Context, params *GetInfrastructureIPPoolsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// GetIpPools request
+	GetIpPools(ctx context.Context, params *GetIpPoolsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateIpPoolWithBody request with any body
+	CreateIpPoolWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateIpPool(ctx context.Context, body CreateIpPoolJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// DeleteIPPool request
 	DeleteIPPool(ctx context.Context, poolId string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -24968,6 +26164,33 @@ type ClientInterface interface {
 
 	// GetInfrastructureSummary request
 	GetInfrastructureSummary(ctx context.Context, params *GetInfrastructureSummaryParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetVirtualProviderIsos request
+	GetVirtualProviderIsos(ctx context.Context, integrationId string, params *GetVirtualProviderIsosParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateVirtualProviderIsoWithBody request with any body
+	CreateVirtualProviderIsoWithBody(ctx context.Context, integrationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateVirtualProviderIso(ctx context.Context, integrationId string, body CreateVirtualProviderIsoJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteVirtualProviderIso request
+	DeleteVirtualProviderIso(ctx context.Context, integrationId string, isoId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetVirtualProviderIso request
+	GetVirtualProviderIso(ctx context.Context, integrationId string, isoId string, params *GetVirtualProviderIsoParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UpdateVirtualProviderIsoWithBody request with any body
+	UpdateVirtualProviderIsoWithBody(ctx context.Context, integrationId string, isoId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UpdateVirtualProviderIso(ctx context.Context, integrationId string, isoId string, body UpdateVirtualProviderIsoJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetVirtualProviderIsoDownloadUrl request
+	GetVirtualProviderIsoDownloadUrl(ctx context.Context, integrationId string, isoId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateVirtualProviderIsoJobWithBody request with any body
+	CreateVirtualProviderIsoJobWithBody(ctx context.Context, integrationId string, isoId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateVirtualProviderIsoJob(ctx context.Context, integrationId string, isoId string, body CreateVirtualProviderIsoJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetJobs request
 	GetJobs(ctx context.Context, params *GetJobsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -28132,8 +29355,32 @@ func (c *Client) GetDeploymentStrategies(ctx context.Context, reqEditors ...Requ
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetInfrastructureIPPools(ctx context.Context, params *GetInfrastructureIPPoolsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetInfrastructureIPPoolsRequest(c.Server, params)
+func (c *Client) GetIpPools(ctx context.Context, params *GetIpPoolsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetIpPoolsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateIpPoolWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateIpPoolRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateIpPool(ctx context.Context, body CreateIpPoolJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateIpPoolRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -28386,6 +29633,126 @@ func (c *Client) GetServerUsage(ctx context.Context, serverId string, reqEditors
 
 func (c *Client) GetInfrastructureSummary(ctx context.Context, params *GetInfrastructureSummaryParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetInfrastructureSummaryRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetVirtualProviderIsos(ctx context.Context, integrationId string, params *GetVirtualProviderIsosParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetVirtualProviderIsosRequest(c.Server, integrationId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateVirtualProviderIsoWithBody(ctx context.Context, integrationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateVirtualProviderIsoRequestWithBody(c.Server, integrationId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateVirtualProviderIso(ctx context.Context, integrationId string, body CreateVirtualProviderIsoJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateVirtualProviderIsoRequest(c.Server, integrationId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteVirtualProviderIso(ctx context.Context, integrationId string, isoId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteVirtualProviderIsoRequest(c.Server, integrationId, isoId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetVirtualProviderIso(ctx context.Context, integrationId string, isoId string, params *GetVirtualProviderIsoParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetVirtualProviderIsoRequest(c.Server, integrationId, isoId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateVirtualProviderIsoWithBody(ctx context.Context, integrationId string, isoId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateVirtualProviderIsoRequestWithBody(c.Server, integrationId, isoId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateVirtualProviderIso(ctx context.Context, integrationId string, isoId string, body UpdateVirtualProviderIsoJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateVirtualProviderIsoRequest(c.Server, integrationId, isoId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetVirtualProviderIsoDownloadUrl(ctx context.Context, integrationId string, isoId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetVirtualProviderIsoDownloadUrlRequest(c.Server, integrationId, isoId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateVirtualProviderIsoJobWithBody(ctx context.Context, integrationId string, isoId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateVirtualProviderIsoJobRequestWithBody(c.Server, integrationId, isoId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateVirtualProviderIsoJob(ctx context.Context, integrationId string, isoId string, body CreateVirtualProviderIsoJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateVirtualProviderIsoJobRequest(c.Server, integrationId, isoId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -32365,6 +33732,22 @@ func NewGetInstancesRequest(server string, containerId string, params *GetInstan
 
 		}
 
+		if params.Meta != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "meta", runtime.ParamLocationQuery, *params.Meta); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
 		if params.Filter != nil {
 
 			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "filter", runtime.ParamLocationQuery, *params.Filter); err != nil {
@@ -32547,6 +33930,22 @@ func NewGetInstanceRequest(server string, containerId string, instanceId string,
 
 	if params != nil {
 		queryValues := queryURL.Query()
+
+		if params.Meta != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "meta", runtime.ParamLocationQuery, *params.Meta); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
 
 		if params.Include != nil {
 
@@ -39126,8 +40525,8 @@ func NewGetDeploymentStrategiesRequest(server string) (*http.Request, error) {
 	return req, nil
 }
 
-// NewGetInfrastructureIPPoolsRequest generates requests for GetInfrastructureIPPools
-func NewGetInfrastructureIPPoolsRequest(server string, params *GetInfrastructureIPPoolsParams) (*http.Request, error) {
+// NewGetIpPoolsRequest generates requests for GetIpPools
+func NewGetIpPoolsRequest(server string, params *GetIpPoolsParams) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -39219,6 +40618,46 @@ func NewGetInfrastructureIPPoolsRequest(server string, params *GetInfrastructure
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewCreateIpPoolRequest calls the generic CreateIpPool builder with application/json body
+func NewCreateIpPoolRequest(server string, body CreateIpPoolJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateIpPoolRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCreateIpPoolRequestWithBody generates requests for CreateIpPool with any type of body
+func NewCreateIpPoolRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/ips/pools")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -40195,6 +41634,362 @@ func NewGetInfrastructureSummaryRequest(server string, params *GetInfrastructure
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewGetVirtualProviderIsosRequest generates requests for GetVirtualProviderIsos
+func NewGetVirtualProviderIsosRequest(server string, integrationId string, params *GetVirtualProviderIsosParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "integrationId", runtime.ParamLocationPath, integrationId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/virtual-providers/%s/isos", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Include != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "include", runtime.ParamLocationQuery, *params.Include); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCreateVirtualProviderIsoRequest calls the generic CreateVirtualProviderIso builder with application/json body
+func NewCreateVirtualProviderIsoRequest(server string, integrationId string, body CreateVirtualProviderIsoJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateVirtualProviderIsoRequestWithBody(server, integrationId, "application/json", bodyReader)
+}
+
+// NewCreateVirtualProviderIsoRequestWithBody generates requests for CreateVirtualProviderIso with any type of body
+func NewCreateVirtualProviderIsoRequestWithBody(server string, integrationId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "integrationId", runtime.ParamLocationPath, integrationId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/virtual-providers/%s/isos", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteVirtualProviderIsoRequest generates requests for DeleteVirtualProviderIso
+func NewDeleteVirtualProviderIsoRequest(server string, integrationId string, isoId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "integrationId", runtime.ParamLocationPath, integrationId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "isoId", runtime.ParamLocationPath, isoId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/virtual-providers/%s/isos/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetVirtualProviderIsoRequest generates requests for GetVirtualProviderIso
+func NewGetVirtualProviderIsoRequest(server string, integrationId string, isoId string, params *GetVirtualProviderIsoParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "integrationId", runtime.ParamLocationPath, integrationId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "isoId", runtime.ParamLocationPath, isoId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/virtual-providers/%s/isos/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Include != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "include", runtime.ParamLocationQuery, *params.Include); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewUpdateVirtualProviderIsoRequest calls the generic UpdateVirtualProviderIso builder with application/json body
+func NewUpdateVirtualProviderIsoRequest(server string, integrationId string, isoId string, body UpdateVirtualProviderIsoJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUpdateVirtualProviderIsoRequestWithBody(server, integrationId, isoId, "application/json", bodyReader)
+}
+
+// NewUpdateVirtualProviderIsoRequestWithBody generates requests for UpdateVirtualProviderIso with any type of body
+func NewUpdateVirtualProviderIsoRequestWithBody(server string, integrationId string, isoId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "integrationId", runtime.ParamLocationPath, integrationId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "isoId", runtime.ParamLocationPath, isoId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/virtual-providers/%s/isos/%s", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetVirtualProviderIsoDownloadUrlRequest generates requests for GetVirtualProviderIsoDownloadUrl
+func NewGetVirtualProviderIsoDownloadUrlRequest(server string, integrationId string, isoId string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "integrationId", runtime.ParamLocationPath, integrationId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "isoId", runtime.ParamLocationPath, isoId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/virtual-providers/%s/isos/%s/download", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCreateVirtualProviderIsoJobRequest calls the generic CreateVirtualProviderIsoJob builder with application/json body
+func NewCreateVirtualProviderIsoJobRequest(server string, integrationId string, isoId string, body CreateVirtualProviderIsoJobJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateVirtualProviderIsoJobRequestWithBody(server, integrationId, isoId, "application/json", bodyReader)
+}
+
+// NewCreateVirtualProviderIsoJobRequestWithBody generates requests for CreateVirtualProviderIsoJob with any type of body
+func NewCreateVirtualProviderIsoJobRequestWithBody(server string, integrationId string, isoId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "integrationId", runtime.ParamLocationPath, integrationId)
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithLocation("simple", false, "isoId", runtime.ParamLocationPath, isoId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/virtual-providers/%s/isos/%s/tasks", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -44331,8 +46126,13 @@ type ClientWithResponsesInterface interface {
 	// GetDeploymentStrategiesWithResponse request
 	GetDeploymentStrategiesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetDeploymentStrategiesResponse, error)
 
-	// GetInfrastructureIPPoolsWithResponse request
-	GetInfrastructureIPPoolsWithResponse(ctx context.Context, params *GetInfrastructureIPPoolsParams, reqEditors ...RequestEditorFn) (*GetInfrastructureIPPoolsResponse, error)
+	// GetIpPoolsWithResponse request
+	GetIpPoolsWithResponse(ctx context.Context, params *GetIpPoolsParams, reqEditors ...RequestEditorFn) (*GetIpPoolsResponse, error)
+
+	// CreateIpPoolWithBodyWithResponse request with any body
+	CreateIpPoolWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateIpPoolResponse, error)
+
+	CreateIpPoolWithResponse(ctx context.Context, body CreateIpPoolJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateIpPoolResponse, error)
 
 	// DeleteIPPoolWithResponse request
 	DeleteIPPoolWithResponse(ctx context.Context, poolId string, reqEditors ...RequestEditorFn) (*DeleteIPPoolResponse, error)
@@ -44392,6 +46192,33 @@ type ClientWithResponsesInterface interface {
 
 	// GetInfrastructureSummaryWithResponse request
 	GetInfrastructureSummaryWithResponse(ctx context.Context, params *GetInfrastructureSummaryParams, reqEditors ...RequestEditorFn) (*GetInfrastructureSummaryResponse, error)
+
+	// GetVirtualProviderIsosWithResponse request
+	GetVirtualProviderIsosWithResponse(ctx context.Context, integrationId string, params *GetVirtualProviderIsosParams, reqEditors ...RequestEditorFn) (*GetVirtualProviderIsosResponse, error)
+
+	// CreateVirtualProviderIsoWithBodyWithResponse request with any body
+	CreateVirtualProviderIsoWithBodyWithResponse(ctx context.Context, integrationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateVirtualProviderIsoResponse, error)
+
+	CreateVirtualProviderIsoWithResponse(ctx context.Context, integrationId string, body CreateVirtualProviderIsoJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateVirtualProviderIsoResponse, error)
+
+	// DeleteVirtualProviderIsoWithResponse request
+	DeleteVirtualProviderIsoWithResponse(ctx context.Context, integrationId string, isoId string, reqEditors ...RequestEditorFn) (*DeleteVirtualProviderIsoResponse, error)
+
+	// GetVirtualProviderIsoWithResponse request
+	GetVirtualProviderIsoWithResponse(ctx context.Context, integrationId string, isoId string, params *GetVirtualProviderIsoParams, reqEditors ...RequestEditorFn) (*GetVirtualProviderIsoResponse, error)
+
+	// UpdateVirtualProviderIsoWithBodyWithResponse request with any body
+	UpdateVirtualProviderIsoWithBodyWithResponse(ctx context.Context, integrationId string, isoId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateVirtualProviderIsoResponse, error)
+
+	UpdateVirtualProviderIsoWithResponse(ctx context.Context, integrationId string, isoId string, body UpdateVirtualProviderIsoJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateVirtualProviderIsoResponse, error)
+
+	// GetVirtualProviderIsoDownloadUrlWithResponse request
+	GetVirtualProviderIsoDownloadUrlWithResponse(ctx context.Context, integrationId string, isoId string, reqEditors ...RequestEditorFn) (*GetVirtualProviderIsoDownloadUrlResponse, error)
+
+	// CreateVirtualProviderIsoJobWithBodyWithResponse request with any body
+	CreateVirtualProviderIsoJobWithBodyWithResponse(ctx context.Context, integrationId string, isoId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateVirtualProviderIsoJobResponse, error)
+
+	CreateVirtualProviderIsoJobWithResponse(ctx context.Context, integrationId string, isoId string, body CreateVirtualProviderIsoJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateVirtualProviderIsoJobResponse, error)
 
 	// GetJobsWithResponse request
 	GetJobsWithResponse(ctx context.Context, params *GetJobsParams, reqEditors ...RequestEditorFn) (*GetJobsResponse, error)
@@ -46956,6 +48783,9 @@ type GetEnvironmentResponse struct {
 		// Data Environments are groups of containers with a private network built between them. For more information on environments, see the [main docs](https://cycle.io/docs/platform/introduction-to-environments).
 		Data     Environment `json:"data"`
 		Includes *struct {
+			// Clusters A resource associated with a cluster.
+			Clusters *ClusterIncludes `json:"clusters,omitempty"`
+
 			// Creators An identity that created a resource.
 			Creators *CreatorInclude `json:"creators,omitempty"`
 		} `json:"includes,omitempty"`
@@ -49314,6 +51144,9 @@ type GetDeploymentStrategiesResponse struct {
 	HTTPResponse *http.Response
 	JSON200      *struct {
 		Data struct {
+			// Distributed Information about supported container deployment strategies.
+			Distributed *DeploymentStrategy `json:"distributed,omitempty"`
+
 			// Edge Information about supported container deployment strategies.
 			Edge *DeploymentStrategy `json:"edge,omitempty"`
 
@@ -49355,20 +51188,20 @@ func (r GetDeploymentStrategiesResponse) StatusCode() int {
 	return 0
 }
 
-type GetInfrastructureIPPoolsResponse struct {
+type GetIpPoolsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *struct {
-		Data []Pool `json:"data"`
+		Data []IpPool `json:"data"`
 
 		// Includes Resources associated with an IP Pool.
-		Includes *PoolIncludes `json:"includes,omitempty"`
+		Includes *IpPoolIncludes `json:"includes,omitempty"`
 	}
 	JSONDefault *DefaultError
 }
 
 // Status returns HTTPResponse.Status
-func (r GetInfrastructureIPPoolsResponse) Status() string {
+func (r GetIpPoolsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -49376,7 +51209,33 @@ func (r GetInfrastructureIPPoolsResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetInfrastructureIPPoolsResponse) StatusCode() int {
+func (r GetIpPoolsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreateIpPoolResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *struct {
+		// Data An IP Pool
+		Data IpPool `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateIpPoolResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateIpPoolResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -49414,10 +51273,10 @@ type GetIPPoolResponse struct {
 	HTTPResponse *http.Response
 	JSON200      *struct {
 		// Data An IP Pool
-		Data Pool `json:"data"`
+		Data IpPool `json:"data"`
 
 		// Includes Resources associated with an IP Pool.
-		Includes *PoolIncludes `json:"includes,omitempty"`
+		Includes *IpPoolIncludes `json:"includes,omitempty"`
 	}
 	JSONDefault *DefaultError
 }
@@ -49827,6 +51686,193 @@ func (r GetInfrastructureSummaryResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetInfrastructureSummaryResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetVirtualProviderIsosResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Data []VirtualProviderIso `json:"data"`
+
+		// Includes A resource that is associated with an ISO.
+		Includes *VirtualProviderIsoIncludes `json:"includes,omitempty"`
+	}
+}
+
+// Status returns HTTPResponse.Status
+func (r GetVirtualProviderIsosResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetVirtualProviderIsosResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreateVirtualProviderIsoResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *struct {
+		// Data The ISO image for a virtual provider.
+		Data VirtualProviderIso `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateVirtualProviderIsoResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateVirtualProviderIsoResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteVirtualProviderIsoResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *struct {
+		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+		Data JobDescriptor `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteVirtualProviderIsoResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteVirtualProviderIsoResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetVirtualProviderIsoResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *struct {
+		// Data The ISO image for a virtual provider.
+		Data VirtualProviderIso `json:"data"`
+
+		// Includes A resource that is associated with an ISO.
+		Includes *VirtualProviderIsoIncludes `json:"includes,omitempty"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetVirtualProviderIsoResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetVirtualProviderIsoResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type UpdateVirtualProviderIsoResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *struct {
+		// Data The ISO image for a virtual provider.
+		Data VirtualProviderIso `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r UpdateVirtualProviderIsoResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UpdateVirtualProviderIsoResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetVirtualProviderIsoDownloadUrlResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *struct {
+		Data struct {
+			Url string `json:"url"`
+		} `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetVirtualProviderIsoDownloadUrlResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetVirtualProviderIsoDownloadUrlResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreateVirtualProviderIsoJobResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *struct {
+		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+		Data JobDescriptor `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateVirtualProviderIsoJobResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateVirtualProviderIsoJobResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -53656,13 +55702,30 @@ func (c *ClientWithResponses) GetDeploymentStrategiesWithResponse(ctx context.Co
 	return ParseGetDeploymentStrategiesResponse(rsp)
 }
 
-// GetInfrastructureIPPoolsWithResponse request returning *GetInfrastructureIPPoolsResponse
-func (c *ClientWithResponses) GetInfrastructureIPPoolsWithResponse(ctx context.Context, params *GetInfrastructureIPPoolsParams, reqEditors ...RequestEditorFn) (*GetInfrastructureIPPoolsResponse, error) {
-	rsp, err := c.GetInfrastructureIPPools(ctx, params, reqEditors...)
+// GetIpPoolsWithResponse request returning *GetIpPoolsResponse
+func (c *ClientWithResponses) GetIpPoolsWithResponse(ctx context.Context, params *GetIpPoolsParams, reqEditors ...RequestEditorFn) (*GetIpPoolsResponse, error) {
+	rsp, err := c.GetIpPools(ctx, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetInfrastructureIPPoolsResponse(rsp)
+	return ParseGetIpPoolsResponse(rsp)
+}
+
+// CreateIpPoolWithBodyWithResponse request with arbitrary body returning *CreateIpPoolResponse
+func (c *ClientWithResponses) CreateIpPoolWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateIpPoolResponse, error) {
+	rsp, err := c.CreateIpPoolWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateIpPoolResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateIpPoolWithResponse(ctx context.Context, body CreateIpPoolJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateIpPoolResponse, error) {
+	rsp, err := c.CreateIpPool(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateIpPoolResponse(rsp)
 }
 
 // DeleteIPPoolWithResponse request returning *DeleteIPPoolResponse
@@ -53848,6 +55911,93 @@ func (c *ClientWithResponses) GetInfrastructureSummaryWithResponse(ctx context.C
 		return nil, err
 	}
 	return ParseGetInfrastructureSummaryResponse(rsp)
+}
+
+// GetVirtualProviderIsosWithResponse request returning *GetVirtualProviderIsosResponse
+func (c *ClientWithResponses) GetVirtualProviderIsosWithResponse(ctx context.Context, integrationId string, params *GetVirtualProviderIsosParams, reqEditors ...RequestEditorFn) (*GetVirtualProviderIsosResponse, error) {
+	rsp, err := c.GetVirtualProviderIsos(ctx, integrationId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetVirtualProviderIsosResponse(rsp)
+}
+
+// CreateVirtualProviderIsoWithBodyWithResponse request with arbitrary body returning *CreateVirtualProviderIsoResponse
+func (c *ClientWithResponses) CreateVirtualProviderIsoWithBodyWithResponse(ctx context.Context, integrationId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateVirtualProviderIsoResponse, error) {
+	rsp, err := c.CreateVirtualProviderIsoWithBody(ctx, integrationId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateVirtualProviderIsoResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateVirtualProviderIsoWithResponse(ctx context.Context, integrationId string, body CreateVirtualProviderIsoJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateVirtualProviderIsoResponse, error) {
+	rsp, err := c.CreateVirtualProviderIso(ctx, integrationId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateVirtualProviderIsoResponse(rsp)
+}
+
+// DeleteVirtualProviderIsoWithResponse request returning *DeleteVirtualProviderIsoResponse
+func (c *ClientWithResponses) DeleteVirtualProviderIsoWithResponse(ctx context.Context, integrationId string, isoId string, reqEditors ...RequestEditorFn) (*DeleteVirtualProviderIsoResponse, error) {
+	rsp, err := c.DeleteVirtualProviderIso(ctx, integrationId, isoId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteVirtualProviderIsoResponse(rsp)
+}
+
+// GetVirtualProviderIsoWithResponse request returning *GetVirtualProviderIsoResponse
+func (c *ClientWithResponses) GetVirtualProviderIsoWithResponse(ctx context.Context, integrationId string, isoId string, params *GetVirtualProviderIsoParams, reqEditors ...RequestEditorFn) (*GetVirtualProviderIsoResponse, error) {
+	rsp, err := c.GetVirtualProviderIso(ctx, integrationId, isoId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetVirtualProviderIsoResponse(rsp)
+}
+
+// UpdateVirtualProviderIsoWithBodyWithResponse request with arbitrary body returning *UpdateVirtualProviderIsoResponse
+func (c *ClientWithResponses) UpdateVirtualProviderIsoWithBodyWithResponse(ctx context.Context, integrationId string, isoId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateVirtualProviderIsoResponse, error) {
+	rsp, err := c.UpdateVirtualProviderIsoWithBody(ctx, integrationId, isoId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateVirtualProviderIsoResponse(rsp)
+}
+
+func (c *ClientWithResponses) UpdateVirtualProviderIsoWithResponse(ctx context.Context, integrationId string, isoId string, body UpdateVirtualProviderIsoJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateVirtualProviderIsoResponse, error) {
+	rsp, err := c.UpdateVirtualProviderIso(ctx, integrationId, isoId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateVirtualProviderIsoResponse(rsp)
+}
+
+// GetVirtualProviderIsoDownloadUrlWithResponse request returning *GetVirtualProviderIsoDownloadUrlResponse
+func (c *ClientWithResponses) GetVirtualProviderIsoDownloadUrlWithResponse(ctx context.Context, integrationId string, isoId string, reqEditors ...RequestEditorFn) (*GetVirtualProviderIsoDownloadUrlResponse, error) {
+	rsp, err := c.GetVirtualProviderIsoDownloadUrl(ctx, integrationId, isoId, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetVirtualProviderIsoDownloadUrlResponse(rsp)
+}
+
+// CreateVirtualProviderIsoJobWithBodyWithResponse request with arbitrary body returning *CreateVirtualProviderIsoJobResponse
+func (c *ClientWithResponses) CreateVirtualProviderIsoJobWithBodyWithResponse(ctx context.Context, integrationId string, isoId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateVirtualProviderIsoJobResponse, error) {
+	rsp, err := c.CreateVirtualProviderIsoJobWithBody(ctx, integrationId, isoId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateVirtualProviderIsoJobResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateVirtualProviderIsoJobWithResponse(ctx context.Context, integrationId string, isoId string, body CreateVirtualProviderIsoJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateVirtualProviderIsoJobResponse, error) {
+	rsp, err := c.CreateVirtualProviderIsoJob(ctx, integrationId, isoId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateVirtualProviderIsoJobResponse(rsp)
 }
 
 // GetJobsWithResponse request returning *GetJobsResponse
@@ -57830,6 +59980,9 @@ func ParseGetEnvironmentResponse(rsp *http.Response) (*GetEnvironmentResponse, e
 			// Data Environments are groups of containers with a private network built between them. For more information on environments, see the [main docs](https://cycle.io/docs/platform/introduction-to-environments).
 			Data     Environment `json:"data"`
 			Includes *struct {
+				// Clusters A resource associated with a cluster.
+				Clusters *ClusterIncludes `json:"clusters,omitempty"`
+
 				// Creators An identity that created a resource.
 				Creators *CreatorInclude `json:"creators,omitempty"`
 			} `json:"includes,omitempty"`
@@ -61066,6 +63219,9 @@ func ParseGetDeploymentStrategiesResponse(rsp *http.Response) (*GetDeploymentStr
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
 			Data struct {
+				// Distributed Information about supported container deployment strategies.
+				Distributed *DeploymentStrategy `json:"distributed,omitempty"`
+
 				// Edge Information about supported container deployment strategies.
 				Edge *DeploymentStrategy `json:"edge,omitempty"`
 
@@ -61105,15 +63261,15 @@ func ParseGetDeploymentStrategiesResponse(rsp *http.Response) (*GetDeploymentStr
 	return response, nil
 }
 
-// ParseGetInfrastructureIPPoolsResponse parses an HTTP response from a GetInfrastructureIPPoolsWithResponse call
-func ParseGetInfrastructureIPPoolsResponse(rsp *http.Response) (*GetInfrastructureIPPoolsResponse, error) {
+// ParseGetIpPoolsResponse parses an HTTP response from a GetIpPoolsWithResponse call
+func ParseGetIpPoolsResponse(rsp *http.Response) (*GetIpPoolsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &GetInfrastructureIPPoolsResponse{
+	response := &GetIpPoolsResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -61121,15 +63277,51 @@ func ParseGetInfrastructureIPPoolsResponse(rsp *http.Response) (*GetInfrastructu
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
-			Data []Pool `json:"data"`
+			Data []IpPool `json:"data"`
 
 			// Includes Resources associated with an IP Pool.
-			Includes *PoolIncludes `json:"includes,omitempty"`
+			Includes *IpPoolIncludes `json:"includes,omitempty"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateIpPoolResponse parses an HTTP response from a CreateIpPoolWithResponse call
+func ParseCreateIpPoolResponse(rsp *http.Response) (*CreateIpPoolResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateIpPoolResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest struct {
+			// Data An IP Pool
+			Data IpPool `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest DefaultError
@@ -61196,10 +63388,10 @@ func ParseGetIPPoolResponse(rsp *http.Response) (*GetIPPoolResponse, error) {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
 			// Data An IP Pool
-			Data Pool `json:"data"`
+			Data IpPool `json:"data"`
 
 			// Includes Resources associated with an IP Pool.
-			Includes *PoolIncludes `json:"includes,omitempty"`
+			Includes *IpPoolIncludes `json:"includes,omitempty"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
@@ -61750,6 +63942,257 @@ func ParseGetInfrastructureSummaryResponse(rsp *http.Response) (*GetInfrastructu
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetVirtualProviderIsosResponse parses an HTTP response from a GetVirtualProviderIsosWithResponse call
+func ParseGetVirtualProviderIsosResponse(rsp *http.Response) (*GetVirtualProviderIsosResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetVirtualProviderIsosResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Data []VirtualProviderIso `json:"data"`
+
+			// Includes A resource that is associated with an ISO.
+			Includes *VirtualProviderIsoIncludes `json:"includes,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateVirtualProviderIsoResponse parses an HTTP response from a CreateVirtualProviderIsoWithResponse call
+func ParseCreateVirtualProviderIsoResponse(rsp *http.Response) (*CreateVirtualProviderIsoResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateVirtualProviderIsoResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest struct {
+			// Data The ISO image for a virtual provider.
+			Data VirtualProviderIso `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteVirtualProviderIsoResponse parses an HTTP response from a DeleteVirtualProviderIsoWithResponse call
+func ParseDeleteVirtualProviderIsoResponse(rsp *http.Response) (*DeleteVirtualProviderIsoResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteVirtualProviderIsoResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+			Data JobDescriptor `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetVirtualProviderIsoResponse parses an HTTP response from a GetVirtualProviderIsoWithResponse call
+func ParseGetVirtualProviderIsoResponse(rsp *http.Response) (*GetVirtualProviderIsoResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetVirtualProviderIsoResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			// Data The ISO image for a virtual provider.
+			Data VirtualProviderIso `json:"data"`
+
+			// Includes A resource that is associated with an ISO.
+			Includes *VirtualProviderIsoIncludes `json:"includes,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUpdateVirtualProviderIsoResponse parses an HTTP response from a UpdateVirtualProviderIsoWithResponse call
+func ParseUpdateVirtualProviderIsoResponse(rsp *http.Response) (*UpdateVirtualProviderIsoResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UpdateVirtualProviderIsoResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			// Data The ISO image for a virtual provider.
+			Data VirtualProviderIso `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetVirtualProviderIsoDownloadUrlResponse parses an HTTP response from a GetVirtualProviderIsoDownloadUrlWithResponse call
+func ParseGetVirtualProviderIsoDownloadUrlResponse(rsp *http.Response) (*GetVirtualProviderIsoDownloadUrlResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetVirtualProviderIsoDownloadUrlResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			Data struct {
+				Url string `json:"url"`
+			} `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateVirtualProviderIsoJobResponse parses an HTTP response from a CreateVirtualProviderIsoJobWithResponse call
+func ParseCreateVirtualProviderIsoJobResponse(rsp *http.Response) (*CreateVirtualProviderIsoJobResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateVirtualProviderIsoJobResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+			Data JobDescriptor `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest DefaultError
