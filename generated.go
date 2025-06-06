@@ -113,6 +113,7 @@ const (
 	ActivityEventEnvironmentDeploymentsPrune                     ActivityEvent = "environment.deployments.prune"
 	ActivityEventEnvironmentDeploymentsReconfigure               ActivityEvent = "environment.deployments.reconfigure"
 	ActivityEventEnvironmentInitialize                           ActivityEvent = "environment.initialize"
+	ActivityEventEnvironmentMonitoringReconfigure                ActivityEvent = "environment.monitoring.reconfigure"
 	ActivityEventEnvironmentScopedVariableCreate                 ActivityEvent = "environment.scoped-variable.create"
 	ActivityEventEnvironmentScopedVariableDelete                 ActivityEvent = "environment.scoped-variable.delete"
 	ActivityEventEnvironmentScopedVariableTaskDelete             ActivityEvent = "environment.scoped-variable.task.delete"
@@ -134,6 +135,7 @@ const (
 	ActivityEventEnvironmentTaskDelete                           ActivityEvent = "environment.task.delete"
 	ActivityEventEnvironmentTaskDeploymentsReconfigure           ActivityEvent = "environment.task.deployments.reconfigure"
 	ActivityEventEnvironmentTaskInitialize                       ActivityEvent = "environment.task.initialize"
+	ActivityEventEnvironmentTaskMonitoringReconfigure            ActivityEvent = "environment.task.monitoring.reconfigure"
 	ActivityEventEnvironmentTaskStart                            ActivityEvent = "environment.task.start"
 	ActivityEventEnvironmentTaskStop                             ActivityEvent = "environment.task.stop"
 	ActivityEventEnvironmentUpdate                               ActivityEvent = "environment.update"
@@ -243,6 +245,7 @@ const (
 	ActivityEventVirtualMachineIpAllocate                        ActivityEvent = "virtual-machine.ip.allocate"
 	ActivityEventVirtualMachineIpUnallocate                      ActivityEvent = "virtual-machine.ip.unallocate"
 	ActivityEventVirtualMachineReconfigure                       ActivityEvent = "virtual-machine.reconfigure"
+	ActivityEventVirtualMachineRootpwChange                      ActivityEvent = "virtual-machine.rootpw.change"
 	ActivityEventVirtualMachineSosLogin                          ActivityEvent = "virtual-machine.sos.login"
 	ActivityEventVirtualMachineSshKeyCreate                      ActivityEvent = "virtual-machine.ssh-key.create"
 	ActivityEventVirtualMachineSshKeyDelete                      ActivityEvent = "virtual-machine.ssh-key.delete"
@@ -532,6 +535,11 @@ const (
 	VirtualMachinesView               Capability = "virtual-machines-view"
 )
 
+// Defines values for ClusterReconfigureMonitoringTierActionAction.
+const (
+	FeaturesMonitoringTierReconfigure ClusterReconfigureMonitoringTierActionAction = "features.monitoring.tier.reconfigure"
+)
+
 // Defines values for ClusterStateCurrent.
 const (
 	ClusterStateCurrentDeleted  ClusterStateCurrent = "deleted"
@@ -590,12 +598,6 @@ const (
 	ContainerImageSummaryServiceDiscovery    ContainerImageSummaryService = "discovery"
 	ContainerImageSummaryServiceLoadbalancer ContainerImageSummaryService = "loadbalancer"
 	ContainerImageSummaryServiceVpn          ContainerImageSummaryService = "vpn"
-)
-
-// Defines values for ContainerIntegrationsLogsDrainFormat.
-const (
-	NdjsonHeaders ContainerIntegrationsLogsDrainFormat = "ndjson-headers"
-	NdjsonRaw     ContainerIntegrationsLogsDrainFormat = "ndjson-raw"
 )
 
 // Defines values for ContainerNetworkPublic.
@@ -690,7 +692,7 @@ const (
 
 // Defines values for ContainerScaleActionAction.
 const (
-	Scale ContainerScaleActionAction = "scale"
+	ContainerScaleActionActionScale ContainerScaleActionAction = "scale"
 )
 
 // Defines values for ContainerStartActionAction.
@@ -895,6 +897,11 @@ const (
 	DeploymentsReconfigure EnvironmentReconfigureDeploymentsActionAction = "deployments.reconfigure"
 )
 
+// Defines values for EnvironmentReconfigureMonitoringActionAction.
+const (
+	MonitoringReconfigure EnvironmentReconfigureMonitoringActionAction = "monitoring.reconfigure"
+)
+
 // Defines values for EnvironmentStartActionAction.
 const (
 	EnvironmentStartActionActionStart EnvironmentStartActionAction = "start"
@@ -1094,9 +1101,11 @@ const (
 	ContainerVolumesBaseCreateFailed                     EventType = "container.volumes.base.create.failed"
 	ContainerVolumesCreateFailed                         EventType = "container.volumes.create.failed"
 	EnvironmentServiceAutoUpdate                         EventType = "environment.service.auto_update"
+	EnvironmentServiceDiscoveryClientThrottleHit         EventType = "environment.service.discovery.client.throttle.hit"
 	EnvironmentServiceLbIpsSyncFailed                    EventType = "environment.service.lb.ips.sync.failed"
 	EnvironmentServiceVpnLoginFailed                     EventType = "environment.service.vpn.login.failed"
 	InfrastructureClusterResourcesRamFull                EventType = "infrastructure.cluster.resources.ram.full"
+	InfrastructureServerAutoscaleUp                      EventType = "infrastructure.server.autoscale.up"
 	InfrastructureServerCheckinMissed                    EventType = "infrastructure.server.checkin.missed"
 	InfrastructureServerCheckinResumed                   EventType = "infrastructure.server.checkin.resumed"
 	InfrastructureServerComputeFullRestart               EventType = "infrastructure.server.compute.full_restart"
@@ -1110,6 +1119,7 @@ const (
 	InfrastructureServerInternalApiThrottled             EventType = "infrastructure.server.internal_api.throttled"
 	InfrastructureServerManifestSyncFailed               EventType = "infrastructure.server.manifest.sync.failed"
 	InfrastructureServerMeshConnectFailed                EventType = "infrastructure.server.mesh.connect.failed"
+	InfrastructureServerMonitoringThrottled              EventType = "infrastructure.server.monitoring.throttled"
 	InfrastructureServerNeighborReachable                EventType = "infrastructure.server.neighbor.reachable"
 	InfrastructureServerNeighborRebuild                  EventType = "infrastructure.server.neighbor.rebuild"
 	InfrastructureServerNeighborUnreachable              EventType = "infrastructure.server.neighbor.unreachable"
@@ -1353,6 +1363,19 @@ const (
 	JobStateCurrentScheduled JobStateCurrent = "scheduled"
 )
 
+// Defines values for L2Domain.
+const (
+	L2DomainPrivate L2Domain = "private"
+	L2DomainPublic  L2Domain = "public"
+	L2DomainShared  L2Domain = "shared"
+)
+
+// Defines values for LogFormat.
+const (
+	NdjsonHeaders LogFormat = "ndjson-headers"
+	NdjsonRaw     LogFormat = "ndjson-raw"
+)
+
 // Defines values for MembershipStateCurrent.
 const (
 	MembershipStateCurrentAccepted MembershipStateCurrent = "accepted"
@@ -1383,17 +1406,27 @@ const (
 
 // Defines values for MonitoringTier.
 const (
-	Basic      MonitoringTier = "basic"
-	Enterprise MonitoringTier = "enterprise"
-	Limited    MonitoringTier = "limited"
-	Premium    MonitoringTier = "premium"
+	MonitoringTierPlus     MonitoringTier = "plus"
+	MonitoringTierPremium  MonitoringTier = "premium"
+	MonitoringTierScale    MonitoringTier = "scale"
+	MonitoringTierStandard MonitoringTier = "standard"
+)
+
+// Defines values for NetworkL2DhcpDetailsMethod.
+const (
+	Dhcp NetworkL2DhcpDetailsMethod = "dhcp"
+)
+
+// Defines values for NetworkL2StaticDetailsMethod.
+const (
+	NetworkL2StaticDetailsMethodStatic NetworkL2StaticDetailsMethod = "static"
 )
 
 // Defines values for NetworkSpecScope.
 const (
-	Private NetworkSpecScope = "private"
-	Public  NetworkSpecScope = "public"
-	Shared  NetworkSpecScope = "shared"
+	NetworkSpecScopePrivate NetworkSpecScope = "private"
+	NetworkSpecScopePublic  NetworkSpecScope = "public"
+	NetworkSpecScopeShared  NetworkSpecScope = "shared"
 )
 
 // Defines values for NetworkStateCurrent.
@@ -1403,16 +1436,6 @@ const (
 	NetworkStateCurrentLive     NetworkStateCurrent = "live"
 )
 
-// Defines values for NetworkVlanDhcpDetailsMethod.
-const (
-	Dhcp NetworkVlanDhcpDetailsMethod = "dhcp"
-)
-
-// Defines values for NetworkVlanStaticDetailsMethod.
-const (
-	NetworkVlanStaticDetailsMethodStatic NetworkVlanStaticDetailsMethod = "static"
-)
-
 // Defines values for NodeStateCurrent.
 const (
 	NodeStateCurrentAuthorizing    NodeStateCurrent = "authorizing"
@@ -1420,6 +1443,15 @@ const (
 	NodeStateCurrentNew            NodeStateCurrent = "new"
 	NodeStateCurrentOffline        NodeStateCurrent = "offline"
 	NodeStateCurrentOnline         NodeStateCurrent = "online"
+)
+
+// Defines values for NodeStateDesired.
+const (
+	NodeStateDesiredAuthorizing    NodeStateDesired = "authorizing"
+	NodeStateDesiredDecommissioned NodeStateDesired = "decommissioned"
+	NodeStateDesiredNew            NodeStateDesired = "new"
+	NodeStateDesiredOffline        NodeStateDesired = "offline"
+	NodeStateDesiredOnline         NodeStateDesired = "online"
 )
 
 // Defines values for NoneOriginType.
@@ -1890,6 +1922,7 @@ const (
 
 // Defines values for V1LbConfigRouterConfigDestinationPrioritization.
 const (
+	V1LbConfigRouterConfigDestinationPrioritizationFixed   V1LbConfigRouterConfigDestinationPrioritization = "fixed"
 	V1LbConfigRouterConfigDestinationPrioritizationLatency V1LbConfigRouterConfigDestinationPrioritization = "latency"
 	V1LbConfigRouterConfigDestinationPrioritizationRandom  V1LbConfigRouterConfigDestinationPrioritization = "random"
 )
@@ -2030,8 +2063,11 @@ const (
 // Defines values for VirtualProviderIsoBondMode.
 const (
 	ActiveBackup VirtualProviderIsoBondMode = "active-backup"
+	BalanceAlb   VirtualProviderIsoBondMode = "balance-alb"
+	BalanceRr    VirtualProviderIsoBondMode = "balance-rr"
+	BalanceTlb   VirtualProviderIsoBondMode = "balance-tlb"
+	BalanceXor   VirtualProviderIsoBondMode = "balance-xor"
 	Lacp         VirtualProviderIsoBondMode = "lacp"
-	RoundRobin   VirtualProviderIsoBondMode = "round-robin"
 )
 
 // Defines values for VirtualProviderIsoNicDhcpMode.
@@ -2143,6 +2179,7 @@ const (
 // Defines values for GetInvoiceParamsMeta.
 const (
 	GetInvoiceParamsMetaDue GetInvoiceParamsMeta = "due"
+	GetInvoiceParamsMetaHub GetInvoiceParamsMeta = "hub"
 )
 
 // Defines values for CreateInvoiceJobJSONBodyAction.
@@ -2286,12 +2323,14 @@ const (
 
 // Defines values for GetInstancesParamsMeta.
 const (
-	GetInstancesParamsMetaNode GetInstancesParamsMeta = "node"
+	GetInstancesParamsMetaNode       GetInstancesParamsMeta = "node"
+	GetInstancesParamsMetaSdnPoolIps GetInstancesParamsMeta = "sdn_pool_ips"
 )
 
 // Defines values for GetInstanceParamsMeta.
 const (
-	GetInstanceParamsMetaNode GetInstanceParamsMeta = "node"
+	GetInstanceParamsMetaNode       GetInstanceParamsMeta = "node"
+	GetInstanceParamsMetaSdnPoolIps GetInstanceParamsMeta = "sdn_pool_ips"
 )
 
 // Defines values for GetInstanceParamsInclude.
@@ -2810,10 +2849,10 @@ const (
 
 // Defines values for GetVirtualMachinesParamsMeta.
 const (
-	GetVirtualMachinesParamsMetaDomains   GetVirtualMachinesParamsMeta = "domains"
-	GetVirtualMachinesParamsMetaIps       GetVirtualMachinesParamsMeta = "ips"
-	GetVirtualMachinesParamsMetaServer    GetVirtualMachinesParamsMeta = "server"
-	GetVirtualMachinesParamsMetaVmPrivIps GetVirtualMachinesParamsMeta = "vm_priv_ips"
+	GetVirtualMachinesParamsMetaDomains       GetVirtualMachinesParamsMeta = "domains"
+	GetVirtualMachinesParamsMetaHypervisorIps GetVirtualMachinesParamsMeta = "hypervisor_ips"
+	GetVirtualMachinesParamsMetaIps           GetVirtualMachinesParamsMeta = "ips"
+	GetVirtualMachinesParamsMetaServer        GetVirtualMachinesParamsMeta = "server"
 )
 
 // Defines values for GetVirtualMachinesParamsInclude.
@@ -2857,9 +2896,9 @@ const (
 
 // Defines values for GetVirtualMachineSshKeysParamsFilterState.
 const (
-	GetVirtualMachineSshKeysParamsFilterStateDeleted  GetVirtualMachineSshKeysParamsFilterState = "deleted"
-	GetVirtualMachineSshKeysParamsFilterStateDeleting GetVirtualMachineSshKeysParamsFilterState = "deleting"
-	GetVirtualMachineSshKeysParamsFilterStateLive     GetVirtualMachineSshKeysParamsFilterState = "live"
+	Deleted  GetVirtualMachineSshKeysParamsFilterState = "deleted"
+	Deleting GetVirtualMachineSshKeysParamsFilterState = "deleting"
+	Live     GetVirtualMachineSshKeysParamsFilterState = "live"
 )
 
 // Defines values for GetVirtualMachineSshKeysParamsInclude.
@@ -2888,10 +2927,10 @@ const (
 
 // Defines values for GetVirtualMachineParamsMeta.
 const (
-	GetVirtualMachineParamsMetaDomains   GetVirtualMachineParamsMeta = "domains"
-	GetVirtualMachineParamsMetaIps       GetVirtualMachineParamsMeta = "ips"
-	GetVirtualMachineParamsMetaServer    GetVirtualMachineParamsMeta = "server"
-	GetVirtualMachineParamsMetaVmPrivIps GetVirtualMachineParamsMeta = "vm_priv_ips"
+	GetVirtualMachineParamsMetaDomains       GetVirtualMachineParamsMeta = "domains"
+	GetVirtualMachineParamsMetaHypervisorIps GetVirtualMachineParamsMeta = "hypervisor_ips"
+	GetVirtualMachineParamsMetaIps           GetVirtualMachineParamsMeta = "ips"
+	GetVirtualMachineParamsMetaServer        GetVirtualMachineParamsMeta = "server"
 )
 
 // Defines values for GetVirtualMachineParamsInclude.
@@ -2955,7 +2994,7 @@ type Account struct {
 
 	// TwoFactorAuth Two factor auth verification information.
 	TwoFactorAuth *struct {
-		// Verified A boolean representing if the Account has verified with two-factor authentication.
+		// Verified A boolean representing if the account has verified with two-factor authentication.
 		Verified bool `json:"verified"`
 	} `json:"two_factor_auth"`
 }
@@ -3732,6 +3771,13 @@ type Cluster struct {
 		Deleted DateTime `json:"deleted"`
 		Updated DateTime `json:"updated"`
 	} `json:"events"`
+	Features struct {
+		// Monitoring The level of monitoring to enable for this cluster. There is a cost associated with higher levels of monitoring.
+		Monitoring *struct {
+			// Tier The tier of monitoring, that determines the frequency that metrics are aggregated by the platform, on a per-environment basis.
+			Tier MonitoringTier `json:"tier"`
+		} `json:"monitoring"`
+	} `json:"features"`
 
 	// HubId The unique ID of the Hub this resource was created in.
 	HubId HubID  `json:"hub_id"`
@@ -3748,6 +3794,19 @@ type Cluster struct {
 
 // ClusterIncludes A resource associated with a cluster.
 type ClusterIncludes map[string]Cluster
+
+// ClusterReconfigureMonitoringTierAction A job that reconfigures the monitoring tier for the cluster.
+type ClusterReconfigureMonitoringTierAction struct {
+	// Action The action to take.
+	Action   ClusterReconfigureMonitoringTierActionAction `json:"action"`
+	Contents *struct {
+		// Tier The tier of monitoring, that determines the frequency that metrics are aggregated by the platform, on a per-environment basis.
+		Tier *MonitoringTier `json:"tier,omitempty"`
+	} `json:"contents,omitempty"`
+}
+
+// ClusterReconfigureMonitoringTierActionAction The action to take.
+type ClusterReconfigureMonitoringTierActionAction string
 
 // ClusterState defines model for ClusterState.
 type ClusterState struct {
@@ -3766,6 +3825,11 @@ type ClusterState struct {
 
 // ClusterStateCurrent The current state of the cluster.
 type ClusterStateCurrent string
+
+// ClusterTask defines model for ClusterTask.
+type ClusterTask struct {
+	union json.RawMessage
+}
 
 // ClusterVersionServerCount A count of servers in a cluster with the given version of Cycle software
 type ClusterVersionServerCount struct {
@@ -4351,18 +4415,6 @@ type ContainerIntegrations struct {
 		// KeyPath Path where the `certificate.key` will be saved.
 		KeyPath *string `json:"key_path,omitempty"`
 	} `json:"lets_encrypt"`
-
-	// Logs When enabled, allows more customization to be applied to logging for the container.
-	Logs *struct {
-		// Drain When enabled, log drain allows logs to be exported to a third party service.
-		Drain *struct {
-			// Format The format Cycle will use to send the logs.
-			Format *ContainerIntegrationsLogsDrainFormat `json:"format"`
-
-			// Url The URL to the third party logging service where logs will be sent.
-			Url string `json:"url"`
-		} `json:"drain"`
-	} `json:"logs"`
 	SharedFileSystems *map[string]struct {
 		MountPoint string `json:"mount_point"`
 		Writable   bool   `json:"writable"`
@@ -4387,13 +4439,13 @@ type ContainerIntegrations struct {
 	} `json:"webhooks,omitempty"`
 }
 
-// ContainerIntegrationsLogsDrainFormat The format Cycle will use to send the logs.
-type ContainerIntegrationsLogsDrainFormat string
-
 // ContainerNetwork Network configuration for a container.
 type ContainerNetwork struct {
 	// Hostname The hostname for the given container.
 	Hostname string `json:"hostname"`
+
+	// L2 Layer 2 network configuration options for containers running on virtual provider servers.
+	L2 *map[string]interface{} `json:"l2,omitempty"`
 
 	// Ports An array of port mappings for the container.
 	Ports *[]string `json:"ports,omitempty"`
@@ -5698,6 +5750,9 @@ type EnvironmentFeatures struct {
 
 	// Monitoring The level of monitoring to enable for this environment. There is a cost associated with higher levels of monitoring.
 	Monitoring *struct {
+		// Config The configuration for environment monitoring.
+		Config *EnvironmentMonitoringConfig `json:"config,omitempty"`
+
 		// Tier The tier of monitoring, that determines the frequency that metrics are aggregated by the platform, on a per-environment basis.
 		Tier MonitoringTier `json:"tier"`
 	} `json:"monitoring"`
@@ -5739,6 +5794,20 @@ type EnvironmentMeta struct {
 	InstancesCount *StateCountSummary `json:"instances_count,omitempty"`
 }
 
+// EnvironmentMonitoringConfig The configuration for environment monitoring.
+type EnvironmentMonitoringConfig struct {
+	// Logs An object describing the log configuration for the environment.
+	Logs *struct {
+		// Drain An object describing log drain configuration for the environment.
+		Drain *struct {
+			Format *LogFormat `json:"format,omitempty"`
+
+			// Url The destination URL for the log drain.
+			Url string `json:"url"`
+		} `json:"drain"`
+	} `json:"logs"`
+}
+
 // EnvironmentNetworkSummary Details about the environment network this instance is a member of.
 type EnvironmentNetworkSummary struct {
 	// Id A 24 character hex string used to identify a unique resource.
@@ -5771,6 +5840,19 @@ type EnvironmentReconfigureDeploymentsAction struct {
 
 // EnvironmentReconfigureDeploymentsActionAction The action to take.
 type EnvironmentReconfigureDeploymentsActionAction string
+
+// EnvironmentReconfigureMonitoringAction A task to reconfigure monitoring on an environment.
+type EnvironmentReconfigureMonitoringAction struct {
+	// Action The action to take.
+	Action   EnvironmentReconfigureMonitoringActionAction `json:"action"`
+	Contents struct {
+		// Config The configuration for environment monitoring.
+		Config EnvironmentMonitoringConfig `json:"config"`
+	} `json:"contents"`
+}
+
+// EnvironmentReconfigureMonitoringActionAction The action to take.
+type EnvironmentReconfigureMonitoringActionAction string
 
 // EnvironmentServiceContainerSummary An object containing information about a service container associated with this environment.
 type EnvironmentServiceContainerSummary struct {
@@ -7244,6 +7326,7 @@ type InstanceMeta struct {
 		Online      *bool      `json:"online,omitempty"`
 		State       *NodeState `json:"state,omitempty"`
 	} `json:"node,omitempty"`
+	SdnPoolIps *[]Ip `json:"sdn_pool_ips,omitempty"`
 }
 
 // InstanceMigrateAction defines model for InstanceMigrateAction.
@@ -7390,7 +7473,7 @@ type Integration struct {
 		Updated DateTime `json:"updated"`
 	} `json:"events"`
 
-	// Extra Additional key-value pairs associated with the integration.
+	// Extra Updated key-value pairs associated with the integration.
 	Extra *map[string]string `json:"extra"`
 
 	// HubId A 24 character hex string used to identify a unique resource.
@@ -7646,6 +7729,9 @@ type InvoiceCredit struct {
 type InvoiceMeta struct {
 	// Due The amount due for a given invoice.
 	Due *int `json:"due,omitempty"`
+
+	// Hub A hub resource.
+	Hub *Hub `json:"hub,omitempty"`
 }
 
 // InvoiceState defines model for InvoiceState.
@@ -7701,6 +7787,9 @@ type Ip struct {
 	// Id A 24 character hex string used to identify a unique resource.
 	Id ID `json:"id"`
 
+	// Ip An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
+	Ip IpAddress `json:"ip"`
+
 	// Kind The type of IP protocol this IP is.
 	Kind IpKind `json:"kind"`
 
@@ -7708,8 +7797,11 @@ type Ip struct {
 	// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
 	Network *Cidr `json:"network,omitempty"`
 
-	// PoolId A unique identifier that associates the IP with an IP pool.
-	PoolId string  `json:"pool_id"`
+	// NetworkId A 24 character hex string used to identify a unique resource.
+	NetworkId ID `json:"network_id"`
+
+	// PoolId A 24 character hex string used to identify a unique resource.
+	PoolId ID      `json:"pool_id"`
 	State  IpState `json:"state"`
 }
 
@@ -7972,6 +8064,11 @@ type JobTask struct {
 	Steps *[]TaskStep `json:"steps"`
 }
 
+// L2Domain A standardized name for different layer-2 networks that can be configured on virtual provider hosts.
+//
+//	Containers will utilize this name to determine which network to attach to on the host, if set in the config.
+type L2Domain string
+
 // LateFee A late fee, applied to an invoice.
 type LateFee struct {
 	// Amount 1/10th of a cent.
@@ -8196,6 +8293,9 @@ type LoadBalancerTelemetryUrlRequestHandler struct {
 
 // LocationsIncludes A resource that is associated with a provider location.
 type LocationsIncludes map[string]ProviderLocation
+
+// LogFormat defines model for LogFormat.
+type LogFormat string
 
 // LogLine A log line is point in time data output from a container instance.
 type LogLine struct {
@@ -8485,8 +8585,8 @@ type MonitoringTier string
 
 // MonitoringTierDetails Detailed information about a monitoring tier's features.
 type MonitoringTierDetails struct {
-	// CostMills The monthly cost (in mills) of enabling this tier on an environment.
-	CostMills int `json:"cost_mills"`
+	// Description A hamanized description of the monitoring tier.
+	Description string `json:"description"`
 
 	// Enabled Whether or not this tier is a selectable monitoring tier for an environment. A disabled tier may be either one coming in the future, or a legacy tier that is no longer available, but saved for historical reasons.
 	Enabled bool `json:"enabled"`
@@ -8497,22 +8597,40 @@ type MonitoringTierDetails struct {
 		Custom bool `json:"custom"`
 
 		// RetentionPeriod A string signifying a duration of time. Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h", "d", "w", "y".
-		RetentionPeriod Duration `json:"retention_period"`
+		RetentionPeriod Duration        `json:"retention_period"`
+		Usage           MonitoringUsage `json:"usage"`
 	} `json:"events"`
 	Features struct {
 		PublicPingMonitor bool `json:"public_ping_monitor"`
 	} `json:"features"`
+	Forwarding struct {
+		Bandwidth MonitoringUsage `json:"bandwidth"`
+
+		// Supported Indicates if metric forwarding is supported on this tier.
+		Supported bool `json:"supported"`
+	} `json:"forwarding"`
 
 	// Logs Details on how logs are handled for this tier.
 	Logs struct {
-		// Aggregation Whether or not log aggregation is enabled on this tier.
-		Aggregation bool `json:"aggregation"`
+		// Analysis Details on log analysis features for this tier.
+		Analysis struct {
+			// RetentionPeriod A string signifying a duration of time. Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h", "d", "w", "y".
+			RetentionPeriod Duration `json:"retention_period"`
+			Rules           int      `json:"rules"`
 
-		// Analysis Whether or not log analysis is enabled on this tier.
-		Analysis bool `json:"analysis"`
+			// Supported Indicates if log analysis is supported on this tier.
+			Supported bool            `json:"supported"`
+			Usage     MonitoringUsage `json:"usage"`
+		} `json:"analysis"`
 
-		// Custom Whether or not custom user-submitted logs are supported on this tier.
-		Custom bool `json:"custom"`
+		// Collection Details on log collection features for this tier.
+		Collection struct {
+			Cold *MonitoringTierDetailsLogsCollectionTier `json:"cold,omitempty"`
+			Hot  *MonitoringTierDetailsLogsCollectionTier `json:"hot,omitempty"`
+
+			// Supported Indicates if log collection is supported on this tier.
+			Supported bool `json:"supported"`
+		} `json:"collection"`
 	} `json:"logs"`
 
 	// Metrics Details on how metrics are handled for this tier.
@@ -8530,8 +8648,40 @@ type MonitoringTierDetails struct {
 		RetentionPeriod Duration `json:"retention_period"`
 
 		// ServiceGranularity A string signifying a duration of time. Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h", "d", "w", "y".
-		ServiceGranularity Duration `json:"service_granularity"`
+		ServiceGranularity Duration        `json:"service_granularity"`
+		Usage              MonitoringUsage `json:"usage"`
 	} `json:"metrics"`
+
+	// Price An object holding information about term and amount that relates to a specific billing component.
+	Price BillingAmount `json:"price"`
+}
+
+// MonitoringTierDetailsLogsCollectionTier defines model for MonitoringTierDetailsLogsCollectionTier.
+type MonitoringTierDetailsLogsCollectionTier struct {
+	Bandwidth MonitoringUsage `json:"bandwidth"`
+
+	// RetentionPeriod A string signifying a duration of time. Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h", "d", "w", "y".
+	RetentionPeriod Duration        `json:"retention_period"`
+	Storage         MonitoringUsage `json:"storage"`
+}
+
+// MonitoringUsage defines model for MonitoringUsage.
+type MonitoringUsage struct {
+	// Additional An object describing the additonal cost of monitoring exceeding the included usage.
+	Additional *struct {
+		// Price An object holding information about term and amount that relates to a specific billing component.
+		Price BillingAmount `json:"price"`
+		Size  int           `json:"size"`
+	} `json:"additional"`
+
+	// HardCap A boolean indicating if there is hard usage limit on the tier.
+	HardCap bool `json:"hard_cap"`
+
+	// Included Number that, when used in conjunction with unit, describes the included usage.
+	Included int `json:"included"`
+
+	// Unit A string describing the metric unit.
+	Unit string `json:"unit"`
 }
 
 // Network SDN Network resource.
@@ -8566,13 +8716,13 @@ type Network struct {
 	Id ID `json:"id"`
 
 	// Identifier A network identifier used to construct http calls that specifically use this network over another.
-	Identifier string `json:"identifier"`
+	Identifier string     `json:"identifier"`
+	L2         *NetworkL2 `json:"l2"`
 
 	// Name The name of the network.
 	Name           string                  `json:"name"`
 	PrivateNetwork *NetworkPrivacySettings `json:"private_network"`
 	State          NetworkState            `json:"state"`
-	Vlan           *NetworkVlan            `json:"vlan"`
 }
 
 // NetworkIncludes All includable resource linkable to the given network.
@@ -8583,6 +8733,69 @@ type NetworkIncludes struct {
 	// Environments An identity that is associated with an environment.
 	Environments *EnvironmentIncludes `json:"environments,omitempty"`
 }
+
+// NetworkL2 Layer 2 network information for a Cycle SDN.
+type NetworkL2 struct {
+	Domain        *L2Domain     `json:"domain"`
+	HostInterface *string       `json:"host_interface"`
+	Ips           NetworkL2_Ips `json:"ips"`
+	LocationIds   []ID          `json:"location_ids"`
+
+	// Routes An array of L2 routes that are added to this SDN
+	Routes *[]struct {
+		// Gateway An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
+		Gateway *IpAddress `json:"gateway,omitempty"`
+
+		// Network A CIDR (Classless Inter-Domain Routing) string is a notation used to represent an IP address and its associated network prefix.
+		// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
+		Network Cidr `json:"network"`
+	} `json:"routes,omitempty"`
+	Vid *int `json:"vid"`
+}
+
+// NetworkL2_Ips defines model for NetworkL2.Ips.
+type NetworkL2_Ips struct {
+	union json.RawMessage
+}
+
+// NetworkL2DhcpDetails defines model for NetworkL2DhcpDetails.
+type NetworkL2DhcpDetails struct {
+	Details *map[string]interface{}    `json:"details,omitempty"`
+	Method  NetworkL2DhcpDetailsMethod `json:"method"`
+}
+
+// NetworkL2DhcpDetailsMethod defines model for NetworkL2DhcpDetails.Method.
+type NetworkL2DhcpDetailsMethod string
+
+// NetworkL2StaticDetails defines model for NetworkL2StaticDetails.
+type NetworkL2StaticDetails struct {
+	Details struct {
+		Ipv4 *struct {
+			// Gateway The IP of the gateway
+			Gateway *string `json:"gateway"`
+
+			// Network The CIDR for the network.
+			Network string `json:"network"`
+
+			// Usable The usable CIDR.
+			Usable string `json:"usable"`
+		} `json:"ipv4"`
+		Ipv6 *struct {
+			// Gateway The IP of the gateway
+			Gateway *string `json:"gateway"`
+
+			// Network The CIDR for the network.
+			Network string `json:"network"`
+
+			// Usable The usable CIDR.
+			Usable string `json:"usable"`
+		} `json:"ipv6"`
+	} `json:"details"`
+	Method NetworkL2StaticDetailsMethod `json:"method"`
+}
+
+// NetworkL2StaticDetailsMethod defines model for NetworkL2StaticDetails.Method.
+type NetworkL2StaticDetailsMethod string
 
 // NetworkPrivacySettings Private network information for a Cycle SDN.
 type NetworkPrivacySettings struct {
@@ -8651,68 +8864,6 @@ type NetworkState struct {
 // NetworkStateCurrent The current state of the network.
 type NetworkStateCurrent string
 
-// NetworkVlan VLAN information for a Cycle SDN.
-type NetworkVlan struct {
-	HostInterface *string         `json:"host_interface"`
-	Ips           NetworkVlan_Ips `json:"ips"`
-	LocationIds   []ID            `json:"location_ids"`
-
-	// Routes An array of defined VLAN routes
-	Routes *[]struct {
-		// Gateway An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
-		Gateway *IpAddress `json:"gateway,omitempty"`
-
-		// Network A CIDR (Classless Inter-Domain Routing) string is a notation used to represent an IP address and its associated network prefix.
-		// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
-		Network Cidr `json:"network"`
-	} `json:"routes,omitempty"`
-	Vid int `json:"vid"`
-}
-
-// NetworkVlan_Ips defines model for NetworkVlan.Ips.
-type NetworkVlan_Ips struct {
-	union json.RawMessage
-}
-
-// NetworkVlanDhcpDetails defines model for NetworkVlanDhcpDetails.
-type NetworkVlanDhcpDetails struct {
-	Details *map[string]interface{}      `json:"details,omitempty"`
-	Method  NetworkVlanDhcpDetailsMethod `json:"method"`
-}
-
-// NetworkVlanDhcpDetailsMethod defines model for NetworkVlanDhcpDetails.Method.
-type NetworkVlanDhcpDetailsMethod string
-
-// NetworkVlanStaticDetails defines model for NetworkVlanStaticDetails.
-type NetworkVlanStaticDetails struct {
-	Details struct {
-		Ipv4 *struct {
-			// Gateway The IP of the gateway
-			Gateway *string `json:"gateway"`
-
-			// Network The CIDR for the network.
-			Network string `json:"network"`
-
-			// Usable The usable CIDR.
-			Usable string `json:"usable"`
-		} `json:"ipv4"`
-		Ipv6 *struct {
-			// Gateway The IP of the gateway
-			Gateway *string `json:"gateway"`
-
-			// Network The CIDR for the network.
-			Network string `json:"network"`
-
-			// Usable The usable CIDR.
-			Usable string `json:"usable"`
-		} `json:"ipv6"`
-	} `json:"details"`
-	Method NetworkVlanStaticDetailsMethod `json:"method"`
-}
-
-// NetworkVlanStaticDetailsMethod defines model for NetworkVlanStaticDetails.Method.
-type NetworkVlanStaticDetailsMethod string
-
 // NodeMetaStats Statistics that pertain to a specific node.
 type NodeMetaStats struct {
 	// Cpu Statistics about the CPU resources on a server.
@@ -8748,7 +8899,8 @@ type NodeState struct {
 	Changed DateTime `json:"changed"`
 
 	// Current The current state of the node.
-	Current NodeStateCurrent `json:"current"`
+	Current NodeStateCurrent  `json:"current"`
+	Desired *NodeStateDesired `json:"desired"`
 
 	// Error An error, if any, that has occurred for this resource.
 	Error *struct {
@@ -8760,6 +8912,9 @@ type NodeState struct {
 
 // NodeStateCurrent The current state of the node.
 type NodeStateCurrent string
+
+// NodeStateDesired defines model for NodeState.Desired.
+type NodeStateDesired string
 
 // NoneOrigin An empty origin. No details are provided for this image.
 type NoneOrigin struct {
@@ -9777,7 +9932,8 @@ type ScopedVariable struct {
 	Access ScopedVariableAccess `json:"access"`
 
 	// Creator The creator scope is embedded in resource objects to describe who created them
-	Creator CreatorScope `json:"creator"`
+	Creator    CreatorScope `json:"creator"`
+	Deployment *Deployment  `json:"deployment"`
 
 	// EnvironmentId An identifier used to reference the environment this resource is scoped to.
 	EnvironmentId string `json:"environment_id"`
@@ -10880,6 +11036,10 @@ type StackBuildDeploymentUpdates struct {
 		// AddNew If set to true, any scoped variables that are new to the environment will be created when deployed.
 		AddNew bool `json:"add_new"`
 
+		// AssociateDeployment If set to true and `add_new` is enabled, any variables that dont exist FOR THAT DEPLOYMENT will be created.
+		// If set to true and `replace_existing` is enabled, any matching variables FOR THAT DEPLOYMENT will be replaced.
+		AssociateDeployment bool `json:"associate_deployment"`
+
 		// ReplaceExisting When deploying to the environment, any scoped variables defined in the build that match an existing scoped variable in the environment will cause the existing scoped variable to be updated to the new value.
 		ReplaceExisting bool `json:"replace_existing"`
 	} `json:"scoped_variables"`
@@ -11143,6 +11303,9 @@ type StackSpec struct {
 	Annotations *StackSpec_Annotations `json:"annotations,omitempty"`
 	Containers  StackSpec_Containers   `json:"containers"`
 
+	// Monitoring Monitoring options for containers within this stack.
+	Monitoring *StackSpec_Monitoring `json:"monitoring,omitempty"`
+
 	// ScopedVariables Describes variables that are assigned to one or more containers at runtime. Can be assigned as an environment variable, written as a file inside the container(s), or accessed over the internal API.
 	ScopedVariables *StackSpec_ScopedVariables `json:"scoped_variables,omitempty"`
 
@@ -11180,6 +11343,11 @@ type StackSpecContainers0 map[string]StackSpecContainer
 
 // StackSpec_Containers defines model for StackSpec.Containers.
 type StackSpec_Containers struct {
+	union json.RawMessage
+}
+
+// StackSpec_Monitoring Monitoring options for containers within this stack.
+type StackSpec_Monitoring struct {
 	union json.RawMessage
 }
 
@@ -11775,6 +11943,12 @@ type StackSpecImageOrigin struct {
 	union json.RawMessage
 }
 
+// StackSpecMonitoringConfig Monitoring options for the stack build & containers within this stack.
+type StackSpecMonitoringConfig struct {
+	// Logs A variable specified in a stack spec.
+	Logs *StackVariable `json:"logs,omitempty"`
+}
+
 // StackSpecScopedVariable defines model for StackSpecScopedVariable.
 type StackSpecScopedVariable struct {
 	Access     StackSpecScopedVariable_Access `json:"access"`
@@ -12130,6 +12304,7 @@ type TierPlan struct {
 		Gpu                  bool `json:"gpu"`
 		Ial                  bool `json:"ial"`
 		ProviderMultiAccount bool `json:"provider_multi_account"`
+		VirtualProvider      bool `json:"virtual_provider"`
 	} `json:"advanced_features"`
 
 	// Builds An object holding information about servers included in Billing tier
@@ -12340,7 +12515,7 @@ type V1LbConfig struct {
 type V1LbConfigRouter struct {
 	Config struct {
 		// DestinationPrioritization Hints to the load balancer how to prioritize traffic to instances.
-		// **random**: Chooses a random instance. **latency**: Prioritizes lower latency instances.
+		// **random**: Chooses a random instance. **latency**: Prioritizes lower latency instances. **fixed**: The order of the destinations will be the same regardless of instance or load balancer location.  Used primarily with source IP routing.
 		DestinationPrioritization *V1LbConfigRouterConfigDestinationPrioritization `json:"destination_prioritization"`
 
 		// DestinationRetries If a destination is unavailable, retry up to [x] times, instead of immediately failing with a 503/504 error.
@@ -12405,7 +12580,7 @@ type V1LbConfigRouter struct {
 }
 
 // V1LbConfigRouterConfigDestinationPrioritization Hints to the load balancer how to prioritize traffic to instances.
-// **random**: Chooses a random instance. **latency**: Prioritizes lower latency instances.
+// **random**: Chooses a random instance. **latency**: Prioritizes lower latency instances. **fixed**: The order of the destinations will be the same regardless of instance or load balancer location.  Used primarily with source IP routing.
 type V1LbConfigRouterConfigDestinationPrioritization string
 
 // V1LbConfigRouter_Config_Extension Additional configuration options specific to the selected mode (tcp/http).
@@ -12804,17 +12979,17 @@ type VirtualMachineMeta struct {
 		Record *DnsRecord `json:"record"`
 	} `json:"domains,omitempty"`
 
+	// HypervisorIps An array of private IP addresses associated with the hypervisor for this virtual machine..
+	HypervisorIps *struct {
+		Ipv4 *string `json:"ipv4,omitempty"`
+		Ipv6 *string `json:"ipv6,omitempty"`
+	} `json:"hypervisor_ips,omitempty"`
+
 	// Ips An array of public IP addresses associated with this virtual machine.
 	Ips *[]Ip `json:"ips,omitempty"`
 
 	// Server The server the virtual machine is deployed to.
 	Server *Server `json:"server"`
-
-	// VmPrivIps An array of private IP addresses associated with this virtual machine.
-	VmPrivIps *struct {
-		Ipv4 *string `json:"ipv4,omitempty"`
-		Ipv6 *string `json:"ipv6,omitempty"`
-	} `json:"vm_priv_ips,omitempty"`
 }
 
 // VirtualMachineNetworkConfig Defines the network settings for a virtual machine, including public access mode, hostname, and ports.
@@ -13105,6 +13280,9 @@ type VirtualProviderIso struct {
 			VlanId *int `json:"vlan_id"`
 		} `json:"ipxe"`
 		Server *struct {
+			// AdditionalKernelArgs Appends additional kernel arguments when booting CycleOS.
+			AdditionalKernelArgs *string `json:"additional_kernel_args"`
+
 			// Bonds An array of bonds
 			Bonds *[]VirtualProviderIsoBond `json:"bonds,omitempty"`
 
@@ -13175,10 +13353,22 @@ type VirtualProviderIsoBond struct {
 		// MacAddress The mac address of the server.
 		MacAddress *string `json:"mac_address"`
 	} `json:"interfaces,omitempty"`
+
+	// Mode balance-rr - Rotate packets evenly across all links.
+	// active-backup - One link active, failover to backup if needed.
+	// balance-xor - Distributes based on a hash (MAC/IP/port).
+	// lacp - Standard link aggregations using LACP.
+	// balance-tlb - Adaptive transmit-side balancing (no switch config needed)..
+	// balance-alb - TLB + receive load balancing (no switch config needed)..
 	Mode VirtualProviderIsoBondMode `json:"mode"`
 }
 
-// VirtualProviderIsoBondMode defines model for VirtualProviderIsoBond.Mode.
+// VirtualProviderIsoBondMode balance-rr - Rotate packets evenly across all links.
+// active-backup - One link active, failover to backup if needed.
+// balance-xor - Distributes based on a hash (MAC/IP/port).
+// lacp - Standard link aggregations using LACP.
+// balance-tlb - Adaptive transmit-side balancing (no switch config needed)..
+// balance-alb - TLB + receive load balancing (no switch config needed)..
 type VirtualProviderIsoBondMode string
 
 // VirtualProviderIsoIncludes A resource that is associated with an ISO.
@@ -13192,6 +13382,13 @@ type VirtualProviderIsoNic struct {
 	Dhcp *struct {
 		Mode VirtualProviderIsoNicDhcpMode `json:"mode"`
 	} `json:"dhcp"`
+
+	// L2 Configuration options for extending the L2 network into containers directly via a bridge.
+	L2 *struct {
+		// Domain A standardized name for different layer-2 networks that can be configured on virtual provider hosts.
+		//  Containers will utilize this name to determine which network to attach to on the host, if set in the config.
+		Domain L2Domain `json:"domain"`
+	} `json:"l2"`
 
 	// Match The criteria used to match the server to the interface.
 	Match struct {
@@ -13665,6 +13862,9 @@ type GetInvoicesParamsMeta string
 type GetInvoiceParams struct {
 	// Meta A comma separated list of meta values. Meta values will show up under a resource's `meta` field. In the case of applying a meta to a collection of resources, each resource will have it's own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.
 	Meta *[]GetInvoiceParamsMeta `form:"meta,omitempty" json:"meta,omitempty"`
+
+	// Token Token can be optionally provided for authentication outside of the hub context.
+	Token *string `form:"token,omitempty" json:"token,omitempty"`
 }
 
 // GetInvoiceParamsMeta defines parameters for GetInvoice.
@@ -14455,14 +14655,8 @@ type GetEnvironmentParamsInclude string
 type UpdateEnvironmentJSONBody struct {
 	About      *EnvironmentAbout `json:"about"`
 	Identifier *string           `json:"identifier"`
-
-	// Monitoring The level of monitoring to enable for this environment. There is a cost associated with higher levels of monitoring.
-	Monitoring *struct {
-		// Tier The tier of monitoring, that determines the frequency that metrics are aggregated by the platform, on a per-environment basis.
-		Tier MonitoringTier `json:"tier"`
-	} `json:"monitoring"`
-	Name    *string `json:"name"`
-	Version *string `json:"version"`
+	Name       *string           `json:"name"`
+	Version    *string           `json:"version"`
 }
 
 // UpdateEnvironmentAccessJSONBody defines parameters for UpdateEnvironmentAccess.
@@ -14509,7 +14703,8 @@ type GetScopedVariablesParams struct {
 // CreateScopedVariableJSONBody defines parameters for CreateScopedVariable.
 type CreateScopedVariableJSONBody struct {
 	// Access The way the scoped variable is accessed.
-	Access *ScopedVariableAccess `json:"access,omitempty"`
+	Access     *ScopedVariableAccess `json:"access,omitempty"`
+	Deployment *Deployment           `json:"deployment"`
 
 	// Identifier An identifier for this Scoped Variable.
 	Identifier string `json:"identifier"`
@@ -15707,6 +15902,9 @@ type CreateVirtualProviderIsoJSONBody struct {
 			VlanId *int `json:"vlan_id"`
 		} `json:"ipxe"`
 		Server *struct {
+			// AdditionalKernelArgs Appends additional kernel arguments when booting CycleOS.
+			AdditionalKernelArgs *string `json:"additional_kernel_args"`
+
 			// Bonds An array of bonds
 			Bonds *[]VirtualProviderIsoBond `json:"bonds,omitempty"`
 
@@ -15742,6 +15940,9 @@ type GetVirtualProviderIsoParamsInclude string
 type UpdateVirtualProviderIsoJSONBody struct {
 	Config *struct {
 		Server *struct {
+			// AdditionalKernelArgs Appends additional kernel arguments when booting CycleOS.
+			AdditionalKernelArgs *string `json:"additional_kernel_args"`
+
 			// Bonds An array of bonds
 			Bonds *[]VirtualProviderIsoBond `json:"bonds,omitempty"`
 
@@ -16121,6 +16322,9 @@ type GetNetworksParams struct {
 
 	// Filter The filter field is a key-value object, where the key is what you would like to filter, and the value is the value you're filtering for.
 	Filter *struct {
+		// Environment `filter[environment]=ID` Filter networks based on linked environment. Submit the ID of the environment you wish to filter for.
+		Environment *string `json:"environment,omitempty"`
+
 		// Search `filter[search]=value` search for a value associated with a field on the given Network(s).
 		Search *string `json:"search,omitempty"`
 
@@ -16149,11 +16353,11 @@ type CreateNetworkJSONBody struct {
 	Environments []string `json:"environments"`
 
 	// Identifier A network identifier used to construct http calls that specifically use this network over another.
-	Identifier string `json:"identifier"`
+	Identifier string     `json:"identifier"`
+	L2         *NetworkL2 `json:"l2"`
 
 	// Name The name of the network.
-	Name string       `json:"name"`
-	Vlan *NetworkVlan `json:"vlan"`
+	Name string `json:"name"`
 }
 
 // CreateNetworkParams defines parameters for CreateNetwork.
@@ -16176,13 +16380,11 @@ type GetNetworkParamsInclude string
 
 // UpdateNetworkJSONBody defines parameters for UpdateNetwork.
 type UpdateNetworkJSONBody struct {
-	// Name The name of the network.
-	Name *string `json:"name,omitempty"`
-	Vlan *struct {
+	L2 *struct {
 		HostInterface *string `json:"host_interface"`
 		LocationIds   *[]ID   `json:"location_ids,omitempty"`
 
-		// Routes An array of defined VLAN routes
+		// Routes An array of defined L2 routes
 		Routes *[]struct {
 			// Gateway An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
 			Gateway *IpAddress `json:"gateway,omitempty"`
@@ -16191,7 +16393,10 @@ type UpdateNetworkJSONBody struct {
 			// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
 			Usable *Cidr `json:"usable,omitempty"`
 		} `json:"routes,omitempty"`
-	} `json:"vlan"`
+	} `json:"l2"`
+
+	// Name The name of the network.
+	Name *string `json:"name,omitempty"`
 }
 
 // UpdateNetworkParams defines parameters for UpdateNetwork.
@@ -16804,6 +17009,9 @@ type UpdateClusterJSONRequestBody = UpdateClusterJSONBody
 // UpdateClusterAccessJSONRequestBody defines body for UpdateClusterAccess for application/json ContentType.
 type UpdateClusterAccessJSONRequestBody UpdateClusterAccessJSONBody
 
+// CreateClusterJobJSONRequestBody defines body for CreateClusterJob for application/json ContentType.
+type CreateClusterJobJSONRequestBody = ClusterTask
+
 // CreateIpPoolJSONRequestBody defines body for CreateIpPool for application/json ContentType.
 type CreateIpPoolJSONRequestBody CreateIpPoolJSONBody
 
@@ -17383,6 +17591,65 @@ func (a PublicAccount_Events) MarshalJSON() ([]byte, error) {
 	return json.Marshal(object)
 }
 
+// AsClusterReconfigureMonitoringTierAction returns the union data inside the ClusterTask as a ClusterReconfigureMonitoringTierAction
+func (t ClusterTask) AsClusterReconfigureMonitoringTierAction() (ClusterReconfigureMonitoringTierAction, error) {
+	var body ClusterReconfigureMonitoringTierAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromClusterReconfigureMonitoringTierAction overwrites any union data inside the ClusterTask as the provided ClusterReconfigureMonitoringTierAction
+func (t *ClusterTask) FromClusterReconfigureMonitoringTierAction(v ClusterReconfigureMonitoringTierAction) error {
+	v.Action = "features.monitoring.tier.reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeClusterReconfigureMonitoringTierAction performs a merge with any union data inside the ClusterTask, using the provided ClusterReconfigureMonitoringTierAction
+func (t *ClusterTask) MergeClusterReconfigureMonitoringTierAction(v ClusterReconfigureMonitoringTierAction) error {
+	v.Action = "features.monitoring.tier.reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ClusterTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t ClusterTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "features.monitoring.tier.reconfigure":
+		return t.AsClusterReconfigureMonitoringTierAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t ClusterTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ClusterTask) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsContainerStartAction returns the union data inside the ContainerTask as a ContainerStartAction
 func (t ContainerTask) AsContainerStartAction() (ContainerStartAction, error) {
 	var body ContainerStartAction
@@ -17734,6 +18001,34 @@ func (t *EnvironmentTask) MergeEnvironmentReconfigureDeploymentsAction(v Environ
 	return err
 }
 
+// AsEnvironmentReconfigureMonitoringAction returns the union data inside the EnvironmentTask as a EnvironmentReconfigureMonitoringAction
+func (t EnvironmentTask) AsEnvironmentReconfigureMonitoringAction() (EnvironmentReconfigureMonitoringAction, error) {
+	var body EnvironmentReconfigureMonitoringAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEnvironmentReconfigureMonitoringAction overwrites any union data inside the EnvironmentTask as the provided EnvironmentReconfigureMonitoringAction
+func (t *EnvironmentTask) FromEnvironmentReconfigureMonitoringAction(v EnvironmentReconfigureMonitoringAction) error {
+	v.Action = "monitoring.reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEnvironmentReconfigureMonitoringAction performs a merge with any union data inside the EnvironmentTask, using the provided EnvironmentReconfigureMonitoringAction
+func (t *EnvironmentTask) MergeEnvironmentReconfigureMonitoringAction(v EnvironmentReconfigureMonitoringAction) error {
+	v.Action = "monitoring.reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
 func (t EnvironmentTask) Discriminator() (string, error) {
 	var discriminator struct {
 		Discriminator string `json:"action"`
@@ -17752,6 +18047,8 @@ func (t EnvironmentTask) ValueByDiscriminator() (interface{}, error) {
 		return t.AsEnvironmentReconfigureDeploymentsAction()
 	case "initialize":
 		return t.AsEnvironmentInitializeAction()
+	case "monitoring.reconfigure":
+		return t.AsEnvironmentReconfigureMonitoringAction()
 	case "start":
 		return t.AsEnvironmentStartAction()
 	case "stop":
@@ -18756,23 +19053,23 @@ func (t *Metric_Points_Item) UnmarshalJSON(b []byte) error {
 	return err
 }
 
-// AsNetworkVlanDhcpDetails returns the union data inside the NetworkVlan_Ips as a NetworkVlanDhcpDetails
-func (t NetworkVlan_Ips) AsNetworkVlanDhcpDetails() (NetworkVlanDhcpDetails, error) {
-	var body NetworkVlanDhcpDetails
+// AsNetworkL2DhcpDetails returns the union data inside the NetworkL2_Ips as a NetworkL2DhcpDetails
+func (t NetworkL2_Ips) AsNetworkL2DhcpDetails() (NetworkL2DhcpDetails, error) {
+	var body NetworkL2DhcpDetails
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromNetworkVlanDhcpDetails overwrites any union data inside the NetworkVlan_Ips as the provided NetworkVlanDhcpDetails
-func (t *NetworkVlan_Ips) FromNetworkVlanDhcpDetails(v NetworkVlanDhcpDetails) error {
+// FromNetworkL2DhcpDetails overwrites any union data inside the NetworkL2_Ips as the provided NetworkL2DhcpDetails
+func (t *NetworkL2_Ips) FromNetworkL2DhcpDetails(v NetworkL2DhcpDetails) error {
 	v.Method = "dhcp"
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeNetworkVlanDhcpDetails performs a merge with any union data inside the NetworkVlan_Ips, using the provided NetworkVlanDhcpDetails
-func (t *NetworkVlan_Ips) MergeNetworkVlanDhcpDetails(v NetworkVlanDhcpDetails) error {
+// MergeNetworkL2DhcpDetails performs a merge with any union data inside the NetworkL2_Ips, using the provided NetworkL2DhcpDetails
+func (t *NetworkL2_Ips) MergeNetworkL2DhcpDetails(v NetworkL2DhcpDetails) error {
 	v.Method = "dhcp"
 	b, err := json.Marshal(v)
 	if err != nil {
@@ -18784,23 +19081,23 @@ func (t *NetworkVlan_Ips) MergeNetworkVlanDhcpDetails(v NetworkVlanDhcpDetails) 
 	return err
 }
 
-// AsNetworkVlanStaticDetails returns the union data inside the NetworkVlan_Ips as a NetworkVlanStaticDetails
-func (t NetworkVlan_Ips) AsNetworkVlanStaticDetails() (NetworkVlanStaticDetails, error) {
-	var body NetworkVlanStaticDetails
+// AsNetworkL2StaticDetails returns the union data inside the NetworkL2_Ips as a NetworkL2StaticDetails
+func (t NetworkL2_Ips) AsNetworkL2StaticDetails() (NetworkL2StaticDetails, error) {
+	var body NetworkL2StaticDetails
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromNetworkVlanStaticDetails overwrites any union data inside the NetworkVlan_Ips as the provided NetworkVlanStaticDetails
-func (t *NetworkVlan_Ips) FromNetworkVlanStaticDetails(v NetworkVlanStaticDetails) error {
+// FromNetworkL2StaticDetails overwrites any union data inside the NetworkL2_Ips as the provided NetworkL2StaticDetails
+func (t *NetworkL2_Ips) FromNetworkL2StaticDetails(v NetworkL2StaticDetails) error {
 	v.Method = "static"
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeNetworkVlanStaticDetails performs a merge with any union data inside the NetworkVlan_Ips, using the provided NetworkVlanStaticDetails
-func (t *NetworkVlan_Ips) MergeNetworkVlanStaticDetails(v NetworkVlanStaticDetails) error {
+// MergeNetworkL2StaticDetails performs a merge with any union data inside the NetworkL2_Ips, using the provided NetworkL2StaticDetails
+func (t *NetworkL2_Ips) MergeNetworkL2StaticDetails(v NetworkL2StaticDetails) error {
 	v.Method = "static"
 	b, err := json.Marshal(v)
 	if err != nil {
@@ -18812,7 +19109,7 @@ func (t *NetworkVlan_Ips) MergeNetworkVlanStaticDetails(v NetworkVlanStaticDetai
 	return err
 }
 
-func (t NetworkVlan_Ips) Discriminator() (string, error) {
+func (t NetworkL2_Ips) Discriminator() (string, error) {
 	var discriminator struct {
 		Discriminator string `json:"method"`
 	}
@@ -18820,27 +19117,27 @@ func (t NetworkVlan_Ips) Discriminator() (string, error) {
 	return discriminator.Discriminator, err
 }
 
-func (t NetworkVlan_Ips) ValueByDiscriminator() (interface{}, error) {
+func (t NetworkL2_Ips) ValueByDiscriminator() (interface{}, error) {
 	discriminator, err := t.Discriminator()
 	if err != nil {
 		return nil, err
 	}
 	switch discriminator {
 	case "dhcp":
-		return t.AsNetworkVlanDhcpDetails()
+		return t.AsNetworkL2DhcpDetails()
 	case "static":
-		return t.AsNetworkVlanStaticDetails()
+		return t.AsNetworkL2StaticDetails()
 	default:
 		return nil, errors.New("unknown discriminator value: " + discriminator)
 	}
 }
 
-func (t NetworkVlan_Ips) MarshalJSON() ([]byte, error) {
+func (t NetworkL2_Ips) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	return b, err
 }
 
-func (t *NetworkVlan_Ips) UnmarshalJSON(b []byte) error {
+func (t *NetworkL2_Ips) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -21057,6 +21354,68 @@ func (t StackSpec_Containers) MarshalJSON() ([]byte, error) {
 }
 
 func (t *StackSpec_Containers) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsStackSpecMonitoringConfig returns the union data inside the StackSpec_Monitoring as a StackSpecMonitoringConfig
+func (t StackSpec_Monitoring) AsStackSpecMonitoringConfig() (StackSpecMonitoringConfig, error) {
+	var body StackSpecMonitoringConfig
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStackSpecMonitoringConfig overwrites any union data inside the StackSpec_Monitoring as the provided StackSpecMonitoringConfig
+func (t *StackSpec_Monitoring) FromStackSpecMonitoringConfig(v StackSpecMonitoringConfig) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStackSpecMonitoringConfig performs a merge with any union data inside the StackSpec_Monitoring, using the provided StackSpecMonitoringConfig
+func (t *StackSpec_Monitoring) MergeStackSpecMonitoringConfig(v StackSpecMonitoringConfig) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsStackVariable returns the union data inside the StackSpec_Monitoring as a StackVariable
+func (t StackSpec_Monitoring) AsStackVariable() (StackVariable, error) {
+	var body StackVariable
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStackVariable overwrites any union data inside the StackSpec_Monitoring as the provided StackVariable
+func (t *StackSpec_Monitoring) FromStackVariable(v StackVariable) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStackVariable performs a merge with any union data inside the StackSpec_Monitoring, using the provided StackVariable
+func (t *StackSpec_Monitoring) MergeStackVariable(v StackVariable) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t StackSpec_Monitoring) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *StackSpec_Monitoring) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -25751,9 +26110,6 @@ type ClientInterface interface {
 
 	CreateEnvironment(ctx context.Context, body CreateEnvironmentJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetEnvironmentMonitoringTiers request
-	GetEnvironmentMonitoringTiers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
-
 	// DeleteEnvironment request
 	DeleteEnvironment(ctx context.Context, environmentId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -26095,6 +26451,11 @@ type ClientInterface interface {
 
 	UpdateClusterAccess(ctx context.Context, clusterId string, body UpdateClusterAccessJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// CreateClusterJobWithBody request with any body
+	CreateClusterJobWithBody(ctx context.Context, clusterId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateClusterJob(ctx context.Context, clusterId string, body CreateClusterJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetDeploymentStrategies request
 	GetDeploymentStrategies(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -26114,6 +26475,9 @@ type ClientInterface interface {
 
 	// GetPoolIPs request
 	GetPoolIPs(ctx context.Context, poolId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetClusterMonitoringTiers request
+	GetClusterMonitoringTiers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetProviderLocations request
 	GetProviderLocations(ctx context.Context, providerVendor string, params *GetProviderLocationsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -27819,18 +28183,6 @@ func (c *Client) CreateEnvironment(ctx context.Context, body CreateEnvironmentJS
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetEnvironmentMonitoringTiers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetEnvironmentMonitoringTiersRequest(c.Server)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
 func (c *Client) DeleteEnvironment(ctx context.Context, environmentId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewDeleteEnvironmentRequest(c.Server, environmentId)
 	if err != nil {
@@ -29343,6 +29695,30 @@ func (c *Client) UpdateClusterAccess(ctx context.Context, clusterId string, body
 	return c.Client.Do(req)
 }
 
+func (c *Client) CreateClusterJobWithBody(ctx context.Context, clusterId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateClusterJobRequestWithBody(c.Server, clusterId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateClusterJob(ctx context.Context, clusterId string, body CreateClusterJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateClusterJobRequest(c.Server, clusterId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) GetDeploymentStrategies(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetDeploymentStrategiesRequest(c.Server)
 	if err != nil {
@@ -29417,6 +29793,18 @@ func (c *Client) GetIPPool(ctx context.Context, poolId string, params *GetIPPool
 
 func (c *Client) GetPoolIPs(ctx context.Context, poolId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetPoolIPsRequest(c.Server, poolId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetClusterMonitoringTiers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetClusterMonitoringTiersRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -31861,6 +32249,22 @@ func NewGetInvoiceRequest(server string, invoiceId string, params *GetInvoicePar
 		if params.Meta != nil {
 
 			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "meta", runtime.ParamLocationQuery, *params.Meta); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Token != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "token", runtime.ParamLocationQuery, *params.Token); err != nil {
 				return nil, err
 			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 				return nil, err
@@ -35834,33 +36238,6 @@ func NewCreateEnvironmentRequestWithBody(server string, contentType string, body
 	}
 
 	req.Header.Add("Content-Type", contentType)
-
-	return req, nil
-}
-
-// NewGetEnvironmentMonitoringTiersRequest generates requests for GetEnvironmentMonitoringTiers
-func NewGetEnvironmentMonitoringTiersRequest(server string) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/environments/monitoring-tiers")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
 
 	return req, nil
 }
@@ -40498,6 +40875,53 @@ func NewUpdateClusterAccessRequestWithBody(server string, clusterId string, cont
 	return req, nil
 }
 
+// NewCreateClusterJobRequest calls the generic CreateClusterJob builder with application/json body
+func NewCreateClusterJobRequest(server string, clusterId string, body CreateClusterJobJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateClusterJobRequestWithBody(server, clusterId, "application/json", bodyReader)
+}
+
+// NewCreateClusterJobRequestWithBody generates requests for CreateClusterJob with any type of body
+func NewCreateClusterJobRequestWithBody(server string, clusterId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "clusterId", runtime.ParamLocationPath, clusterId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/clusters/%s/tasks", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetDeploymentStrategiesRequest generates requests for GetDeploymentStrategies
 func NewGetDeploymentStrategiesRequest(server string) (*http.Request, error) {
 	var err error
@@ -40769,6 +41193,33 @@ func NewGetPoolIPsRequest(server string, poolId string) (*http.Request, error) {
 	}
 
 	operationPath := fmt.Sprintf("/v1/infrastructure/ips/pools/%s/ips", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetClusterMonitoringTiersRequest generates requests for GetClusterMonitoringTiers
+func NewGetClusterMonitoringTiersRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/monitoring-tiers")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -45779,9 +46230,6 @@ type ClientWithResponsesInterface interface {
 
 	CreateEnvironmentWithResponse(ctx context.Context, body CreateEnvironmentJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateEnvironmentResponse, error)
 
-	// GetEnvironmentMonitoringTiersWithResponse request
-	GetEnvironmentMonitoringTiersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetEnvironmentMonitoringTiersResponse, error)
-
 	// DeleteEnvironmentWithResponse request
 	DeleteEnvironmentWithResponse(ctx context.Context, environmentId string, reqEditors ...RequestEditorFn) (*DeleteEnvironmentResponse, error)
 
@@ -46123,6 +46571,11 @@ type ClientWithResponsesInterface interface {
 
 	UpdateClusterAccessWithResponse(ctx context.Context, clusterId string, body UpdateClusterAccessJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateClusterAccessResponse, error)
 
+	// CreateClusterJobWithBodyWithResponse request with any body
+	CreateClusterJobWithBodyWithResponse(ctx context.Context, clusterId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateClusterJobResponse, error)
+
+	CreateClusterJobWithResponse(ctx context.Context, clusterId string, body CreateClusterJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateClusterJobResponse, error)
+
 	// GetDeploymentStrategiesWithResponse request
 	GetDeploymentStrategiesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetDeploymentStrategiesResponse, error)
 
@@ -46142,6 +46595,9 @@ type ClientWithResponsesInterface interface {
 
 	// GetPoolIPsWithResponse request
 	GetPoolIPsWithResponse(ctx context.Context, poolId string, reqEditors ...RequestEditorFn) (*GetPoolIPsResponse, error)
+
+	// GetClusterMonitoringTiersWithResponse request
+	GetClusterMonitoringTiersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetClusterMonitoringTiersResponse, error)
 
 	// GetProviderLocationsWithResponse request
 	GetProviderLocationsWithResponse(ctx context.Context, providerVendor string, params *GetProviderLocationsParams, reqEditors ...RequestEditorFn) (*GetProviderLocationsResponse, error)
@@ -48725,31 +49181,6 @@ func (r CreateEnvironmentResponse) StatusCode() int {
 	return 0
 }
 
-type GetEnvironmentMonitoringTiersResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *struct {
-		Data map[string]MonitoringTierDetails `json:"data"`
-	}
-	JSONDefault *DefaultError
-}
-
-// Status returns HTTPResponse.Status
-func (r GetEnvironmentMonitoringTiersResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetEnvironmentMonitoringTiersResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
 type DeleteEnvironmentResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -51139,6 +51570,32 @@ func (r UpdateClusterAccessResponse) StatusCode() int {
 	return 0
 }
 
+type CreateClusterJobResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *struct {
+		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+		Data JobDescriptor `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateClusterJobResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateClusterJobResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetDeploymentStrategiesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -51316,6 +51773,31 @@ func (r GetPoolIPsResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetPoolIPsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetClusterMonitoringTiersResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Data map[string]MonitoringTierDetails `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetClusterMonitoringTiersResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetClusterMonitoringTiersResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -54587,15 +55069,6 @@ func (c *ClientWithResponses) CreateEnvironmentWithResponse(ctx context.Context,
 	return ParseCreateEnvironmentResponse(rsp)
 }
 
-// GetEnvironmentMonitoringTiersWithResponse request returning *GetEnvironmentMonitoringTiersResponse
-func (c *ClientWithResponses) GetEnvironmentMonitoringTiersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetEnvironmentMonitoringTiersResponse, error) {
-	rsp, err := c.GetEnvironmentMonitoringTiers(ctx, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetEnvironmentMonitoringTiersResponse(rsp)
-}
-
 // DeleteEnvironmentWithResponse request returning *DeleteEnvironmentResponse
 func (c *ClientWithResponses) DeleteEnvironmentWithResponse(ctx context.Context, environmentId string, reqEditors ...RequestEditorFn) (*DeleteEnvironmentResponse, error) {
 	rsp, err := c.DeleteEnvironment(ctx, environmentId, reqEditors...)
@@ -55693,6 +56166,23 @@ func (c *ClientWithResponses) UpdateClusterAccessWithResponse(ctx context.Contex
 	return ParseUpdateClusterAccessResponse(rsp)
 }
 
+// CreateClusterJobWithBodyWithResponse request with arbitrary body returning *CreateClusterJobResponse
+func (c *ClientWithResponses) CreateClusterJobWithBodyWithResponse(ctx context.Context, clusterId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateClusterJobResponse, error) {
+	rsp, err := c.CreateClusterJobWithBody(ctx, clusterId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateClusterJobResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateClusterJobWithResponse(ctx context.Context, clusterId string, body CreateClusterJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateClusterJobResponse, error) {
+	rsp, err := c.CreateClusterJob(ctx, clusterId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateClusterJobResponse(rsp)
+}
+
 // GetDeploymentStrategiesWithResponse request returning *GetDeploymentStrategiesResponse
 func (c *ClientWithResponses) GetDeploymentStrategiesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetDeploymentStrategiesResponse, error) {
 	rsp, err := c.GetDeploymentStrategies(ctx, reqEditors...)
@@ -55753,6 +56243,15 @@ func (c *ClientWithResponses) GetPoolIPsWithResponse(ctx context.Context, poolId
 		return nil, err
 	}
 	return ParseGetPoolIPsResponse(rsp)
+}
+
+// GetClusterMonitoringTiersWithResponse request returning *GetClusterMonitoringTiersResponse
+func (c *ClientWithResponses) GetClusterMonitoringTiersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetClusterMonitoringTiersResponse, error) {
+	rsp, err := c.GetClusterMonitoringTiers(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetClusterMonitoringTiersResponse(rsp)
 }
 
 // GetProviderLocationsWithResponse request returning *GetProviderLocationsResponse
@@ -59890,41 +60389,6 @@ func ParseCreateEnvironmentResponse(rsp *http.Response) (*CreateEnvironmentRespo
 	return response, nil
 }
 
-// ParseGetEnvironmentMonitoringTiersResponse parses an HTTP response from a GetEnvironmentMonitoringTiersWithResponse call
-func ParseGetEnvironmentMonitoringTiersResponse(rsp *http.Response) (*GetEnvironmentMonitoringTiersResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetEnvironmentMonitoringTiersResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest struct {
-			Data map[string]MonitoringTierDetails `json:"data"`
-		}
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
-		var dest DefaultError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSONDefault = &dest
-
-	}
-
-	return response, nil
-}
-
 // ParseDeleteEnvironmentResponse parses an HTTP response from a DeleteEnvironmentWithResponse call
 func ParseDeleteEnvironmentResponse(rsp *http.Response) (*DeleteEnvironmentResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -63202,6 +63666,42 @@ func ParseUpdateClusterAccessResponse(rsp *http.Response) (*UpdateClusterAccessR
 	return response, nil
 }
 
+// ParseCreateClusterJobResponse parses an HTTP response from a CreateClusterJobWithResponse call
+func ParseCreateClusterJobResponse(rsp *http.Response) (*CreateClusterJobResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateClusterJobResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+			Data JobDescriptor `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetDeploymentStrategiesResponse parses an HTTP response from a GetDeploymentStrategiesWithResponse call
 func ParseGetDeploymentStrategiesResponse(rsp *http.Response) (*GetDeploymentStrategiesResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -63427,6 +63927,41 @@ func ParseGetPoolIPsResponse(rsp *http.Response) (*GetPoolIPsResponse, error) {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
 			Data []Ip `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetClusterMonitoringTiersResponse parses an HTTP response from a GetClusterMonitoringTiersWithResponse call
+func ParseGetClusterMonitoringTiersResponse(rsp *http.Response) (*GetClusterMonitoringTiersResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetClusterMonitoringTiersResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Data map[string]MonitoringTierDetails `json:"data"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err

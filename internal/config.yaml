@@ -1,5 +1,5 @@
 package: cycle
-output: generated.go
+output: ../generated.go
 generate:
   models: true
   client: true
