@@ -35,231 +35,235 @@ const (
 
 // Defines values for ActivityEvent.
 const (
-	ActivityEventBillingInvoicePay                               ActivityEvent = "billing.invoice.pay"
-	ActivityEventBillingInvoiceTaskCredit                        ActivityEvent = "billing.invoice.task.credit"
-	ActivityEventBillingInvoiceTaskPay                           ActivityEvent = "billing.invoice.task.pay"
-	ActivityEventBillingInvoiceTaskRefund                        ActivityEvent = "billing.invoice.task.refund"
-	ActivityEventBillingInvoiceTaskVoid                          ActivityEvent = "billing.invoice.task.void"
-	ActivityEventBillingMethodCreate                             ActivityEvent = "billing.method.create"
-	ActivityEventBillingMethodDelete                             ActivityEvent = "billing.method.delete"
-	ActivityEventBillingMethodTaskDelete                         ActivityEvent = "billing.method.task.delete"
-	ActivityEventBillingMethodUpdate                             ActivityEvent = "billing.method.update"
-	ActivityEventBillingOrderConfirm                             ActivityEvent = "billing.order.confirm"
-	ActivityEventBillingOrderTaskConfirm                         ActivityEvent = "billing.order.task.confirm"
-	ActivityEventContainerBackupCreate                           ActivityEvent = "container.backup.create"
-	ActivityEventContainerBackupDelete                           ActivityEvent = "container.backup.delete"
-	ActivityEventContainerBackupRestore                          ActivityEvent = "container.backup.restore"
-	ActivityEventContainerBackupTaskDelete                       ActivityEvent = "container.backup.task.delete"
-	ActivityEventContainerBackupTaskRestore                      ActivityEvent = "container.backup.task.restore"
-	ActivityEventContainerCreate                                 ActivityEvent = "container.create"
-	ActivityEventContainerDelete                                 ActivityEvent = "container.delete"
-	ActivityEventContainerDeprecate                              ActivityEvent = "container.deprecate"
-	ActivityEventContainerFunctionTaskTrigger                    ActivityEvent = "container.function.task.trigger"
-	ActivityEventContainerFunctionTrigger                        ActivityEvent = "container.function.trigger"
-	ActivityEventContainerInitialize                             ActivityEvent = "container.initialize"
-	ActivityEventContainerInstanceDelete                         ActivityEvent = "container.instance.delete"
-	ActivityEventContainerInstanceError                          ActivityEvent = "container.instance.error"
-	ActivityEventContainerInstanceHealthcheckFailed              ActivityEvent = "container.instance.healthcheck.failed"
-	ActivityEventContainerInstanceHealthcheckRestarted           ActivityEvent = "container.instance.healthcheck.restarted"
-	ActivityEventContainerInstanceMigrationRevert                ActivityEvent = "container.instance.migration.revert"
-	ActivityEventContainerInstanceMigrationStart                 ActivityEvent = "container.instance.migration.start"
-	ActivityEventContainerInstanceSshLogin                       ActivityEvent = "container.instance.ssh.login"
-	ActivityEventContainerInstanceTaskMigrationRevert            ActivityEvent = "container.instance.task.migration.revert"
-	ActivityEventContainerInstanceTaskMigrationStart             ActivityEvent = "container.instance.task.migration.start"
-	ActivityEventContainerInstanceTaskVolumeExtend               ActivityEvent = "container.instance.task.volume.extend"
-	ActivityEventContainerInstanceTrafficDrainReconfigure        ActivityEvent = "container.instance.traffic-drain.reconfigure"
-	ActivityEventContainerInstanceVolumeExtend                   ActivityEvent = "container.instance.volume.extend"
-	ActivityEventContainerInstancesAutoscaleDown                 ActivityEvent = "container.instances.autoscale.down"
-	ActivityEventContainerInstancesAutoscaleUp                   ActivityEvent = "container.instances.autoscale.up"
-	ActivityEventContainerInstancesCreate                        ActivityEvent = "container.instances.create"
-	ActivityEventContainerInstancesDelete                        ActivityEvent = "container.instances.delete"
-	ActivityEventContainerReconfigure                            ActivityEvent = "container.reconfigure"
-	ActivityEventContainerReimage                                ActivityEvent = "container.reimage"
-	ActivityEventContainerRestart                                ActivityEvent = "container.restart"
-	ActivityEventContainerScale                                  ActivityEvent = "container.scale"
-	ActivityEventContainerStart                                  ActivityEvent = "container.start"
-	ActivityEventContainerStop                                   ActivityEvent = "container.stop"
-	ActivityEventContainerTaskDelete                             ActivityEvent = "container.task.delete"
-	ActivityEventContainerTaskReconfigure                        ActivityEvent = "container.task.reconfigure"
-	ActivityEventContainerTaskReimage                            ActivityEvent = "container.task.reimage"
-	ActivityEventContainerTaskRestart                            ActivityEvent = "container.task.restart"
-	ActivityEventContainerTaskScale                              ActivityEvent = "container.task.scale"
-	ActivityEventContainerTaskStart                              ActivityEvent = "container.task.start"
-	ActivityEventContainerTaskStop                               ActivityEvent = "container.task.stop"
-	ActivityEventContainerTaskVolumesReconfigure                 ActivityEvent = "container.task.volumes.reconfigure"
-	ActivityEventContainerUpdate                                 ActivityEvent = "container.update"
-	ActivityEventContainerVolumesReconfigure                     ActivityEvent = "container.volumes.reconfigure"
-	ActivityEventDnsCertificateAssociate                         ActivityEvent = "dns.certificate.associate"
-	ActivityEventDnsCertificateCreate                            ActivityEvent = "dns.certificate.create"
-	ActivityEventDnsCertificateDeprecate                         ActivityEvent = "dns.certificate.deprecate"
-	ActivityEventDnsCertificateTaskDeprecate                     ActivityEvent = "dns.certificate.task.deprecate"
-	ActivityEventDnsZoneCreate                                   ActivityEvent = "dns.zone.create"
-	ActivityEventDnsZoneDelete                                   ActivityEvent = "dns.zone.delete"
-	ActivityEventDnsZoneRecordCertGenerate                       ActivityEvent = "dns.zone.record.cert.generate"
-	ActivityEventDnsZoneRecordCertGenerateAuto                   ActivityEvent = "dns.zone.record.cert.generate.auto"
-	ActivityEventDnsZoneRecordCreate                             ActivityEvent = "dns.zone.record.create"
-	ActivityEventDnsZoneRecordDelete                             ActivityEvent = "dns.zone.record.delete"
-	ActivityEventDnsZoneRecordTaskCertGenerate                   ActivityEvent = "dns.zone.record.task.cert.generate"
-	ActivityEventDnsZoneRecordTaskDelete                         ActivityEvent = "dns.zone.record.task.delete"
-	ActivityEventDnsZoneRecordUpdate                             ActivityEvent = "dns.zone.record.update"
-	ActivityEventDnsZoneTaskDelete                               ActivityEvent = "dns.zone.task.delete"
-	ActivityEventDnsZoneTaskVerify                               ActivityEvent = "dns.zone.task.verify"
-	ActivityEventDnsZoneUpdate                                   ActivityEvent = "dns.zone.update"
-	ActivityEventDnsZoneVerify                                   ActivityEvent = "dns.zone.verify"
-	ActivityEventEnvironmentCreate                               ActivityEvent = "environment.create"
-	ActivityEventEnvironmentDelete                               ActivityEvent = "environment.delete"
-	ActivityEventEnvironmentDeploymentStart                      ActivityEvent = "environment.deployment.start"
-	ActivityEventEnvironmentDeploymentStop                       ActivityEvent = "environment.deployment.stop"
-	ActivityEventEnvironmentDeploymentsPrune                     ActivityEvent = "environment.deployments.prune"
-	ActivityEventEnvironmentDeploymentsReconfigure               ActivityEvent = "environment.deployments.reconfigure"
-	ActivityEventEnvironmentInitialize                           ActivityEvent = "environment.initialize"
-	ActivityEventEnvironmentMonitoringReconfigure                ActivityEvent = "environment.monitoring.reconfigure"
-	ActivityEventEnvironmentScopedVariableCreate                 ActivityEvent = "environment.scoped-variable.create"
-	ActivityEventEnvironmentScopedVariableDelete                 ActivityEvent = "environment.scoped-variable.delete"
-	ActivityEventEnvironmentScopedVariableTaskDelete             ActivityEvent = "environment.scoped-variable.task.delete"
-	ActivityEventEnvironmentScopedVariableUpdate                 ActivityEvent = "environment.scoped-variable.update"
-	ActivityEventEnvironmentServicesDiscoveryReconfigure         ActivityEvent = "environment.services.discovery.reconfigure"
-	ActivityEventEnvironmentServicesDiscoveryTaskReconfigure     ActivityEvent = "environment.services.discovery.task.reconfigure"
-	ActivityEventEnvironmentServicesLbReconfigure                ActivityEvent = "environment.services.lb.reconfigure"
-	ActivityEventEnvironmentServicesLbTaskReconfigure            ActivityEvent = "environment.services.lb.task.reconfigure"
-	ActivityEventEnvironmentServicesSchedulerReconfigure         ActivityEvent = "environment.services.scheduler.reconfigure"
-	ActivityEventEnvironmentServicesSchedulerTaskReconfigure     ActivityEvent = "environment.services.scheduler.task.reconfigure"
-	ActivityEventEnvironmentServicesVpnLogin                     ActivityEvent = "environment.services.vpn.login"
-	ActivityEventEnvironmentServicesVpnReconfigure               ActivityEvent = "environment.services.vpn.reconfigure"
-	ActivityEventEnvironmentServicesVpnReset                     ActivityEvent = "environment.services.vpn.reset"
-	ActivityEventEnvironmentServicesVpnTaskReconfigure           ActivityEvent = "environment.services.vpn.task.reconfigure"
-	ActivityEventEnvironmentServicesVpnTaskReset                 ActivityEvent = "environment.services.vpn.task.reset"
-	ActivityEventEnvironmentServicesVpnUserCreate                ActivityEvent = "environment.services.vpn.user.create"
-	ActivityEventEnvironmentStart                                ActivityEvent = "environment.start"
-	ActivityEventEnvironmentStop                                 ActivityEvent = "environment.stop"
-	ActivityEventEnvironmentTaskDelete                           ActivityEvent = "environment.task.delete"
-	ActivityEventEnvironmentTaskDeploymentsReconfigure           ActivityEvent = "environment.task.deployments.reconfigure"
-	ActivityEventEnvironmentTaskInitialize                       ActivityEvent = "environment.task.initialize"
-	ActivityEventEnvironmentTaskMonitoringReconfigure            ActivityEvent = "environment.task.monitoring.reconfigure"
-	ActivityEventEnvironmentTaskStart                            ActivityEvent = "environment.task.start"
-	ActivityEventEnvironmentTaskStop                             ActivityEvent = "environment.task.stop"
-	ActivityEventEnvironmentUpdate                               ActivityEvent = "environment.update"
-	ActivityEventHubApikeyCreate                                 ActivityEvent = "hub.apikey.create"
-	ActivityEventHubApikeyDelete                                 ActivityEvent = "hub.apikey.delete"
-	ActivityEventHubApikeyUpdate                                 ActivityEvent = "hub.apikey.update"
-	ActivityEventHubCreate                                       ActivityEvent = "hub.create"
-	ActivityEventHubImagesPrune                                  ActivityEvent = "hub.images.prune"
-	ActivityEventHubInactive                                     ActivityEvent = "hub.inactive"
-	ActivityEventHubIntegrationCreate                            ActivityEvent = "hub.integration.create"
-	ActivityEventHubIntegrationDelete                            ActivityEvent = "hub.integration.delete"
-	ActivityEventHubIntegrationTaskDelete                        ActivityEvent = "hub.integration.task.delete"
-	ActivityEventHubIntegrationUpdate                            ActivityEvent = "hub.integration.update"
-	ActivityEventHubMembershipCreate                             ActivityEvent = "hub.membership.create"
-	ActivityEventHubMembershipDelete                             ActivityEvent = "hub.membership.delete"
-	ActivityEventHubMembershipUpdate                             ActivityEvent = "hub.membership.update"
-	ActivityEventHubRoleCreate                                   ActivityEvent = "hub.role.create"
-	ActivityEventHubRoleDelete                                   ActivityEvent = "hub.role.delete"
-	ActivityEventHubRoleTaskDelete                               ActivityEvent = "hub.role.task.delete"
-	ActivityEventHubRoleUpdate                                   ActivityEvent = "hub.role.update"
-	ActivityEventHubTaskDelete                                   ActivityEvent = "hub.task.delete"
-	ActivityEventHubTaskImagesPrune                              ActivityEvent = "hub.task.images.prune"
-	ActivityEventHubUpdate                                       ActivityEvent = "hub.update"
-	ActivityEventImageCreate                                     ActivityEvent = "image.create"
-	ActivityEventImageDelete                                     ActivityEvent = "image.delete"
-	ActivityEventImageImport                                     ActivityEvent = "image.import"
-	ActivityEventImageSourceCreate                               ActivityEvent = "image.source.create"
-	ActivityEventImageSourceDelete                               ActivityEvent = "image.source.delete"
-	ActivityEventImageSourceTaskDelete                           ActivityEvent = "image.source.task.delete"
-	ActivityEventImageSourceUpdate                               ActivityEvent = "image.source.update"
-	ActivityEventImageTaskDelete                                 ActivityEvent = "image.task.delete"
-	ActivityEventImageTaskImport                                 ActivityEvent = "image.task.import"
-	ActivityEventImageUpdate                                     ActivityEvent = "image.update"
-	ActivityEventInfrastructureAutoscaleGroupCreate              ActivityEvent = "infrastructure.autoscale.group.create"
-	ActivityEventInfrastructureAutoscaleGroupDelete              ActivityEvent = "infrastructure.autoscale.group.delete"
-	ActivityEventInfrastructureAutoscaleGroupTaskDelete          ActivityEvent = "infrastructure.autoscale.group.task.delete"
-	ActivityEventInfrastructureAutoscaleGroupUpdate              ActivityEvent = "infrastructure.autoscale.group.update"
-	ActivityEventInfrastructureClusterCreate                     ActivityEvent = "infrastructure.cluster.create"
-	ActivityEventInfrastructureClusterDelete                     ActivityEvent = "infrastructure.cluster.delete"
-	ActivityEventInfrastructureClusterUpdate                     ActivityEvent = "infrastructure.cluster.update"
-	ActivityEventInfrastructureIpsPoolTaskDelete                 ActivityEvent = "infrastructure.ips.pool.task.delete"
-	ActivityEventInfrastructureProviderCreate                    ActivityEvent = "infrastructure.provider.create"
-	ActivityEventInfrastructureProviderTaskDelete                ActivityEvent = "infrastructure.provider.task.delete"
-	ActivityEventInfrastructureProviderTaskVerify                ActivityEvent = "infrastructure.provider.task.verify"
-	ActivityEventInfrastructureProviderUpdate                    ActivityEvent = "infrastructure.provider.update"
-	ActivityEventInfrastructureServerAuthReset                   ActivityEvent = "infrastructure.server.auth.reset"
-	ActivityEventInfrastructureServerComputeRestart              ActivityEvent = "infrastructure.server.compute.restart"
-	ActivityEventInfrastructureServerComputeSpawnerRestart       ActivityEvent = "infrastructure.server.compute.spawner.restart"
-	ActivityEventInfrastructureServerConsole                     ActivityEvent = "infrastructure.server.console"
-	ActivityEventInfrastructureServerDelete                      ActivityEvent = "infrastructure.server.delete"
-	ActivityEventInfrastructureServerEvacuationReset             ActivityEvent = "infrastructure.server.evacuation.reset"
-	ActivityEventInfrastructureServerEvacuationStart             ActivityEvent = "infrastructure.server.evacuation.start"
-	ActivityEventInfrastructureServerFeaturesReconfigure         ActivityEvent = "infrastructure.server.features.reconfigure"
-	ActivityEventInfrastructureServerLive                        ActivityEvent = "infrastructure.server.live"
-	ActivityEventInfrastructureServerPowerOff                    ActivityEvent = "infrastructure.server.power-off"
-	ActivityEventInfrastructureServerProvision                   ActivityEvent = "infrastructure.server.provision"
-	ActivityEventInfrastructureServerRestart                     ActivityEvent = "infrastructure.server.restart"
-	ActivityEventInfrastructureServerServicesInternalApiThrottle ActivityEvent = "infrastructure.server.services.internal-api.throttle"
-	ActivityEventInfrastructureServerServicesSftpAuth            ActivityEvent = "infrastructure.server.services.sftp.auth"
-	ActivityEventInfrastructureServerServicesSftpLockdown        ActivityEvent = "infrastructure.server.services.sftp.lockdown"
-	ActivityEventInfrastructureServerSharedfsReconfigure         ActivityEvent = "infrastructure.server.sharedfs.reconfigure"
-	ActivityEventInfrastructureServerSshToken                    ActivityEvent = "infrastructure.server.ssh.token"
-	ActivityEventInfrastructureServerTaskDelete                  ActivityEvent = "infrastructure.server.task.delete"
-	ActivityEventInfrastructureServerTaskEvacuationReset         ActivityEvent = "infrastructure.server.task.evacuation.reset"
-	ActivityEventInfrastructureServerTaskEvacuationStart         ActivityEvent = "infrastructure.server.task.evacuation.start"
-	ActivityEventInfrastructureServerTaskFeaturesReconfigure     ActivityEvent = "infrastructure.server.task.features.reconfigure"
-	ActivityEventInfrastructureServerTaskProvision               ActivityEvent = "infrastructure.server.task.provision"
-	ActivityEventInfrastructureServerTaskRestart                 ActivityEvent = "infrastructure.server.task.restart"
-	ActivityEventInfrastructureServerTaskSharedfsReconfigure     ActivityEvent = "infrastructure.server.task.sharedfs.reconfigure"
-	ActivityEventInfrastructureServerUnquarantine                ActivityEvent = "infrastructure.server.unquarantine"
-	ActivityEventInfrastructureServerUpdate                      ActivityEvent = "infrastructure.server.update"
-	ActivityEventInfrastructureVirtualProvidersIsoCreate         ActivityEvent = "infrastructure.virtual-providers.iso.create"
-	ActivityEventInfrastructureVirtualProvidersIsoDelete         ActivityEvent = "infrastructure.virtual-providers.iso.delete"
-	ActivityEventInfrastructureVirtualProvidersIsoGenerate       ActivityEvent = "infrastructure.virtual-providers.iso.generate"
-	ActivityEventInfrastructureVirtualProvidersIsoTaskDelete     ActivityEvent = "infrastructure.virtual-providers.iso.task.delete"
-	ActivityEventInfrastructureVirtualProvidersIsoUpdate         ActivityEvent = "infrastructure.virtual-providers.iso.update"
-	ActivityEventPipelineCreate                                  ActivityEvent = "pipeline.create"
-	ActivityEventPipelineDelete                                  ActivityEvent = "pipeline.delete"
-	ActivityEventPipelineKeyCreate                               ActivityEvent = "pipeline.key.create"
-	ActivityEventPipelineKeyDelete                               ActivityEvent = "pipeline.key.delete"
-	ActivityEventPipelineKeyUpdate                               ActivityEvent = "pipeline.key.update"
-	ActivityEventPipelineRunCompleted                            ActivityEvent = "pipeline.run.completed"
-	ActivityEventPipelineTaskDelete                              ActivityEvent = "pipeline.task.delete"
-	ActivityEventPipelineTaskTrigger                             ActivityEvent = "pipeline.task.trigger"
-	ActivityEventPipelineTrigger                                 ActivityEvent = "pipeline.trigger"
-	ActivityEventPipelineUpdate                                  ActivityEvent = "pipeline.update"
-	ActivityEventSdnNetworkCreate                                ActivityEvent = "sdn.network.create"
-	ActivityEventSdnNetworkTaskDelete                            ActivityEvent = "sdn.network.task.delete"
-	ActivityEventSdnNetworkTaskReconfigure                       ActivityEvent = "sdn.network.task.reconfigure"
-	ActivityEventSdnNetworkUpdate                                ActivityEvent = "sdn.network.update"
-	ActivityEventStackBuildCreate                                ActivityEvent = "stack.build.create"
-	ActivityEventStackBuildDelete                                ActivityEvent = "stack.build.delete"
-	ActivityEventStackBuildDeploy                                ActivityEvent = "stack.build.deploy"
-	ActivityEventStackBuildGenerate                              ActivityEvent = "stack.build.generate"
-	ActivityEventStackBuildTaskDelete                            ActivityEvent = "stack.build.task.delete"
-	ActivityEventStackBuildTaskDeploy                            ActivityEvent = "stack.build.task.deploy"
-	ActivityEventStackBuildTaskGenerate                          ActivityEvent = "stack.build.task.generate"
-	ActivityEventStackCreate                                     ActivityEvent = "stack.create"
-	ActivityEventStackDelete                                     ActivityEvent = "stack.delete"
-	ActivityEventStackPrune                                      ActivityEvent = "stack.prune"
-	ActivityEventStackTaskDelete                                 ActivityEvent = "stack.task.delete"
-	ActivityEventStackTaskPrune                                  ActivityEvent = "stack.task.prune"
-	ActivityEventStackUpdate                                     ActivityEvent = "stack.update"
-	ActivityEventVirtualMachineCreate                            ActivityEvent = "virtual-machine.create"
-	ActivityEventVirtualMachineDelete                            ActivityEvent = "virtual-machine.delete"
-	ActivityEventVirtualMachineInitialize                        ActivityEvent = "virtual-machine.initialize"
-	ActivityEventVirtualMachineIpAllocate                        ActivityEvent = "virtual-machine.ip.allocate"
-	ActivityEventVirtualMachineIpUnallocate                      ActivityEvent = "virtual-machine.ip.unallocate"
-	ActivityEventVirtualMachineReconfigure                       ActivityEvent = "virtual-machine.reconfigure"
-	ActivityEventVirtualMachineRootpwChange                      ActivityEvent = "virtual-machine.rootpw.change"
-	ActivityEventVirtualMachineSosLogin                          ActivityEvent = "virtual-machine.sos.login"
-	ActivityEventVirtualMachineSshKeyCreate                      ActivityEvent = "virtual-machine.ssh-key.create"
-	ActivityEventVirtualMachineSshKeyDelete                      ActivityEvent = "virtual-machine.ssh-key.delete"
-	ActivityEventVirtualMachineSshKeyTaskDelete                  ActivityEvent = "virtual-machine.ssh-key.task.delete"
-	ActivityEventVirtualMachineSshKeyUpdate                      ActivityEvent = "virtual-machine.ssh-key.update"
-	ActivityEventVirtualMachineStart                             ActivityEvent = "virtual-machine.start"
-	ActivityEventVirtualMachineStop                              ActivityEvent = "virtual-machine.stop"
-	ActivityEventVirtualMachineTaskDelete                        ActivityEvent = "virtual-machine.task.delete"
-	ActivityEventVirtualMachineTaskIpAllocate                    ActivityEvent = "virtual-machine.task.ip.allocate"
-	ActivityEventVirtualMachineTaskIpUnallocate                  ActivityEvent = "virtual-machine.task.ip.unallocate"
-	ActivityEventVirtualMachineTaskReconfigure                   ActivityEvent = "virtual-machine.task.reconfigure"
-	ActivityEventVirtualMachineTaskStart                         ActivityEvent = "virtual-machine.task.start"
-	ActivityEventVirtualMachineTaskStop                          ActivityEvent = "virtual-machine.task.stop"
-	ActivityEventVirtualMachineUpdate                            ActivityEvent = "virtual-machine.update"
+	ActivityEventBillingInvoicePay                                      ActivityEvent = "billing.invoice.pay"
+	ActivityEventBillingInvoiceTaskCredit                               ActivityEvent = "billing.invoice.task.credit"
+	ActivityEventBillingInvoiceTaskPay                                  ActivityEvent = "billing.invoice.task.pay"
+	ActivityEventBillingInvoiceTaskRefund                               ActivityEvent = "billing.invoice.task.refund"
+	ActivityEventBillingInvoiceTaskVoid                                 ActivityEvent = "billing.invoice.task.void"
+	ActivityEventBillingMethodCreate                                    ActivityEvent = "billing.method.create"
+	ActivityEventBillingMethodDelete                                    ActivityEvent = "billing.method.delete"
+	ActivityEventBillingMethodTaskDelete                                ActivityEvent = "billing.method.task.delete"
+	ActivityEventBillingMethodUpdate                                    ActivityEvent = "billing.method.update"
+	ActivityEventBillingOrderConfirm                                    ActivityEvent = "billing.order.confirm"
+	ActivityEventBillingOrderTaskConfirm                                ActivityEvent = "billing.order.task.confirm"
+	ActivityEventContainerBackupCreate                                  ActivityEvent = "container.backup.create"
+	ActivityEventContainerBackupDelete                                  ActivityEvent = "container.backup.delete"
+	ActivityEventContainerBackupRestore                                 ActivityEvent = "container.backup.restore"
+	ActivityEventContainerBackupTaskDelete                              ActivityEvent = "container.backup.task.delete"
+	ActivityEventContainerBackupTaskRestore                             ActivityEvent = "container.backup.task.restore"
+	ActivityEventContainerCreate                                        ActivityEvent = "container.create"
+	ActivityEventContainerDelete                                        ActivityEvent = "container.delete"
+	ActivityEventContainerDeprecate                                     ActivityEvent = "container.deprecate"
+	ActivityEventContainerFunctionTaskTrigger                           ActivityEvent = "container.function.task.trigger"
+	ActivityEventContainerFunctionTrigger                               ActivityEvent = "container.function.trigger"
+	ActivityEventContainerInitialize                                    ActivityEvent = "container.initialize"
+	ActivityEventContainerInstanceDelete                                ActivityEvent = "container.instance.delete"
+	ActivityEventContainerInstanceError                                 ActivityEvent = "container.instance.error"
+	ActivityEventContainerInstanceHealthcheckFailed                     ActivityEvent = "container.instance.healthcheck.failed"
+	ActivityEventContainerInstanceHealthcheckRestarted                  ActivityEvent = "container.instance.healthcheck.restarted"
+	ActivityEventContainerInstanceMigrationRevert                       ActivityEvent = "container.instance.migration.revert"
+	ActivityEventContainerInstanceMigrationStart                        ActivityEvent = "container.instance.migration.start"
+	ActivityEventContainerInstanceSshLogin                              ActivityEvent = "container.instance.ssh.login"
+	ActivityEventContainerInstanceTaskMigrationRevert                   ActivityEvent = "container.instance.task.migration.revert"
+	ActivityEventContainerInstanceTaskMigrationStart                    ActivityEvent = "container.instance.task.migration.start"
+	ActivityEventContainerInstanceTaskVolumeExtend                      ActivityEvent = "container.instance.task.volume.extend"
+	ActivityEventContainerInstanceTrafficDrainReconfigure               ActivityEvent = "container.instance.traffic-drain.reconfigure"
+	ActivityEventContainerInstanceVolumeExtend                          ActivityEvent = "container.instance.volume.extend"
+	ActivityEventContainerInstancesAutoscaleDown                        ActivityEvent = "container.instances.autoscale.down"
+	ActivityEventContainerInstancesAutoscaleUp                          ActivityEvent = "container.instances.autoscale.up"
+	ActivityEventContainerInstancesCreate                               ActivityEvent = "container.instances.create"
+	ActivityEventContainerInstancesDelete                               ActivityEvent = "container.instances.delete"
+	ActivityEventContainerReconfigure                                   ActivityEvent = "container.reconfigure"
+	ActivityEventContainerReimage                                       ActivityEvent = "container.reimage"
+	ActivityEventContainerRestart                                       ActivityEvent = "container.restart"
+	ActivityEventContainerScale                                         ActivityEvent = "container.scale"
+	ActivityEventContainerStart                                         ActivityEvent = "container.start"
+	ActivityEventContainerStop                                          ActivityEvent = "container.stop"
+	ActivityEventContainerTaskDelete                                    ActivityEvent = "container.task.delete"
+	ActivityEventContainerTaskReconfigure                               ActivityEvent = "container.task.reconfigure"
+	ActivityEventContainerTaskReimage                                   ActivityEvent = "container.task.reimage"
+	ActivityEventContainerTaskRestart                                   ActivityEvent = "container.task.restart"
+	ActivityEventContainerTaskScale                                     ActivityEvent = "container.task.scale"
+	ActivityEventContainerTaskStart                                     ActivityEvent = "container.task.start"
+	ActivityEventContainerTaskStop                                      ActivityEvent = "container.task.stop"
+	ActivityEventContainerTaskVolumesReconfigure                        ActivityEvent = "container.task.volumes.reconfigure"
+	ActivityEventContainerUpdate                                        ActivityEvent = "container.update"
+	ActivityEventContainerVolumesReconfigure                            ActivityEvent = "container.volumes.reconfigure"
+	ActivityEventDnsCertificateAssociate                                ActivityEvent = "dns.certificate.associate"
+	ActivityEventDnsCertificateCreate                                   ActivityEvent = "dns.certificate.create"
+	ActivityEventDnsCertificateDeprecate                                ActivityEvent = "dns.certificate.deprecate"
+	ActivityEventDnsCertificateTaskDeprecate                            ActivityEvent = "dns.certificate.task.deprecate"
+	ActivityEventDnsZoneCreate                                          ActivityEvent = "dns.zone.create"
+	ActivityEventDnsZoneDelete                                          ActivityEvent = "dns.zone.delete"
+	ActivityEventDnsZoneRecordCertGenerate                              ActivityEvent = "dns.zone.record.cert.generate"
+	ActivityEventDnsZoneRecordCertGenerateAuto                          ActivityEvent = "dns.zone.record.cert.generate.auto"
+	ActivityEventDnsZoneRecordCreate                                    ActivityEvent = "dns.zone.record.create"
+	ActivityEventDnsZoneRecordDelete                                    ActivityEvent = "dns.zone.record.delete"
+	ActivityEventDnsZoneRecordTaskCertGenerate                          ActivityEvent = "dns.zone.record.task.cert.generate"
+	ActivityEventDnsZoneRecordTaskDelete                                ActivityEvent = "dns.zone.record.task.delete"
+	ActivityEventDnsZoneRecordUpdate                                    ActivityEvent = "dns.zone.record.update"
+	ActivityEventDnsZoneTaskDelete                                      ActivityEvent = "dns.zone.task.delete"
+	ActivityEventDnsZoneTaskVerify                                      ActivityEvent = "dns.zone.task.verify"
+	ActivityEventDnsZoneUpdate                                          ActivityEvent = "dns.zone.update"
+	ActivityEventDnsZoneVerify                                          ActivityEvent = "dns.zone.verify"
+	ActivityEventEnvironmentCreate                                      ActivityEvent = "environment.create"
+	ActivityEventEnvironmentDelete                                      ActivityEvent = "environment.delete"
+	ActivityEventEnvironmentDeploymentStart                             ActivityEvent = "environment.deployment.start"
+	ActivityEventEnvironmentDeploymentStop                              ActivityEvent = "environment.deployment.stop"
+	ActivityEventEnvironmentDeploymentsPrune                            ActivityEvent = "environment.deployments.prune"
+	ActivityEventEnvironmentDeploymentsReconfigure                      ActivityEvent = "environment.deployments.reconfigure"
+	ActivityEventEnvironmentInitialize                                  ActivityEvent = "environment.initialize"
+	ActivityEventEnvironmentMonitoringReconfigure                       ActivityEvent = "environment.monitoring.reconfigure"
+	ActivityEventEnvironmentScopedVariableCreate                        ActivityEvent = "environment.scoped-variable.create"
+	ActivityEventEnvironmentScopedVariableDelete                        ActivityEvent = "environment.scoped-variable.delete"
+	ActivityEventEnvironmentScopedVariableTaskDelete                    ActivityEvent = "environment.scoped-variable.task.delete"
+	ActivityEventEnvironmentScopedVariableUpdate                        ActivityEvent = "environment.scoped-variable.update"
+	ActivityEventEnvironmentServicesDiscoveryReconfigure                ActivityEvent = "environment.services.discovery.reconfigure"
+	ActivityEventEnvironmentServicesDiscoveryTaskReconfigure            ActivityEvent = "environment.services.discovery.task.reconfigure"
+	ActivityEventEnvironmentServicesLbReconfigure                       ActivityEvent = "environment.services.lb.reconfigure"
+	ActivityEventEnvironmentServicesLbTaskReconfigure                   ActivityEvent = "environment.services.lb.task.reconfigure"
+	ActivityEventEnvironmentServicesSchedulerReconfigure                ActivityEvent = "environment.services.scheduler.reconfigure"
+	ActivityEventEnvironmentServicesSchedulerTaskReconfigure            ActivityEvent = "environment.services.scheduler.task.reconfigure"
+	ActivityEventEnvironmentServicesVpnLogin                            ActivityEvent = "environment.services.vpn.login"
+	ActivityEventEnvironmentServicesVpnReconfigure                      ActivityEvent = "environment.services.vpn.reconfigure"
+	ActivityEventEnvironmentServicesVpnReset                            ActivityEvent = "environment.services.vpn.reset"
+	ActivityEventEnvironmentServicesVpnTaskReconfigure                  ActivityEvent = "environment.services.vpn.task.reconfigure"
+	ActivityEventEnvironmentServicesVpnTaskReset                        ActivityEvent = "environment.services.vpn.task.reset"
+	ActivityEventEnvironmentServicesVpnUserCreate                       ActivityEvent = "environment.services.vpn.user.create"
+	ActivityEventEnvironmentStart                                       ActivityEvent = "environment.start"
+	ActivityEventEnvironmentStop                                        ActivityEvent = "environment.stop"
+	ActivityEventEnvironmentTaskDelete                                  ActivityEvent = "environment.task.delete"
+	ActivityEventEnvironmentTaskDeploymentsReconfigure                  ActivityEvent = "environment.task.deployments.reconfigure"
+	ActivityEventEnvironmentTaskInitialize                              ActivityEvent = "environment.task.initialize"
+	ActivityEventEnvironmentTaskMonitoringReconfigure                   ActivityEvent = "environment.task.monitoring.reconfigure"
+	ActivityEventEnvironmentTaskStart                                   ActivityEvent = "environment.task.start"
+	ActivityEventEnvironmentTaskStop                                    ActivityEvent = "environment.task.stop"
+	ActivityEventEnvironmentUpdate                                      ActivityEvent = "environment.update"
+	ActivityEventHubApikeyCreate                                        ActivityEvent = "hub.apikey.create"
+	ActivityEventHubApikeyDelete                                        ActivityEvent = "hub.apikey.delete"
+	ActivityEventHubApikeyUpdate                                        ActivityEvent = "hub.apikey.update"
+	ActivityEventHubCreate                                              ActivityEvent = "hub.create"
+	ActivityEventHubImagesPrune                                         ActivityEvent = "hub.images.prune"
+	ActivityEventHubInactive                                            ActivityEvent = "hub.inactive"
+	ActivityEventHubIntegrationCreate                                   ActivityEvent = "hub.integration.create"
+	ActivityEventHubIntegrationDelete                                   ActivityEvent = "hub.integration.delete"
+	ActivityEventHubIntegrationTaskDelete                               ActivityEvent = "hub.integration.task.delete"
+	ActivityEventHubIntegrationTaskVerify                               ActivityEvent = "hub.integration.task.verify"
+	ActivityEventHubIntegrationUpdate                                   ActivityEvent = "hub.integration.update"
+	ActivityEventHubMembershipCreate                                    ActivityEvent = "hub.membership.create"
+	ActivityEventHubMembershipDelete                                    ActivityEvent = "hub.membership.delete"
+	ActivityEventHubMembershipUpdate                                    ActivityEvent = "hub.membership.update"
+	ActivityEventHubRoleCreate                                          ActivityEvent = "hub.role.create"
+	ActivityEventHubRoleDelete                                          ActivityEvent = "hub.role.delete"
+	ActivityEventHubRoleTaskDelete                                      ActivityEvent = "hub.role.task.delete"
+	ActivityEventHubRoleUpdate                                          ActivityEvent = "hub.role.update"
+	ActivityEventHubTaskDelete                                          ActivityEvent = "hub.task.delete"
+	ActivityEventHubTaskImagesPrune                                     ActivityEvent = "hub.task.images.prune"
+	ActivityEventHubUpdate                                              ActivityEvent = "hub.update"
+	ActivityEventImageCreate                                            ActivityEvent = "image.create"
+	ActivityEventImageDelete                                            ActivityEvent = "image.delete"
+	ActivityEventImageImport                                            ActivityEvent = "image.import"
+	ActivityEventImageSourceCreate                                      ActivityEvent = "image.source.create"
+	ActivityEventImageSourceDelete                                      ActivityEvent = "image.source.delete"
+	ActivityEventImageSourceTaskDelete                                  ActivityEvent = "image.source.task.delete"
+	ActivityEventImageSourceUpdate                                      ActivityEvent = "image.source.update"
+	ActivityEventImageTaskDelete                                        ActivityEvent = "image.task.delete"
+	ActivityEventImageTaskImport                                        ActivityEvent = "image.task.import"
+	ActivityEventImageUpdate                                            ActivityEvent = "image.update"
+	ActivityEventInfrastructureAutoscaleGroupCreate                     ActivityEvent = "infrastructure.autoscale.group.create"
+	ActivityEventInfrastructureAutoscaleGroupDelete                     ActivityEvent = "infrastructure.autoscale.group.delete"
+	ActivityEventInfrastructureAutoscaleGroupTaskDelete                 ActivityEvent = "infrastructure.autoscale.group.task.delete"
+	ActivityEventInfrastructureAutoscaleGroupUpdate                     ActivityEvent = "infrastructure.autoscale.group.update"
+	ActivityEventInfrastructureClusterCreate                            ActivityEvent = "infrastructure.cluster.create"
+	ActivityEventInfrastructureClusterDelete                            ActivityEvent = "infrastructure.cluster.delete"
+	ActivityEventInfrastructureClusterFeaturesMonitoringTierReconfigure ActivityEvent = "infrastructure.cluster.features.monitoring.tier.reconfigure"
+	ActivityEventInfrastructureClusterTaskDelete                        ActivityEvent = "infrastructure.cluster.task.delete"
+	ActivityEventInfrastructureClusterUpdate                            ActivityEvent = "infrastructure.cluster.update"
+	ActivityEventInfrastructureIpsPoolCreate                            ActivityEvent = "infrastructure.ips.pool.create"
+	ActivityEventInfrastructureIpsPoolTaskDelete                        ActivityEvent = "infrastructure.ips.pool.task.delete"
+	ActivityEventInfrastructureProviderCreate                           ActivityEvent = "infrastructure.provider.create"
+	ActivityEventInfrastructureProviderTaskDelete                       ActivityEvent = "infrastructure.provider.task.delete"
+	ActivityEventInfrastructureProviderTaskVerify                       ActivityEvent = "infrastructure.provider.task.verify"
+	ActivityEventInfrastructureProviderUpdate                           ActivityEvent = "infrastructure.provider.update"
+	ActivityEventInfrastructureServerAuthReset                          ActivityEvent = "infrastructure.server.auth.reset"
+	ActivityEventInfrastructureServerComputeRestart                     ActivityEvent = "infrastructure.server.compute.restart"
+	ActivityEventInfrastructureServerComputeSpawnerRestart              ActivityEvent = "infrastructure.server.compute.spawner.restart"
+	ActivityEventInfrastructureServerConsole                            ActivityEvent = "infrastructure.server.console"
+	ActivityEventInfrastructureServerDelete                             ActivityEvent = "infrastructure.server.delete"
+	ActivityEventInfrastructureServerEvacuationReset                    ActivityEvent = "infrastructure.server.evacuation.reset"
+	ActivityEventInfrastructureServerEvacuationStart                    ActivityEvent = "infrastructure.server.evacuation.start"
+	ActivityEventInfrastructureServerFeaturesReconfigure                ActivityEvent = "infrastructure.server.features.reconfigure"
+	ActivityEventInfrastructureServerLive                               ActivityEvent = "infrastructure.server.live"
+	ActivityEventInfrastructureServerPowerOff                           ActivityEvent = "infrastructure.server.power-off"
+	ActivityEventInfrastructureServerProvision                          ActivityEvent = "infrastructure.server.provision"
+	ActivityEventInfrastructureServerRestart                            ActivityEvent = "infrastructure.server.restart"
+	ActivityEventInfrastructureServerServicesInternalApiThrottle        ActivityEvent = "infrastructure.server.services.internal-api.throttle"
+	ActivityEventInfrastructureServerServicesSftpAuth                   ActivityEvent = "infrastructure.server.services.sftp.auth"
+	ActivityEventInfrastructureServerServicesSftpLockdown               ActivityEvent = "infrastructure.server.services.sftp.lockdown"
+	ActivityEventInfrastructureServerSharedfsReconfigure                ActivityEvent = "infrastructure.server.sharedfs.reconfigure"
+	ActivityEventInfrastructureServerSshToken                           ActivityEvent = "infrastructure.server.ssh.token"
+	ActivityEventInfrastructureServerTaskDelete                         ActivityEvent = "infrastructure.server.task.delete"
+	ActivityEventInfrastructureServerTaskEvacuationReset                ActivityEvent = "infrastructure.server.task.evacuation.reset"
+	ActivityEventInfrastructureServerTaskEvacuationStart                ActivityEvent = "infrastructure.server.task.evacuation.start"
+	ActivityEventInfrastructureServerTaskFeaturesReconfigure            ActivityEvent = "infrastructure.server.task.features.reconfigure"
+	ActivityEventInfrastructureServerTaskProvision                      ActivityEvent = "infrastructure.server.task.provision"
+	ActivityEventInfrastructureServerTaskRestart                        ActivityEvent = "infrastructure.server.task.restart"
+	ActivityEventInfrastructureServerTaskSharedfsReconfigure            ActivityEvent = "infrastructure.server.task.sharedfs.reconfigure"
+	ActivityEventInfrastructureServerUnquarantine                       ActivityEvent = "infrastructure.server.unquarantine"
+	ActivityEventInfrastructureServerUpdate                             ActivityEvent = "infrastructure.server.update"
+	ActivityEventInfrastructureVirtualProvidersIsoCreate                ActivityEvent = "infrastructure.virtual-providers.iso.create"
+	ActivityEventInfrastructureVirtualProvidersIsoDelete                ActivityEvent = "infrastructure.virtual-providers.iso.delete"
+	ActivityEventInfrastructureVirtualProvidersIsoGenerate              ActivityEvent = "infrastructure.virtual-providers.iso.generate"
+	ActivityEventInfrastructureVirtualProvidersIsoTaskDelete            ActivityEvent = "infrastructure.virtual-providers.iso.task.delete"
+	ActivityEventInfrastructureVirtualProvidersIsoUpdate                ActivityEvent = "infrastructure.virtual-providers.iso.update"
+	ActivityEventPipelineCreate                                         ActivityEvent = "pipeline.create"
+	ActivityEventPipelineDelete                                         ActivityEvent = "pipeline.delete"
+	ActivityEventPipelineKeyCreate                                      ActivityEvent = "pipeline.key.create"
+	ActivityEventPipelineKeyDelete                                      ActivityEvent = "pipeline.key.delete"
+	ActivityEventPipelineKeyUpdate                                      ActivityEvent = "pipeline.key.update"
+	ActivityEventPipelineRunCompleted                                   ActivityEvent = "pipeline.run.completed"
+	ActivityEventPipelineTaskDelete                                     ActivityEvent = "pipeline.task.delete"
+	ActivityEventPipelineTaskTrigger                                    ActivityEvent = "pipeline.task.trigger"
+	ActivityEventPipelineTrigger                                        ActivityEvent = "pipeline.trigger"
+	ActivityEventPipelineUpdate                                         ActivityEvent = "pipeline.update"
+	ActivityEventSdnNetworkCreate                                       ActivityEvent = "sdn.network.create"
+	ActivityEventSdnNetworkTaskDelete                                   ActivityEvent = "sdn.network.task.delete"
+	ActivityEventSdnNetworkTaskReconfigure                              ActivityEvent = "sdn.network.task.reconfigure"
+	ActivityEventSdnNetworkUpdate                                       ActivityEvent = "sdn.network.update"
+	ActivityEventStackBuildCreate                                       ActivityEvent = "stack.build.create"
+	ActivityEventStackBuildDelete                                       ActivityEvent = "stack.build.delete"
+	ActivityEventStackBuildDeploy                                       ActivityEvent = "stack.build.deploy"
+	ActivityEventStackBuildGenerate                                     ActivityEvent = "stack.build.generate"
+	ActivityEventStackBuildTaskDelete                                   ActivityEvent = "stack.build.task.delete"
+	ActivityEventStackBuildTaskDeploy                                   ActivityEvent = "stack.build.task.deploy"
+	ActivityEventStackBuildTaskGenerate                                 ActivityEvent = "stack.build.task.generate"
+	ActivityEventStackCreate                                            ActivityEvent = "stack.create"
+	ActivityEventStackDelete                                            ActivityEvent = "stack.delete"
+	ActivityEventStackPrune                                             ActivityEvent = "stack.prune"
+	ActivityEventStackTaskDelete                                        ActivityEvent = "stack.task.delete"
+	ActivityEventStackTaskPrune                                         ActivityEvent = "stack.task.prune"
+	ActivityEventStackUpdate                                            ActivityEvent = "stack.update"
+	ActivityEventVirtualMachineCreate                                   ActivityEvent = "virtual-machine.create"
+	ActivityEventVirtualMachineDelete                                   ActivityEvent = "virtual-machine.delete"
+	ActivityEventVirtualMachineInitialize                               ActivityEvent = "virtual-machine.initialize"
+	ActivityEventVirtualMachineIpAllocate                               ActivityEvent = "virtual-machine.ip.allocate"
+	ActivityEventVirtualMachineIpUnallocate                             ActivityEvent = "virtual-machine.ip.unallocate"
+	ActivityEventVirtualMachineReconfigure                              ActivityEvent = "virtual-machine.reconfigure"
+	ActivityEventVirtualMachineRootpwChange                             ActivityEvent = "virtual-machine.rootpw.change"
+	ActivityEventVirtualMachineSosLogin                                 ActivityEvent = "virtual-machine.sos.login"
+	ActivityEventVirtualMachineSshKeyCreate                             ActivityEvent = "virtual-machine.ssh-key.create"
+	ActivityEventVirtualMachineSshKeyDelete                             ActivityEvent = "virtual-machine.ssh-key.delete"
+	ActivityEventVirtualMachineSshKeyTaskDelete                         ActivityEvent = "virtual-machine.ssh-key.task.delete"
+	ActivityEventVirtualMachineSshKeyUpdate                             ActivityEvent = "virtual-machine.ssh-key.update"
+	ActivityEventVirtualMachineStart                                    ActivityEvent = "virtual-machine.start"
+	ActivityEventVirtualMachineStop                                     ActivityEvent = "virtual-machine.stop"
+	ActivityEventVirtualMachineTaskDelete                               ActivityEvent = "virtual-machine.task.delete"
+	ActivityEventVirtualMachineTaskIpAllocate                           ActivityEvent = "virtual-machine.task.ip.allocate"
+	ActivityEventVirtualMachineTaskIpUnallocate                         ActivityEvent = "virtual-machine.task.ip.unallocate"
+	ActivityEventVirtualMachineTaskReconfigure                          ActivityEvent = "virtual-machine.task.reconfigure"
+	ActivityEventVirtualMachineTaskStart                                ActivityEvent = "virtual-machine.task.start"
+	ActivityEventVirtualMachineTaskStop                                 ActivityEvent = "virtual-machine.task.stop"
+	ActivityEventVirtualMachineUpdate                                   ActivityEvent = "virtual-machine.update"
 )
 
 // Defines values for ActivityStatus.
@@ -533,6 +537,32 @@ const (
 	VirtualMachinesManage             Capability = "virtual-machines-manage"
 	VirtualMachinesSshKeysManage      Capability = "virtual-machines-ssh-keys-manage"
 	VirtualMachinesView               Capability = "virtual-machines-view"
+)
+
+// Defines values for ChangelogEntryChangesType.
+const (
+	ChangelogEntryChangesTypeAdded       ChangelogEntryChangesType = "added"
+	ChangelogEntryChangesTypeChanged     ChangelogEntryChangesType = "changed"
+	ChangelogEntryChangesTypeDeprecated  ChangelogEntryChangesType = "deprecated"
+	ChangelogEntryChangesTypeFixed       ChangelogEntryChangesType = "fixed"
+	ChangelogEntryChangesTypeImprovement ChangelogEntryChangesType = "improvement"
+	ChangelogEntryChangesTypeRemoved     ChangelogEntryChangesType = "removed"
+	ChangelogEntryChangesTypeSecurity    ChangelogEntryChangesType = "security"
+)
+
+// Defines values for ChangelogEntryEmailEventsType.
+const (
+	External ChangelogEntryEmailEventsType = "external"
+	Internal ChangelogEntryEmailEventsType = "internal"
+	Single   ChangelogEntryEmailEventsType = "single"
+)
+
+// Defines values for ChangelogEntryStateCurrent.
+const (
+	ChangelogEntryStateCurrentApproved  ChangelogEntryStateCurrent = "approved"
+	ChangelogEntryStateCurrentDeleted   ChangelogEntryStateCurrent = "deleted"
+	ChangelogEntryStateCurrentNew       ChangelogEntryStateCurrent = "new"
+	ChangelogEntryStateCurrentPublished ChangelogEntryStateCurrent = "published"
 )
 
 // Defines values for ClusterReconfigureMonitoringTierActionAction.
@@ -889,7 +919,7 @@ const (
 
 // Defines values for EnvironmentInitializeActionAction.
 const (
-	Initialize EnvironmentInitializeActionAction = "initialize"
+	EnvironmentInitializeActionActionInitialize EnvironmentInitializeActionAction = "initialize"
 )
 
 // Defines values for EnvironmentReconfigureDeploymentsActionAction.
@@ -1120,6 +1150,7 @@ const (
 	InfrastructureServerManifestSyncFailed               EventType = "infrastructure.server.manifest.sync.failed"
 	InfrastructureServerMeshConnectFailed                EventType = "infrastructure.server.mesh.connect.failed"
 	InfrastructureServerMonitoringThrottled              EventType = "infrastructure.server.monitoring.throttled"
+	InfrastructureServerNeighborIncompatible             EventType = "infrastructure.server.neighbor.incompatible"
 	InfrastructureServerNeighborReachable                EventType = "infrastructure.server.neighbor.reachable"
 	InfrastructureServerNeighborRebuild                  EventType = "infrastructure.server.neighbor.rebuild"
 	InfrastructureServerNeighborUnreachable              EventType = "infrastructure.server.neighbor.unreachable"
@@ -1337,6 +1368,16 @@ const (
 	IpPoolKindIpv6 IpPoolKind = "ipv6"
 )
 
+// Defines values for IpPoolInitializeActionAction.
+const (
+	IpPoolInitializeActionActionInitialize IpPoolInitializeActionAction = "initialize"
+)
+
+// Defines values for IpPoolReconfigureOptionsActionAction.
+const (
+	OptionsReconfigure IpPoolReconfigureOptionsActionAction = "options.reconfigure"
+)
+
 // Defines values for IpPoolStateCurrent.
 const (
 	IpPoolStateCurrentLive      IpPoolStateCurrent = "live"
@@ -1545,6 +1586,11 @@ const (
 // Defines values for RawSourceType.
 const (
 	RawSourceTypeRaw RawSourceType = "raw"
+)
+
+// Defines values for ReconfigureSdnNetworkActionAction.
+const (
+	ReconfigureSdnNetworkActionActionReconfigure ReconfigureSdnNetworkActionAction = "reconfigure"
 )
 
 // Defines values for RegistryAuthProviderDetailsFlavor.
@@ -2811,11 +2857,6 @@ const (
 	UpdateNetworkAccessParamsIncludeEnvironments UpdateNetworkAccessParamsInclude = "environments"
 )
 
-// Defines values for CreateNetworkJobJSONBodyAction.
-const (
-	CreateNetworkJobJSONBodyActionReconfigure CreateNetworkJobJSONBodyAction = "reconfigure"
-)
-
 // Defines values for GetStacksParamsMeta.
 const (
 	GetStacksParamsMetaBuildsCount     GetStacksParamsMeta = "builds_count"
@@ -3535,8 +3576,8 @@ type BillingOrder struct {
 	HubId HubID `json:"hub_id"`
 
 	// Id A 24 character hex string used to identify a unique resource.
-	Id    ID            `json:"id"`
-	Items []ServiceItem `json:"items"`
+	Id    ID          `json:"id"`
+	Items []OrderItem `json:"items"`
 
 	// PromoCodeId An ID associated with a promo code used with the order.
 	PromoCodeId *string `json:"promo_code_id"`
@@ -3605,6 +3646,45 @@ type BillingServers struct {
 
 // BillingServersAdditionalTerm defines model for BillingServers.Additional.Term.
 type BillingServersAdditionalTerm string
+
+// BillingService Information about billing service.
+type BillingService struct {
+	// Creator The creator scope is embedded in resource objects to describe who created them
+	Creator CreatorScope `json:"creator"`
+
+	// Discount Information about a billing discount.
+	Discount AssociatedDiscount `json:"discount"`
+
+	// Events A collection of timestamps for each event in the billing service's lifetime.
+	Events struct {
+		Created    DateTime `json:"created"`
+		Deleted    DateTime `json:"deleted"`
+		LastBilled DateTime `json:"last_billed"`
+		Updated    DateTime `json:"updated"`
+	} `json:"events"`
+
+	// HubId The unique ID of the Hub this resource was created in.
+	HubId HubID `json:"hub_id"`
+
+	// Id A 24 character hex string used to identify a unique resource.
+	Id ID `json:"id"`
+
+	// Item Information for an item's plan.
+	Item ServiceItem `json:"item"`
+
+	// Order An order is a resource that describes a billing order
+	Order Order `json:"order"`
+
+	// Price An object holding information about term and amount that relates to a specific billing component.
+	Price BillingAmount       `json:"price"`
+	State BillingServiceState `json:"state"`
+
+	// Term Information about a billing term.
+	Term Term `json:"term"`
+
+	// Title Billing service title.
+	Title string `json:"title"`
+}
 
 // BillingServiceState defines model for BillingServiceState.
 type BillingServiceState struct {
@@ -3753,6 +3833,90 @@ type Change struct {
 	// Component A description of the resource that was changed.
 	Component string `json:"component"`
 }
+
+// ChangelogEntry A changelog entry released by the Cycle team.
+type ChangelogEntry struct {
+	Approved *struct {
+		Date DateTime `json:"date"`
+
+		// SignedBy A type of creator and a matching identifier.
+		SignedBy UserScope `json:"signed_by"`
+	} `json:"approved"`
+	Changes []struct {
+		Codebase    *string                   `json:"codebase"`
+		Description string                    `json:"description"`
+		ExternalUrl *string                   `json:"external_url"`
+		Notes       *[]string                 `json:"notes"`
+		Showcase    bool                      `json:"showcase"`
+		Title       string                    `json:"title"`
+		Type        ChangelogEntryChangesType `json:"type"`
+	} `json:"changes"`
+
+	// Creator The creator scope is embedded in resource objects to describe who created them
+	Creator     CreatorScope `json:"creator"`
+	EmailEvents *[]struct {
+		Address string `json:"address"`
+
+		// Sender A type of creator and a matching identifier.
+		Sender UserScope                     `json:"sender"`
+		Sent   DateTime                      `json:"sent"`
+		Type   ChangelogEntryEmailEventsType `json:"type"`
+	} `json:"email_events,omitempty"`
+
+	// Events A collection of timestamps for each event in the changelog entry's lifetime.
+	Events struct {
+		Created DateTime `json:"created"`
+		Deleted DateTime `json:"deleted"`
+		Updated DateTime `json:"updated"`
+	} `json:"events"`
+
+	// Hero An object describing the hero image for the changelog entry.
+	Hero *struct {
+		ImageAlt *string `json:"image_alt"`
+		ImageUrl *string `json:"image_url"`
+		Intro    string  `json:"intro"`
+	} `json:"hero"`
+
+	// Id A 24 character hex string used to identify a unique resource.
+	Id        ID `json:"id"`
+	Published *struct {
+		Date DateTime `json:"date"`
+
+		// SignedBy A type of creator and a matching identifier.
+		SignedBy UserScope `json:"signed_by"`
+	} `json:"published"`
+	State ChangelogEntryState `json:"state"`
+
+	// Title The title of the changelog entry.
+	Title string `json:"title"`
+
+	// Version The version of the release described in the changelog entry.
+	Version string `json:"version"`
+}
+
+// ChangelogEntryChangesType defines model for ChangelogEntry.Changes.Type.
+type ChangelogEntryChangesType string
+
+// ChangelogEntryEmailEventsType defines model for ChangelogEntry.EmailEvents.Type.
+type ChangelogEntryEmailEventsType string
+
+// ChangelogEntryState defines model for ChangelogEntryState.
+type ChangelogEntryState struct {
+	Changed DateTime `json:"changed"`
+
+	// Current The current state of the changelog entry.
+	Current ChangelogEntryStateCurrent `json:"current"`
+
+	// Error An error, if any, that has occurred for this resource.
+	Error *struct {
+		// Message Details about the error that has occurred.
+		Message *string   `json:"message,omitempty"`
+		Time    *DateTime `json:"time,omitempty"`
+	} `json:"error,omitempty"`
+}
+
+// ChangelogEntryStateCurrent The current state of the changelog entry.
+type ChangelogEntryStateCurrent string
 
 // Cidr A CIDR (Classless Inter-Domain Routing) string is a notation used to represent an IP address and its associated network prefix.
 // It combines an IP address with a suffix that indicates how many bits are fixed for routing.
@@ -7800,6 +7964,9 @@ type Ip struct {
 	// NetworkId A 24 character hex string used to identify a unique resource.
 	NetworkId ID `json:"network_id"`
 
+	// Options Options for an IP.
+	Options *IpOptions `json:"options,omitempty"`
+
 	// PoolId A 24 character hex string used to identify a unique resource.
 	PoolId ID      `json:"pool_id"`
 	State  IpState `json:"state"`
@@ -7810,6 +7977,12 @@ type IpKind string
 
 // IpAddress An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
 type IpAddress = string
+
+// IpOptions Options for an IP.
+type IpOptions struct {
+	// ProxyArp If enabled, allows pool to respond to ARP requests, on behalf of a container / virtual machine, at the host level.
+	ProxyArp *bool `json:"proxy_arp"`
+}
 
 // IpPool An IP Pool
 type IpPool struct {
@@ -7850,6 +8023,9 @@ type IpPool struct {
 	// LocationId An ID associated with a location resource.
 	LocationId string `json:"location_id"`
 
+	// Options Options for an IP.
+	Options *IpOptions `json:"options,omitempty"`
+
 	// Provider A IP Pool provider.
 	Provider IpPoolProvider `json:"provider"`
 
@@ -7876,6 +8052,15 @@ type IpPoolIncludes struct {
 	Servers *ServersIncludes `json:"servers,omitempty"`
 }
 
+// IpPoolInitializeAction defines model for IpPoolInitializeAction.
+type IpPoolInitializeAction struct {
+	// Action The action to take.
+	Action IpPoolInitializeActionAction `json:"action"`
+}
+
+// IpPoolInitializeActionAction The action to take.
+type IpPoolInitializeActionAction string
+
 // IpPoolProvider A IP Pool provider.
 type IpPoolProvider struct {
 	// IntegrationId A 24 character hex string used to identify a unique resource.
@@ -7897,6 +8082,18 @@ type IpPoolProvider struct {
 	Vendor string `json:"vendor"`
 }
 
+// IpPoolReconfigureOptionsAction defines model for IpPoolReconfigureOptionsAction.
+type IpPoolReconfigureOptionsAction struct {
+	// Action The action to take.
+	Action IpPoolReconfigureOptionsActionAction `json:"action"`
+
+	// Contents Options for an IP.
+	Contents *IpOptions `json:"contents,omitempty"`
+}
+
+// IpPoolReconfigureOptionsActionAction The action to take.
+type IpPoolReconfigureOptionsActionAction string
+
 // IpPoolState defines model for IpPoolState.
 type IpPoolState struct {
 	Changed DateTime `json:"changed"`
@@ -7914,6 +8111,11 @@ type IpPoolState struct {
 
 // IpPoolStateCurrent The current state of the pool.
 type IpPoolStateCurrent string
+
+// IpPoolTask defines model for IpPoolTask.
+type IpPoolTask struct {
+	union json.RawMessage
+}
 
 // IpState defines model for IpState.
 type IpState struct {
@@ -9527,6 +9729,35 @@ type RawSource struct {
 // RawSourceType The type of source value, can be either `raw` or `url`.
 type RawSourceType string
 
+// ReconfigureSdnNetworkAction defines model for ReconfigureSdnNetworkAction.
+type ReconfigureSdnNetworkAction struct {
+	// Action The job to do.
+	Action ReconfigureSdnNetworkActionAction `json:"action"`
+
+	// Contents Additional information needed for the job.
+	Contents struct {
+		// EnvironmentIds An array of environment identifiers for the network.
+		EnvironmentIds *[]string `json:"environment_ids"`
+		L2             *struct {
+			HostInterface *string `json:"host_interface"`
+			LocationIds   *[]ID   `json:"location_ids,omitempty"`
+
+			// Routes An array of defined L2 routes
+			Routes *[]struct {
+				// Gateway An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
+				Gateway *IpAddress `json:"gateway,omitempty"`
+
+				// Usable A CIDR (Classless Inter-Domain Routing) string is a notation used to represent an IP address and its associated network prefix.
+				// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
+				Usable *Cidr `json:"usable,omitempty"`
+			} `json:"routes,omitempty"`
+		} `json:"l2"`
+	} `json:"contents"`
+}
+
+// ReconfigureSdnNetworkActionAction The job to do.
+type ReconfigureSdnNetworkActionAction string
+
 // RecordIncludes All includable resources linkable to the given records.
 type RecordIncludes struct {
 	Containers            *map[string]Container `json:"containers,omitempty"`
@@ -10036,6 +10267,11 @@ type ScopedVariableState struct {
 
 // ScopedVariableStateCurrent The current state of the scoped variable.
 type ScopedVariableStateCurrent string
+
+// SdnNetworkTask defines model for SdnNetworkTask.
+type SdnNetworkTask struct {
+	union json.RawMessage
+}
 
 // SeccompRule Rules for controlling Linux seccomp inside a container.
 type SeccompRule struct {
@@ -10712,45 +10948,6 @@ type ServerUnquarantineActionAction string
 // ServersIncludes A resource that is associated with a server.
 type ServersIncludes map[string]Server
 
-// Service Information about billing service.
-type Service struct {
-	// Creator The creator scope is embedded in resource objects to describe who created them
-	Creator CreatorScope `json:"creator"`
-
-	// Discount Information about a billing discount.
-	Discount AssociatedDiscount `json:"discount"`
-
-	// Events A collection of timestamps for each event in the billing service's lifetime.
-	Events struct {
-		Created    DateTime `json:"created"`
-		Deleted    DateTime `json:"deleted"`
-		LastBilled DateTime `json:"last_billed"`
-		Updated    DateTime `json:"updated"`
-	} `json:"events"`
-
-	// HubId The unique ID of the Hub this resource was created in.
-	HubId HubID `json:"hub_id"`
-
-	// Id A 24 character hex string used to identify a unique resource.
-	Id ID `json:"id"`
-
-	// Item Information for an item's plan.
-	Item ServiceItem `json:"item"`
-
-	// Order An order is a resource that describes a billing order
-	Order Order `json:"order"`
-
-	// Price An object holding information about term and amount that relates to a specific billing component.
-	Price BillingAmount       `json:"price"`
-	State BillingServiceState `json:"state"`
-
-	// Term Information about a billing term.
-	Term Term `json:"term"`
-
-	// Title Billing service title.
-	Title string `json:"title"`
-}
-
 // ServiceContainerIdentifier Identifier of a service Container within an Environment.
 type ServiceContainerIdentifier string
 
@@ -10988,6 +11185,9 @@ type StackBuildDeployAction struct {
 		// EnvironmentId The ID for the environment this stack build will be deployed to.
 		EnvironmentId string                       `json:"environment_id"`
 		Update        *StackBuildDeploymentUpdates `json:"update"`
+
+		// Variables Custom variables applied to the stack during deploy. Any place in the stack where a `{{variable}}` is used is replaced with the value of the variable supplied in this map.
+		Variables *map[string]string `json:"variables,omitempty"`
 	} `json:"contents"`
 }
 
@@ -11014,6 +11214,9 @@ type StackBuildDeployStep struct {
 		// - `from:<stage/step>`: For referencing a previous pipeline step.
 		Environment FluidIdentifier              `json:"environment"`
 		Update      *StackBuildDeploymentUpdates `json:"update"`
+
+		// Variables Custom variables applied to the stack during deploy. Any place in the stack where a `{{variable}}` is used is replaced with the value of the variable supplied in this map.
+		Variables *map[string]string `json:"variables,omitempty"`
 	} `json:"details"`
 
 	// Identifier An identifier for the step.
@@ -13401,15 +13604,11 @@ type VirtualProviderIsoNic struct {
 
 	// Static The static configuration for the network interface.
 	Static *struct {
-		// GatewayIp An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
-		GatewayIp *IpAddress `json:"gateway_ip,omitempty"`
+		// Ipv4 The static subconfiguration for ipv4 or ipv6.
+		Ipv4 *VirtualProviderIsoNicStaticFlavor `json:"ipv4,omitempty"`
 
-		// Network A CIDR (Classless Inter-Domain Routing) string is a notation used to represent an IP address and its associated network prefix.
-		// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
-		Network Cidr `json:"network"`
-
-		// StaticIp An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
-		StaticIp IpAddress `json:"static_ip"`
+		// Ipv6 The static subconfiguration for ipv4 or ipv6.
+		Ipv6 *VirtualProviderIsoNicStaticFlavor `json:"ipv6,omitempty"`
 	} `json:"static"`
 
 	// VlanId VLAN ID for the serer.
@@ -13418,6 +13617,19 @@ type VirtualProviderIsoNic struct {
 
 // VirtualProviderIsoNicDhcpMode defines model for VirtualProviderIsoNic.Dhcp.Mode.
 type VirtualProviderIsoNicDhcpMode string
+
+// VirtualProviderIsoNicStaticFlavor The static subconfiguration for ipv4 or ipv6.
+type VirtualProviderIsoNicStaticFlavor struct {
+	// GatewayIp An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
+	GatewayIp *IpAddress `json:"gateway_ip,omitempty"`
+
+	// Ip An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
+	Ip *IpAddress `json:"ip,omitempty"`
+
+	// Network A CIDR (Classless Inter-Domain Routing) string is a notation used to represent an IP address and its associated network prefix.
+	// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
+	Network Cidr `json:"network"`
+}
 
 // VirtualProviderIsoTask defines model for VirtualProviderIsoTask.
 type VirtualProviderIsoTask struct {
@@ -14080,6 +14292,16 @@ type GetBillingServicesParams struct {
 
 // GetBillingOveragesParams defines parameters for GetBillingOverages.
 type GetBillingOveragesParams struct {
+	// Sort An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort   *SortParam   `form:"sort,omitempty" json:"sort,omitempty"`
+	Filter *FilterParam `json:"filter,omitempty"`
+
+	// Page In a list return, the data associated with the page number and size returned. 20 results per page, page 2 would be `page[size]=20&page[number]=2`
+	Page *PageParam `json:"page,omitempty"`
+}
+
+// GetChangelogParams defines parameters for GetChangelog.
+type GetChangelogParams struct {
 	// Sort An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort   *SortParam   `form:"sort,omitempty" json:"sort,omitempty"`
 	Filter *FilterParam `json:"filter,omitempty"`
@@ -15663,6 +15885,9 @@ type CreateIpPoolJSONBody struct {
 		Network *Cidr `json:"network,omitempty"`
 	} `json:"block"`
 
+	// Options Options for an IP.
+	Options *IpOptions `json:"options,omitempty"`
+
 	// ServerId A 24 character hex string used to identify a unique resource.
 	ServerId ID `json:"server_id"`
 }
@@ -16048,16 +16273,16 @@ type GenerateAggregatedEventsParams struct {
 
 // AggregateLogsJSONBody defines parameters for AggregateLogs.
 type AggregateLogsJSONBody struct {
+	// ContextWindowSize Context window size indicates how many log lines after a match to return in the response.
+	// This allows greater context around the matched lines.
+	ContextWindowSize *int `json:"context_window_size"`
+
 	// Limit Describes the maximum number of log lines the query will return.
 	Limit *int `json:"limit"`
 
 	// Local Indicates that only locally cached log lines should be queried.  If true, logs in object storage will not be returned.
 	Local *bool `json:"local"`
 	Scope struct {
-		// ContextWindow Context window indicates how many log lines after a match to return in the response.
-		// This allows greater context around the matched lines.
-		ContextWindow *int `json:"context_window"`
-
 		// DateRange The date range used to narrow log aggregation.
 		DateRange *struct {
 			End   *DateTime `json:"end,omitempty"`
@@ -16380,21 +16605,6 @@ type GetNetworkParamsInclude string
 
 // UpdateNetworkJSONBody defines parameters for UpdateNetwork.
 type UpdateNetworkJSONBody struct {
-	L2 *struct {
-		HostInterface *string `json:"host_interface"`
-		LocationIds   *[]ID   `json:"location_ids,omitempty"`
-
-		// Routes An array of defined L2 routes
-		Routes *[]struct {
-			// Gateway An IP address is a numerical label that uniquely identifies a device on a network and enables it to send and receive data.
-			Gateway *IpAddress `json:"gateway,omitempty"`
-
-			// Usable A CIDR (Classless Inter-Domain Routing) string is a notation used to represent an IP address and its associated network prefix.
-			// It combines an IP address with a suffix that indicates how many bits are fixed for routing.
-			Usable *Cidr `json:"usable,omitempty"`
-		} `json:"routes,omitempty"`
-	} `json:"l2"`
-
 	// Name The name of the network.
 	Name *string `json:"name,omitempty"`
 }
@@ -16421,21 +16631,6 @@ type UpdateNetworkAccessParams struct {
 
 // UpdateNetworkAccessParamsInclude defines parameters for UpdateNetworkAccess.
 type UpdateNetworkAccessParamsInclude string
-
-// CreateNetworkJobJSONBody defines parameters for CreateNetworkJob.
-type CreateNetworkJobJSONBody struct {
-	// Action The Job to do.
-	Action CreateNetworkJobJSONBodyAction `json:"action"`
-
-	// Contents Additional information needed for the Job.
-	Contents struct {
-		// EnvironmentIds An array of environment identifiers for the Network.
-		EnvironmentIds []string `json:"environment_ids"`
-	} `json:"contents"`
-}
-
-// CreateNetworkJobJSONBodyAction defines parameters for CreateNetworkJob.
-type CreateNetworkJobJSONBodyAction string
 
 // GetStacksParams defines parameters for GetStacks.
 type GetStacksParams struct {
@@ -17015,6 +17210,9 @@ type CreateClusterJobJSONRequestBody = ClusterTask
 // CreateIpPoolJSONRequestBody defines body for CreateIpPool for application/json ContentType.
 type CreateIpPoolJSONRequestBody CreateIpPoolJSONBody
 
+// CreateIpPoolJobJSONRequestBody defines body for CreateIpPoolJob for application/json ContentType.
+type CreateIpPoolJobJSONRequestBody = IpPoolTask
+
 // CreateServerJSONRequestBody defines body for CreateServer for application/json ContentType.
 type CreateServerJSONRequestBody CreateServerJSONBody
 
@@ -17079,7 +17277,7 @@ type UpdateNetworkJSONRequestBody UpdateNetworkJSONBody
 type UpdateNetworkAccessJSONRequestBody UpdateNetworkAccessJSONBody
 
 // CreateNetworkJobJSONRequestBody defines body for CreateNetworkJob for application/json ContentType.
-type CreateNetworkJobJSONRequestBody CreateNetworkJobJSONBody
+type CreateNetworkJobJSONRequestBody = SdnNetworkTask
 
 // CreateStackJSONRequestBody defines body for CreateStack for application/json ContentType.
 type CreateStackJSONRequestBody CreateStackJSONBody
@@ -18749,6 +18947,95 @@ func (t IntegrationDefinition_ExtendedConfiguration_Options_Item) MarshalJSON() 
 }
 
 func (t *IntegrationDefinition_ExtendedConfiguration_Options_Item) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsIpPoolInitializeAction returns the union data inside the IpPoolTask as a IpPoolInitializeAction
+func (t IpPoolTask) AsIpPoolInitializeAction() (IpPoolInitializeAction, error) {
+	var body IpPoolInitializeAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromIpPoolInitializeAction overwrites any union data inside the IpPoolTask as the provided IpPoolInitializeAction
+func (t *IpPoolTask) FromIpPoolInitializeAction(v IpPoolInitializeAction) error {
+	v.Action = "initialize"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeIpPoolInitializeAction performs a merge with any union data inside the IpPoolTask, using the provided IpPoolInitializeAction
+func (t *IpPoolTask) MergeIpPoolInitializeAction(v IpPoolInitializeAction) error {
+	v.Action = "initialize"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsIpPoolReconfigureOptionsAction returns the union data inside the IpPoolTask as a IpPoolReconfigureOptionsAction
+func (t IpPoolTask) AsIpPoolReconfigureOptionsAction() (IpPoolReconfigureOptionsAction, error) {
+	var body IpPoolReconfigureOptionsAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromIpPoolReconfigureOptionsAction overwrites any union data inside the IpPoolTask as the provided IpPoolReconfigureOptionsAction
+func (t *IpPoolTask) FromIpPoolReconfigureOptionsAction(v IpPoolReconfigureOptionsAction) error {
+	v.Action = "options.reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeIpPoolReconfigureOptionsAction performs a merge with any union data inside the IpPoolTask, using the provided IpPoolReconfigureOptionsAction
+func (t *IpPoolTask) MergeIpPoolReconfigureOptionsAction(v IpPoolReconfigureOptionsAction) error {
+	v.Action = "options.reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t IpPoolTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t IpPoolTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "initialize":
+		return t.AsIpPoolInitializeAction()
+	case "options.reconfigure":
+		return t.AsIpPoolReconfigureOptionsAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t IpPoolTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *IpPoolTask) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -20572,6 +20859,65 @@ func (t ScopedVariable_Source) MarshalJSON() ([]byte, error) {
 }
 
 func (t *ScopedVariable_Source) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsReconfigureSdnNetworkAction returns the union data inside the SdnNetworkTask as a ReconfigureSdnNetworkAction
+func (t SdnNetworkTask) AsReconfigureSdnNetworkAction() (ReconfigureSdnNetworkAction, error) {
+	var body ReconfigureSdnNetworkAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromReconfigureSdnNetworkAction overwrites any union data inside the SdnNetworkTask as the provided ReconfigureSdnNetworkAction
+func (t *SdnNetworkTask) FromReconfigureSdnNetworkAction(v ReconfigureSdnNetworkAction) error {
+	v.Action = "reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeReconfigureSdnNetworkAction performs a merge with any union data inside the SdnNetworkTask, using the provided ReconfigureSdnNetworkAction
+func (t *SdnNetworkTask) MergeReconfigureSdnNetworkAction(v ReconfigureSdnNetworkAction) error {
+	v.Action = "reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t SdnNetworkTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t SdnNetworkTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "reconfigure":
+		return t.AsReconfigureSdnNetworkAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t SdnNetworkTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *SdnNetworkTask) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -25932,6 +26278,9 @@ type ClientInterface interface {
 	// GetBillingStatus request
 	GetBillingStatus(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetChangelog request
+	GetChangelog(ctx context.Context, params *GetChangelogParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetContainers request
 	GetContainers(ctx context.Context, params *GetContainersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -26475,6 +26824,11 @@ type ClientInterface interface {
 
 	// GetPoolIPs request
 	GetPoolIPs(ctx context.Context, poolId string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateIpPoolJobWithBody request with any body
+	CreateIpPoolJobWithBody(ctx context.Context, poolId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateIpPoolJob(ctx context.Context, poolId string, body CreateIpPoolJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetClusterMonitoringTiers request
 	GetClusterMonitoringTiers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -27393,6 +27747,18 @@ func (c *Client) GetBillingService(ctx context.Context, servicesId string, reqEd
 
 func (c *Client) GetBillingStatus(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetBillingStatusRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetChangelog(ctx context.Context, params *GetChangelogParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetChangelogRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -29793,6 +30159,30 @@ func (c *Client) GetIPPool(ctx context.Context, poolId string, params *GetIPPool
 
 func (c *Client) GetPoolIPs(ctx context.Context, poolId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetPoolIPsRequest(c.Server, poolId)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateIpPoolJobWithBody(ctx context.Context, poolId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateIpPoolJobRequestWithBody(c.Server, poolId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateIpPoolJob(ctx context.Context, poolId string, body CreateIpPoolJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateIpPoolJobRequest(c.Server, poolId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -33335,6 +33725,87 @@ func NewGetBillingStatusRequest(server string) (*http.Request, error) {
 	queryURL, err := serverURL.Parse(operationPath)
 	if err != nil {
 		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetChangelogRequest generates requests for GetChangelog
+func NewGetChangelogRequest(server string, params *GetChangelogParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/changelog")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Sort != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "sort", runtime.ParamLocationQuery, *params.Sort); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Filter != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "filter", runtime.ParamLocationQuery, *params.Filter); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Page != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "page", runtime.ParamLocationQuery, *params.Page); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
 	}
 
 	req, err := http.NewRequest("GET", queryURL.String(), nil)
@@ -41210,6 +41681,53 @@ func NewGetPoolIPsRequest(server string, poolId string) (*http.Request, error) {
 	return req, nil
 }
 
+// NewCreateIpPoolJobRequest calls the generic CreateIpPoolJob builder with application/json body
+func NewCreateIpPoolJobRequest(server string, poolId string, body CreateIpPoolJobJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateIpPoolJobRequestWithBody(server, poolId, "application/json", bodyReader)
+}
+
+// NewCreateIpPoolJobRequestWithBody generates requests for CreateIpPoolJob with any type of body
+func NewCreateIpPoolJobRequestWithBody(server string, poolId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "poolId", runtime.ParamLocationPath, poolId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/ips/pools/%s/tasks", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetClusterMonitoringTiersRequest generates requests for GetClusterMonitoringTiers
 func NewGetClusterMonitoringTiersRequest(server string) (*http.Request, error) {
 	var err error
@@ -46052,6 +46570,9 @@ type ClientWithResponsesInterface interface {
 	// GetBillingStatusWithResponse request
 	GetBillingStatusWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetBillingStatusResponse, error)
 
+	// GetChangelogWithResponse request
+	GetChangelogWithResponse(ctx context.Context, params *GetChangelogParams, reqEditors ...RequestEditorFn) (*GetChangelogResponse, error)
+
 	// GetContainersWithResponse request
 	GetContainersWithResponse(ctx context.Context, params *GetContainersParams, reqEditors ...RequestEditorFn) (*GetContainersResponse, error)
 
@@ -46595,6 +47116,11 @@ type ClientWithResponsesInterface interface {
 
 	// GetPoolIPsWithResponse request
 	GetPoolIPsWithResponse(ctx context.Context, poolId string, reqEditors ...RequestEditorFn) (*GetPoolIPsResponse, error)
+
+	// CreateIpPoolJobWithBodyWithResponse request with any body
+	CreateIpPoolJobWithBodyWithResponse(ctx context.Context, poolId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateIpPoolJobResponse, error)
+
+	CreateIpPoolJobWithResponse(ctx context.Context, poolId string, body CreateIpPoolJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateIpPoolJobResponse, error)
 
 	// GetClusterMonitoringTiersWithResponse request
 	GetClusterMonitoringTiersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetClusterMonitoringTiersResponse, error)
@@ -47760,7 +48286,7 @@ type GetBillingServicesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *struct {
-		Data []Service `json:"data"`
+		Data []BillingService `json:"data"`
 	}
 	JSONDefault *DefaultError
 }
@@ -47811,7 +48337,7 @@ type GetBillingServiceResponse struct {
 	HTTPResponse *http.Response
 	JSON200      *struct {
 		// Data Information about billing service.
-		Data Service `json:"data"`
+		Data BillingService `json:"data"`
 	}
 	JSONDefault *DefaultError
 }
@@ -47854,6 +48380,31 @@ func (r GetBillingStatusResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetBillingStatusResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetChangelogResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Data *[]ChangelogEntry `json:"data,omitempty"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetChangelogResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetChangelogResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -51779,6 +52330,32 @@ func (r GetPoolIPsResponse) StatusCode() int {
 	return 0
 }
 
+type CreateIpPoolJobResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *struct {
+		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+		Data JobDescriptor `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateIpPoolJobResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateIpPoolJobResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetClusterMonitoringTiersResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -54501,6 +55078,15 @@ func (c *ClientWithResponses) GetBillingStatusWithResponse(ctx context.Context, 
 	return ParseGetBillingStatusResponse(rsp)
 }
 
+// GetChangelogWithResponse request returning *GetChangelogResponse
+func (c *ClientWithResponses) GetChangelogWithResponse(ctx context.Context, params *GetChangelogParams, reqEditors ...RequestEditorFn) (*GetChangelogResponse, error) {
+	rsp, err := c.GetChangelog(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetChangelogResponse(rsp)
+}
+
 // GetContainersWithResponse request returning *GetContainersResponse
 func (c *ClientWithResponses) GetContainersWithResponse(ctx context.Context, params *GetContainersParams, reqEditors ...RequestEditorFn) (*GetContainersResponse, error) {
 	rsp, err := c.GetContainers(ctx, params, reqEditors...)
@@ -56243,6 +56829,23 @@ func (c *ClientWithResponses) GetPoolIPsWithResponse(ctx context.Context, poolId
 		return nil, err
 	}
 	return ParseGetPoolIPsResponse(rsp)
+}
+
+// CreateIpPoolJobWithBodyWithResponse request with arbitrary body returning *CreateIpPoolJobResponse
+func (c *ClientWithResponses) CreateIpPoolJobWithBodyWithResponse(ctx context.Context, poolId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateIpPoolJobResponse, error) {
+	rsp, err := c.CreateIpPoolJobWithBody(ctx, poolId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateIpPoolJobResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateIpPoolJobWithResponse(ctx context.Context, poolId string, body CreateIpPoolJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateIpPoolJobResponse, error) {
+	rsp, err := c.CreateIpPoolJob(ctx, poolId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateIpPoolJobResponse(rsp)
 }
 
 // GetClusterMonitoringTiersWithResponse request returning *GetClusterMonitoringTiersResponse
@@ -58460,7 +59063,7 @@ func ParseGetBillingServicesResponse(rsp *http.Response) (*GetBillingServicesRes
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
-			Data []Service `json:"data"`
+			Data []BillingService `json:"data"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
@@ -58531,7 +59134,7 @@ func ParseGetBillingServiceResponse(rsp *http.Response) (*GetBillingServiceRespo
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
 			// Data Information about billing service.
-			Data Service `json:"data"`
+			Data BillingService `json:"data"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
@@ -58570,6 +59173,41 @@ func ParseGetBillingStatusResponse(rsp *http.Response) (*GetBillingStatusRespons
 				// Enabled Whether billing is enabled for this core. Generally, this will only be false for dedicated cores.
 				Enabled *bool `json:"enabled,omitempty"`
 			} `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetChangelogResponse parses an HTTP response from a GetChangelogWithResponse call
+func ParseGetChangelogResponse(rsp *http.Response) (*GetChangelogResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetChangelogResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Data *[]ChangelogEntry `json:"data,omitempty"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
@@ -63932,6 +64570,42 @@ func ParseGetPoolIPsResponse(rsp *http.Response) (*GetPoolIPsResponse, error) {
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateIpPoolJobResponse parses an HTTP response from a CreateIpPoolJobWithResponse call
+func ParseCreateIpPoolJobResponse(rsp *http.Response) (*CreateIpPoolJobResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateIpPoolJobResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+			Data JobDescriptor `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest DefaultError
