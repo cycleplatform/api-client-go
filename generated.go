@@ -197,6 +197,7 @@ const (
 	ActivityEventInfrastructureServerPowerOff                           ActivityEvent = "infrastructure.server.power-off"
 	ActivityEventInfrastructureServerProvision                          ActivityEvent = "infrastructure.server.provision"
 	ActivityEventInfrastructureServerRestart                            ActivityEvent = "infrastructure.server.restart"
+	ActivityEventInfrastructureServerSanSync                            ActivityEvent = "infrastructure.server.san.sync"
 	ActivityEventInfrastructureServerServicesInternalApiThrottle        ActivityEvent = "infrastructure.server.services.internal-api.throttle"
 	ActivityEventInfrastructureServerServicesSftpAuth                   ActivityEvent = "infrastructure.server.services.sftp.auth"
 	ActivityEventInfrastructureServerServicesSftpLockdown               ActivityEvent = "infrastructure.server.services.sftp.lockdown"
@@ -208,6 +209,7 @@ const (
 	ActivityEventInfrastructureServerTaskFeaturesReconfigure            ActivityEvent = "infrastructure.server.task.features.reconfigure"
 	ActivityEventInfrastructureServerTaskProvision                      ActivityEvent = "infrastructure.server.task.provision"
 	ActivityEventInfrastructureServerTaskRestart                        ActivityEvent = "infrastructure.server.task.restart"
+	ActivityEventInfrastructureServerTaskSanSync                        ActivityEvent = "infrastructure.server.task.san.sync"
 	ActivityEventInfrastructureServerTaskSharedfsReconfigure            ActivityEvent = "infrastructure.server.task.sharedfs.reconfigure"
 	ActivityEventInfrastructureServerUnquarantine                       ActivityEvent = "infrastructure.server.unquarantine"
 	ActivityEventInfrastructureServerUpdate                             ActivityEvent = "infrastructure.server.update"
@@ -263,7 +265,9 @@ const (
 	ActivityEventVirtualMachineTaskReconfigure                          ActivityEvent = "virtual-machine.task.reconfigure"
 	ActivityEventVirtualMachineTaskStart                                ActivityEvent = "virtual-machine.task.start"
 	ActivityEventVirtualMachineTaskStop                                 ActivityEvent = "virtual-machine.task.stop"
+	ActivityEventVirtualMachineTaskVolumesReconfigure                   ActivityEvent = "virtual-machine.task.volumes.reconfigure"
 	ActivityEventVirtualMachineUpdate                                   ActivityEvent = "virtual-machine.update"
+	ActivityEventVirtualMachineVolumesReconfigure                       ActivityEvent = "virtual-machine.volumes.reconfigure"
 )
 
 // Defines values for ActivityStatus.
@@ -517,6 +521,8 @@ const (
 	PipelinesManage                   Capability = "pipelines-manage"
 	PipelinesTrigger                  Capability = "pipelines-trigger"
 	PipelinesView                     Capability = "pipelines-view"
+	SanManage                         Capability = "san-manage"
+	SanView                           Capability = "san-view"
 	SdnNetworksManage                 Capability = "sdn-networks-manage"
 	SdnNetworksView                   Capability = "sdn-networks-view"
 	SecurityManage                    Capability = "security-manage"
@@ -535,6 +541,8 @@ const (
 	VirtualMachinesDeploy             Capability = "virtual-machines-deploy"
 	VirtualMachinesLock               Capability = "virtual-machines-lock"
 	VirtualMachinesManage             Capability = "virtual-machines-manage"
+	VirtualMachinesRootPwView         Capability = "virtual-machines-root-pw-view"
+	VirtualMachinesRootPwViewTemp     Capability = "virtual-machines-root-pw-view-temp"
 	VirtualMachinesSshKeysManage      Capability = "virtual-machines-ssh-keys-manage"
 	VirtualMachinesView               Capability = "virtual-machines-view"
 )
@@ -644,7 +652,7 @@ const (
 
 // Defines values for ContainerReconfigureVolumesActionAction.
 const (
-	VolumesReconfigure ContainerReconfigureVolumesActionAction = "volumes.reconfigure"
+	ContainerReconfigureVolumesActionActionVolumesReconfigure ContainerReconfigureVolumesActionAction = "volumes.reconfigure"
 )
 
 // Defines values for ContainerReimageActionAction.
@@ -1020,6 +1028,8 @@ const (
 	N404InfrastructureLocation       ErrorCode = "404.infrastructure.location"
 	N404InfrastructureModel          ErrorCode = "404.infrastructure.model"
 	N404InfrastructureProvider       ErrorCode = "404.infrastructure.provider"
+	N404InfrastructureSanLun         ErrorCode = "404.infrastructure.san.lun"
+	N404InfrastructureSanTarget      ErrorCode = "404.infrastructure.san.target"
 	N404InfrastructureServer         ErrorCode = "404.infrastructure.server"
 	N404Instance                     ErrorCode = "404.instance"
 	N404Job                          ErrorCode = "404.job"
@@ -1660,11 +1670,37 @@ const (
 	RunStateCurrentRunning   RunStateCurrent = "running"
 )
 
+// Defines values for RuntimeDevicePermissionType.
+const (
+	B RuntimeDevicePermissionType = "b"
+	C RuntimeDevicePermissionType = "c"
+)
+
 // Defines values for SFTPPasswordAlgorithm.
 const (
 	SFTPPasswordAlgorithmMd5    SFTPPasswordAlgorithm = "md5"
 	SFTPPasswordAlgorithmRaw    SFTPPasswordAlgorithm = "raw"
 	SFTPPasswordAlgorithmSha512 SFTPPasswordAlgorithm = "sha512"
+)
+
+// Defines values for SanLunStateCurrent.
+const (
+	SanLunStateCurrentDeleted  SanLunStateCurrent = "deleted"
+	SanLunStateCurrentDeleting SanLunStateCurrent = "deleting"
+	SanLunStateCurrentLive     SanLunStateCurrent = "live"
+)
+
+// Defines values for SanSyncTaskAction.
+const (
+	Sync SanSyncTaskAction = "sync"
+)
+
+// Defines values for SanTargetStateCurrent.
+const (
+	SanTargetStateCurrentDeleted  SanTargetStateCurrent = "deleted"
+	SanTargetStateCurrentDeleting SanTargetStateCurrent = "deleting"
+	SanTargetStateCurrentLive     SanTargetStateCurrent = "live"
+	SanTargetStateCurrentNew      SanTargetStateCurrent = "new"
 )
 
 // Defines values for ScaleThresholdMetricCpuType.
@@ -2018,6 +2054,11 @@ const (
 	Ipxe VirtualMachineImageSourceIpxeType = "ipxe"
 )
 
+// Defines values for VirtualMachineImageSourceSanType.
+const (
+	San VirtualMachineImageSourceSanType = "san"
+)
+
 // Defines values for VirtualMachineImageSourceUrlType.
 const (
 	VirtualMachineImageSourceUrlTypeUrl VirtualMachineImageSourceUrlType = "url"
@@ -2043,6 +2084,16 @@ const (
 // Defines values for VirtualMachineReconfigureActionAction.
 const (
 	VirtualMachineReconfigureActionActionReconfigure VirtualMachineReconfigureActionAction = "reconfigure"
+)
+
+// Defines values for VirtualMachineReconfigureVolumesActionAction.
+const (
+	VirtualMachineReconfigureVolumesActionActionVolumesReconfigure VirtualMachineReconfigureVolumesActionAction = "volumes.reconfigure"
+)
+
+// Defines values for VirtualMachineRestartActionAction.
+const (
+	Restart VirtualMachineRestartActionAction = "restart"
 )
 
 // Defines values for VirtualMachineRootPwChangeActionAction.
@@ -2700,6 +2751,32 @@ const (
 	GetIPPoolParamsIncludeIntegrations GetIPPoolParamsInclude = "integrations"
 	GetIPPoolParamsIncludeLocations    GetIPPoolParamsInclude = "locations"
 	GetIPPoolParamsIncludeServers      GetIPPoolParamsInclude = "servers"
+)
+
+// Defines values for GetSanLunsParamsFilterState.
+const (
+	GetSanLunsParamsFilterStateDeleted  GetSanLunsParamsFilterState = "deleted"
+	GetSanLunsParamsFilterStateDeleting GetSanLunsParamsFilterState = "deleting"
+	GetSanLunsParamsFilterStateLive     GetSanLunsParamsFilterState = "live"
+	GetSanLunsParamsFilterStateNew      GetSanLunsParamsFilterState = "new"
+)
+
+// Defines values for GetSanLunsParamsMeta.
+const (
+	GetSanLunsParamsMetaContainer GetSanLunsParamsMeta = "container"
+)
+
+// Defines values for GetSanLunsParamsInclude.
+const (
+	Targets GetSanLunsParamsInclude = "targets"
+)
+
+// Defines values for GetSanTargetsParamsFilterState.
+const (
+	GetSanTargetsParamsFilterStateDeleted  GetSanTargetsParamsFilterState = "deleted"
+	GetSanTargetsParamsFilterStateDeleting GetSanTargetsParamsFilterState = "deleting"
+	GetSanTargetsParamsFilterStateLive     GetSanTargetsParamsFilterState = "live"
+	GetSanTargetsParamsFilterStateNew      GetSanTargetsParamsFilterState = "new"
 )
 
 // Defines values for GetServersParamsMeta.
@@ -4775,6 +4852,12 @@ type ContainerRuntime struct {
 		Path *string `json:"path"`
 	} `json:"command"`
 	Devices *struct {
+		// Expose An array of devices to expose to the container.
+		Expose *[]RuntimeExposedDevice `json:"expose,omitempty"`
+
+		// Permissions Rules for granting or denying access to a device node.
+		Permissions *[]RuntimeDevicePermission `json:"permissions,omitempty"`
+
 		// ShmSize The size of the shared host memory device (/dev/shm).
 		ShmSize *string `json:"shm_size"`
 	} `json:"devices"`
@@ -4968,14 +5051,24 @@ type ContainerVolume struct {
 	// Destination The mountpoint path for the container.
 	Destination string `json:"destination"`
 
+	// Identifier A human-readable identifier used to refer to a resource, where using the official ID may be inconvenient.
+	// The identifier is automatically tokenized from the name/relevant field of the resource if one is not provided. For example, a container named "My Container" will
+	// have the identifier of `my-container` and is automatically created by the platform.
+	//
+	// The identifier does not have to be unique.
+	Identifier *Identifier `json:"identifier,omitempty"`
+
 	// Local Configuration for settings local to the container filesystem.
 	Local *struct {
-		// MaxSize The maximum size this volume can grow to. Container volumes on Cycle are thinly provisioned, meaning this isn't an allocation - the volume will only use the space it needs up to this size.
-		MaxSize string `json:"max_size"`
+		// MaxSize A human-readable data size string. Values are expressed as an integer followed by a unit suffix, without spaces. Supported units:
+		//   - b, k, m, g, t, p (bytes, kilobytes, megabytes, gigabytes, terabytes, petabytes)
+		//   - An optional "b" suffix may be added (e.g., "mb", "gb").
+		// Units are case-insensitive. Example: "512M", "10GB", "1t".
+		MaxSize DataSize `json:"max_size"`
 
 		// StoragePool A boolean where true signifies using the largest drive over 2TB for the target server.
-		StoragePool *bool `json:"storage_pool,omitempty"`
-	} `json:"local,omitempty"`
+		StoragePool *bool `json:"storage_pool"`
+	} `json:"local"`
 
 	// ReadOnly A boolean where true marks the volume as read only.
 	ReadOnly bool `json:"read_only"`
@@ -4998,6 +5091,15 @@ type ContainerVolume struct {
 		// Webhook Call out to a webhook to authenticate usernames/passwords if an organization manages their own accounts
 		Webhook *string `json:"webhook,omitempty"`
 	} `json:"remote_access,omitempty"`
+
+	// San Configuration settings for a SAN type volume.
+	San *struct {
+		// LunNumber The LUN for the SAN target to attach.
+		LunNumber int `json:"lun_number"`
+
+		// TargetId A 24 character hex string used to identify a unique resource.
+		TargetId ID `json:"target_id"`
+	} `json:"san"`
 }
 
 // ContainerVolumeRemoteAccessPasswordAlgorithm The hashing algorithm used to has the password.
@@ -5192,6 +5294,13 @@ type CycleUploadOrigin struct {
 
 // CycleUploadOriginType defines model for CycleUploadOrigin.Type.
 type CycleUploadOriginType string
+
+// DataSize A human-readable data size string. Values are expressed as an integer followed by a unit suffix, without spaces. Supported units:
+//   - b, k, m, g, t, p (bytes, kilobytes, megabytes, gigabytes, terabytes, petabytes)
+//   - An optional "b" suffix may be added (e.g., "mb", "gb").
+//
+// Units are case-insensitive. Example: "512M", "10GB", "1t".
+type DataSize = string
 
 // DateTime defines model for DateTime.
 type DateTime = time.Time
@@ -5964,7 +6073,9 @@ type EnvironmentMonitoringConfig struct {
 	Logs *struct {
 		// Drain An object describing log drain configuration for the environment.
 		Drain *struct {
-			Format *LogFormat `json:"format,omitempty"`
+			// ExcludeServices If enabled, service logs will not be included in log drain.
+			ExcludeServices bool       `json:"exclude_services"`
+			Format          *LogFormat `json:"format,omitempty"`
 
 			// Url The destination URL for the log drain.
 			Url string `json:"url"`
@@ -7260,6 +7371,7 @@ type Index struct {
 	// HubId Id describing the Hub
 	HubId           string               `json:"hub_id"`
 	ImageSources    map[string]Component `json:"image_sources"`
+	Instances       map[string]Component `json:"instances"`
 	Pipelines       map[string]Component `json:"pipelines"`
 	Servers         map[string]Component `json:"servers"`
 	Stacks          map[string]Component `json:"stacks"`
@@ -7441,8 +7553,11 @@ type InstanceExtendVolumeAction struct {
 	// Action The name of the action to perform.
 	Action   InstanceExtendVolumeActionAction `json:"action"`
 	Contents struct {
-		// ExtendSize The amount of storage to extend the volume by. Container volumes on Cycle are thinly provisioned, meaning this isn't an allocation - the volume will only use the space it needs up to this size.
-		ExtendSize string `json:"extend_size"`
+		// ExtendSize A human-readable data size string. Values are expressed as an integer followed by a unit suffix, without spaces. Supported units:
+		//   - b, k, m, g, t, p (bytes, kilobytes, megabytes, gigabytes, terabytes, petabytes)
+		//   - An optional "b" suffix may be added (e.g., "mb", "gb").
+		// Units are case-insensitive. Example: "512M", "10GB", "1t".
+		ExtendSize DataSize `json:"extend_size"`
 
 		// VolumeId The ID of the volume that will be extended through this task.
 		VolumeId string `json:"volume_id"`
@@ -7613,13 +7728,13 @@ type InstanceVolume struct {
 	Config ContainerVolume `json:"config"`
 
 	// Deployed A deployed volume resource.
-	Deployed DeployedVolume `json:"deployed"`
+	Deployed *DeployedVolume `json:"deployed,omitempty"`
 
 	// Id A 24 character hex string used to identify a unique resource.
 	Id ID `json:"id"`
 
 	// Sftp Information about connecting to a instance volume over SFTP.
-	Sftp SFTP `json:"sftp"`
+	Sftp *SFTP `json:"sftp,omitempty"`
 }
 
 // Integration defines model for Integration.
@@ -8134,6 +8249,9 @@ type IpState struct {
 
 // IpStateCurrent The current state of the IP.
 type IpStateCurrent string
+
+// Iqn iSCSI Qualified Name of a target.
+type Iqn = string
 
 // Job A job resource.
 type Job struct {
@@ -9982,6 +10100,42 @@ type RunState struct {
 // RunStateCurrent The current state of the pipeline run.
 type RunStateCurrent string
 
+// RuntimeDevicePermission A rule that grants or denies access to a device node (e.g., Linux cgroup device rule). Controls which device type and major/minor numbers are allowed, and with what access.
+type RuntimeDevicePermission struct {
+	// Access The access mode permitted by this rule. Common conventions use a combination of letters (e.g., r, w, m) to indicate read, write, and mknod capabilities.
+	Access RuntimeDevicePermissionAccess `json:"access"`
+
+	// Allow Whether this rule allows (true) or denies (false) access.
+	Allow bool `json:"allow"`
+
+	// Major Device major number.
+	Major *int64 `json:"major"`
+
+	// Minor Device minor number.
+	Minor *int64 `json:"minor"`
+
+	// Type The class of device this rule applies to (for example, block devices or character devices).
+	Type RuntimeDevicePermissionType `json:"type"`
+}
+
+// RuntimeDevicePermissionAccess The access mode permitted by this rule. Common conventions use a combination of letters (e.g., r, w, m) to indicate read, write, and mknod capabilities.
+type RuntimeDevicePermissionAccess = string
+
+// RuntimeDevicePermissionType The class of device this rule applies to (for example, block devices or character devices).
+type RuntimeDevicePermissionType string
+
+// RuntimeExposedDevice A host device exposed to the container during runtime.
+type RuntimeExposedDevice struct {
+	// Destination The path inside the container that the device is mapped to.
+	Destination string `json:"destination"`
+
+	// Options Options passed when mounting the device.
+	Options *[]string `json:"options,omitempty"`
+
+	// Source The path to the device on the host.
+	Source string `json:"source"`
+}
+
 // SFTP Information about connecting to a instance volume over SFTP.
 type SFTP struct {
 	// Host The hostname for connecting to the volume over SFTP.
@@ -10044,6 +10198,166 @@ type SSHToken struct {
 
 	// Valid A boolean where true represents the token as being a valid token to be used for connection.
 	Valid bool `json:"valid"`
+}
+
+// SanLun Logical Unit Number (LUN) exposed over iSCSI within a Cycle server.
+type SanLun struct {
+	// Cluster Cluster identifier.
+	Cluster string `json:"cluster"`
+
+	// Description Human-friendly description of the LUN.
+	Description *string `json:"description"`
+
+	// HubId The unique ID of the Hub this resource was created in.
+	HubId HubID `json:"hub_id"`
+
+	// Id A 24 character hex string used to identify a unique resource.
+	Id ID `json:"id"`
+
+	// Iqn iSCSI Qualified Name of a target.
+	Iqn Iqn `json:"iqn"`
+
+	// LocationId Location ID where this LUN is provisioned.
+	LocationId string `json:"location_id"`
+
+	// Meta A list of meta fields that can be applied to a SAN LUN.
+	Meta *SanLunMeta `json:"meta,omitempty"`
+
+	// Number LUN number exposed to initiators.
+	Number int32 `json:"number"`
+
+	// ReadOnly When true, the LUN is exposed as read-only.
+	ReadOnly bool `json:"read_only"`
+
+	// Size A human-readable data size string. Values are expressed as an integer followed by a unit suffix, without spaces. Supported units:
+	//   - b, k, m, g, t, p (bytes, kilobytes, megabytes, gigabytes, terabytes, petabytes)
+	//   - An optional "b" suffix may be added (e.g., "mb", "gb").
+	// Units are case-insensitive. Example: "512M", "10GB", "1t".
+	Size  DataSize    `json:"size"`
+	State SanLunState `json:"state"`
+
+	// TargetId A 24 character hex string used to identify a unique resource.
+	TargetId ID `json:"target_id"`
+}
+
+// SanLunIncludes All includable resources linkable to the given LUN.
+type SanLunIncludes struct {
+	Targets *map[string]SanTarget `json:"targets,omitempty"`
+}
+
+// SanLunMeta A list of meta fields that can be applied to a SAN LUN.
+type SanLunMeta struct {
+	// Container Containers are a way to package together your application along with it's dependencies, and run in a resource isolated process. They provide consistency across different hosts, efficiency over traditional hosting methods, and facilitate a micro-service based approach, where each logical piece of your application is split into multiple, easily testable parts (such as API, Backend, Frontend, etc).
+	Container *Container `json:"container,omitempty"`
+}
+
+// SanLunState defines model for SanLunState.
+type SanLunState struct {
+	Changed DateTime `json:"changed"`
+
+	// Current The current state of the LUN.
+	Current SanLunStateCurrent `json:"current"`
+
+	// Error An error, if any, that has occurred for this resource.
+	Error *struct {
+		// Message Details about the error that has occurred.
+		Message *string   `json:"message,omitempty"`
+		Time    *DateTime `json:"time,omitempty"`
+	} `json:"error,omitempty"`
+}
+
+// SanLunStateCurrent The current state of the LUN.
+type SanLunStateCurrent string
+
+// SanSyncTask defines model for SanSyncTask.
+type SanSyncTask struct {
+	Action   SanSyncTaskAction `json:"action"`
+	Contents *struct {
+		Credentials *SanTargetChapCredentials `json:"credentials"`
+
+		// DiscoveryIp IP to run discovery on.
+		DiscoveryIp string `json:"discovery_ip"`
+
+		// ServerId A 24 character hex string used to identify a unique resource.
+		ServerId ID `json:"server_id"`
+	} `json:"contents,omitempty"`
+}
+
+// SanSyncTaskAction defines model for SanSyncTask.Action.
+type SanSyncTaskAction string
+
+// SanTarget A SAN iSCSI target within a Cycle hub/cluster. A target exposes one or more portals (IP:port listeners) and can optionally require CHAP credentials for initiators.
+type SanTarget struct {
+	// Cluster A human-readable identifier used to refer to a resource, where using the official ID may be inconvenient.
+	// The identifier is automatically tokenized from the name/relevant field of the resource if one is not provided. For example, a container named "My Container" will
+	// have the identifier of `my-container` and is automatically created by the platform.
+	//
+	// The identifier does not have to be unique.
+	Cluster Identifier `json:"cluster"`
+
+	// Credentials Optional CHAP credentials required by initiators to authenticate.
+	Credentials *SanTargetChapCredentials `json:"credentials"`
+
+	// HubId The unique ID of the Hub this resource was created in.
+	HubId HubID `json:"hub_id"`
+
+	// Id A 24 character hex string used to identify a unique resource.
+	Id         ID          `json:"id"`
+	Identifier *Identifier `json:"identifier"`
+
+	// Iqn iSCSI Qualified Name of a target.
+	Iqn Iqn `json:"iqn"`
+
+	// LocationId A 24 character hex string used to identify a unique resource.
+	LocationId ID `json:"location_id"`
+
+	// Portals List of network endpoints where the target accepts iSCSI sessions.
+	Portals []SanTargetPortal `json:"portals"`
+
+	// ServerIds IDs of servers that host or are associated with this target.
+	ServerIds []ID           `json:"server_ids"`
+	State     SanTargetState `json:"state"`
+}
+
+// SanTargetChapCredentials CHAP credentials required by initiators to authenticate to the target.
+type SanTargetChapCredentials struct {
+	// Password CHAP secret shared with initiators.
+	Password string `json:"password"`
+
+	// Username CHAP username used by initiators.
+	Username string `json:"username"`
+}
+
+// SanTargetPortal A network endpoint (IP and TCP port) where the iSCSI target listens for sessions.
+type SanTargetPortal struct {
+	// Ip IPv4 or IPv6 address of the portal.
+	Ip string `json:"ip"`
+
+	// Port TCP port number for the portal (typically 3260).
+	Port int32 `json:"port"`
+}
+
+// SanTargetState defines model for SanTargetState.
+type SanTargetState struct {
+	Changed DateTime `json:"changed"`
+
+	// Current The current lifecycle state of the SAN target.
+	Current SanTargetStateCurrent `json:"current"`
+
+	// Error An error, if any, that has occurred for this resource.
+	Error *struct {
+		// Message Details about the error that has occurred.
+		Message *string   `json:"message,omitempty"`
+		Time    *DateTime `json:"time,omitempty"`
+	} `json:"error,omitempty"`
+}
+
+// SanTargetStateCurrent The current lifecycle state of the SAN target.
+type SanTargetStateCurrent string
+
+// SanTask defines model for SanTask.
+type SanTask struct {
+	union json.RawMessage
 }
 
 // ScaleThresholdMetric Discriminated union describing the different types of scaling threshold and their respective details
@@ -12507,6 +12821,7 @@ type TierPlan struct {
 		Gpu                  bool `json:"gpu"`
 		Ial                  bool `json:"ial"`
 		ProviderMultiAccount bool `json:"provider_multi_account"`
+		San                  bool `json:"san"`
 		VirtualProvider      bool `json:"virtual_provider"`
 	} `json:"advanced_features"`
 
@@ -12943,9 +13258,6 @@ type VirtualMachine struct {
 	// Annotations Metadata annotations for the virtual machine.
 	Annotations *map[string]interface{} `json:"annotations"`
 
-	// BaseDiskSize The size of the base disk. Must be between 10G and 100G.
-	BaseDiskSize *string `json:"base_disk_size,omitempty"`
-
 	// Config Defines the network and deployment configurations for a virtual machine.
 	Config VirtualMachineConfig `json:"config"`
 
@@ -12992,7 +13304,7 @@ type VirtualMachine struct {
 	// The identifier does not have to be unique.
 	Identifier Identifier `json:"identifier"`
 
-	// Image Represents the image used by a virtual machine. It can either reference a URL where the image is located or specify a base image provided by Cycle. The `base` field allows users to specify the name of a desired Cycle-hosted base image, removing the need for a custom image URL.
+	// Image Represents the image used by a virtual machine. It can either reference a URL where the image is located or specify a base image provided by Cycle.
 	Image VirtualMachineImage `json:"image"`
 
 	// Lock Prevents this virtual machine from being deleted when true.
@@ -13093,7 +13405,7 @@ type VirtualMachineDeployTags struct {
 	Any *[]string `json:"any,omitempty"`
 }
 
-// VirtualMachineImage Represents the image used by a virtual machine. It can either reference a URL where the image is located or specify a base image provided by Cycle. The `base` field allows users to specify the name of a desired Cycle-hosted base image, removing the need for a custom image URL.
+// VirtualMachineImage Represents the image used by a virtual machine. It can either reference a URL where the image is located or specify a base image provided by Cycle.
 type VirtualMachineImage struct {
 	union json.RawMessage
 }
@@ -13124,6 +13436,21 @@ type VirtualMachineImageSourceIpxe struct {
 
 // VirtualMachineImageSourceIpxeType defines model for VirtualMachineImageSourceIpxe.Type.
 type VirtualMachineImageSourceIpxeType string
+
+// VirtualMachineImageSourceSan A virtual machine image sourced from a SAN target.
+type VirtualMachineImageSourceSan struct {
+	Details struct {
+		// LunNumber The LUN of the SAN target where the image is located.
+		LunNumber int `json:"lun_number"`
+
+		// TargetId A 24 character hex string used to identify a unique resource.
+		TargetId ID `json:"target_id"`
+	} `json:"details"`
+	Type VirtualMachineImageSourceSanType `json:"type"`
+}
+
+// VirtualMachineImageSourceSanType defines model for VirtualMachineImageSourceSan.Type.
+type VirtualMachineImageSourceSanType string
 
 // VirtualMachineImageSourceUrl A virtual machine image sourced from a URL.
 type VirtualMachineImageSourceUrl struct {
@@ -13197,6 +13524,9 @@ type VirtualMachineMeta struct {
 
 // VirtualMachineNetworkConfig Defines the network settings for a virtual machine, including public access mode, hostname, and ports.
 type VirtualMachineNetworkConfig struct {
+	// EgressViaGateway True indicates that traffic should leave via the gateway, not the underlying host.
+	EgressViaGateway bool `json:"egress_via_gateway"`
+
 	// Hostname The hostname assigned to the virtual machine.
 	Hostname string `json:"hostname"`
 
@@ -13237,6 +13567,27 @@ type VirtualMachineReconfigureAction struct {
 // VirtualMachineReconfigureActionAction The action to take.
 type VirtualMachineReconfigureActionAction string
 
+// VirtualMachineReconfigureVolumesAction defines model for VirtualMachineReconfigureVolumesAction.
+type VirtualMachineReconfigureVolumesAction struct {
+	// Action The action to take.
+	Action VirtualMachineReconfigureVolumesActionAction `json:"action"`
+
+	// Contents An array of volume objects to be reconfigured.
+	Contents []struct {
+		// Config Represents the configuration for a volume attached to a virtual machine.
+		Config VirtualMachineVolumeConfig `json:"config"`
+
+		// Hash A unique hash for the given volume.
+		Hash string `json:"hash"`
+
+		// Id A 24 character hex string used to identify a unique resource.
+		Id ID `json:"id"`
+	} `json:"contents"`
+}
+
+// VirtualMachineReconfigureVolumesActionAction The action to take.
+type VirtualMachineReconfigureVolumesActionAction string
+
 // VirtualMachineResourcesConfig Defines the resource settings for a virtual machine, including CPU and RAM.
 type VirtualMachineResourcesConfig struct {
 	// Cpu Defines the CPU configuration of a virtual machine. Set **either** `cores` or `cpus`.
@@ -13245,6 +13596,15 @@ type VirtualMachineResourcesConfig struct {
 	// Ram Defines the RAM configuration of a virtual machine.
 	Ram VirtualMachineRamResources `json:"ram"`
 }
+
+// VirtualMachineRestartAction defines model for VirtualMachineRestartAction.
+type VirtualMachineRestartAction struct {
+	// Action The name of the action to perform.
+	Action VirtualMachineRestartActionAction `json:"action"`
+}
+
+// VirtualMachineRestartActionAction The name of the action to perform.
+type VirtualMachineRestartActionAction string
 
 // VirtualMachineRootPwChangeAction defines model for VirtualMachineRootPwChangeAction.
 type VirtualMachineRootPwChangeAction struct {
@@ -13425,7 +13785,7 @@ type VirtualMachineVolumeConfig struct {
 	// The identifier does not have to be unique.
 	Identifier Identifier `json:"identifier"`
 
-	// Local Configuration details for a local volume, if applicable.
+	// Local Configuration details for a local volume.
 	Local *struct {
 		// MaxSize The maximum size allowed for the local volume.
 		MaxSize string `json:"max_size"`
@@ -13436,6 +13796,15 @@ type VirtualMachineVolumeConfig struct {
 
 	// ReadOnly Specifies if the volume is mounted as read-only.
 	ReadOnly bool `json:"read_only"`
+
+	// San Configuration details for a SAN volume.
+	San *struct {
+		// LunNumber The LUN for the SAN target to attach
+		LunNumber int `json:"lun_number"`
+
+		// TargetId A 24 character hex string used to identify a unique resource.
+		TargetId ID `json:"target_id"`
+	} `json:"san,omitempty"`
 }
 
 // VirtualProviderGenerateIsoAction defines model for VirtualProviderGenerateIsoAction.
@@ -15925,6 +16294,73 @@ type GetProviderServersParams struct {
 	} `json:"filter,omitempty"`
 }
 
+// GetSanLunsParams defines parameters for GetSanLuns.
+type GetSanLunsParams struct {
+	// Sort An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
+
+	// Page In a list return, the data associated with the page number and size returned. 20 results per page, page 2 would be `page[size]=20&page[number]=2`
+	Page *PageParam `json:"page,omitempty"`
+
+	// Filter The filter field is a key-value object, where the key is what you would like to filter, and the value is the value you're filtering for.
+	Filter *struct {
+		// Cluster Get only those SAN LUNs within the specified cluster.
+		Cluster *string `json:"cluster,omitempty"`
+
+		// Location Get only those SAN LUNs within the specified location.
+		Location *string `json:"location,omitempty"`
+
+		// Server Get only those SAN LUNs within the specified server.
+		Server *string `json:"server,omitempty"`
+
+		// State Get only those SAN LUNs with the specified state.
+		State *GetSanLunsParamsFilterState `json:"state,omitempty"`
+	} `json:"filter,omitempty"`
+
+	// Meta A comma separated list of meta values. Meta values will show up under a resource's `meta` field. In the case of applying a meta to a collection of resources, each resource will have it's own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.
+	Meta *[]GetSanLunsParamsMeta `form:"meta,omitempty" json:"meta,omitempty"`
+
+	// Include A comma-separated list of include values. Included resources will show up under the root document's `include` field.
+	// In the case of applying an include to a collection of resources, if multiple resources share the same include, it will only appear once in the return.
+	Include *[]GetSanLunsParamsInclude `form:"include,omitempty" json:"include,omitempty"`
+}
+
+// GetSanLunsParamsFilterState defines parameters for GetSanLuns.
+type GetSanLunsParamsFilterState string
+
+// GetSanLunsParamsMeta defines parameters for GetSanLuns.
+type GetSanLunsParamsMeta string
+
+// GetSanLunsParamsInclude defines parameters for GetSanLuns.
+type GetSanLunsParamsInclude string
+
+// GetSanTargetsParams defines parameters for GetSanTargets.
+type GetSanTargetsParams struct {
+	// Sort An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
+
+	// Page In a list return, the data associated with the page number and size returned. 20 results per page, page 2 would be `page[size]=20&page[number]=2`
+	Page *PageParam `json:"page,omitempty"`
+
+	// Filter The filter field is a key-value object, where the key is what you would like to filter, and the value is the value you're filtering for.
+	Filter *struct {
+		// Cluster Get only those SAN targets within the specified cluster.
+		Cluster *string `json:"cluster,omitempty"`
+
+		// Location Get only those SAN targets within the specified location.
+		Location *string `json:"location,omitempty"`
+
+		// Server Get only those SAN targets within the specified server.
+		Server *string `json:"server,omitempty"`
+
+		// State Get only those SAN targets with the specified state.
+		State *GetSanTargetsParamsFilterState `json:"state,omitempty"`
+	} `json:"filter,omitempty"`
+}
+
+// GetSanTargetsParamsFilterState defines parameters for GetSanTargets.
+type GetSanTargetsParamsFilterState string
+
 // GetServersParams defines parameters for GetServers.
 type GetServersParams struct {
 	// Meta A comma separated list of meta values. Meta values will show up under a resource's `meta` field. In the case of applying a meta to a collection of resources, each resource will have it's own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.
@@ -16099,6 +16535,12 @@ type GetInfrastructureSummaryParams struct {
 type GetVirtualProviderIsosParams struct {
 	// Include A comma separated list of include values. Included resources will show up under the root document's `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.
 	Include *[]GetVirtualProviderIsosParamsInclude `form:"include,omitempty" json:"include,omitempty"`
+
+	// Page In a list return, the data associated with the page number and size returned. 20 results per page, page 2 would be `page[size]=20&page[number]=2`
+	Page *PageParam `json:"page,omitempty"`
+
+	// Sort An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
 }
 
 // GetVirtualProviderIsosParamsInclude defines parameters for GetVirtualProviderIsos.
@@ -16164,6 +16606,26 @@ type GetVirtualProviderIsoParamsInclude string
 // UpdateVirtualProviderIsoJSONBody defines parameters for UpdateVirtualProviderIso.
 type UpdateVirtualProviderIsoJSONBody struct {
 	Config *struct {
+		// Ipxe ISO IPXE configuration. Only available when ISO is in new state.
+		Ipxe *struct {
+			// DnsIp DNS IP assigned to the IPXE boot.
+			DnsIp *string `json:"dns_ip"`
+
+			// GatewayIp Gateway IP assigned to the IPXE boot.
+			GatewayIp *string `json:"gateway_ip"`
+
+			// Netmask Netmask assigned to the IPXE boot.
+			Netmask *string `json:"netmask"`
+
+			// NetworkInterface Network interface for the IPXE boot.
+			NetworkInterface *int `json:"network_interface"`
+
+			// StaticIp Static IP assigned to the IPXE boot.
+			StaticIp *string `json:"static_ip"`
+
+			// VlanId VLAN ID for the IPXE boot.
+			VlanId *int `json:"vlan_id"`
+		} `json:"ipxe"`
 		Server *struct {
 			// AdditionalKernelArgs Appends additional kernel arguments when booting CycleOS.
 			AdditionalKernelArgs *string `json:"additional_kernel_args"`
@@ -16178,6 +16640,9 @@ type UpdateVirtualProviderIsoJSONBody struct {
 				ConditionalFormat *bool `json:"conditional_format,omitempty"`
 			} `json:"storage"`
 		} `json:"server"`
+
+		// Token Authentication token for the ISO. Only available when ISO is in new state.
+		Token *string `json:"token,omitempty"`
 	} `json:"config,omitempty"`
 
 	// Name The name of the ISO.
@@ -16452,6 +16917,13 @@ type UpdatePipelineJSONBody struct {
 
 	// Dynamic Setting to true enables variable and other advanced logic support on this Pipeline. This is a one-way toggle. Once set to true, it cannot be set back to false.
 	Dynamic *bool `json:"dynamic,omitempty"`
+
+	// Identifier A human-readable identifier used to refer to a resource, where using the official ID may be inconvenient.
+	// The identifier is automatically tokenized from the name/relevant field of the resource if one is not provided. For example, a container named "My Container" will
+	// have the identifier of `my-container` and is automatically created by the platform.
+	//
+	// The identifier does not have to be unique.
+	Identifier *Identifier `json:"identifier,omitempty"`
 
 	// Name A name for the Pipeline.
 	Name *string `json:"name,omitempty"`
@@ -16826,9 +17298,6 @@ type CreateVirtualMachineJSONBody struct {
 	// Annotations Custom meta data. Not utilized by Cycle.
 	Annotations *map[string]interface{} `json:"annotations"`
 
-	// BaseDiskSize The size of the base disk. Must be between 10G and 100G.
-	BaseDiskSize *string `json:"base_disk_size,omitempty"`
-
 	// Config Defines the network and deployment configurations for a virtual machine.
 	Config VirtualMachineConfig `json:"config"`
 
@@ -16842,7 +17311,7 @@ type CreateVirtualMachineJSONBody struct {
 	// The identifier does not have to be unique.
 	Identifier *Identifier `json:"identifier,omitempty"`
 
-	// Image Represents the image used by a virtual machine. It can either reference a URL where the image is located or specify a base image provided by Cycle. The `base` field allows users to specify the name of a desired Cycle-hosted base image, removing the need for a custom image URL.
+	// Image Represents the image used by a virtual machine. It can either reference a URL where the image is located or specify a base image provided by Cycle.
 	Image VirtualMachineImage `json:"image"`
 
 	// Lock Prevents this virtual machine from being deleted when true.
@@ -17212,6 +17681,9 @@ type CreateIpPoolJSONRequestBody CreateIpPoolJSONBody
 
 // CreateIpPoolJobJSONRequestBody defines body for CreateIpPoolJob for application/json ContentType.
 type CreateIpPoolJobJSONRequestBody = IpPoolTask
+
+// CreateSanJobJSONRequestBody defines body for CreateSanJob for application/json ContentType.
+type CreateSanJobJSONRequestBody = SanTask
 
 // CreateServerJSONRequestBody defines body for CreateServer for application/json ContentType.
 type CreateServerJSONRequestBody CreateServerJSONBody
@@ -20561,6 +21033,65 @@ func (t RepoType_Auth) MarshalJSON() ([]byte, error) {
 }
 
 func (t *RepoType_Auth) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsSanSyncTask returns the union data inside the SanTask as a SanSyncTask
+func (t SanTask) AsSanSyncTask() (SanSyncTask, error) {
+	var body SanSyncTask
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSanSyncTask overwrites any union data inside the SanTask as the provided SanSyncTask
+func (t *SanTask) FromSanSyncTask(v SanSyncTask) error {
+	v.Action = "sync"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSanSyncTask performs a merge with any union data inside the SanTask, using the provided SanSyncTask
+func (t *SanTask) MergeSanSyncTask(v SanSyncTask) error {
+	v.Action = "sync"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t SanTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t SanTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "sync":
+		return t.AsSanSyncTask()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t SanTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *SanTask) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -25677,6 +26208,34 @@ func (t *VirtualMachineImage) MergeVirtualMachineImageSourceBase(v VirtualMachin
 	return err
 }
 
+// AsVirtualMachineImageSourceSan returns the union data inside the VirtualMachineImage as a VirtualMachineImageSourceSan
+func (t VirtualMachineImage) AsVirtualMachineImageSourceSan() (VirtualMachineImageSourceSan, error) {
+	var body VirtualMachineImageSourceSan
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachineImageSourceSan overwrites any union data inside the VirtualMachineImage as the provided VirtualMachineImageSourceSan
+func (t *VirtualMachineImage) FromVirtualMachineImageSourceSan(v VirtualMachineImageSourceSan) error {
+	v.Type = "san"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachineImageSourceSan performs a merge with any union data inside the VirtualMachineImage, using the provided VirtualMachineImageSourceSan
+func (t *VirtualMachineImage) MergeVirtualMachineImageSourceSan(v VirtualMachineImageSourceSan) error {
+	v.Type = "san"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
 func (t VirtualMachineImage) Discriminator() (string, error) {
 	var discriminator struct {
 		Discriminator string `json:"type"`
@@ -25695,6 +26254,8 @@ func (t VirtualMachineImage) ValueByDiscriminator() (interface{}, error) {
 		return t.AsVirtualMachineImageSourceBase()
 	case "ipxe":
 		return t.AsVirtualMachineImageSourceIpxe()
+	case "san":
+		return t.AsVirtualMachineImageSourceSan()
 	case "url":
 		return t.AsVirtualMachineImageSourceUrl()
 	default:
@@ -25758,6 +26319,34 @@ func (t *VirtualMachineTask) FromVirtualMachineStopAction(v VirtualMachineStopAc
 // MergeVirtualMachineStopAction performs a merge with any union data inside the VirtualMachineTask, using the provided VirtualMachineStopAction
 func (t *VirtualMachineTask) MergeVirtualMachineStopAction(v VirtualMachineStopAction) error {
 	v.Action = "stop"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVirtualMachineRestartAction returns the union data inside the VirtualMachineTask as a VirtualMachineRestartAction
+func (t VirtualMachineTask) AsVirtualMachineRestartAction() (VirtualMachineRestartAction, error) {
+	var body VirtualMachineRestartAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachineRestartAction overwrites any union data inside the VirtualMachineTask as the provided VirtualMachineRestartAction
+func (t *VirtualMachineTask) FromVirtualMachineRestartAction(v VirtualMachineRestartAction) error {
+	v.Action = "restart"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachineRestartAction performs a merge with any union data inside the VirtualMachineTask, using the provided VirtualMachineRestartAction
+func (t *VirtualMachineTask) MergeVirtualMachineRestartAction(v VirtualMachineRestartAction) error {
+	v.Action = "restart"
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -25880,6 +26469,34 @@ func (t *VirtualMachineTask) MergeVirtualMachineIpUnallocateAction(v VirtualMach
 	return err
 }
 
+// AsVirtualMachineReconfigureVolumesAction returns the union data inside the VirtualMachineTask as a VirtualMachineReconfigureVolumesAction
+func (t VirtualMachineTask) AsVirtualMachineReconfigureVolumesAction() (VirtualMachineReconfigureVolumesAction, error) {
+	var body VirtualMachineReconfigureVolumesAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachineReconfigureVolumesAction overwrites any union data inside the VirtualMachineTask as the provided VirtualMachineReconfigureVolumesAction
+func (t *VirtualMachineTask) FromVirtualMachineReconfigureVolumesAction(v VirtualMachineReconfigureVolumesAction) error {
+	v.Action = "volumes.reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachineReconfigureVolumesAction performs a merge with any union data inside the VirtualMachineTask, using the provided VirtualMachineReconfigureVolumesAction
+func (t *VirtualMachineTask) MergeVirtualMachineReconfigureVolumesAction(v VirtualMachineReconfigureVolumesAction) error {
+	v.Action = "volumes.reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
 func (t VirtualMachineTask) Discriminator() (string, error) {
 	var discriminator struct {
 		Discriminator string `json:"action"`
@@ -25900,12 +26517,16 @@ func (t VirtualMachineTask) ValueByDiscriminator() (interface{}, error) {
 		return t.AsVirtualMachineIpUnallocateAction()
 	case "reconfigure":
 		return t.AsVirtualMachineReconfigureAction()
+	case "restart":
+		return t.AsVirtualMachineRestartAction()
 	case "rootpw.change":
 		return t.AsVirtualMachineRootPwChangeAction()
 	case "start":
 		return t.AsVirtualMachineStartAction()
 	case "stop":
 		return t.AsVirtualMachineStopAction()
+	case "volumes.reconfigure":
+		return t.AsVirtualMachineReconfigureVolumesAction()
 	default:
 		return nil, errors.New("unknown discriminator value: " + discriminator)
 	}
@@ -26838,6 +27459,17 @@ type ClientInterface interface {
 
 	// GetProviderServers request
 	GetProviderServers(ctx context.Context, providerVendor string, params *GetProviderServersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetSanLuns request
+	GetSanLuns(ctx context.Context, params *GetSanLunsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetSanTargets request
+	GetSanTargets(ctx context.Context, params *GetSanTargetsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateSanJobWithBody request with any body
+	CreateSanJobWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateSanJob(ctx context.Context, body CreateSanJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetServers request
 	GetServers(ctx context.Context, params *GetServersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -30219,6 +30851,54 @@ func (c *Client) GetProviderLocations(ctx context.Context, providerVendor string
 
 func (c *Client) GetProviderServers(ctx context.Context, providerVendor string, params *GetProviderServersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetProviderServersRequest(c.Server, providerVendor, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetSanLuns(ctx context.Context, params *GetSanLunsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetSanLunsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetSanTargets(ctx context.Context, params *GetSanTargetsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetSanTargetsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateSanJobWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateSanJobRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateSanJob(ctx context.Context, body CreateSanJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateSanJobRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -41915,6 +42595,240 @@ func NewGetProviderServersRequest(server string, providerVendor string, params *
 	return req, nil
 }
 
+// NewGetSanLunsRequest generates requests for GetSanLuns
+func NewGetSanLunsRequest(server string, params *GetSanLunsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/san/luns")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Sort != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "sort", runtime.ParamLocationQuery, *params.Sort); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Page != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "page", runtime.ParamLocationQuery, *params.Page); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Filter != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "filter", runtime.ParamLocationQuery, *params.Filter); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Meta != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "meta", runtime.ParamLocationQuery, *params.Meta); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Include != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "include", runtime.ParamLocationQuery, *params.Include); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetSanTargetsRequest generates requests for GetSanTargets
+func NewGetSanTargetsRequest(server string, params *GetSanTargetsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/san/targets")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Sort != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "sort", runtime.ParamLocationQuery, *params.Sort); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Page != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "page", runtime.ParamLocationQuery, *params.Page); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Filter != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "filter", runtime.ParamLocationQuery, *params.Filter); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCreateSanJobRequest calls the generic CreateSanJob builder with application/json body
+func NewCreateSanJobRequest(server string, body CreateSanJobJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateSanJobRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCreateSanJobRequestWithBody generates requests for CreateSanJob with any type of body
+func NewCreateSanJobRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/san/tasks")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetServersRequest generates requests for GetServers
 func NewGetServersRequest(server string, params *GetServersParams) (*http.Request, error) {
 	var err error
@@ -42639,6 +43553,38 @@ func NewGetVirtualProviderIsosRequest(server string, integrationId string, param
 		if params.Include != nil {
 
 			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "include", runtime.ParamLocationQuery, *params.Include); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Page != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "page", runtime.ParamLocationQuery, *params.Page); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Sort != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "sort", runtime.ParamLocationQuery, *params.Sort); err != nil {
 				return nil, err
 			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 				return nil, err
@@ -47130,6 +48076,17 @@ type ClientWithResponsesInterface interface {
 
 	// GetProviderServersWithResponse request
 	GetProviderServersWithResponse(ctx context.Context, providerVendor string, params *GetProviderServersParams, reqEditors ...RequestEditorFn) (*GetProviderServersResponse, error)
+
+	// GetSanLunsWithResponse request
+	GetSanLunsWithResponse(ctx context.Context, params *GetSanLunsParams, reqEditors ...RequestEditorFn) (*GetSanLunsResponse, error)
+
+	// GetSanTargetsWithResponse request
+	GetSanTargetsWithResponse(ctx context.Context, params *GetSanTargetsParams, reqEditors ...RequestEditorFn) (*GetSanTargetsResponse, error)
+
+	// CreateSanJobWithBodyWithResponse request with any body
+	CreateSanJobWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateSanJobResponse, error)
+
+	CreateSanJobWithResponse(ctx context.Context, body CreateSanJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateSanJobResponse, error)
 
 	// GetServersWithResponse request
 	GetServersWithResponse(ctx context.Context, params *GetServersParams, reqEditors ...RequestEditorFn) (*GetServersResponse, error)
@@ -52431,6 +53388,85 @@ func (r GetProviderServersResponse) StatusCode() int {
 	return 0
 }
 
+type GetSanLunsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Data []SanLun `json:"data"`
+
+		// Includes All includable resources linkable to the given LUN.
+		Includes *SanLunIncludes `json:"includes,omitempty"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetSanLunsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetSanLunsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetSanTargetsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Data []SanTarget `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetSanTargetsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetSanTargetsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreateSanJobResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *struct {
+		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+		Data JobDescriptor `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateSanJobResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateSanJobResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetServersResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -56873,6 +57909,41 @@ func (c *ClientWithResponses) GetProviderServersWithResponse(ctx context.Context
 		return nil, err
 	}
 	return ParseGetProviderServersResponse(rsp)
+}
+
+// GetSanLunsWithResponse request returning *GetSanLunsResponse
+func (c *ClientWithResponses) GetSanLunsWithResponse(ctx context.Context, params *GetSanLunsParams, reqEditors ...RequestEditorFn) (*GetSanLunsResponse, error) {
+	rsp, err := c.GetSanLuns(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetSanLunsResponse(rsp)
+}
+
+// GetSanTargetsWithResponse request returning *GetSanTargetsResponse
+func (c *ClientWithResponses) GetSanTargetsWithResponse(ctx context.Context, params *GetSanTargetsParams, reqEditors ...RequestEditorFn) (*GetSanTargetsResponse, error) {
+	rsp, err := c.GetSanTargets(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetSanTargetsResponse(rsp)
+}
+
+// CreateSanJobWithBodyWithResponse request with arbitrary body returning *CreateSanJobResponse
+func (c *ClientWithResponses) CreateSanJobWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateSanJobResponse, error) {
+	rsp, err := c.CreateSanJobWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateSanJobResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateSanJobWithResponse(ctx context.Context, body CreateSanJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateSanJobResponse, error) {
+	rsp, err := c.CreateSanJob(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateSanJobResponse(rsp)
 }
 
 // GetServersWithResponse request returning *GetServersResponse
@@ -64711,6 +65782,115 @@ func ParseGetProviderServersResponse(rsp *http.Response) (*GetProviderServersRes
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetSanLunsResponse parses an HTTP response from a GetSanLunsWithResponse call
+func ParseGetSanLunsResponse(rsp *http.Response) (*GetSanLunsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetSanLunsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Data []SanLun `json:"data"`
+
+			// Includes All includable resources linkable to the given LUN.
+			Includes *SanLunIncludes `json:"includes,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetSanTargetsResponse parses an HTTP response from a GetSanTargetsWithResponse call
+func ParseGetSanTargetsResponse(rsp *http.Response) (*GetSanTargetsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetSanTargetsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Data []SanTarget `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateSanJobResponse parses an HTTP response from a CreateSanJobWithResponse call
+func ParseCreateSanJobResponse(rsp *http.Response) (*CreateSanJobResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateSanJobResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+			Data JobDescriptor `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest DefaultError
