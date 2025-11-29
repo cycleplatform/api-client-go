@@ -179,6 +179,12 @@ const (
 	ActivityEventInfrastructureClusterFeaturesMonitoringTierReconfigure ActivityEvent = "infrastructure.cluster.features.monitoring.tier.reconfigure"
 	ActivityEventInfrastructureClusterTaskDelete                        ActivityEvent = "infrastructure.cluster.task.delete"
 	ActivityEventInfrastructureClusterUpdate                            ActivityEvent = "infrastructure.cluster.update"
+	ActivityEventInfrastructureExternalVolumeCreate                     ActivityEvent = "infrastructure.external-volume.create"
+	ActivityEventInfrastructureExternalVolumeDelete                     ActivityEvent = "infrastructure.external-volume.delete"
+	ActivityEventInfrastructureExternalVolumeServersReconfigure         ActivityEvent = "infrastructure.external-volume.servers.reconfigure"
+	ActivityEventInfrastructureExternalVolumeTaskDelete                 ActivityEvent = "infrastructure.external-volume.task.delete"
+	ActivityEventInfrastructureExternalVolumeTaskServersReconfigure     ActivityEvent = "infrastructure.external-volume.task.servers.reconfigure"
+	ActivityEventInfrastructureExternalVolumeUpdate                     ActivityEvent = "infrastructure.external-volume.update"
 	ActivityEventInfrastructureIpsPoolCreate                            ActivityEvent = "infrastructure.ips.pool.create"
 	ActivityEventInfrastructureIpsPoolTaskDelete                        ActivityEvent = "infrastructure.ips.pool.task.delete"
 	ActivityEventInfrastructureProviderCreate                           ActivityEvent = "infrastructure.provider.create"
@@ -197,7 +203,6 @@ const (
 	ActivityEventInfrastructureServerPowerOff                           ActivityEvent = "infrastructure.server.power-off"
 	ActivityEventInfrastructureServerProvision                          ActivityEvent = "infrastructure.server.provision"
 	ActivityEventInfrastructureServerRestart                            ActivityEvent = "infrastructure.server.restart"
-	ActivityEventInfrastructureServerSanSync                            ActivityEvent = "infrastructure.server.san.sync"
 	ActivityEventInfrastructureServerServicesInternalApiThrottle        ActivityEvent = "infrastructure.server.services.internal-api.throttle"
 	ActivityEventInfrastructureServerServicesSftpAuth                   ActivityEvent = "infrastructure.server.services.sftp.auth"
 	ActivityEventInfrastructureServerServicesSftpLockdown               ActivityEvent = "infrastructure.server.services.sftp.lockdown"
@@ -209,7 +214,6 @@ const (
 	ActivityEventInfrastructureServerTaskFeaturesReconfigure            ActivityEvent = "infrastructure.server.task.features.reconfigure"
 	ActivityEventInfrastructureServerTaskProvision                      ActivityEvent = "infrastructure.server.task.provision"
 	ActivityEventInfrastructureServerTaskRestart                        ActivityEvent = "infrastructure.server.task.restart"
-	ActivityEventInfrastructureServerTaskSanSync                        ActivityEvent = "infrastructure.server.task.san.sync"
 	ActivityEventInfrastructureServerTaskSharedfsReconfigure            ActivityEvent = "infrastructure.server.task.sharedfs.reconfigure"
 	ActivityEventInfrastructureServerUnquarantine                       ActivityEvent = "infrastructure.server.unquarantine"
 	ActivityEventInfrastructureServerUpdate                             ActivityEvent = "infrastructure.server.update"
@@ -416,13 +420,6 @@ const (
 	BillingImageStorageAdditionalGbTermYearly  BillingImageStorageAdditionalGbTerm = "yearly"
 )
 
-// Defines values for BillingMembersAdditionalTerm.
-const (
-	BillingMembersAdditionalTermMonthly BillingMembersAdditionalTerm = "monthly"
-	BillingMembersAdditionalTermOnce    BillingMembersAdditionalTerm = "once"
-	BillingMembersAdditionalTermYearly  BillingMembersAdditionalTerm = "yearly"
-)
-
 // Defines values for BillingOrderStateCurrent.
 const (
 	BillingOrderStateCurrentDeleted   BillingOrderStateCurrent = "deleted"
@@ -436,13 +433,6 @@ const (
 	BillingRamAdditionalGbTermMonthly BillingRamAdditionalGbTerm = "monthly"
 	BillingRamAdditionalGbTermOnce    BillingRamAdditionalGbTerm = "once"
 	BillingRamAdditionalGbTermYearly  BillingRamAdditionalGbTerm = "yearly"
-)
-
-// Defines values for BillingServersAdditionalTerm.
-const (
-	BillingServersAdditionalTermMonthly BillingServersAdditionalTerm = "monthly"
-	BillingServersAdditionalTermOnce    BillingServersAdditionalTerm = "once"
-	BillingServersAdditionalTermYearly  BillingServersAdditionalTerm = "yearly"
 )
 
 // Defines values for BillingServiceStateCurrent.
@@ -499,6 +489,8 @@ const (
 	EnvironmentsView                  Capability = "environments-view"
 	EnvironmentsVpn                   Capability = "environments-vpn"
 	EnvironmentsVpnManage             Capability = "environments-vpn-manage"
+	ExternalVolumesManage             Capability = "external-volumes-manage"
+	ExternalVolumesView               Capability = "external-volumes-view"
 	HubsAuditlogView                  Capability = "hubs-auditlog-view"
 	HubsDelete                        Capability = "hubs-delete"
 	HubsIntegrationsManage            Capability = "hubs-integrations-manage"
@@ -1024,12 +1016,11 @@ const (
 	N404ImageSource                  ErrorCode = "404.image.source"
 	N404InfrastructureAutoscaleGroup ErrorCode = "404.infrastructure.autoscale.group"
 	N404InfrastructureCluster        ErrorCode = "404.infrastructure.cluster"
+	N404InfrastructureExternalVolume ErrorCode = "404.infrastructure.external-volume"
 	N404InfrastructureIpsPool        ErrorCode = "404.infrastructure.ips.pool"
 	N404InfrastructureLocation       ErrorCode = "404.infrastructure.location"
 	N404InfrastructureModel          ErrorCode = "404.infrastructure.model"
 	N404InfrastructureProvider       ErrorCode = "404.infrastructure.provider"
-	N404InfrastructureSanLun         ErrorCode = "404.infrastructure.san.lun"
-	N404InfrastructureSanTarget      ErrorCode = "404.infrastructure.san.target"
 	N404InfrastructureServer         ErrorCode = "404.infrastructure.server"
 	N404Instance                     ErrorCode = "404.instance"
 	N404Job                          ErrorCode = "404.job"
@@ -1142,6 +1133,7 @@ const (
 	ContainerVolumesCreateFailed                         EventType = "container.volumes.create.failed"
 	EnvironmentServiceAutoUpdate                         EventType = "environment.service.auto_update"
 	EnvironmentServiceDiscoveryClientThrottleHit         EventType = "environment.service.discovery.client.throttle.hit"
+	EnvironmentServiceGatewayIpsSyncFailed               EventType = "environment.service.gateway.ips.sync.failed"
 	EnvironmentServiceLbIpsSyncFailed                    EventType = "environment.service.lb.ips.sync.failed"
 	EnvironmentServiceVpnLoginFailed                     EventType = "environment.service.vpn.login.failed"
 	InfrastructureClusterResourcesRamFull                EventType = "infrastructure.cluster.resources.ram.full"
@@ -1175,6 +1167,50 @@ const (
 	InfrastructureServerSftpLockdown                     EventType = "infrastructure.server.sftp.lockdown"
 	InfrastructureServerSftpLogin                        EventType = "infrastructure.server.sftp.login"
 	InfrastructureServerSftpLoginFailed                  EventType = "infrastructure.server.sftp.login.failed"
+)
+
+// Defines values for ExternalVolumeAttachmentBlockMode.
+const (
+	ExternalVolumeAttachmentBlockModeMultiNodeReadOnly      ExternalVolumeAttachmentBlockMode = "multi-node-read-only"
+	ExternalVolumeAttachmentBlockModeMultiNodeWriter        ExternalVolumeAttachmentBlockMode = "multi-node-writer"
+	ExternalVolumeAttachmentBlockModeSingleInstanceReadOnly ExternalVolumeAttachmentBlockMode = "single-instance-read-only"
+	ExternalVolumeAttachmentBlockModeSingleInstanceWriter   ExternalVolumeAttachmentBlockMode = "single-instance-writer"
+	ExternalVolumeAttachmentBlockModeSingleNodeReadOnly     ExternalVolumeAttachmentBlockMode = "single-node-read-only"
+	ExternalVolumeAttachmentBlockModeSingleNodeWriter       ExternalVolumeAttachmentBlockMode = "single-node-writer"
+)
+
+// Defines values for ExternalVolumeAttachmentBlockType.
+const (
+	Block ExternalVolumeAttachmentBlockType = "block"
+)
+
+// Defines values for ExternalVolumeAttachmentFileSystemMode.
+const (
+	ExternalVolumeAttachmentFileSystemModeMultiNodeReadOnly      ExternalVolumeAttachmentFileSystemMode = "multi-node-read-only"
+	ExternalVolumeAttachmentFileSystemModeMultiNodeWriter        ExternalVolumeAttachmentFileSystemMode = "multi-node-writer"
+	ExternalVolumeAttachmentFileSystemModeSingleInstanceReadOnly ExternalVolumeAttachmentFileSystemMode = "single-instance-read-only"
+	ExternalVolumeAttachmentFileSystemModeSingleInstanceWriter   ExternalVolumeAttachmentFileSystemMode = "single-instance-writer"
+	ExternalVolumeAttachmentFileSystemModeSingleNodeReadOnly     ExternalVolumeAttachmentFileSystemMode = "single-node-read-only"
+	ExternalVolumeAttachmentFileSystemModeSingleNodeWriter       ExternalVolumeAttachmentFileSystemMode = "single-node-writer"
+)
+
+// Defines values for ExternalVolumeAttachmentFileSystemType.
+const (
+	Filesystem ExternalVolumeAttachmentFileSystemType = "filesystem"
+)
+
+// Defines values for ExternalVolumeServersReconfigureActionAction.
+const (
+	ServersReconfigure ExternalVolumeServersReconfigureActionAction = "servers.reconfigure"
+)
+
+// Defines values for ExternalVolumeStateCurrent.
+const (
+	ExternalVolumeStateCurrentConfiguring ExternalVolumeStateCurrent = "configuring"
+	ExternalVolumeStateCurrentDeleted     ExternalVolumeStateCurrent = "deleted"
+	ExternalVolumeStateCurrentDeleting    ExternalVolumeStateCurrent = "deleting"
+	ExternalVolumeStateCurrentLive        ExternalVolumeStateCurrent = "live"
+	ExternalVolumeStateCurrentNew         ExternalVolumeStateCurrent = "new"
 )
 
 // Defines values for FunctionTriggerActionAction.
@@ -1623,6 +1659,13 @@ const (
 	Webhook RegistryAuthWebhookType = "webhook"
 )
 
+// Defines values for ResourceAllowanceAdditionalTerm.
+const (
+	ResourceAllowanceAdditionalTermMonthly ResourceAllowanceAdditionalTerm = "monthly"
+	ResourceAllowanceAdditionalTermOnce    ResourceAllowanceAdditionalTerm = "once"
+	ResourceAllowanceAdditionalTermYearly  ResourceAllowanceAdditionalTerm = "yearly"
+)
+
 // Defines values for ResourceType.
 const (
 	ResourceTypeAccount                      ResourceType = "account"
@@ -1643,6 +1686,7 @@ const (
 	ResourceTypeImageSource                  ResourceType = "image.source"
 	ResourceTypeInfrastructureAutoscaleGroup ResourceType = "infrastructure.autoscale.group"
 	ResourceTypeInfrastructureCluster        ResourceType = "infrastructure.cluster"
+	ResourceTypeInfrastructureExternalVolume ResourceType = "infrastructure.external-volume"
 	ResourceTypeInfrastructureIpsPool        ResourceType = "infrastructure.ips.pool"
 	ResourceTypeInfrastructureProvider       ResourceType = "infrastructure.provider"
 	ResourceTypeInfrastructureServer         ResourceType = "infrastructure.server"
@@ -1663,9 +1707,9 @@ const (
 // Defines values for RunStateCurrent.
 const (
 	RunStateCurrentAcquiring RunStateCurrent = "acquiring"
+	RunStateCurrentCancelled RunStateCurrent = "cancelled"
 	RunStateCurrentComplete  RunStateCurrent = "complete"
 	RunStateCurrentDeleted   RunStateCurrent = "deleted"
-	RunStateCurrentDeleting  RunStateCurrent = "deleting"
 	RunStateCurrentQueued    RunStateCurrent = "queued"
 	RunStateCurrentRunning   RunStateCurrent = "running"
 )
@@ -1683,26 +1727,6 @@ const (
 	SFTPPasswordAlgorithmSha512 SFTPPasswordAlgorithm = "sha512"
 )
 
-// Defines values for SanLunStateCurrent.
-const (
-	SanLunStateCurrentDeleted  SanLunStateCurrent = "deleted"
-	SanLunStateCurrentDeleting SanLunStateCurrent = "deleting"
-	SanLunStateCurrentLive     SanLunStateCurrent = "live"
-)
-
-// Defines values for SanSyncTaskAction.
-const (
-	Sync SanSyncTaskAction = "sync"
-)
-
-// Defines values for SanTargetStateCurrent.
-const (
-	SanTargetStateCurrentDeleted  SanTargetStateCurrent = "deleted"
-	SanTargetStateCurrentDeleting SanTargetStateCurrent = "deleting"
-	SanTargetStateCurrentLive     SanTargetStateCurrent = "live"
-	SanTargetStateCurrentNew      SanTargetStateCurrent = "new"
-)
-
 // Defines values for ScaleThresholdMetricCpuType.
 const (
 	Cpu ScaleThresholdMetricCpuType = "cpu"
@@ -1710,7 +1734,7 @@ const (
 
 // Defines values for ScaleThresholdMetricCustomType.
 const (
-	Custom ScaleThresholdMetricCustomType = "custom"
+	ScaleThresholdMetricCustomTypeCustom ScaleThresholdMetricCustomType = "custom"
 )
 
 // Defines values for ScaleThresholdMetricNetworkConnectionsType.
@@ -1835,6 +1859,21 @@ const (
 // Defines values for SleepStepAction.
 const (
 	Sleep SleepStepAction = "sleep"
+)
+
+// Defines values for SourceAwsEbsType.
+const (
+	AwsEbs SourceAwsEbsType = "aws-ebs"
+)
+
+// Defines values for SourceCephRbdType.
+const (
+	CephRbd SourceCephRbdType = "ceph-rbd"
+)
+
+// Defines values for SourceSanIscsiType.
+const (
+	SanIscsi SourceSanIscsiType = "san-iscsi"
 )
 
 // Defines values for StackBuildCreateStepAction.
@@ -2044,19 +2083,37 @@ const (
 	V1 V1LbTypeType = "v1"
 )
 
+// Defines values for VirtualMachineAttachmentTypeIsoType.
+const (
+	Iso VirtualMachineAttachmentTypeIsoType = "iso"
+)
+
+// Defines values for VirtualMachineCpuConfigCustomType.
+const (
+	VirtualMachineCpuConfigCustomTypeCustom VirtualMachineCpuConfigCustomType = "custom"
+)
+
+// Defines values for VirtualMachineCpuConfigDefaultType.
+const (
+	Host   VirtualMachineCpuConfigDefaultType = "host"
+	Kvm64  VirtualMachineCpuConfigDefaultType = "kvm64"
+	Qemu32 VirtualMachineCpuConfigDefaultType = "qemu32"
+	Qemu64 VirtualMachineCpuConfigDefaultType = "qemu64"
+)
+
 // Defines values for VirtualMachineImageSourceBaseType.
 const (
 	Base VirtualMachineImageSourceBaseType = "base"
 )
 
+// Defines values for VirtualMachineImageSourceExternalVolumeType.
+const (
+	VirtualMachineImageSourceExternalVolumeTypeExternalVolume VirtualMachineImageSourceExternalVolumeType = "external-volume"
+)
+
 // Defines values for VirtualMachineImageSourceIpxeType.
 const (
 	Ipxe VirtualMachineImageSourceIpxeType = "ipxe"
-)
-
-// Defines values for VirtualMachineImageSourceSanType.
-const (
-	San VirtualMachineImageSourceSanType = "san"
 )
 
 // Defines values for VirtualMachineImageSourceUrlType.
@@ -2101,6 +2158,13 @@ const (
 	RootpwChange VirtualMachineRootPwChangeActionAction = "rootpw.change"
 )
 
+// Defines values for VirtualMachineRuntimeConfigHardwareMachineType.
+const (
+	Microvm VirtualMachineRuntimeConfigHardwareMachineType = "microvm"
+	Pc      VirtualMachineRuntimeConfigHardwareMachineType = "pc"
+	Q35     VirtualMachineRuntimeConfigHardwareMachineType = "q35"
+)
+
 // Defines values for VirtualMachineSshKeyStateCurrent.
 const (
 	VirtualMachineSshKeyStateCurrentDeleted  VirtualMachineSshKeyStateCurrent = "deleted"
@@ -2115,13 +2179,14 @@ const (
 
 // Defines values for VirtualMachineStateCurrent.
 const (
-	VirtualMachineStateCurrentDeleted  VirtualMachineStateCurrent = "deleted"
-	VirtualMachineStateCurrentDeleting VirtualMachineStateCurrent = "deleting"
-	VirtualMachineStateCurrentNew      VirtualMachineStateCurrent = "new"
-	VirtualMachineStateCurrentRunning  VirtualMachineStateCurrent = "running"
-	VirtualMachineStateCurrentStarting VirtualMachineStateCurrent = "starting"
-	VirtualMachineStateCurrentStopped  VirtualMachineStateCurrent = "stopped"
-	VirtualMachineStateCurrentStopping VirtualMachineStateCurrent = "stopping"
+	VirtualMachineStateCurrentConfiguring VirtualMachineStateCurrent = "configuring"
+	VirtualMachineStateCurrentDeleted     VirtualMachineStateCurrent = "deleted"
+	VirtualMachineStateCurrentDeleting    VirtualMachineStateCurrent = "deleting"
+	VirtualMachineStateCurrentNew         VirtualMachineStateCurrent = "new"
+	VirtualMachineStateCurrentRunning     VirtualMachineStateCurrent = "running"
+	VirtualMachineStateCurrentStarting    VirtualMachineStateCurrent = "starting"
+	VirtualMachineStateCurrentStopped     VirtualMachineStateCurrent = "stopped"
+	VirtualMachineStateCurrentStopping    VirtualMachineStateCurrent = "stopping"
 )
 
 // Defines values for VirtualMachineStopActionAction.
@@ -2351,9 +2416,9 @@ const (
 
 // Defines values for UpdateBillingOrderJSONBodyTermLength.
 const (
-	UpdateBillingOrderJSONBodyTermLengthMonthly UpdateBillingOrderJSONBodyTermLength = "monthly"
-	UpdateBillingOrderJSONBodyTermLengthOnce    UpdateBillingOrderJSONBodyTermLength = "once"
-	UpdateBillingOrderJSONBodyTermLengthYearly  UpdateBillingOrderJSONBodyTermLength = "yearly"
+	Monthly UpdateBillingOrderJSONBodyTermLength = "monthly"
+	Once    UpdateBillingOrderJSONBodyTermLength = "once"
+	Yearly  UpdateBillingOrderJSONBodyTermLength = "yearly"
 )
 
 // Defines values for CreateOrderJobJSONBodyAction.
@@ -2739,6 +2804,50 @@ const (
 	GetAutoScaleGroupParamsIncludeModels       GetAutoScaleGroupParamsInclude = "models"
 )
 
+// Defines values for GetExternalVolumesParamsMeta.
+const (
+	GetExternalVolumesParamsMetaContainers GetExternalVolumesParamsMeta = "containers"
+)
+
+// Defines values for GetExternalVolumesParamsInclude.
+const (
+	GetExternalVolumesParamsIncludeLocations GetExternalVolumesParamsInclude = "locations"
+	GetExternalVolumesParamsIncludeServers   GetExternalVolumesParamsInclude = "servers"
+)
+
+// Defines values for CreateExternalVolumeParamsMeta.
+const (
+	CreateExternalVolumeParamsMetaContainers CreateExternalVolumeParamsMeta = "containers"
+)
+
+// Defines values for CreateExternalVolumeParamsInclude.
+const (
+	CreateExternalVolumeParamsIncludeLocations CreateExternalVolumeParamsInclude = "locations"
+	CreateExternalVolumeParamsIncludeServers   CreateExternalVolumeParamsInclude = "servers"
+)
+
+// Defines values for GetExternalVolumeParamsMeta.
+const (
+	GetExternalVolumeParamsMetaContainers GetExternalVolumeParamsMeta = "containers"
+)
+
+// Defines values for GetExternalVolumeParamsInclude.
+const (
+	GetExternalVolumeParamsIncludeLocations GetExternalVolumeParamsInclude = "locations"
+	GetExternalVolumeParamsIncludeServers   GetExternalVolumeParamsInclude = "servers"
+)
+
+// Defines values for UpdateExternalVolumeParamsMeta.
+const (
+	UpdateExternalVolumeParamsMetaContainers UpdateExternalVolumeParamsMeta = "containers"
+)
+
+// Defines values for UpdateExternalVolumeParamsInclude.
+const (
+	UpdateExternalVolumeParamsIncludeLocations UpdateExternalVolumeParamsInclude = "locations"
+	UpdateExternalVolumeParamsIncludeServers   UpdateExternalVolumeParamsInclude = "servers"
+)
+
 // Defines values for GetIpPoolsParamsInclude.
 const (
 	GetIpPoolsParamsIncludeIntegrations GetIpPoolsParamsInclude = "integrations"
@@ -2751,32 +2860,6 @@ const (
 	GetIPPoolParamsIncludeIntegrations GetIPPoolParamsInclude = "integrations"
 	GetIPPoolParamsIncludeLocations    GetIPPoolParamsInclude = "locations"
 	GetIPPoolParamsIncludeServers      GetIPPoolParamsInclude = "servers"
-)
-
-// Defines values for GetSanLunsParamsFilterState.
-const (
-	GetSanLunsParamsFilterStateDeleted  GetSanLunsParamsFilterState = "deleted"
-	GetSanLunsParamsFilterStateDeleting GetSanLunsParamsFilterState = "deleting"
-	GetSanLunsParamsFilterStateLive     GetSanLunsParamsFilterState = "live"
-	GetSanLunsParamsFilterStateNew      GetSanLunsParamsFilterState = "new"
-)
-
-// Defines values for GetSanLunsParamsMeta.
-const (
-	GetSanLunsParamsMetaContainer GetSanLunsParamsMeta = "container"
-)
-
-// Defines values for GetSanLunsParamsInclude.
-const (
-	Targets GetSanLunsParamsInclude = "targets"
-)
-
-// Defines values for GetSanTargetsParamsFilterState.
-const (
-	GetSanTargetsParamsFilterStateDeleted  GetSanTargetsParamsFilterState = "deleted"
-	GetSanTargetsParamsFilterStateDeleting GetSanTargetsParamsFilterState = "deleting"
-	GetSanTargetsParamsFilterStateLive     GetSanTargetsParamsFilterState = "live"
-	GetSanTargetsParamsFilterStateNew      GetSanTargetsParamsFilterState = "new"
 )
 
 // Defines values for GetServersParamsMeta.
@@ -3014,9 +3097,9 @@ const (
 
 // Defines values for GetVirtualMachineSshKeysParamsFilterState.
 const (
-	Deleted  GetVirtualMachineSshKeysParamsFilterState = "deleted"
-	Deleting GetVirtualMachineSshKeysParamsFilterState = "deleting"
-	Live     GetVirtualMachineSshKeysParamsFilterState = "live"
+	GetVirtualMachineSshKeysParamsFilterStateDeleted  GetVirtualMachineSshKeysParamsFilterState = "deleted"
+	GetVirtualMachineSshKeysParamsFilterStateDeleting GetVirtualMachineSshKeysParamsFilterState = "deleting"
+	GetVirtualMachineSshKeysParamsFilterStateLive     GetVirtualMachineSshKeysParamsFilterState = "live"
 )
 
 // Defines values for GetVirtualMachineSshKeysParamsInclude.
@@ -3615,24 +3698,6 @@ type BillingImageStorage struct {
 // BillingImageStorageAdditionalGbTerm defines model for BillingImageStorage.AdditionalGb.Term.
 type BillingImageStorageAdditionalGbTerm string
 
-// BillingMembers An object holding information about members included in Billing tier
-type BillingMembers struct {
-	// Additional An object describing the additonal cost of members exceeding the included member count
-	Additional struct {
-		Mills float32                      `json:"mills"`
-		Term  BillingMembersAdditionalTerm `json:"term"`
-	} `json:"additional"`
-
-	// HardCap A boolean indicating if there is a hard member limit on the tier
-	HardCap bool `json:"hard_cap"`
-
-	// Included The number of members included in the tier price
-	Included float32 `json:"included"`
-}
-
-// BillingMembersAdditionalTerm defines model for BillingMembers.Additional.Term.
-type BillingMembersAdditionalTerm string
-
 // BillingOrder Information about an order.
 type BillingOrder struct {
 	// Approved A boolean where true represents the order is approved to be paid by the user.
@@ -3705,24 +3770,6 @@ type BillingRam struct {
 
 // BillingRamAdditionalGbTerm defines model for BillingRam.AdditionalGb.Term.
 type BillingRamAdditionalGbTerm string
-
-// BillingServers An object holding information about servers included in Billing tier
-type BillingServers struct {
-	// Additional An object describing the additonal cost of servers exceeding the included server count
-	Additional struct {
-		Mills float32                      `json:"mills"`
-		Term  BillingServersAdditionalTerm `json:"term"`
-	} `json:"additional"`
-
-	// HardCap A boolean indicating if there is a hard server limit on the tier
-	HardCap bool `json:"hard_cap"`
-
-	// Included The number of servers included in the tier price
-	Included float32 `json:"included"`
-}
-
-// BillingServersAdditionalTerm defines model for BillingServers.Additional.Term.
-type BillingServersAdditionalTerm string
 
 // BillingService Information about billing service.
 type BillingService struct {
@@ -4715,8 +4762,8 @@ type ContainerReconfigureVolumesAction struct {
 	// Action The action to take.
 	Action ContainerReconfigureVolumesActionAction `json:"action"`
 
-	// Contents An array of volume objects to be reconfigured.
-	Contents []VolumeSummary `json:"contents"`
+	// Contents A map of volume objects where the key is the id and the value is the volume's config.
+	Contents map[string]ContainerVolume `json:"contents"`
 }
 
 // ContainerReconfigureVolumesActionAction The action to take.
@@ -5038,6 +5085,23 @@ type ContainerStopStep struct {
 // ContainerStopStepAction The action that the step takes.
 type ContainerStopStepAction string
 
+// ContainerSummary Lightweight summary of a container for environment pages and lists.
+type ContainerSummary struct {
+	// Environment A summary of supplemental environment and network information specific to a container.
+	Environment ContainerEnvironmentSummary `json:"environment"`
+
+	// Id A 24 character hex string used to identify a unique resource.
+	Id ID `json:"id"`
+
+	// Image A summary of the image this container was created from.
+	Image ImageSummary `json:"image"`
+
+	// Name A user defined name for the container.
+	Name    string          `json:"name"`
+	State   ContainerState  `json:"state"`
+	Volumes []VolumeSummary `json:"volumes"`
+}
+
 // ContainerTask defines model for ContainerTask.
 type ContainerTask struct {
 	union json.RawMessage
@@ -5050,6 +5114,10 @@ type ContainerVolume struct {
 
 	// Destination The mountpoint path for the container.
 	Destination string `json:"destination"`
+	External    *struct {
+		// Id A 24 character hex string used to identify a unique resource.
+		Id *ID `json:"id,omitempty"`
+	} `json:"external,omitempty"`
 
 	// Identifier A human-readable identifier used to refer to a resource, where using the official ID may be inconvenient.
 	// The identifier is automatically tokenized from the name/relevant field of the resource if one is not provided. For example, a container named "My Container" will
@@ -5091,15 +5159,6 @@ type ContainerVolume struct {
 		// Webhook Call out to a webhook to authenticate usernames/passwords if an organization manages their own accounts
 		Webhook *string `json:"webhook,omitempty"`
 	} `json:"remote_access,omitempty"`
-
-	// San Configuration settings for a SAN type volume.
-	San *struct {
-		// LunNumber The LUN for the SAN target to attach.
-		LunNumber int `json:"lun_number"`
-
-		// TargetId A 24 character hex string used to identify a unique resource.
-		TargetId ID `json:"target_id"`
-	} `json:"san"`
 }
 
 // ContainerVolumeRemoteAccessPasswordAlgorithm The hashing algorithm used to has the password.
@@ -6378,6 +6437,176 @@ type ExistingSource struct {
 	SourceId *ID `json:"source_id,omitempty"`
 }
 
+// ExternalVolume A persistent storage volume within a cluster. Volumes may be attached to containers or VMs and can originate from different storage sources.
+type ExternalVolume struct {
+	// About Additional details about the external volume.
+	About ExternalVolumeAbout `json:"about"`
+
+	// Attachment Attachment configuration for an external volume.
+	Attachment *ExternalVolumeAttachment `json:"attachment,omitempty"`
+
+	// Cluster A human-readable identifier used to refer to a resource, where using the official ID may be inconvenient.
+	// The identifier is automatically tokenized from the name/relevant field of the resource if one is not provided. For example, a container named "My Container" will
+	// have the identifier of `my-container` and is automatically created by the platform.
+	//
+	// The identifier does not have to be unique.
+	Cluster Identifier `json:"cluster"`
+
+	// Events Timestamps for events that happen over the lifetime of the attached volume.
+	Events ExternalVolumeEvents `json:"events"`
+
+	// HubId The unique ID of the Hub this resource was created in.
+	HubId HubID `json:"hub_id"`
+
+	// Id A 24 character hex string used to identify a unique resource.
+	Id ID `json:"id"`
+
+	// Identifier A human-readable identifier used to refer to a resource, where using the official ID may be inconvenient.
+	// The identifier is automatically tokenized from the name/relevant field of the resource if one is not provided. For example, a container named "My Container" will
+	// have the identifier of `my-container` and is automatically created by the platform.
+	//
+	// The identifier does not have to be unique.
+	Identifier *Identifier `json:"identifier,omitempty"`
+
+	// LocationId A 24 character hex string used to identify a unique resource.
+	LocationId ID `json:"location_id"`
+
+	// Meta A list of meta fields that can be applied to an attached volume.
+	Meta *ExternalVolumeMeta `json:"meta,omitempty"`
+
+	// Name The name of the external volume.
+	Name string `json:"name"`
+
+	// Options Configuration options controlling the behavior of the volume.
+	Options   ExternalVolumeOptions `json:"options"`
+	ServerIds []ID                  `json:"server_ids"`
+
+	// Size A human-readable data size string. Values are expressed as an integer followed by a unit suffix, without spaces. Supported units:
+	//   - b, k, m, g, t, p (bytes, kilobytes, megabytes, gigabytes, terabytes, petabytes)
+	//   - An optional "b" suffix may be added (e.g., "mb", "gb").
+	// Units are case-insensitive. Example: "512M", "10GB", "1t".
+	Size *DataSize `json:"size,omitempty"`
+
+	// Source The source information for this volume.
+	Source ExternalVolumeSource `json:"source"`
+	State  ExternalVolumeState  `json:"state"`
+}
+
+// ExternalVolumeAbout Additional details about the external volume.
+type ExternalVolumeAbout struct {
+	// Description Custom details about this external volume.
+	Description string `json:"description"`
+}
+
+// ExternalVolumeAttachment Attachment configuration for an external volume.
+type ExternalVolumeAttachment struct {
+	union json.RawMessage
+}
+
+// ExternalVolumeAttachmentBlock Configuration for a block volume attachment.
+type ExternalVolumeAttachmentBlock struct {
+	// Details Details for a block attachment. Present when `type` is `block`.
+	Details map[string]interface{} `json:"details"`
+
+	// Mode The access mode for the attachment.
+	Mode ExternalVolumeAttachmentBlockMode `json:"mode"`
+	Type ExternalVolumeAttachmentBlockType `json:"type"`
+}
+
+// ExternalVolumeAttachmentBlockMode The access mode for the attachment.
+type ExternalVolumeAttachmentBlockMode string
+
+// ExternalVolumeAttachmentBlockType defines model for ExternalVolumeAttachmentBlock.Type.
+type ExternalVolumeAttachmentBlockType string
+
+// ExternalVolumeAttachmentFileSystem Configuration for a filesystem volume attachment.
+type ExternalVolumeAttachmentFileSystem struct {
+	// Details Details for a filesystem attachment. Present when `type` is `filesystem`.
+	Details map[string]interface{} `json:"details"`
+
+	// Mode The access mode for the attachment.
+	Mode ExternalVolumeAttachmentFileSystemMode `json:"mode"`
+	Type ExternalVolumeAttachmentFileSystemType `json:"type"`
+}
+
+// ExternalVolumeAttachmentFileSystemMode The access mode for the attachment.
+type ExternalVolumeAttachmentFileSystemMode string
+
+// ExternalVolumeAttachmentFileSystemType defines model for ExternalVolumeAttachmentFileSystem.Type.
+type ExternalVolumeAttachmentFileSystemType string
+
+// ExternalVolumeEvents Timestamps for events that happen over the lifetime of the attached volume.
+type ExternalVolumeEvents struct {
+	Created      DateTime  `json:"created"`
+	Deleted      DateTime  `json:"deleted"`
+	LastSync     *DateTime `json:"last_sync,omitempty"`
+	LastVerified *DateTime `json:"last_verified,omitempty"`
+	Updated      DateTime  `json:"updated"`
+}
+
+// ExternalVolumeIncludes All includable resources linked to the given external volume.
+type ExternalVolumeIncludes struct {
+	Locations *map[string]ProviderLocation `json:"locations,omitempty"`
+	Servers   *map[string]Server           `json:"servers,omitempty"`
+}
+
+// ExternalVolumeMeta A list of meta fields that can be applied to an attached volume.
+type ExternalVolumeMeta struct {
+	Containers *[]ContainerSummary `json:"containers,omitempty"`
+}
+
+// ExternalVolumeOptions Configuration options controlling the behavior of the volume.
+type ExternalVolumeOptions struct {
+	// Create If the volume doesn't exist, attempt to create it on container start if create struct defined.
+	Create *struct {
+		// Size A human-readable data size string. Values are expressed as an integer followed by a unit suffix, without spaces. Supported units:
+		//   - b, k, m, g, t, p (bytes, kilobytes, megabytes, gigabytes, terabytes, petabytes)
+		//   - An optional "b" suffix may be added (e.g., "mb", "gb").
+		// Units are case-insensitive. Example: "512M", "10GB", "1t".
+		Size DataSize `json:"size"`
+	} `json:"create"`
+}
+
+// ExternalVolumeServersReconfigureAction A task to reconfigure mountable destination servers for external volume.
+type ExternalVolumeServersReconfigureAction struct {
+	// Action The name of the action to perform (servers.reconfigure).
+	Action ExternalVolumeServersReconfigureActionAction `json:"action"`
+
+	// Contents Contents contains an array of server ids to set as mountable destinations for the external volume.
+	Contents *[]ID `json:"contents,omitempty"`
+}
+
+// ExternalVolumeServersReconfigureActionAction The name of the action to perform (servers.reconfigure).
+type ExternalVolumeServersReconfigureActionAction string
+
+// ExternalVolumeSource The source information for this volume.
+type ExternalVolumeSource struct {
+	union json.RawMessage
+}
+
+// ExternalVolumeState defines model for ExternalVolumeState.
+type ExternalVolumeState struct {
+	Changed DateTime `json:"changed"`
+
+	// Current The current lifecycle state of the volume.
+	Current ExternalVolumeStateCurrent `json:"current"`
+
+	// Error An error, if any, that has occurred for this resource.
+	Error *struct {
+		// Message Details about the error that has occurred.
+		Message *string   `json:"message,omitempty"`
+		Time    *DateTime `json:"time,omitempty"`
+	} `json:"error,omitempty"`
+}
+
+// ExternalVolumeStateCurrent The current lifecycle state of the volume.
+type ExternalVolumeStateCurrent string
+
+// ExternalVolumeTask defines model for ExternalVolumeTask.
+type ExternalVolumeTask struct {
+	union json.RawMessage
+}
+
 // FeaturesSpec The spec for server features.
 type FeaturesSpec struct {
 	// Extra Provider specific features, allowing for additional, unspecified properties. This is an open map for any key-value pairs, accommodating various types of values.
@@ -6964,6 +7193,9 @@ type Image struct {
 	Build *struct {
 		// Args Arguments to pass to the builder during a build of this image.
 		Args *map[string]string `json:"args,omitempty"`
+
+		// UseDisk If true, will skip using /dev/shm when building an image on factory. Allows for building much larger images.
+		UseDisk *bool `json:"use_disk,omitempty"`
 	} `json:"build"`
 
 	// Builder Configuration options regarding the builder used to create/import this Image.
@@ -7877,7 +8109,8 @@ type IntegrationDefinition_ExtendedConfiguration_Options_Item struct {
 
 // IntegrationDefinitionField defines model for IntegrationDefinitionField.
 type IntegrationDefinitionField struct {
-	Description string                          `json:"description"`
+	Description *string                         `json:"description,omitempty"`
+	Name        string                          `json:"name"`
 	Options     *[]string                       `json:"options"`
 	Regex       *string                         `json:"regex"`
 	Required    bool                            `json:"required"`
@@ -8249,9 +8482,6 @@ type IpState struct {
 
 // IpStateCurrent The current state of the IP.
 type IpStateCurrent string
-
-// Iqn iSCSI Qualified Name of a target.
-type Iqn = string
 
 // Job A job resource.
 type Job struct {
@@ -9323,16 +9553,61 @@ type OrderState struct {
 // OrderStateCurrent The current state of the zone.
 type OrderStateCurrent string
 
-// Overage Information about billing overage.
+// Overage Detailed information about resource overages incurred beyond included billing tier limits.
 type Overage struct {
-	// Ram Used for gen 1 pricing.
-	Ram struct {
-		// Cost The cost of the overage.
+	// DnsLinkedRecords Overage related to DNS linked records usage.
+	DnsLinkedRecords *struct {
+		// Cost The total cost of the DNS linked record overage in mills.
 		Cost int `json:"cost"`
 
-		// GbHours The number of hours of overage.
+		// Hours The number of DNS linked record hours exceeding the included amount.
+		Hours int `json:"hours"`
+	} `json:"dns_linked_records,omitempty"`
+
+	// DnsZones Overage related to DNS zone usage.
+	DnsZones *struct {
+		// Cost The total cost of the DNS zone overage in mills.
+		Cost int `json:"cost"`
+
+		// Hours The number of DNS zone hours exceeding the included amount.
+		Hours int `json:"hours"`
+	} `json:"dns_zones,omitempty"`
+
+	// ImageStorage Overage related to container or image storage usage.
+	ImageStorage *struct {
+		// Cost The total cost of the image storage overage in mills.
+		Cost int `json:"cost"`
+
+		// Gbs The number of gigabytes of image storage overage.
+		Gbs int `json:"gbs"`
+	} `json:"image_storage,omitempty"`
+
+	// Members Overage related to member usage.
+	Members *struct {
+		// Cost The total cost of the member overage in mills.
+		Cost int `json:"cost"`
+
+		// Hours The number of member hours exceeding the included amount.
+		Hours int `json:"hours"`
+	} `json:"members,omitempty"`
+
+	// Ram (GEN 1) Overage related to RAM usage.
+	Ram *struct {
+		// Cost The total cost of the RAM overage in mills.
+		Cost int `json:"cost"`
+
+		// GbHours The number of RAM GB-hours exceeding the included amount.
 		GbHours int `json:"gb_hours"`
-	} `json:"ram"`
+	} `json:"ram,omitempty"`
+
+	// Servers Overage related to server runtime.
+	Servers *struct {
+		// Cost The total cost of the server overage in mills.
+		Cost int `json:"cost"`
+
+		// Hours The number of server hours exceeding the included amount.
+		Hours int `json:"hours"`
+	} `json:"servers,omitempty"`
 
 	// Term Information about a billing term.
 	Term Term `json:"term"`
@@ -9982,6 +10257,27 @@ type RepoType_Auth struct {
 	union json.RawMessage
 }
 
+// ResourceAllowance Generic structure for a resource with an included allotment, optional hard cap, and per-unit overage cost.
+type ResourceAllowance struct {
+	// Additional Cost for units that exceed the included amount.
+	Additional struct {
+		// Mills Cost in mills per additional unit.
+		Mills int `json:"mills"`
+
+		// Term Billing term that applies to the additional cost.
+		Term ResourceAllowanceAdditionalTerm `json:"term"`
+	} `json:"additional"`
+
+	// HardCap Whether there is a hard limit on this resource.
+	HardCap bool `json:"hard_cap"`
+
+	// Included The number of units included in the tier price.
+	Included int `json:"included"`
+}
+
+// ResourceAllowanceAdditionalTerm Billing term that applies to the additional cost.
+type ResourceAllowanceAdditionalTerm string
+
 // ResourceSnapshot A resource snapshot that shows instance telemetry.
 type ResourceSnapshot struct {
 	Cluster     *Identifier `json:"cluster"`
@@ -10198,166 +10494,6 @@ type SSHToken struct {
 
 	// Valid A boolean where true represents the token as being a valid token to be used for connection.
 	Valid bool `json:"valid"`
-}
-
-// SanLun Logical Unit Number (LUN) exposed over iSCSI within a Cycle server.
-type SanLun struct {
-	// Cluster Cluster identifier.
-	Cluster string `json:"cluster"`
-
-	// Description Human-friendly description of the LUN.
-	Description *string `json:"description"`
-
-	// HubId The unique ID of the Hub this resource was created in.
-	HubId HubID `json:"hub_id"`
-
-	// Id A 24 character hex string used to identify a unique resource.
-	Id ID `json:"id"`
-
-	// Iqn iSCSI Qualified Name of a target.
-	Iqn Iqn `json:"iqn"`
-
-	// LocationId Location ID where this LUN is provisioned.
-	LocationId string `json:"location_id"`
-
-	// Meta A list of meta fields that can be applied to a SAN LUN.
-	Meta *SanLunMeta `json:"meta,omitempty"`
-
-	// Number LUN number exposed to initiators.
-	Number int32 `json:"number"`
-
-	// ReadOnly When true, the LUN is exposed as read-only.
-	ReadOnly bool `json:"read_only"`
-
-	// Size A human-readable data size string. Values are expressed as an integer followed by a unit suffix, without spaces. Supported units:
-	//   - b, k, m, g, t, p (bytes, kilobytes, megabytes, gigabytes, terabytes, petabytes)
-	//   - An optional "b" suffix may be added (e.g., "mb", "gb").
-	// Units are case-insensitive. Example: "512M", "10GB", "1t".
-	Size  DataSize    `json:"size"`
-	State SanLunState `json:"state"`
-
-	// TargetId A 24 character hex string used to identify a unique resource.
-	TargetId ID `json:"target_id"`
-}
-
-// SanLunIncludes All includable resources linkable to the given LUN.
-type SanLunIncludes struct {
-	Targets *map[string]SanTarget `json:"targets,omitempty"`
-}
-
-// SanLunMeta A list of meta fields that can be applied to a SAN LUN.
-type SanLunMeta struct {
-	// Container Containers are a way to package together your application along with it's dependencies, and run in a resource isolated process. They provide consistency across different hosts, efficiency over traditional hosting methods, and facilitate a micro-service based approach, where each logical piece of your application is split into multiple, easily testable parts (such as API, Backend, Frontend, etc).
-	Container *Container `json:"container,omitempty"`
-}
-
-// SanLunState defines model for SanLunState.
-type SanLunState struct {
-	Changed DateTime `json:"changed"`
-
-	// Current The current state of the LUN.
-	Current SanLunStateCurrent `json:"current"`
-
-	// Error An error, if any, that has occurred for this resource.
-	Error *struct {
-		// Message Details about the error that has occurred.
-		Message *string   `json:"message,omitempty"`
-		Time    *DateTime `json:"time,omitempty"`
-	} `json:"error,omitempty"`
-}
-
-// SanLunStateCurrent The current state of the LUN.
-type SanLunStateCurrent string
-
-// SanSyncTask defines model for SanSyncTask.
-type SanSyncTask struct {
-	Action   SanSyncTaskAction `json:"action"`
-	Contents *struct {
-		Credentials *SanTargetChapCredentials `json:"credentials"`
-
-		// DiscoveryIp IP to run discovery on.
-		DiscoveryIp string `json:"discovery_ip"`
-
-		// ServerId A 24 character hex string used to identify a unique resource.
-		ServerId ID `json:"server_id"`
-	} `json:"contents,omitempty"`
-}
-
-// SanSyncTaskAction defines model for SanSyncTask.Action.
-type SanSyncTaskAction string
-
-// SanTarget A SAN iSCSI target within a Cycle hub/cluster. A target exposes one or more portals (IP:port listeners) and can optionally require CHAP credentials for initiators.
-type SanTarget struct {
-	// Cluster A human-readable identifier used to refer to a resource, where using the official ID may be inconvenient.
-	// The identifier is automatically tokenized from the name/relevant field of the resource if one is not provided. For example, a container named "My Container" will
-	// have the identifier of `my-container` and is automatically created by the platform.
-	//
-	// The identifier does not have to be unique.
-	Cluster Identifier `json:"cluster"`
-
-	// Credentials Optional CHAP credentials required by initiators to authenticate.
-	Credentials *SanTargetChapCredentials `json:"credentials"`
-
-	// HubId The unique ID of the Hub this resource was created in.
-	HubId HubID `json:"hub_id"`
-
-	// Id A 24 character hex string used to identify a unique resource.
-	Id         ID          `json:"id"`
-	Identifier *Identifier `json:"identifier"`
-
-	// Iqn iSCSI Qualified Name of a target.
-	Iqn Iqn `json:"iqn"`
-
-	// LocationId A 24 character hex string used to identify a unique resource.
-	LocationId ID `json:"location_id"`
-
-	// Portals List of network endpoints where the target accepts iSCSI sessions.
-	Portals []SanTargetPortal `json:"portals"`
-
-	// ServerIds IDs of servers that host or are associated with this target.
-	ServerIds []ID           `json:"server_ids"`
-	State     SanTargetState `json:"state"`
-}
-
-// SanTargetChapCredentials CHAP credentials required by initiators to authenticate to the target.
-type SanTargetChapCredentials struct {
-	// Password CHAP secret shared with initiators.
-	Password string `json:"password"`
-
-	// Username CHAP username used by initiators.
-	Username string `json:"username"`
-}
-
-// SanTargetPortal A network endpoint (IP and TCP port) where the iSCSI target listens for sessions.
-type SanTargetPortal struct {
-	// Ip IPv4 or IPv6 address of the portal.
-	Ip string `json:"ip"`
-
-	// Port TCP port number for the portal (typically 3260).
-	Port int32 `json:"port"`
-}
-
-// SanTargetState defines model for SanTargetState.
-type SanTargetState struct {
-	Changed DateTime `json:"changed"`
-
-	// Current The current lifecycle state of the SAN target.
-	Current SanTargetStateCurrent `json:"current"`
-
-	// Error An error, if any, that has occurred for this resource.
-	Error *struct {
-		// Message Details about the error that has occurred.
-		Message *string   `json:"message,omitempty"`
-		Time    *DateTime `json:"time,omitempty"`
-	} `json:"error,omitempty"`
-}
-
-// SanTargetStateCurrent The current lifecycle state of the SAN target.
-type SanTargetStateCurrent string
-
-// SanTask defines model for SanTask.
-type SanTask struct {
-	union json.RawMessage
 }
 
 // ScaleThresholdMetric Discriminated union describing the different types of scaling threshold and their respective details
@@ -11332,6 +11468,72 @@ type SleepStep struct {
 // SleepStepAction The action that the step takes.
 type SleepStepAction string
 
+// SourceAwsEbs An AWS EBS volume source. Defines how to authenticate to AWS and which EBS volume to attach.
+type SourceAwsEbs struct {
+	Details struct {
+		// Auth AWS credentials for accessing EBS. Either an instance role may be used or explicit Access Key credentials may be provided.
+		Auth SourceAwsEbsAuth `json:"auth"`
+
+		// Volume Reference to the specific EBS volume to attach.
+		Volume SourceAwsEbsRef `json:"volume"`
+	} `json:"details"`
+	Type SourceAwsEbsType `json:"type"`
+}
+
+// SourceAwsEbsType defines model for SourceAwsEbs.Type.
+type SourceAwsEbsType string
+
+// SourceAwsEbsAuth AWS credentials for accessing EBS. Either an instance role may be used or explicit Access Key credentials may be provided.
+type SourceAwsEbsAuth struct {
+	// AccessKeyId AWS Access Key ID to use for authentication (optional if using instance role).
+	AccessKeyId *string `json:"access_key_id,omitempty"`
+
+	// SecretAccessKey AWS Secret Access Key to use for authentication (optional if using instance role).
+	SecretAccessKey *string `json:"secret_access_key,omitempty"`
+
+	// UseInstanceRole When true, use the instance's IAM role for authentication.
+	UseInstanceRole *bool `json:"use_instance_role,omitempty"`
+}
+
+// SourceAwsEbsRef Reference to the specific EBS volume to attach.
+type SourceAwsEbsRef struct {
+	// Az Optional AWS Availability Zone where the volume resides (for example, "us-east-1a").
+	Az *string `json:"az,omitempty"`
+
+	// VolumeId The EBS volume ID (for example, "vol-0abcd1234ef567890").
+	VolumeId string `json:"volume_id"`
+}
+
+// SourceCephRbd A Ceph RBD volume source. Defines monitor endpoints, optional cluster FSID, client identity (CephX), and the specific image to attach.
+type SourceCephRbd struct {
+	Details struct {
+		// Image Reference to the specific RBD image to attach.
+		Image SourceCephRbdImageRef `json:"image"`
+
+		// IntegrationId A 24 character hex string used to identify a unique resource.
+		IntegrationId ID `json:"integration_id"`
+	} `json:"details"`
+	Type SourceCephRbdType `json:"type"`
+}
+
+// SourceCephRbdType defines model for SourceCephRbd.Type.
+type SourceCephRbdType string
+
+// SourceCephRbdImageRef Reference to the specific RBD image to attach.
+type SourceCephRbdImageRef struct {
+	// Name Name of the RBD image.
+	Name string `json:"name"`
+
+	// Namespace Optional RBD namespace within the pool.
+	Namespace *string `json:"namespace,omitempty"`
+
+	// Pool Name of the Ceph pool containing the RBD image.
+	Pool string `json:"pool"`
+
+	// Snapshot Optional snapshot name if attaching a snapshot view of the image.
+	Snapshot *string `json:"snapshot,omitempty"`
+}
+
 // SourceIncludes A resource associate with an image source.
 type SourceIncludes struct {
 	// Creators An identity that created a resource.
@@ -11343,6 +11545,21 @@ type SourceIncludes struct {
 	// IntegrationsIdentifiers A map of identifiers to an array of resource IDs that are associated with it. All IDs point to the same type of resource.
 	IntegrationsIdentifiers *IdentifierIncludes `json:"integrations:identifiers,omitempty"`
 }
+
+// SourceSanIscsi A SAN iSCSI volume source. Defines one or more iSCSI targets and the LUN number to attach.
+type SourceSanIscsi struct {
+	Details struct {
+		// IntegrationIds One or more iSCSI integration IDs to use for authentication.
+		IntegrationIds []ID `json:"integration_ids"`
+
+		// Lun Logical Unit Number exposed by the target(s) to attach.
+		Lun int32 `json:"lun"`
+	} `json:"details"`
+	Type SourceSanIscsiType `json:"type"`
+}
+
+// SourceSanIscsiType defines model for SourceSanIscsi.Type.
+type SourceSanIscsiType string
 
 // Stack Stacks are a way to orchestrate multiple containers atomically and automatically.
 type Stack struct {
@@ -11545,7 +11762,7 @@ type StackBuildDeployStepAction string
 
 // StackBuildDeploymentUpdates Optional update object used to specify specific params to update from the stack build.
 type StackBuildDeploymentUpdates struct {
-	// Containers A map of the container names to update within the environment.
+	// Containers A map of the container identifiers to update within the environment.
 	Containers map[string]StackDeployContainersObject `json:"containers"`
 
 	// ScopedVariables An object that describes configuration options for scoped variables on stack build. If null, scoped variables will be ignored during deployment events.
@@ -12355,7 +12572,8 @@ type StackSpecContainerVolume struct {
 	BlockDevice *StackSpecContainerVolume_BlockDevice `json:"block_device,omitempty"`
 
 	// Destination The path this volume should be mounted at inside the container.
-	Destination string `json:"destination"`
+	Destination string         `json:"destination"`
+	External    *StackVariable `json:"external"`
 
 	// Local Configuration options for local volumes.
 	Local *StackSpecContainerVolume_Local `json:"local,omitempty"`
@@ -12815,22 +13033,28 @@ type TermRenew string
 // TierPlan A TierPlan object describes the attributes of a subscription tier
 type TierPlan struct {
 	AdvancedFeatures struct {
-		Autoscale            bool `json:"autoscale"`
-		Deployments          bool `json:"deployments"`
-		Geodns               bool `json:"geodns"`
-		Gpu                  bool `json:"gpu"`
-		Ial                  bool `json:"ial"`
-		ProviderMultiAccount bool `json:"provider_multi_account"`
-		San                  bool `json:"san"`
-		VirtualProvider      bool `json:"virtual_provider"`
+		Autoscale            bool  `json:"autoscale"`
+		Deployments          bool  `json:"deployments"`
+		ExternalVolumes      *bool `json:"external_volumes,omitempty"`
+		Geodns               bool  `json:"geodns"`
+		Gpu                  bool  `json:"gpu"`
+		Ial                  bool  `json:"ial"`
+		ProviderMultiAccount bool  `json:"provider_multi_account"`
+		VirtualProvider      bool  `json:"virtual_provider"`
 	} `json:"advanced_features"`
 
 	// Builds An object holding information about servers included in Billing tier
 	Builds      BillingBuilds `json:"builds"`
 	Code        string        `json:"code"`
 	Description string        `json:"description"`
-	Generation  int           `json:"generation"`
-	Hidden      bool          `json:"hidden"`
+
+	// DnsLinkedRecords Generic structure for a resource with an included allotment, optional hard cap, and per-unit overage cost.
+	DnsLinkedRecords ResourceAllowance `json:"dns_linked_records"`
+
+	// DnsZones Generic structure for a resource with an included allotment, optional hard cap, and per-unit overage cost.
+	DnsZones   ResourceAllowance `json:"dns_zones"`
+	Generation int               `json:"generation"`
+	Hidden     bool              `json:"hidden"`
 
 	// Hubs An array of hub IDs with access to the tier.
 	Hubs *[]Identifier `json:"hubs"`
@@ -12842,9 +13066,9 @@ type TierPlan struct {
 	MaxMembers          *int                `json:"max_members"`
 	MaxNodes            *int                `json:"max_nodes"`
 
-	// Members An object holding information about members included in Billing tier
-	Members BillingMembers `json:"members"`
-	Name    string         `json:"name"`
+	// Members Generic structure for a resource with an included allotment, optional hard cap, and per-unit overage cost.
+	Members ResourceAllowance `json:"members"`
+	Name    string            `json:"name"`
 
 	// Price An object holding information about term and amount that relates to a specific billing component.
 	Price BillingAmount `json:"price"`
@@ -12852,9 +13076,9 @@ type TierPlan struct {
 	// Ram An object holding information about servers included in Billing tier
 	Ram BillingRam `json:"ram"`
 
-	// Servers An object holding information about servers included in Billing tier
-	Servers BillingServers `json:"servers"`
-	Usable  bool           `json:"usable"`
+	// Servers Generic structure for a resource with an included allotment, optional hard cap, and per-unit overage cost.
+	Servers ResourceAllowance `json:"servers"`
+	Usable  bool              `json:"usable"`
 }
 
 // TlsCertificate A TLS certificate.
@@ -13328,6 +13552,20 @@ type VirtualMachine struct {
 	Volumes *[]VirtualMachineVolume `json:"volumes,omitempty"`
 }
 
+// VirtualMachineAttachmentTypeIso Details of an ISO attachment for a virtual machine.
+type VirtualMachineAttachmentTypeIso struct {
+	Details struct {
+		// Url The URL of the ISO to download and attach to this virtual machine.
+		Url string `json:"url"`
+	} `json:"details"`
+
+	// Type The type of the attachment (iso)
+	Type VirtualMachineAttachmentTypeIsoType `json:"type"`
+}
+
+// VirtualMachineAttachmentTypeIsoType The type of the attachment (iso)
+type VirtualMachineAttachmentTypeIsoType string
+
 // VirtualMachineBaseImage Represents a virtual machine base OS image provided by Cycle.
 type VirtualMachineBaseImage struct {
 	// Description A detailed description of the base image.
@@ -13368,7 +13606,39 @@ type VirtualMachineConfig struct {
 
 	// Resources Defines the resource settings for a virtual machine, including CPU and RAM.
 	Resources VirtualMachineResourcesConfig `json:"resources"`
+
+	// Runtime Defines the runtime settings for a virtual machine.
+	Runtime *VirtualMachineRuntimeConfig `json:"runtime,omitempty"`
 }
+
+// VirtualMachineCpuConfigCustom Custom CPU selection with model and feature flags.
+type VirtualMachineCpuConfigCustom struct {
+	Details struct {
+		// FeatureFlags Additional CPU feature flags to enable. Will start with a "+" or "-" to include or exclude.
+		FeatureFlags *[]string `json:"feature_flags"`
+
+		// Model CPU model string (for example "Skylake-Client").
+		Model string `json:"model"`
+	} `json:"details"`
+
+	// Type Custom CPU definition.
+	Type VirtualMachineCpuConfigCustomType `json:"type"`
+}
+
+// VirtualMachineCpuConfigCustomType Custom CPU definition.
+type VirtualMachineCpuConfigCustomType string
+
+// VirtualMachineCpuConfigDefault Predefined CPU selection.
+type VirtualMachineCpuConfigDefault struct {
+	// Details An object with no properties.
+	Details map[string]interface{} `json:"details"`
+
+	// Type Predefined CPU type.
+	Type VirtualMachineCpuConfigDefaultType `json:"type"`
+}
+
+// VirtualMachineCpuConfigDefaultType Predefined CPU type.
+type VirtualMachineCpuConfigDefaultType string
 
 // VirtualMachineCpuResources Defines the CPU configuration of a virtual machine. Set **either** `cores` or `cpus`.
 type VirtualMachineCpuResources struct {
@@ -13422,6 +13692,25 @@ type VirtualMachineImageSourceBase struct {
 // VirtualMachineImageSourceBaseType defines model for VirtualMachineImageSourceBase.Type.
 type VirtualMachineImageSourceBaseType string
 
+// VirtualMachineImageSourceExternalVolume A virtual machine image sourced from a SAN target.
+type VirtualMachineImageSourceExternalVolume struct {
+	Details struct {
+		// Id A 24 character hex string used to identify a unique resource.
+		Id *ID `json:"id,omitempty"`
+
+		// Identifier A human-readable identifier used to refer to a resource, where using the official ID may be inconvenient.
+		// The identifier is automatically tokenized from the name/relevant field of the resource if one is not provided. For example, a container named "My Container" will
+		// have the identifier of `my-container` and is automatically created by the platform.
+		//
+		// The identifier does not have to be unique.
+		Identifier *Identifier `json:"identifier,omitempty"`
+	} `json:"details"`
+	Type VirtualMachineImageSourceExternalVolumeType `json:"type"`
+}
+
+// VirtualMachineImageSourceExternalVolumeType defines model for VirtualMachineImageSourceExternalVolume.Type.
+type VirtualMachineImageSourceExternalVolumeType string
+
 // VirtualMachineImageSourceIpxe A virtual machine image sourced from an IPXE script.
 type VirtualMachineImageSourceIpxe struct {
 	Details struct {
@@ -13436,21 +13725,6 @@ type VirtualMachineImageSourceIpxe struct {
 
 // VirtualMachineImageSourceIpxeType defines model for VirtualMachineImageSourceIpxe.Type.
 type VirtualMachineImageSourceIpxeType string
-
-// VirtualMachineImageSourceSan A virtual machine image sourced from a SAN target.
-type VirtualMachineImageSourceSan struct {
-	Details struct {
-		// LunNumber The LUN of the SAN target where the image is located.
-		LunNumber int `json:"lun_number"`
-
-		// TargetId A 24 character hex string used to identify a unique resource.
-		TargetId ID `json:"target_id"`
-	} `json:"details"`
-	Type VirtualMachineImageSourceSanType `json:"type"`
-}
-
-// VirtualMachineImageSourceSanType defines model for VirtualMachineImageSourceSan.Type.
-type VirtualMachineImageSourceSanType string
 
 // VirtualMachineImageSourceUrl A virtual machine image sourced from a URL.
 type VirtualMachineImageSourceUrl struct {
@@ -13572,17 +13846,8 @@ type VirtualMachineReconfigureVolumesAction struct {
 	// Action The action to take.
 	Action VirtualMachineReconfigureVolumesActionAction `json:"action"`
 
-	// Contents An array of volume objects to be reconfigured.
-	Contents []struct {
-		// Config Represents the configuration for a volume attached to a virtual machine.
-		Config VirtualMachineVolumeConfig `json:"config"`
-
-		// Hash A unique hash for the given volume.
-		Hash string `json:"hash"`
-
-		// Id A 24 character hex string used to identify a unique resource.
-		Id ID `json:"id"`
-	} `json:"contents"`
+	// Contents A map of volume objects where the key is the id and the value is the volume's config.
+	Contents map[string]VirtualMachineVolumeConfig `json:"contents"`
 }
 
 // VirtualMachineReconfigureVolumesActionAction The action to take.
@@ -13618,6 +13883,40 @@ type VirtualMachineRootPwChangeAction struct {
 
 // VirtualMachineRootPwChangeActionAction The action to take.
 type VirtualMachineRootPwChangeActionAction string
+
+// VirtualMachineRuntimeConfig Defines the runtime settings for a virtual machine.
+type VirtualMachineRuntimeConfig struct {
+	// Attach An array of attachments to 'plug in' to the virtual machine.
+	Attach *[]VirtualMachineRuntimeConfigAttachment `json:"attach"`
+
+	// Hardware Hardware parameters applied for VM runtime.
+	Hardware *VirtualMachineRuntimeConfigHardware `json:"hardware,omitempty"`
+
+	// OsFlavor The type of operating system that will be installed to the virtual machine. Allows for preconfigured settings, such as virtio-win drivers for Windows.
+	OsFlavor *string `json:"os_flavor,omitempty"`
+}
+
+// VirtualMachineRuntimeConfigAttachment Additional attachment (ISO, etc) added during runtime.
+type VirtualMachineRuntimeConfigAttachment struct {
+	union json.RawMessage
+}
+
+// VirtualMachineRuntimeConfigHardware Hardware parameters applied for VM runtime.
+type VirtualMachineRuntimeConfigHardware struct {
+	// Cpu CPU configuration for the VM. Discriminated by `type`.
+	Cpu VirtualMachineRuntimeConfigHardware_Cpu `json:"cpu"`
+
+	// MachineType QEMU machine type to emulate.
+	MachineType *VirtualMachineRuntimeConfigHardwareMachineType `json:"machine_type"`
+}
+
+// VirtualMachineRuntimeConfigHardware_Cpu CPU configuration for the VM. Discriminated by `type`.
+type VirtualMachineRuntimeConfigHardware_Cpu struct {
+	union json.RawMessage
+}
+
+// VirtualMachineRuntimeConfigHardwareMachineType QEMU machine type to emulate.
+type VirtualMachineRuntimeConfigHardwareMachineType string
 
 // VirtualMachineShutdownPolicy The shutdown policy defines how the virtual machine should handle shutdown, including a timeout and signals to be sent during shutdown.
 type VirtualMachineShutdownPolicy struct {
@@ -13778,6 +14077,12 @@ type VirtualMachineVolume struct {
 
 // VirtualMachineVolumeConfig Represents the configuration for a volume attached to a virtual machine.
 type VirtualMachineVolumeConfig struct {
+	// External Configuration details for a SAN volume.
+	External *struct {
+		// Id A 24 character hex string used to identify a unique resource.
+		Id *ID `json:"id,omitempty"`
+	} `json:"external,omitempty"`
+
 	// Identifier A human-readable identifier used to refer to a resource, where using the official ID may be inconvenient.
 	// The identifier is automatically tokenized from the name/relevant field of the resource if one is not provided. For example, a container named "My Container" will
 	// have the identifier of `my-container` and is automatically created by the platform.
@@ -13796,15 +14101,6 @@ type VirtualMachineVolumeConfig struct {
 
 	// ReadOnly Specifies if the volume is mounted as read-only.
 	ReadOnly bool `json:"read_only"`
-
-	// San Configuration details for a SAN volume.
-	San *struct {
-		// LunNumber The LUN for the SAN target to attach
-		LunNumber int `json:"lun_number"`
-
-		// TargetId A 24 character hex string used to identify a unique resource.
-		TargetId ID `json:"target_id"`
-	} `json:"san,omitempty"`
 }
 
 // VirtualProviderGenerateIsoAction defines model for VirtualProviderGenerateIsoAction.
@@ -14010,6 +14306,12 @@ type VolumeSummary struct {
 	// Config Configuration settings for container volumes.
 	Config ContainerVolume `json:"config"`
 
+	// External The ID of external volume, if applicable.
+	External *struct {
+		// Id A 24 character hex string used to identify a unique resource.
+		Id *ID `json:"id,omitempty"`
+	} `json:"external"`
+
 	// Hash A unique hash for the given volume.
 	Hash string `json:"hash"`
 
@@ -14038,6 +14340,9 @@ type VpnEnvironmentService struct {
 			// Webhook A webhook endpoint to hit. Will be passed the login credentials provided to the user, and should return a 200 status if the login is permitted.
 			Webhook *string `json:"webhook"`
 		} `json:"auth"`
+
+		// CustomDirectives Additional OpenVPN directives that will be appended to the server configuration on service start. Each line should follow standard OpenVPN syntax.
+		CustomDirectives *string `json:"custom_directives"`
 	} `json:"config"`
 
 	// ContainerId The ID of the VPN service container
@@ -14073,6 +14378,9 @@ type VpnReconfigureAction struct {
 				// Webhook A webhook endpoint to hit. Will be passed the login credentials provided to the user, and should return a 200 status if the login is permitted.
 				Webhook *string `json:"webhook"`
 			} `json:"auth,omitempty"`
+
+			// CustomDirectives Additional OpenVPN directives that will be appended to the server configuration on service start. Each line should follow standard OpenVPN syntax.
+			CustomDirectives *string `json:"custom_directives"`
 		} `json:"config"`
 
 		// Enable A boolean where true means the VPN service is enabled.
@@ -14986,8 +15294,8 @@ type LookupTLSCertificateParams struct {
 	// Domain The domain to lookup.
 	Domain string `form:"domain" json:"domain"`
 
-	// Wildcard Whether or not to lookup a *. wildcard certificate that would be applicable for this domain. For example, if you are looking for a certificate for x.test.com, setting this to true will identify a *.test.com certificate that would also be applicable.
-	Wildcard *bool `form:"wildcard,omitempty" json:"wildcard,omitempty"`
+	// Private If true, will include the private key, bundle, and/or CSR for this certificate. Requires the `dns-certs-view` capability.
+	Private *bool `form:"private,omitempty" json:"private,omitempty"`
 }
 
 // GetUserSuppliedCertificatesParams defines parameters for GetUserSuppliedCertificates.
@@ -15954,6 +16262,9 @@ type CreateImageJSONBody struct {
 	Build *struct {
 		// Args An object holding key value build time arguments needed for the Image during build time.
 		Args *map[string]string `json:"args,omitempty"`
+
+		// UseDisk If true, will skip using /dev/shm when building an image on factory. Allows for building much larger images.
+		UseDisk *bool `json:"use_disk,omitempty"`
 	} `json:"build,omitempty"`
 
 	// Name A name for the Image.
@@ -16209,6 +16520,163 @@ type UpdateClusterAccessJSONBody struct {
 	Acl *ACL `json:"acl"`
 }
 
+// GetExternalVolumesParams defines parameters for GetExternalVolumes.
+type GetExternalVolumesParams struct {
+	// Meta A comma separated list of meta values. Meta values will show up under a resource's `meta` field. In the case of applying a meta to a collection of resources, each resource will have it's own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.
+	Meta *[]GetExternalVolumesParamsMeta `form:"meta,omitempty" json:"meta,omitempty"`
+
+	// Include A comma-separated list of include values. Included resources will show up under the root document's `include` field.
+	// In the case of applying an include to a collection of resources, if multiple resources share the same include, it will only appear once in the return.
+	Include *[]GetExternalVolumesParamsInclude `form:"include,omitempty" json:"include,omitempty"`
+
+	// Filter The filter field is a key-value object, where the key is what you would like to filter, and the value is the value you're filtering for.
+	Filter *struct {
+		// Cluster `filter[search]=value` List only those attached volumes within the specified cluster.
+		Cluster *string `json:"cluster,omitempty"`
+
+		// Location `filter[location]=value` List only those attached volumes available at the specified location.
+		Location *string `json:"location,omitempty"`
+
+		// Server `filter[server-id]=value` List only those attached volumes attached to the specified server.
+		Server *string `json:"server,omitempty"`
+
+		// State `filter[state]=value1,value2` state filtering will allow you to filter by the attached volume's current state.
+		State *string `json:"state,omitempty"`
+	} `json:"filter,omitempty"`
+
+	// Sort An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
+
+	// Page In a list return, the data associated with the page number and size returned. 20 results per page, page 2 would be `page[size]=20&page[number]=2`
+	Page *PageParam `json:"page,omitempty"`
+}
+
+// GetExternalVolumesParamsMeta defines parameters for GetExternalVolumes.
+type GetExternalVolumesParamsMeta string
+
+// GetExternalVolumesParamsInclude defines parameters for GetExternalVolumes.
+type GetExternalVolumesParamsInclude string
+
+// CreateExternalVolumeJSONBody defines parameters for CreateExternalVolume.
+type CreateExternalVolumeJSONBody struct {
+	// About Additional details about the external volume.
+	About *struct {
+		// Description A custom description for this external volume.
+		Description string `json:"description"`
+	} `json:"about"`
+	Acl *ACL `json:"acl"`
+
+	// Attachment Attachment configuration for an external volume.
+	Attachment ExternalVolumeAttachment `json:"attachment"`
+
+	// Cluster The cluster this external volume is associated with.
+	Cluster string `json:"cluster"`
+
+	// Identifier A human-readable identifier used to refer to a resource, where using the official ID may be inconvenient.
+	// The identifier is automatically tokenized from the name/relevant field of the resource if one is not provided. For example, a container named "My Container" will
+	// have the identifier of `my-container` and is automatically created by the platform.
+	//
+	// The identifier does not have to be unique.
+	Identifier *Identifier `json:"identifier,omitempty"`
+
+	// LocationId A 24 character hex string used to identify a unique resource.
+	LocationId ID `json:"location_id"`
+
+	// Name A custom name for the external volume.
+	Name string `json:"name"`
+
+	// Options Configuration options controlling the behavior of the volume.
+	Options   ExternalVolumeOptions `json:"options"`
+	ServerIds []ID                  `json:"server_ids"`
+
+	// Source The source information for this volume.
+	Source ExternalVolumeSource `json:"source"`
+}
+
+// CreateExternalVolumeParams defines parameters for CreateExternalVolume.
+type CreateExternalVolumeParams struct {
+	// Meta A comma separated list of meta values. Meta values will show up under a resource's `meta` field. In the case of applying a meta to a collection of resources, each resource will have it's own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.
+	Meta *[]CreateExternalVolumeParamsMeta `form:"meta,omitempty" json:"meta,omitempty"`
+
+	// Include A comma-separated list of include values. Included resources will show up under the root document's `include` field.
+	// In the case of applying an include to a collection of resources, if multiple resources share the same include, it will only appear once in the return.
+	Include *[]CreateExternalVolumeParamsInclude `form:"include,omitempty" json:"include,omitempty"`
+}
+
+// CreateExternalVolumeParamsMeta defines parameters for CreateExternalVolume.
+type CreateExternalVolumeParamsMeta string
+
+// CreateExternalVolumeParamsInclude defines parameters for CreateExternalVolume.
+type CreateExternalVolumeParamsInclude string
+
+// DeleteExternalVolumeJSONBody defines parameters for DeleteExternalVolume.
+type DeleteExternalVolumeJSONBody struct {
+	Options *struct {
+		// SourceDevice If source device is set to true, this will delete the underlying source device.
+		SourceDevice *bool `json:"source_device,omitempty"`
+	} `json:"options,omitempty"`
+}
+
+// GetExternalVolumeParams defines parameters for GetExternalVolume.
+type GetExternalVolumeParams struct {
+	// Meta A comma-separated list of meta values. Meta values will show up under a resource's `meta` field.
+	// In the case of applying a meta to a collection of resources, each resource will have its own relevant meta data.
+	// In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.
+	Meta *[]GetExternalVolumeParamsMeta `form:"meta,omitempty" json:"meta,omitempty"`
+
+	// Include A comma-separated list of include values. Included resources will show up under the root document's `include` field.
+	// In the case of applying an include to a collection of resources, if multiple resources share the same include, it will only appear once in the return.
+	Include *[]GetExternalVolumeParamsInclude `form:"include,omitempty" json:"include,omitempty"`
+}
+
+// GetExternalVolumeParamsMeta defines parameters for GetExternalVolume.
+type GetExternalVolumeParamsMeta string
+
+// GetExternalVolumeParamsInclude defines parameters for GetExternalVolume.
+type GetExternalVolumeParamsInclude string
+
+// UpdateExternalVolumeJSONBody defines parameters for UpdateExternalVolume.
+type UpdateExternalVolumeJSONBody struct {
+	About *struct {
+		// Description Updated description for the attached volume.
+		Description *string `json:"description,omitempty"`
+	} `json:"about,omitempty"`
+
+	// Identifier A human-readable identifier used to refer to a resource, where using the official ID may be inconvenient.
+	// The identifier is automatically tokenized from the name/relevant field of the resource if one is not provided. For example, a container named "My Container" will
+	// have the identifier of `my-container` and is automatically created by the platform.
+	//
+	// The identifier does not have to be unique.
+	Identifier *Identifier `json:"identifier,omitempty"`
+
+	// Name The new name of the external volume.
+	Name *string `json:"name,omitempty"`
+
+	// Options Configuration options controlling the behavior of the volume.
+	Options *ExternalVolumeOptions `json:"options,omitempty"`
+}
+
+// UpdateExternalVolumeParams defines parameters for UpdateExternalVolume.
+type UpdateExternalVolumeParams struct {
+	// Meta A comma separated list of meta values. Meta values will show up under a resource's `meta` field. In the case of applying a meta to a collection of resources, each resource will have it's own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.
+	Meta *[]UpdateExternalVolumeParamsMeta `form:"meta,omitempty" json:"meta,omitempty"`
+
+	// Include A comma-separated list of include values. Included resources will show up under the root document's `include` field.
+	// In the case of applying an include to a collection of resources, if multiple resources share the same include, it will only appear once in the return.
+	Include *[]UpdateExternalVolumeParamsInclude `form:"include,omitempty" json:"include,omitempty"`
+}
+
+// UpdateExternalVolumeParamsMeta defines parameters for UpdateExternalVolume.
+type UpdateExternalVolumeParamsMeta string
+
+// UpdateExternalVolumeParamsInclude defines parameters for UpdateExternalVolume.
+type UpdateExternalVolumeParamsInclude string
+
+// UpdateExternalVolumeAccessJSONBody defines parameters for UpdateExternalVolumeAccess.
+type UpdateExternalVolumeAccessJSONBody struct {
+	Acl *ACL `json:"acl"`
+}
+
 // GetIpPoolsParams defines parameters for GetIpPools.
 type GetIpPoolsParams struct {
 	// Include A comma separated list of include values. Included resources will show up under the root document's `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.
@@ -16294,73 +16762,6 @@ type GetProviderServersParams struct {
 	} `json:"filter,omitempty"`
 }
 
-// GetSanLunsParams defines parameters for GetSanLuns.
-type GetSanLunsParams struct {
-	// Sort An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
-
-	// Page In a list return, the data associated with the page number and size returned. 20 results per page, page 2 would be `page[size]=20&page[number]=2`
-	Page *PageParam `json:"page,omitempty"`
-
-	// Filter The filter field is a key-value object, where the key is what you would like to filter, and the value is the value you're filtering for.
-	Filter *struct {
-		// Cluster Get only those SAN LUNs within the specified cluster.
-		Cluster *string `json:"cluster,omitempty"`
-
-		// Location Get only those SAN LUNs within the specified location.
-		Location *string `json:"location,omitempty"`
-
-		// Server Get only those SAN LUNs within the specified server.
-		Server *string `json:"server,omitempty"`
-
-		// State Get only those SAN LUNs with the specified state.
-		State *GetSanLunsParamsFilterState `json:"state,omitempty"`
-	} `json:"filter,omitempty"`
-
-	// Meta A comma separated list of meta values. Meta values will show up under a resource's `meta` field. In the case of applying a meta to a collection of resources, each resource will have it's own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.
-	Meta *[]GetSanLunsParamsMeta `form:"meta,omitempty" json:"meta,omitempty"`
-
-	// Include A comma-separated list of include values. Included resources will show up under the root document's `include` field.
-	// In the case of applying an include to a collection of resources, if multiple resources share the same include, it will only appear once in the return.
-	Include *[]GetSanLunsParamsInclude `form:"include,omitempty" json:"include,omitempty"`
-}
-
-// GetSanLunsParamsFilterState defines parameters for GetSanLuns.
-type GetSanLunsParamsFilterState string
-
-// GetSanLunsParamsMeta defines parameters for GetSanLuns.
-type GetSanLunsParamsMeta string
-
-// GetSanLunsParamsInclude defines parameters for GetSanLuns.
-type GetSanLunsParamsInclude string
-
-// GetSanTargetsParams defines parameters for GetSanTargets.
-type GetSanTargetsParams struct {
-	// Sort An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
-	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
-
-	// Page In a list return, the data associated with the page number and size returned. 20 results per page, page 2 would be `page[size]=20&page[number]=2`
-	Page *PageParam `json:"page,omitempty"`
-
-	// Filter The filter field is a key-value object, where the key is what you would like to filter, and the value is the value you're filtering for.
-	Filter *struct {
-		// Cluster Get only those SAN targets within the specified cluster.
-		Cluster *string `json:"cluster,omitempty"`
-
-		// Location Get only those SAN targets within the specified location.
-		Location *string `json:"location,omitempty"`
-
-		// Server Get only those SAN targets within the specified server.
-		Server *string `json:"server,omitempty"`
-
-		// State Get only those SAN targets with the specified state.
-		State *GetSanTargetsParamsFilterState `json:"state,omitempty"`
-	} `json:"filter,omitempty"`
-}
-
-// GetSanTargetsParamsFilterState defines parameters for GetSanTargets.
-type GetSanTargetsParamsFilterState string
-
 // GetServersParams defines parameters for GetServers.
 type GetServersParams struct {
 	// Meta A comma separated list of meta values. Meta values will show up under a resource's `meta` field. In the case of applying a meta to a collection of resources, each resource will have it's own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.
@@ -16373,6 +16774,9 @@ type GetServersParams struct {
 	Filter *struct {
 		// Cluster `filter[cluster]=clusterIdentifier` filtering by cluster.  Enter the cluster identifier and the return will include servers belonging to the specified cluster.
 		Cluster *string `json:"cluster,omitempty"`
+
+		// Location `filter[location]=location` filtering by location.  Enter the location id and the return will include servers belonging to the specified location.
+		Location *string `json:"location,omitempty"`
 
 		// Providers `filter[providers]=providerone,providertwo` filtering by provider.  Enter one or more providers (commas separated) and the return will include servers that match any providers in the list.
 		Providers *string `json:"providers,omitempty"`
@@ -16448,7 +16852,7 @@ type GetServerTagsParams struct {
 // DeleteServerJSONBody defines parameters for DeleteServer.
 type DeleteServerJSONBody struct {
 	Options *struct {
-		// Force If force is set to true, this will force delete the hub, even if there are servers running on it.
+		// Force If force is set to true, this will force delete the server, even if there are instances running on it.
 		Force *bool `json:"force,omitempty"`
 	} `json:"options,omitempty"`
 }
@@ -16961,7 +17365,7 @@ type CreatePipelineTriggerKeyJSONBody struct {
 	Ips *[]string `json:"ips,omitempty"`
 
 	// Name A name for the Trigger Key.
-	Name *string `json:"name,omitempty"`
+	Name string `json:"name"`
 }
 
 // UpdatePipelineTriggerKeyJSONBody defines parameters for UpdatePipelineTriggerKey.
@@ -17676,14 +18080,26 @@ type UpdateClusterAccessJSONRequestBody UpdateClusterAccessJSONBody
 // CreateClusterJobJSONRequestBody defines body for CreateClusterJob for application/json ContentType.
 type CreateClusterJobJSONRequestBody = ClusterTask
 
+// CreateExternalVolumeJSONRequestBody defines body for CreateExternalVolume for application/json ContentType.
+type CreateExternalVolumeJSONRequestBody CreateExternalVolumeJSONBody
+
+// DeleteExternalVolumeJSONRequestBody defines body for DeleteExternalVolume for application/json ContentType.
+type DeleteExternalVolumeJSONRequestBody DeleteExternalVolumeJSONBody
+
+// UpdateExternalVolumeJSONRequestBody defines body for UpdateExternalVolume for application/json ContentType.
+type UpdateExternalVolumeJSONRequestBody UpdateExternalVolumeJSONBody
+
+// UpdateExternalVolumeAccessJSONRequestBody defines body for UpdateExternalVolumeAccess for application/json ContentType.
+type UpdateExternalVolumeAccessJSONRequestBody UpdateExternalVolumeAccessJSONBody
+
+// CreateExternalVolumeJobJSONRequestBody defines body for CreateExternalVolumeJob for application/json ContentType.
+type CreateExternalVolumeJobJSONRequestBody = ExternalVolumeTask
+
 // CreateIpPoolJSONRequestBody defines body for CreateIpPool for application/json ContentType.
 type CreateIpPoolJSONRequestBody CreateIpPoolJSONBody
 
 // CreateIpPoolJobJSONRequestBody defines body for CreateIpPoolJob for application/json ContentType.
 type CreateIpPoolJobJSONRequestBody = IpPoolTask
-
-// CreateSanJobJSONRequestBody defines body for CreateSanJob for application/json ContentType.
-type CreateSanJobJSONRequestBody = SanTask
 
 // CreateServerJSONRequestBody defines body for CreateServer for application/json ContentType.
 type CreateServerJSONRequestBody CreateServerJSONBody
@@ -18734,6 +19150,273 @@ func (t EnvironmentTask) MarshalJSON() ([]byte, error) {
 }
 
 func (t *EnvironmentTask) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsExternalVolumeAttachmentBlock returns the union data inside the ExternalVolumeAttachment as a ExternalVolumeAttachmentBlock
+func (t ExternalVolumeAttachment) AsExternalVolumeAttachmentBlock() (ExternalVolumeAttachmentBlock, error) {
+	var body ExternalVolumeAttachmentBlock
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromExternalVolumeAttachmentBlock overwrites any union data inside the ExternalVolumeAttachment as the provided ExternalVolumeAttachmentBlock
+func (t *ExternalVolumeAttachment) FromExternalVolumeAttachmentBlock(v ExternalVolumeAttachmentBlock) error {
+	v.Type = "block"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeExternalVolumeAttachmentBlock performs a merge with any union data inside the ExternalVolumeAttachment, using the provided ExternalVolumeAttachmentBlock
+func (t *ExternalVolumeAttachment) MergeExternalVolumeAttachmentBlock(v ExternalVolumeAttachmentBlock) error {
+	v.Type = "block"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsExternalVolumeAttachmentFileSystem returns the union data inside the ExternalVolumeAttachment as a ExternalVolumeAttachmentFileSystem
+func (t ExternalVolumeAttachment) AsExternalVolumeAttachmentFileSystem() (ExternalVolumeAttachmentFileSystem, error) {
+	var body ExternalVolumeAttachmentFileSystem
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromExternalVolumeAttachmentFileSystem overwrites any union data inside the ExternalVolumeAttachment as the provided ExternalVolumeAttachmentFileSystem
+func (t *ExternalVolumeAttachment) FromExternalVolumeAttachmentFileSystem(v ExternalVolumeAttachmentFileSystem) error {
+	v.Type = "filesystem"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeExternalVolumeAttachmentFileSystem performs a merge with any union data inside the ExternalVolumeAttachment, using the provided ExternalVolumeAttachmentFileSystem
+func (t *ExternalVolumeAttachment) MergeExternalVolumeAttachmentFileSystem(v ExternalVolumeAttachmentFileSystem) error {
+	v.Type = "filesystem"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ExternalVolumeAttachment) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"type"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t ExternalVolumeAttachment) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "block":
+		return t.AsExternalVolumeAttachmentBlock()
+	case "filesystem":
+		return t.AsExternalVolumeAttachmentFileSystem()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t ExternalVolumeAttachment) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ExternalVolumeAttachment) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsSourceSanIscsi returns the union data inside the ExternalVolumeSource as a SourceSanIscsi
+func (t ExternalVolumeSource) AsSourceSanIscsi() (SourceSanIscsi, error) {
+	var body SourceSanIscsi
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSourceSanIscsi overwrites any union data inside the ExternalVolumeSource as the provided SourceSanIscsi
+func (t *ExternalVolumeSource) FromSourceSanIscsi(v SourceSanIscsi) error {
+	v.Type = "san-iscsi"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSourceSanIscsi performs a merge with any union data inside the ExternalVolumeSource, using the provided SourceSanIscsi
+func (t *ExternalVolumeSource) MergeSourceSanIscsi(v SourceSanIscsi) error {
+	v.Type = "san-iscsi"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSourceCephRbd returns the union data inside the ExternalVolumeSource as a SourceCephRbd
+func (t ExternalVolumeSource) AsSourceCephRbd() (SourceCephRbd, error) {
+	var body SourceCephRbd
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSourceCephRbd overwrites any union data inside the ExternalVolumeSource as the provided SourceCephRbd
+func (t *ExternalVolumeSource) FromSourceCephRbd(v SourceCephRbd) error {
+	v.Type = "ceph-rbd"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSourceCephRbd performs a merge with any union data inside the ExternalVolumeSource, using the provided SourceCephRbd
+func (t *ExternalVolumeSource) MergeSourceCephRbd(v SourceCephRbd) error {
+	v.Type = "ceph-rbd"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsSourceAwsEbs returns the union data inside the ExternalVolumeSource as a SourceAwsEbs
+func (t ExternalVolumeSource) AsSourceAwsEbs() (SourceAwsEbs, error) {
+	var body SourceAwsEbs
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromSourceAwsEbs overwrites any union data inside the ExternalVolumeSource as the provided SourceAwsEbs
+func (t *ExternalVolumeSource) FromSourceAwsEbs(v SourceAwsEbs) error {
+	v.Type = "aws-ebs"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeSourceAwsEbs performs a merge with any union data inside the ExternalVolumeSource, using the provided SourceAwsEbs
+func (t *ExternalVolumeSource) MergeSourceAwsEbs(v SourceAwsEbs) error {
+	v.Type = "aws-ebs"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ExternalVolumeSource) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"type"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t ExternalVolumeSource) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "aws-ebs":
+		return t.AsSourceAwsEbs()
+	case "ceph-rbd":
+		return t.AsSourceCephRbd()
+	case "san-iscsi":
+		return t.AsSourceSanIscsi()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t ExternalVolumeSource) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ExternalVolumeSource) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsExternalVolumeServersReconfigureAction returns the union data inside the ExternalVolumeTask as a ExternalVolumeServersReconfigureAction
+func (t ExternalVolumeTask) AsExternalVolumeServersReconfigureAction() (ExternalVolumeServersReconfigureAction, error) {
+	var body ExternalVolumeServersReconfigureAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromExternalVolumeServersReconfigureAction overwrites any union data inside the ExternalVolumeTask as the provided ExternalVolumeServersReconfigureAction
+func (t *ExternalVolumeTask) FromExternalVolumeServersReconfigureAction(v ExternalVolumeServersReconfigureAction) error {
+	v.Action = "servers.reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeExternalVolumeServersReconfigureAction performs a merge with any union data inside the ExternalVolumeTask, using the provided ExternalVolumeServersReconfigureAction
+func (t *ExternalVolumeTask) MergeExternalVolumeServersReconfigureAction(v ExternalVolumeServersReconfigureAction) error {
+	v.Action = "servers.reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ExternalVolumeTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t ExternalVolumeTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "servers.reconfigure":
+		return t.AsExternalVolumeServersReconfigureAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t ExternalVolumeTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ExternalVolumeTask) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -21033,65 +21716,6 @@ func (t RepoType_Auth) MarshalJSON() ([]byte, error) {
 }
 
 func (t *RepoType_Auth) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsSanSyncTask returns the union data inside the SanTask as a SanSyncTask
-func (t SanTask) AsSanSyncTask() (SanSyncTask, error) {
-	var body SanSyncTask
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromSanSyncTask overwrites any union data inside the SanTask as the provided SanSyncTask
-func (t *SanTask) FromSanSyncTask(v SanSyncTask) error {
-	v.Action = "sync"
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeSanSyncTask performs a merge with any union data inside the SanTask, using the provided SanSyncTask
-func (t *SanTask) MergeSanSyncTask(v SanSyncTask) error {
-	v.Action = "sync"
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t SanTask) Discriminator() (string, error) {
-	var discriminator struct {
-		Discriminator string `json:"action"`
-	}
-	err := json.Unmarshal(t.union, &discriminator)
-	return discriminator.Discriminator, err
-}
-
-func (t SanTask) ValueByDiscriminator() (interface{}, error) {
-	discriminator, err := t.Discriminator()
-	if err != nil {
-		return nil, err
-	}
-	switch discriminator {
-	case "sync":
-		return t.AsSanSyncTask()
-	default:
-		return nil, errors.New("unknown discriminator value: " + discriminator)
-	}
-}
-
-func (t SanTask) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *SanTask) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -26208,24 +26832,24 @@ func (t *VirtualMachineImage) MergeVirtualMachineImageSourceBase(v VirtualMachin
 	return err
 }
 
-// AsVirtualMachineImageSourceSan returns the union data inside the VirtualMachineImage as a VirtualMachineImageSourceSan
-func (t VirtualMachineImage) AsVirtualMachineImageSourceSan() (VirtualMachineImageSourceSan, error) {
-	var body VirtualMachineImageSourceSan
+// AsVirtualMachineImageSourceExternalVolume returns the union data inside the VirtualMachineImage as a VirtualMachineImageSourceExternalVolume
+func (t VirtualMachineImage) AsVirtualMachineImageSourceExternalVolume() (VirtualMachineImageSourceExternalVolume, error) {
+	var body VirtualMachineImageSourceExternalVolume
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromVirtualMachineImageSourceSan overwrites any union data inside the VirtualMachineImage as the provided VirtualMachineImageSourceSan
-func (t *VirtualMachineImage) FromVirtualMachineImageSourceSan(v VirtualMachineImageSourceSan) error {
-	v.Type = "san"
+// FromVirtualMachineImageSourceExternalVolume overwrites any union data inside the VirtualMachineImage as the provided VirtualMachineImageSourceExternalVolume
+func (t *VirtualMachineImage) FromVirtualMachineImageSourceExternalVolume(v VirtualMachineImageSourceExternalVolume) error {
+	v.Type = "external-volume"
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeVirtualMachineImageSourceSan performs a merge with any union data inside the VirtualMachineImage, using the provided VirtualMachineImageSourceSan
-func (t *VirtualMachineImage) MergeVirtualMachineImageSourceSan(v VirtualMachineImageSourceSan) error {
-	v.Type = "san"
+// MergeVirtualMachineImageSourceExternalVolume performs a merge with any union data inside the VirtualMachineImage, using the provided VirtualMachineImageSourceExternalVolume
+func (t *VirtualMachineImage) MergeVirtualMachineImageSourceExternalVolume(v VirtualMachineImageSourceExternalVolume) error {
+	v.Type = "external-volume"
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -26252,10 +26876,10 @@ func (t VirtualMachineImage) ValueByDiscriminator() (interface{}, error) {
 	switch discriminator {
 	case "base":
 		return t.AsVirtualMachineImageSourceBase()
+	case "external-volume":
+		return t.AsVirtualMachineImageSourceExternalVolume()
 	case "ipxe":
 		return t.AsVirtualMachineImageSourceIpxe()
-	case "san":
-		return t.AsVirtualMachineImageSourceSan()
 	case "url":
 		return t.AsVirtualMachineImageSourceUrl()
 	default:
@@ -26269,6 +26893,154 @@ func (t VirtualMachineImage) MarshalJSON() ([]byte, error) {
 }
 
 func (t *VirtualMachineImage) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsVirtualMachineAttachmentTypeIso returns the union data inside the VirtualMachineRuntimeConfigAttachment as a VirtualMachineAttachmentTypeIso
+func (t VirtualMachineRuntimeConfigAttachment) AsVirtualMachineAttachmentTypeIso() (VirtualMachineAttachmentTypeIso, error) {
+	var body VirtualMachineAttachmentTypeIso
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachineAttachmentTypeIso overwrites any union data inside the VirtualMachineRuntimeConfigAttachment as the provided VirtualMachineAttachmentTypeIso
+func (t *VirtualMachineRuntimeConfigAttachment) FromVirtualMachineAttachmentTypeIso(v VirtualMachineAttachmentTypeIso) error {
+	v.Type = "iso"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachineAttachmentTypeIso performs a merge with any union data inside the VirtualMachineRuntimeConfigAttachment, using the provided VirtualMachineAttachmentTypeIso
+func (t *VirtualMachineRuntimeConfigAttachment) MergeVirtualMachineAttachmentTypeIso(v VirtualMachineAttachmentTypeIso) error {
+	v.Type = "iso"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t VirtualMachineRuntimeConfigAttachment) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"type"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t VirtualMachineRuntimeConfigAttachment) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "iso":
+		return t.AsVirtualMachineAttachmentTypeIso()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t VirtualMachineRuntimeConfigAttachment) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *VirtualMachineRuntimeConfigAttachment) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsVirtualMachineCpuConfigDefault returns the union data inside the VirtualMachineRuntimeConfigHardware_Cpu as a VirtualMachineCpuConfigDefault
+func (t VirtualMachineRuntimeConfigHardware_Cpu) AsVirtualMachineCpuConfigDefault() (VirtualMachineCpuConfigDefault, error) {
+	var body VirtualMachineCpuConfigDefault
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachineCpuConfigDefault overwrites any union data inside the VirtualMachineRuntimeConfigHardware_Cpu as the provided VirtualMachineCpuConfigDefault
+func (t *VirtualMachineRuntimeConfigHardware_Cpu) FromVirtualMachineCpuConfigDefault(v VirtualMachineCpuConfigDefault) error {
+	v.Type = "host"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachineCpuConfigDefault performs a merge with any union data inside the VirtualMachineRuntimeConfigHardware_Cpu, using the provided VirtualMachineCpuConfigDefault
+func (t *VirtualMachineRuntimeConfigHardware_Cpu) MergeVirtualMachineCpuConfigDefault(v VirtualMachineCpuConfigDefault) error {
+	v.Type = "host"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVirtualMachineCpuConfigCustom returns the union data inside the VirtualMachineRuntimeConfigHardware_Cpu as a VirtualMachineCpuConfigCustom
+func (t VirtualMachineRuntimeConfigHardware_Cpu) AsVirtualMachineCpuConfigCustom() (VirtualMachineCpuConfigCustom, error) {
+	var body VirtualMachineCpuConfigCustom
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachineCpuConfigCustom overwrites any union data inside the VirtualMachineRuntimeConfigHardware_Cpu as the provided VirtualMachineCpuConfigCustom
+func (t *VirtualMachineRuntimeConfigHardware_Cpu) FromVirtualMachineCpuConfigCustom(v VirtualMachineCpuConfigCustom) error {
+	v.Type = "custom"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachineCpuConfigCustom performs a merge with any union data inside the VirtualMachineRuntimeConfigHardware_Cpu, using the provided VirtualMachineCpuConfigCustom
+func (t *VirtualMachineRuntimeConfigHardware_Cpu) MergeVirtualMachineCpuConfigCustom(v VirtualMachineCpuConfigCustom) error {
+	v.Type = "custom"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t VirtualMachineRuntimeConfigHardware_Cpu) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"type"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t VirtualMachineRuntimeConfigHardware_Cpu) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "custom":
+		return t.AsVirtualMachineCpuConfigCustom()
+	case "host":
+		return t.AsVirtualMachineCpuConfigDefault()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t VirtualMachineRuntimeConfigHardware_Cpu) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *VirtualMachineRuntimeConfigHardware_Cpu) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -27429,6 +28201,40 @@ type ClientInterface interface {
 	// GetDeploymentStrategies request
 	GetDeploymentStrategies(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetExternalVolumes request
+	GetExternalVolumes(ctx context.Context, params *GetExternalVolumesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateExternalVolumeWithBody request with any body
+	CreateExternalVolumeWithBody(ctx context.Context, params *CreateExternalVolumeParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateExternalVolume(ctx context.Context, params *CreateExternalVolumeParams, body CreateExternalVolumeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetExternalVolumeSources request
+	GetExternalVolumeSources(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteExternalVolumeWithBody request with any body
+	DeleteExternalVolumeWithBody(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	DeleteExternalVolume(ctx context.Context, externalVolumeId string, body DeleteExternalVolumeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetExternalVolume request
+	GetExternalVolume(ctx context.Context, externalVolumeId string, params *GetExternalVolumeParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UpdateExternalVolumeWithBody request with any body
+	UpdateExternalVolumeWithBody(ctx context.Context, externalVolumeId string, params *UpdateExternalVolumeParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UpdateExternalVolume(ctx context.Context, externalVolumeId string, params *UpdateExternalVolumeParams, body UpdateExternalVolumeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UpdateExternalVolumeAccessWithBody request with any body
+	UpdateExternalVolumeAccessWithBody(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UpdateExternalVolumeAccess(ctx context.Context, externalVolumeId string, body UpdateExternalVolumeAccessJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateExternalVolumeJobWithBody request with any body
+	CreateExternalVolumeJobWithBody(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateExternalVolumeJob(ctx context.Context, externalVolumeId string, body CreateExternalVolumeJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetIpPools request
 	GetIpPools(ctx context.Context, params *GetIpPoolsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -27459,17 +28265,6 @@ type ClientInterface interface {
 
 	// GetProviderServers request
 	GetProviderServers(ctx context.Context, providerVendor string, params *GetProviderServersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetSanLuns request
-	GetSanLuns(ctx context.Context, params *GetSanLunsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// GetSanTargets request
-	GetSanTargets(ctx context.Context, params *GetSanTargetsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	// CreateSanJobWithBody request with any body
-	CreateSanJobWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
-
-	CreateSanJob(ctx context.Context, body CreateSanJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetServers request
 	GetServers(ctx context.Context, params *GetServersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -30729,6 +31524,162 @@ func (c *Client) GetDeploymentStrategies(ctx context.Context, reqEditors ...Requ
 	return c.Client.Do(req)
 }
 
+func (c *Client) GetExternalVolumes(ctx context.Context, params *GetExternalVolumesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetExternalVolumesRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateExternalVolumeWithBody(ctx context.Context, params *CreateExternalVolumeParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateExternalVolumeRequestWithBody(c.Server, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateExternalVolume(ctx context.Context, params *CreateExternalVolumeParams, body CreateExternalVolumeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateExternalVolumeRequest(c.Server, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetExternalVolumeSources(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetExternalVolumeSourcesRequest(c.Server)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteExternalVolumeWithBody(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteExternalVolumeRequestWithBody(c.Server, externalVolumeId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteExternalVolume(ctx context.Context, externalVolumeId string, body DeleteExternalVolumeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteExternalVolumeRequest(c.Server, externalVolumeId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetExternalVolume(ctx context.Context, externalVolumeId string, params *GetExternalVolumeParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetExternalVolumeRequest(c.Server, externalVolumeId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateExternalVolumeWithBody(ctx context.Context, externalVolumeId string, params *UpdateExternalVolumeParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateExternalVolumeRequestWithBody(c.Server, externalVolumeId, params, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateExternalVolume(ctx context.Context, externalVolumeId string, params *UpdateExternalVolumeParams, body UpdateExternalVolumeJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateExternalVolumeRequest(c.Server, externalVolumeId, params, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateExternalVolumeAccessWithBody(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateExternalVolumeAccessRequestWithBody(c.Server, externalVolumeId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateExternalVolumeAccess(ctx context.Context, externalVolumeId string, body UpdateExternalVolumeAccessJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateExternalVolumeAccessRequest(c.Server, externalVolumeId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateExternalVolumeJobWithBody(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateExternalVolumeJobRequestWithBody(c.Server, externalVolumeId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateExternalVolumeJob(ctx context.Context, externalVolumeId string, body CreateExternalVolumeJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateExternalVolumeJobRequest(c.Server, externalVolumeId, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) GetIpPools(ctx context.Context, params *GetIpPoolsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetIpPoolsRequest(c.Server, params)
 	if err != nil {
@@ -30851,54 +31802,6 @@ func (c *Client) GetProviderLocations(ctx context.Context, providerVendor string
 
 func (c *Client) GetProviderServers(ctx context.Context, providerVendor string, params *GetProviderServersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetProviderServersRequest(c.Server, providerVendor, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetSanLuns(ctx context.Context, params *GetSanLunsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetSanLunsRequest(c.Server, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) GetSanTargets(ctx context.Context, params *GetSanTargetsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetSanTargetsRequest(c.Server, params)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) CreateSanJobWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreateSanJobRequestWithBody(c.Server, contentType, body)
-	if err != nil {
-		return nil, err
-	}
-	req = req.WithContext(ctx)
-	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
-		return nil, err
-	}
-	return c.Client.Do(req)
-}
-
-func (c *Client) CreateSanJob(ctx context.Context, body CreateSanJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreateSanJobRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -36277,9 +37180,9 @@ func NewLookupTLSCertificateRequest(server string, params *LookupTLSCertificateP
 			}
 		}
 
-		if params.Wildcard != nil {
+		if params.Private != nil {
 
-			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "wildcard", runtime.ParamLocationQuery, *params.Wildcard); err != nil {
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "private", runtime.ParamLocationQuery, *params.Private); err != nil {
 				return nil, err
 			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
 				return nil, err
@@ -42100,6 +43003,522 @@ func NewGetDeploymentStrategiesRequest(server string) (*http.Request, error) {
 	return req, nil
 }
 
+// NewGetExternalVolumesRequest generates requests for GetExternalVolumes
+func NewGetExternalVolumesRequest(server string, params *GetExternalVolumesParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/external-volumes")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Meta != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "meta", runtime.ParamLocationQuery, *params.Meta); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Include != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "include", runtime.ParamLocationQuery, *params.Include); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Filter != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "filter", runtime.ParamLocationQuery, *params.Filter); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Sort != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "sort", runtime.ParamLocationQuery, *params.Sort); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Page != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "page", runtime.ParamLocationQuery, *params.Page); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCreateExternalVolumeRequest calls the generic CreateExternalVolume builder with application/json body
+func NewCreateExternalVolumeRequest(server string, params *CreateExternalVolumeParams, body CreateExternalVolumeJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateExternalVolumeRequestWithBody(server, params, "application/json", bodyReader)
+}
+
+// NewCreateExternalVolumeRequestWithBody generates requests for CreateExternalVolume with any type of body
+func NewCreateExternalVolumeRequestWithBody(server string, params *CreateExternalVolumeParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/external-volumes")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Meta != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "meta", runtime.ParamLocationQuery, *params.Meta); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Include != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "include", runtime.ParamLocationQuery, *params.Include); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetExternalVolumeSourcesRequest generates requests for GetExternalVolumeSources
+func NewGetExternalVolumeSourcesRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/external-volumes/sources")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewDeleteExternalVolumeRequest calls the generic DeleteExternalVolume builder with application/json body
+func NewDeleteExternalVolumeRequest(server string, externalVolumeId string, body DeleteExternalVolumeJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewDeleteExternalVolumeRequestWithBody(server, externalVolumeId, "application/json", bodyReader)
+}
+
+// NewDeleteExternalVolumeRequestWithBody generates requests for DeleteExternalVolume with any type of body
+func NewDeleteExternalVolumeRequestWithBody(server string, externalVolumeId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "externalVolumeId", runtime.ParamLocationPath, externalVolumeId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/external-volumes/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetExternalVolumeRequest generates requests for GetExternalVolume
+func NewGetExternalVolumeRequest(server string, externalVolumeId string, params *GetExternalVolumeParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "externalVolumeId", runtime.ParamLocationPath, externalVolumeId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/external-volumes/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Meta != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "meta", runtime.ParamLocationQuery, *params.Meta); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Include != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "include", runtime.ParamLocationQuery, *params.Include); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewUpdateExternalVolumeRequest calls the generic UpdateExternalVolume builder with application/json body
+func NewUpdateExternalVolumeRequest(server string, externalVolumeId string, params *UpdateExternalVolumeParams, body UpdateExternalVolumeJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUpdateExternalVolumeRequestWithBody(server, externalVolumeId, params, "application/json", bodyReader)
+}
+
+// NewUpdateExternalVolumeRequestWithBody generates requests for UpdateExternalVolume with any type of body
+func NewUpdateExternalVolumeRequestWithBody(server string, externalVolumeId string, params *UpdateExternalVolumeParams, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "externalVolumeId", runtime.ParamLocationPath, externalVolumeId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/external-volumes/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Meta != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "meta", runtime.ParamLocationQuery, *params.Meta); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Include != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "include", runtime.ParamLocationQuery, *params.Include); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewUpdateExternalVolumeAccessRequest calls the generic UpdateExternalVolumeAccess builder with application/json body
+func NewUpdateExternalVolumeAccessRequest(server string, externalVolumeId string, body UpdateExternalVolumeAccessJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUpdateExternalVolumeAccessRequestWithBody(server, externalVolumeId, "application/json", bodyReader)
+}
+
+// NewUpdateExternalVolumeAccessRequestWithBody generates requests for UpdateExternalVolumeAccess with any type of body
+func NewUpdateExternalVolumeAccessRequestWithBody(server string, externalVolumeId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "externalVolumeId", runtime.ParamLocationPath, externalVolumeId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/external-volumes/%s/access", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PATCH", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCreateExternalVolumeJobRequest calls the generic CreateExternalVolumeJob builder with application/json body
+func NewCreateExternalVolumeJobRequest(server string, externalVolumeId string, body CreateExternalVolumeJobJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateExternalVolumeJobRequestWithBody(server, externalVolumeId, "application/json", bodyReader)
+}
+
+// NewCreateExternalVolumeJobRequestWithBody generates requests for CreateExternalVolumeJob with any type of body
+func NewCreateExternalVolumeJobRequestWithBody(server string, externalVolumeId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "externalVolumeId", runtime.ParamLocationPath, externalVolumeId)
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/external-volumes/%s/tasks", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewGetIpPoolsRequest generates requests for GetIpPools
 func NewGetIpPoolsRequest(server string, params *GetIpPoolsParams) (*http.Request, error) {
 	var err error
@@ -42591,240 +44010,6 @@ func NewGetProviderServersRequest(server string, providerVendor string, params *
 	if err != nil {
 		return nil, err
 	}
-
-	return req, nil
-}
-
-// NewGetSanLunsRequest generates requests for GetSanLuns
-func NewGetSanLunsRequest(server string, params *GetSanLunsParams) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/infrastructure/san/luns")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	if params != nil {
-		queryValues := queryURL.Query()
-
-		if params.Sort != nil {
-
-			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "sort", runtime.ParamLocationQuery, *params.Sort); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Page != nil {
-
-			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "page", runtime.ParamLocationQuery, *params.Page); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Filter != nil {
-
-			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "filter", runtime.ParamLocationQuery, *params.Filter); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Meta != nil {
-
-			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "meta", runtime.ParamLocationQuery, *params.Meta); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Include != nil {
-
-			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "include", runtime.ParamLocationQuery, *params.Include); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		queryURL.RawQuery = queryValues.Encode()
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewGetSanTargetsRequest generates requests for GetSanTargets
-func NewGetSanTargetsRequest(server string, params *GetSanTargetsParams) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/infrastructure/san/targets")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	if params != nil {
-		queryValues := queryURL.Query()
-
-		if params.Sort != nil {
-
-			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "sort", runtime.ParamLocationQuery, *params.Sort); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Page != nil {
-
-			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "page", runtime.ParamLocationQuery, *params.Page); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		if params.Filter != nil {
-
-			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "filter", runtime.ParamLocationQuery, *params.Filter); err != nil {
-				return nil, err
-			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
-				return nil, err
-			} else {
-				for k, v := range parsed {
-					for _, v2 := range v {
-						queryValues.Add(k, v2)
-					}
-				}
-			}
-
-		}
-
-		queryURL.RawQuery = queryValues.Encode()
-	}
-
-	req, err := http.NewRequest("GET", queryURL.String(), nil)
-	if err != nil {
-		return nil, err
-	}
-
-	return req, nil
-}
-
-// NewCreateSanJobRequest calls the generic CreateSanJob builder with application/json body
-func NewCreateSanJobRequest(server string, body CreateSanJobJSONRequestBody) (*http.Request, error) {
-	var bodyReader io.Reader
-	buf, err := json.Marshal(body)
-	if err != nil {
-		return nil, err
-	}
-	bodyReader = bytes.NewReader(buf)
-	return NewCreateSanJobRequestWithBody(server, "application/json", bodyReader)
-}
-
-// NewCreateSanJobRequestWithBody generates requests for CreateSanJob with any type of body
-func NewCreateSanJobRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
-	var err error
-
-	serverURL, err := url.Parse(server)
-	if err != nil {
-		return nil, err
-	}
-
-	operationPath := fmt.Sprintf("/v1/infrastructure/san/tasks")
-	if operationPath[0] == '/' {
-		operationPath = "." + operationPath
-	}
-
-	queryURL, err := serverURL.Parse(operationPath)
-	if err != nil {
-		return nil, err
-	}
-
-	req, err := http.NewRequest("POST", queryURL.String(), body)
-	if err != nil {
-		return nil, err
-	}
-
-	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -48046,6 +49231,40 @@ type ClientWithResponsesInterface interface {
 	// GetDeploymentStrategiesWithResponse request
 	GetDeploymentStrategiesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetDeploymentStrategiesResponse, error)
 
+	// GetExternalVolumesWithResponse request
+	GetExternalVolumesWithResponse(ctx context.Context, params *GetExternalVolumesParams, reqEditors ...RequestEditorFn) (*GetExternalVolumesResponse, error)
+
+	// CreateExternalVolumeWithBodyWithResponse request with any body
+	CreateExternalVolumeWithBodyWithResponse(ctx context.Context, params *CreateExternalVolumeParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateExternalVolumeResponse, error)
+
+	CreateExternalVolumeWithResponse(ctx context.Context, params *CreateExternalVolumeParams, body CreateExternalVolumeJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateExternalVolumeResponse, error)
+
+	// GetExternalVolumeSourcesWithResponse request
+	GetExternalVolumeSourcesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetExternalVolumeSourcesResponse, error)
+
+	// DeleteExternalVolumeWithBodyWithResponse request with any body
+	DeleteExternalVolumeWithBodyWithResponse(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteExternalVolumeResponse, error)
+
+	DeleteExternalVolumeWithResponse(ctx context.Context, externalVolumeId string, body DeleteExternalVolumeJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteExternalVolumeResponse, error)
+
+	// GetExternalVolumeWithResponse request
+	GetExternalVolumeWithResponse(ctx context.Context, externalVolumeId string, params *GetExternalVolumeParams, reqEditors ...RequestEditorFn) (*GetExternalVolumeResponse, error)
+
+	// UpdateExternalVolumeWithBodyWithResponse request with any body
+	UpdateExternalVolumeWithBodyWithResponse(ctx context.Context, externalVolumeId string, params *UpdateExternalVolumeParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateExternalVolumeResponse, error)
+
+	UpdateExternalVolumeWithResponse(ctx context.Context, externalVolumeId string, params *UpdateExternalVolumeParams, body UpdateExternalVolumeJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateExternalVolumeResponse, error)
+
+	// UpdateExternalVolumeAccessWithBodyWithResponse request with any body
+	UpdateExternalVolumeAccessWithBodyWithResponse(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateExternalVolumeAccessResponse, error)
+
+	UpdateExternalVolumeAccessWithResponse(ctx context.Context, externalVolumeId string, body UpdateExternalVolumeAccessJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateExternalVolumeAccessResponse, error)
+
+	// CreateExternalVolumeJobWithBodyWithResponse request with any body
+	CreateExternalVolumeJobWithBodyWithResponse(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateExternalVolumeJobResponse, error)
+
+	CreateExternalVolumeJobWithResponse(ctx context.Context, externalVolumeId string, body CreateExternalVolumeJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateExternalVolumeJobResponse, error)
+
 	// GetIpPoolsWithResponse request
 	GetIpPoolsWithResponse(ctx context.Context, params *GetIpPoolsParams, reqEditors ...RequestEditorFn) (*GetIpPoolsResponse, error)
 
@@ -48076,17 +49295,6 @@ type ClientWithResponsesInterface interface {
 
 	// GetProviderServersWithResponse request
 	GetProviderServersWithResponse(ctx context.Context, providerVendor string, params *GetProviderServersParams, reqEditors ...RequestEditorFn) (*GetProviderServersResponse, error)
-
-	// GetSanLunsWithResponse request
-	GetSanLunsWithResponse(ctx context.Context, params *GetSanLunsParams, reqEditors ...RequestEditorFn) (*GetSanLunsResponse, error)
-
-	// GetSanTargetsWithResponse request
-	GetSanTargetsWithResponse(ctx context.Context, params *GetSanTargetsParams, reqEditors ...RequestEditorFn) (*GetSanTargetsResponse, error)
-
-	// CreateSanJobWithBodyWithResponse request with any body
-	CreateSanJobWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateSanJobResponse, error)
-
-	CreateSanJobWithResponse(ctx context.Context, body CreateSanJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateSanJobResponse, error)
 
 	// GetServersWithResponse request
 	GetServersWithResponse(ctx context.Context, params *GetServersParams, reqEditors ...RequestEditorFn) (*GetServersResponse, error)
@@ -50158,34 +51366,47 @@ type LookupTLSCertificateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *struct {
-		// Data A DNS TLS certificate.
 		Data struct {
-			// Bundle The certificate bundle
-			Bundle string `json:"bundle"`
+			Bundle *string `json:"bundle,omitempty"`
+			Csr    *string `json:"csr,omitempty"`
 
 			// Domains A list of domains associated with the certificate.
 			Domains []string `json:"domains"`
 
-			// Events A collection of timestamps for each event in the certificate's lifetime.
+			// Events A collection of timestamps for each event in the TLS certificate's lifetime.
 			Events struct {
-				Created   *DateTime `json:"created,omitempty"`
-				Deleted   *DateTime `json:"deleted,omitempty"`
-				Generated *DateTime `json:"generated,omitempty"`
-				Updated   *DateTime `json:"updated,omitempty"`
+				Created   DateTime `json:"created"`
+				Deleted   DateTime `json:"deleted"`
+				Generated DateTime `json:"generated"`
+				Updated   DateTime `json:"updated"`
 			} `json:"events"`
-
-			// HubId The unique ID of the Hub this resource was created in.
-			HubId HubID `json:"hub_id"`
+			Expires DateTime `json:"expires"`
+			HubId   *ID      `json:"hub_id"`
 
 			// Id A 24 character hex string used to identify a unique resource.
-			Id ID `json:"id"`
+			Id         ID      `json:"id"`
+			PrivateKey *string `json:"private_key,omitempty"`
+			State      struct {
+				Changed DateTime `json:"changed"`
 
-			// PrivateKey The private key for the certificate
-			PrivateKey string `json:"private_key"`
+				// Current The current state of the TLS certificate.
+				Current LookupTLSCertificate200DataStateCurrent `json:"current"`
+
+				// Error An error, if any, that has occurred for this resource.
+				Error *struct {
+					// Message Details about the error that has occurred.
+					Message *string   `json:"message,omitempty"`
+					Time    *DateTime `json:"time,omitempty"`
+				} `json:"error,omitempty"`
+			} `json:"state"`
+
+			// UserSupplied Whether or not this certificate was uploaded instead of generated by the platform.
+			UserSupplied bool `json:"user_supplied"`
 		} `json:"data"`
 	}
 	JSONDefault *DefaultError
 }
+type LookupTLSCertificate200DataStateCurrent string
 
 // Status returns HTTPResponse.Status
 func (r LookupTLSCertificateResponse) Status() string {
@@ -53153,6 +54374,230 @@ func (r GetDeploymentStrategiesResponse) StatusCode() int {
 	return 0
 }
 
+type GetExternalVolumesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Data []ExternalVolume `json:"data"`
+
+		// Includes All includable resources linked to the given external volume.
+		Includes *ExternalVolumeIncludes `json:"includes,omitempty"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetExternalVolumesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetExternalVolumesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreateExternalVolumeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *struct {
+		// Data A persistent storage volume within a cluster. Volumes may be attached to containers or VMs and can originate from different storage sources.
+		Data ExternalVolume `json:"data"`
+
+		// Includes All includable resources linked to the given external volume.
+		Includes *ExternalVolumeIncludes `json:"includes,omitempty"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateExternalVolumeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateExternalVolumeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetExternalVolumeSourcesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Data map[string]struct {
+			// Capabilities Map where keys are attachment types and values are arrays of supported modes.
+			Capabilities map[string][]string `json:"capabilities"`
+
+			// Creatable Whether volumes of this source type can be created via the API.
+			Creatable bool `json:"creatable"`
+		} `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetExternalVolumeSourcesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetExternalVolumeSourcesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteExternalVolumeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *struct {
+		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+		Data JobDescriptor `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteExternalVolumeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteExternalVolumeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetExternalVolumeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		// Data A persistent storage volume within a cluster. Volumes may be attached to containers or VMs and can originate from different storage sources.
+		Data ExternalVolume `json:"data"`
+
+		// Includes All includable resources linked to the given external volume.
+		Includes *ExternalVolumeIncludes `json:"includes,omitempty"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetExternalVolumeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetExternalVolumeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type UpdateExternalVolumeResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		// Data A persistent storage volume within a cluster. Volumes may be attached to containers or VMs and can originate from different storage sources.
+		Data ExternalVolume `json:"data"`
+
+		// Includes All includable resources linked to the given external volume.
+		Includes *ExternalVolumeIncludes `json:"includes,omitempty"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r UpdateExternalVolumeResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UpdateExternalVolumeResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type UpdateExternalVolumeAccessResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		// Data A persistent storage volume within a cluster. Volumes may be attached to containers or VMs and can originate from different storage sources.
+		Data ExternalVolume `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r UpdateExternalVolumeAccessResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UpdateExternalVolumeAccessResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreateExternalVolumeJobResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *struct {
+		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+		Data JobDescriptor `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateExternalVolumeJobResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateExternalVolumeJobResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type GetIpPoolsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -53382,85 +54827,6 @@ func (r GetProviderServersResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r GetProviderServersResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetSanLunsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *struct {
-		Data []SanLun `json:"data"`
-
-		// Includes All includable resources linkable to the given LUN.
-		Includes *SanLunIncludes `json:"includes,omitempty"`
-	}
-	JSONDefault *DefaultError
-}
-
-// Status returns HTTPResponse.Status
-func (r GetSanLunsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetSanLunsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type GetSanTargetsResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON200      *struct {
-		Data []SanTarget `json:"data"`
-	}
-	JSONDefault *DefaultError
-}
-
-// Status returns HTTPResponse.Status
-func (r GetSanTargetsResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r GetSanTargetsResponse) StatusCode() int {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.StatusCode
-	}
-	return 0
-}
-
-type CreateSanJobResponse struct {
-	Body         []byte
-	HTTPResponse *http.Response
-	JSON202      *struct {
-		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
-		Data JobDescriptor `json:"data"`
-	}
-	JSONDefault *DefaultError
-}
-
-// Status returns HTTPResponse.Status
-func (r CreateSanJobResponse) Status() string {
-	if r.HTTPResponse != nil {
-		return r.HTTPResponse.Status
-	}
-	return http.StatusText(0)
-}
-
-// StatusCode returns HTTPResponse.StatusCode
-func (r CreateSanJobResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -54495,8 +55861,8 @@ type UpdatePipelineTriggerKeyResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *struct {
-		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
-		Data JobDescriptor `json:"data"`
+		// Data A pipeline trigger key resource.
+		Data TriggerKey `json:"data"`
 	}
 	JSONDefault *DefaultError
 }
@@ -57814,6 +59180,118 @@ func (c *ClientWithResponses) GetDeploymentStrategiesWithResponse(ctx context.Co
 	return ParseGetDeploymentStrategiesResponse(rsp)
 }
 
+// GetExternalVolumesWithResponse request returning *GetExternalVolumesResponse
+func (c *ClientWithResponses) GetExternalVolumesWithResponse(ctx context.Context, params *GetExternalVolumesParams, reqEditors ...RequestEditorFn) (*GetExternalVolumesResponse, error) {
+	rsp, err := c.GetExternalVolumes(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetExternalVolumesResponse(rsp)
+}
+
+// CreateExternalVolumeWithBodyWithResponse request with arbitrary body returning *CreateExternalVolumeResponse
+func (c *ClientWithResponses) CreateExternalVolumeWithBodyWithResponse(ctx context.Context, params *CreateExternalVolumeParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateExternalVolumeResponse, error) {
+	rsp, err := c.CreateExternalVolumeWithBody(ctx, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateExternalVolumeResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateExternalVolumeWithResponse(ctx context.Context, params *CreateExternalVolumeParams, body CreateExternalVolumeJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateExternalVolumeResponse, error) {
+	rsp, err := c.CreateExternalVolume(ctx, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateExternalVolumeResponse(rsp)
+}
+
+// GetExternalVolumeSourcesWithResponse request returning *GetExternalVolumeSourcesResponse
+func (c *ClientWithResponses) GetExternalVolumeSourcesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetExternalVolumeSourcesResponse, error) {
+	rsp, err := c.GetExternalVolumeSources(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetExternalVolumeSourcesResponse(rsp)
+}
+
+// DeleteExternalVolumeWithBodyWithResponse request with arbitrary body returning *DeleteExternalVolumeResponse
+func (c *ClientWithResponses) DeleteExternalVolumeWithBodyWithResponse(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteExternalVolumeResponse, error) {
+	rsp, err := c.DeleteExternalVolumeWithBody(ctx, externalVolumeId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteExternalVolumeResponse(rsp)
+}
+
+func (c *ClientWithResponses) DeleteExternalVolumeWithResponse(ctx context.Context, externalVolumeId string, body DeleteExternalVolumeJSONRequestBody, reqEditors ...RequestEditorFn) (*DeleteExternalVolumeResponse, error) {
+	rsp, err := c.DeleteExternalVolume(ctx, externalVolumeId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteExternalVolumeResponse(rsp)
+}
+
+// GetExternalVolumeWithResponse request returning *GetExternalVolumeResponse
+func (c *ClientWithResponses) GetExternalVolumeWithResponse(ctx context.Context, externalVolumeId string, params *GetExternalVolumeParams, reqEditors ...RequestEditorFn) (*GetExternalVolumeResponse, error) {
+	rsp, err := c.GetExternalVolume(ctx, externalVolumeId, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetExternalVolumeResponse(rsp)
+}
+
+// UpdateExternalVolumeWithBodyWithResponse request with arbitrary body returning *UpdateExternalVolumeResponse
+func (c *ClientWithResponses) UpdateExternalVolumeWithBodyWithResponse(ctx context.Context, externalVolumeId string, params *UpdateExternalVolumeParams, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateExternalVolumeResponse, error) {
+	rsp, err := c.UpdateExternalVolumeWithBody(ctx, externalVolumeId, params, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateExternalVolumeResponse(rsp)
+}
+
+func (c *ClientWithResponses) UpdateExternalVolumeWithResponse(ctx context.Context, externalVolumeId string, params *UpdateExternalVolumeParams, body UpdateExternalVolumeJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateExternalVolumeResponse, error) {
+	rsp, err := c.UpdateExternalVolume(ctx, externalVolumeId, params, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateExternalVolumeResponse(rsp)
+}
+
+// UpdateExternalVolumeAccessWithBodyWithResponse request with arbitrary body returning *UpdateExternalVolumeAccessResponse
+func (c *ClientWithResponses) UpdateExternalVolumeAccessWithBodyWithResponse(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateExternalVolumeAccessResponse, error) {
+	rsp, err := c.UpdateExternalVolumeAccessWithBody(ctx, externalVolumeId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateExternalVolumeAccessResponse(rsp)
+}
+
+func (c *ClientWithResponses) UpdateExternalVolumeAccessWithResponse(ctx context.Context, externalVolumeId string, body UpdateExternalVolumeAccessJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateExternalVolumeAccessResponse, error) {
+	rsp, err := c.UpdateExternalVolumeAccess(ctx, externalVolumeId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateExternalVolumeAccessResponse(rsp)
+}
+
+// CreateExternalVolumeJobWithBodyWithResponse request with arbitrary body returning *CreateExternalVolumeJobResponse
+func (c *ClientWithResponses) CreateExternalVolumeJobWithBodyWithResponse(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateExternalVolumeJobResponse, error) {
+	rsp, err := c.CreateExternalVolumeJobWithBody(ctx, externalVolumeId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateExternalVolumeJobResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateExternalVolumeJobWithResponse(ctx context.Context, externalVolumeId string, body CreateExternalVolumeJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateExternalVolumeJobResponse, error) {
+	rsp, err := c.CreateExternalVolumeJob(ctx, externalVolumeId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateExternalVolumeJobResponse(rsp)
+}
+
 // GetIpPoolsWithResponse request returning *GetIpPoolsResponse
 func (c *ClientWithResponses) GetIpPoolsWithResponse(ctx context.Context, params *GetIpPoolsParams, reqEditors ...RequestEditorFn) (*GetIpPoolsResponse, error) {
 	rsp, err := c.GetIpPools(ctx, params, reqEditors...)
@@ -57909,41 +59387,6 @@ func (c *ClientWithResponses) GetProviderServersWithResponse(ctx context.Context
 		return nil, err
 	}
 	return ParseGetProviderServersResponse(rsp)
-}
-
-// GetSanLunsWithResponse request returning *GetSanLunsResponse
-func (c *ClientWithResponses) GetSanLunsWithResponse(ctx context.Context, params *GetSanLunsParams, reqEditors ...RequestEditorFn) (*GetSanLunsResponse, error) {
-	rsp, err := c.GetSanLuns(ctx, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetSanLunsResponse(rsp)
-}
-
-// GetSanTargetsWithResponse request returning *GetSanTargetsResponse
-func (c *ClientWithResponses) GetSanTargetsWithResponse(ctx context.Context, params *GetSanTargetsParams, reqEditors ...RequestEditorFn) (*GetSanTargetsResponse, error) {
-	rsp, err := c.GetSanTargets(ctx, params, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseGetSanTargetsResponse(rsp)
-}
-
-// CreateSanJobWithBodyWithResponse request with arbitrary body returning *CreateSanJobResponse
-func (c *ClientWithResponses) CreateSanJobWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateSanJobResponse, error) {
-	rsp, err := c.CreateSanJobWithBody(ctx, contentType, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCreateSanJobResponse(rsp)
-}
-
-func (c *ClientWithResponses) CreateSanJobWithResponse(ctx context.Context, body CreateSanJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateSanJobResponse, error) {
-	rsp, err := c.CreateSanJob(ctx, body, reqEditors...)
-	if err != nil {
-		return nil, err
-	}
-	return ParseCreateSanJobResponse(rsp)
 }
 
 // GetServersWithResponse request returning *GetServersResponse
@@ -61389,30 +62832,42 @@ func ParseLookupTLSCertificateResponse(rsp *http.Response) (*LookupTLSCertificat
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
-			// Data A DNS TLS certificate.
 			Data struct {
-				// Bundle The certificate bundle
-				Bundle string `json:"bundle"`
+				Bundle *string `json:"bundle,omitempty"`
+				Csr    *string `json:"csr,omitempty"`
 
 				// Domains A list of domains associated with the certificate.
 				Domains []string `json:"domains"`
 
-				// Events A collection of timestamps for each event in the certificate's lifetime.
+				// Events A collection of timestamps for each event in the TLS certificate's lifetime.
 				Events struct {
-					Created   *DateTime `json:"created,omitempty"`
-					Deleted   *DateTime `json:"deleted,omitempty"`
-					Generated *DateTime `json:"generated,omitempty"`
-					Updated   *DateTime `json:"updated,omitempty"`
+					Created   DateTime `json:"created"`
+					Deleted   DateTime `json:"deleted"`
+					Generated DateTime `json:"generated"`
+					Updated   DateTime `json:"updated"`
 				} `json:"events"`
-
-				// HubId The unique ID of the Hub this resource was created in.
-				HubId HubID `json:"hub_id"`
+				Expires DateTime `json:"expires"`
+				HubId   *ID      `json:"hub_id"`
 
 				// Id A 24 character hex string used to identify a unique resource.
-				Id ID `json:"id"`
+				Id         ID      `json:"id"`
+				PrivateKey *string `json:"private_key,omitempty"`
+				State      struct {
+					Changed DateTime `json:"changed"`
 
-				// PrivateKey The private key for the certificate
-				PrivateKey string `json:"private_key"`
+					// Current The current state of the TLS certificate.
+					Current LookupTLSCertificate200DataStateCurrent `json:"current"`
+
+					// Error An error, if any, that has occurred for this resource.
+					Error *struct {
+						// Message Details about the error that has occurred.
+						Message *string   `json:"message,omitempty"`
+						Time    *DateTime `json:"time,omitempty"`
+					} `json:"error,omitempty"`
+				} `json:"state"`
+
+				// UserSupplied Whether or not this certificate was uploaded instead of generated by the platform.
+				UserSupplied bool `json:"user_supplied"`
 			} `json:"data"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -65470,6 +66925,310 @@ func ParseGetDeploymentStrategiesResponse(rsp *http.Response) (*GetDeploymentStr
 	return response, nil
 }
 
+// ParseGetExternalVolumesResponse parses an HTTP response from a GetExternalVolumesWithResponse call
+func ParseGetExternalVolumesResponse(rsp *http.Response) (*GetExternalVolumesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetExternalVolumesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Data []ExternalVolume `json:"data"`
+
+			// Includes All includable resources linked to the given external volume.
+			Includes *ExternalVolumeIncludes `json:"includes,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateExternalVolumeResponse parses an HTTP response from a CreateExternalVolumeWithResponse call
+func ParseCreateExternalVolumeResponse(rsp *http.Response) (*CreateExternalVolumeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateExternalVolumeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest struct {
+			// Data A persistent storage volume within a cluster. Volumes may be attached to containers or VMs and can originate from different storage sources.
+			Data ExternalVolume `json:"data"`
+
+			// Includes All includable resources linked to the given external volume.
+			Includes *ExternalVolumeIncludes `json:"includes,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetExternalVolumeSourcesResponse parses an HTTP response from a GetExternalVolumeSourcesWithResponse call
+func ParseGetExternalVolumeSourcesResponse(rsp *http.Response) (*GetExternalVolumeSourcesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetExternalVolumeSourcesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Data map[string]struct {
+				// Capabilities Map where keys are attachment types and values are arrays of supported modes.
+				Capabilities map[string][]string `json:"capabilities"`
+
+				// Creatable Whether volumes of this source type can be created via the API.
+				Creatable bool `json:"creatable"`
+			} `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteExternalVolumeResponse parses an HTTP response from a DeleteExternalVolumeWithResponse call
+func ParseDeleteExternalVolumeResponse(rsp *http.Response) (*DeleteExternalVolumeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteExternalVolumeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+			Data JobDescriptor `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetExternalVolumeResponse parses an HTTP response from a GetExternalVolumeWithResponse call
+func ParseGetExternalVolumeResponse(rsp *http.Response) (*GetExternalVolumeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetExternalVolumeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Data A persistent storage volume within a cluster. Volumes may be attached to containers or VMs and can originate from different storage sources.
+			Data ExternalVolume `json:"data"`
+
+			// Includes All includable resources linked to the given external volume.
+			Includes *ExternalVolumeIncludes `json:"includes,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUpdateExternalVolumeResponse parses an HTTP response from a UpdateExternalVolumeWithResponse call
+func ParseUpdateExternalVolumeResponse(rsp *http.Response) (*UpdateExternalVolumeResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UpdateExternalVolumeResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Data A persistent storage volume within a cluster. Volumes may be attached to containers or VMs and can originate from different storage sources.
+			Data ExternalVolume `json:"data"`
+
+			// Includes All includable resources linked to the given external volume.
+			Includes *ExternalVolumeIncludes `json:"includes,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUpdateExternalVolumeAccessResponse parses an HTTP response from a UpdateExternalVolumeAccessWithResponse call
+func ParseUpdateExternalVolumeAccessResponse(rsp *http.Response) (*UpdateExternalVolumeAccessResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UpdateExternalVolumeAccessResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Data A persistent storage volume within a cluster. Volumes may be attached to containers or VMs and can originate from different storage sources.
+			Data ExternalVolume `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateExternalVolumeJobResponse parses an HTTP response from a CreateExternalVolumeJobWithResponse call
+func ParseCreateExternalVolumeJobResponse(rsp *http.Response) (*CreateExternalVolumeJobResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateExternalVolumeJobResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+			Data JobDescriptor `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetIpPoolsResponse parses an HTTP response from a GetIpPoolsWithResponse call
 func ParseGetIpPoolsResponse(rsp *http.Response) (*GetIpPoolsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -65782,115 +67541,6 @@ func ParseGetProviderServersResponse(rsp *http.Response) (*GetProviderServersRes
 			return nil, err
 		}
 		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
-		var dest DefaultError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSONDefault = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetSanLunsResponse parses an HTTP response from a GetSanLunsWithResponse call
-func ParseGetSanLunsResponse(rsp *http.Response) (*GetSanLunsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetSanLunsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest struct {
-			Data []SanLun `json:"data"`
-
-			// Includes All includable resources linkable to the given LUN.
-			Includes *SanLunIncludes `json:"includes,omitempty"`
-		}
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
-		var dest DefaultError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSONDefault = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseGetSanTargetsResponse parses an HTTP response from a GetSanTargetsWithResponse call
-func ParseGetSanTargetsResponse(rsp *http.Response) (*GetSanTargetsResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &GetSanTargetsResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
-		var dest struct {
-			Data []SanTarget `json:"data"`
-		}
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON200 = &dest
-
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
-		var dest DefaultError
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSONDefault = &dest
-
-	}
-
-	return response, nil
-}
-
-// ParseCreateSanJobResponse parses an HTTP response from a CreateSanJobWithResponse call
-func ParseCreateSanJobResponse(rsp *http.Response) (*CreateSanJobResponse, error) {
-	bodyBytes, err := io.ReadAll(rsp.Body)
-	defer func() { _ = rsp.Body.Close() }()
-	if err != nil {
-		return nil, err
-	}
-
-	response := &CreateSanJobResponse{
-		Body:         bodyBytes,
-		HTTPResponse: rsp,
-	}
-
-	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
-		var dest struct {
-			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
-			Data JobDescriptor `json:"data"`
-		}
-		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
-			return nil, err
-		}
-		response.JSON202 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest DefaultError
@@ -67328,8 +68978,8 @@ func ParseUpdatePipelineTriggerKeyResponse(rsp *http.Response) (*UpdatePipelineT
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
-			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
-			Data JobDescriptor `json:"data"`
+			// Data A pipeline trigger key resource.
+			Data TriggerKey `json:"data"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
