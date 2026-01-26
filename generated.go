@@ -179,12 +179,15 @@ const (
 	ActivityEventInfrastructureClusterFeaturesMonitoringTierReconfigure ActivityEvent = "infrastructure.cluster.features.monitoring.tier.reconfigure"
 	ActivityEventInfrastructureClusterTaskDelete                        ActivityEvent = "infrastructure.cluster.task.delete"
 	ActivityEventInfrastructureClusterUpdate                            ActivityEvent = "infrastructure.cluster.update"
+	ActivityEventInfrastructureExternalVolumeAttachmentReconfigure      ActivityEvent = "infrastructure.external-volume.attachment.reconfigure"
 	ActivityEventInfrastructureExternalVolumeCreate                     ActivityEvent = "infrastructure.external-volume.create"
 	ActivityEventInfrastructureExternalVolumeDelete                     ActivityEvent = "infrastructure.external-volume.delete"
 	ActivityEventInfrastructureExternalVolumeServersReconfigure         ActivityEvent = "infrastructure.external-volume.servers.reconfigure"
+	ActivityEventInfrastructureExternalVolumeTaskAttachmentReconfigure  ActivityEvent = "infrastructure.external-volume.task.attachment.reconfigure"
 	ActivityEventInfrastructureExternalVolumeTaskDelete                 ActivityEvent = "infrastructure.external-volume.task.delete"
 	ActivityEventInfrastructureExternalVolumeTaskServersReconfigure     ActivityEvent = "infrastructure.external-volume.task.servers.reconfigure"
 	ActivityEventInfrastructureExternalVolumeUpdate                     ActivityEvent = "infrastructure.external-volume.update"
+	ActivityEventInfrastructureExternalVolumesTaskScan                  ActivityEvent = "infrastructure.external-volumes.task.scan"
 	ActivityEventInfrastructureIpsPoolCreate                            ActivityEvent = "infrastructure.ips.pool.create"
 	ActivityEventInfrastructureIpsPoolTaskDelete                        ActivityEvent = "infrastructure.ips.pool.task.delete"
 	ActivityEventInfrastructureProviderCreate                           ActivityEvent = "infrastructure.provider.create"
@@ -816,7 +819,7 @@ const (
 
 // Defines values for DefaultLbTypeType.
 const (
-	Default DefaultLbTypeType = "default"
+	DefaultLbTypeTypeDefault DefaultLbTypeType = "default"
 )
 
 // Defines values for DeploymentStrategyName.
@@ -846,6 +849,13 @@ const (
 // Defines values for DirectPaymentType.
 const (
 	DirectPaymentTypeDirectPayment DirectPaymentType = "direct-payment"
+)
+
+// Defines values for DiscoveryConfigExternalResolutionPreference.
+const (
+	DiscoveryConfigExternalResolutionPreferenceDefault DiscoveryConfigExternalResolutionPreference = "default"
+	DiscoveryConfigExternalResolutionPreferenceIpv4    DiscoveryConfigExternalResolutionPreference = "ipv4"
+	DiscoveryConfigExternalResolutionPreferenceIpv6    DiscoveryConfigExternalResolutionPreference = "ipv6"
 )
 
 // Defines values for DnsRecordStateCurrent.
@@ -1140,10 +1150,13 @@ const (
 	InfrastructureServerAutoscaleUp                      EventType = "infrastructure.server.autoscale.up"
 	InfrastructureServerCheckinMissed                    EventType = "infrastructure.server.checkin.missed"
 	InfrastructureServerCheckinResumed                   EventType = "infrastructure.server.checkin.resumed"
+	InfrastructureServerComputeDied                      EventType = "infrastructure.server.compute.died"
 	InfrastructureServerComputeFullRestart               EventType = "infrastructure.server.compute.full_restart"
 	InfrastructureServerComputeSharedfsMountsMount       EventType = "infrastructure.server.compute.sharedfs.mounts.mount"
 	InfrastructureServerComputeSharedfsMountsMountFailed EventType = "infrastructure.server.compute.sharedfs.mounts.mount.failed"
 	InfrastructureServerComputeSoftRestart               EventType = "infrastructure.server.compute.soft_restart"
+	InfrastructureServerComputeSpawnerFullRestart        EventType = "infrastructure.server.compute-spawner.full_restart"
+	InfrastructureServerComputeStartFailure              EventType = "infrastructure.server.compute.start.failure"
 	InfrastructureServerComputeVolumesBaseReconfigured   EventType = "infrastructure.server.compute.volumes.base.reconfigured"
 	InfrastructureServerEvacuationCompleted              EventType = "infrastructure.server.evacuation.completed"
 	InfrastructureServerEvacuationFailed                 EventType = "infrastructure.server.evacuation.failed"
@@ -1158,7 +1171,7 @@ const (
 	InfrastructureServerNeighborUnreachable              EventType = "infrastructure.server.neighbor.unreachable"
 	InfrastructureServerNeighborUpgraded                 EventType = "infrastructure.server.neighbor.upgraded"
 	InfrastructureServerNeighborsRebuild                 EventType = "infrastructure.server.neighbors.rebuild"
-	InfrastructureServerPowerPowerOff                    EventType = "infrastructure.server.power.power-off"
+	InfrastructureServerPowerPowerOff                    EventType = "infrastructure.server.power.power_off"
 	InfrastructureServerPowerReboot                      EventType = "infrastructure.server.power.reboot"
 	InfrastructureServerResourcesLoadHigh                EventType = "infrastructure.server.resources.load.high"
 	InfrastructureServerResourcesRamFull                 EventType = "infrastructure.server.resources.ram.full"
@@ -1199,6 +1212,11 @@ const (
 	Filesystem ExternalVolumeAttachmentFileSystemType = "filesystem"
 )
 
+// Defines values for ExternalVolumeAttachmentReconfigureActionAction.
+const (
+	AttachmentReconfigure ExternalVolumeAttachmentReconfigureActionAction = "attachment.reconfigure"
+)
+
 // Defines values for ExternalVolumeServersReconfigureActionAction.
 const (
 	ServersReconfigure ExternalVolumeServersReconfigureActionAction = "servers.reconfigure"
@@ -1211,6 +1229,19 @@ const (
 	ExternalVolumeStateCurrentDeleting    ExternalVolumeStateCurrent = "deleting"
 	ExternalVolumeStateCurrentLive        ExternalVolumeStateCurrent = "live"
 	ExternalVolumeStateCurrentNew         ExternalVolumeStateCurrent = "new"
+	ExternalVolumeStateCurrentReady       ExternalVolumeStateCurrent = "ready"
+)
+
+// Defines values for ExternalVolumesScanActionAction.
+const (
+	Scan ExternalVolumesScanActionAction = "scan"
+)
+
+// Defines values for ExternalVolumesScanActionContentsSourceType.
+const (
+	ExternalVolumesScanActionContentsSourceTypeAwsEbs   ExternalVolumesScanActionContentsSourceType = "aws-ebs"
+	ExternalVolumesScanActionContentsSourceTypeCephRbd  ExternalVolumesScanActionContentsSourceType = "ceph-rbd"
+	ExternalVolumesScanActionContentsSourceTypeSanIscsi ExternalVolumesScanActionContentsSourceType = "san-iscsi"
 )
 
 // Defines values for FunctionTriggerActionAction.
@@ -1235,7 +1266,7 @@ const (
 
 // Defines values for HaProxyLbTypeType.
 const (
-	Haproxy HaProxyLbTypeType = "haproxy"
+	HaProxyLbTypeTypeHaproxy HaProxyLbTypeType = "haproxy"
 )
 
 // Defines values for HttpRouterConfigType.
@@ -1457,6 +1488,18 @@ const (
 	L2DomainShared  L2Domain = "shared"
 )
 
+// Defines values for LoadBalancerInfoCurrentType.
+const (
+	LoadBalancerInfoCurrentTypeHaproxy LoadBalancerInfoCurrentType = "haproxy"
+	LoadBalancerInfoCurrentTypeV1      LoadBalancerInfoCurrentType = "v1"
+)
+
+// Defines values for LoadBalancerInfoDefaultType.
+const (
+	LoadBalancerInfoDefaultTypeHaproxy LoadBalancerInfoDefaultType = "haproxy"
+	LoadBalancerInfoDefaultTypeV1      LoadBalancerInfoDefaultType = "v1"
+)
+
 // Defines values for LogFormat.
 const (
 	NdjsonHeaders LogFormat = "ndjson-headers"
@@ -1527,6 +1570,7 @@ const (
 const (
 	NodeStateCurrentAuthorizing    NodeStateCurrent = "authorizing"
 	NodeStateCurrentDecommissioned NodeStateCurrent = "decommissioned"
+	NodeStateCurrentDeleted        NodeStateCurrent = "deleted"
 	NodeStateCurrentNew            NodeStateCurrent = "new"
 	NodeStateCurrentOffline        NodeStateCurrent = "offline"
 	NodeStateCurrentOnline         NodeStateCurrent = "online"
@@ -1536,6 +1580,7 @@ const (
 const (
 	NodeStateDesiredAuthorizing    NodeStateDesired = "authorizing"
 	NodeStateDesiredDecommissioned NodeStateDesired = "decommissioned"
+	NodeStateDesiredDeleted        NodeStateDesired = "deleted"
 	NodeStateDesiredNew            NodeStateDesired = "new"
 	NodeStateDesiredOffline        NodeStateDesired = "offline"
 	NodeStateDesiredOnline         NodeStateDesired = "online"
@@ -1863,7 +1908,7 @@ const (
 
 // Defines values for SourceAwsEbsType.
 const (
-	AwsEbs SourceAwsEbsType = "aws-ebs"
+	SourceAwsEbsTypeAwsEbs SourceAwsEbsType = "aws-ebs"
 )
 
 // Defines values for SourceCephRbdType.
@@ -2080,7 +2125,7 @@ const (
 
 // Defines values for V1LbTypeType.
 const (
-	V1 V1LbTypeType = "v1"
+	V1LbTypeTypeV1 V1LbTypeType = "v1"
 )
 
 // Defines values for VirtualMachineAttachmentTypeIsoType.
@@ -2572,7 +2617,7 @@ const (
 
 // Defines values for CreateDNSZoneRecordJobJSONBodyAction.
 const (
-	GenerateCert CreateDNSZoneRecordJobJSONBodyAction = "generateCert"
+	CertGenerate CreateDNSZoneRecordJobJSONBodyAction = "cert.generate"
 )
 
 // Defines values for CreateDNSZoneJobJSONBodyAction.
@@ -2585,6 +2630,7 @@ const (
 	GetEnvironmentsParamsMetaContainers      GetEnvironmentsParamsMeta = "containers"
 	GetEnvironmentsParamsMetaContainersCount GetEnvironmentsParamsMeta = "containers_count"
 	GetEnvironmentsParamsMetaInstancesCount  GetEnvironmentsParamsMeta = "instances_count"
+	GetEnvironmentsParamsMetaServiceVersions GetEnvironmentsParamsMeta = "service_versions"
 )
 
 // Defines values for GetEnvironmentsParamsInclude.
@@ -2598,6 +2644,7 @@ const (
 	GetEnvironmentParamsMetaContainers      GetEnvironmentParamsMeta = "containers"
 	GetEnvironmentParamsMetaContainersCount GetEnvironmentParamsMeta = "containers_count"
 	GetEnvironmentParamsMetaInstancesCount  GetEnvironmentParamsMeta = "instances_count"
+	GetEnvironmentParamsMetaServiceVersions GetEnvironmentParamsMeta = "service_versions"
 )
 
 // Defines values for GetEnvironmentParamsInclude.
@@ -2970,6 +3017,13 @@ const (
 	GetPipelinesParamsIncludeName       GetPipelinesParamsInclude = "name"
 )
 
+// Defines values for GetAllPipelineRunsParamsInclude.
+const (
+	GetAllPipelineRunsParamsIncludeCreators  GetAllPipelineRunsParamsInclude = "creators"
+	GetAllPipelineRunsParamsIncludeKeys      GetAllPipelineRunsParamsInclude = "keys"
+	GetAllPipelineRunsParamsIncludePipelines GetAllPipelineRunsParamsInclude = "pipelines"
+)
+
 // Defines values for GetPipelineParamsInclude.
 const (
 	GetPipelineParamsIncludeComponents GetPipelineParamsInclude = "components"
@@ -3028,9 +3082,14 @@ const (
 	GetStacksParamsIncludeCreators GetStacksParamsInclude = "creators"
 )
 
+// Defines values for GetAllStackBuildsParamsMeta.
+const (
+	GetAllStackBuildsParamsMetaContainersCount GetAllStackBuildsParamsMeta = "containers_count"
+)
+
 // Defines values for GetStackBuildsParamsMeta.
 const (
-	GetStackBuildsParamsMetaContainersCount GetStackBuildsParamsMeta = "containers_count"
+	ContainersCount GetStackBuildsParamsMeta = "containers_count"
 )
 
 // Defines values for CreateStackJobJSONBodyAction.
@@ -3136,10 +3195,10 @@ const (
 
 // Defines values for GetVirtualMachineParamsInclude.
 const (
-	GetVirtualMachineParamsIncludeClusters     GetVirtualMachineParamsInclude = "clusters"
-	GetVirtualMachineParamsIncludeContainers   GetVirtualMachineParamsInclude = "containers"
-	GetVirtualMachineParamsIncludeCreators     GetVirtualMachineParamsInclude = "creators"
-	GetVirtualMachineParamsIncludeEnvironments GetVirtualMachineParamsInclude = "environments"
+	Clusters     GetVirtualMachineParamsInclude = "clusters"
+	Containers   GetVirtualMachineParamsInclude = "containers"
+	Creators     GetVirtualMachineParamsInclude = "creators"
+	Environments GetVirtualMachineParamsInclude = "environments"
 )
 
 // ACL An access control list. Defines which roles have which permissions on specific resources.
@@ -3617,7 +3676,7 @@ type AutoScaleGroupIncludes struct {
 	Locations *LocationsIncludes `json:"locations,omitempty"`
 
 	// Models A resource associated with a server models.
-	Models *ServerModelsIncludes `json:"models,omitempty"`
+	Models *ProviderServerModelsIncludes `json:"models,omitempty"`
 }
 
 // AutoScaleGroupInfrastructure defines model for AutoScaleGroupInfrastructure.
@@ -4076,8 +4135,11 @@ type Cluster struct {
 	// have the identifier of `my-container` and is automatically created by the platform.
 	//
 	// The identifier does not have to be unique.
-	Identifier Identifier   `json:"identifier"`
-	State      ClusterState `json:"state"`
+	Identifier Identifier `json:"identifier"`
+
+	// NonEssential Marks a cluster as non-essential. Non-essential cluster resources are excluded by default from certain metrics and summaries unless opted in.
+	NonEssential bool         `json:"non_essential"`
+	State        ClusterState `json:"state"`
 }
 
 // ClusterIncludes A resource associated with a cluster.
@@ -4453,14 +4515,16 @@ type ContainerDeploy struct {
 			// Tags Lists of server tags that formally declair servers that match the criteria for deployment.
 			Tags struct {
 				// All A list of tags where a server matching all tags from the list is the only scenario where the server is qualified as a deployment target.
-				All *[]string `json:"all,omitempty"`
+				All *[]string `json:"all"`
 
 				// Any A list of tags where a server matching any tags from the list is qualified as a deployment target.
-				Any *[]string `json:"any,omitempty"`
+				Any *[]string `json:"any"`
 			} `json:"tags"`
-		} `json:"node,omitempty"`
-		Secrets *[]string `json:"secrets,omitempty"`
-	} `json:"constraints,omitempty"`
+		} `json:"node"`
+
+		// Secrets A list of secret identifiers that will be made available to the container.
+		Secrets *[]string `json:"secrets"`
+	} `json:"constraints"`
 
 	// Function Configuration options for containers using the 'function' deployment strategy.
 	Function *struct {
@@ -4482,8 +4546,8 @@ type ContainerDeploy struct {
 		// Command The command that will be run to verify the health of the container.
 		Command string `json:"command"`
 
-		// Delay How long to wait before performing an initial health check when the instance starts. The `state.health.healthy` field of the instance will be `null`` until the first check is performed.
-		Delay *Duration `json:"delay"`
+		// Delay A string signifying a duration of time. Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h", "d", "w", "y".
+		Delay Duration `json:"delay"`
 
 		// Interval A string signifying a duration of time. Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h", "d", "w", "y".
 		Interval Duration `json:"interval"`
@@ -4496,10 +4560,22 @@ type ContainerDeploy struct {
 
 		// Timeout A string signifying a duration of time. Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h", "d", "w", "y".
 		Timeout Duration `json:"timeout"`
-	} `json:"health_check,omitempty"`
+	} `json:"health_check"`
 
 	// Instances The number of initial desired instances for a given container.
 	Instances int `json:"instances"`
+
+	// ReadinessCheck Configuration for determining readiness of a container.
+	ReadinessCheck *struct {
+		// Command The command that will be run to verify readiness of the container.
+		Command string `json:"command"`
+
+		// Interval A string signifying a duration of time. Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h", "d", "w", "y".
+		Interval Duration `json:"interval"`
+
+		// Timeout A string signifying a duration of time. Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h", "d", "w", "y".
+		Timeout Duration `json:"timeout"`
+	} `json:"readiness_check"`
 
 	// Restart Configurations for container restart events.
 	Restart *struct {
@@ -4511,7 +4587,7 @@ type ContainerDeploy struct {
 
 		// MaxAttempts The amount of times the platform will attempt the restart policies.
 		MaxAttempts int `json:"max_attempts"`
-	} `json:"restart,omitempty"`
+	} `json:"restart"`
 
 	// Shutdown Configuration for what to do during container shutdown.
 	Shutdown *struct {
@@ -4520,18 +4596,22 @@ type ContainerDeploy struct {
 
 		// Signals Process signal sent to the container process.
 		Signals *[]ShutdownSignal `json:"signals"`
-	} `json:"shutdown,omitempty"`
+	} `json:"shutdown"`
 
 	// Startup Configurations for container startup.
 	Startup *struct {
 		// Delay A string signifying a duration of time. Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h", "d", "w", "y".
 		Delay *Duration `json:"delay,omitempty"`
-	} `json:"startup,omitempty"`
+	} `json:"startup"`
+
+	// Stateful Configuration options for stateful deployments.
 	Stateful *struct {
+		// Options Options that modify behavior for stateful deployments.
 		Options *struct {
+			// UseBaseHostname When set, the base hostname will be used instead of a generated hostname.
 			UseBaseHostname *bool `json:"use_base_hostname"`
 		} `json:"options"`
-	} `json:"stateful,omitempty"`
+	} `json:"stateful"`
 	Strategy *DeploymentStrategyName `json:"strategy,omitempty"`
 
 	// Telemetry Configuration settings for container telemetery reporting.
@@ -4544,13 +4624,13 @@ type ContainerDeploy struct {
 
 		// Retention A string signifying a duration of time. Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h", "d", "w", "y".
 		Retention Duration `json:"retention"`
-	} `json:"telemetry,omitempty"`
+	} `json:"telemetry"`
 
 	// Update Configurations for container updates.
 	Update *struct {
 		// Stagger A string signifying a duration of time. Valid time units are "ns", "us" (or "µs"), "ms", "s", "m", "h", "d", "w", "y".
 		Stagger *Duration `json:"stagger,omitempty"`
-	} `json:"update,omitempty"`
+	} `json:"update"`
 }
 
 // ContainerDeployRestartCondition Policy for what should happen in the event of a container dying.
@@ -5492,8 +5572,11 @@ type DiscoveryConfig struct {
 	CustomResolvers *[]string `json:"custom_resolvers"`
 
 	// DualStackLegacy When enabled, discovery will return both IPv6 and IPv4 when in legacy mode.  Otherwise, only IPv4 will be returned.
-	DualStackLegacy *bool     `json:"dual_stack_legacy,omitempty"`
-	EmptySetDelay   *Duration `json:"empty_set_delay"`
+	DualStackLegacy    *bool     `json:"dual_stack_legacy,omitempty"`
+	EmptySetDelay      *Duration `json:"empty_set_delay"`
+	ExternalResolution *struct {
+		Preference DiscoveryConfigExternalResolutionPreference `json:"preference"`
+	} `json:"external_resolution,omitempty"`
 
 	// Hosts A mapping of hostnames to IP addresses for custom internal resolutions. Acts as a custom /etc/resolv.conf file that works environment wide.
 	Hosts *map[string]struct {
@@ -5504,6 +5587,9 @@ type DiscoveryConfig struct {
 		Ipv6 *[]string `json:"ipv6"`
 	} `json:"hosts"`
 }
+
+// DiscoveryConfigExternalResolutionPreference defines model for DiscoveryConfig.ExternalResolution.Preference.
+type DiscoveryConfigExternalResolutionPreference string
 
 // DiscoveryEnvironmentService Information about the environments discovery service(s).
 type DiscoveryEnvironmentService struct {
@@ -5644,6 +5730,15 @@ type DnsRecordTypes struct {
 				ResolveSubDomains bool `json:"resolve_sub_domains"`
 			} `json:"wildcard"`
 		} `json:"features"`
+
+		// Routing Rules for routing traffic at the load balancer for this linked record.
+		Routing struct {
+			Http *struct {
+				// MatchPath If set, this record will configure the load balancer to only match for paths of this domain matching this string.
+				// If the string starts with a /, it will be a literal prefix match (/test matches /test*). Otherwise, regex is used.
+				MatchPath *string `json:"match_path"`
+			} `json:"http"`
+		} `json:"routing"`
 	} `json:"linked,omitempty"`
 
 	// Mx A DNS MX record
@@ -6124,11 +6219,29 @@ type EnvironmentMeta struct {
 
 	// InstancesCount A summary of resources by state
 	InstancesCount *StateCountSummary `json:"instances_count,omitempty"`
+
+	// ServiceVersions A map where the key is the service and the value describes the version and date of last update.
+	ServiceVersions *map[string]struct {
+		LastUpdated DateTime `json:"last_updated"`
+
+		// Version A string depicting the service version.
+		Version string `json:"version"`
+	} `json:"service_versions,omitempty"`
 }
 
 // EnvironmentMonitoringConfig The configuration for environment monitoring.
 type EnvironmentMonitoringConfig struct {
-	// Logs An object describing the log configuration for the environment.
+	// Events An object describing the events monitoring configuration for the environment.
+	Events *struct {
+		// Endpoint Configuration options for pushing events externally.
+		// For payload see webhook `environmentEventsPush`
+		Endpoint *struct {
+			// Url The destination URL for events.
+			Url string `json:"url"`
+		} `json:"endpoint"`
+	} `json:"events"`
+
+	// Logs An object describing the log monitoring configuration for the environment.
 	Logs *struct {
 		// Drain An object describing log drain configuration for the environment.
 		Drain *struct {
@@ -6140,6 +6253,16 @@ type EnvironmentMonitoringConfig struct {
 			Url string `json:"url"`
 		} `json:"drain"`
 	} `json:"logs"`
+
+	// Metrics An object describing the metrics monitoring configuration for the environment.
+	Metrics *struct {
+		// Endpoint Configuration options for pushing metrics externally.
+		// For payload see webhook `environmentMetricsPush`
+		Endpoint *struct {
+			// Url The destination URL for the metrics.
+			Url string `json:"url"`
+		} `json:"endpoint"`
+	} `json:"metrics"`
 }
 
 // EnvironmentNetworkSummary Details about the environment network this instance is a member of.
@@ -6535,6 +6658,18 @@ type ExternalVolumeAttachmentFileSystemMode string
 // ExternalVolumeAttachmentFileSystemType defines model for ExternalVolumeAttachmentFileSystem.Type.
 type ExternalVolumeAttachmentFileSystemType string
 
+// ExternalVolumeAttachmentReconfigureAction A task to reconfigure the attachment for external volume.
+type ExternalVolumeAttachmentReconfigureAction struct {
+	// Action The name of the action to perform (attachment.reconfigure).
+	Action ExternalVolumeAttachmentReconfigureActionAction `json:"action"`
+
+	// Contents Attachment configuration for an external volume.
+	Contents *ExternalVolumeAttachment `json:"contents,omitempty"`
+}
+
+// ExternalVolumeAttachmentReconfigureActionAction The name of the action to perform (attachment.reconfigure).
+type ExternalVolumeAttachmentReconfigureActionAction string
+
 // ExternalVolumeEvents Timestamps for events that happen over the lifetime of the attached volume.
 type ExternalVolumeEvents struct {
 	Created      DateTime  `json:"created"`
@@ -6604,6 +6739,48 @@ type ExternalVolumeStateCurrent string
 
 // ExternalVolumeTask defines model for ExternalVolumeTask.
 type ExternalVolumeTask struct {
+	union json.RawMessage
+}
+
+// ExternalVolumesScanAction A task to scan for available external volumes on a given cluster.
+type ExternalVolumesScanAction struct {
+	// Action The action for the external volumes job.
+	Action ExternalVolumesScanActionAction `json:"action"`
+
+	// Contents Scan options used by the platform to create the job.
+	Contents struct {
+		// Cluster A human-readable identifier used to refer to a resource, where using the official ID may be inconvenient.
+		// The identifier is automatically tokenized from the name/relevant field of the resource if one is not provided. For example, a container named "My Container" will
+		// have the identifier of `my-container` and is automatically created by the platform.
+		//
+		// The identifier does not have to be unique.
+		Cluster Identifier `json:"cluster"`
+
+		// IntegrationId A 24 character hex string used to identify a unique resource.
+		IntegrationId ID `json:"integration_id"`
+
+		// LocationId A 24 character hex string used to identify a unique resource.
+		LocationId *ID `json:"location_id,omitempty"`
+
+		// Namespace Optional namespace string to limit the scan scope.
+		Namespace *string `json:"namespace"`
+
+		// ServerIds Optional list of server IDs to limit the scan scope.
+		ServerIds *[]ID `json:"server_ids"`
+
+		// SourceType Type of external volume system to scan.
+		SourceType ExternalVolumesScanActionContentsSourceType `json:"source_type"`
+	} `json:"contents"`
+}
+
+// ExternalVolumesScanActionAction The action for the external volumes job.
+type ExternalVolumesScanActionAction string
+
+// ExternalVolumesScanActionContentsSourceType Type of external volume system to scan.
+type ExternalVolumesScanActionContentsSourceType string
+
+// ExternalVolumesTask defines model for ExternalVolumesTask.
+type ExternalVolumesTask struct {
 	union json.RawMessage
 }
 
@@ -7593,6 +7770,12 @@ type ImagesPruneStep struct {
 // ImagesPruneStepAction The action that the step takes.
 type ImagesPruneStepAction string
 
+// IncludedPipelines A map of pipelines, keyed by ID, included on endpoints that support it when passing the matching includes query parameter.
+type IncludedPipelines map[string]Pipeline
+
+// IncludedTriggerKeys A map of trigger keys, keyed by ID, included on endpoints that support it when passing the matching includes query parameter.
+type IncludedTriggerKeys map[string]TriggerKey
+
 // Index An index that enables search in the portal
 type Index struct {
 	Containers   map[string]Component `json:"containers"`
@@ -7917,6 +8100,16 @@ type InstanceState struct {
 		Healthy *bool    `json:"healthy"`
 		Updated DateTime `json:"updated"`
 	} `json:"health"`
+
+	// Readiness information about the readiness of the instance.
+	Readiness *struct {
+		// Ready Describes the readiness of the instance.
+		// - `true`: The instance is ready.
+		// - `false`: The instance is not ready.
+		// - `null`: The instance has not yet reported its readiness, or a readiness check has not yet been performed.
+		Ready   *bool    `json:"ready"`
+		Updated DateTime `json:"updated"`
+	} `json:"readiness"`
 }
 
 // InstanceStateCurrent The current state of the instance.
@@ -8661,6 +8854,27 @@ type LoadBalancerEnvironmentService struct {
 	// HighAvailability A boolean representing if this service container is set to high availability mode or not.
 	HighAvailability bool `json:"high_availability"`
 }
+
+// LoadBalancerInfo Information about an environments load balancer configuration, state, and availability settings.
+type LoadBalancerInfo struct {
+	BaseConfigs *struct {
+		// Haproxy Describes settings that are passed to HAProxy within the load balancer.
+		Haproxy HaProxyConfig `json:"haproxy"`
+		V1      V1LbConfig    `json:"v1"`
+	} `json:"base_configs,omitempty"`
+	CurrentType LoadBalancerInfoCurrentType `json:"current_type"`
+
+	// DefaultConfig The config object for the loadbalancer service.
+	DefaultConfig LoadBalancerConfig              `json:"default_config"`
+	DefaultType   LoadBalancerInfoDefaultType     `json:"default_type"`
+	Service       *LoadBalancerEnvironmentService `json:"service"`
+}
+
+// LoadBalancerInfoCurrentType defines model for LoadBalancerInfo.CurrentType.
+type LoadBalancerInfoCurrentType string
+
+// LoadBalancerInfoDefaultType defines model for LoadBalancerInfo.DefaultType.
+type LoadBalancerInfoDefaultType string
 
 // LoadBalancerLatestControllers Information about the latest controllers that generated traffic.
 type LoadBalancerLatestControllers struct {
@@ -9787,6 +10001,18 @@ type PipelineRunEvents struct {
 	Started  DateTime `json:"started"`
 }
 
+// PipelineRunIncludes Resources related to a pipeline run, that can be included on supported endpoints when the matching includes query parameter is passed.
+type PipelineRunIncludes struct {
+	// Creators An identity that created a resource.
+	Creators *CreatorInclude `json:"creators,omitempty"`
+
+	// Keys A map of trigger keys, keyed by ID, included on endpoints that support it when passing the matching includes query parameter.
+	Keys *IncludedTriggerKeys `json:"keys,omitempty"`
+
+	// Pipelines A map of pipelines, keyed by ID, included on endpoints that support it when passing the matching includes query parameter.
+	Pipelines *IncludedPipelines `json:"pipelines,omitempty"`
+}
+
 // PipelineRunStep defines model for PipelineRunStep.
 type PipelineRunStep struct {
 	Action     PipelineRunStepAction `json:"action"`
@@ -9966,11 +10192,11 @@ type ProviderLocation struct {
 	// Name A name for the location.
 	Name string `json:"name"`
 
-	// Provider Information about the locaiton of the provider.
+	// Provider Information about the location of the provider.
 	Provider ProviderLocationDetails `json:"provider"`
 }
 
-// ProviderLocationDetails Information about the locaiton of the provider.
+// ProviderLocationDetails Information about the location of the provider.
 type ProviderLocationDetails struct {
 	AvailabilityZones *[]string `json:"availability_zones,omitempty"`
 
@@ -10033,14 +10259,14 @@ type ProviderServerModel struct {
 	Price BillingAmount `json:"price"`
 
 	// Provider Higher level information about a providers server.
-	Provider ProviderServerSpec `json:"provider"`
+	Provider ProviderServerModelProviderSpec `json:"provider"`
 
 	// Specs Specs for a given server
-	Specs ServerSpecs `json:"specs"`
+	Specs ProviderServerModelSpec `json:"specs"`
 }
 
-// ProviderServerSpec Higher level information about a providers server.
-type ProviderServerSpec struct {
+// ProviderServerModelProviderSpec Higher level information about a providers server.
+type ProviderServerModelProviderSpec struct {
 	AvailabilityZones *map[string][]string `json:"availability_zones,omitempty"`
 
 	// Category A category for the server.
@@ -10049,7 +10275,7 @@ type ProviderServerSpec struct {
 	// Class A class for the server.
 	Class *string `json:"class,omitempty"`
 
-	// Identifier A provider identifier
+	// Identifier A provider identifier.
 	Identifier    string `json:"identifier"`
 	IntegrationId *ID    `json:"integration_id"`
 
@@ -10058,7 +10284,30 @@ type ProviderServerSpec struct {
 
 	// Model The model of the server.
 	Model string `json:"model"`
+
+	// Vendor The infrastructure vendor for the provider.
+	Vendor *string `json:"vendor,omitempty"`
 }
+
+// ProviderServerModelSpec Specs for a given server
+type ProviderServerModelSpec struct {
+	// Cpu Information about the CPU for a given server.
+	Cpu CPUSpec `json:"cpu"`
+
+	// Features The spec for server features.
+	Features FeaturesSpec `json:"features"`
+
+	// Gpu Information about a given servers GPU resources.
+	Gpu GPUSpec `json:"gpu"`
+
+	// Memory Information about the memory resources of a given server.
+	Memory  MemorySpec    `json:"memory"`
+	Network []NetworkSpec `json:"network"`
+	Storage []StorageSpec `json:"storage"`
+}
+
+// ProviderServerModelsIncludes A resource associated with a server models.
+type ProviderServerModelsIncludes map[string]ProviderServerModel
 
 // PublicAccount Publicly available information about an account
 type PublicAccount struct {
@@ -10895,8 +11144,8 @@ type ServerIncludes struct {
 	// Locations A resource that is associated with a provider location.
 	Locations *LocationsIncludes `json:"locations,omitempty"`
 
-	// Models A resources that assocaited with a provider server.
-	Models *ServerModelIncludes `json:"models,omitempty"`
+	// Models A resource associated with a server models.
+	Models *ProviderServerModelsIncludes `json:"models,omitempty"`
 }
 
 // ServerInstancesSummary A Server ID and number of Instances of a specific Container it hosts.
@@ -10942,12 +11191,6 @@ type ServerMeta struct {
 		Stats NodeMetaStats `json:"stats"`
 	} `json:"node,omitempty"`
 }
-
-// ServerModelIncludes A resources that assocaited with a provider server.
-type ServerModelIncludes map[string]ProviderServerModel
-
-// ServerModelsIncludes A resource associated with a server models.
-type ServerModelsIncludes map[string]ProviderServerModel
 
 // ServerPowerOffAction A job that powers the server off.
 // Only for servers deployed from a virtual provider.
@@ -11084,23 +11327,6 @@ type ServerSharedFileSystems struct {
 		// Type String describing the server mount type.
 		Type string `json:"type"`
 	} `json:"mounts"`
-}
-
-// ServerSpecs Specs for a given server
-type ServerSpecs struct {
-	// Cpu Information about the CPU for a given server.
-	Cpu CPUSpec `json:"cpu"`
-
-	// Features The spec for server features.
-	Features FeaturesSpec `json:"features"`
-
-	// Gpu Information about a given servers GPU resources.
-	Gpu GPUSpec `json:"gpu"`
-
-	// Memory Information about the memory resources of a given server.
-	Memory  MemorySpec    `json:"memory"`
-	Network []NetworkSpec `json:"network"`
-	Storage []StorageSpec `json:"storage"`
 }
 
 // ServerState defines model for ServerState.
@@ -12213,170 +12439,41 @@ type StackSpecContainer_Volumes struct {
 
 // StackSpecContainerConfigDeploy Stack configuration options related to how the container behaves over its lifecycle (startup, shutdown, health checks, etc).
 type StackSpecContainerConfigDeploy struct {
-	// Constraints Configuration options that provide the ability to set restrictions on which nodes instances of this container are able to be deployed to. (i.e. if you have a GPU container, it should only go on nodes with a GPU).
-	Constraints *StackSpecContainerConfigDeploy_Constraints `json:"constraints,omitempty"`
+	// Constraints A variable specified in a stack spec.
+	Constraints *StackVariable `json:"constraints,omitempty"`
 
-	// Function Configuration options for containers using the 'function' deployment strategy.
-	Function *StackSpecContainerConfigDeploy_Function `json:"function,omitempty"`
+	// Function A variable specified in a stack spec.
+	Function *StackVariable `json:"function,omitempty"`
 
-	// HealthCheck Configuration options for automated container health checks.
-	HealthCheck *StackSpecContainerConfigDeploy_HealthCheck `json:"health_check,omitempty"`
+	// HealthCheck A variable specified in a stack spec.
+	HealthCheck *StackVariable `json:"health_check,omitempty"`
 
 	// Instances The number of desired instances to deploy.
 	Instances StackSpecContainerConfigDeploy_Instances `json:"instances"`
 
-	// Restart Configuration options for how Cycle should handle restarting this container (i.e. in case the process inside the container dies).
-	Restart *StackSpecContainerConfigDeploy_Restart `json:"restart,omitempty"`
+	// ReadinessCheck A variable specified in a stack spec.
+	ReadinessCheck *StackVariable `json:"readiness_check,omitempty"`
 
-	// Shutdown Configuration options for how this container behaves during shutdown.
-	Shutdown *StackSpecContainerConfigDeploy_Shutdown `json:"shutdown,omitempty"`
+	// Restart A variable specified in a stack spec.
+	Restart *StackVariable `json:"restart,omitempty"`
 
-	// Startup Configuration options for how this container behaves during startup.
-	Startup *StackSpecContainerConfigDeploy_Startup `json:"startup,omitempty"`
+	// Shutdown A variable specified in a stack spec.
+	Shutdown *StackVariable `json:"shutdown,omitempty"`
 
-	// Stateful Configuration options for stateful containers.
-	Stateful *StackSpecContainerConfigDeploy_Stateful `json:"stateful,omitempty"`
+	// Startup A variable specified in a stack spec.
+	Startup *StackVariable `json:"startup,omitempty"`
 
-	// Strategy The strategy Cycle will apply when deploying instances of this container.
-	//
-	// - ** resource-density **: Cycle will distribute instances across servers to maintain balanced resource usage.
-	// - ** high-availability **: Cycle will deploy instances across servers with an emphasis on geographic and physical separation. Requires multiple locations.
-	// - ** distributed **: Cycle will deploy instances across servers with an emphasis on physical separation. Does not require multiple locations.
-	// - ** first-available **: Cycle will deploy one instance to every server that matches the specified criteria. (default)
-	// - ** node **: Cycle will deploy one instance to every server that matches the specified criteria.
-	// - ** edge **: Cycle will prioritize geographic distribution of instances.
-	// - ** function **: Every ingress request/connection receives its own instance.
-	// - ** manual **: Cycle will not make any decisions on where instances are deployed. Instead, instances must be deployed manually using the portal or API.
-	Strategy *string `json:"strategy,omitempty"`
+	// Stateful A variable specified in a stack spec.
+	Stateful *StackVariable `json:"stateful,omitempty"`
 
-	// Telemetry Configuration options for how the instance telemetry (CPU usage, etc) is handled.
-	Telemetry *StackSpecContainerConfigDeploy_Telemetry `json:"telemetry,omitempty"`
+	// Strategy A variable specified in a stack spec.
+	Strategy *StackVariable `json:"strategy,omitempty"`
 
-	// Update Configurations for how the container behaves during updates.
-	Update *StackSpecContainerConfigDeploy_Update `json:"update,omitempty"`
-}
+	// Telemetry A variable specified in a stack spec.
+	Telemetry *StackVariable `json:"telemetry,omitempty"`
 
-// StackSpecContainerConfigDeployConstraints0 defines model for .
-type StackSpecContainerConfigDeployConstraints0 struct {
-	Node *struct {
-		// Tags Tags applied to a node. Cycle generates some automatically, but additional, custom tags can be applied on a per-node basis.
-		Tags StackSpecContainerConfigDeploy_Constraints_0_Node_Tags `json:"tags"`
-	} `json:"node"`
-}
-
-// StackSpecContainerConfigDeployConstraints0NodeTags0 defines model for .
-type StackSpecContainerConfigDeployConstraints0NodeTags0 struct {
-	// All A node must have **ALL** of these tags to be considered a valid deployment target for this container.
-	All *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All `json:"all,omitempty"`
-
-	// Any If a node has at least one of these tags, it is considered a valid deployment target for this container.
-	Any *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any `json:"any,omitempty"`
-}
-
-// StackSpecContainerConfigDeployConstraints0NodeTags0All0 defines model for .
-type StackSpecContainerConfigDeployConstraints0NodeTags0All0 = []string
-
-// StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All A node must have **ALL** of these tags to be considered a valid deployment target for this container.
-type StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeployConstraints0NodeTags0Any0 defines model for .
-type StackSpecContainerConfigDeployConstraints0NodeTags0Any0 = []string
-
-// StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any If a node has at least one of these tags, it is considered a valid deployment target for this container.
-type StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeploy_Constraints_0_Node_Tags Tags applied to a node. Cycle generates some automatically, but additional, custom tags can be applied on a per-node basis.
-type StackSpecContainerConfigDeploy_Constraints_0_Node_Tags struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeploy_Constraints Configuration options that provide the ability to set restrictions on which nodes instances of this container are able to be deployed to. (i.e. if you have a GPU container, it should only go on nodes with a GPU).
-type StackSpecContainerConfigDeploy_Constraints struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeployFunction0 defines model for .
-type StackSpecContainerConfigDeployFunction0 struct {
-	// MaxPoolSize The maximum number of instances that Cycle can pre-allocate (includes auto-scaled instances).
-	MaxPoolSize *StackSpecContainerConfigDeploy_Function_0_MaxPoolSize `json:"max_pool_size,omitempty"`
-
-	// MaxQueueTime The maximum amount of time Cycle will wait for an instance to be available.
-	MaxQueueTime *StackVariable `json:"max_queue_time"`
-
-	// MaxRuntime The maximum amount of time a function instance can run before timing out.
-	MaxRuntime *StackVariable `json:"max_runtime"`
-
-	// MaxShardConcurrency For each shard (scheduler), the maximum number of tasks it can run in parallel.
-	MaxShardConcurrency *StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency `json:"max_shard_concurrency,omitempty"`
-}
-
-// StackSpecContainerConfigDeployFunction0MaxPoolSize0 defines model for .
-type StackSpecContainerConfigDeployFunction0MaxPoolSize0 = int
-
-// StackSpecContainerConfigDeploy_Function_0_MaxPoolSize The maximum number of instances that Cycle can pre-allocate (includes auto-scaled instances).
-type StackSpecContainerConfigDeploy_Function_0_MaxPoolSize struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeployFunction0MaxShardConcurrency0 defines model for .
-type StackSpecContainerConfigDeployFunction0MaxShardConcurrency0 = int
-
-// StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency For each shard (scheduler), the maximum number of tasks it can run in parallel.
-type StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeploy_Function Configuration options for containers using the 'function' deployment strategy.
-type StackSpecContainerConfigDeploy_Function struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeployHealthCheck0 defines model for .
-type StackSpecContainerConfigDeployHealthCheck0 struct {
-	// Command The command or script to run to verify the health of the container. This script is run inside the container by Cycle.
-	// This command accepts two types of entries:
-	// - The first is a reference to a script that already lives in the container filesystem. This can be defined by giving the full path to the script as the value.   - The second format is an inline script.  If you need the code to execute within a shell, wrap the commands in escaped quotes like this `"\"curl -s -o /dev/console -w \"%{http_code}\" http://localhost:3000/_health | grep '200'  && exit 0 || exit 1\""`.  Do not use the `/bin/sh -c <commands>` format, this will not be accepted.
-	Command string `json:"command"`
-
-	// Delay How long to wait after a container start event before running health checks.
-	Delay *StackVariable `json:"delay"`
-
-	// Interval How long to wait between running health checks.
-	Interval string `json:"interval"`
-
-	// Restart A boolean where true represents the desire for the container to restart if any instance is unhealthy.
-	Restart StackSpecContainerConfigDeploy_HealthCheck_0_Restart `json:"restart"`
-
-	// Retries The number of times to retry the command before marking an instance unhealthy.
-	Retries StackSpecContainerConfigDeploy_HealthCheck_0_Retries `json:"retries"`
-
-	// Timeout How long before a health check attempt times out.
-	Timeout string `json:"timeout"`
-}
-
-// StackSpecContainerConfigDeployHealthCheck0Restart0 defines model for .
-type StackSpecContainerConfigDeployHealthCheck0Restart0 = bool
-
-// StackSpecContainerConfigDeploy_HealthCheck_0_Restart A boolean where true represents the desire for the container to restart if any instance is unhealthy.
-type StackSpecContainerConfigDeploy_HealthCheck_0_Restart struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeployHealthCheck0Retries0 defines model for .
-type StackSpecContainerConfigDeployHealthCheck0Retries0 = int
-
-// StackSpecContainerConfigDeploy_HealthCheck_0_Retries The number of times to retry the command before marking an instance unhealthy.
-type StackSpecContainerConfigDeploy_HealthCheck_0_Retries struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeploy_HealthCheck Configuration options for automated container health checks.
-type StackSpecContainerConfigDeploy_HealthCheck struct {
-	union json.RawMessage
+	// Update A variable specified in a stack spec.
+	Update *StackVariable `json:"update,omitempty"`
 }
 
 // StackSpecContainerConfigDeployInstances0 defines model for .
@@ -12384,115 +12481,6 @@ type StackSpecContainerConfigDeployInstances0 = int
 
 // StackSpecContainerConfigDeploy_Instances The number of desired instances to deploy.
 type StackSpecContainerConfigDeploy_Instances struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeployRestart0 defines model for .
-type StackSpecContainerConfigDeployRestart0 struct {
-	// Condition Under what circumstances Cycle should try to restart this container.
-	Condition string `json:"condition"`
-
-	// Delay How long the platform will wait between restart attempts.
-	Delay string `json:"delay"`
-
-	// MaxAttempts The maximum number of restart attempts Cycle will make.
-	MaxAttempts StackSpecContainerConfigDeploy_Restart_0_MaxAttempts `json:"max_attempts"`
-}
-
-// StackSpecContainerConfigDeployRestart0MaxAttempts0 defines model for .
-type StackSpecContainerConfigDeployRestart0MaxAttempts0 = int
-
-// StackSpecContainerConfigDeploy_Restart_0_MaxAttempts The maximum number of restart attempts Cycle will make.
-type StackSpecContainerConfigDeploy_Restart_0_MaxAttempts struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeploy_Restart Configuration options for how Cycle should handle restarting this container (i.e. in case the process inside the container dies).
-type StackSpecContainerConfigDeploy_Restart struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeployShutdown0 defines model for .
-type StackSpecContainerConfigDeployShutdown0 struct {
-	// GracefulTimeout How long the platform will wait for a container to stop gracefully.
-	GracefulTimeout *StackVariable                                     `json:"graceful_timeout"`
-	Signals         *StackSpecContainerConfigDeploy_Shutdown_0_Signals `json:"signals,omitempty"`
-}
-
-// StackSpecContainerConfigDeployShutdown0Signals0 Signals that should be sent to the container on shutdown.
-type StackSpecContainerConfigDeployShutdown0Signals0 = []ShutdownSignal
-
-// StackSpecContainerConfigDeploy_Shutdown_0_Signals defines model for StackSpecContainerConfigDeploy.Shutdown.0.Signals.
-type StackSpecContainerConfigDeploy_Shutdown_0_Signals struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeploy_Shutdown Configuration options for how this container behaves during shutdown.
-type StackSpecContainerConfigDeploy_Shutdown struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeployStartup0 defines model for .
-type StackSpecContainerConfigDeployStartup0 struct {
-	// Delay How long the platform will wait before sending the start signal to the given container.
-	Delay *StackVariable `json:"delay"`
-}
-
-// StackSpecContainerConfigDeploy_Startup Configuration options for how this container behaves during startup.
-type StackSpecContainerConfigDeploy_Startup struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeployStateful0 defines model for .
-type StackSpecContainerConfigDeployStateful0 struct {
-	// Options Stateful container options.
-	Options *struct {
-		// UseBaseHostname When enabled, instances will utilize stateless base hostnames instead of being prefixed with a unique ID.
-		UseBaseHostname *bool `json:"use_base_hostname"`
-	} `json:"options"`
-}
-
-// StackSpecContainerConfigDeploy_Stateful Configuration options for stateful containers.
-type StackSpecContainerConfigDeploy_Stateful struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeployTelemetry0 defines model for .
-type StackSpecContainerConfigDeployTelemetry0 struct {
-	// Disable If true, Cycle will not aggregate telemetry for this container's instances.
-	Disable StackSpecContainerConfigDeploy_Telemetry_0_Disable `json:"disable"`
-
-	// Interval The duration between samples.
-	Interval *StackVariable `json:"interval"`
-
-	// Retention How long telemetry data should be retained.
-	Retention *StackVariable `json:"retention"`
-
-	// Webhook A URL where Cycle will send telemetry data to. The payload will be an instance resource snapshot.
-	Webhook *string `json:"webhook,omitempty"`
-}
-
-// StackSpecContainerConfigDeployTelemetry0Disable0 defines model for .
-type StackSpecContainerConfigDeployTelemetry0Disable0 = bool
-
-// StackSpecContainerConfigDeploy_Telemetry_0_Disable If true, Cycle will not aggregate telemetry for this container's instances.
-type StackSpecContainerConfigDeploy_Telemetry_0_Disable struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeploy_Telemetry Configuration options for how the instance telemetry (CPU usage, etc) is handled.
-type StackSpecContainerConfigDeploy_Telemetry struct {
-	union json.RawMessage
-}
-
-// StackSpecContainerConfigDeployUpdate0 defines model for .
-type StackSpecContainerConfigDeployUpdate0 struct {
-	// Stagger When set, Cycle will pick a random time from `0 - this duration`, and stagger the instances so they all start at different times (up to the time specified here).
-	Stagger *StackVariable `json:"stagger"`
-}
-
-// StackSpecContainerConfigDeploy_Update Configurations for how the container behaves during updates.
-type StackSpecContainerConfigDeploy_Update struct {
 	union json.RawMessage
 }
 
@@ -12534,7 +12522,10 @@ type StackSpecContainerImage struct {
 // StackSpecContainerImageBuild0 defines model for .
 type StackSpecContainerImageBuild0 struct {
 	// Args A map of build arguments applied to the image at build time.
-	Args StackSpecContainerImage_Build_0_Args `json:"args"`
+	Args *StackSpecContainerImage_Build_0_Args `json:"args,omitempty"`
+
+	// UseDisk If true, will skip using /dev/shm when building an image on factory, which is limited to `6.5GB`. Allows for building much larger images, up to `20GB`.
+	UseDisk *bool `json:"use_disk,omitempty"`
 }
 
 // StackSpecContainerImageBuild0Args0 defines model for .
@@ -15289,6 +15280,28 @@ type GetTLSGenerationAttemptsParams struct {
 	Page *PageParam `json:"page,omitempty"`
 }
 
+// GetAllTlsCertificatesParams defines parameters for GetAllTlsCertificates.
+type GetAllTlsCertificatesParams struct {
+	// Filter The filter field is a key-value object, where the key is what you would like to filter, and the value is the value you're filtering for.
+	Filter *struct {
+		// Domain `filter[domain]=value1` filter user certificates by associated domain.
+		Domain *string `json:"domain,omitempty"`
+
+		// State `filter[state]=value1,value2` state filtering will allow filtering by the current state.
+		State *string `json:"state,omitempty"`
+
+		// UserSupplied `filter[user-supplied]=true` List only those certificates that are user supplied.
+		// `filter[user-supplied]=false` List only those certificates that are auto generated.
+		UserSupplied *string `json:"user-supplied,omitempty"`
+	} `json:"filter,omitempty"`
+
+	// Sort An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
+
+	// Page In a list return, the data associated with the page number and size returned. 20 results per page, page 2 would be `page[size]=20&page[number]=2`
+	Page *PageParam `json:"page,omitempty"`
+}
+
 // LookupTLSCertificateParams defines parameters for LookupTLSCertificate.
 type LookupTLSCertificateParams struct {
 	// Domain The domain to lookup.
@@ -16390,7 +16403,7 @@ type CreateImagesJobJSONBody struct {
 	// Action The action is the Job type to create.
 	Action CreateImagesJobJSONBodyAction `json:"action"`
 
-	// Contents Additional contents needed by the platform to create the Job.
+	// Contents Additional contents needed by the platform to create the job.
 	Contents struct {
 		// SourceIds A list of IDs to be pruned.
 		SourceIds []string `json:"source_ids"`
@@ -16498,6 +16511,16 @@ type UpdateAutoScaleGroupAccessJSONBody struct {
 type GetClustersParams struct {
 	// Page In a list return, the data associated with the page number and size returned. 20 results per page, page 2 would be `page[size]=20&page[number]=2`
 	Page *PageParam `json:"page,omitempty"`
+
+	// Filter The filter field is a key-value object, where the key is what you would like to filter, and the value is the value you're filtering for.
+	Filter *struct {
+		// Essential `filter[essential]=true` filter for essential/non-essential clusters.
+		Essential *string `json:"essential,omitempty"`
+
+		// State `filter[state]=value1,value2` state filtering will allow you to filter by the cluster's current state.
+		//        `filter[stack_build]=ID` stack build filtering by ID.  Submit the ID of the stack build you wish to filter for and the return sill be any environments that have the stack build deployed to them.
+		State *string `json:"state,omitempty"`
+	} `json:"filter,omitempty"`
 }
 
 // CreateClusterJSONBody defines parameters for CreateCluster.
@@ -16513,7 +16536,10 @@ type CreateClusterJSONBody struct {
 }
 
 // UpdateClusterJSONBody defines parameters for UpdateCluster.
-type UpdateClusterJSONBody = map[string]interface{}
+type UpdateClusterJSONBody struct {
+	// NonEssential Set to true to mark the cluster as 'non-essential'. Non-essential cluster resources are excluded by default from certain metrics and summaries unless opted in.
+	NonEssential *bool `json:"non_essential,omitempty"`
+}
 
 // UpdateClusterAccessJSONBody defines parameters for UpdateClusterAccess.
 type UpdateClusterAccessJSONBody struct {
@@ -16542,6 +16568,9 @@ type GetExternalVolumesParams struct {
 
 		// State `filter[state]=value1,value2` state filtering will allow you to filter by the attached volume's current state.
 		State *string `json:"state,omitempty"`
+
+		// Unused `filter[unused]=true` List only those external volumes that are unused (not attached).
+		Unused *string `json:"unused,omitempty"`
 	} `json:"filter,omitempty"`
 
 	// Sort An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
@@ -16747,8 +16776,8 @@ type GetProviderLocationsParams struct {
 	Page *PageParam `json:"page,omitempty"`
 }
 
-// GetProviderServersParams defines parameters for GetProviderServers.
-type GetProviderServersParams struct {
+// GetProviderServerModelsParams defines parameters for GetProviderServerModels.
+type GetProviderServerModelsParams struct {
 	// Sort An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
 	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
 
@@ -16801,17 +16830,18 @@ type GetServersParamsMeta string
 // GetServersParamsInclude defines parameters for GetServers.
 type GetServersParamsInclude string
 
-// CreateServerJSONBody defines parameters for CreateServer.
-type CreateServerJSONBody struct {
+// CreateServersJSONBody defines parameters for CreateServers.
+type CreateServersJSONBody struct {
 	// Cluster The existing or new cluster this infrastructure should be provisioned in.
 	Cluster string `json:"cluster"`
 
 	// Servers An array of servers to provision.
 	Servers []struct {
-		Advanced *[]struct {
+		Advanced *struct {
 			// ProvisionOptions Advanced options to apply to the provisioning of a server.
 			ProvisionOptions *struct {
-				// AttachedStorageSize For providers that support setting this value dynamically; A number representing the GB size of the volume to be attached to the server.
+				// AttachedStorageSize For providers that support setting this value dynamically;
+				// A number representing the GB size of the volume to be attached to the server.
 				AttachedStorageSize *int `json:"attached_storage_size"`
 
 				// EncryptStorage For providers that support this setting, this option will encrypt storage for server.
@@ -16821,10 +16851,7 @@ type CreateServerJSONBody struct {
 				ReservationId *string `json:"reservation_id"`
 			} `json:"provision_options"`
 			Zone *string `json:"zone"`
-		} `json:"advanced,omitempty"`
-
-		// Hostnames An array of hostnames for the given servers.
-		Hostnames *[]string `json:"hostnames,omitempty"`
+		} `json:"advanced"`
 
 		// IntegrationId A 24 character hex string used to identify a unique resource.
 		IntegrationId ID `json:"integration_id"`
@@ -16834,9 +16861,6 @@ type CreateServerJSONBody struct {
 
 		// ModelId The model ID of the Server.
 		ModelId string `json:"model_id"`
-
-		// Quantity The number of this Server at this location to deploy.
-		Quantity int `json:"quantity"`
 	} `json:"servers"`
 }
 
@@ -17305,6 +17329,21 @@ type ClonePipelineJSONBody struct {
 	PipelineId ID `json:"pipeline_id"`
 }
 
+// GetAllPipelineRunsParams defines parameters for GetAllPipelineRuns.
+type GetAllPipelineRunsParams struct {
+	// Page In a list return, the data associated with the page number and size returned. 20 results per page, page 2 would be `page[size]=20&page[number]=2`
+	Page *PageParam `json:"page,omitempty"`
+
+	// Sort An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
+
+	// Include A comma separated list of include values. Included resources will show up under the root document's `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.
+	Include *[]GetAllPipelineRunsParamsInclude `form:"include,omitempty" json:"include,omitempty"`
+}
+
+// GetAllPipelineRunsParamsInclude defines parameters for GetAllPipelineRuns.
+type GetAllPipelineRunsParamsInclude string
+
 // GetPipelineParams defines parameters for GetPipeline.
 type GetPipelineParams struct {
 	// Include A comma separated list of include values. Included resources will show up under the root document's `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.
@@ -17561,6 +17600,30 @@ type CreateStackJSONBody struct {
 	// Variables A map of default variable values used when building this Stack. A variable can be added anywhere in a Stack using the format `{{var}}` where `var` would be a key in this map.
 	Variables *map[string]string `json:"variables,omitempty"`
 }
+
+// GetAllStackBuildsParams defines parameters for GetAllStackBuilds.
+type GetAllStackBuildsParams struct {
+	// Meta A comma separated list of meta values. Meta values will show up under a resource's `meta` field. In the case of applying a meta to a collection of resources, each resource will have it's own relevant meta data. In some rare cases, meta may not apply to individual resources, and may appear in the root document. These will be clearly labeled.
+	Meta *[]GetAllStackBuildsParamsMeta `form:"meta,omitempty" json:"meta,omitempty"`
+
+	// Filter The filter field is a key-value object, where the key is what you would like to filter, and the value is the value you're filtering for.
+	Filter *struct {
+		// Search `filter[search]=value` search for a value associated with a field on the given Stack Build(s).
+		Search *string `json:"search,omitempty"`
+
+		// State `filter[state]=value1,value2` state filtering will allow you to filter by the Stack Build's current state.
+		State *string `json:"state,omitempty"`
+	} `json:"filter,omitempty"`
+
+	// Sort An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
+
+	// Page In a list return, the data associated with the page number and size returned. 20 results per page, page 2 would be `page[size]=20&page[number]=2`
+	Page *PageParam `json:"page,omitempty"`
+}
+
+// GetAllStackBuildsParamsMeta defines parameters for GetAllStackBuilds.
+type GetAllStackBuildsParamsMeta string
 
 // UpdateStackJSONBody defines parameters for UpdateStack.
 type UpdateStackJSONBody struct {
@@ -18072,7 +18135,7 @@ type UpdateAutoScaleGroupAccessJSONRequestBody UpdateAutoScaleGroupAccessJSONBod
 type CreateClusterJSONRequestBody CreateClusterJSONBody
 
 // UpdateClusterJSONRequestBody defines body for UpdateCluster for application/json ContentType.
-type UpdateClusterJSONRequestBody = UpdateClusterJSONBody
+type UpdateClusterJSONRequestBody UpdateClusterJSONBody
 
 // UpdateClusterAccessJSONRequestBody defines body for UpdateClusterAccess for application/json ContentType.
 type UpdateClusterAccessJSONRequestBody UpdateClusterAccessJSONBody
@@ -18082,6 +18145,9 @@ type CreateClusterJobJSONRequestBody = ClusterTask
 
 // CreateExternalVolumeJSONRequestBody defines body for CreateExternalVolume for application/json ContentType.
 type CreateExternalVolumeJSONRequestBody CreateExternalVolumeJSONBody
+
+// CreateExternalVolumesJobJSONRequestBody defines body for CreateExternalVolumesJob for application/json ContentType.
+type CreateExternalVolumesJobJSONRequestBody = ExternalVolumesTask
 
 // DeleteExternalVolumeJSONRequestBody defines body for DeleteExternalVolume for application/json ContentType.
 type DeleteExternalVolumeJSONRequestBody DeleteExternalVolumeJSONBody
@@ -18101,8 +18167,8 @@ type CreateIpPoolJSONRequestBody CreateIpPoolJSONBody
 // CreateIpPoolJobJSONRequestBody defines body for CreateIpPoolJob for application/json ContentType.
 type CreateIpPoolJobJSONRequestBody = IpPoolTask
 
-// CreateServerJSONRequestBody defines body for CreateServer for application/json ContentType.
-type CreateServerJSONRequestBody CreateServerJSONBody
+// CreateServersJSONRequestBody defines body for CreateServers for application/json ContentType.
+type CreateServersJSONRequestBody CreateServersJSONBody
 
 // DeleteServerJSONRequestBody defines body for DeleteServer for application/json ContentType.
 type DeleteServerJSONRequestBody DeleteServerJSONBody
@@ -19390,6 +19456,34 @@ func (t *ExternalVolumeTask) MergeExternalVolumeServersReconfigureAction(v Exter
 	return err
 }
 
+// AsExternalVolumeAttachmentReconfigureAction returns the union data inside the ExternalVolumeTask as a ExternalVolumeAttachmentReconfigureAction
+func (t ExternalVolumeTask) AsExternalVolumeAttachmentReconfigureAction() (ExternalVolumeAttachmentReconfigureAction, error) {
+	var body ExternalVolumeAttachmentReconfigureAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromExternalVolumeAttachmentReconfigureAction overwrites any union data inside the ExternalVolumeTask as the provided ExternalVolumeAttachmentReconfigureAction
+func (t *ExternalVolumeTask) FromExternalVolumeAttachmentReconfigureAction(v ExternalVolumeAttachmentReconfigureAction) error {
+	v.Action = "attachment.reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeExternalVolumeAttachmentReconfigureAction performs a merge with any union data inside the ExternalVolumeTask, using the provided ExternalVolumeAttachmentReconfigureAction
+func (t *ExternalVolumeTask) MergeExternalVolumeAttachmentReconfigureAction(v ExternalVolumeAttachmentReconfigureAction) error {
+	v.Action = "attachment.reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
 func (t ExternalVolumeTask) Discriminator() (string, error) {
 	var discriminator struct {
 		Discriminator string `json:"action"`
@@ -19404,6 +19498,8 @@ func (t ExternalVolumeTask) ValueByDiscriminator() (interface{}, error) {
 		return nil, err
 	}
 	switch discriminator {
+	case "attachment.reconfigure":
+		return t.AsExternalVolumeAttachmentReconfigureAction()
 	case "servers.reconfigure":
 		return t.AsExternalVolumeServersReconfigureAction()
 	default:
@@ -19417,6 +19513,65 @@ func (t ExternalVolumeTask) MarshalJSON() ([]byte, error) {
 }
 
 func (t *ExternalVolumeTask) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsExternalVolumesScanAction returns the union data inside the ExternalVolumesTask as a ExternalVolumesScanAction
+func (t ExternalVolumesTask) AsExternalVolumesScanAction() (ExternalVolumesScanAction, error) {
+	var body ExternalVolumesScanAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromExternalVolumesScanAction overwrites any union data inside the ExternalVolumesTask as the provided ExternalVolumesScanAction
+func (t *ExternalVolumesTask) FromExternalVolumesScanAction(v ExternalVolumesScanAction) error {
+	v.Action = "scan"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeExternalVolumesScanAction performs a merge with any union data inside the ExternalVolumesTask, using the provided ExternalVolumesScanAction
+func (t *ExternalVolumesTask) MergeExternalVolumesScanAction(v ExternalVolumesScanAction) error {
+	v.Action = "scan"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t ExternalVolumesTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t ExternalVolumesTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "scan":
+		return t.AsExternalVolumesScanAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t ExternalVolumesTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *ExternalVolumesTask) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -23603,626 +23758,6 @@ func (t *StackSpecContainer_Volumes) UnmarshalJSON(b []byte) error {
 	return err
 }
 
-// AsStackSpecContainerConfigDeployConstraints0NodeTags0All0 returns the union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All as a StackSpecContainerConfigDeployConstraints0NodeTags0All0
-func (t StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All) AsStackSpecContainerConfigDeployConstraints0NodeTags0All0() (StackSpecContainerConfigDeployConstraints0NodeTags0All0, error) {
-	var body StackSpecContainerConfigDeployConstraints0NodeTags0All0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployConstraints0NodeTags0All0 overwrites any union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All as the provided StackSpecContainerConfigDeployConstraints0NodeTags0All0
-func (t *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All) FromStackSpecContainerConfigDeployConstraints0NodeTags0All0(v StackSpecContainerConfigDeployConstraints0NodeTags0All0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployConstraints0NodeTags0All0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All, using the provided StackSpecContainerConfigDeployConstraints0NodeTags0All0
-func (t *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All) MergeStackSpecContainerConfigDeployConstraints0NodeTags0All0(v StackSpecContainerConfigDeployConstraints0NodeTags0All0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All as a StackVariable
-func (t StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_All) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployConstraints0NodeTags0Any0 returns the union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any as a StackSpecContainerConfigDeployConstraints0NodeTags0Any0
-func (t StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any) AsStackSpecContainerConfigDeployConstraints0NodeTags0Any0() (StackSpecContainerConfigDeployConstraints0NodeTags0Any0, error) {
-	var body StackSpecContainerConfigDeployConstraints0NodeTags0Any0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployConstraints0NodeTags0Any0 overwrites any union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any as the provided StackSpecContainerConfigDeployConstraints0NodeTags0Any0
-func (t *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any) FromStackSpecContainerConfigDeployConstraints0NodeTags0Any0(v StackSpecContainerConfigDeployConstraints0NodeTags0Any0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployConstraints0NodeTags0Any0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any, using the provided StackSpecContainerConfigDeployConstraints0NodeTags0Any0
-func (t *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any) MergeStackSpecContainerConfigDeployConstraints0NodeTags0Any0(v StackSpecContainerConfigDeployConstraints0NodeTags0Any0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any as a StackVariable
-func (t StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags_0_Any) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployConstraints0NodeTags0 returns the union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags as a StackSpecContainerConfigDeployConstraints0NodeTags0
-func (t StackSpecContainerConfigDeploy_Constraints_0_Node_Tags) AsStackSpecContainerConfigDeployConstraints0NodeTags0() (StackSpecContainerConfigDeployConstraints0NodeTags0, error) {
-	var body StackSpecContainerConfigDeployConstraints0NodeTags0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployConstraints0NodeTags0 overwrites any union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags as the provided StackSpecContainerConfigDeployConstraints0NodeTags0
-func (t *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags) FromStackSpecContainerConfigDeployConstraints0NodeTags0(v StackSpecContainerConfigDeployConstraints0NodeTags0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployConstraints0NodeTags0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags, using the provided StackSpecContainerConfigDeployConstraints0NodeTags0
-func (t *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags) MergeStackSpecContainerConfigDeployConstraints0NodeTags0(v StackSpecContainerConfigDeployConstraints0NodeTags0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags as a StackVariable
-func (t StackSpecContainerConfigDeploy_Constraints_0_Node_Tags) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Constraints_0_Node_Tags, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Constraints_0_Node_Tags) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Constraints_0_Node_Tags) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployConstraints0 returns the union data inside the StackSpecContainerConfigDeploy_Constraints as a StackSpecContainerConfigDeployConstraints0
-func (t StackSpecContainerConfigDeploy_Constraints) AsStackSpecContainerConfigDeployConstraints0() (StackSpecContainerConfigDeployConstraints0, error) {
-	var body StackSpecContainerConfigDeployConstraints0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployConstraints0 overwrites any union data inside the StackSpecContainerConfigDeploy_Constraints as the provided StackSpecContainerConfigDeployConstraints0
-func (t *StackSpecContainerConfigDeploy_Constraints) FromStackSpecContainerConfigDeployConstraints0(v StackSpecContainerConfigDeployConstraints0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployConstraints0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Constraints, using the provided StackSpecContainerConfigDeployConstraints0
-func (t *StackSpecContainerConfigDeploy_Constraints) MergeStackSpecContainerConfigDeployConstraints0(v StackSpecContainerConfigDeployConstraints0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Constraints as a StackVariable
-func (t StackSpecContainerConfigDeploy_Constraints) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Constraints as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Constraints) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Constraints, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Constraints) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Constraints) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Constraints) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployFunction0MaxPoolSize0 returns the union data inside the StackSpecContainerConfigDeploy_Function_0_MaxPoolSize as a StackSpecContainerConfigDeployFunction0MaxPoolSize0
-func (t StackSpecContainerConfigDeploy_Function_0_MaxPoolSize) AsStackSpecContainerConfigDeployFunction0MaxPoolSize0() (StackSpecContainerConfigDeployFunction0MaxPoolSize0, error) {
-	var body StackSpecContainerConfigDeployFunction0MaxPoolSize0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployFunction0MaxPoolSize0 overwrites any union data inside the StackSpecContainerConfigDeploy_Function_0_MaxPoolSize as the provided StackSpecContainerConfigDeployFunction0MaxPoolSize0
-func (t *StackSpecContainerConfigDeploy_Function_0_MaxPoolSize) FromStackSpecContainerConfigDeployFunction0MaxPoolSize0(v StackSpecContainerConfigDeployFunction0MaxPoolSize0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployFunction0MaxPoolSize0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Function_0_MaxPoolSize, using the provided StackSpecContainerConfigDeployFunction0MaxPoolSize0
-func (t *StackSpecContainerConfigDeploy_Function_0_MaxPoolSize) MergeStackSpecContainerConfigDeployFunction0MaxPoolSize0(v StackSpecContainerConfigDeployFunction0MaxPoolSize0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Function_0_MaxPoolSize as a StackVariable
-func (t StackSpecContainerConfigDeploy_Function_0_MaxPoolSize) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Function_0_MaxPoolSize as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Function_0_MaxPoolSize) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Function_0_MaxPoolSize, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Function_0_MaxPoolSize) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Function_0_MaxPoolSize) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Function_0_MaxPoolSize) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployFunction0MaxShardConcurrency0 returns the union data inside the StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency as a StackSpecContainerConfigDeployFunction0MaxShardConcurrency0
-func (t StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency) AsStackSpecContainerConfigDeployFunction0MaxShardConcurrency0() (StackSpecContainerConfigDeployFunction0MaxShardConcurrency0, error) {
-	var body StackSpecContainerConfigDeployFunction0MaxShardConcurrency0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployFunction0MaxShardConcurrency0 overwrites any union data inside the StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency as the provided StackSpecContainerConfigDeployFunction0MaxShardConcurrency0
-func (t *StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency) FromStackSpecContainerConfigDeployFunction0MaxShardConcurrency0(v StackSpecContainerConfigDeployFunction0MaxShardConcurrency0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployFunction0MaxShardConcurrency0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency, using the provided StackSpecContainerConfigDeployFunction0MaxShardConcurrency0
-func (t *StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency) MergeStackSpecContainerConfigDeployFunction0MaxShardConcurrency0(v StackSpecContainerConfigDeployFunction0MaxShardConcurrency0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency as a StackVariable
-func (t StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Function_0_MaxShardConcurrency) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployFunction0 returns the union data inside the StackSpecContainerConfigDeploy_Function as a StackSpecContainerConfigDeployFunction0
-func (t StackSpecContainerConfigDeploy_Function) AsStackSpecContainerConfigDeployFunction0() (StackSpecContainerConfigDeployFunction0, error) {
-	var body StackSpecContainerConfigDeployFunction0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployFunction0 overwrites any union data inside the StackSpecContainerConfigDeploy_Function as the provided StackSpecContainerConfigDeployFunction0
-func (t *StackSpecContainerConfigDeploy_Function) FromStackSpecContainerConfigDeployFunction0(v StackSpecContainerConfigDeployFunction0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployFunction0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Function, using the provided StackSpecContainerConfigDeployFunction0
-func (t *StackSpecContainerConfigDeploy_Function) MergeStackSpecContainerConfigDeployFunction0(v StackSpecContainerConfigDeployFunction0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Function as a StackVariable
-func (t StackSpecContainerConfigDeploy_Function) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Function as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Function) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Function, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Function) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Function) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Function) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployHealthCheck0Restart0 returns the union data inside the StackSpecContainerConfigDeploy_HealthCheck_0_Restart as a StackSpecContainerConfigDeployHealthCheck0Restart0
-func (t StackSpecContainerConfigDeploy_HealthCheck_0_Restart) AsStackSpecContainerConfigDeployHealthCheck0Restart0() (StackSpecContainerConfigDeployHealthCheck0Restart0, error) {
-	var body StackSpecContainerConfigDeployHealthCheck0Restart0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployHealthCheck0Restart0 overwrites any union data inside the StackSpecContainerConfigDeploy_HealthCheck_0_Restart as the provided StackSpecContainerConfigDeployHealthCheck0Restart0
-func (t *StackSpecContainerConfigDeploy_HealthCheck_0_Restart) FromStackSpecContainerConfigDeployHealthCheck0Restart0(v StackSpecContainerConfigDeployHealthCheck0Restart0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployHealthCheck0Restart0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_HealthCheck_0_Restart, using the provided StackSpecContainerConfigDeployHealthCheck0Restart0
-func (t *StackSpecContainerConfigDeploy_HealthCheck_0_Restart) MergeStackSpecContainerConfigDeployHealthCheck0Restart0(v StackSpecContainerConfigDeployHealthCheck0Restart0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_HealthCheck_0_Restart as a StackVariable
-func (t StackSpecContainerConfigDeploy_HealthCheck_0_Restart) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_HealthCheck_0_Restart as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_HealthCheck_0_Restart) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_HealthCheck_0_Restart, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_HealthCheck_0_Restart) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_HealthCheck_0_Restart) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_HealthCheck_0_Restart) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployHealthCheck0Retries0 returns the union data inside the StackSpecContainerConfigDeploy_HealthCheck_0_Retries as a StackSpecContainerConfigDeployHealthCheck0Retries0
-func (t StackSpecContainerConfigDeploy_HealthCheck_0_Retries) AsStackSpecContainerConfigDeployHealthCheck0Retries0() (StackSpecContainerConfigDeployHealthCheck0Retries0, error) {
-	var body StackSpecContainerConfigDeployHealthCheck0Retries0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployHealthCheck0Retries0 overwrites any union data inside the StackSpecContainerConfigDeploy_HealthCheck_0_Retries as the provided StackSpecContainerConfigDeployHealthCheck0Retries0
-func (t *StackSpecContainerConfigDeploy_HealthCheck_0_Retries) FromStackSpecContainerConfigDeployHealthCheck0Retries0(v StackSpecContainerConfigDeployHealthCheck0Retries0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployHealthCheck0Retries0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_HealthCheck_0_Retries, using the provided StackSpecContainerConfigDeployHealthCheck0Retries0
-func (t *StackSpecContainerConfigDeploy_HealthCheck_0_Retries) MergeStackSpecContainerConfigDeployHealthCheck0Retries0(v StackSpecContainerConfigDeployHealthCheck0Retries0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_HealthCheck_0_Retries as a StackVariable
-func (t StackSpecContainerConfigDeploy_HealthCheck_0_Retries) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_HealthCheck_0_Retries as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_HealthCheck_0_Retries) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_HealthCheck_0_Retries, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_HealthCheck_0_Retries) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_HealthCheck_0_Retries) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_HealthCheck_0_Retries) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployHealthCheck0 returns the union data inside the StackSpecContainerConfigDeploy_HealthCheck as a StackSpecContainerConfigDeployHealthCheck0
-func (t StackSpecContainerConfigDeploy_HealthCheck) AsStackSpecContainerConfigDeployHealthCheck0() (StackSpecContainerConfigDeployHealthCheck0, error) {
-	var body StackSpecContainerConfigDeployHealthCheck0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployHealthCheck0 overwrites any union data inside the StackSpecContainerConfigDeploy_HealthCheck as the provided StackSpecContainerConfigDeployHealthCheck0
-func (t *StackSpecContainerConfigDeploy_HealthCheck) FromStackSpecContainerConfigDeployHealthCheck0(v StackSpecContainerConfigDeployHealthCheck0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployHealthCheck0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_HealthCheck, using the provided StackSpecContainerConfigDeployHealthCheck0
-func (t *StackSpecContainerConfigDeploy_HealthCheck) MergeStackSpecContainerConfigDeployHealthCheck0(v StackSpecContainerConfigDeployHealthCheck0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_HealthCheck as a StackVariable
-func (t StackSpecContainerConfigDeploy_HealthCheck) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_HealthCheck as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_HealthCheck) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_HealthCheck, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_HealthCheck) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_HealthCheck) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_HealthCheck) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
 // AsStackSpecContainerConfigDeployInstances0 returns the union data inside the StackSpecContainerConfigDeploy_Instances as a StackSpecContainerConfigDeployInstances0
 func (t StackSpecContainerConfigDeploy_Instances) AsStackSpecContainerConfigDeployInstances0() (StackSpecContainerConfigDeployInstances0, error) {
 	var body StackSpecContainerConfigDeployInstances0
@@ -24281,564 +23816,6 @@ func (t StackSpecContainerConfigDeploy_Instances) MarshalJSON() ([]byte, error) 
 }
 
 func (t *StackSpecContainerConfigDeploy_Instances) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployRestart0MaxAttempts0 returns the union data inside the StackSpecContainerConfigDeploy_Restart_0_MaxAttempts as a StackSpecContainerConfigDeployRestart0MaxAttempts0
-func (t StackSpecContainerConfigDeploy_Restart_0_MaxAttempts) AsStackSpecContainerConfigDeployRestart0MaxAttempts0() (StackSpecContainerConfigDeployRestart0MaxAttempts0, error) {
-	var body StackSpecContainerConfigDeployRestart0MaxAttempts0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployRestart0MaxAttempts0 overwrites any union data inside the StackSpecContainerConfigDeploy_Restart_0_MaxAttempts as the provided StackSpecContainerConfigDeployRestart0MaxAttempts0
-func (t *StackSpecContainerConfigDeploy_Restart_0_MaxAttempts) FromStackSpecContainerConfigDeployRestart0MaxAttempts0(v StackSpecContainerConfigDeployRestart0MaxAttempts0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployRestart0MaxAttempts0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Restart_0_MaxAttempts, using the provided StackSpecContainerConfigDeployRestart0MaxAttempts0
-func (t *StackSpecContainerConfigDeploy_Restart_0_MaxAttempts) MergeStackSpecContainerConfigDeployRestart0MaxAttempts0(v StackSpecContainerConfigDeployRestart0MaxAttempts0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Restart_0_MaxAttempts as a StackVariable
-func (t StackSpecContainerConfigDeploy_Restart_0_MaxAttempts) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Restart_0_MaxAttempts as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Restart_0_MaxAttempts) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Restart_0_MaxAttempts, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Restart_0_MaxAttempts) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Restart_0_MaxAttempts) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Restart_0_MaxAttempts) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployRestart0 returns the union data inside the StackSpecContainerConfigDeploy_Restart as a StackSpecContainerConfigDeployRestart0
-func (t StackSpecContainerConfigDeploy_Restart) AsStackSpecContainerConfigDeployRestart0() (StackSpecContainerConfigDeployRestart0, error) {
-	var body StackSpecContainerConfigDeployRestart0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployRestart0 overwrites any union data inside the StackSpecContainerConfigDeploy_Restart as the provided StackSpecContainerConfigDeployRestart0
-func (t *StackSpecContainerConfigDeploy_Restart) FromStackSpecContainerConfigDeployRestart0(v StackSpecContainerConfigDeployRestart0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployRestart0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Restart, using the provided StackSpecContainerConfigDeployRestart0
-func (t *StackSpecContainerConfigDeploy_Restart) MergeStackSpecContainerConfigDeployRestart0(v StackSpecContainerConfigDeployRestart0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Restart as a StackVariable
-func (t StackSpecContainerConfigDeploy_Restart) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Restart as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Restart) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Restart, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Restart) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Restart) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Restart) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployShutdown0Signals0 returns the union data inside the StackSpecContainerConfigDeploy_Shutdown_0_Signals as a StackSpecContainerConfigDeployShutdown0Signals0
-func (t StackSpecContainerConfigDeploy_Shutdown_0_Signals) AsStackSpecContainerConfigDeployShutdown0Signals0() (StackSpecContainerConfigDeployShutdown0Signals0, error) {
-	var body StackSpecContainerConfigDeployShutdown0Signals0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployShutdown0Signals0 overwrites any union data inside the StackSpecContainerConfigDeploy_Shutdown_0_Signals as the provided StackSpecContainerConfigDeployShutdown0Signals0
-func (t *StackSpecContainerConfigDeploy_Shutdown_0_Signals) FromStackSpecContainerConfigDeployShutdown0Signals0(v StackSpecContainerConfigDeployShutdown0Signals0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployShutdown0Signals0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Shutdown_0_Signals, using the provided StackSpecContainerConfigDeployShutdown0Signals0
-func (t *StackSpecContainerConfigDeploy_Shutdown_0_Signals) MergeStackSpecContainerConfigDeployShutdown0Signals0(v StackSpecContainerConfigDeployShutdown0Signals0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Shutdown_0_Signals as a StackVariable
-func (t StackSpecContainerConfigDeploy_Shutdown_0_Signals) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Shutdown_0_Signals as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Shutdown_0_Signals) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Shutdown_0_Signals, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Shutdown_0_Signals) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Shutdown_0_Signals) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Shutdown_0_Signals) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployShutdown0 returns the union data inside the StackSpecContainerConfigDeploy_Shutdown as a StackSpecContainerConfigDeployShutdown0
-func (t StackSpecContainerConfigDeploy_Shutdown) AsStackSpecContainerConfigDeployShutdown0() (StackSpecContainerConfigDeployShutdown0, error) {
-	var body StackSpecContainerConfigDeployShutdown0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployShutdown0 overwrites any union data inside the StackSpecContainerConfigDeploy_Shutdown as the provided StackSpecContainerConfigDeployShutdown0
-func (t *StackSpecContainerConfigDeploy_Shutdown) FromStackSpecContainerConfigDeployShutdown0(v StackSpecContainerConfigDeployShutdown0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployShutdown0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Shutdown, using the provided StackSpecContainerConfigDeployShutdown0
-func (t *StackSpecContainerConfigDeploy_Shutdown) MergeStackSpecContainerConfigDeployShutdown0(v StackSpecContainerConfigDeployShutdown0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Shutdown as a StackVariable
-func (t StackSpecContainerConfigDeploy_Shutdown) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Shutdown as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Shutdown) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Shutdown, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Shutdown) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Shutdown) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Shutdown) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployStartup0 returns the union data inside the StackSpecContainerConfigDeploy_Startup as a StackSpecContainerConfigDeployStartup0
-func (t StackSpecContainerConfigDeploy_Startup) AsStackSpecContainerConfigDeployStartup0() (StackSpecContainerConfigDeployStartup0, error) {
-	var body StackSpecContainerConfigDeployStartup0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployStartup0 overwrites any union data inside the StackSpecContainerConfigDeploy_Startup as the provided StackSpecContainerConfigDeployStartup0
-func (t *StackSpecContainerConfigDeploy_Startup) FromStackSpecContainerConfigDeployStartup0(v StackSpecContainerConfigDeployStartup0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployStartup0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Startup, using the provided StackSpecContainerConfigDeployStartup0
-func (t *StackSpecContainerConfigDeploy_Startup) MergeStackSpecContainerConfigDeployStartup0(v StackSpecContainerConfigDeployStartup0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Startup as a StackVariable
-func (t StackSpecContainerConfigDeploy_Startup) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Startup as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Startup) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Startup, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Startup) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Startup) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Startup) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployStateful0 returns the union data inside the StackSpecContainerConfigDeploy_Stateful as a StackSpecContainerConfigDeployStateful0
-func (t StackSpecContainerConfigDeploy_Stateful) AsStackSpecContainerConfigDeployStateful0() (StackSpecContainerConfigDeployStateful0, error) {
-	var body StackSpecContainerConfigDeployStateful0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployStateful0 overwrites any union data inside the StackSpecContainerConfigDeploy_Stateful as the provided StackSpecContainerConfigDeployStateful0
-func (t *StackSpecContainerConfigDeploy_Stateful) FromStackSpecContainerConfigDeployStateful0(v StackSpecContainerConfigDeployStateful0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployStateful0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Stateful, using the provided StackSpecContainerConfigDeployStateful0
-func (t *StackSpecContainerConfigDeploy_Stateful) MergeStackSpecContainerConfigDeployStateful0(v StackSpecContainerConfigDeployStateful0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Stateful as a StackVariable
-func (t StackSpecContainerConfigDeploy_Stateful) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Stateful as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Stateful) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Stateful, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Stateful) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Stateful) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Stateful) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployTelemetry0Disable0 returns the union data inside the StackSpecContainerConfigDeploy_Telemetry_0_Disable as a StackSpecContainerConfigDeployTelemetry0Disable0
-func (t StackSpecContainerConfigDeploy_Telemetry_0_Disable) AsStackSpecContainerConfigDeployTelemetry0Disable0() (StackSpecContainerConfigDeployTelemetry0Disable0, error) {
-	var body StackSpecContainerConfigDeployTelemetry0Disable0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployTelemetry0Disable0 overwrites any union data inside the StackSpecContainerConfigDeploy_Telemetry_0_Disable as the provided StackSpecContainerConfigDeployTelemetry0Disable0
-func (t *StackSpecContainerConfigDeploy_Telemetry_0_Disable) FromStackSpecContainerConfigDeployTelemetry0Disable0(v StackSpecContainerConfigDeployTelemetry0Disable0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployTelemetry0Disable0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Telemetry_0_Disable, using the provided StackSpecContainerConfigDeployTelemetry0Disable0
-func (t *StackSpecContainerConfigDeploy_Telemetry_0_Disable) MergeStackSpecContainerConfigDeployTelemetry0Disable0(v StackSpecContainerConfigDeployTelemetry0Disable0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Telemetry_0_Disable as a StackVariable
-func (t StackSpecContainerConfigDeploy_Telemetry_0_Disable) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Telemetry_0_Disable as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Telemetry_0_Disable) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Telemetry_0_Disable, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Telemetry_0_Disable) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Telemetry_0_Disable) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Telemetry_0_Disable) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployTelemetry0 returns the union data inside the StackSpecContainerConfigDeploy_Telemetry as a StackSpecContainerConfigDeployTelemetry0
-func (t StackSpecContainerConfigDeploy_Telemetry) AsStackSpecContainerConfigDeployTelemetry0() (StackSpecContainerConfigDeployTelemetry0, error) {
-	var body StackSpecContainerConfigDeployTelemetry0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployTelemetry0 overwrites any union data inside the StackSpecContainerConfigDeploy_Telemetry as the provided StackSpecContainerConfigDeployTelemetry0
-func (t *StackSpecContainerConfigDeploy_Telemetry) FromStackSpecContainerConfigDeployTelemetry0(v StackSpecContainerConfigDeployTelemetry0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployTelemetry0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Telemetry, using the provided StackSpecContainerConfigDeployTelemetry0
-func (t *StackSpecContainerConfigDeploy_Telemetry) MergeStackSpecContainerConfigDeployTelemetry0(v StackSpecContainerConfigDeployTelemetry0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Telemetry as a StackVariable
-func (t StackSpecContainerConfigDeploy_Telemetry) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Telemetry as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Telemetry) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Telemetry, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Telemetry) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Telemetry) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Telemetry) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
-// AsStackSpecContainerConfigDeployUpdate0 returns the union data inside the StackSpecContainerConfigDeploy_Update as a StackSpecContainerConfigDeployUpdate0
-func (t StackSpecContainerConfigDeploy_Update) AsStackSpecContainerConfigDeployUpdate0() (StackSpecContainerConfigDeployUpdate0, error) {
-	var body StackSpecContainerConfigDeployUpdate0
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackSpecContainerConfigDeployUpdate0 overwrites any union data inside the StackSpecContainerConfigDeploy_Update as the provided StackSpecContainerConfigDeployUpdate0
-func (t *StackSpecContainerConfigDeploy_Update) FromStackSpecContainerConfigDeployUpdate0(v StackSpecContainerConfigDeployUpdate0) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackSpecContainerConfigDeployUpdate0 performs a merge with any union data inside the StackSpecContainerConfigDeploy_Update, using the provided StackSpecContainerConfigDeployUpdate0
-func (t *StackSpecContainerConfigDeploy_Update) MergeStackSpecContainerConfigDeployUpdate0(v StackSpecContainerConfigDeployUpdate0) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackVariable returns the union data inside the StackSpecContainerConfigDeploy_Update as a StackVariable
-func (t StackSpecContainerConfigDeploy_Update) AsStackVariable() (StackVariable, error) {
-	var body StackVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackVariable overwrites any union data inside the StackSpecContainerConfigDeploy_Update as the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Update) FromStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackVariable performs a merge with any union data inside the StackSpecContainerConfigDeploy_Update, using the provided StackVariable
-func (t *StackSpecContainerConfigDeploy_Update) MergeStackVariable(v StackVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t StackSpecContainerConfigDeploy_Update) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *StackSpecContainerConfigDeploy_Update) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -26965,7 +25942,7 @@ func (t VirtualMachineRuntimeConfigHardware_Cpu) AsVirtualMachineCpuConfigDefaul
 
 // FromVirtualMachineCpuConfigDefault overwrites any union data inside the VirtualMachineRuntimeConfigHardware_Cpu as the provided VirtualMachineCpuConfigDefault
 func (t *VirtualMachineRuntimeConfigHardware_Cpu) FromVirtualMachineCpuConfigDefault(v VirtualMachineCpuConfigDefault) error {
-	v.Type = "host"
+	v.Type = "kvm64"
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
@@ -26973,7 +25950,7 @@ func (t *VirtualMachineRuntimeConfigHardware_Cpu) FromVirtualMachineCpuConfigDef
 
 // MergeVirtualMachineCpuConfigDefault performs a merge with any union data inside the VirtualMachineRuntimeConfigHardware_Cpu, using the provided VirtualMachineCpuConfigDefault
 func (t *VirtualMachineRuntimeConfigHardware_Cpu) MergeVirtualMachineCpuConfigDefault(v VirtualMachineCpuConfigDefault) error {
-	v.Type = "host"
+	v.Type = "kvm64"
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -27028,7 +26005,7 @@ func (t VirtualMachineRuntimeConfigHardware_Cpu) ValueByDiscriminator() (interfa
 	switch discriminator {
 	case "custom":
 		return t.AsVirtualMachineCpuConfigCustom()
-	case "host":
+	case "kvm64":
 		return t.AsVirtualMachineCpuConfigDefault()
 	default:
 		return nil, errors.New("unknown discriminator value: " + discriminator)
@@ -27775,6 +26752,9 @@ type ClientInterface interface {
 	// GetTLSGenerationAttempts request
 	GetTLSGenerationAttempts(ctx context.Context, params *GetTLSGenerationAttemptsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetAllTlsCertificates request
+	GetAllTlsCertificates(ctx context.Context, params *GetAllTlsCertificatesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// LookupTLSCertificate request
 	LookupTLSCertificate(ctx context.Context, params *LookupTLSCertificateParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -28212,6 +27192,11 @@ type ClientInterface interface {
 	// GetExternalVolumeSources request
 	GetExternalVolumeSources(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// CreateExternalVolumesJobWithBody request with any body
+	CreateExternalVolumesJobWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateExternalVolumesJob(ctx context.Context, body CreateExternalVolumesJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// DeleteExternalVolumeWithBody request with any body
 	DeleteExternalVolumeWithBody(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -28261,18 +27246,18 @@ type ClientInterface interface {
 	GetClusterMonitoringTiers(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetProviderLocations request
-	GetProviderLocations(ctx context.Context, providerVendor string, params *GetProviderLocationsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+	GetProviderLocations(ctx context.Context, integrationId string, params *GetProviderLocationsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetProviderServers request
-	GetProviderServers(ctx context.Context, providerVendor string, params *GetProviderServersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// GetProviderServerModels request
+	GetProviderServerModels(ctx context.Context, integrationId string, params *GetProviderServerModelsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetServers request
 	GetServers(ctx context.Context, params *GetServersParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// CreateServerWithBody request with any body
-	CreateServerWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// CreateServersWithBody request with any body
+	CreateServersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	CreateServer(ctx context.Context, body CreateServerJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	CreateServers(ctx context.Context, body CreateServersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetServerTags request
 	GetServerTags(ctx context.Context, params *GetServerTagsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -28383,6 +27368,9 @@ type ClientInterface interface {
 
 	ClonePipeline(ctx context.Context, body ClonePipelineJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetAllPipelineRuns request
+	GetAllPipelineRuns(ctx context.Context, params *GetAllPipelineRunsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// DeletePipeline request
 	DeletePipeline(ctx context.Context, pipelineId string, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -28473,6 +27461,9 @@ type ClientInterface interface {
 	CreateStackWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	CreateStack(ctx context.Context, body CreateStackJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetAllStackBuilds request
+	GetAllStackBuilds(ctx context.Context, params *GetAllStackBuildsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// LookupStackBuild request
 	LookupStackBuild(ctx context.Context, buildId string, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -29618,6 +28609,18 @@ func (c *Client) CreateContainerJob(ctx context.Context, containerId string, bod
 
 func (c *Client) GetTLSGenerationAttempts(ctx context.Context, params *GetTLSGenerationAttemptsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetTLSGenerationAttemptsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetAllTlsCertificates(ctx context.Context, params *GetAllTlsCertificatesParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAllTlsCertificatesRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -31572,6 +30575,30 @@ func (c *Client) GetExternalVolumeSources(ctx context.Context, reqEditors ...Req
 	return c.Client.Do(req)
 }
 
+func (c *Client) CreateExternalVolumesJobWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateExternalVolumesJobRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateExternalVolumesJob(ctx context.Context, body CreateExternalVolumesJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateExternalVolumesJobRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) DeleteExternalVolumeWithBody(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewDeleteExternalVolumeRequestWithBody(c.Server, externalVolumeId, contentType, body)
 	if err != nil {
@@ -31788,8 +30815,8 @@ func (c *Client) GetClusterMonitoringTiers(ctx context.Context, reqEditors ...Re
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetProviderLocations(ctx context.Context, providerVendor string, params *GetProviderLocationsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetProviderLocationsRequest(c.Server, providerVendor, params)
+func (c *Client) GetProviderLocations(ctx context.Context, integrationId string, params *GetProviderLocationsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetProviderLocationsRequest(c.Server, integrationId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -31800,8 +30827,8 @@ func (c *Client) GetProviderLocations(ctx context.Context, providerVendor string
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetProviderServers(ctx context.Context, providerVendor string, params *GetProviderServersParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetProviderServersRequest(c.Server, providerVendor, params)
+func (c *Client) GetProviderServerModels(ctx context.Context, integrationId string, params *GetProviderServerModelsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetProviderServerModelsRequest(c.Server, integrationId, params)
 	if err != nil {
 		return nil, err
 	}
@@ -31824,8 +30851,8 @@ func (c *Client) GetServers(ctx context.Context, params *GetServersParams, reqEd
 	return c.Client.Do(req)
 }
 
-func (c *Client) CreateServerWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreateServerRequestWithBody(c.Server, contentType, body)
+func (c *Client) CreateServersWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateServersRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -31836,8 +30863,8 @@ func (c *Client) CreateServerWithBody(ctx context.Context, contentType string, b
 	return c.Client.Do(req)
 }
 
-func (c *Client) CreateServer(ctx context.Context, body CreateServerJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreateServerRequest(c.Server, body)
+func (c *Client) CreateServers(ctx context.Context, body CreateServersJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateServersRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -32328,6 +31355,18 @@ func (c *Client) ClonePipeline(ctx context.Context, body ClonePipelineJSONReques
 	return c.Client.Do(req)
 }
 
+func (c *Client) GetAllPipelineRuns(ctx context.Context, params *GetAllPipelineRunsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAllPipelineRunsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
 func (c *Client) DeletePipeline(ctx context.Context, pipelineId string, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewDeletePipelineRequest(c.Server, pipelineId)
 	if err != nil {
@@ -32726,6 +31765,18 @@ func (c *Client) CreateStackWithBody(ctx context.Context, contentType string, bo
 
 func (c *Client) CreateStack(ctx context.Context, body CreateStackJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewCreateStackRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetAllStackBuilds(ctx context.Context, params *GetAllStackBuildsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetAllStackBuildsRequest(c.Server, params)
 	if err != nil {
 		return nil, err
 	}
@@ -37075,6 +36126,87 @@ func NewGetTLSGenerationAttemptsRequest(server string, params *GetTLSGenerationA
 	}
 
 	operationPath := fmt.Sprintf("/v1/dns/tls/attempts")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Filter != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "filter", runtime.ParamLocationQuery, *params.Filter); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Sort != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "sort", runtime.ParamLocationQuery, *params.Sort); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Page != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "page", runtime.ParamLocationQuery, *params.Page); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetAllTlsCertificatesRequest generates requests for GetAllTlsCertificates
+func NewGetAllTlsCertificatesRequest(server string, params *GetAllTlsCertificatesParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/dns/tls/certificates")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -42716,6 +41848,22 @@ func NewGetClustersRequest(server string, params *GetClustersParams) (*http.Requ
 
 		}
 
+		if params.Filter != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "filter", runtime.ParamLocationQuery, *params.Filter); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
 		queryURL.RawQuery = queryValues.Encode()
 	}
 
@@ -43217,6 +42365,46 @@ func NewGetExternalVolumeSourcesRequest(server string) (*http.Request, error) {
 	if err != nil {
 		return nil, err
 	}
+
+	return req, nil
+}
+
+// NewCreateExternalVolumesJobRequest calls the generic CreateExternalVolumesJob builder with application/json body
+func NewCreateExternalVolumesJobRequest(server string, body CreateExternalVolumesJobJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateExternalVolumesJobRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCreateExternalVolumesJobRequestWithBody generates requests for CreateExternalVolumesJob with any type of body
+func NewCreateExternalVolumesJobRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/infrastructure/external-volumes/tasks")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
 
 	return req, nil
 }
@@ -43855,12 +43043,12 @@ func NewGetClusterMonitoringTiersRequest(server string) (*http.Request, error) {
 }
 
 // NewGetProviderLocationsRequest generates requests for GetProviderLocations
-func NewGetProviderLocationsRequest(server string, providerVendor string, params *GetProviderLocationsParams) (*http.Request, error) {
+func NewGetProviderLocationsRequest(server string, integrationId string, params *GetProviderLocationsParams) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
 
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "providerVendor", runtime.ParamLocationPath, providerVendor)
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "integrationId", runtime.ParamLocationPath, integrationId)
 	if err != nil {
 		return nil, err
 	}
@@ -43926,13 +43114,13 @@ func NewGetProviderLocationsRequest(server string, providerVendor string, params
 	return req, nil
 }
 
-// NewGetProviderServersRequest generates requests for GetProviderServers
-func NewGetProviderServersRequest(server string, providerVendor string, params *GetProviderServersParams) (*http.Request, error) {
+// NewGetProviderServerModelsRequest generates requests for GetProviderServerModels
+func NewGetProviderServerModelsRequest(server string, integrationId string, params *GetProviderServerModelsParams) (*http.Request, error) {
 	var err error
 
 	var pathParam0 string
 
-	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "providerVendor", runtime.ParamLocationPath, providerVendor)
+	pathParam0, err = runtime.StyleParamWithLocation("simple", false, "integrationId", runtime.ParamLocationPath, integrationId)
 	if err != nil {
 		return nil, err
 	}
@@ -44127,19 +43315,19 @@ func NewGetServersRequest(server string, params *GetServersParams) (*http.Reques
 	return req, nil
 }
 
-// NewCreateServerRequest calls the generic CreateServer builder with application/json body
-func NewCreateServerRequest(server string, body CreateServerJSONRequestBody) (*http.Request, error) {
+// NewCreateServersRequest calls the generic CreateServers builder with application/json body
+func NewCreateServersRequest(server string, body CreateServersJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewCreateServerRequestWithBody(server, "application/json", bodyReader)
+	return NewCreateServersRequestWithBody(server, "application/json", bodyReader)
 }
 
-// NewCreateServerRequestWithBody generates requests for CreateServer with any type of body
-func NewCreateServerRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+// NewCreateServersRequestWithBody generates requests for CreateServers with any type of body
+func NewCreateServersRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -45718,6 +44906,87 @@ func NewClonePipelineRequestWithBody(server string, contentType string, body io.
 	return req, nil
 }
 
+// NewGetAllPipelineRunsRequest generates requests for GetAllPipelineRuns
+func NewGetAllPipelineRunsRequest(server string, params *GetAllPipelineRunsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/pipelines/runs")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Page != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "page", runtime.ParamLocationQuery, *params.Page); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Sort != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "sort", runtime.ParamLocationQuery, *params.Sort); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Include != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "include", runtime.ParamLocationQuery, *params.Include); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewDeletePipelineRequest generates requests for DeletePipeline
 func NewDeletePipelineRequest(server string, pipelineId string) (*http.Request, error) {
 	var err error
@@ -47012,6 +46281,103 @@ func NewCreateStackRequestWithBody(server string, contentType string, body io.Re
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetAllStackBuildsRequest generates requests for GetAllStackBuilds
+func NewGetAllStackBuildsRequest(server string, params *GetAllStackBuildsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/stacks/builds")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		queryValues := queryURL.Query()
+
+		if params.Meta != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "meta", runtime.ParamLocationQuery, *params.Meta); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Filter != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "filter", runtime.ParamLocationQuery, *params.Filter); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Sort != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("form", true, "sort", runtime.ParamLocationQuery, *params.Sort); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		if params.Page != nil {
+
+			if queryFrag, err := runtime.StyleParamWithLocation("deepObject", true, "page", runtime.ParamLocationQuery, *params.Page); err != nil {
+				return nil, err
+			} else if parsed, err := url.ParseQuery(queryFrag); err != nil {
+				return nil, err
+			} else {
+				for k, v := range parsed {
+					for _, v2 := range v {
+						queryValues.Add(k, v2)
+					}
+				}
+			}
+
+		}
+
+		queryURL.RawQuery = queryValues.Encode()
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -48805,6 +48171,9 @@ type ClientWithResponsesInterface interface {
 	// GetTLSGenerationAttemptsWithResponse request
 	GetTLSGenerationAttemptsWithResponse(ctx context.Context, params *GetTLSGenerationAttemptsParams, reqEditors ...RequestEditorFn) (*GetTLSGenerationAttemptsResponse, error)
 
+	// GetAllTlsCertificatesWithResponse request
+	GetAllTlsCertificatesWithResponse(ctx context.Context, params *GetAllTlsCertificatesParams, reqEditors ...RequestEditorFn) (*GetAllTlsCertificatesResponse, error)
+
 	// LookupTLSCertificateWithResponse request
 	LookupTLSCertificateWithResponse(ctx context.Context, params *LookupTLSCertificateParams, reqEditors ...RequestEditorFn) (*LookupTLSCertificateResponse, error)
 
@@ -49242,6 +48611,11 @@ type ClientWithResponsesInterface interface {
 	// GetExternalVolumeSourcesWithResponse request
 	GetExternalVolumeSourcesWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetExternalVolumeSourcesResponse, error)
 
+	// CreateExternalVolumesJobWithBodyWithResponse request with any body
+	CreateExternalVolumesJobWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateExternalVolumesJobResponse, error)
+
+	CreateExternalVolumesJobWithResponse(ctx context.Context, body CreateExternalVolumesJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateExternalVolumesJobResponse, error)
+
 	// DeleteExternalVolumeWithBodyWithResponse request with any body
 	DeleteExternalVolumeWithBodyWithResponse(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteExternalVolumeResponse, error)
 
@@ -49291,18 +48665,18 @@ type ClientWithResponsesInterface interface {
 	GetClusterMonitoringTiersWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetClusterMonitoringTiersResponse, error)
 
 	// GetProviderLocationsWithResponse request
-	GetProviderLocationsWithResponse(ctx context.Context, providerVendor string, params *GetProviderLocationsParams, reqEditors ...RequestEditorFn) (*GetProviderLocationsResponse, error)
+	GetProviderLocationsWithResponse(ctx context.Context, integrationId string, params *GetProviderLocationsParams, reqEditors ...RequestEditorFn) (*GetProviderLocationsResponse, error)
 
-	// GetProviderServersWithResponse request
-	GetProviderServersWithResponse(ctx context.Context, providerVendor string, params *GetProviderServersParams, reqEditors ...RequestEditorFn) (*GetProviderServersResponse, error)
+	// GetProviderServerModelsWithResponse request
+	GetProviderServerModelsWithResponse(ctx context.Context, integrationId string, params *GetProviderServerModelsParams, reqEditors ...RequestEditorFn) (*GetProviderServerModelsResponse, error)
 
 	// GetServersWithResponse request
 	GetServersWithResponse(ctx context.Context, params *GetServersParams, reqEditors ...RequestEditorFn) (*GetServersResponse, error)
 
-	// CreateServerWithBodyWithResponse request with any body
-	CreateServerWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateServerResponse, error)
+	// CreateServersWithBodyWithResponse request with any body
+	CreateServersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateServersResponse, error)
 
-	CreateServerWithResponse(ctx context.Context, body CreateServerJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateServerResponse, error)
+	CreateServersWithResponse(ctx context.Context, body CreateServersJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateServersResponse, error)
 
 	// GetServerTagsWithResponse request
 	GetServerTagsWithResponse(ctx context.Context, params *GetServerTagsParams, reqEditors ...RequestEditorFn) (*GetServerTagsResponse, error)
@@ -49413,6 +48787,9 @@ type ClientWithResponsesInterface interface {
 
 	ClonePipelineWithResponse(ctx context.Context, body ClonePipelineJSONRequestBody, reqEditors ...RequestEditorFn) (*ClonePipelineResponse, error)
 
+	// GetAllPipelineRunsWithResponse request
+	GetAllPipelineRunsWithResponse(ctx context.Context, params *GetAllPipelineRunsParams, reqEditors ...RequestEditorFn) (*GetAllPipelineRunsResponse, error)
+
 	// DeletePipelineWithResponse request
 	DeletePipelineWithResponse(ctx context.Context, pipelineId string, reqEditors ...RequestEditorFn) (*DeletePipelineResponse, error)
 
@@ -49503,6 +48880,9 @@ type ClientWithResponsesInterface interface {
 	CreateStackWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateStackResponse, error)
 
 	CreateStackWithResponse(ctx context.Context, body CreateStackJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateStackResponse, error)
+
+	// GetAllStackBuildsWithResponse request
+	GetAllStackBuildsWithResponse(ctx context.Context, params *GetAllStackBuildsParams, reqEditors ...RequestEditorFn) (*GetAllStackBuildsResponse, error)
 
 	// LookupStackBuildWithResponse request
 	LookupStackBuildWithResponse(ctx context.Context, buildId string, reqEditors ...RequestEditorFn) (*LookupStackBuildResponse, error)
@@ -51362,6 +50742,31 @@ func (r GetTLSGenerationAttemptsResponse) StatusCode() int {
 	return 0
 }
 
+type GetAllTlsCertificatesResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Data []TlsCertificate `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetAllTlsCertificatesResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetAllTlsCertificatesResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type LookupTLSCertificateResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -52268,24 +51673,10 @@ type GetLoadBalancerServiceResponse struct {
 	HTTPResponse *http.Response
 	JSON200      *struct {
 		// Data Information about an environments load balancer configuration, state, and availability settings.
-		Data struct {
-			BaseConfigs *struct {
-				// Haproxy Describes settings that are passed to HAProxy within the load balancer.
-				Haproxy HaProxyConfig `json:"haproxy"`
-				V1      V1LbConfig    `json:"v1"`
-			} `json:"base_configs,omitempty"`
-			CurrentType GetLoadBalancerService200DataCurrentType `json:"current_type"`
-
-			// DefaultConfig The config object for the loadbalancer service.
-			DefaultConfig LoadBalancerConfig                       `json:"default_config"`
-			DefaultType   GetLoadBalancerService200DataDefaultType `json:"default_type"`
-			Service       *LoadBalancerEnvironmentService          `json:"service"`
-		} `json:"data"`
+		Data LoadBalancerInfo `json:"data"`
 	}
 	JSONDefault *DefaultError
 }
-type GetLoadBalancerService200DataCurrentType string
-type GetLoadBalancerService200DataDefaultType string
 
 // Status returns HTTPResponse.Status
 func (r GetLoadBalancerServiceResponse) Status() string {
@@ -54462,6 +53853,32 @@ func (r GetExternalVolumeSourcesResponse) StatusCode() int {
 	return 0
 }
 
+type CreateExternalVolumesJobResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *struct {
+		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+		Data JobDescriptor `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateExternalVolumesJobResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateExternalVolumesJobResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type DeleteExternalVolumeResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -54808,7 +54225,7 @@ func (r GetProviderLocationsResponse) StatusCode() int {
 	return 0
 }
 
-type GetProviderServersResponse struct {
+type GetProviderServerModelsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *struct {
@@ -54818,7 +54235,7 @@ type GetProviderServersResponse struct {
 }
 
 // Status returns HTTPResponse.Status
-func (r GetProviderServersResponse) Status() string {
+func (r GetProviderServerModelsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -54826,7 +54243,7 @@ func (r GetProviderServersResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetProviderServersResponse) StatusCode() int {
+func (r GetProviderServerModelsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -54861,7 +54278,7 @@ func (r GetServersResponse) StatusCode() int {
 	return 0
 }
 
-type CreateServerResponse struct {
+type CreateServersResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON202      *struct {
@@ -54872,7 +54289,7 @@ type CreateServerResponse struct {
 }
 
 // Status returns HTTPResponse.Status
-func (r CreateServerResponse) Status() string {
+func (r CreateServersResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -54880,7 +54297,7 @@ func (r CreateServerResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r CreateServerResponse) StatusCode() int {
+func (r CreateServersResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -55647,6 +55064,34 @@ func (r ClonePipelineResponse) StatusCode() int {
 	return 0
 }
 
+type GetAllPipelineRunsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Data []PipelineRun `json:"data"`
+
+		// Includes Resources related to a pipeline run, that can be included on supported endpoints when the matching includes query parameter is passed.
+		Includes *PipelineRunIncludes `json:"includes,omitempty"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetAllPipelineRunsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetAllPipelineRunsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
 type DeletePipelineResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -56264,6 +55709,31 @@ func (r CreateStackResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r CreateStackResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetAllStackBuildsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Data []StackBuild `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetAllStackBuildsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetAllStackBuildsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -57806,6 +57276,15 @@ func (c *ClientWithResponses) GetTLSGenerationAttemptsWithResponse(ctx context.C
 	return ParseGetTLSGenerationAttemptsResponse(rsp)
 }
 
+// GetAllTlsCertificatesWithResponse request returning *GetAllTlsCertificatesResponse
+func (c *ClientWithResponses) GetAllTlsCertificatesWithResponse(ctx context.Context, params *GetAllTlsCertificatesParams, reqEditors ...RequestEditorFn) (*GetAllTlsCertificatesResponse, error) {
+	rsp, err := c.GetAllTlsCertificates(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetAllTlsCertificatesResponse(rsp)
+}
+
 // LookupTLSCertificateWithResponse request returning *LookupTLSCertificateResponse
 func (c *ClientWithResponses) LookupTLSCertificateWithResponse(ctx context.Context, params *LookupTLSCertificateParams, reqEditors ...RequestEditorFn) (*LookupTLSCertificateResponse, error) {
 	rsp, err := c.LookupTLSCertificate(ctx, params, reqEditors...)
@@ -59215,6 +58694,23 @@ func (c *ClientWithResponses) GetExternalVolumeSourcesWithResponse(ctx context.C
 	return ParseGetExternalVolumeSourcesResponse(rsp)
 }
 
+// CreateExternalVolumesJobWithBodyWithResponse request with arbitrary body returning *CreateExternalVolumesJobResponse
+func (c *ClientWithResponses) CreateExternalVolumesJobWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateExternalVolumesJobResponse, error) {
+	rsp, err := c.CreateExternalVolumesJobWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateExternalVolumesJobResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateExternalVolumesJobWithResponse(ctx context.Context, body CreateExternalVolumesJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateExternalVolumesJobResponse, error) {
+	rsp, err := c.CreateExternalVolumesJob(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateExternalVolumesJobResponse(rsp)
+}
+
 // DeleteExternalVolumeWithBodyWithResponse request with arbitrary body returning *DeleteExternalVolumeResponse
 func (c *ClientWithResponses) DeleteExternalVolumeWithBodyWithResponse(ctx context.Context, externalVolumeId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*DeleteExternalVolumeResponse, error) {
 	rsp, err := c.DeleteExternalVolumeWithBody(ctx, externalVolumeId, contentType, body, reqEditors...)
@@ -59372,21 +58868,21 @@ func (c *ClientWithResponses) GetClusterMonitoringTiersWithResponse(ctx context.
 }
 
 // GetProviderLocationsWithResponse request returning *GetProviderLocationsResponse
-func (c *ClientWithResponses) GetProviderLocationsWithResponse(ctx context.Context, providerVendor string, params *GetProviderLocationsParams, reqEditors ...RequestEditorFn) (*GetProviderLocationsResponse, error) {
-	rsp, err := c.GetProviderLocations(ctx, providerVendor, params, reqEditors...)
+func (c *ClientWithResponses) GetProviderLocationsWithResponse(ctx context.Context, integrationId string, params *GetProviderLocationsParams, reqEditors ...RequestEditorFn) (*GetProviderLocationsResponse, error) {
+	rsp, err := c.GetProviderLocations(ctx, integrationId, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
 	return ParseGetProviderLocationsResponse(rsp)
 }
 
-// GetProviderServersWithResponse request returning *GetProviderServersResponse
-func (c *ClientWithResponses) GetProviderServersWithResponse(ctx context.Context, providerVendor string, params *GetProviderServersParams, reqEditors ...RequestEditorFn) (*GetProviderServersResponse, error) {
-	rsp, err := c.GetProviderServers(ctx, providerVendor, params, reqEditors...)
+// GetProviderServerModelsWithResponse request returning *GetProviderServerModelsResponse
+func (c *ClientWithResponses) GetProviderServerModelsWithResponse(ctx context.Context, integrationId string, params *GetProviderServerModelsParams, reqEditors ...RequestEditorFn) (*GetProviderServerModelsResponse, error) {
+	rsp, err := c.GetProviderServerModels(ctx, integrationId, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetProviderServersResponse(rsp)
+	return ParseGetProviderServerModelsResponse(rsp)
 }
 
 // GetServersWithResponse request returning *GetServersResponse
@@ -59398,21 +58894,21 @@ func (c *ClientWithResponses) GetServersWithResponse(ctx context.Context, params
 	return ParseGetServersResponse(rsp)
 }
 
-// CreateServerWithBodyWithResponse request with arbitrary body returning *CreateServerResponse
-func (c *ClientWithResponses) CreateServerWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateServerResponse, error) {
-	rsp, err := c.CreateServerWithBody(ctx, contentType, body, reqEditors...)
+// CreateServersWithBodyWithResponse request with arbitrary body returning *CreateServersResponse
+func (c *ClientWithResponses) CreateServersWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateServersResponse, error) {
+	rsp, err := c.CreateServersWithBody(ctx, contentType, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseCreateServerResponse(rsp)
+	return ParseCreateServersResponse(rsp)
 }
 
-func (c *ClientWithResponses) CreateServerWithResponse(ctx context.Context, body CreateServerJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateServerResponse, error) {
-	rsp, err := c.CreateServer(ctx, body, reqEditors...)
+func (c *ClientWithResponses) CreateServersWithResponse(ctx context.Context, body CreateServersJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateServersResponse, error) {
+	rsp, err := c.CreateServers(ctx, body, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseCreateServerResponse(rsp)
+	return ParseCreateServersResponse(rsp)
 }
 
 // GetServerTagsWithResponse request returning *GetServerTagsResponse
@@ -59764,6 +59260,15 @@ func (c *ClientWithResponses) ClonePipelineWithResponse(ctx context.Context, bod
 	return ParseClonePipelineResponse(rsp)
 }
 
+// GetAllPipelineRunsWithResponse request returning *GetAllPipelineRunsResponse
+func (c *ClientWithResponses) GetAllPipelineRunsWithResponse(ctx context.Context, params *GetAllPipelineRunsParams, reqEditors ...RequestEditorFn) (*GetAllPipelineRunsResponse, error) {
+	rsp, err := c.GetAllPipelineRuns(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetAllPipelineRunsResponse(rsp)
+}
+
 // DeletePipelineWithResponse request returning *DeletePipelineResponse
 func (c *ClientWithResponses) DeletePipelineWithResponse(ctx context.Context, pipelineId string, reqEditors ...RequestEditorFn) (*DeletePipelineResponse, error) {
 	rsp, err := c.DeletePipeline(ctx, pipelineId, reqEditors...)
@@ -60057,6 +59562,15 @@ func (c *ClientWithResponses) CreateStackWithResponse(ctx context.Context, body 
 		return nil, err
 	}
 	return ParseCreateStackResponse(rsp)
+}
+
+// GetAllStackBuildsWithResponse request returning *GetAllStackBuildsResponse
+func (c *ClientWithResponses) GetAllStackBuildsWithResponse(ctx context.Context, params *GetAllStackBuildsParams, reqEditors ...RequestEditorFn) (*GetAllStackBuildsResponse, error) {
+	rsp, err := c.GetAllStackBuilds(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetAllStackBuildsResponse(rsp)
 }
 
 // LookupStackBuildWithResponse request returning *LookupStackBuildResponse
@@ -62816,6 +62330,41 @@ func ParseGetTLSGenerationAttemptsResponse(rsp *http.Response) (*GetTLSGeneratio
 	return response, nil
 }
 
+// ParseGetAllTlsCertificatesResponse parses an HTTP response from a GetAllTlsCertificatesWithResponse call
+func ParseGetAllTlsCertificatesResponse(rsp *http.Response) (*GetAllTlsCertificatesResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetAllTlsCertificatesResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Data []TlsCertificate `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseLookupTLSCertificateResponse parses an HTTP response from a LookupTLSCertificateWithResponse call
 func ParseLookupTLSCertificateResponse(rsp *http.Response) (*LookupTLSCertificateResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -64053,19 +63602,7 @@ func ParseGetLoadBalancerServiceResponse(rsp *http.Response) (*GetLoadBalancerSe
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
 			// Data Information about an environments load balancer configuration, state, and availability settings.
-			Data struct {
-				BaseConfigs *struct {
-					// Haproxy Describes settings that are passed to HAProxy within the load balancer.
-					Haproxy HaProxyConfig `json:"haproxy"`
-					V1      V1LbConfig    `json:"v1"`
-				} `json:"base_configs,omitempty"`
-				CurrentType GetLoadBalancerService200DataCurrentType `json:"current_type"`
-
-				// DefaultConfig The config object for the loadbalancer service.
-				DefaultConfig LoadBalancerConfig                       `json:"default_config"`
-				DefaultType   GetLoadBalancerService200DataDefaultType `json:"default_type"`
-				Service       *LoadBalancerEnvironmentService          `json:"service"`
-			} `json:"data"`
+			Data LoadBalancerInfo `json:"data"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
@@ -67043,6 +66580,42 @@ func ParseGetExternalVolumeSourcesResponse(rsp *http.Response) (*GetExternalVolu
 	return response, nil
 }
 
+// ParseCreateExternalVolumesJobResponse parses an HTTP response from a CreateExternalVolumesJobWithResponse call
+func ParseCreateExternalVolumesJobResponse(rsp *http.Response) (*CreateExternalVolumesJobResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateExternalVolumesJobResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+			Data JobDescriptor `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseDeleteExternalVolumeResponse parses an HTTP response from a DeleteExternalVolumeWithResponse call
 func ParseDeleteExternalVolumeResponse(rsp *http.Response) (*DeleteExternalVolumeResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -67519,15 +67092,15 @@ func ParseGetProviderLocationsResponse(rsp *http.Response) (*GetProviderLocation
 	return response, nil
 }
 
-// ParseGetProviderServersResponse parses an HTTP response from a GetProviderServersWithResponse call
-func ParseGetProviderServersResponse(rsp *http.Response) (*GetProviderServersResponse, error) {
+// ParseGetProviderServerModelsResponse parses an HTTP response from a GetProviderServerModelsWithResponse call
+func ParseGetProviderServerModelsResponse(rsp *http.Response) (*GetProviderServerModelsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &GetProviderServersResponse{
+	response := &GetProviderServerModelsResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -67592,15 +67165,15 @@ func ParseGetServersResponse(rsp *http.Response) (*GetServersResponse, error) {
 	return response, nil
 }
 
-// ParseCreateServerResponse parses an HTTP response from a CreateServerWithResponse call
-func ParseCreateServerResponse(rsp *http.Response) (*CreateServerResponse, error) {
+// ParseCreateServersResponse parses an HTTP response from a CreateServersWithResponse call
+func ParseCreateServersResponse(rsp *http.Response) (*CreateServersResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &CreateServerResponse{
+	response := &CreateServersResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -68672,6 +68245,44 @@ func ParseClonePipelineResponse(rsp *http.Response) (*ClonePipelineResponse, err
 	return response, nil
 }
 
+// ParseGetAllPipelineRunsResponse parses an HTTP response from a GetAllPipelineRunsWithResponse call
+func ParseGetAllPipelineRunsResponse(rsp *http.Response) (*GetAllPipelineRunsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetAllPipelineRunsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Data []PipelineRun `json:"data"`
+
+			// Includes Resources related to a pipeline run, that can be included on supported endpoints when the matching includes query parameter is passed.
+			Includes *PipelineRunIncludes `json:"includes,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseDeletePipelineResponse parses an HTTP response from a DeletePipelineWithResponse call
 func ParseDeletePipelineResponse(rsp *http.Response) (*DeletePipelineResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -69512,6 +69123,41 @@ func ParseCreateStackResponse(rsp *http.Response) (*CreateStackResponse, error) 
 			return nil, err
 		}
 		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetAllStackBuildsResponse parses an HTTP response from a GetAllStackBuildsWithResponse call
+func ParseGetAllStackBuildsResponse(rsp *http.Response) (*GetAllStackBuildsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetAllStackBuildsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Data []StackBuild `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest DefaultError
