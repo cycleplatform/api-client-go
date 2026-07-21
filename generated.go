@@ -10479,10 +10479,10 @@ type ActivityUserType string
 // ActivityIncludes All includable resources linkable to the given records.
 type ActivityIncludes struct {
 	// Components A resource that is associated with activity.
-	Components *ComponentsIncludes `json:"components,omitempty"`
+	Components *IncludedComponents `json:"components,omitempty"`
 
 	// Users An identity that created a resource.
-	Users *CreatorInclude `json:"users,omitempty"`
+	Users *IncludedCreators `json:"users,omitempty"`
 }
 
 // ActivityMonitor Details related to the monitor that raised this activity event.
@@ -10809,13 +10809,13 @@ type AutoScaleGroupStateCurrent string
 // AutoScaleGroupIncludes All includable resource linkable to the given auto-scale group.
 type AutoScaleGroupIncludes struct {
 	// Integrations A resource that is associated with an integration.
-	Integrations *IntegrationsIncludes `json:"integrations,omitempty"`
+	Integrations *IncludedIntegrations `json:"integrations,omitempty"`
 
 	// Locations A resource that is associated with a provider location.
-	Locations *LocationsIncludes `json:"locations,omitempty"`
+	Locations *IncludedLocations `json:"locations,omitempty"`
 
 	// Models A resource associated with a server models.
-	Models *ProviderServerModelsIncludes `json:"models,omitempty"`
+	Models *IncludedProviderServerModels `json:"models,omitempty"`
 }
 
 // AutoScaleGroupInfrastructure defines model for AutoScaleGroupInfrastructure.
@@ -10964,7 +10964,7 @@ type BillingOrderStateCurrent string
 // BillingOrderIncludes defines model for BillingOrderIncludes.
 type BillingOrderIncludes struct {
 	// PromoCodes A resource that is associated with a promo code.
-	PromoCodes *PromoCodeInclude `json:"promo_codes,omitempty"`
+	PromoCodes *IncludedPromoCodes `json:"promo_codes,omitempty"`
 }
 
 // BillingRam An object holding information about servers included in Billing tier
@@ -11319,9 +11319,6 @@ type Cluster struct {
 	State        ClusterState `json:"state"`
 }
 
-// ClusterIncludes A resource associated with a cluster.
-type ClusterIncludes map[string]Cluster
-
 // ClusterReconfigureMonitoringTierAction A job that reconfigures the monitoring tier for the cluster.
 type ClusterReconfigureMonitoringTierAction struct {
 	// Action The action to take.
@@ -11424,14 +11421,6 @@ type Component struct {
 
 	// State State of the component
 	State string `json:"state"`
-}
-
-// ComponentsIncludes A resource that is associated with activity.
-type ComponentsIncludes map[string]ComponentsIncludes_AdditionalProperties
-
-// ComponentsIncludes_AdditionalProperties defines model for ComponentsIncludes.AdditionalProperties.
-type ComponentsIncludes_AdditionalProperties struct {
-	union json.RawMessage
 }
 
 // Config A container configuration.
@@ -11562,7 +11551,7 @@ type ContainerBackup struct {
 // ContainerBackupIncludes All includable resources linkable to the given Zone.
 type ContainerBackupIncludes struct {
 	// Integrations A resource that is associated with an integration.
-	Integrations *IntegrationsIncludes `json:"integrations,omitempty"`
+	Integrations *IncludedIntegrations `json:"integrations,omitempty"`
 }
 
 // ContainerBackupLogs Backup logs for a given container.
@@ -11943,25 +11932,25 @@ type ContainerImageSummaryService string
 // ContainerIncludes All includable resources linkable to the given container.
 type ContainerIncludes struct {
 	// Creators An identity that created a resource.
-	Creators *CreatorInclude `json:"creators,omitempty"`
+	Creators *IncludedCreators `json:"creators,omitempty"`
 
 	// Environments An identity that is associated with an environment.
-	Environments *EnvironmentIncludes `json:"environments,omitempty"`
+	Environments *IncludedEnvironments `json:"environments,omitempty"`
 
 	// EnvironmentsIdentifiers A map of identifiers to an array of resource IDs that are associated with it. All IDs point to the same type of resource.
-	EnvironmentsIdentifiers *IdentifierIncludes `json:"environments:identifiers,omitempty"`
+	EnvironmentsIdentifiers *IncludedIdentifiers `json:"environments:identifiers,omitempty"`
 
 	// Images A resource associated with an image.
-	Images *ImagesIncludes `json:"images,omitempty"`
+	Images *IncludedImages `json:"images,omitempty"`
 
 	// StackBuilds A resource that is associated with a stack build.
-	StackBuilds *StackBuildIncludes `json:"stack_builds,omitempty"`
+	StackBuilds *IncludedStackBuilds `json:"stack_builds,omitempty"`
 
 	// Stacks A resource associated with a stack.
-	Stacks *StackIncludes `json:"stacks,omitempty"`
+	Stacks *IncludedStacks `json:"stacks,omitempty"`
 
 	// StacksIdentifiers A map of identifiers to an array of resource IDs that are associated with it. All IDs point to the same type of resource.
-	StacksIdentifiers *IdentifierIncludes `json:"stacks:identifiers,omitempty"`
+	StacksIdentifiers *IncludedIdentifiers `json:"stacks:identifiers,omitempty"`
 }
 
 // ContainerIntegrations Configuration settings for integrations with a given container.
@@ -12505,9 +12494,6 @@ type ContainerVolume struct {
 // ContainerVolumeRemoteAccessPasswordAlgorithm The hashing algorithm used to has the password.
 type ContainerVolumeRemoteAccessPasswordAlgorithm string
 
-// ContainersIncludes A resource that is associated with a container.
-type ContainersIncludes map[string]Container
-
 // ContainersMeta A list of meta fields that can be applied to a container.
 type ContainersMeta struct {
 	Domains *[]struct {
@@ -12550,24 +12536,6 @@ type Context struct {
 
 	// VirtualMachineId A virtual machine ID.
 	VirtualMachineId *string `json:"virtual_machine_id,omitempty"`
-}
-
-// CreatorInclude An identity that created a resource.
-type CreatorInclude struct {
-	// Accounts Included creators that are public accounts, keyed by ID.
-	Accounts *map[string]PublicAccount `json:"accounts,omitempty"`
-
-	// ApiKeys Included creators that are Cycle API Keys, keyed by ID.
-	ApiKeys *map[string]ApiKeyCreator `json:"api_keys,omitempty"`
-
-	// Employees Included creators that are employees of Cycle, keyed by ID.
-	Employees *map[string]PublicAccount `json:"employees,omitempty"`
-
-	// Environments Included creators that are Cycle environments (usually automatically created resources), keyed by ID.
-	Environments *map[string]Environment `json:"environments,omitempty"`
-
-	// Visitors Included creators that are not Cycle accounts, keyed by ID.
-	Visitors *map[string]PublicAccount `json:"visitors,omitempty"`
 }
 
 // CreatorScope The creator scope is embedded in resource objects to describe who created them
@@ -12938,6 +12906,175 @@ type DnsRecord struct {
 	ZoneId string `json:"zone_id"`
 }
 
+// DnsRecordA A DNS A record.
+type DnsRecordA struct {
+	// Ip The IPv4 address that the A record should map to.
+	Ip string `json:"ip"`
+}
+
+// DnsRecordAaaa A DNS AAAA record.
+type DnsRecordAaaa struct {
+	// Ip The IPv6 address that the AAAA record should map to.
+	Ip string `json:"ip"`
+}
+
+// DnsRecordAlias A DNS ALIAS record.
+type DnsRecordAlias struct {
+	// Domain The domain string returned from the DNS server when this alias record is requested.
+	Domain string `json:"domain"`
+}
+
+// DnsRecordCaa A DNS CAA record.
+type DnsRecordCaa struct {
+	// Tag The ASCII string that represents the identifier of the property represented by the record.
+	Tag string `json:"tag"`
+
+	// Value The value associated with the tag.
+	Value string `json:"value"`
+}
+
+// DnsRecordCname A DNS CNAME record.
+type DnsRecordCname struct {
+	// Domain The domain string the record resolves to.
+	Domain string `json:"domain"`
+}
+
+// DnsRecordLinked defines model for DnsRecordLinked.
+type DnsRecordLinked struct {
+	// Features Features associated with this record.
+	Features struct {
+		// Geodns Options for the GeoDNS LINKED record feature.
+		Geodns struct {
+			// Enable If enabled, Cycle will attempt to match inbound requests to the closest load balancer geographically.
+			Enable bool `json:"enable"`
+		} `json:"geodns"`
+
+		// Tls TLS properties of the record.
+		Tls struct {
+			// Enable A boolean, where true represents this record will be paired with a TLS certificate automatically maintained by the platform.
+			Enable bool `json:"enable"`
+		} `json:"tls"`
+		Wildcard *struct {
+			// ResolveSubDomains If enabled, subdomains will resolve for wildcard records. If disabled, only the primary domain will resolve.
+			ResolveSubDomains bool `json:"resolve_sub_domains"`
+		} `json:"wildcard,omitempty"`
+	} `json:"features"`
+
+	// Routing Rules for routing traffic at the load balancer for this linked record.
+	Routing DnsRecordLinkedRouting `json:"routing"`
+	union   json.RawMessage
+}
+
+// DnsRecordLinked0 defines model for DnsRecordLinked0.
+type DnsRecordLinked0 struct {
+	// ContainerId The ID of the container this record is related to.
+	ContainerId *string `json:"container_id,omitempty"`
+}
+
+// DnsRecordLinkedDeployment defines model for DnsRecordLinkedDeployment.
+type DnsRecordLinkedDeployment struct {
+	// Deployment Information about the deployment this record points to.
+	Deployment *struct {
+		// EnvironmentId The ID of the environment with the deployment tag mapping we want to reference.
+		EnvironmentId ID `json:"environment_id"`
+
+		// Match Describes which container and which tagged deployment this record should target.
+		Match struct {
+			// Container The identifier of the container in the environment this record should point to.
+			Container Identifier `json:"container"`
+
+			// Tag The deployment tag that this record should point to. The tags are set on the root of an environment and map to a deployment version.
+			Tag *Identifier `json:"tag,omitempty"`
+		} `json:"match"`
+	} `json:"deployment,omitempty"`
+}
+
+// DnsRecordLinkedHttpRouting defines model for DnsRecordLinkedHttpRouting.
+type DnsRecordLinkedHttpRouting struct {
+	// MatchPath If set, this record will configure the load balancer to only match for paths of this domain matching this string.
+	// If the string starts with a /, it will be a literal prefix match (/test matches /test*). Otherwise, regex is used.
+	MatchPath *string `json:"match_path"`
+}
+
+// DnsRecordLinkedRouting Rules for routing traffic at the load balancer for this linked record.
+type DnsRecordLinkedRouting struct {
+	Http *DnsRecordLinkedHttpRouting `json:"http,omitempty"`
+
+	// TrafficSplitting Settings for splitting traffic to this domain between two or more destinations.
+	TrafficSplitting *DnsRecordLinkedTrafficSplitting `json:"traffic_splitting,omitempty"`
+}
+
+// DnsRecordLinkedTrafficSplitting Settings for splitting traffic to this domain between two or more destinations.
+type DnsRecordLinkedTrafficSplitting struct {
+	// StickySessions Utilize sticky sessions. When true, after the initial request, all traffic from that host will be routed to the same destination.
+	StickySessions bool `json:"sticky_sessions"`
+
+	// Variants A set of weighted destinations that traffic to this record is distributed across.
+	Variants *[]DnsRecordLinkedVariant `json:"variants,omitempty"`
+}
+
+// DnsRecordLinkedVariant A weighted routing variant. Traffic is distributed across variants according to their weights.
+type DnsRecordLinkedVariant struct {
+	// Destination The destination a variant routes traffic to.
+	Destination DnsRecordLinkedVariantDestination `json:"destination"`
+
+	// Weight The weight of this variant relative to the other variants, used to distribute traffic across destinations. Valid range is 0 to 1000.
+	Weight int `json:"weight"`
+}
+
+// DnsRecordLinkedVariantDestination The destination a variant routes traffic to.
+type DnsRecordLinkedVariantDestination struct {
+	union json.RawMessage
+}
+
+// DnsRecordLinkedVariantDestination0 defines model for DnsRecordLinkedVariantDestination0.
+type DnsRecordLinkedVariantDestination0 struct {
+	// ContainerId The ID of the container this record is related to.
+	ContainerId *string `json:"container_id,omitempty"`
+}
+
+// DnsRecordLinkedVirtualMachine defines model for DnsRecordLinkedVirtualMachine.
+type DnsRecordLinkedVirtualMachine struct {
+	VirtualMachine struct {
+		// Dmz If true, traffic to this domain will skip the load balancer and go directly to the virtual machine
+		// via the gateway service.
+		Dmz bool `json:"dmz"`
+
+		// Id A 24 character hex string used to identify a unique resource.
+		Id ID `json:"id"`
+	} `json:"virtual_machine"`
+}
+
+// DnsRecordMx A DNS MX record.
+type DnsRecordMx struct {
+	// Domain The domain this mx record points to.
+	Domain string `json:"domain"`
+
+	// Priority The priority setting for this mx record.
+	Priority int `json:"priority"`
+}
+
+// DnsRecordNs A DNS NS record.
+type DnsRecordNs struct {
+	// Domain The domain of the nameserver for this record.
+	Domain string `json:"domain"`
+}
+
+// DnsRecordSrv A DNS SRV record.
+type DnsRecordSrv struct {
+	// Domain The domain for the record.
+	Domain string `json:"domain"`
+
+	// Port The port number for the service.
+	Port int `json:"port"`
+
+	// Priority The priority for the record.
+	Priority int `json:"priority"`
+
+	// Weight The weight configured for this record - breaks ties for priority.
+	Weight int `json:"weight"`
+}
+
 // DnsRecordState defines model for DnsRecordState.
 type DnsRecordState struct {
 	Changed DateTime `json:"changed"`
@@ -12974,147 +13111,43 @@ type DnsRecordTlsCertificate struct {
 	WildcardChild bool `json:"wildcard_child"`
 }
 
+// DnsRecordTxt A DNS TXT record.
+type DnsRecordTxt struct {
+	// Value The value for this TXT record.
+	Value string `json:"value"`
+}
+
 // DnsRecordTypes DNS record types the platform supports.
 type DnsRecordTypes struct {
-	// A A DNS A record
-	A *struct {
-		// Ip The IPv4 address that the A record should map to.
-		Ip string `json:"ip"`
-	} `json:"a,omitempty"`
+	// A A DNS A record.
+	A *DnsRecordA `json:"a,omitempty"`
 
-	// Aaaa A DNS AAAA record
-	Aaaa *struct {
-		// Ip The IPv6 address that the AAAA record should map to.
-		Ip string `json:"ip"`
-	} `json:"aaaa,omitempty"`
+	// Aaaa A DNS AAAA record.
+	Aaaa *DnsRecordAaaa `json:"aaaa,omitempty"`
 
 	// Alias A DNS ALIAS record.
-	Alias *struct {
-		// Domain The domain string returned from the DNS server when this alias record is requested.
-		Domain string `json:"domain"`
-	} `json:"alias,omitempty"`
+	Alias *DnsRecordAlias `json:"alias,omitempty"`
 
 	// Caa A DNS CAA record.
-	Caa *struct {
-		// Tag The ASCII string that represents the identifier of the property represented by the record.
-		Tag string `json:"tag"`
+	Caa *DnsRecordCaa `json:"caa,omitempty"`
 
-		// Value The value associated with the tag.
-		Value string `json:"value"`
-	} `json:"caa,omitempty"`
+	// Cname A DNS CNAME record.
+	Cname *DnsRecordCname `json:"cname,omitempty"`
 
-	// Cname A DNS CNAME record
-	Cname *struct {
-		// Domain The domain string the record resolves to.
-		Domain string `json:"domain"`
-	} `json:"cname,omitempty"`
+	// Linked A LINKED record is a record special to Cycle. It represents a URL that points to a specific container or deployment of a container, however the IP address mapping is handled automatically by the platform.
+	Linked *DnsRecordLinked `json:"linked,omitempty"`
 
-	// Linked A LINKED record is a record special to Cycle.  It represents a URL that points to a specific container or deployment of a container, however the IP address mapping in handled automatically by the platform.
-	Linked *DnsRecordTypes_Linked `json:"linked,omitempty"`
+	// Mx A DNS MX record.
+	Mx *DnsRecordMx `json:"mx,omitempty"`
 
-	// Mx A DNS MX record
-	Mx *struct {
-		// Domain The domain this mx record points to.
-		Domain string `json:"domain"`
-
-		// Priority The priority setting for this mx record.
-		Priority int `json:"priority"`
-	} `json:"mx,omitempty"`
-
-	// Ns A DNS NS record
-	Ns *struct {
-		// Domain The domain of the nameserver for this record.
-		Domain string `json:"domain"`
-	} `json:"ns,omitempty"`
+	// Ns A DNS NS record.
+	Ns *DnsRecordNs `json:"ns,omitempty"`
 
 	// Srv A DNS SRV record.
-	Srv *struct {
-		// Domain The domain for the record.
-		Domain string `json:"domain"`
-
-		// Port The port number for the service.
-		Port int `json:"port"`
-
-		// Priority The priority for the record.
-		Priority int `json:"priority"`
-
-		// Weight Teh weight configured for this record - breaks ties for priority.
-		Weight int `json:"weight"`
-	} `json:"srv,omitempty"`
+	Srv *DnsRecordSrv `json:"srv,omitempty"`
 
 	// Txt A DNS TXT record.
-	Txt *struct {
-		// Value The value for this TXT record.
-		Value string `json:"value"`
-	} `json:"txt,omitempty"`
-}
-
-// DnsRecordTypes_Linked defines model for DnsRecordTypes.Linked.
-type DnsRecordTypes_Linked struct {
-	// Features Features associated with this record.
-	Features struct {
-		// Geodns Options for the GeoDNS LINKED record feature.
-		Geodns struct {
-			// Enable If enabled, Cycle will attempt to match inbound requests to the closest load balancer geographically.
-			Enable bool `json:"enable"`
-		} `json:"geodns"`
-
-		// Tls TLS properties of the record.
-		Tls struct {
-			// Enable A boolean, where true represents this record will be paired with a TLS certificate automatically maintained by the platform.
-			Enable bool `json:"enable"`
-		} `json:"tls"`
-		Wildcard *struct {
-			// ResolveSubDomains If enabled, subdomains will resolve for wildcard records. If disabled, only the primary domain will resolve.
-			ResolveSubDomains bool `json:"resolve_sub_domains"`
-		} `json:"wildcard,omitempty"`
-	} `json:"features"`
-
-	// Routing Rules for routing traffic at the load balancer for this linked record.
-	Routing struct {
-		Http *struct {
-			// MatchPath If set, this record will configure the load balancer to only match for paths of this domain matching this string.
-			// If the string starts with a /, it will be a literal prefix match (/test matches /test*). Otherwise, regex is used.
-			MatchPath *string `json:"match_path,omitempty"`
-		} `json:"http,omitempty"`
-	} `json:"routing"`
-	union json.RawMessage
-}
-
-// DnsRecordTypesLinked0 defines model for DnsRecordTypesLinked0.
-type DnsRecordTypesLinked0 struct {
-	// ContainerId The ID of the container this record is related to.
-	ContainerId *string `json:"container_id,omitempty"`
-}
-
-// DnsRecordTypesLinked1 defines model for DnsRecordTypesLinked1.
-type DnsRecordTypesLinked1 struct {
-	VirtualMachine struct {
-		// Dmz If true, traffic to this domain will skip the load balancer and go directly to the virtual machine
-		// via the gateway service.
-		Dmz bool `json:"dmz"`
-
-		// Id A 24 character hex string used to identify a unique resource.
-		Id ID `json:"id"`
-	} `json:"virtual_machine"`
-}
-
-// DnsRecordTypesLinked2 defines model for DnsRecordTypesLinked2.
-type DnsRecordTypesLinked2 struct {
-	// Deployment Information about the deployment this record points to.
-	Deployment *struct {
-		// EnvironmentId The ID of the environment with the deployment tag mapping we want to reference.
-		EnvironmentId ID `json:"environment_id"`
-
-		// Match Describes which container and which tagged deployment this record should target.
-		Match struct {
-			// Container The identifier of the container in the environment this record should point to.
-			Container Identifier `json:"container"`
-
-			// Tag The deployment tag that this record should point to. The tags are set on the root of an environment and map to a deployment version.
-			Tag *Identifier `json:"tag,omitempty"`
-		} `json:"match"`
-	} `json:"deployment,omitempty"`
+	Txt *DnsRecordTxt `json:"txt,omitempty"`
 }
 
 // DnsZone DNS (Domain Name System), in short, is a decentralized naming system for computers, services, or other resources connected to the internet or a private network. It is what allows the translation of a URL, such as http://example.com, to an IP address.
@@ -13159,7 +13192,7 @@ type DnsZone struct {
 // DnsZoneIncludes All includable resources linkable to the given Zone.
 type DnsZoneIncludes struct {
 	// Creators An identity that created a resource.
-	Creators *CreatorInclude `json:"creators,omitempty"`
+	Creators *IncludedCreators `json:"creators,omitempty"`
 }
 
 // DnsZoneState defines model for DnsZoneState.
@@ -13734,9 +13767,6 @@ type EnvironmentFeatures struct {
 		Tier MonitoringTier `json:"tier"`
 	} `json:"monitoring,omitempty"`
 }
-
-// EnvironmentIncludes An identity that is associated with an environment.
-type EnvironmentIncludes map[string]Environment
 
 // EnvironmentInitializeAction A task to initialize an environment.
 type EnvironmentInitializeAction struct {
@@ -14939,9 +14969,6 @@ type IPNet struct {
 // The identifier does not have to be unique.
 type Identifier = string
 
-// IdentifierIncludes A map of identifiers to an array of resource IDs that are associated with it. All IDs point to the same type of resource.
-type IdentifierIncludes map[string][]ID
-
 // Image An image is a point in time build on a given image source, and what is distributed by Cycle to run containers.
 type Image struct {
 	// About An object that holds information about the image.
@@ -15184,28 +15211,28 @@ type ImageImportStepAction string
 // ImageIncludes All includable resources linkable to the given image.
 type ImageIncludes struct {
 	// Creators An identity that created a resource.
-	Creators *CreatorInclude `json:"creators,omitempty"`
+	Creators *IncludedCreators `json:"creators,omitempty"`
 
 	// Integrations A resource that is associated with an integration.
-	Integrations *IntegrationsIncludes `json:"integrations,omitempty"`
+	Integrations *IncludedIntegrations `json:"integrations,omitempty"`
 
 	// IntegrationsIdentifiers A map of identifiers to an array of resource IDs that are associated with it. All IDs point to the same type of resource.
-	IntegrationsIdentifiers *IdentifierIncludes `json:"integrations:identifiers,omitempty"`
+	IntegrationsIdentifiers *IncludedIdentifiers `json:"integrations:identifiers,omitempty"`
 
 	// Sources A resource associated with an image source.
-	Sources *ImageSourceIncludes `json:"sources,omitempty"`
+	Sources *IncludedImageSources `json:"sources,omitempty"`
 
 	// SourcesIdentifiers A map of identifiers to an array of resource IDs that are associated with it. All IDs point to the same type of resource.
-	SourcesIdentifiers *IdentifierIncludes `json:"sources:identifiers,omitempty"`
+	SourcesIdentifiers *IncludedIdentifiers `json:"sources:identifiers,omitempty"`
 
 	// StackBuilds A resource that is associated with a stack build.
-	StackBuilds *StackBuildIncludes `json:"stack_builds,omitempty"`
+	StackBuilds *IncludedStackBuilds `json:"stack_builds,omitempty"`
 
 	// Stacks A resource associated with a stack.
-	Stacks *StackIncludes `json:"stacks,omitempty"`
+	Stacks *IncludedStacks `json:"stacks,omitempty"`
 
 	// StacksIdentifiers A map of identifiers to an array of resource IDs that are associated with it. All IDs point to the same type of resource.
-	StacksIdentifiers *IdentifierIncludes `json:"stacks:identifiers,omitempty"`
+	StacksIdentifiers *IncludedIdentifiers `json:"stacks:identifiers,omitempty"`
 }
 
 // ImageMeta A list of meta fields that can be applied to the image.
@@ -15274,9 +15301,6 @@ type ImageSourceAbout struct {
 	// Description Some information about the image source resource.
 	Description *string `json:"description,omitempty"`
 }
-
-// ImageSourceIncludes A resource associated with an image source.
-type ImageSourceIncludes map[string]ImageSource
 
 // ImageSourceMeta A list of meta fields that can be applied to this environment.
 type ImageSourceMeta struct {
@@ -15361,9 +15385,6 @@ type ImageSummary struct {
 	Service *ServiceContainerIdentifier `json:"service"`
 }
 
-// ImagesIncludes A resource associated with an image.
-type ImagesIncludes map[string]Image
-
 // ImagesPruneStep Settings for the images prune step for a pipeline.
 type ImagesPruneStep struct {
 	// Action The action that the step takes.
@@ -15382,8 +15403,73 @@ type ImagesPruneStep struct {
 // ImagesPruneStepAction The action that the step takes.
 type ImagesPruneStepAction string
 
+// IncludedClusters A resource associated with a cluster.
+type IncludedClusters map[string]Cluster
+
+// IncludedComponents A resource that is associated with activity.
+type IncludedComponents map[string]IncludedComponents_AdditionalProperties
+
+// IncludedComponents_AdditionalProperties defines model for IncludedComponents.AdditionalProperties.
+type IncludedComponents_AdditionalProperties struct {
+	union json.RawMessage
+}
+
+// IncludedContainers A resource that is associated with a container.
+type IncludedContainers map[string]Container
+
+// IncludedCreators An identity that created a resource.
+type IncludedCreators struct {
+	// Accounts Included creators that are public accounts, keyed by ID.
+	Accounts *map[string]PublicAccount `json:"accounts,omitempty"`
+
+	// ApiKeys Included creators that are Cycle API Keys, keyed by ID.
+	ApiKeys *map[string]ApiKeyCreator `json:"api_keys,omitempty"`
+
+	// Employees Included creators that are employees of Cycle, keyed by ID.
+	Employees *map[string]PublicAccount `json:"employees,omitempty"`
+
+	// Environments Included creators that are Cycle environments (usually automatically created resources), keyed by ID.
+	Environments *map[string]Environment `json:"environments,omitempty"`
+
+	// Visitors Included creators that are not Cycle accounts, keyed by ID.
+	Visitors *map[string]PublicAccount `json:"visitors,omitempty"`
+}
+
+// IncludedEnvironments An identity that is associated with an environment.
+type IncludedEnvironments map[string]Environment
+
+// IncludedIdentifiers A map of identifiers to an array of resource IDs that are associated with it. All IDs point to the same type of resource.
+type IncludedIdentifiers map[string][]ID
+
+// IncludedImageSources A resource associated with an image source.
+type IncludedImageSources map[string]ImageSource
+
+// IncludedImages A resource associated with an image.
+type IncludedImages map[string]Image
+
+// IncludedIntegrations A resource that is associated with an integration.
+type IncludedIntegrations map[string]Integration
+
+// IncludedLocations A resource that is associated with a provider location.
+type IncludedLocations map[string]ProviderLocation
+
 // IncludedPipelines A map of pipelines, keyed by ID, included on endpoints that support it when passing the matching includes query parameter.
 type IncludedPipelines map[string]Pipeline
+
+// IncludedPromoCodes A resource that is associated with a promo code.
+type IncludedPromoCodes map[string]PromoCode
+
+// IncludedProviderServerModels A resource associated with a server models.
+type IncludedProviderServerModels map[string]ProviderServerModel
+
+// IncludedServers A resource that is associated with a server.
+type IncludedServers map[string]Server
+
+// IncludedStackBuilds A resource that is associated with a stack build.
+type IncludedStackBuilds map[string]StackBuild
+
+// IncludedStacks A resource associated with a stack.
+type IncludedStacks map[string]Stack
 
 // IncludedTriggerKeys A map of trigger keys, keyed by ID, included on endpoints that support it when passing the matching includes query parameter.
 type IncludedTriggerKeys map[string]TriggerKey
@@ -15615,31 +15701,31 @@ type InstanceHighAvailability struct {
 // InstanceIncludes A resource associated with an instance.
 type InstanceIncludes struct {
 	// Containers A resource that is associated with a container.
-	Containers *ContainersIncludes `json:"containers,omitempty"`
+	Containers *IncludedContainers `json:"containers,omitempty"`
 
 	// ContainersIdentifiers A map of identifiers to an array of resource IDs that are associated with it. All IDs point to the same type of resource.
-	ContainersIdentifiers *IdentifierIncludes `json:"containers:identifiers,omitempty"`
+	ContainersIdentifiers *IncludedIdentifiers `json:"containers:identifiers,omitempty"`
 
 	// Creators An identity that created a resource.
-	Creators *CreatorInclude `json:"creators,omitempty"`
+	Creators *IncludedCreators `json:"creators,omitempty"`
 
 	// Environments An identity that is associated with an environment.
-	Environments *EnvironmentIncludes `json:"environments,omitempty"`
+	Environments *IncludedEnvironments `json:"environments,omitempty"`
 
 	// EnvironmentsIdentifiers A map of identifiers to an array of resource IDs that are associated with it. All IDs point to the same type of resource.
-	EnvironmentsIdentifiers *IdentifierIncludes `json:"environments:identifiers,omitempty"`
+	EnvironmentsIdentifiers *IncludedIdentifiers `json:"environments:identifiers,omitempty"`
 
 	// Integrations A resource that is associated with an integration.
-	Integrations *IntegrationsIncludes `json:"integrations,omitempty"`
+	Integrations *IncludedIntegrations `json:"integrations,omitempty"`
 
 	// IntegrationsIdentifiers A map of identifiers to an array of resource IDs that are associated with it. All IDs point to the same type of resource.
-	IntegrationsIdentifiers *IdentifierIncludes `json:"integrations:identifiers,omitempty"`
+	IntegrationsIdentifiers *IncludedIdentifiers `json:"integrations:identifiers,omitempty"`
 
 	// Locations A resource that is associated with a provider location.
-	Locations *LocationsIncludes `json:"locations,omitempty"`
+	Locations *IncludedLocations `json:"locations,omitempty"`
 
 	// Servers A resource that is associated with a server.
-	Servers *ServersIncludes `json:"servers,omitempty"`
+	Servers *IncludedServers `json:"servers,omitempty"`
 }
 
 // InstanceMeta A list of meta fields that can be applied to an instance.
@@ -15979,9 +16065,6 @@ type IntegrationState struct {
 // IntegrationStateCurrent The current state of the integration.
 type IntegrationStateCurrent string
 
-// IntegrationsIncludes A resource that is associated with an integration.
-type IntegrationsIncludes map[string]Integration
-
 // Invitation Information about a hub membership invitation.
 type Invitation struct {
 	// Events A collection of timestamps for each event in the invitation's lifetime.
@@ -16245,16 +16328,16 @@ type IpPoolKind string
 // IpPoolIncludes Resources associated with an IP Pool.
 type IpPoolIncludes struct {
 	// Creators An identity that created a resource.
-	Creators *CreatorInclude `json:"creators,omitempty"`
+	Creators *IncludedCreators `json:"creators,omitempty"`
 
 	// Integrations A resource that is associated with an integration.
-	Integrations *IntegrationsIncludes `json:"integrations,omitempty"`
+	Integrations *IncludedIntegrations `json:"integrations,omitempty"`
 
 	// Locations A resource that is associated with a provider location.
-	Locations *LocationsIncludes `json:"locations,omitempty"`
+	Locations *IncludedLocations `json:"locations,omitempty"`
 
 	// Servers A resource that is associated with a server.
-	Servers *ServersIncludes `json:"servers,omitempty"`
+	Servers *IncludedServers `json:"servers,omitempty"`
 }
 
 // IpPoolInitializeAction defines model for IpPoolInitializeAction.
@@ -16427,7 +16510,7 @@ type JobDescriptor struct {
 // JobIncludes defines model for JobIncludes.
 type JobIncludes struct {
 	// Creators An identity that created a resource.
-	Creators *CreatorInclude `json:"creators,omitempty"`
+	Creators *IncludedCreators `json:"creators,omitempty"`
 }
 
 // JobState defines model for JobState.
@@ -16745,9 +16828,6 @@ type LoadBalancerTelemetryUrlRequestHandler struct {
 	// TimingMs The cumulative ms of response time across all hits.
 	TimingMs int `json:"timing_ms"`
 }
-
-// LocationsIncludes A resource that is associated with a provider location.
-type LocationsIncludes map[string]ProviderLocation
 
 // LogFormat defines model for LogFormat.
 type LogFormat string
@@ -17212,10 +17292,10 @@ type Network struct {
 // NetworkIncludes All includable resource linkable to the given network.
 type NetworkIncludes struct {
 	// Creators An identity that created a resource.
-	Creators *CreatorInclude `json:"creators,omitempty"`
+	Creators *IncludedCreators `json:"creators,omitempty"`
 
 	// Environments An identity that is associated with an environment.
-	Environments *EnvironmentIncludes `json:"environments,omitempty"`
+	Environments *IncludedEnvironments `json:"environments,omitempty"`
 }
 
 // NetworkL2 Layer 2 network information for a Cycle SDN.
@@ -17725,10 +17805,10 @@ type PipelineIncludes struct {
 	Components *map[string]PipelineIncludes_Components_AdditionalProperties `json:"components,omitempty"`
 
 	// ComponentsIdentifiers A map of identifiers to an array of resource IDs that are associated with it. All IDs point to the same type of resource.
-	ComponentsIdentifiers *IdentifierIncludes `json:"components:identifiers,omitempty"`
+	ComponentsIdentifiers *IncludedIdentifiers `json:"components:identifiers,omitempty"`
 
 	// Creators An identity that created a resource.
-	Creators *CreatorInclude `json:"creators,omitempty"`
+	Creators *IncludedCreators `json:"creators,omitempty"`
 
 	// Name A name value.
 	Name *string `json:"name,omitempty"`
@@ -17811,7 +17891,7 @@ type PipelineRunEvents struct {
 // PipelineRunIncludes Resources related to a pipeline run, that can be included on supported endpoints when the matching includes query parameter is passed.
 type PipelineRunIncludes struct {
 	// Creators An identity that created a resource.
-	Creators *CreatorInclude `json:"creators,omitempty"`
+	Creators *IncludedCreators `json:"creators,omitempty"`
 
 	// Keys A map of trigger keys, keyed by ID, included on endpoints that support it when passing the matching includes query parameter.
 	Keys *IncludedTriggerKeys `json:"keys,omitempty"`
@@ -17978,9 +18058,6 @@ type PromoCode struct {
 // PromoCodeStateCurrent The current state of the promo code.
 type PromoCodeStateCurrent string
 
-// PromoCodeInclude A resource that is associated with a promo code.
-type PromoCodeInclude map[string]PromoCode
-
 // ProviderLocation Location information for a given provider.
 type ProviderLocation struct {
 	// Abbreviation An abbreviation for the given provider locaiton.
@@ -18129,9 +18206,6 @@ type ProviderServerModelSpec struct {
 	Storage []StorageSpec `json:"storage"`
 }
 
-// ProviderServerModelsIncludes A resource associated with a server models.
-type ProviderServerModelsIncludes map[string]ProviderServerModel
-
 // PublicAccount Publicly available information about an account
 type PublicAccount struct {
 	// Email Email information for an account
@@ -18229,7 +18303,7 @@ type RecordIncludes struct {
 	ContainersIdentifiers *map[string]ID        `json:"containers:identifiers,omitempty"`
 
 	// Creators An identity that created a resource.
-	Creators                   *CreatorInclude            `json:"creators,omitempty"`
+	Creators                   *IncludedCreators          `json:"creators,omitempty"`
 	VirtualMachines            *map[string]VirtualMachine `json:"virtual-machines,omitempty"`
 	VirtualMachinesIdentifiers *map[string]ID             `json:"virtual-machines:identifiers,omitempty"`
 }
@@ -19009,16 +19083,17 @@ type ServerFeaturesGatewayType string
 
 // ServerIncludes A resource associated with a server.
 type ServerIncludes struct {
-	Clusters *map[string]Cluster `json:"clusters,omitempty"`
+	// Clusters A resource associated with a cluster.
+	Clusters *IncludedClusters `json:"clusters,omitempty"`
 
 	// Integrations A resource that is associated with an integration.
-	Integrations *IntegrationsIncludes `json:"integrations,omitempty"`
+	Integrations *IncludedIntegrations `json:"integrations,omitempty"`
 
 	// Locations A resource that is associated with a provider location.
-	Locations *LocationsIncludes `json:"locations,omitempty"`
+	Locations *IncludedLocations `json:"locations,omitempty"`
 
 	// Models A resource associated with a server models.
-	Models *ProviderServerModelsIncludes `json:"models,omitempty"`
+	Models *IncludedProviderServerModels `json:"models,omitempty"`
 }
 
 // ServerInstancesSummary A Server ID and number of Instances of a specific Container it hosts.
@@ -19520,9 +19595,6 @@ type ServerUnquarantineAction struct {
 // ServerUnquarantineActionAction The action to take.
 type ServerUnquarantineActionAction string
 
-// ServersIncludes A resource that is associated with a server.
-type ServersIncludes map[string]Server
-
 // ServiceContainerIdentifier Identifier of a service Container within an Environment.
 type ServiceContainerIdentifier string
 
@@ -19662,13 +19734,13 @@ type SourceCephRbdImageRef struct {
 // SourceIncludes A resource associate with an image source.
 type SourceIncludes struct {
 	// Creators An identity that created a resource.
-	Creators *CreatorInclude `json:"creators,omitempty"`
+	Creators *IncludedCreators `json:"creators,omitempty"`
 
 	// Integrations A resource that is associated with an integration.
-	Integrations *IntegrationsIncludes `json:"integrations,omitempty"`
+	Integrations *IncludedIntegrations `json:"integrations,omitempty"`
 
 	// IntegrationsIdentifiers A map of identifiers to an array of resource IDs that are associated with it. All IDs point to the same type of resource.
-	IntegrationsIdentifiers *IdentifierIncludes `json:"integrations:identifiers,omitempty"`
+	IntegrationsIdentifiers *IncludedIdentifiers `json:"integrations:identifiers,omitempty"`
 }
 
 // SourceSanIscsi A SAN iSCSI volume source. Defines one or more iSCSI targets and the LUN number to attach.
@@ -19944,9 +20016,6 @@ type StackBuildGenerateStep struct {
 // StackBuildGenerateStepAction The action that the step takes.
 type StackBuildGenerateStepAction string
 
-// StackBuildIncludes A resource that is associated with a stack build.
-type StackBuildIncludes map[string]StackBuild
-
 // StackBuildInstructions Additional instructions used when generating this stack build.
 type StackBuildInstructions struct {
 	// Git Git information specifics.
@@ -20079,11 +20148,8 @@ type StackImageSourceTypeType string
 // StackInclude All includable resources linkable to the given stack.
 type StackInclude struct {
 	// Creators An identity that created a resource.
-	Creators *CreatorInclude `json:"creators,omitempty"`
+	Creators *IncludedCreators `json:"creators,omitempty"`
 }
-
-// StackIncludes A resource associated with a stack.
-type StackIncludes map[string]Stack
 
 // StackMeta A list of meta fields that can be applied to this stack.
 type StackMeta struct {
@@ -24435,13 +24501,20 @@ type VirtualMachineImageSourceUrlType string
 
 // VirtualMachineIncludes All includable resources linkable to the given virtual machine.
 type VirtualMachineIncludes struct {
-	Clusters   *map[string]Cluster   `json:"clusters,omitempty"`
-	Containers *map[string]Container `json:"containers,omitempty"`
+	// Clusters A resource associated with a cluster.
+	Clusters *IncludedClusters `json:"clusters,omitempty"`
+
+	// Containers A resource that is associated with a container.
+	Containers *IncludedContainers `json:"containers,omitempty"`
 
 	// Creators An identity that created a resource.
-	Creators                *CreatorInclude         `json:"creators,omitempty"`
-	Environments            *map[string]Environment `json:"environments,omitempty"`
-	EnvironmentsIdentifiers *map[string]ID          `json:"environments:identifiers,omitempty"`
+	Creators *IncludedCreators `json:"creators,omitempty"`
+
+	// Environments An identity that is associated with an environment.
+	Environments *IncludedEnvironments `json:"environments,omitempty"`
+
+	// EnvironmentsIdentifiers A map of identifiers to an array of resource IDs that are associated with it. All IDs point to the same type of resource.
+	EnvironmentsIdentifiers *IncludedIdentifiers `json:"environments:identifiers,omitempty"`
 }
 
 // VirtualMachineIpAllocateAction defines model for VirtualMachineIpAllocateAction.
@@ -24675,9 +24748,13 @@ type VirtualMachineSosToken struct {
 // VirtualMachineSshIncludes All includable resources linkable to the given virtual machine SSH key.
 type VirtualMachineSshIncludes struct {
 	// Creators An identity that created a resource.
-	Creators                *CreatorInclude         `json:"creators,omitempty"`
-	Environments            *map[string]Environment `json:"environments,omitempty"`
-	EnvironmentsIdentifiers *map[string]ID          `json:"environments:identifiers,omitempty"`
+	Creators *IncludedCreators `json:"creators,omitempty"`
+
+	// Environments An identity that is associated with an environment.
+	Environments *IncludedEnvironments `json:"environments,omitempty"`
+
+	// EnvironmentsIdentifiers A map of identifiers to an array of resource IDs that are associated with it. All IDs point to the same type of resource.
+	EnvironmentsIdentifiers *IncludedIdentifiers `json:"environments:identifiers,omitempty"`
 }
 
 // VirtualMachineSshKey Describes an SSH key used to access a virtual machine.
@@ -25299,16 +25376,16 @@ type WebhookURL = string
 // Controllers Optionally included resources for load balancer controllers
 type Controllers struct {
 	// Creators An identity that created a resource.
-	Creators *CreatorInclude `json:"creators,omitempty"`
+	Creators *IncludedCreators `json:"creators,omitempty"`
 
 	// Sources A resource associated with an image source.
-	Sources *ImageSourceIncludes `json:"sources,omitempty"`
+	Sources *IncludedImageSources `json:"sources,omitempty"`
 
 	// StackBuilds A resource that is associated with a stack build.
-	StackBuilds *StackBuildIncludes `json:"stack_builds,omitempty"`
+	StackBuilds *IncludedStackBuilds `json:"stack_builds,omitempty"`
 
 	// Stacks A resource associated with a stack.
-	Stacks *StackIncludes `json:"stacks,omitempty"`
+	Stacks *IncludedStacks `json:"stacks,omitempty"`
 }
 
 // FilterParam defines model for FilterParam.
@@ -29591,822 +29668,6 @@ func (t *ClusterTask) UnmarshalJSON(b []byte) error {
 	return err
 }
 
-// AsContainer returns the union data inside the ComponentsIncludes_AdditionalProperties as a Container
-func (t ComponentsIncludes_AdditionalProperties) AsContainer() (Container, error) {
-	var body Container
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromContainer overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided Container
-func (t *ComponentsIncludes_AdditionalProperties) FromContainer(v Container) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeContainer performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided Container
-func (t *ComponentsIncludes_AdditionalProperties) MergeContainer(v Container) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsVirtualMachine returns the union data inside the ComponentsIncludes_AdditionalProperties as a VirtualMachine
-func (t ComponentsIncludes_AdditionalProperties) AsVirtualMachine() (VirtualMachine, error) {
-	var body VirtualMachine
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromVirtualMachine overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided VirtualMachine
-func (t *ComponentsIncludes_AdditionalProperties) FromVirtualMachine(v VirtualMachine) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeVirtualMachine performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided VirtualMachine
-func (t *ComponentsIncludes_AdditionalProperties) MergeVirtualMachine(v VirtualMachine) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsInstance returns the union data inside the ComponentsIncludes_AdditionalProperties as a Instance
-func (t ComponentsIncludes_AdditionalProperties) AsInstance() (Instance, error) {
-	var body Instance
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromInstance overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided Instance
-func (t *ComponentsIncludes_AdditionalProperties) FromInstance(v Instance) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeInstance performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided Instance
-func (t *ComponentsIncludes_AdditionalProperties) MergeInstance(v Instance) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsEnvironment returns the union data inside the ComponentsIncludes_AdditionalProperties as a Environment
-func (t ComponentsIncludes_AdditionalProperties) AsEnvironment() (Environment, error) {
-	var body Environment
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromEnvironment overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided Environment
-func (t *ComponentsIncludes_AdditionalProperties) FromEnvironment(v Environment) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeEnvironment performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided Environment
-func (t *ComponentsIncludes_AdditionalProperties) MergeEnvironment(v Environment) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsImage returns the union data inside the ComponentsIncludes_AdditionalProperties as a Image
-func (t ComponentsIncludes_AdditionalProperties) AsImage() (Image, error) {
-	var body Image
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromImage overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided Image
-func (t *ComponentsIncludes_AdditionalProperties) FromImage(v Image) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeImage performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided Image
-func (t *ComponentsIncludes_AdditionalProperties) MergeImage(v Image) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsImageSource returns the union data inside the ComponentsIncludes_AdditionalProperties as a ImageSource
-func (t ComponentsIncludes_AdditionalProperties) AsImageSource() (ImageSource, error) {
-	var body ImageSource
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromImageSource overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided ImageSource
-func (t *ComponentsIncludes_AdditionalProperties) FromImageSource(v ImageSource) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeImageSource performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided ImageSource
-func (t *ComponentsIncludes_AdditionalProperties) MergeImageSource(v ImageSource) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsServer returns the union data inside the ComponentsIncludes_AdditionalProperties as a Server
-func (t ComponentsIncludes_AdditionalProperties) AsServer() (Server, error) {
-	var body Server
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromServer overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided Server
-func (t *ComponentsIncludes_AdditionalProperties) FromServer(v Server) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeServer performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided Server
-func (t *ComponentsIncludes_AdditionalProperties) MergeServer(v Server) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsVirtualProviderIso returns the union data inside the ComponentsIncludes_AdditionalProperties as a VirtualProviderIso
-func (t ComponentsIncludes_AdditionalProperties) AsVirtualProviderIso() (VirtualProviderIso, error) {
-	var body VirtualProviderIso
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromVirtualProviderIso overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided VirtualProviderIso
-func (t *ComponentsIncludes_AdditionalProperties) FromVirtualProviderIso(v VirtualProviderIso) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeVirtualProviderIso performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided VirtualProviderIso
-func (t *ComponentsIncludes_AdditionalProperties) MergeVirtualProviderIso(v VirtualProviderIso) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsIpPool returns the union data inside the ComponentsIncludes_AdditionalProperties as a IpPool
-func (t ComponentsIncludes_AdditionalProperties) AsIpPool() (IpPool, error) {
-	var body IpPool
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromIpPool overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided IpPool
-func (t *ComponentsIncludes_AdditionalProperties) FromIpPool(v IpPool) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeIpPool performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided IpPool
-func (t *ComponentsIncludes_AdditionalProperties) MergeIpPool(v IpPool) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsIntegration returns the union data inside the ComponentsIncludes_AdditionalProperties as a Integration
-func (t ComponentsIncludes_AdditionalProperties) AsIntegration() (Integration, error) {
-	var body Integration
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromIntegration overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided Integration
-func (t *ComponentsIncludes_AdditionalProperties) FromIntegration(v Integration) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeIntegration performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided Integration
-func (t *ComponentsIncludes_AdditionalProperties) MergeIntegration(v Integration) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStack returns the union data inside the ComponentsIncludes_AdditionalProperties as a Stack
-func (t ComponentsIncludes_AdditionalProperties) AsStack() (Stack, error) {
-	var body Stack
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStack overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided Stack
-func (t *ComponentsIncludes_AdditionalProperties) FromStack(v Stack) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStack performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided Stack
-func (t *ComponentsIncludes_AdditionalProperties) MergeStack(v Stack) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsStackBuild returns the union data inside the ComponentsIncludes_AdditionalProperties as a StackBuild
-func (t ComponentsIncludes_AdditionalProperties) AsStackBuild() (StackBuild, error) {
-	var body StackBuild
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromStackBuild overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided StackBuild
-func (t *ComponentsIncludes_AdditionalProperties) FromStackBuild(v StackBuild) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeStackBuild performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided StackBuild
-func (t *ComponentsIncludes_AdditionalProperties) MergeStackBuild(v StackBuild) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsDnsZone returns the union data inside the ComponentsIncludes_AdditionalProperties as a DnsZone
-func (t ComponentsIncludes_AdditionalProperties) AsDnsZone() (DnsZone, error) {
-	var body DnsZone
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromDnsZone overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided DnsZone
-func (t *ComponentsIncludes_AdditionalProperties) FromDnsZone(v DnsZone) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeDnsZone performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided DnsZone
-func (t *ComponentsIncludes_AdditionalProperties) MergeDnsZone(v DnsZone) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsDnsRecord returns the union data inside the ComponentsIncludes_AdditionalProperties as a DnsRecord
-func (t ComponentsIncludes_AdditionalProperties) AsDnsRecord() (DnsRecord, error) {
-	var body DnsRecord
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromDnsRecord overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided DnsRecord
-func (t *ComponentsIncludes_AdditionalProperties) FromDnsRecord(v DnsRecord) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeDnsRecord performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided DnsRecord
-func (t *ComponentsIncludes_AdditionalProperties) MergeDnsRecord(v DnsRecord) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsTlsCertificate returns the union data inside the ComponentsIncludes_AdditionalProperties as a TlsCertificate
-func (t ComponentsIncludes_AdditionalProperties) AsTlsCertificate() (TlsCertificate, error) {
-	var body TlsCertificate
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromTlsCertificate overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided TlsCertificate
-func (t *ComponentsIncludes_AdditionalProperties) FromTlsCertificate(v TlsCertificate) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeTlsCertificate performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided TlsCertificate
-func (t *ComponentsIncludes_AdditionalProperties) MergeTlsCertificate(v TlsCertificate) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsApiKey returns the union data inside the ComponentsIncludes_AdditionalProperties as a ApiKey
-func (t ComponentsIncludes_AdditionalProperties) AsApiKey() (ApiKey, error) {
-	var body ApiKey
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromApiKey overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided ApiKey
-func (t *ComponentsIncludes_AdditionalProperties) FromApiKey(v ApiKey) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeApiKey performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided ApiKey
-func (t *ComponentsIncludes_AdditionalProperties) MergeApiKey(v ApiKey) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsNetwork returns the union data inside the ComponentsIncludes_AdditionalProperties as a Network
-func (t ComponentsIncludes_AdditionalProperties) AsNetwork() (Network, error) {
-	var body Network
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromNetwork overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided Network
-func (t *ComponentsIncludes_AdditionalProperties) FromNetwork(v Network) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeNetwork performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided Network
-func (t *ComponentsIncludes_AdditionalProperties) MergeNetwork(v Network) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsHubMembership returns the union data inside the ComponentsIncludes_AdditionalProperties as a HubMembership
-func (t ComponentsIncludes_AdditionalProperties) AsHubMembership() (HubMembership, error) {
-	var body HubMembership
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromHubMembership overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided HubMembership
-func (t *ComponentsIncludes_AdditionalProperties) FromHubMembership(v HubMembership) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeHubMembership performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided HubMembership
-func (t *ComponentsIncludes_AdditionalProperties) MergeHubMembership(v HubMembership) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsPipeline returns the union data inside the ComponentsIncludes_AdditionalProperties as a Pipeline
-func (t ComponentsIncludes_AdditionalProperties) AsPipeline() (Pipeline, error) {
-	var body Pipeline
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromPipeline overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided Pipeline
-func (t *ComponentsIncludes_AdditionalProperties) FromPipeline(v Pipeline) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergePipeline performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided Pipeline
-func (t *ComponentsIncludes_AdditionalProperties) MergePipeline(v Pipeline) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsTriggerKey returns the union data inside the ComponentsIncludes_AdditionalProperties as a TriggerKey
-func (t ComponentsIncludes_AdditionalProperties) AsTriggerKey() (TriggerKey, error) {
-	var body TriggerKey
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromTriggerKey overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided TriggerKey
-func (t *ComponentsIncludes_AdditionalProperties) FromTriggerKey(v TriggerKey) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeTriggerKey performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided TriggerKey
-func (t *ComponentsIncludes_AdditionalProperties) MergeTriggerKey(v TriggerKey) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsScopedVariable returns the union data inside the ComponentsIncludes_AdditionalProperties as a ScopedVariable
-func (t ComponentsIncludes_AdditionalProperties) AsScopedVariable() (ScopedVariable, error) {
-	var body ScopedVariable
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromScopedVariable overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided ScopedVariable
-func (t *ComponentsIncludes_AdditionalProperties) FromScopedVariable(v ScopedVariable) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeScopedVariable performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided ScopedVariable
-func (t *ComponentsIncludes_AdditionalProperties) MergeScopedVariable(v ScopedVariable) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsHub returns the union data inside the ComponentsIncludes_AdditionalProperties as a Hub
-func (t ComponentsIncludes_AdditionalProperties) AsHub() (Hub, error) {
-	var body Hub
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromHub overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided Hub
-func (t *ComponentsIncludes_AdditionalProperties) FromHub(v Hub) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeHub performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided Hub
-func (t *ComponentsIncludes_AdditionalProperties) MergeHub(v Hub) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsInvoice returns the union data inside the ComponentsIncludes_AdditionalProperties as a Invoice
-func (t ComponentsIncludes_AdditionalProperties) AsInvoice() (Invoice, error) {
-	var body Invoice
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromInvoice overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided Invoice
-func (t *ComponentsIncludes_AdditionalProperties) FromInvoice(v Invoice) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeInvoice performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided Invoice
-func (t *ComponentsIncludes_AdditionalProperties) MergeInvoice(v Invoice) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsMethod returns the union data inside the ComponentsIncludes_AdditionalProperties as a Method
-func (t ComponentsIncludes_AdditionalProperties) AsMethod() (Method, error) {
-	var body Method
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromMethod overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided Method
-func (t *ComponentsIncludes_AdditionalProperties) FromMethod(v Method) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeMethod performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided Method
-func (t *ComponentsIncludes_AdditionalProperties) MergeMethod(v Method) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsAutoScaleGroup returns the union data inside the ComponentsIncludes_AdditionalProperties as a AutoScaleGroup
-func (t ComponentsIncludes_AdditionalProperties) AsAutoScaleGroup() (AutoScaleGroup, error) {
-	var body AutoScaleGroup
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromAutoScaleGroup overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided AutoScaleGroup
-func (t *ComponentsIncludes_AdditionalProperties) FromAutoScaleGroup(v AutoScaleGroup) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeAutoScaleGroup performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided AutoScaleGroup
-func (t *ComponentsIncludes_AdditionalProperties) MergeAutoScaleGroup(v AutoScaleGroup) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsExternalVolume returns the union data inside the ComponentsIncludes_AdditionalProperties as a ExternalVolume
-func (t ComponentsIncludes_AdditionalProperties) AsExternalVolume() (ExternalVolume, error) {
-	var body ExternalVolume
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromExternalVolume overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided ExternalVolume
-func (t *ComponentsIncludes_AdditionalProperties) FromExternalVolume(v ExternalVolume) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeExternalVolume performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided ExternalVolume
-func (t *ComponentsIncludes_AdditionalProperties) MergeExternalVolume(v ExternalVolume) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsPipelineRun returns the union data inside the ComponentsIncludes_AdditionalProperties as a PipelineRun
-func (t ComponentsIncludes_AdditionalProperties) AsPipelineRun() (PipelineRun, error) {
-	var body PipelineRun
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromPipelineRun overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided PipelineRun
-func (t *ComponentsIncludes_AdditionalProperties) FromPipelineRun(v PipelineRun) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergePipelineRun performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided PipelineRun
-func (t *ComponentsIncludes_AdditionalProperties) MergePipelineRun(v PipelineRun) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsRole returns the union data inside the ComponentsIncludes_AdditionalProperties as a Role
-func (t ComponentsIncludes_AdditionalProperties) AsRole() (Role, error) {
-	var body Role
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromRole overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided Role
-func (t *ComponentsIncludes_AdditionalProperties) FromRole(v Role) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeRole performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided Role
-func (t *ComponentsIncludes_AdditionalProperties) MergeRole(v Role) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsPublicAccount returns the union data inside the ComponentsIncludes_AdditionalProperties as a PublicAccount
-func (t ComponentsIncludes_AdditionalProperties) AsPublicAccount() (PublicAccount, error) {
-	var body PublicAccount
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromPublicAccount overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided PublicAccount
-func (t *ComponentsIncludes_AdditionalProperties) FromPublicAccount(v PublicAccount) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergePublicAccount performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided PublicAccount
-func (t *ComponentsIncludes_AdditionalProperties) MergePublicAccount(v PublicAccount) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsVirtualMachineSshKey returns the union data inside the ComponentsIncludes_AdditionalProperties as a VirtualMachineSshKey
-func (t ComponentsIncludes_AdditionalProperties) AsVirtualMachineSshKey() (VirtualMachineSshKey, error) {
-	var body VirtualMachineSshKey
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromVirtualMachineSshKey overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided VirtualMachineSshKey
-func (t *ComponentsIncludes_AdditionalProperties) FromVirtualMachineSshKey(v VirtualMachineSshKey) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeVirtualMachineSshKey performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided VirtualMachineSshKey
-func (t *ComponentsIncludes_AdditionalProperties) MergeVirtualMachineSshKey(v VirtualMachineSshKey) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-// AsCluster returns the union data inside the ComponentsIncludes_AdditionalProperties as a Cluster
-func (t ComponentsIncludes_AdditionalProperties) AsCluster() (Cluster, error) {
-	var body Cluster
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromCluster overwrites any union data inside the ComponentsIncludes_AdditionalProperties as the provided Cluster
-func (t *ComponentsIncludes_AdditionalProperties) FromCluster(v Cluster) error {
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergeCluster performs a merge with any union data inside the ComponentsIncludes_AdditionalProperties, using the provided Cluster
-func (t *ComponentsIncludes_AdditionalProperties) MergeCluster(v Cluster) error {
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
-func (t ComponentsIncludes_AdditionalProperties) MarshalJSON() ([]byte, error) {
-	b, err := t.union.MarshalJSON()
-	return b, err
-}
-
-func (t *ComponentsIncludes_AdditionalProperties) UnmarshalJSON(b []byte) error {
-	err := t.union.UnmarshalJSON(b)
-	return err
-}
-
 // AsContainerNetworkL20 returns the union data inside the ContainerNetwork_L2 as a ContainerNetworkL20
 func (t ContainerNetwork_L2) AsContainerNetworkL20() (ContainerNetworkL20, error) {
 	var body ContainerNetworkL20
@@ -30744,22 +30005,22 @@ func (t *DefaultLbType_Details) UnmarshalJSON(b []byte) error {
 	return err
 }
 
-// AsDnsRecordTypesLinked0 returns the union data inside the DnsRecordTypes_Linked as a DnsRecordTypesLinked0
-func (t DnsRecordTypes_Linked) AsDnsRecordTypesLinked0() (DnsRecordTypesLinked0, error) {
-	var body DnsRecordTypesLinked0
+// AsDnsRecordLinked0 returns the union data inside the DnsRecordLinked as a DnsRecordLinked0
+func (t DnsRecordLinked) AsDnsRecordLinked0() (DnsRecordLinked0, error) {
+	var body DnsRecordLinked0
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromDnsRecordTypesLinked0 overwrites any union data inside the DnsRecordTypes_Linked as the provided DnsRecordTypesLinked0
-func (t *DnsRecordTypes_Linked) FromDnsRecordTypesLinked0(v DnsRecordTypesLinked0) error {
+// FromDnsRecordLinked0 overwrites any union data inside the DnsRecordLinked as the provided DnsRecordLinked0
+func (t *DnsRecordLinked) FromDnsRecordLinked0(v DnsRecordLinked0) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeDnsRecordTypesLinked0 performs a merge with any union data inside the DnsRecordTypes_Linked, using the provided DnsRecordTypesLinked0
-func (t *DnsRecordTypes_Linked) MergeDnsRecordTypesLinked0(v DnsRecordTypesLinked0) error {
+// MergeDnsRecordLinked0 performs a merge with any union data inside the DnsRecordLinked, using the provided DnsRecordLinked0
+func (t *DnsRecordLinked) MergeDnsRecordLinked0(v DnsRecordLinked0) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -30770,22 +30031,22 @@ func (t *DnsRecordTypes_Linked) MergeDnsRecordTypesLinked0(v DnsRecordTypesLinke
 	return err
 }
 
-// AsDnsRecordTypesLinked1 returns the union data inside the DnsRecordTypes_Linked as a DnsRecordTypesLinked1
-func (t DnsRecordTypes_Linked) AsDnsRecordTypesLinked1() (DnsRecordTypesLinked1, error) {
-	var body DnsRecordTypesLinked1
+// AsDnsRecordLinkedVirtualMachine returns the union data inside the DnsRecordLinked as a DnsRecordLinkedVirtualMachine
+func (t DnsRecordLinked) AsDnsRecordLinkedVirtualMachine() (DnsRecordLinkedVirtualMachine, error) {
+	var body DnsRecordLinkedVirtualMachine
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromDnsRecordTypesLinked1 overwrites any union data inside the DnsRecordTypes_Linked as the provided DnsRecordTypesLinked1
-func (t *DnsRecordTypes_Linked) FromDnsRecordTypesLinked1(v DnsRecordTypesLinked1) error {
+// FromDnsRecordLinkedVirtualMachine overwrites any union data inside the DnsRecordLinked as the provided DnsRecordLinkedVirtualMachine
+func (t *DnsRecordLinked) FromDnsRecordLinkedVirtualMachine(v DnsRecordLinkedVirtualMachine) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeDnsRecordTypesLinked1 performs a merge with any union data inside the DnsRecordTypes_Linked, using the provided DnsRecordTypesLinked1
-func (t *DnsRecordTypes_Linked) MergeDnsRecordTypesLinked1(v DnsRecordTypesLinked1) error {
+// MergeDnsRecordLinkedVirtualMachine performs a merge with any union data inside the DnsRecordLinked, using the provided DnsRecordLinkedVirtualMachine
+func (t *DnsRecordLinked) MergeDnsRecordLinkedVirtualMachine(v DnsRecordLinkedVirtualMachine) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -30796,22 +30057,22 @@ func (t *DnsRecordTypes_Linked) MergeDnsRecordTypesLinked1(v DnsRecordTypesLinke
 	return err
 }
 
-// AsDnsRecordTypesLinked2 returns the union data inside the DnsRecordTypes_Linked as a DnsRecordTypesLinked2
-func (t DnsRecordTypes_Linked) AsDnsRecordTypesLinked2() (DnsRecordTypesLinked2, error) {
-	var body DnsRecordTypesLinked2
+// AsDnsRecordLinkedDeployment returns the union data inside the DnsRecordLinked as a DnsRecordLinkedDeployment
+func (t DnsRecordLinked) AsDnsRecordLinkedDeployment() (DnsRecordLinkedDeployment, error) {
+	var body DnsRecordLinkedDeployment
 	err := json.Unmarshal(t.union, &body)
 	return body, err
 }
 
-// FromDnsRecordTypesLinked2 overwrites any union data inside the DnsRecordTypes_Linked as the provided DnsRecordTypesLinked2
-func (t *DnsRecordTypes_Linked) FromDnsRecordTypesLinked2(v DnsRecordTypesLinked2) error {
+// FromDnsRecordLinkedDeployment overwrites any union data inside the DnsRecordLinked as the provided DnsRecordLinkedDeployment
+func (t *DnsRecordLinked) FromDnsRecordLinkedDeployment(v DnsRecordLinkedDeployment) error {
 	b, err := json.Marshal(v)
 	t.union = b
 	return err
 }
 
-// MergeDnsRecordTypesLinked2 performs a merge with any union data inside the DnsRecordTypes_Linked, using the provided DnsRecordTypesLinked2
-func (t *DnsRecordTypes_Linked) MergeDnsRecordTypesLinked2(v DnsRecordTypesLinked2) error {
+// MergeDnsRecordLinkedDeployment performs a merge with any union data inside the DnsRecordLinked, using the provided DnsRecordLinkedDeployment
+func (t *DnsRecordLinked) MergeDnsRecordLinkedDeployment(v DnsRecordLinkedDeployment) error {
 	b, err := json.Marshal(v)
 	if err != nil {
 		return err
@@ -30822,7 +30083,7 @@ func (t *DnsRecordTypes_Linked) MergeDnsRecordTypesLinked2(v DnsRecordTypesLinke
 	return err
 }
 
-func (t DnsRecordTypes_Linked) MarshalJSON() ([]byte, error) {
+func (t DnsRecordLinked) MarshalJSON() ([]byte, error) {
 	b, err := t.union.MarshalJSON()
 	if err != nil {
 		return nil, err
@@ -30849,7 +30110,7 @@ func (t DnsRecordTypes_Linked) MarshalJSON() ([]byte, error) {
 	return b, err
 }
 
-func (t *DnsRecordTypes_Linked) UnmarshalJSON(b []byte) error {
+func (t *DnsRecordLinked) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	if err != nil {
 		return err
@@ -30874,6 +30135,94 @@ func (t *DnsRecordTypes_Linked) UnmarshalJSON(b []byte) error {
 		}
 	}
 
+	return err
+}
+
+// AsDnsRecordLinkedVariantDestination0 returns the union data inside the DnsRecordLinkedVariantDestination as a DnsRecordLinkedVariantDestination0
+func (t DnsRecordLinkedVariantDestination) AsDnsRecordLinkedVariantDestination0() (DnsRecordLinkedVariantDestination0, error) {
+	var body DnsRecordLinkedVariantDestination0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDnsRecordLinkedVariantDestination0 overwrites any union data inside the DnsRecordLinkedVariantDestination as the provided DnsRecordLinkedVariantDestination0
+func (t *DnsRecordLinkedVariantDestination) FromDnsRecordLinkedVariantDestination0(v DnsRecordLinkedVariantDestination0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDnsRecordLinkedVariantDestination0 performs a merge with any union data inside the DnsRecordLinkedVariantDestination, using the provided DnsRecordLinkedVariantDestination0
+func (t *DnsRecordLinkedVariantDestination) MergeDnsRecordLinkedVariantDestination0(v DnsRecordLinkedVariantDestination0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDnsRecordLinkedVirtualMachine returns the union data inside the DnsRecordLinkedVariantDestination as a DnsRecordLinkedVirtualMachine
+func (t DnsRecordLinkedVariantDestination) AsDnsRecordLinkedVirtualMachine() (DnsRecordLinkedVirtualMachine, error) {
+	var body DnsRecordLinkedVirtualMachine
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDnsRecordLinkedVirtualMachine overwrites any union data inside the DnsRecordLinkedVariantDestination as the provided DnsRecordLinkedVirtualMachine
+func (t *DnsRecordLinkedVariantDestination) FromDnsRecordLinkedVirtualMachine(v DnsRecordLinkedVirtualMachine) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDnsRecordLinkedVirtualMachine performs a merge with any union data inside the DnsRecordLinkedVariantDestination, using the provided DnsRecordLinkedVirtualMachine
+func (t *DnsRecordLinkedVariantDestination) MergeDnsRecordLinkedVirtualMachine(v DnsRecordLinkedVirtualMachine) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDnsRecordLinkedDeployment returns the union data inside the DnsRecordLinkedVariantDestination as a DnsRecordLinkedDeployment
+func (t DnsRecordLinkedVariantDestination) AsDnsRecordLinkedDeployment() (DnsRecordLinkedDeployment, error) {
+	var body DnsRecordLinkedDeployment
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDnsRecordLinkedDeployment overwrites any union data inside the DnsRecordLinkedVariantDestination as the provided DnsRecordLinkedDeployment
+func (t *DnsRecordLinkedVariantDestination) FromDnsRecordLinkedDeployment(v DnsRecordLinkedDeployment) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDnsRecordLinkedDeployment performs a merge with any union data inside the DnsRecordLinkedVariantDestination, using the provided DnsRecordLinkedDeployment
+func (t *DnsRecordLinkedVariantDestination) MergeDnsRecordLinkedDeployment(v DnsRecordLinkedDeployment) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t DnsRecordLinkedVariantDestination) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *DnsRecordLinkedVariantDestination) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
 	return err
 }
 
@@ -32285,6 +31634,822 @@ func (t ImageOrigin) MarshalJSON() ([]byte, error) {
 }
 
 func (t *ImageOrigin) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsContainer returns the union data inside the IncludedComponents_AdditionalProperties as a Container
+func (t IncludedComponents_AdditionalProperties) AsContainer() (Container, error) {
+	var body Container
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromContainer overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided Container
+func (t *IncludedComponents_AdditionalProperties) FromContainer(v Container) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeContainer performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided Container
+func (t *IncludedComponents_AdditionalProperties) MergeContainer(v Container) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVirtualMachine returns the union data inside the IncludedComponents_AdditionalProperties as a VirtualMachine
+func (t IncludedComponents_AdditionalProperties) AsVirtualMachine() (VirtualMachine, error) {
+	var body VirtualMachine
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachine overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided VirtualMachine
+func (t *IncludedComponents_AdditionalProperties) FromVirtualMachine(v VirtualMachine) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachine performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided VirtualMachine
+func (t *IncludedComponents_AdditionalProperties) MergeVirtualMachine(v VirtualMachine) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsInstance returns the union data inside the IncludedComponents_AdditionalProperties as a Instance
+func (t IncludedComponents_AdditionalProperties) AsInstance() (Instance, error) {
+	var body Instance
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInstance overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided Instance
+func (t *IncludedComponents_AdditionalProperties) FromInstance(v Instance) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInstance performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided Instance
+func (t *IncludedComponents_AdditionalProperties) MergeInstance(v Instance) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsEnvironment returns the union data inside the IncludedComponents_AdditionalProperties as a Environment
+func (t IncludedComponents_AdditionalProperties) AsEnvironment() (Environment, error) {
+	var body Environment
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromEnvironment overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided Environment
+func (t *IncludedComponents_AdditionalProperties) FromEnvironment(v Environment) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeEnvironment performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided Environment
+func (t *IncludedComponents_AdditionalProperties) MergeEnvironment(v Environment) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsImage returns the union data inside the IncludedComponents_AdditionalProperties as a Image
+func (t IncludedComponents_AdditionalProperties) AsImage() (Image, error) {
+	var body Image
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromImage overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided Image
+func (t *IncludedComponents_AdditionalProperties) FromImage(v Image) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeImage performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided Image
+func (t *IncludedComponents_AdditionalProperties) MergeImage(v Image) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsImageSource returns the union data inside the IncludedComponents_AdditionalProperties as a ImageSource
+func (t IncludedComponents_AdditionalProperties) AsImageSource() (ImageSource, error) {
+	var body ImageSource
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromImageSource overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided ImageSource
+func (t *IncludedComponents_AdditionalProperties) FromImageSource(v ImageSource) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeImageSource performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided ImageSource
+func (t *IncludedComponents_AdditionalProperties) MergeImageSource(v ImageSource) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsServer returns the union data inside the IncludedComponents_AdditionalProperties as a Server
+func (t IncludedComponents_AdditionalProperties) AsServer() (Server, error) {
+	var body Server
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServer overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided Server
+func (t *IncludedComponents_AdditionalProperties) FromServer(v Server) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServer performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided Server
+func (t *IncludedComponents_AdditionalProperties) MergeServer(v Server) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVirtualProviderIso returns the union data inside the IncludedComponents_AdditionalProperties as a VirtualProviderIso
+func (t IncludedComponents_AdditionalProperties) AsVirtualProviderIso() (VirtualProviderIso, error) {
+	var body VirtualProviderIso
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualProviderIso overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided VirtualProviderIso
+func (t *IncludedComponents_AdditionalProperties) FromVirtualProviderIso(v VirtualProviderIso) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualProviderIso performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided VirtualProviderIso
+func (t *IncludedComponents_AdditionalProperties) MergeVirtualProviderIso(v VirtualProviderIso) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsIpPool returns the union data inside the IncludedComponents_AdditionalProperties as a IpPool
+func (t IncludedComponents_AdditionalProperties) AsIpPool() (IpPool, error) {
+	var body IpPool
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromIpPool overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided IpPool
+func (t *IncludedComponents_AdditionalProperties) FromIpPool(v IpPool) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeIpPool performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided IpPool
+func (t *IncludedComponents_AdditionalProperties) MergeIpPool(v IpPool) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsIntegration returns the union data inside the IncludedComponents_AdditionalProperties as a Integration
+func (t IncludedComponents_AdditionalProperties) AsIntegration() (Integration, error) {
+	var body Integration
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromIntegration overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided Integration
+func (t *IncludedComponents_AdditionalProperties) FromIntegration(v Integration) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeIntegration performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided Integration
+func (t *IncludedComponents_AdditionalProperties) MergeIntegration(v Integration) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsStack returns the union data inside the IncludedComponents_AdditionalProperties as a Stack
+func (t IncludedComponents_AdditionalProperties) AsStack() (Stack, error) {
+	var body Stack
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStack overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided Stack
+func (t *IncludedComponents_AdditionalProperties) FromStack(v Stack) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStack performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided Stack
+func (t *IncludedComponents_AdditionalProperties) MergeStack(v Stack) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsStackBuild returns the union data inside the IncludedComponents_AdditionalProperties as a StackBuild
+func (t IncludedComponents_AdditionalProperties) AsStackBuild() (StackBuild, error) {
+	var body StackBuild
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStackBuild overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided StackBuild
+func (t *IncludedComponents_AdditionalProperties) FromStackBuild(v StackBuild) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStackBuild performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided StackBuild
+func (t *IncludedComponents_AdditionalProperties) MergeStackBuild(v StackBuild) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDnsZone returns the union data inside the IncludedComponents_AdditionalProperties as a DnsZone
+func (t IncludedComponents_AdditionalProperties) AsDnsZone() (DnsZone, error) {
+	var body DnsZone
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDnsZone overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided DnsZone
+func (t *IncludedComponents_AdditionalProperties) FromDnsZone(v DnsZone) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDnsZone performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided DnsZone
+func (t *IncludedComponents_AdditionalProperties) MergeDnsZone(v DnsZone) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsDnsRecord returns the union data inside the IncludedComponents_AdditionalProperties as a DnsRecord
+func (t IncludedComponents_AdditionalProperties) AsDnsRecord() (DnsRecord, error) {
+	var body DnsRecord
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromDnsRecord overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided DnsRecord
+func (t *IncludedComponents_AdditionalProperties) FromDnsRecord(v DnsRecord) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeDnsRecord performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided DnsRecord
+func (t *IncludedComponents_AdditionalProperties) MergeDnsRecord(v DnsRecord) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsTlsCertificate returns the union data inside the IncludedComponents_AdditionalProperties as a TlsCertificate
+func (t IncludedComponents_AdditionalProperties) AsTlsCertificate() (TlsCertificate, error) {
+	var body TlsCertificate
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromTlsCertificate overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided TlsCertificate
+func (t *IncludedComponents_AdditionalProperties) FromTlsCertificate(v TlsCertificate) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeTlsCertificate performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided TlsCertificate
+func (t *IncludedComponents_AdditionalProperties) MergeTlsCertificate(v TlsCertificate) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsApiKey returns the union data inside the IncludedComponents_AdditionalProperties as a ApiKey
+func (t IncludedComponents_AdditionalProperties) AsApiKey() (ApiKey, error) {
+	var body ApiKey
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromApiKey overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided ApiKey
+func (t *IncludedComponents_AdditionalProperties) FromApiKey(v ApiKey) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeApiKey performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided ApiKey
+func (t *IncludedComponents_AdditionalProperties) MergeApiKey(v ApiKey) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsNetwork returns the union data inside the IncludedComponents_AdditionalProperties as a Network
+func (t IncludedComponents_AdditionalProperties) AsNetwork() (Network, error) {
+	var body Network
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromNetwork overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided Network
+func (t *IncludedComponents_AdditionalProperties) FromNetwork(v Network) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeNetwork performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided Network
+func (t *IncludedComponents_AdditionalProperties) MergeNetwork(v Network) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsHubMembership returns the union data inside the IncludedComponents_AdditionalProperties as a HubMembership
+func (t IncludedComponents_AdditionalProperties) AsHubMembership() (HubMembership, error) {
+	var body HubMembership
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromHubMembership overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided HubMembership
+func (t *IncludedComponents_AdditionalProperties) FromHubMembership(v HubMembership) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeHubMembership performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided HubMembership
+func (t *IncludedComponents_AdditionalProperties) MergeHubMembership(v HubMembership) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsPipeline returns the union data inside the IncludedComponents_AdditionalProperties as a Pipeline
+func (t IncludedComponents_AdditionalProperties) AsPipeline() (Pipeline, error) {
+	var body Pipeline
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromPipeline overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided Pipeline
+func (t *IncludedComponents_AdditionalProperties) FromPipeline(v Pipeline) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergePipeline performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided Pipeline
+func (t *IncludedComponents_AdditionalProperties) MergePipeline(v Pipeline) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsTriggerKey returns the union data inside the IncludedComponents_AdditionalProperties as a TriggerKey
+func (t IncludedComponents_AdditionalProperties) AsTriggerKey() (TriggerKey, error) {
+	var body TriggerKey
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromTriggerKey overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided TriggerKey
+func (t *IncludedComponents_AdditionalProperties) FromTriggerKey(v TriggerKey) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeTriggerKey performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided TriggerKey
+func (t *IncludedComponents_AdditionalProperties) MergeTriggerKey(v TriggerKey) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsScopedVariable returns the union data inside the IncludedComponents_AdditionalProperties as a ScopedVariable
+func (t IncludedComponents_AdditionalProperties) AsScopedVariable() (ScopedVariable, error) {
+	var body ScopedVariable
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromScopedVariable overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided ScopedVariable
+func (t *IncludedComponents_AdditionalProperties) FromScopedVariable(v ScopedVariable) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeScopedVariable performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided ScopedVariable
+func (t *IncludedComponents_AdditionalProperties) MergeScopedVariable(v ScopedVariable) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsHub returns the union data inside the IncludedComponents_AdditionalProperties as a Hub
+func (t IncludedComponents_AdditionalProperties) AsHub() (Hub, error) {
+	var body Hub
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromHub overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided Hub
+func (t *IncludedComponents_AdditionalProperties) FromHub(v Hub) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeHub performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided Hub
+func (t *IncludedComponents_AdditionalProperties) MergeHub(v Hub) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsInvoice returns the union data inside the IncludedComponents_AdditionalProperties as a Invoice
+func (t IncludedComponents_AdditionalProperties) AsInvoice() (Invoice, error) {
+	var body Invoice
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromInvoice overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided Invoice
+func (t *IncludedComponents_AdditionalProperties) FromInvoice(v Invoice) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeInvoice performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided Invoice
+func (t *IncludedComponents_AdditionalProperties) MergeInvoice(v Invoice) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsMethod returns the union data inside the IncludedComponents_AdditionalProperties as a Method
+func (t IncludedComponents_AdditionalProperties) AsMethod() (Method, error) {
+	var body Method
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromMethod overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided Method
+func (t *IncludedComponents_AdditionalProperties) FromMethod(v Method) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeMethod performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided Method
+func (t *IncludedComponents_AdditionalProperties) MergeMethod(v Method) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsAutoScaleGroup returns the union data inside the IncludedComponents_AdditionalProperties as a AutoScaleGroup
+func (t IncludedComponents_AdditionalProperties) AsAutoScaleGroup() (AutoScaleGroup, error) {
+	var body AutoScaleGroup
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromAutoScaleGroup overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided AutoScaleGroup
+func (t *IncludedComponents_AdditionalProperties) FromAutoScaleGroup(v AutoScaleGroup) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeAutoScaleGroup performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided AutoScaleGroup
+func (t *IncludedComponents_AdditionalProperties) MergeAutoScaleGroup(v AutoScaleGroup) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsExternalVolume returns the union data inside the IncludedComponents_AdditionalProperties as a ExternalVolume
+func (t IncludedComponents_AdditionalProperties) AsExternalVolume() (ExternalVolume, error) {
+	var body ExternalVolume
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromExternalVolume overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided ExternalVolume
+func (t *IncludedComponents_AdditionalProperties) FromExternalVolume(v ExternalVolume) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeExternalVolume performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided ExternalVolume
+func (t *IncludedComponents_AdditionalProperties) MergeExternalVolume(v ExternalVolume) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsPipelineRun returns the union data inside the IncludedComponents_AdditionalProperties as a PipelineRun
+func (t IncludedComponents_AdditionalProperties) AsPipelineRun() (PipelineRun, error) {
+	var body PipelineRun
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromPipelineRun overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided PipelineRun
+func (t *IncludedComponents_AdditionalProperties) FromPipelineRun(v PipelineRun) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergePipelineRun performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided PipelineRun
+func (t *IncludedComponents_AdditionalProperties) MergePipelineRun(v PipelineRun) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsRole returns the union data inside the IncludedComponents_AdditionalProperties as a Role
+func (t IncludedComponents_AdditionalProperties) AsRole() (Role, error) {
+	var body Role
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromRole overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided Role
+func (t *IncludedComponents_AdditionalProperties) FromRole(v Role) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeRole performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided Role
+func (t *IncludedComponents_AdditionalProperties) MergeRole(v Role) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsPublicAccount returns the union data inside the IncludedComponents_AdditionalProperties as a PublicAccount
+func (t IncludedComponents_AdditionalProperties) AsPublicAccount() (PublicAccount, error) {
+	var body PublicAccount
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromPublicAccount overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided PublicAccount
+func (t *IncludedComponents_AdditionalProperties) FromPublicAccount(v PublicAccount) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergePublicAccount performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided PublicAccount
+func (t *IncludedComponents_AdditionalProperties) MergePublicAccount(v PublicAccount) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsVirtualMachineSshKey returns the union data inside the IncludedComponents_AdditionalProperties as a VirtualMachineSshKey
+func (t IncludedComponents_AdditionalProperties) AsVirtualMachineSshKey() (VirtualMachineSshKey, error) {
+	var body VirtualMachineSshKey
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromVirtualMachineSshKey overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided VirtualMachineSshKey
+func (t *IncludedComponents_AdditionalProperties) FromVirtualMachineSshKey(v VirtualMachineSshKey) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeVirtualMachineSshKey performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided VirtualMachineSshKey
+func (t *IncludedComponents_AdditionalProperties) MergeVirtualMachineSshKey(v VirtualMachineSshKey) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsCluster returns the union data inside the IncludedComponents_AdditionalProperties as a Cluster
+func (t IncludedComponents_AdditionalProperties) AsCluster() (Cluster, error) {
+	var body Cluster
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCluster overwrites any union data inside the IncludedComponents_AdditionalProperties as the provided Cluster
+func (t *IncludedComponents_AdditionalProperties) FromCluster(v Cluster) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCluster performs a merge with any union data inside the IncludedComponents_AdditionalProperties, using the provided Cluster
+func (t *IncludedComponents_AdditionalProperties) MergeCluster(v Cluster) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t IncludedComponents_AdditionalProperties) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *IncludedComponents_AdditionalProperties) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -79105,7 +79270,7 @@ type GetEnvironmentsResponse struct {
 		Data     []Environment `json:"data"`
 		Includes *struct {
 			// Creators An identity that created a resource.
-			Creators *CreatorInclude `json:"creators,omitempty"`
+			Creators *IncludedCreators `json:"creators,omitempty"`
 		} `json:"includes,omitempty"`
 	}
 	JSONDefault *DefaultError
@@ -79211,10 +79376,10 @@ type GetEnvironmentResponse struct {
 		Data     Environment `json:"data"`
 		Includes *struct {
 			// Clusters A resource associated with a cluster.
-			Clusters *ClusterIncludes `json:"clusters,omitempty"`
+			Clusters *IncludedClusters `json:"clusters,omitempty"`
 
 			// Creators An identity that created a resource.
-			Creators *CreatorInclude `json:"creators,omitempty"`
+			Creators *IncludedCreators `json:"creators,omitempty"`
 		} `json:"includes,omitempty"`
 	}
 	JSONDefault *DefaultError
@@ -84395,7 +84560,7 @@ type GetPipelineRunsResponse struct {
 		Data     []PipelineRun `json:"data"`
 		Includes *struct {
 			// Creators An identity that created a resource.
-			Creators *CreatorInclude `json:"creators,omitempty"`
+			Creators *IncludedCreators `json:"creators,omitempty"`
 		} `json:"includes,omitempty"`
 	}
 	JSONDefault *DefaultError
@@ -84433,7 +84598,7 @@ type GetPipelineRunResponse struct {
 		Data     PipelineRun `json:"data"`
 		Includes *struct {
 			// Creators An identity that created a resource.
-			Creators *CreatorInclude `json:"creators,omitempty"`
+			Creators *IncludedCreators `json:"creators,omitempty"`
 		} `json:"includes,omitempty"`
 	}
 	JSONDefault *DefaultError
@@ -85332,7 +85497,7 @@ type LookupComponentsResponse struct {
 	HTTPResponse *http.Response
 	JSON200      *struct {
 		// Data A resource that is associated with activity.
-		Data ComponentsIncludes `json:"data"`
+		Data IncludedComponents `json:"data"`
 	}
 	JSONDefault *DefaultError
 }
@@ -92515,7 +92680,7 @@ func ParseGetEnvironmentsResponse(rsp *http.Response) (*GetEnvironmentsResponse,
 			Data     []Environment `json:"data"`
 			Includes *struct {
 				// Creators An identity that created a resource.
-				Creators *CreatorInclude `json:"creators,omitempty"`
+				Creators *IncludedCreators `json:"creators,omitempty"`
 			} `json:"includes,omitempty"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -92627,10 +92792,10 @@ func ParseGetEnvironmentResponse(rsp *http.Response) (*GetEnvironmentResponse, e
 			Data     Environment `json:"data"`
 			Includes *struct {
 				// Clusters A resource associated with a cluster.
-				Clusters *ClusterIncludes `json:"clusters,omitempty"`
+				Clusters *IncludedClusters `json:"clusters,omitempty"`
 
 				// Creators An identity that created a resource.
-				Creators *CreatorInclude `json:"creators,omitempty"`
+				Creators *IncludedCreators `json:"creators,omitempty"`
 			} `json:"includes,omitempty"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -98103,7 +98268,7 @@ func ParseGetPipelineRunsResponse(rsp *http.Response) (*GetPipelineRunsResponse,
 			Data     []PipelineRun `json:"data"`
 			Includes *struct {
 				// Creators An identity that created a resource.
-				Creators *CreatorInclude `json:"creators,omitempty"`
+				Creators *IncludedCreators `json:"creators,omitempty"`
 			} `json:"includes,omitempty"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -98143,7 +98308,7 @@ func ParseGetPipelineRunResponse(rsp *http.Response) (*GetPipelineRunResponse, e
 			Data     PipelineRun `json:"data"`
 			Includes *struct {
 				// Creators An identity that created a resource.
-				Creators *CreatorInclude `json:"creators,omitempty"`
+				Creators *IncludedCreators `json:"creators,omitempty"`
 			} `json:"includes,omitempty"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
@@ -99094,7 +99259,7 @@ func ParseLookupComponentsResponse(rsp *http.Response) (*LookupComponentsRespons
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
 			// Data A resource that is associated with activity.
-			Data ComponentsIncludes `json:"data"`
+			Data IncludedComponents `json:"data"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
