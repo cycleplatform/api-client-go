@@ -1,0 +1,1 @@
+(cd ./api-spec && npm run downconvert:platform) && go generate ./internal

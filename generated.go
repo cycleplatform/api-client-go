@@ -101,6 +101,27 @@ func (e AccountStateCurrent) Valid() bool {
 	}
 }
 
+// Defines values for ActionGroupStateCurrent.
+const (
+	ActionGroupStateCurrentDeleted  ActionGroupStateCurrent = "deleted"
+	ActionGroupStateCurrentDeleting ActionGroupStateCurrent = "deleting"
+	ActionGroupStateCurrentLive     ActionGroupStateCurrent = "live"
+)
+
+// Valid indicates whether the value is a known member of the ActionGroupStateCurrent enum.
+func (e ActionGroupStateCurrent) Valid() bool {
+	switch e {
+	case ActionGroupStateCurrentDeleted:
+		return true
+	case ActionGroupStateCurrentDeleting:
+		return true
+	case ActionGroupStateCurrentLive:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ActivityEvent.
 const (
 	ActivityEventBillingInvoicePay                                      ActivityEvent = "billing.invoice.pay"
@@ -2597,6 +2618,24 @@ func (e DiscoveryConfigExternalResolutionPreference) Valid() bool {
 	}
 }
 
+// Defines values for DnsRecordLinkedFeaturesTlsChallenge.
+const (
+	DnsRecordLinkedFeaturesTlsChallengeDns  DnsRecordLinkedFeaturesTlsChallenge = "dns"
+	DnsRecordLinkedFeaturesTlsChallengeHttp DnsRecordLinkedFeaturesTlsChallenge = "http"
+)
+
+// Valid indicates whether the value is a known member of the DnsRecordLinkedFeaturesTlsChallenge enum.
+func (e DnsRecordLinkedFeaturesTlsChallenge) Valid() bool {
+	switch e {
+	case DnsRecordLinkedFeaturesTlsChallengeDns:
+		return true
+	case DnsRecordLinkedFeaturesTlsChallengeHttp:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for DnsRecordStateCurrent.
 const (
 	DnsRecordStateCurrentDeleted  DnsRecordStateCurrent = "deleted"
@@ -4745,6 +4784,168 @@ func (e MetricMetadataType) Valid() bool {
 	}
 }
 
+// Defines values for MonitorStateCurrent.
+const (
+	MonitorStateCurrentDeleted  MonitorStateCurrent = "deleted"
+	MonitorStateCurrentDeleting MonitorStateCurrent = "deleting"
+	MonitorStateCurrentLive     MonitorStateCurrent = "live"
+	MonitorStateCurrentPaused   MonitorStateCurrent = "paused"
+)
+
+// Valid indicates whether the value is a known member of the MonitorStateCurrent enum.
+func (e MonitorStateCurrent) Valid() bool {
+	switch e {
+	case MonitorStateCurrentDeleted:
+		return true
+	case MonitorStateCurrentDeleting:
+		return true
+	case MonitorStateCurrentLive:
+		return true
+	case MonitorStateCurrentPaused:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for MonitorStatus.
+const (
+	Alarm  MonitorStatus = "alarm"
+	NoData MonitorStatus = "no-data"
+	Ok     MonitorStatus = "ok"
+)
+
+// Valid indicates whether the value is a known member of the MonitorStatus enum.
+func (e MonitorStatus) Valid() bool {
+	switch e {
+	case Alarm:
+		return true
+	case NoData:
+		return true
+	case Ok:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for MonitorEventRuleType.
+const (
+	MonitorEventRuleTypeEvent MonitorEventRuleType = "event"
+)
+
+// Valid indicates whether the value is a known member of the MonitorEventRuleType enum.
+func (e MonitorEventRuleType) Valid() bool {
+	switch e {
+	case MonitorEventRuleTypeEvent:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for MonitorMetricRuleDetailsAggregation.
+const (
+	Avg MonitorMetricRuleDetailsAggregation = "avg"
+	Max MonitorMetricRuleDetailsAggregation = "max"
+	Min MonitorMetricRuleDetailsAggregation = "min"
+	Sum MonitorMetricRuleDetailsAggregation = "sum"
+)
+
+// Valid indicates whether the value is a known member of the MonitorMetricRuleDetailsAggregation enum.
+func (e MonitorMetricRuleDetailsAggregation) Valid() bool {
+	switch e {
+	case Avg:
+		return true
+	case Max:
+		return true
+	case Min:
+		return true
+	case Sum:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for MonitorMetricRuleDetailsOperator.
+const (
+	MonitorMetricRuleDetailsOperatorEmpty            MonitorMetricRuleDetailsOperator = "!="
+	MonitorMetricRuleDetailsOperatorEqualEqual       MonitorMetricRuleDetailsOperator = "=="
+	MonitorMetricRuleDetailsOperatorGreaterThan      MonitorMetricRuleDetailsOperator = ">"
+	MonitorMetricRuleDetailsOperatorGreaterThanEqual MonitorMetricRuleDetailsOperator = ">="
+	MonitorMetricRuleDetailsOperatorLessThan         MonitorMetricRuleDetailsOperator = "<"
+	MonitorMetricRuleDetailsOperatorLessThanEqual    MonitorMetricRuleDetailsOperator = "<="
+)
+
+// Valid indicates whether the value is a known member of the MonitorMetricRuleDetailsOperator enum.
+func (e MonitorMetricRuleDetailsOperator) Valid() bool {
+	switch e {
+	case MonitorMetricRuleDetailsOperatorEmpty:
+		return true
+	case MonitorMetricRuleDetailsOperatorEqualEqual:
+		return true
+	case MonitorMetricRuleDetailsOperatorGreaterThan:
+		return true
+	case MonitorMetricRuleDetailsOperatorGreaterThanEqual:
+		return true
+	case MonitorMetricRuleDetailsOperatorLessThan:
+		return true
+	case MonitorMetricRuleDetailsOperatorLessThanEqual:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for MonitorMetricRuleType.
+const (
+	MonitorMetricRuleTypeMetric MonitorMetricRuleType = "metric"
+)
+
+// Valid indicates whether the value is a known member of the MonitorMetricRuleType enum.
+func (e MonitorMetricRuleType) Valid() bool {
+	switch e {
+	case MonitorMetricRuleTypeMetric:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for MonitorReconfigureActionAction.
+const (
+	MonitorReconfigureActionActionReconfigure MonitorReconfigureActionAction = "reconfigure"
+)
+
+// Valid indicates whether the value is a known member of the MonitorReconfigureActionAction enum.
+func (e MonitorReconfigureActionAction) Valid() bool {
+	switch e {
+	case MonitorReconfigureActionActionReconfigure:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for MonitorRuleSetEvaluate.
+const (
+	MonitorRuleSetEvaluateAll MonitorRuleSetEvaluate = "all"
+	MonitorRuleSetEvaluateAny MonitorRuleSetEvaluate = "any"
+)
+
+// Valid indicates whether the value is a known member of the MonitorRuleSetEvaluate enum.
+func (e MonitorRuleSetEvaluate) Valid() bool {
+	switch e {
+	case MonitorRuleSetEvaluateAll:
+		return true
+	case MonitorRuleSetEvaluateAny:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for MonitoringTier.
 const (
 	MonitoringTierPlus     MonitoringTier = "plus"
@@ -6877,19 +7078,19 @@ func (e V1LbControllerTransportConfigVerbosity) Valid() bool {
 
 // Defines values for V1LbControllerTransportMode.
 const (
-	Http V1LbControllerTransportMode = "http"
-	Tcp  V1LbControllerTransportMode = "tcp"
-	Udp  V1LbControllerTransportMode = "udp"
+	V1LbControllerTransportModeHttp V1LbControllerTransportMode = "http"
+	V1LbControllerTransportModeTcp  V1LbControllerTransportMode = "tcp"
+	V1LbControllerTransportModeUdp  V1LbControllerTransportMode = "udp"
 )
 
 // Valid indicates whether the value is a known member of the V1LbControllerTransportMode enum.
 func (e V1LbControllerTransportMode) Valid() bool {
 	switch e {
-	case Http:
+	case V1LbControllerTransportModeHttp:
 		return true
-	case Tcp:
+	case V1LbControllerTransportModeTcp:
 		return true
-	case Udp:
+	case V1LbControllerTransportModeUdp:
 		return true
 	default:
 		return false
@@ -7399,16 +7600,16 @@ func (e VirtualProviderIsoNicDhcpMode) Valid() bool {
 
 // Defines values for VirtualProviderIsoServerConfigSdnNeighborPreference.
 const (
-	VirtualProviderIsoServerConfigSdnNeighborPreferenceIpv4 VirtualProviderIsoServerConfigSdnNeighborPreference = "ipv4"
-	VirtualProviderIsoServerConfigSdnNeighborPreferenceIpv6 VirtualProviderIsoServerConfigSdnNeighborPreference = "ipv6"
+	Ipv4 VirtualProviderIsoServerConfigSdnNeighborPreference = "ipv4"
+	Ipv6 VirtualProviderIsoServerConfigSdnNeighborPreference = "ipv6"
 )
 
 // Valid indicates whether the value is a known member of the VirtualProviderIsoServerConfigSdnNeighborPreference enum.
 func (e VirtualProviderIsoServerConfigSdnNeighborPreference) Valid() bool {
 	switch e {
-	case VirtualProviderIsoServerConfigSdnNeighborPreferenceIpv4:
+	case Ipv4:
 		return true
-	case VirtualProviderIsoServerConfigSdnNeighborPreferenceIpv6:
+	case Ipv6:
 		return true
 	default:
 		return false
@@ -7543,19 +7744,19 @@ func (e WafConfigRulesConditionsType) Valid() bool {
 
 // Defines values for WafConfigRulesMatch.
 const (
-	WafConfigRulesMatchAll   WafConfigRulesMatch = "all"
-	WafConfigRulesMatchAny   WafConfigRulesMatch = "any"
-	WafConfigRulesMatchEmpty WafConfigRulesMatch = ""
+	All   WafConfigRulesMatch = "all"
+	Any   WafConfigRulesMatch = "any"
+	Empty WafConfigRulesMatch = ""
 )
 
 // Valid indicates whether the value is a known member of the WafConfigRulesMatch enum.
 func (e WafConfigRulesMatch) Valid() bool {
 	switch e {
-	case WafConfigRulesMatchAll:
+	case All:
 		return true
-	case WafConfigRulesMatchAny:
+	case Any:
 		return true
-	case WafConfigRulesMatchEmpty:
+	case Empty:
 		return true
 	default:
 		return false
@@ -8683,13 +8884,13 @@ func (e GetLoadBalancerTelemetryLatestControllersParamsInclude) Valid() bool {
 
 // Defines values for CreateSchedulerServiceJobJSONBodyAction.
 const (
-	CreateSchedulerServiceJobJSONBodyActionReconfigure CreateSchedulerServiceJobJSONBodyAction = "reconfigure"
+	Reconfigure CreateSchedulerServiceJobJSONBodyAction = "reconfigure"
 )
 
 // Valid indicates whether the value is a known member of the CreateSchedulerServiceJobJSONBodyAction enum.
 func (e CreateSchedulerServiceJobJSONBodyAction) Valid() bool {
 	switch e {
-	case CreateSchedulerServiceJobJSONBodyActionReconfigure:
+	case Reconfigure:
 		return true
 	default:
 		return false
@@ -9647,6 +9848,66 @@ func (e GetMetricsParamsFilterType) Valid() bool {
 	}
 }
 
+// Defines values for GetMonitorsParamsInclude.
+const (
+	GetMonitorsParamsIncludeCreators GetMonitorsParamsInclude = "creators"
+)
+
+// Valid indicates whether the value is a known member of the GetMonitorsParamsInclude enum.
+func (e GetMonitorsParamsInclude) Valid() bool {
+	switch e {
+	case GetMonitorsParamsIncludeCreators:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetActionGroupsParamsInclude.
+const (
+	GetActionGroupsParamsIncludeCreators GetActionGroupsParamsInclude = "creators"
+)
+
+// Valid indicates whether the value is a known member of the GetActionGroupsParamsInclude enum.
+func (e GetActionGroupsParamsInclude) Valid() bool {
+	switch e {
+	case GetActionGroupsParamsIncludeCreators:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetActionGroupParamsInclude.
+const (
+	GetActionGroupParamsIncludeCreators GetActionGroupParamsInclude = "creators"
+)
+
+// Valid indicates whether the value is a known member of the GetActionGroupParamsInclude enum.
+func (e GetActionGroupParamsInclude) Valid() bool {
+	switch e {
+	case GetActionGroupParamsIncludeCreators:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for GetMonitorParamsInclude.
+const (
+	GetMonitorParamsIncludeCreators GetMonitorParamsInclude = "creators"
+)
+
+// Valid indicates whether the value is a known member of the GetMonitorParamsInclude enum.
+func (e GetMonitorParamsInclude) Valid() bool {
+	switch e {
+	case GetMonitorParamsIncludeCreators:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for GetPipelinesParamsInclude.
 const (
 	GetPipelinesParamsIncludeComponents GetPipelinesParamsInclude = "components"
@@ -10399,6 +10660,70 @@ type AccountState struct {
 // AccountStateCurrent The current state of the account.
 type AccountStateCurrent string
 
+// ActionGroup A named, reusable collection of actions. Monitors can reference an action group so that a single set of alarm responses can be shared across many monitors and updated in one place.
+type ActionGroup struct {
+	// Actions The actions run when this group is triggered.
+	Actions []MonitorAction `json:"actions"`
+
+	// Creator The user or entity that created this action group.
+	Creator UserScope `json:"creator"`
+
+	// Description A longer description of what this action group does and when it is used.
+	Description string `json:"description"`
+
+	// Events A collection of timestamps for events in the action group's lifetime.
+	Events struct {
+		// Created The timestamp of when the action group was created.
+		Created DateTime `json:"created"`
+
+		// Deleted The timestamp of when the action group was deleted.
+		Deleted DateTime `json:"deleted"`
+
+		// Updated The timestamp of when the action group was updated.
+		Updated DateTime `json:"updated"`
+	} `json:"events"`
+
+	// HubId The ID of the hub this action group belongs to.
+	HubId string `json:"hub_id"`
+
+	// Id A unique identifier for this action group.
+	Id string `json:"id"`
+
+	// Identifier A human-readable identifier used to refer to a resource, where using the official ID may be inconvenient.
+	// The identifier is automatically tokenized from the name/relevant field of the resource if one is not provided. For example, a container named "My Container" will
+	// have the identifier of `my-container` and is automatically created by the platform.
+	//
+	// The identifier does not have to be unique.
+	Identifier Identifier `json:"identifier"`
+
+	// Meta Additional metadata attached to the action group response.
+	Meta *map[string]interface{} `json:"meta,omitempty"`
+
+	// Name A human-readable name for this action group.
+	Name string `json:"name"`
+
+	// State The current runtime state of the action group.
+	State struct {
+		// Changed The timestamp of the most recent state transition.
+		Changed DateTime `json:"changed"`
+
+		// Current The current state of the action group.
+		Current ActionGroupStateCurrent `json:"current"`
+
+		// Error Details of the last error, if the action group is in an error condition.
+		Error *struct {
+			// Message A description of the error.
+			Message string `json:"message"`
+
+			// Time The timestamp at which the error was recorded.
+			Time DateTime `json:"time"`
+		} `json:"error,omitempty"`
+	} `json:"state"`
+}
+
+// ActionGroupStateCurrent The current state of the action group.
+type ActionGroupStateCurrent string
+
 // Activity A resource representing information about activity taking place on a given hub.
 type Activity struct {
 	// Annotations A record of additional annotations for the activity.
@@ -10632,6 +10957,9 @@ type ApiKey struct {
 		Updated DateTime `json:"updated"`
 	} `json:"events"`
 
+	// Hint The first few characters of the API key, for identification.
+	Hint string `json:"hint"`
+
 	// HubId The unique ID of the Hub this resource was created in.
 	HubId HubID `json:"hub_id"`
 
@@ -10647,7 +10975,7 @@ type ApiKey struct {
 	// RoleId A 24 character hex string used to identify a unique resource.
 	RoleId ID `json:"role_id"`
 
-	// Secret The API key secret.
+	// Secret The API key secret. Will only be populated one time on create.
 	Secret string      `json:"secret"`
 	State  ApiKeyState `json:"state"`
 }
@@ -12281,6 +12609,9 @@ type ContainerRuntime struct {
 	// Sysctl A record of sysctl fields and values for a given container.
 	Sysctl *map[string]string `json:"sysctl,omitempty"`
 
+	// User The user the container process runs as.
+	User *string `json:"user,omitempty"`
+
 	// Workdir Configure the working directory for the given container.
 	Workdir *string `json:"workdir,omitempty"`
 }
@@ -12951,6 +13282,12 @@ type DnsRecordLinked struct {
 
 		// Tls TLS properties of the record.
 		Tls struct {
+			// Challenge The ACME challenge type used when obtaining and renewing the
+			// TLS certificate for this record. `dns` requires the zone to
+			// be hosted by Cycle; `http` validates over HTTP and does not.
+			// If not set, the platform default is used.
+			Challenge *DnsRecordLinkedFeaturesTlsChallenge `json:"challenge,omitempty"`
+
 			// Enable A boolean, where true represents this record will be paired with a TLS certificate automatically maintained by the platform.
 			Enable bool `json:"enable"`
 		} `json:"tls"`
@@ -12964,6 +13301,12 @@ type DnsRecordLinked struct {
 	Routing DnsRecordLinkedRouting `json:"routing"`
 	union   json.RawMessage
 }
+
+// DnsRecordLinkedFeaturesTlsChallenge The ACME challenge type used when obtaining and renewing the
+// TLS certificate for this record. `dns` requires the zone to
+// be hosted by Cycle; `http` validates over HTTP and does not.
+// If not set, the platform default is used.
+type DnsRecordLinkedFeaturesTlsChallenge string
 
 // DnsRecordLinked0 defines model for DnsRecordLinked0.
 type DnsRecordLinked0 struct {
@@ -17113,28 +17456,227 @@ type MigrationInstance struct {
 	ServerId string `json:"server_id"`
 }
 
-// Monitor A monitor used to determine latency between the public internet and a load balancer on Cycle. These monitors are automatically created and managed by the platform. Information about specific monitors is provided for determining the regional latencies for an environment.
+// Monitor A user-defined monitor that watches conditions on the platform and raises alarms when configured rules trigger. Monitors have a scope that determines what they observe (globally or against specific clusters) and a configuration that defines their evaluation logic.
 type Monitor struct {
-	// City The name of the city where this monitor is located.
-	City string `json:"city"`
+	// Config The evaluation configuration for this monitor.
+	Config MonitorConfig `json:"config"`
 
-	// Country The full name of the country where this monitor is located.
-	Country string `json:"country"`
+	// Creator The user or entity that created this monitor.
+	Creator UserScope `json:"creator"`
 
-	// CountryShort The country code of where this monitor is located.
-	CountryShort string `json:"country_short"`
+	// Description A longer description of what this monitor observes and why.
+	Description string `json:"description"`
 
-	// Latitude The latitude where this monitor is located.
-	Latitude float32 `json:"latitude"`
+	// Events A collection of timestamps for events in the Monitor's lifetime.
+	Events struct {
+		// Created The timestamp of when the monitor was created.
+		Created DateTime `json:"created"`
 
-	// Longitude The longitude where this monitor is located.
-	Longitude float32 `json:"longitude"`
+		// Deleted The timestamp of when the monitor was deleted.
+		Deleted DateTime `json:"deleted"`
 
-	// NodeId The ID of the node this monitor is running on.
-	NodeId string `json:"node_id"`
+		// LastAlarm The timestamp of the most recent alarm event.
+		LastAlarm *DateTime `json:"last_alarm,omitempty"`
 
-	// Region The name of the region (state, province, prefecture, etc.) where this monitor is located.
-	Region string `json:"region"`
+		// LastCheck The timestamp of the most recent evaluation.
+		LastCheck *DateTime `json:"last_check,omitempty"`
+
+		// Updated The timestamp of when the monitor was updated.
+		Updated DateTime `json:"updated"`
+	} `json:"events"`
+
+	// HubId The ID of the hub this monitor belongs to.
+	HubId string `json:"hub_id"`
+
+	// Id A unique identifier for this monitor.
+	Id string `json:"id"`
+
+	// Identifier A human-readable identifier used to refer to a resource, where using the official ID may be inconvenient.
+	// The identifier is automatically tokenized from the name/relevant field of the resource if one is not provided. For example, a container named "My Container" will
+	// have the identifier of `my-container` and is automatically created by the platform.
+	//
+	// The identifier does not have to be unique.
+	Identifier Identifier `json:"identifier"`
+
+	// Meta Additional metadata attached to the monitor response.
+	Meta *map[string]interface{} `json:"meta,omitempty"`
+
+	// Name A human-readable name for this monitor.
+	Name string `json:"name"`
+
+	// Scope What this monitor observes. Either global or scoped to specific clusters.
+	Scope struct {
+		// Clusters Cluster identifiers this monitor is scoped to. Ignored when global is true.
+		Clusters []Identifier `json:"clusters"`
+
+		// Global When true, the monitor observes all clusters within the hub.
+		Global bool `json:"global"`
+	} `json:"scope"`
+
+	// State The current runtime state of the monitor.
+	State struct {
+		// Changed The timestamp of the most recent state transition.
+		Changed DateTime `json:"changed"`
+
+		// Current The current lifecycle state of the monitor.
+		//   - `paused` - the monitor exists but is not evaluating.
+		//   - `live` - the monitor is evaluating on its configured window.
+		//   - `deleting` - the monitor is being torn down.
+		//   - `deleted` - the monitor has been removed.
+		Current MonitorStateCurrent `json:"current"`
+
+		// Error Details of the last error, if the monitor is in an error condition.
+		Error *struct {
+			// Message A description of the error.
+			Message string `json:"message"`
+
+			// Time The timestamp at which the error was recorded.
+			Time DateTime `json:"time"`
+		} `json:"error,omitempty"`
+	} `json:"state"`
+
+	// Status The current evaluation status of the monitor.
+	//   - `ok` - the monitor is evaluating and its rules are not triggered.
+	//   - `no-data` - the monitor has not received enough data to evaluate.
+	//   - `alarm` - the monitor's rules have triggered and the monitor is in an alarm state.
+	Status MonitorStatus `json:"status"`
+}
+
+// MonitorStateCurrent The current lifecycle state of the monitor.
+//   - `paused` - the monitor exists but is not evaluating.
+//   - `live` - the monitor is evaluating on its configured window.
+//   - `deleting` - the monitor is being torn down.
+//   - `deleted` - the monitor has been removed.
+type MonitorStateCurrent string
+
+// MonitorStatus The current evaluation status of the monitor.
+//   - `ok` - the monitor is evaluating and its rules are not triggered.
+//   - `no-data` - the monitor has not received enough data to evaluate.
+//   - `alarm` - the monitor's rules have triggered and the monitor is in an alarm state.
+type MonitorStatus string
+
+// MonitorAction An action taken when a monitor's rule set matches. The type discriminates what runs; details carries the type-specific configuration.
+type MonitorAction struct {
+	// Details Type-specific configuration for the action.
+	Details map[string]interface{} `json:"details"`
+
+	// Type The kind of action to take. Determines the shape of the details object.
+	Type string `json:"type"`
+}
+
+// MonitorConfig Configuration that defines how a monitor evaluates. The window and cool down govern timing, the rule set defines the conditions that trigger an alarm, and the actions list what happens when one does.
+type MonitorConfig struct {
+	// Actions Actions taken when the rule set evaluates to an alarm state.
+	Actions []MonitorAction `json:"actions"`
+
+	// CoolDown The minimum time between successive alarms. Suppresses re-triggering while an alarm state persists.
+	CoolDown Duration `json:"cool_down"`
+
+	// RuleSet A collection of rules and how they combine. Rules evaluate individually; the evaluate mode determines whether all of them must match for the set to trigger, or whether any single match is enough.
+	RuleSet MonitorRuleSet `json:"rule_set"`
+
+	// Window The evaluation window over which rules are checked.
+	Window Duration `json:"window"`
+}
+
+// MonitorEventRule An event-based rule. At least one of target, priority, or type must be set; the rule matches when a platform event satisfies every set field. Occurrences controls how many matching events within the monitor's window are required for the rule to trigger.
+type MonitorEventRule struct {
+	Details struct {
+		// Occurrences The minimum number of matching events within the monitor's window required to trigger.
+		Occurrences int `json:"occurrences"`
+
+		// Priority The event priority to match on. Null disables this filter.
+		Priority *string `json:"priority,omitempty"`
+
+		// Target The event target to match on. Null disables this filter.
+		Target *MonitorRuleTarget `json:"target,omitempty"`
+
+		// Type The event type to match on. Null disables this filter.
+		Type *string `json:"type,omitempty"`
+	} `json:"details"`
+
+	// Type Identifies this as an event rule.
+	Type MonitorEventRuleType `json:"type"`
+}
+
+// MonitorEventRuleType Identifies this as an event rule.
+type MonitorEventRuleType string
+
+// MonitorMetricRule A metric-based rule. Aggregates the target metric across the monitor's window and compares the result to the threshold using the operator.
+type MonitorMetricRule struct {
+	Details struct {
+		// Aggregation How the metric samples in the window are combined into a single value.
+		//   - `avg` - arithmetic mean.
+		//   - `sum` - total of all samples.
+		//   - `max` - largest sample.
+		//   - `min` - smallest sample.
+		Aggregation MonitorMetricRuleDetailsAggregation `json:"aggregation"`
+
+		// Operator The comparison applied between the aggregated value and the threshold.
+		Operator MonitorMetricRuleDetailsOperator `json:"operator"`
+
+		// Target The metric target to evaluate.
+		Target MonitorRuleTarget `json:"target"`
+
+		// Threshold The value the aggregated metric is compared against. Must be at least 0.01.
+		Threshold float64 `json:"threshold"`
+	} `json:"details"`
+	Type MonitorMetricRuleType `json:"type"`
+}
+
+// MonitorMetricRuleDetailsAggregation How the metric samples in the window are combined into a single value.
+//   - `avg` - arithmetic mean.
+//   - `sum` - total of all samples.
+//   - `max` - largest sample.
+//   - `min` - smallest sample.
+type MonitorMetricRuleDetailsAggregation string
+
+// MonitorMetricRuleDetailsOperator The comparison applied between the aggregated value and the threshold.
+type MonitorMetricRuleDetailsOperator string
+
+// MonitorMetricRuleType defines model for MonitorMetricRule.Type.
+type MonitorMetricRuleType string
+
+// MonitorReconfigureAction Replaces the monitor's evaluation configuration. The new config is validated before the job is queued; if validation fails, the request returns 422 without queueing.
+type MonitorReconfigureAction struct {
+	// Action Identifies this as a reconfigure task.
+	Action   MonitorReconfigureActionAction `json:"action"`
+	Contents struct {
+		// Config The new configuration for the monitor.
+		Config MonitorConfig `json:"config"`
+	} `json:"contents"`
+}
+
+// MonitorReconfigureActionAction Identifies this as a reconfigure task.
+type MonitorReconfigureActionAction string
+
+// MonitorRule A single rule evaluated by the monitor. The type discriminates whether the rule watches events or metrics.
+type MonitorRule struct {
+	union json.RawMessage
+}
+
+// MonitorRuleSet A collection of rules and how they combine. Rules evaluate individually; the evaluate mode determines whether all of them must match for the set to trigger, or whether any single match is enough.
+type MonitorRuleSet struct {
+	// Evaluate How the rules combine.
+	//   - `any` - the rule set matches when any rule matches.
+	//   - `all` - the rule set matches only when every rule matches.
+	Evaluate MonitorRuleSetEvaluate `json:"evaluate"`
+
+	// Rules The individual rules evaluated by the rule set.
+	Rules []MonitorRule `json:"rules"`
+}
+
+// MonitorRuleSetEvaluate How the rules combine.
+//   - `any` - the rule set matches when any rule matches.
+//   - `all` - the rule set matches only when every rule matches.
+type MonitorRuleSetEvaluate string
+
+// MonitorRuleTarget The subject of a monitor rule — the event target or metric name to evaluate against. Alphanumeric characters, dots, hyphens, and underscores only.
+type MonitorRuleTarget = string
+
+// MonitorTask A task to be run against a monitor.
+type MonitorTask struct {
+	union json.RawMessage
 }
 
 // MonitoringTier The tier of monitoring, that determines the frequency that metrics are aggregated by the platform, on a per-environment basis.
@@ -17459,8 +18001,8 @@ type NetworkSpec struct {
 	// Scope The scope of the interfaces.
 	Scope NetworkSpecScope `json:"scope"`
 
-	// Throughput The network throughput in MB(per second).
-	Throughput int `json:"throughput"`
+	// Throughput The network throughput description from the provider.
+	Throughput string `json:"throughput"`
 
 	// Type The type of the NIC.
 	Type string `json:"type"`
@@ -17996,6 +18538,30 @@ type PipelineTriggerAction struct {
 // PipelineTriggerActionAction The requested action to perform.
 type PipelineTriggerActionAction string
 
+// PlatformMonitor A platform monitor used to determine latency between the public internet and a load balancer on Cycle. These monitors are automatically created and managed by the platform. Information about specific monitors is provided for determining the regional latencies for an environment.
+type PlatformMonitor struct {
+	// City The name of the city where this monitor is located.
+	City string `json:"city"`
+
+	// Country The full name of the country where this monitor is located.
+	Country string `json:"country"`
+
+	// CountryShort The country code of where this monitor is located.
+	CountryShort string `json:"country_short"`
+
+	// Latitude The latitude where this monitor is located.
+	Latitude float32 `json:"latitude"`
+
+	// Longitude The longitude where this monitor is located.
+	Longitude float32 `json:"longitude"`
+
+	// NodeId The ID of the node this monitor is running on.
+	NodeId string `json:"node_id"`
+
+	// Region The name of the region (state, province, prefecture, etc.) where this monitor is located.
+	Region string `json:"region"`
+}
+
 // PrivateNetwork defines model for PrivateNetwork.
 type PrivateNetwork struct {
 	Ipv6 struct {
@@ -18134,6 +18700,9 @@ type ProviderServerModel struct {
 	// Description A description of the server.
 	Description string `json:"description"`
 
+	// Drivers A list of drivers supported by the server.
+	Drivers *[]string `json:"drivers,omitempty"`
+
 	// Id A 24 character hex string used to identify a unique resource.
 	Id ID `json:"id"`
 
@@ -18164,17 +18733,17 @@ type ProviderServerModelProviderSpec struct {
 	Category string `json:"category"`
 
 	// Class A class for the server.
-	Class *string `json:"class,omitempty"`
-
-	// Identifier A provider identifier.
-	Identifier    string `json:"identifier"`
-	IntegrationId *ID    `json:"integration_id,omitempty"`
+	Class         *string `json:"class,omitempty"`
+	IntegrationId *ID     `json:"integration_id,omitempty"`
 
 	// Locations A list of location ID's this server is available.
 	Locations []string `json:"locations"`
 
 	// Model The model of the server.
 	Model string `json:"model"`
+
+	// ParentModelId The ID of the model that this model is a variant of. Null if the model is not a variant.
+	ParentModelId *ID `json:"parent_model_id,omitempty"`
 
 	// Stock Stock information for the server, keyed by location.
 	Stock *map[string]struct {
@@ -18186,7 +18755,7 @@ type ProviderServerModelProviderSpec struct {
 	} `json:"stock,omitempty"`
 
 	// Vendor The infrastructure vendor for the provider.
-	Vendor *string `json:"vendor,omitempty"`
+	Vendor string `json:"vendor"`
 }
 
 // ProviderServerModelSpec Specs for a given server
@@ -19668,8 +20237,8 @@ type SleepStepAction string
 // SourceAwsEbs An AWS EBS volume source. Defines how to authenticate to AWS and which EBS volume to attach.
 type SourceAwsEbs struct {
 	Details struct {
-		// Auth AWS credentials for accessing EBS. Either an instance role may be used or explicit Access Key credentials may be provided.
-		Auth SourceAwsEbsAuth `json:"auth"`
+		// IntegrationId The ID of an AWS EBS integration for authentication.
+		IntegrationId ID `json:"integration_id"`
 
 		// Volume Reference to the specific EBS volume to attach.
 		Volume SourceAwsEbsRef `json:"volume"`
@@ -19680,25 +20249,13 @@ type SourceAwsEbs struct {
 // SourceAwsEbsType defines model for SourceAwsEbs.Type.
 type SourceAwsEbsType string
 
-// SourceAwsEbsAuth AWS credentials for accessing EBS. Either an instance role may be used or explicit Access Key credentials may be provided.
-type SourceAwsEbsAuth struct {
-	// AccessKeyId AWS Access Key ID to use for authentication (optional if using instance role).
-	AccessKeyId *string `json:"access_key_id,omitempty"`
-
-	// SecretAccessKey AWS Secret Access Key to use for authentication (optional if using instance role).
-	SecretAccessKey *string `json:"secret_access_key,omitempty"`
-
-	// UseInstanceRole When true, use the instance's IAM role for authentication.
-	UseInstanceRole *bool `json:"use_instance_role,omitempty"`
-}
-
 // SourceAwsEbsRef Reference to the specific EBS volume to attach.
 type SourceAwsEbsRef struct {
 	// Az Optional AWS Availability Zone where the volume resides (for example, "us-east-1a").
 	Az *string `json:"az,omitempty"`
 
-	// VolumeId The EBS volume ID (for example, "vol-0abcd1234ef567890").
-	VolumeId string `json:"volume_id"`
+	// VolumeId The EBS volume ID (for example, "vol-0abcd1234ef567890"). If left blank, the option `create` should be set on the external volume so that an ID is automatically assigned.
+	VolumeId *string `json:"volume_id,omitempty"`
 }
 
 // SourceCephRbd A Ceph RBD volume source. Defines monitor endpoints, optional cluster FSID, client identity (CephX), and the specific image to attach.
@@ -21140,6 +21697,9 @@ type StackSpecContainerConfigRuntime struct {
 
 	// Sysctl Sysctl options to apply.
 	Sysctl *StackSpecContainerConfigRuntime_Sysctl `json:"sysctl,omitempty"`
+
+	// User The user the container process runs as.
+	User *string `json:"user,omitempty"`
 
 	// Workdir The working directory to execute the command in.
 	Workdir *string `json:"workdir,omitempty"`
@@ -24524,6 +25084,9 @@ type VirtualMachineIpAllocateAction struct {
 	Contents struct {
 		// IpId The ID of the IP address to allocate to the virtual machine.
 		IpId *ID `json:"ip_id,omitempty"`
+
+		// ServerId The ID of the server the IP address is allocated from.
+		ServerId *ID `json:"server_id,omitempty"`
 	} `json:"contents"`
 }
 
@@ -28127,6 +28690,152 @@ type GenerateAggregatedMetricsParams struct {
 	} `json:"filter,omitempty"`
 }
 
+// GetMonitorsParams defines parameters for GetMonitors.
+type GetMonitorsParams struct {
+	// Include A comma separated list of include values. Included resources will show up under the root document's `include` field, with the key being the id of the included resource.
+	Include *[]GetMonitorsParamsInclude `form:"include,omitempty" json:"include,omitempty"`
+
+	// Filter The filter field is a key-value object, where the key is what you would like to filter, and the value is the value you're filtering for.
+	Filter *struct {
+		// Cluster `filter[cluster]=identifier` list monitors that either apply globally or are scoped to the specified cluster.
+		Cluster *string `json:"cluster,omitempty"`
+
+		// Identifier `filter[identifier]=value` List only those monitors matching this identifier. May return multiple results.
+		Identifier *string `json:"identifier,omitempty"`
+
+		// Search `filter[search]=value` search for a value associated with a field on the given monitor(s).
+		Search *string `json:"search,omitempty"`
+
+		// State `filter[state]=value1,value2` filter by the monitor's current lifecycle state.
+		State *string `json:"state,omitempty"`
+	} `json:"filter,omitempty"`
+
+	// Sort An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
+
+	// Page In a list return, the data associated with the page number and size returned. 20 results per page, page 2 would be `page[size]=20&page[number]=2`
+	Page *PageParam `json:"page,omitempty"`
+}
+
+// GetMonitorsParamsInclude defines parameters for GetMonitors.
+type GetMonitorsParamsInclude string
+
+// CreateMonitorJSONBody defines parameters for CreateMonitor.
+type CreateMonitorJSONBody struct {
+	// Config Configuration that defines how a monitor evaluates. The window and cool down govern timing, the rule set defines the conditions that trigger an alarm, and the actions list what happens when one does.
+	Config MonitorConfig `json:"config"`
+
+	// Description A longer description of what this monitor observes and why.
+	Description string `json:"description"`
+
+	// Identifier A slug for the monitor. Generated from the name when omitted or empty.
+	Identifier *Identifier `json:"identifier,omitempty"`
+
+	// Name A user-defined name for the monitor. Cannot be empty.
+	Name string `json:"name"`
+
+	// Scope What this monitor observes. Either global or scoped to specific clusters.
+	Scope struct {
+		// Clusters Cluster identifiers this monitor is scoped to. Ignored when global is true.
+		Clusters []Identifier `json:"clusters"`
+
+		// Global When true, the monitor observes all clusters within the hub.
+		Global bool `json:"global"`
+	} `json:"scope"`
+}
+
+// GetActionGroupsParams defines parameters for GetActionGroups.
+type GetActionGroupsParams struct {
+	// Include A comma separated list of include values. Included resources will show up under the root document's `include` field, with the key being the id of the included resource.
+	Include *[]GetActionGroupsParamsInclude `form:"include,omitempty" json:"include,omitempty"`
+
+	// Filter The filter field is a key-value object, where the key is what you would like to filter, and the value is the value you're filtering for.
+	Filter *struct {
+		// Identifier `filter[identifier]=value` List only those action groups matching this identifier. May return multiple results.
+		Identifier *string `json:"identifier,omitempty"`
+
+		// Search `filter[search]=value` search for a value associated with a field on the given action group(s).
+		Search *string `json:"search,omitempty"`
+
+		// State `filter[state]=value1,value2` filter by the action group's current lifecycle state.
+		State *string `json:"state,omitempty"`
+	} `json:"filter,omitempty"`
+
+	// Sort An array of sort values. To sort descending, put a `-` in front of the value, e.g. `-id`.
+	Sort *SortParam `form:"sort,omitempty" json:"sort,omitempty"`
+
+	// Page In a list return, the data associated with the page number and size returned. 20 results per page, page 2 would be `page[size]=20&page[number]=2`
+	Page *PageParam `json:"page,omitempty"`
+}
+
+// GetActionGroupsParamsInclude defines parameters for GetActionGroups.
+type GetActionGroupsParamsInclude string
+
+// CreateActionGroupJSONBody defines parameters for CreateActionGroup.
+type CreateActionGroupJSONBody struct {
+	// Actions The actions run when this group is triggered.
+	Actions []MonitorAction `json:"actions"`
+
+	// Description A longer description of what this action group does and when it is used.
+	Description string `json:"description"`
+
+	// Identifier A slug for the action group. Generated from the name when omitted or empty.
+	Identifier *Identifier `json:"identifier,omitempty"`
+
+	// Name A user-defined name for the action group. Cannot be empty.
+	Name string `json:"name"`
+}
+
+// GetActionGroupParams defines parameters for GetActionGroup.
+type GetActionGroupParams struct {
+	// Include A comma separated list of include values. Included resources will show up under the root document's `include` field, with the key being the id of the included resource.
+	Include *[]GetActionGroupParamsInclude `form:"include,omitempty" json:"include,omitempty"`
+}
+
+// GetActionGroupParamsInclude defines parameters for GetActionGroup.
+type GetActionGroupParamsInclude string
+
+// UpdateActionGroupJSONBody defines parameters for UpdateActionGroup.
+type UpdateActionGroupJSONBody struct {
+	// Actions The actions run when this group is triggered.
+	Actions *[]MonitorAction `json:"actions,omitempty"`
+
+	// Description A longer description of what this action group does and when it is used.
+	Description *string     `json:"description,omitempty"`
+	Identifier  *Identifier `json:"identifier,omitempty"`
+
+	// Name A user-defined name for the action group. Cannot be empty when provided.
+	Name *string `json:"name,omitempty"`
+}
+
+// GetMonitorParams defines parameters for GetMonitor.
+type GetMonitorParams struct {
+	// Include A comma separated list of include values. Included resources will show up under the root document's `include` field, with the key being the id of the included resource.
+	Include *[]GetMonitorParamsInclude `form:"include,omitempty" json:"include,omitempty"`
+}
+
+// GetMonitorParamsInclude defines parameters for GetMonitor.
+type GetMonitorParamsInclude string
+
+// UpdateMonitorJSONBody defines parameters for UpdateMonitor.
+type UpdateMonitorJSONBody struct {
+	// Description A longer description of what this monitor observes and why.
+	Description *string     `json:"description,omitempty"`
+	Identifier  *Identifier `json:"identifier,omitempty"`
+
+	// Name A user-defined name for the monitor. Cannot be empty when provided.
+	Name *string `json:"name,omitempty"`
+
+	// Scope What this monitor observes.
+	Scope *struct {
+		// Clusters Cluster identifiers this monitor is scoped to. Ignored when global is true.
+		Clusters []Identifier `json:"clusters"`
+
+		// Global When true, the monitor observes all clusters within the hub.
+		Global bool `json:"global"`
+	} `json:"scope,omitempty"`
+}
+
 // GetPipelinesParams defines parameters for GetPipelines.
 type GetPipelinesParams struct {
 	// Include A comma separated list of include values. Included resources will show up under the root document's `include` field, with the key being the id of the included resource. In the case of applying an include to a collection of resources, if two resources share the same include, it will only appear once in the return.
@@ -29062,6 +29771,21 @@ type AggregateLogsJSONRequestBody AggregateLogsJSONBody
 
 // GenerateAggregatedMetricsJSONRequestBody defines body for GenerateAggregatedMetrics for application/json ContentType.
 type GenerateAggregatedMetricsJSONRequestBody GenerateAggregatedMetricsJSONBody
+
+// CreateMonitorJSONRequestBody defines body for CreateMonitor for application/json ContentType.
+type CreateMonitorJSONRequestBody CreateMonitorJSONBody
+
+// CreateActionGroupJSONRequestBody defines body for CreateActionGroup for application/json ContentType.
+type CreateActionGroupJSONRequestBody CreateActionGroupJSONBody
+
+// UpdateActionGroupJSONRequestBody defines body for UpdateActionGroup for application/json ContentType.
+type UpdateActionGroupJSONRequestBody UpdateActionGroupJSONBody
+
+// UpdateMonitorJSONRequestBody defines body for UpdateMonitor for application/json ContentType.
+type UpdateMonitorJSONRequestBody UpdateMonitorJSONBody
+
+// CreateMonitorJobJSONRequestBody defines body for CreateMonitorJob for application/json ContentType.
+type CreateMonitorJobJSONRequestBody = MonitorTask
 
 // CreatePipelineJSONRequestBody defines body for CreatePipeline for application/json ContentType.
 type CreatePipelineJSONRequestBody CreatePipelineJSONBody
@@ -33107,6 +33831,154 @@ func (t Metric_Points_Item) MarshalJSON() ([]byte, error) {
 }
 
 func (t *Metric_Points_Item) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsMonitorEventRule returns the union data inside the MonitorRule as a MonitorEventRule
+func (t MonitorRule) AsMonitorEventRule() (MonitorEventRule, error) {
+	var body MonitorEventRule
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromMonitorEventRule overwrites any union data inside the MonitorRule as the provided MonitorEventRule
+func (t *MonitorRule) FromMonitorEventRule(v MonitorEventRule) error {
+	v.Type = "event"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeMonitorEventRule performs a merge with any union data inside the MonitorRule, using the provided MonitorEventRule
+func (t *MonitorRule) MergeMonitorEventRule(v MonitorEventRule) error {
+	v.Type = "event"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsMonitorMetricRule returns the union data inside the MonitorRule as a MonitorMetricRule
+func (t MonitorRule) AsMonitorMetricRule() (MonitorMetricRule, error) {
+	var body MonitorMetricRule
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromMonitorMetricRule overwrites any union data inside the MonitorRule as the provided MonitorMetricRule
+func (t *MonitorRule) FromMonitorMetricRule(v MonitorMetricRule) error {
+	v.Type = "metric"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeMonitorMetricRule performs a merge with any union data inside the MonitorRule, using the provided MonitorMetricRule
+func (t *MonitorRule) MergeMonitorMetricRule(v MonitorMetricRule) error {
+	v.Type = "metric"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t MonitorRule) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"type"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t MonitorRule) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "event":
+		return t.AsMonitorEventRule()
+	case "metric":
+		return t.AsMonitorMetricRule()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t MonitorRule) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *MonitorRule) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
+// AsMonitorReconfigureAction returns the union data inside the MonitorTask as a MonitorReconfigureAction
+func (t MonitorTask) AsMonitorReconfigureAction() (MonitorReconfigureAction, error) {
+	var body MonitorReconfigureAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromMonitorReconfigureAction overwrites any union data inside the MonitorTask as the provided MonitorReconfigureAction
+func (t *MonitorTask) FromMonitorReconfigureAction(v MonitorReconfigureAction) error {
+	v.Action = "reconfigure"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeMonitorReconfigureAction performs a merge with any union data inside the MonitorTask, using the provided MonitorReconfigureAction
+func (t *MonitorTask) MergeMonitorReconfigureAction(v MonitorReconfigureAction) error {
+	v.Action = "reconfigure"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t MonitorTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t MonitorTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "reconfigure":
+		return t.AsMonitorReconfigureAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t MonitorTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *MonitorTask) UnmarshalJSON(b []byte) error {
 	err := t.union.UnmarshalJSON(b)
 	return err
 }
@@ -54671,8 +55543,51 @@ type ClientInterface interface {
 
 	GenerateAggregatedMetrics(ctx context.Context, params *GenerateAggregatedMetricsParams, body GenerateAggregatedMetricsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	// GetMonitoringMonitors request
-	GetMonitoringMonitors(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// GetMonitors request
+	GetMonitors(ctx context.Context, params *GetMonitorsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateMonitorWithBody request with any body
+	CreateMonitorWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateMonitor(ctx context.Context, body CreateMonitorJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetActionGroups request
+	GetActionGroups(ctx context.Context, params *GetActionGroupsParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateActionGroupWithBody request with any body
+	CreateActionGroupWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateActionGroup(ctx context.Context, body CreateActionGroupJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteActionGroup request
+	DeleteActionGroup(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetActionGroup request
+	GetActionGroup(ctx context.Context, id string, params *GetActionGroupParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UpdateActionGroupWithBody request with any body
+	UpdateActionGroupWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UpdateActionGroup(ctx context.Context, id string, body UpdateActionGroupJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteMonitor request
+	DeleteMonitor(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetMonitor request
+	GetMonitor(ctx context.Context, id string, params *GetMonitorParams, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UpdateMonitorWithBody request with any body
+	UpdateMonitorWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UpdateMonitor(ctx context.Context, id string, body UpdateMonitorJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateMonitorJobWithBody request with any body
+	CreateMonitorJobWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateMonitorJob(ctx context.Context, id string, body CreateMonitorJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// GetPlatformMonitors request
+	GetPlatformMonitors(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// GetPipelines request
 	GetPipelines(ctx context.Context, params *GetPipelinesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -58614,8 +59529,200 @@ func (c *Client) GenerateAggregatedMetrics(ctx context.Context, params *Generate
 	return c.Client.Do(req)
 }
 
-func (c *Client) GetMonitoringMonitors(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewGetMonitoringMonitorsRequest(c.Server)
+func (c *Client) GetMonitors(ctx context.Context, params *GetMonitorsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetMonitorsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateMonitorWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateMonitorRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateMonitor(ctx context.Context, body CreateMonitorJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateMonitorRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetActionGroups(ctx context.Context, params *GetActionGroupsParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetActionGroupsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateActionGroupWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateActionGroupRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateActionGroup(ctx context.Context, body CreateActionGroupJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateActionGroupRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteActionGroup(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteActionGroupRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetActionGroup(ctx context.Context, id string, params *GetActionGroupParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetActionGroupRequest(c.Server, id, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateActionGroupWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateActionGroupRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateActionGroup(ctx context.Context, id string, body UpdateActionGroupJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateActionGroupRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteMonitor(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteMonitorRequest(c.Server, id)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetMonitor(ctx context.Context, id string, params *GetMonitorParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetMonitorRequest(c.Server, id, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateMonitorWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateMonitorRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateMonitor(ctx context.Context, id string, body UpdateMonitorJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateMonitorRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateMonitorJobWithBody(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateMonitorJobRequestWithBody(c.Server, id, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateMonitorJob(ctx context.Context, id string, body CreateMonitorJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateMonitorJobRequest(c.Server, id, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetPlatformMonitors(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetPlatformMonitorsRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -71999,8 +73106,8 @@ func NewGenerateAggregatedMetricsRequestWithBody(server string, params *Generate
 	return req, nil
 }
 
-// NewGetMonitoringMonitorsRequest generates requests for GetMonitoringMonitors
-func NewGetMonitoringMonitorsRequest(server string) (*http.Request, error) {
+// NewGetMonitorsRequest generates requests for GetMonitors
+func NewGetMonitorsRequest(server string, params *GetMonitorsParams) (*http.Request, error) {
 	var err error
 
 	serverURL, err := url.Parse(server)
@@ -72009,6 +73116,597 @@ func NewGetMonitoringMonitorsRequest(server string) (*http.Request, error) {
 	}
 
 	operationPath := fmt.Sprintf("/v1/monitoring/monitors")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Include != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "include", *params.Include, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Filter != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("deepObject", true, "filter", *params.Filter, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "object", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Sort != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "sort", *params.Sort, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Page != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("deepObject", true, "page", *params.Page, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "object", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCreateMonitorRequest calls the generic CreateMonitor builder with application/json body
+func NewCreateMonitorRequest(server string, body CreateMonitorJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateMonitorRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCreateMonitorRequestWithBody generates requests for CreateMonitor with any type of body
+func NewCreateMonitorRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/monitoring/monitors")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetActionGroupsRequest generates requests for GetActionGroups
+func NewGetActionGroupsRequest(server string, params *GetActionGroupsParams) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/monitoring/monitors/action-groups")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Include != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "include", *params.Include, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Filter != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("deepObject", true, "filter", *params.Filter, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "object", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Sort != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "sort", *params.Sort, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if params.Page != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("deepObject", true, "page", *params.Page, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "object", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCreateActionGroupRequest calls the generic CreateActionGroup builder with application/json body
+func NewCreateActionGroupRequest(server string, body CreateActionGroupJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateActionGroupRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCreateActionGroupRequestWithBody generates requests for CreateActionGroup with any type of body
+func NewCreateActionGroupRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/monitoring/monitors/action-groups")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteActionGroupRequest generates requests for DeleteActionGroup
+func NewDeleteActionGroupRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/monitoring/monitors/action-groups/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetActionGroupRequest generates requests for GetActionGroup
+func NewGetActionGroupRequest(server string, id string, params *GetActionGroupParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/monitoring/monitors/action-groups/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Include != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "include", *params.Include, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewUpdateActionGroupRequest calls the generic UpdateActionGroup builder with application/json body
+func NewUpdateActionGroupRequest(server string, id string, body UpdateActionGroupJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUpdateActionGroupRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewUpdateActionGroupRequestWithBody generates requests for UpdateActionGroup with any type of body
+func NewUpdateActionGroupRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/monitoring/monitors/action-groups/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteMonitorRequest generates requests for DeleteMonitor
+func NewDeleteMonitorRequest(server string, id string) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/monitoring/monitors/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodDelete, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewGetMonitorRequest generates requests for GetMonitor
+func NewGetMonitorRequest(server string, id string, params *GetMonitorParams) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/monitoring/monitors/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	if params != nil {
+		// queryValues collects non-styled parameters (passthrough, JSON)
+		// that are safe to round-trip through url.Values.Encode().
+		queryValues := queryURL.Query()
+		// rawQueryFragments collects pre-encoded query fragments from
+		// styled parameters, preserving literal commas as delimiters
+		// per the OpenAPI spec (e.g. "color=blue,black,brown").
+		var rawQueryFragments []string
+
+		if params.Include != nil {
+
+			if queryFrag, err := runtime.StyleParamWithOptions("form", true, "include", *params.Include, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationQuery, Type: "array", Format: ""}); err != nil {
+				return nil, err
+			} else {
+				for _, qp := range strings.Split(queryFrag, "&") {
+					rawQueryFragments = append(rawQueryFragments, qp)
+				}
+			}
+
+		}
+
+		if encoded := queryValues.Encode(); encoded != "" {
+			rawQueryFragments = append(rawQueryFragments, encoded)
+		}
+		queryURL.RawQuery = strings.Join(rawQueryFragments, "&")
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewUpdateMonitorRequest calls the generic UpdateMonitor builder with application/json body
+func NewUpdateMonitorRequest(server string, id string, body UpdateMonitorJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUpdateMonitorRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewUpdateMonitorRequestWithBody generates requests for UpdateMonitor with any type of body
+func NewUpdateMonitorRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/monitoring/monitors/%s", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPatch, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCreateMonitorJobRequest calls the generic CreateMonitorJob builder with application/json body
+func NewCreateMonitorJobRequest(server string, id string, body CreateMonitorJobJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateMonitorJobRequestWithBody(server, id, "application/json", bodyReader)
+}
+
+// NewCreateMonitorJobRequestWithBody generates requests for CreateMonitorJob with any type of body
+func NewCreateMonitorJobRequestWithBody(server string, id string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "id", id, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/monitoring/monitors/%s/tasks", pathParam0)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewGetPlatformMonitorsRequest generates requests for GetPlatformMonitors
+func NewGetPlatformMonitorsRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/monitoring/platform/monitors")
 	if operationPath[0] == '/' {
 		operationPath = "." + operationPath
 	}
@@ -76057,8 +77755,51 @@ type ClientWithResponsesInterface interface {
 
 	GenerateAggregatedMetricsWithResponse(ctx context.Context, params *GenerateAggregatedMetricsParams, body GenerateAggregatedMetricsJSONRequestBody, reqEditors ...RequestEditorFn) (*GenerateAggregatedMetricsResponse, error)
 
-	// GetMonitoringMonitorsWithResponse request
-	GetMonitoringMonitorsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetMonitoringMonitorsResponse, error)
+	// GetMonitorsWithResponse request
+	GetMonitorsWithResponse(ctx context.Context, params *GetMonitorsParams, reqEditors ...RequestEditorFn) (*GetMonitorsResponse, error)
+
+	// CreateMonitorWithBodyWithResponse request with any body
+	CreateMonitorWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateMonitorResponse, error)
+
+	CreateMonitorWithResponse(ctx context.Context, body CreateMonitorJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateMonitorResponse, error)
+
+	// GetActionGroupsWithResponse request
+	GetActionGroupsWithResponse(ctx context.Context, params *GetActionGroupsParams, reqEditors ...RequestEditorFn) (*GetActionGroupsResponse, error)
+
+	// CreateActionGroupWithBodyWithResponse request with any body
+	CreateActionGroupWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateActionGroupResponse, error)
+
+	CreateActionGroupWithResponse(ctx context.Context, body CreateActionGroupJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateActionGroupResponse, error)
+
+	// DeleteActionGroupWithResponse request
+	DeleteActionGroupWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*DeleteActionGroupResponse, error)
+
+	// GetActionGroupWithResponse request
+	GetActionGroupWithResponse(ctx context.Context, id string, params *GetActionGroupParams, reqEditors ...RequestEditorFn) (*GetActionGroupResponse, error)
+
+	// UpdateActionGroupWithBodyWithResponse request with any body
+	UpdateActionGroupWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateActionGroupResponse, error)
+
+	UpdateActionGroupWithResponse(ctx context.Context, id string, body UpdateActionGroupJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateActionGroupResponse, error)
+
+	// DeleteMonitorWithResponse request
+	DeleteMonitorWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*DeleteMonitorResponse, error)
+
+	// GetMonitorWithResponse request
+	GetMonitorWithResponse(ctx context.Context, id string, params *GetMonitorParams, reqEditors ...RequestEditorFn) (*GetMonitorResponse, error)
+
+	// UpdateMonitorWithBodyWithResponse request with any body
+	UpdateMonitorWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateMonitorResponse, error)
+
+	UpdateMonitorWithResponse(ctx context.Context, id string, body UpdateMonitorJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateMonitorResponse, error)
+
+	// CreateMonitorJobWithBodyWithResponse request with any body
+	CreateMonitorJobWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateMonitorJobResponse, error)
+
+	CreateMonitorJobWithResponse(ctx context.Context, id string, body CreateMonitorJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateMonitorJobResponse, error)
+
+	// GetPlatformMonitorsWithResponse request
+	GetPlatformMonitorsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetPlatformMonitorsResponse, error)
 
 	// GetPipelinesWithResponse request
 	GetPipelinesWithResponse(ctx context.Context, params *GetPipelinesParams, reqEditors ...RequestEditorFn) (*GetPipelinesResponse, error)
@@ -81843,7 +83584,7 @@ func (r CreateImagesJobResponse) ContentType() string {
 type DeleteImageResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *struct {
+	JSON202      *struct {
 		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
 		Data JobDescriptor `json:"data"`
 	}
@@ -81982,7 +83723,7 @@ func (r GetImageBuildLogResponse) ContentType() string {
 type CreateImageJobResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *struct {
+	JSON202      *struct {
 		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
 		Data JobDescriptor `json:"data"`
 	}
@@ -83245,7 +84986,7 @@ func (r GetServerTagsResponse) ContentType() string {
 type DeleteServerResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *struct {
+	JSON202      *struct {
 		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
 		Data JobDescriptor `json:"data"`
 	}
@@ -84072,17 +85813,21 @@ func (r GenerateAggregatedMetricsResponse) ContentType() string {
 	return ""
 }
 
-type GetMonitoringMonitorsResponse struct {
+type GetMonitorsResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON200      *struct {
-		Data []Monitor `json:"data"`
+		Data     []Monitor `json:"data"`
+		Includes *struct {
+			// Creators An identity that created a resource.
+			Creators *IncludedCreators `json:"creators,omitempty"`
+		} `json:"includes,omitempty"`
 	}
 	JSONDefault *DefaultError
 }
 
 // Status returns HTTPResponse.Status
-func (r GetMonitoringMonitorsResponse) Status() string {
+func (r GetMonitorsResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -84090,7 +85835,7 @@ func (r GetMonitoringMonitorsResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r GetMonitoringMonitorsResponse) StatusCode() int {
+func (r GetMonitorsResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -84098,7 +85843,391 @@ func (r GetMonitoringMonitorsResponse) StatusCode() int {
 }
 
 // ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
-func (r GetMonitoringMonitorsResponse) ContentType() string {
+func (r GetMonitorsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CreateMonitorResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *struct {
+		// Data A user-defined monitor that watches conditions on the platform and raises alarms when configured rules trigger. Monitors have a scope that determines what they observe (globally or against specific clusters) and a configuration that defines their evaluation logic.
+		Data Monitor `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateMonitorResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateMonitorResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CreateMonitorResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetActionGroupsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Data     []ActionGroup `json:"data"`
+		Includes *struct {
+			// Creators An identity that created a resource.
+			Creators *IncludedCreators `json:"creators,omitempty"`
+		} `json:"includes,omitempty"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetActionGroupsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetActionGroupsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetActionGroupsResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CreateActionGroupResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *struct {
+		// Data A named, reusable collection of actions. Monitors can reference an action group so that a single set of alarm responses can be shared across many monitors and updated in one place.
+		Data ActionGroup `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateActionGroupResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateActionGroupResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CreateActionGroupResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteActionGroupResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *struct {
+		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+		Data JobDescriptor `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteActionGroupResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteActionGroupResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteActionGroupResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetActionGroupResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		// Data A named, reusable collection of actions. Monitors can reference an action group so that a single set of alarm responses can be shared across many monitors and updated in one place.
+		Data     ActionGroup `json:"data"`
+		Includes *struct {
+			// Creators An identity that created a resource.
+			Creators *IncludedCreators `json:"creators,omitempty"`
+		} `json:"includes,omitempty"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetActionGroupResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetActionGroupResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetActionGroupResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type UpdateActionGroupResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		// Data A named, reusable collection of actions. Monitors can reference an action group so that a single set of alarm responses can be shared across many monitors and updated in one place.
+		Data ActionGroup `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r UpdateActionGroupResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UpdateActionGroupResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r UpdateActionGroupResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type DeleteMonitorResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *struct {
+		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+		Data JobDescriptor `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteMonitorResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteMonitorResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r DeleteMonitorResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetMonitorResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		// Data A user-defined monitor that watches conditions on the platform and raises alarms when configured rules trigger. Monitors have a scope that determines what they observe (globally or against specific clusters) and a configuration that defines their evaluation logic.
+		Data     Monitor `json:"data"`
+		Includes *struct {
+			// Creators An identity that created a resource.
+			Creators *IncludedCreators `json:"creators,omitempty"`
+		} `json:"includes,omitempty"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetMonitorResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetMonitorResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetMonitorResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type UpdateMonitorResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		// Data A user-defined monitor that watches conditions on the platform and raises alarms when configured rules trigger. Monitors have a scope that determines what they observe (globally or against specific clusters) and a configuration that defines their evaluation logic.
+		Data Monitor `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r UpdateMonitorResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UpdateMonitorResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r UpdateMonitorResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type CreateMonitorJobResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *struct {
+		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+		Data JobDescriptor `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateMonitorJobResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateMonitorJobResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CreateMonitorJobResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
+type GetPlatformMonitorsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Data []PlatformMonitor `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetPlatformMonitorsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetPlatformMonitorsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetPlatformMonitorsResponse) ContentType() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Header.Get("Content-Type")
 	}
@@ -84248,7 +86377,7 @@ func (r GetAllPipelineRunsResponse) ContentType() string {
 type DeletePipelineResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *struct {
+	JSON202      *struct {
 		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
 		Data JobDescriptor `json:"data"`
 	}
@@ -85325,7 +87454,7 @@ func (r CreateStackBuildResponse) ContentType() string {
 type DeleteStackBuildResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
-	JSON200      *struct {
+	JSON202      *struct {
 		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
 		Data JobDescriptor `json:"data"`
 	}
@@ -88794,13 +90923,152 @@ func (c *ClientWithResponses) GenerateAggregatedMetricsWithResponse(ctx context.
 	return ParseGenerateAggregatedMetricsResponse(rsp)
 }
 
-// GetMonitoringMonitorsWithResponse request returning *GetMonitoringMonitorsResponse
-func (c *ClientWithResponses) GetMonitoringMonitorsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetMonitoringMonitorsResponse, error) {
-	rsp, err := c.GetMonitoringMonitors(ctx, reqEditors...)
+// GetMonitorsWithResponse request returning *GetMonitorsResponse
+func (c *ClientWithResponses) GetMonitorsWithResponse(ctx context.Context, params *GetMonitorsParams, reqEditors ...RequestEditorFn) (*GetMonitorsResponse, error) {
+	rsp, err := c.GetMonitors(ctx, params, reqEditors...)
 	if err != nil {
 		return nil, err
 	}
-	return ParseGetMonitoringMonitorsResponse(rsp)
+	return ParseGetMonitorsResponse(rsp)
+}
+
+// CreateMonitorWithBodyWithResponse request with arbitrary body returning *CreateMonitorResponse
+func (c *ClientWithResponses) CreateMonitorWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateMonitorResponse, error) {
+	rsp, err := c.CreateMonitorWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateMonitorResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateMonitorWithResponse(ctx context.Context, body CreateMonitorJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateMonitorResponse, error) {
+	rsp, err := c.CreateMonitor(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateMonitorResponse(rsp)
+}
+
+// GetActionGroupsWithResponse request returning *GetActionGroupsResponse
+func (c *ClientWithResponses) GetActionGroupsWithResponse(ctx context.Context, params *GetActionGroupsParams, reqEditors ...RequestEditorFn) (*GetActionGroupsResponse, error) {
+	rsp, err := c.GetActionGroups(ctx, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetActionGroupsResponse(rsp)
+}
+
+// CreateActionGroupWithBodyWithResponse request with arbitrary body returning *CreateActionGroupResponse
+func (c *ClientWithResponses) CreateActionGroupWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateActionGroupResponse, error) {
+	rsp, err := c.CreateActionGroupWithBody(ctx, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateActionGroupResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateActionGroupWithResponse(ctx context.Context, body CreateActionGroupJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateActionGroupResponse, error) {
+	rsp, err := c.CreateActionGroup(ctx, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateActionGroupResponse(rsp)
+}
+
+// DeleteActionGroupWithResponse request returning *DeleteActionGroupResponse
+func (c *ClientWithResponses) DeleteActionGroupWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*DeleteActionGroupResponse, error) {
+	rsp, err := c.DeleteActionGroup(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteActionGroupResponse(rsp)
+}
+
+// GetActionGroupWithResponse request returning *GetActionGroupResponse
+func (c *ClientWithResponses) GetActionGroupWithResponse(ctx context.Context, id string, params *GetActionGroupParams, reqEditors ...RequestEditorFn) (*GetActionGroupResponse, error) {
+	rsp, err := c.GetActionGroup(ctx, id, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetActionGroupResponse(rsp)
+}
+
+// UpdateActionGroupWithBodyWithResponse request with arbitrary body returning *UpdateActionGroupResponse
+func (c *ClientWithResponses) UpdateActionGroupWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateActionGroupResponse, error) {
+	rsp, err := c.UpdateActionGroupWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateActionGroupResponse(rsp)
+}
+
+func (c *ClientWithResponses) UpdateActionGroupWithResponse(ctx context.Context, id string, body UpdateActionGroupJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateActionGroupResponse, error) {
+	rsp, err := c.UpdateActionGroup(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateActionGroupResponse(rsp)
+}
+
+// DeleteMonitorWithResponse request returning *DeleteMonitorResponse
+func (c *ClientWithResponses) DeleteMonitorWithResponse(ctx context.Context, id string, reqEditors ...RequestEditorFn) (*DeleteMonitorResponse, error) {
+	rsp, err := c.DeleteMonitor(ctx, id, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteMonitorResponse(rsp)
+}
+
+// GetMonitorWithResponse request returning *GetMonitorResponse
+func (c *ClientWithResponses) GetMonitorWithResponse(ctx context.Context, id string, params *GetMonitorParams, reqEditors ...RequestEditorFn) (*GetMonitorResponse, error) {
+	rsp, err := c.GetMonitor(ctx, id, params, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetMonitorResponse(rsp)
+}
+
+// UpdateMonitorWithBodyWithResponse request with arbitrary body returning *UpdateMonitorResponse
+func (c *ClientWithResponses) UpdateMonitorWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*UpdateMonitorResponse, error) {
+	rsp, err := c.UpdateMonitorWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateMonitorResponse(rsp)
+}
+
+func (c *ClientWithResponses) UpdateMonitorWithResponse(ctx context.Context, id string, body UpdateMonitorJSONRequestBody, reqEditors ...RequestEditorFn) (*UpdateMonitorResponse, error) {
+	rsp, err := c.UpdateMonitor(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateMonitorResponse(rsp)
+}
+
+// CreateMonitorJobWithBodyWithResponse request with arbitrary body returning *CreateMonitorJobResponse
+func (c *ClientWithResponses) CreateMonitorJobWithBodyWithResponse(ctx context.Context, id string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreateMonitorJobResponse, error) {
+	rsp, err := c.CreateMonitorJobWithBody(ctx, id, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateMonitorJobResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateMonitorJobWithResponse(ctx context.Context, id string, body CreateMonitorJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreateMonitorJobResponse, error) {
+	rsp, err := c.CreateMonitorJob(ctx, id, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateMonitorJobResponse(rsp)
+}
+
+// GetPlatformMonitorsWithResponse request returning *GetPlatformMonitorsResponse
+func (c *ClientWithResponses) GetPlatformMonitorsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetPlatformMonitorsResponse, error) {
+	rsp, err := c.GetPlatformMonitors(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetPlatformMonitorsResponse(rsp)
 }
 
 // GetPipelinesWithResponse request returning *GetPipelinesResponse
@@ -95400,7 +97668,7 @@ func ParseDeleteImageResponse(rsp *http.Response) (*DeleteImageResponse, error) 
 	}
 
 	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
 		var dest struct {
 			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
 			Data JobDescriptor `json:"data"`
@@ -95408,7 +97676,7 @@ func ParseDeleteImageResponse(rsp *http.Response) (*DeleteImageResponse, error) 
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
-		response.JSON200 = &dest
+		response.JSON202 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest DefaultError
@@ -95547,7 +97815,7 @@ func ParseCreateImageJobResponse(rsp *http.Response) (*CreateImageJobResponse, e
 	}
 
 	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
 		var dest struct {
 			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
 			Data JobDescriptor `json:"data"`
@@ -95555,7 +97823,7 @@ func ParseCreateImageJobResponse(rsp *http.Response) (*CreateImageJobResponse, e
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
-		response.JSON200 = &dest
+		response.JSON202 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest DefaultError
@@ -96882,7 +99150,7 @@ func ParseDeleteServerResponse(rsp *http.Response) (*DeleteServerResponse, error
 	}
 
 	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
 		var dest struct {
 			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
 			Data JobDescriptor `json:"data"`
@@ -96890,7 +99158,7 @@ func ParseDeleteServerResponse(rsp *http.Response) (*DeleteServerResponse, error
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
-		response.JSON200 = &dest
+		response.JSON202 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest DefaultError
@@ -97740,15 +100008,15 @@ func ParseGenerateAggregatedMetricsResponse(rsp *http.Response) (*GenerateAggreg
 	return response, nil
 }
 
-// ParseGetMonitoringMonitorsResponse parses an HTTP response from a GetMonitoringMonitorsWithResponse call
-func ParseGetMonitoringMonitorsResponse(rsp *http.Response) (*GetMonitoringMonitorsResponse, error) {
+// ParseGetMonitorsResponse parses an HTTP response from a GetMonitorsWithResponse call
+func ParseGetMonitorsResponse(rsp *http.Response) (*GetMonitorsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
 	defer func() { _ = rsp.Body.Close() }()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &GetMonitoringMonitorsResponse{
+	response := &GetMonitorsResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -97756,7 +100024,417 @@ func ParseGetMonitoringMonitorsResponse(rsp *http.Response) (*GetMonitoringMonit
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest struct {
-			Data []Monitor `json:"data"`
+			Data     []Monitor `json:"data"`
+			Includes *struct {
+				// Creators An identity that created a resource.
+				Creators *IncludedCreators `json:"creators,omitempty"`
+			} `json:"includes,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateMonitorResponse parses an HTTP response from a CreateMonitorWithResponse call
+func ParseCreateMonitorResponse(rsp *http.Response) (*CreateMonitorResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateMonitorResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest struct {
+			// Data A user-defined monitor that watches conditions on the platform and raises alarms when configured rules trigger. Monitors have a scope that determines what they observe (globally or against specific clusters) and a configuration that defines their evaluation logic.
+			Data Monitor `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetActionGroupsResponse parses an HTTP response from a GetActionGroupsWithResponse call
+func ParseGetActionGroupsResponse(rsp *http.Response) (*GetActionGroupsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetActionGroupsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Data     []ActionGroup `json:"data"`
+			Includes *struct {
+				// Creators An identity that created a resource.
+				Creators *IncludedCreators `json:"creators,omitempty"`
+			} `json:"includes,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateActionGroupResponse parses an HTTP response from a CreateActionGroupWithResponse call
+func ParseCreateActionGroupResponse(rsp *http.Response) (*CreateActionGroupResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateActionGroupResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest struct {
+			// Data A named, reusable collection of actions. Monitors can reference an action group so that a single set of alarm responses can be shared across many monitors and updated in one place.
+			Data ActionGroup `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteActionGroupResponse parses an HTTP response from a DeleteActionGroupWithResponse call
+func ParseDeleteActionGroupResponse(rsp *http.Response) (*DeleteActionGroupResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteActionGroupResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+			Data JobDescriptor `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetActionGroupResponse parses an HTTP response from a GetActionGroupWithResponse call
+func ParseGetActionGroupResponse(rsp *http.Response) (*GetActionGroupResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetActionGroupResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Data A named, reusable collection of actions. Monitors can reference an action group so that a single set of alarm responses can be shared across many monitors and updated in one place.
+			Data     ActionGroup `json:"data"`
+			Includes *struct {
+				// Creators An identity that created a resource.
+				Creators *IncludedCreators `json:"creators,omitempty"`
+			} `json:"includes,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUpdateActionGroupResponse parses an HTTP response from a UpdateActionGroupWithResponse call
+func ParseUpdateActionGroupResponse(rsp *http.Response) (*UpdateActionGroupResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UpdateActionGroupResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Data A named, reusable collection of actions. Monitors can reference an action group so that a single set of alarm responses can be shared across many monitors and updated in one place.
+			Data ActionGroup `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteMonitorResponse parses an HTTP response from a DeleteMonitorWithResponse call
+func ParseDeleteMonitorResponse(rsp *http.Response) (*DeleteMonitorResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteMonitorResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+			Data JobDescriptor `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetMonitorResponse parses an HTTP response from a GetMonitorWithResponse call
+func ParseGetMonitorResponse(rsp *http.Response) (*GetMonitorResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetMonitorResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Data A user-defined monitor that watches conditions on the platform and raises alarms when configured rules trigger. Monitors have a scope that determines what they observe (globally or against specific clusters) and a configuration that defines their evaluation logic.
+			Data     Monitor `json:"data"`
+			Includes *struct {
+				// Creators An identity that created a resource.
+				Creators *IncludedCreators `json:"creators,omitempty"`
+			} `json:"includes,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUpdateMonitorResponse parses an HTTP response from a UpdateMonitorWithResponse call
+func ParseUpdateMonitorResponse(rsp *http.Response) (*UpdateMonitorResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UpdateMonitorResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Data A user-defined monitor that watches conditions on the platform and raises alarms when configured rules trigger. Monitors have a scope that determines what they observe (globally or against specific clusters) and a configuration that defines their evaluation logic.
+			Data Monitor `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateMonitorJobResponse parses an HTTP response from a CreateMonitorJobWithResponse call
+func ParseCreateMonitorJobResponse(rsp *http.Response) (*CreateMonitorJobResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateMonitorJobResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+			Data JobDescriptor `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetPlatformMonitorsResponse parses an HTTP response from a GetPlatformMonitorsWithResponse call
+func ParseGetPlatformMonitorsResponse(rsp *http.Response) (*GetPlatformMonitorsResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetPlatformMonitorsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Data []PlatformMonitor `json:"data"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
@@ -97937,7 +100615,7 @@ func ParseDeletePipelineResponse(rsp *http.Response) (*DeletePipelineResponse, e
 	}
 
 	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
 		var dest struct {
 			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
 			Data JobDescriptor `json:"data"`
@@ -97945,7 +100623,7 @@ func ParseDeletePipelineResponse(rsp *http.Response) (*DeletePipelineResponse, e
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
-		response.JSON200 = &dest
+		response.JSON202 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest DefaultError
@@ -99076,7 +101754,7 @@ func ParseDeleteStackBuildResponse(rsp *http.Response) (*DeleteStackBuildRespons
 	}
 
 	switch {
-	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
 		var dest struct {
 			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
 			Data JobDescriptor `json:"data"`
@@ -99084,7 +101762,7 @@ func ParseDeleteStackBuildResponse(rsp *http.Response) (*DeleteStackBuildRespons
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
-		response.JSON200 = &dest
+		response.JSON202 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest DefaultError
