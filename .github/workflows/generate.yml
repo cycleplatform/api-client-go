@@ -1,49 +1,166 @@
-# Automatically fetches the latest API spec (and commits the submodule update) and generates a new client
+# Pulls the latest API spec, regenerates the client, commits the result, and publishes a release.
+#
+# - patch/minor/major: bumps the latest vX.Y.Z tag and creates a GitHub release.
+# - edge: moves the `edge` tag to the new commit and publishes it as a prerelease.
+#
+# Can be triggered manually, or from the api-spec repo via repository_dispatch:
+#   gh api repos/cycleplatform/api-client-go/dispatches \
+#     -f event_type=api-spec-updated -f 'client_payload[bump]=patch'
 name: Generate Client
 
 on:
   workflow_dispatch:
+    inputs:
+      bump:
+        description: Release type
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+          - edge
+        default: patch
+      force:
+        description: Release even if the generated client did not change
+        type: boolean
+        default: false
+  repository_dispatch:
+    types: [api-spec-updated]
+
+concurrency:
+  group: generate-client
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
 jobs:
-  generate-and-tag:
+  generate-and-release:
     runs-on: ubuntu-latest
+    env:
+      BUMP: ${{ inputs.bump || github.event.client_payload.bump || 'patch' }}
+      FORCE: ${{ inputs.force || github.event.client_payload.force || false }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        token: ${{ secrets.API_SPEC_PAT }}
-        submodules: true
-        
-    - name: Git Submodule Update
-      run: |
-        git pull --recurse-submodules
-        git submodule update --remote --recursive
+      - name: Validate release type
+        run: |
+          case "$BUMP" in
+            patch|minor|major|edge)
+              ;;
+            *)
+              echo "::error::Invalid release type '$BUMP' (expected patch, minor, major, or edge)"
+              exit 1
+              ;;
+          esac
 
-    - name: Set up Go
-      uses: actions/setup-go@v3
-      with:
-        go-version: 1.19.4
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.API_SPEC_PAT }}
+          submodules: true
+          fetch-depth: 0
 
-    - name: Install Ogen
-      run: go install -v github.com/ogen-go/ogen/cmd/ogen@latest
-      
-    - name: Go Update Ogen
-      run: go get github.com/ogen-go/ogen/cmd/ogen@latest
-      
-    - name: Build Spec
-      run: (cd api-spec; npm run build:public && npm run build:internal)
+      - name: Update API spec submodule
+        run: |
+          git submodule update --init --remote --recursive api-spec
+          echo "SPEC_SHA=$(git -C api-spec rev-parse --short HEAD)" >> "$GITHUB_ENV"
 
-    - name: Generate Client
-      run: go generate ./...
-    
-    - name: Commit changes
-      run: |
-        git config --global user.name 'Git bot'
-        git config --global user.email 'bot@noreply.github.com'
-        git remote set-url origin https://x-access-token:${{ secrets.API_SPEC_PAT }}@github.com/${{ github.repository }}
-        git commit -am "Auto generate client from latest API spec" && git push || echo "No changes to commit"
-        
-    - name: Bump version and push tag
-      uses: anothrNick/github-tag-action@1.65.0 
-      env:
-        GITHUB_TOKEN: ${{ secrets.API_SPEC_PAT }}
-        WITH_V: true
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: api-spec/package-lock.json
+
+      - name: Install spec dependencies
+        working-directory: api-spec
+        run: npm ci
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+
+      - name: Generate client
+        run: ./generate.sh
+
+      - name: Build and vet
+        run: |
+          go build ./...
+          go vet ./...
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if [ -n "$(git status --porcelain -- generated.go api-spec)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No changes to the generated client."
+          fi
+
+      - name: Commit changes
+        if: steps.changes.outputs.changed == 'true'
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898333+github-actions[bot]@users.noreply.github.com'
+          git add generated.go api-spec
+          git commit -m "Generate client from api-spec@${SPEC_SHA}"
+          git push origin HEAD:${{ github.ref_name }}
+
+      - name: Compute next version
+        id: version
+        if: steps.changes.outputs.changed == 'true' || env.FORCE == 'true'
+        run: |
+          if [ "$BUMP" = "edge" ]; then
+            echo "tag=edge" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          latest=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n1)
+          if [ -z "$latest" ]; then
+            latest="v0.0.0"
+          fi
+
+          IFS=. read -r major minor patch <<< "${latest#v}"
+          case "$BUMP" in
+            major)
+              major=$((major + 1)); minor=0; patch=0
+              ;;
+            minor)
+              minor=$((minor + 1)); patch=0
+              ;;
+            patch)
+              patch=$((patch + 1))
+              ;;
+          esac
+
+          next="v${major}.${minor}.${patch}"
+          echo "Bumping $latest -> $next"
+          echo "previous=$latest" >> "$GITHUB_OUTPUT"
+          echo "tag=$next" >> "$GITHUB_OUTPUT"
+
+      - name: Publish release
+        if: steps.version.outputs.tag != ''
+        env:
+          GH_TOKEN: ${{ secrets.API_SPEC_PAT }}
+          TAG: ${{ steps.version.outputs.tag }}
+          PREVIOUS: ${{ steps.version.outputs.previous }}
+        run: |
+          notes="Generated from [cycleplatform/api-spec@${SPEC_SHA}](https://github.com/cycleplatform/api-spec/commit/$(git -C api-spec rev-parse HEAD))."
+
+          if [ "$TAG" = "edge" ]; then
+            gh release delete edge --cleanup-tag --yes || true
+            git tag -f edge
+            git push -f origin edge
+            gh release create edge --prerelease --title "Development Build" --notes "$notes"
+            exit 0
+          fi
+
+          git tag "$TAG"
+          git push origin "$TAG"
+
+          start_tag_args=()
+          if git rev-parse -q --verify "refs/tags/$PREVIOUS" > /dev/null; then
+            start_tag_args=(--notes-start-tag "$PREVIOUS")
+          fi
+          gh release create "$TAG" --title "$TAG" --notes "$notes" --generate-notes "${start_tag_args[@]}"

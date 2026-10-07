@@ -66,16 +66,29 @@ func main() {
 
 ## Development
 
+The client is generated with [oapi-codegen](https://github.com/oapi-codegen/oapi-codegen) (pinned as a Go tool in `go.mod`) from the [api-spec](https://github.com/cycleplatform/api-spec) submodule. Requires Go (see `go.mod`) and Node.js.
+
 ### Updating the API spec
 
 Update the API spec to the latest version:
 
 `git submodule update --recursive --remote`
 
-Using `npm`, run `(cd api-spec; npm run build:platform && npm run downconvert:platform)`
+Install the spec's dependencies (first time only):
+
+`(cd api-spec; npm ci)`
 
 ### Generating the client
 
-`go generate`
+`./generate.sh`
 
-See [ogen](https://ogen.dev/docs/intro/) for usage.
+This bundles the spec, downconverts it from OpenAPI 3.1 to 3.0.3 (`api-spec/dist/platform-3.0.3.json`), and runs `go generate ./internal`, which writes `generated.go` using the options in `internal/config.yaml`.
+
+### Releasing
+
+The **Generate Client** GitHub Action (`.github/workflows/generate.yml`) does all of the above, commits the result, and publishes a release. Run it from the Actions tab and pick a release type:
+
+- `patch` / `minor` / `major` bumps the latest `vX.Y.Z` tag and creates a GitHub release.
+- `edge` moves the `edge` tag to the new commit and publishes it as a prerelease.
+
+If the generated client didn't change, no release is created unless `force` is checked. The api-spec repo can also trigger it with a `repository_dispatch` event of type `api-spec-updated`.

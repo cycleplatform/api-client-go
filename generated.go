@@ -295,6 +295,7 @@ const (
 	ActivityEventInfrastructureServerEvacuationReset                    ActivityEvent = "infrastructure.server.evacuation.reset"
 	ActivityEventInfrastructureServerEvacuationStart                    ActivityEvent = "infrastructure.server.evacuation.start"
 	ActivityEventInfrastructureServerFeaturesReconfigure                ActivityEvent = "infrastructure.server.features.reconfigure"
+	ActivityEventInfrastructureServerIpsecKeysRoll                      ActivityEvent = "infrastructure.server.ipsec.keys.roll"
 	ActivityEventInfrastructureServerLive                               ActivityEvent = "infrastructure.server.live"
 	ActivityEventInfrastructureServerPowerOff                           ActivityEvent = "infrastructure.server.power-off"
 	ActivityEventInfrastructureServerProvision                          ActivityEvent = "infrastructure.server.provision"
@@ -718,6 +719,8 @@ func (e ActivityEvent) Valid() bool {
 	case ActivityEventInfrastructureServerEvacuationStart:
 		return true
 	case ActivityEventInfrastructureServerFeaturesReconfigure:
+		return true
+	case ActivityEventInfrastructureServerIpsecKeysRoll:
 		return true
 	case ActivityEventInfrastructureServerLive:
 		return true
@@ -1403,6 +1406,21 @@ const (
 func (e BucketImageSourceTypeType) Valid() bool {
 	switch e {
 	case BucketImageSourceTypeTypeBucket:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for CancelPipelineRunActionAction.
+const (
+	Cancel CancelPipelineRunActionAction = "cancel"
+)
+
+// Valid indicates whether the value is a known member of the CancelPipelineRunActionAction enum.
+func (e CancelPipelineRunActionAction) Valid() bool {
+	switch e {
+	case Cancel:
 		return true
 	default:
 		return false
@@ -3505,77 +3523,81 @@ func (e EventMetadataType) Valid() bool {
 
 // Defines values for EventType.
 const (
-	ApiSecurityViolation                                 EventType = "api.security_violation"
-	ConsoleSosLogin                                      EventType = "console.sos.login"
-	ConsoleSosLoginFailed                                EventType = "console.sos.login.failed"
-	ConsoleSshLogin                                      EventType = "console.ssh.login"
-	ConsoleSshLoginFailed                                EventType = "console.ssh.login.failed"
-	ContainerInstanceBackupCompleted                     EventType = "container.instance.backup.completed"
-	ContainerInstanceBackupFailed                        EventType = "container.instance.backup.failed"
-	ContainerInstanceDeleteFailed                        EventType = "container.instance.delete.failed"
-	ContainerInstanceError                               EventType = "container.instance.error"
-	ContainerInstanceFunctionMaxRuntime                  EventType = "container.instance.function.max_runtime"
-	ContainerInstanceHealthcheckFailed                   EventType = "container.instance.healthcheck.failed"
-	ContainerInstanceHealthcheckRecovered                EventType = "container.instance.healthcheck.recovered"
-	ContainerInstanceHealthcheckRestarted                EventType = "container.instance.healthcheck.restarted"
-	ContainerInstanceImageChanged                        EventType = "container.instance.image.changed"
-	ContainerInstanceMigrationCompleted                  EventType = "container.instance.migration.completed"
-	ContainerInstanceMigrationFailed                     EventType = "container.instance.migration.failed"
-	ContainerInstanceNetworkInterfacesCreateFailed       EventType = "container.instance.network.interfaces.create.failed"
-	ContainerInstanceRestartFailed                       EventType = "container.instance.restart.failed"
-	ContainerInstanceRestartMaxRestarts                  EventType = "container.instance.restart.max_restarts"
-	ContainerInstanceStartFailed                         EventType = "container.instance.start.failed"
-	ContainerInstanceStartHostNetwork                    EventType = "container.instance.start.host_network"
-	ContainerInstanceStartPrivileged                     EventType = "container.instance.start.privileged"
-	ContainerInstanceStopFailed                          EventType = "container.instance.stop.failed"
-	ContainerInstanceVolumeExtendFailed                  EventType = "container.instance.volume.extend.failed"
-	ContainerInstancesAutoscaleDown                      EventType = "container.instances.autoscale.down"
-	ContainerInstancesAutoscaleUp                        EventType = "container.instances.autoscale.up"
-	ContainerInstancesHaElectionsPrimaryElected          EventType = "container.instances.ha.elections.primary.elected"
-	ContainerReconfiguredPrivileged                      EventType = "container.reconfigured.privileged"
-	ContainerVolumesBaseCreateFailed                     EventType = "container.volumes.base.create.failed"
-	ContainerVolumesCreateFailed                         EventType = "container.volumes.create.failed"
-	EnvironmentServiceAutoUpdate                         EventType = "environment.service.auto_update"
-	EnvironmentServiceDiscoveryClientThrottleHit         EventType = "environment.service.discovery.client.throttle.hit"
-	EnvironmentServiceGatewayIpsSyncFailed               EventType = "environment.service.gateway.ips.sync.failed"
-	EnvironmentServiceLbIpsSyncFailed                    EventType = "environment.service.lb.ips.sync.failed"
-	EnvironmentServiceSchedulerCronInstanceClaim         EventType = "environment.service.scheduler.cron.instance.claim"
-	EnvironmentServiceSchedulerCronInstanceSpawn         EventType = "environment.service.scheduler.cron.instance.spawn"
-	EnvironmentServiceVpnLoginFailed                     EventType = "environment.service.vpn.login.failed"
-	InfrastructureClusterResourcesRamFull                EventType = "infrastructure.cluster.resources.ram.full"
-	InfrastructureServerAutoscaleUp                      EventType = "infrastructure.server.autoscale.up"
-	InfrastructureServerCheckinMissed                    EventType = "infrastructure.server.checkin.missed"
-	InfrastructureServerCheckinResumed                   EventType = "infrastructure.server.checkin.resumed"
-	InfrastructureServerComputeDied                      EventType = "infrastructure.server.compute.died"
-	InfrastructureServerComputeFullRestart               EventType = "infrastructure.server.compute.full_restart"
-	InfrastructureServerComputeSharedfsMountsMount       EventType = "infrastructure.server.compute.sharedfs.mounts.mount"
-	InfrastructureServerComputeSharedfsMountsMountFailed EventType = "infrastructure.server.compute.sharedfs.mounts.mount.failed"
-	InfrastructureServerComputeSoftRestart               EventType = "infrastructure.server.compute.soft_restart"
-	InfrastructureServerComputeSpawnerFullRestart        EventType = "infrastructure.server.compute-spawner.full_restart"
-	InfrastructureServerComputeStartFailure              EventType = "infrastructure.server.compute.start.failure"
-	InfrastructureServerComputeVolumesBaseReconfigured   EventType = "infrastructure.server.compute.volumes.base.reconfigured"
-	InfrastructureServerEvacuationCompleted              EventType = "infrastructure.server.evacuation.completed"
-	InfrastructureServerEvacuationFailed                 EventType = "infrastructure.server.evacuation.failed"
-	InfrastructureServerImageDownloadFailed              EventType = "infrastructure.server.image.download.failed"
-	InfrastructureServerInternalApiThrottled             EventType = "infrastructure.server.internal_api.throttled"
-	InfrastructureServerManifestSyncFailed               EventType = "infrastructure.server.manifest.sync.failed"
-	InfrastructureServerMeshConnectFailed                EventType = "infrastructure.server.mesh.connect.failed"
-	InfrastructureServerMonitoringThrottled              EventType = "infrastructure.server.monitoring.throttled"
-	InfrastructureServerNeighborIncompatible             EventType = "infrastructure.server.neighbor.incompatible"
-	InfrastructureServerNeighborReachable                EventType = "infrastructure.server.neighbor.reachable"
-	InfrastructureServerNeighborRebuild                  EventType = "infrastructure.server.neighbor.rebuild"
-	InfrastructureServerNeighborUnreachable              EventType = "infrastructure.server.neighbor.unreachable"
-	InfrastructureServerNeighborUpgraded                 EventType = "infrastructure.server.neighbor.upgraded"
-	InfrastructureServerNeighborsRebuild                 EventType = "infrastructure.server.neighbors.rebuild"
-	InfrastructureServerPowerPowerOff                    EventType = "infrastructure.server.power.power_off"
-	InfrastructureServerPowerReboot                      EventType = "infrastructure.server.power.reboot"
-	InfrastructureServerResourcesLoadHigh                EventType = "infrastructure.server.resources.load.high"
-	InfrastructureServerResourcesRamFull                 EventType = "infrastructure.server.resources.ram.full"
-	InfrastructureServerResourcesStorageCyclePoolFull    EventType = "infrastructure.server.resources.storage.cycle_pool.full"
-	InfrastructureServerResourcesStorageVolumesBaseFull  EventType = "infrastructure.server.resources.storage.volumes.base.full"
-	InfrastructureServerSftpLockdown                     EventType = "infrastructure.server.sftp.lockdown"
-	InfrastructureServerSftpLogin                        EventType = "infrastructure.server.sftp.login"
-	InfrastructureServerSftpLoginFailed                  EventType = "infrastructure.server.sftp.login.failed"
+	ApiSecurityViolation                                    EventType = "api.security_violation"
+	ConsoleSosLogin                                         EventType = "console.sos.login"
+	ConsoleSosLoginFailed                                   EventType = "console.sos.login.failed"
+	ConsoleSshLogin                                         EventType = "console.ssh.login"
+	ConsoleSshLoginFailed                                   EventType = "console.ssh.login.failed"
+	ContainerInstanceBackupCompleted                        EventType = "container.instance.backup.completed"
+	ContainerInstanceBackupFailed                           EventType = "container.instance.backup.failed"
+	ContainerInstanceDeleteFailed                           EventType = "container.instance.delete.failed"
+	ContainerInstanceError                                  EventType = "container.instance.error"
+	ContainerInstanceFunctionMaxRuntime                     EventType = "container.instance.function.max_runtime"
+	ContainerInstanceHealthcheckFailed                      EventType = "container.instance.healthcheck.failed"
+	ContainerInstanceHealthcheckRecovered                   EventType = "container.instance.healthcheck.recovered"
+	ContainerInstanceHealthcheckRestarted                   EventType = "container.instance.healthcheck.restarted"
+	ContainerInstanceImageChanged                           EventType = "container.instance.image.changed"
+	ContainerInstanceMigrationCompleted                     EventType = "container.instance.migration.completed"
+	ContainerInstanceMigrationFailed                        EventType = "container.instance.migration.failed"
+	ContainerInstanceNetworkInterfacesCreateFailed          EventType = "container.instance.network.interfaces.create.failed"
+	ContainerInstanceRestartFailed                          EventType = "container.instance.restart.failed"
+	ContainerInstanceRestartMaxRestarts                     EventType = "container.instance.restart.max_restarts"
+	ContainerInstanceStartFailed                            EventType = "container.instance.start.failed"
+	ContainerInstanceStartHostNetwork                       EventType = "container.instance.start.host_network"
+	ContainerInstanceStartPrivileged                        EventType = "container.instance.start.privileged"
+	ContainerInstanceStopFailed                             EventType = "container.instance.stop.failed"
+	ContainerInstanceVolumeExtendFailed                     EventType = "container.instance.volume.extend.failed"
+	ContainerInstancesAutoscaleDown                         EventType = "container.instances.autoscale.down"
+	ContainerInstancesAutoscaleUp                           EventType = "container.instances.autoscale.up"
+	ContainerInstancesHaElectionsPrimaryElected             EventType = "container.instances.ha.elections.primary.elected"
+	ContainerReconfiguredPrivileged                         EventType = "container.reconfigured.privileged"
+	ContainerVolumesBaseCreateFailed                        EventType = "container.volumes.base.create.failed"
+	ContainerVolumesCreateFailed                            EventType = "container.volumes.create.failed"
+	EnvironmentServiceAutoUpdate                            EventType = "environment.service.auto_update"
+	EnvironmentServiceDiscoveryClientThrottleHit            EventType = "environment.service.discovery.client.throttle.hit"
+	EnvironmentServiceGatewayIpsSyncFailed                  EventType = "environment.service.gateway.ips.sync.failed"
+	EnvironmentServiceLbIpsSyncFailed                       EventType = "environment.service.lb.ips.sync.failed"
+	EnvironmentServiceSchedulerCronInstanceClaim            EventType = "environment.service.scheduler.cron.instance.claim"
+	EnvironmentServiceSchedulerCronInstanceClaimFailed      EventType = "environment.service.scheduler.cron.instance.claim.failed"
+	EnvironmentServiceSchedulerCronInstanceSpawn            EventType = "environment.service.scheduler.cron.instance.spawn"
+	EnvironmentServiceSchedulerCronInstanceSpawnFailed      EventType = "environment.service.scheduler.cron.instance.spawn.failed"
+	EnvironmentServiceVpnLoginFailed                        EventType = "environment.service.vpn.login.failed"
+	InfrastructureClusterResourcesRamFull                   EventType = "infrastructure.cluster.resources.ram.full"
+	InfrastructureServerAutoscaleUp                         EventType = "infrastructure.server.autoscale.up"
+	InfrastructureServerCheckinMissed                       EventType = "infrastructure.server.checkin.missed"
+	InfrastructureServerCheckinResumed                      EventType = "infrastructure.server.checkin.resumed"
+	InfrastructureServerComputeDied                         EventType = "infrastructure.server.compute.died"
+	InfrastructureServerComputeFullRestart                  EventType = "infrastructure.server.compute.full_restart"
+	InfrastructureServerComputeSharedfsMountsMount          EventType = "infrastructure.server.compute.sharedfs.mounts.mount"
+	InfrastructureServerComputeSharedfsMountsMountFailed    EventType = "infrastructure.server.compute.sharedfs.mounts.mount.failed"
+	InfrastructureServerComputeSoftRestart                  EventType = "infrastructure.server.compute.soft_restart"
+	InfrastructureServerComputeSpawnerFullRestart           EventType = "infrastructure.server.compute-spawner.full_restart"
+	InfrastructureServerComputeStartFailure                 EventType = "infrastructure.server.compute.start.failure"
+	InfrastructureServerComputeVolumesBaseReconfigureFailed EventType = "infrastructure.server.compute.volumes.base.reconfigure.failed"
+	InfrastructureServerComputeVolumesBaseReconfigured      EventType = "infrastructure.server.compute.volumes.base.reconfigured"
+	InfrastructureServerEvacuationCompleted                 EventType = "infrastructure.server.evacuation.completed"
+	InfrastructureServerEvacuationFailed                    EventType = "infrastructure.server.evacuation.failed"
+	InfrastructureServerImageDownloadFailed                 EventType = "infrastructure.server.image.download.failed"
+	InfrastructureServerInternalApiThrottled                EventType = "infrastructure.server.internal_api.throttled"
+	InfrastructureServerIpsecKeysRolled                     EventType = "infrastructure.server.ipsec.keys.rolled"
+	InfrastructureServerManifestSyncFailed                  EventType = "infrastructure.server.manifest.sync.failed"
+	InfrastructureServerMeshConnectFailed                   EventType = "infrastructure.server.mesh.connect.failed"
+	InfrastructureServerMonitoringThrottled                 EventType = "infrastructure.server.monitoring.throttled"
+	InfrastructureServerNeighborIncompatible                EventType = "infrastructure.server.neighbor.incompatible"
+	InfrastructureServerNeighborReachable                   EventType = "infrastructure.server.neighbor.reachable"
+	InfrastructureServerNeighborRebuild                     EventType = "infrastructure.server.neighbor.rebuild"
+	InfrastructureServerNeighborUnreachable                 EventType = "infrastructure.server.neighbor.unreachable"
+	InfrastructureServerNeighborUpgraded                    EventType = "infrastructure.server.neighbor.upgraded"
+	InfrastructureServerNeighborsRebuild                    EventType = "infrastructure.server.neighbors.rebuild"
+	InfrastructureServerPowerPowerOff                       EventType = "infrastructure.server.power.power_off"
+	InfrastructureServerPowerReboot                         EventType = "infrastructure.server.power.reboot"
+	InfrastructureServerResourcesLoadHigh                   EventType = "infrastructure.server.resources.load.high"
+	InfrastructureServerResourcesRamFull                    EventType = "infrastructure.server.resources.ram.full"
+	InfrastructureServerResourcesStorageCyclePoolFull       EventType = "infrastructure.server.resources.storage.cycle_pool.full"
+	InfrastructureServerResourcesStorageVolumesBaseFull     EventType = "infrastructure.server.resources.storage.volumes.base.full"
+	InfrastructureServerSftpLockdown                        EventType = "infrastructure.server.sftp.lockdown"
+	InfrastructureServerSftpLogin                           EventType = "infrastructure.server.sftp.login"
+	InfrastructureServerSftpLoginFailed                     EventType = "infrastructure.server.sftp.login.failed"
 )
 
 // Valid indicates whether the value is a known member of the EventType enum.
@@ -3651,7 +3673,11 @@ func (e EventType) Valid() bool {
 		return true
 	case EnvironmentServiceSchedulerCronInstanceClaim:
 		return true
+	case EnvironmentServiceSchedulerCronInstanceClaimFailed:
+		return true
 	case EnvironmentServiceSchedulerCronInstanceSpawn:
+		return true
+	case EnvironmentServiceSchedulerCronInstanceSpawnFailed:
 		return true
 	case EnvironmentServiceVpnLoginFailed:
 		return true
@@ -3677,6 +3703,8 @@ func (e EventType) Valid() bool {
 		return true
 	case InfrastructureServerComputeStartFailure:
 		return true
+	case InfrastructureServerComputeVolumesBaseReconfigureFailed:
+		return true
 	case InfrastructureServerComputeVolumesBaseReconfigured:
 		return true
 	case InfrastructureServerEvacuationCompleted:
@@ -3686,6 +3714,8 @@ func (e EventType) Valid() bool {
 	case InfrastructureServerImageDownloadFailed:
 		return true
 	case InfrastructureServerInternalApiThrottled:
+		return true
+	case InfrastructureServerIpsecKeysRolled:
 		return true
 	case InfrastructureServerManifestSyncFailed:
 		return true
@@ -3983,6 +4013,24 @@ const (
 func (e HaProxyLbTypeType) Valid() bool {
 	switch e {
 	case HaProxyLbTypeTypeHaproxy:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for HttpRouterConfigDetailsForwardForceProtocol.
+const (
+	HttpRouterConfigDetailsForwardForceProtocolN1 HttpRouterConfigDetailsForwardForceProtocol = 1
+	HttpRouterConfigDetailsForwardForceProtocolN2 HttpRouterConfigDetailsForwardForceProtocol = 2
+)
+
+// Valid indicates whether the value is a known member of the HttpRouterConfigDetailsForwardForceProtocol enum.
+func (e HttpRouterConfigDetailsForwardForceProtocol) Valid() bool {
+	switch e {
+	case HttpRouterConfigDetailsForwardForceProtocolN1:
+		return true
+	case HttpRouterConfigDetailsForwardForceProtocolN2:
 		return true
 	default:
 		return false
@@ -5216,21 +5264,6 @@ func (e PaymentResultStatus) Valid() bool {
 	}
 }
 
-// Defines values for PipelineRerunActionAction.
-const (
-	Rerun PipelineRerunActionAction = "rerun"
-)
-
-// Valid indicates whether the value is a known member of the PipelineRerunActionAction enum.
-func (e PipelineRerunActionAction) Valid() bool {
-	switch e {
-	case Rerun:
-		return true
-	default:
-		return false
-	}
-}
-
 // Defines values for PipelineRunStepAction.
 const (
 	PipelineRunStepActionContainerCreate                   PipelineRunStepAction = "container.create"
@@ -5617,12 +5650,13 @@ func (e RoleStateCurrent) Valid() bool {
 
 // Defines values for RunStateCurrent.
 const (
-	RunStateCurrentAcquiring RunStateCurrent = "acquiring"
-	RunStateCurrentCancelled RunStateCurrent = "cancelled"
-	RunStateCurrentComplete  RunStateCurrent = "complete"
-	RunStateCurrentDeleted   RunStateCurrent = "deleted"
-	RunStateCurrentQueued    RunStateCurrent = "queued"
-	RunStateCurrentRunning   RunStateCurrent = "running"
+	RunStateCurrentAcquiring  RunStateCurrent = "acquiring"
+	RunStateCurrentCancelled  RunStateCurrent = "cancelled"
+	RunStateCurrentCancelling RunStateCurrent = "cancelling"
+	RunStateCurrentComplete   RunStateCurrent = "complete"
+	RunStateCurrentDeleted    RunStateCurrent = "deleted"
+	RunStateCurrentQueued     RunStateCurrent = "queued"
+	RunStateCurrentRunning    RunStateCurrent = "running"
 )
 
 // Valid indicates whether the value is a known member of the RunStateCurrent enum.
@@ -5631,6 +5665,8 @@ func (e RunStateCurrent) Valid() bool {
 	case RunStateCurrentAcquiring:
 		return true
 	case RunStateCurrentCancelled:
+		return true
+	case RunStateCurrentCancelling:
 		return true
 	case RunStateCurrentComplete:
 		return true
@@ -5879,6 +5915,21 @@ func (e ServerFeaturesGatewayType) Valid() bool {
 	case ServerFeaturesGatewayTypeBgp:
 		return true
 	case ServerFeaturesGatewayTypeStatic:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for ServerIPSecKeysRollActionAction.
+const (
+	IpsecKeysRoll ServerIPSecKeysRollActionAction = "ipsec.keys.roll"
+)
+
+// Valid indicates whether the value is a known member of the ServerIPSecKeysRollActionAction enum.
+func (e ServerIPSecKeysRollActionAction) Valid() bool {
+	switch e {
+	case IpsecKeysRoll:
 		return true
 	default:
 		return false
@@ -6611,6 +6662,24 @@ const (
 func (e StackSpecHttpRouterConfigType) Valid() bool {
 	switch e {
 	case StackSpecHttpRouterConfigTypeHttp:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0.
+const (
+	StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0N1 StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0 = 1
+	StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0N2 StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0 = 2
+)
+
+// Valid indicates whether the value is a known member of the StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0 enum.
+func (e StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0) Valid() bool {
+	switch e {
+	case StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0N1:
+		return true
+	case StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0N2:
 		return true
 	default:
 		return false
@@ -7472,6 +7541,33 @@ const (
 func (e VirtualMachineStopActionAction) Valid() bool {
 	switch e {
 	case Stop:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for VirtualMachineVolumeOptionsCaching.
+const (
+	Directsync   VirtualMachineVolumeOptionsCaching = "directsync"
+	None         VirtualMachineVolumeOptionsCaching = "none"
+	Unsafe       VirtualMachineVolumeOptionsCaching = "unsafe"
+	Writeback    VirtualMachineVolumeOptionsCaching = "writeback"
+	Writethrough VirtualMachineVolumeOptionsCaching = "writethrough"
+)
+
+// Valid indicates whether the value is a known member of the VirtualMachineVolumeOptionsCaching enum.
+func (e VirtualMachineVolumeOptionsCaching) Valid() bool {
+	switch e {
+	case Directsync:
+		return true
+	case None:
+		return true
+	case Unsafe:
+		return true
+	case Writeback:
+		return true
+	case Writethrough:
 		return true
 	default:
 		return false
@@ -11499,6 +11595,15 @@ type CPUSpec struct {
 	Type string `json:"type"`
 }
 
+// CancelPipelineRunAction defines model for CancelPipelineRunAction.
+type CancelPipelineRunAction struct {
+	// Action The requested action to perform.
+	Action CancelPipelineRunActionAction `json:"action"`
+}
+
+// CancelPipelineRunActionAction The requested action to perform.
+type CancelPipelineRunActionAction string
+
 // Capability A capability that a user or API key that represents what an API key or a user can do.
 type Capability string
 
@@ -14499,6 +14604,7 @@ type ExistingSource struct {
 type ExternalVolume struct {
 	// About Additional details about the external volume.
 	About ExternalVolumeAbout `json:"about"`
+	Acl   *ACL                `json:"acl,omitempty"`
 
 	// Attachment Information about the resource the external volume is currently attached to.
 	Attachment *ExternalVolumeAttachment `json:"attachment,omitempty"`
@@ -14517,8 +14623,14 @@ type ExternalVolume struct {
 	HubId HubID `json:"hub_id"`
 
 	// Id A 24 character hex string used to identify a unique resource.
-	Id         ID          `json:"id"`
-	Identifier *Identifier `json:"identifier,omitempty"`
+	Id ID `json:"id"`
+
+	// Identifier A human-readable identifier used to refer to a resource, where using the official ID may be inconvenient.
+	// The identifier is automatically tokenized from the name/relevant field of the resource if one is not provided. For example, a container named "My Container" will
+	// have the identifier of `my-container` and is automatically created by the platform.
+	//
+	// The identifier does not have to be unique.
+	Identifier Identifier `json:"identifier"`
 
 	// LocationId A 24 character hex string used to identify a unique resource.
 	LocationId ID `json:"location_id"`
@@ -14533,8 +14645,8 @@ type ExternalVolume struct {
 	Options   ExternalVolumeOptions `json:"options"`
 	ServerIds []ID                  `json:"server_ids"`
 
-	// Size Size of the external volume; may be null or omitted if the size has not yet been determined.
-	Size *DataSize `json:"size,omitempty"`
+	// Size Size of the external volume in megabytes; may be null or omitted if the size has not yet been determined.
+	Size *int `json:"size,omitempty"`
 
 	// Source The source information for this volume.
 	Source ExternalVolumeSource `json:"source"`
@@ -14932,7 +15044,10 @@ type HttpRouterConfig struct {
 					Value string `json:"value"`
 				} `json:"replace,omitempty"`
 			} `json:"content_mod,omitempty"`
-			Scheme *string `json:"scheme,omitempty"`
+
+			// ForceProtocol Forces a specific HTTP protocol version with the backend client. `1` forces HTTP/1.1, and `2` forces HTTP/2. If null, the protocol is negotiated automatically.
+			ForceProtocol *HttpRouterConfigDetailsForwardForceProtocol `json:"force_protocol,omitempty"`
+			Scheme        *string                                      `json:"scheme,omitempty"`
 
 			// Url The URL to forward the request to.
 			//
@@ -14979,6 +15094,9 @@ type HttpRouterConfig struct {
 	} `json:"details"`
 	Type HttpRouterConfigType `json:"type"`
 }
+
+// HttpRouterConfigDetailsForwardForceProtocol Forces a specific HTTP protocol version with the backend client. `1` forces HTTP/1.1, and `2` forces HTTP/2. If null, the protocol is negotiated automatically.
+type HttpRouterConfigDetailsForwardForceProtocol int
 
 // HttpRouterConfigType defines model for HttpRouterConfig.Type.
 type HttpRouterConfigType string
@@ -15238,6 +15356,15 @@ type HubMeta struct {
 type HubSecurity struct {
 	// Force2fa When true, any API call for this hub from an account that does not have two-factor auth enabled will fail with a 403 error.
 	Force2fa bool `json:"force_2fa"`
+
+	// Perimeter Network perimeter restrictions applied to the servers in this hub.
+	Perimeter HubSecurityPerimeter `json:"perimeter"`
+}
+
+// HubSecurityPerimeter Network perimeter restrictions applied to the servers in this hub.
+type HubSecurityPerimeter struct {
+	// AuthorizedIps A list of CIDRs (IP addresses or ranges) that are permitted to SSH into servers in this hub.
+	AuthorizedIps *[]Cidr `json:"authorized_ips"`
 }
 
 // HubState defines model for HubState.
@@ -16165,7 +16292,13 @@ type InstanceState struct {
 
 		// Updated A timestamp of the last time the instance health was updated.
 		Updated DateTime `json:"updated"`
-	} `json:"health,omitempty"`
+	} `json:"health"`
+
+	// Host Information about the host server the instance is deployed to.
+	Host *struct {
+		// LastCheckin The last time the instance checked in with the platform from its host server.
+		LastCheckin DateTime `json:"last_checkin"`
+	} `json:"host"`
 
 	// Readiness information about the readiness of the instance.
 	Readiness *struct {
@@ -16177,7 +16310,7 @@ type InstanceState struct {
 
 		// Updated A timestamp of the last time the instance readiness was updated.
 		Updated DateTime `json:"updated"`
-	} `json:"readiness,omitempty"`
+	} `json:"readiness"`
 }
 
 // InstanceStateCurrent The current state of the instance.
@@ -18361,19 +18494,6 @@ type PipelineIncludes_Components_AdditionalProperties struct {
 	union json.RawMessage
 }
 
-// PipelineRerunAction defines model for PipelineRerunAction.
-type PipelineRerunAction struct {
-	// Action The requested action to perform.
-	Action   PipelineRerunActionAction `json:"action"`
-	Contents *struct {
-		// RunId The ID of the run to retry.
-		RunId *ID `json:"run_id,omitempty"`
-	} `json:"contents,omitempty"`
-}
-
-// PipelineRerunActionAction The requested action to perform.
-type PipelineRerunActionAction string
-
 // PipelineRun A pipeline run resource.
 type PipelineRun struct {
 	// Creator The creator scope is embedded in resource objects to describe who created them
@@ -18470,6 +18590,11 @@ type PipelineRunStep struct {
 
 // PipelineRunStepAction defines model for PipelineRunStep.Action.
 type PipelineRunStepAction string
+
+// PipelineRunTask defines model for PipelineRunTask.
+type PipelineRunTask struct {
+	union json.RawMessage
+}
 
 // PipelineStage A stage for a given pipeline.
 type PipelineStage struct {
@@ -19645,10 +19770,22 @@ type ServerFeatures struct {
 
 	// Sftp A boolean where true means the server accepts incoming SFTP connections through the remote volume integration.
 	Sftp bool `json:"sftp"`
+
+	// Ssh A boolean where true means the server accepts incoming SSH connections.
+	Ssh bool `json:"ssh"`
 }
 
 // ServerFeaturesGatewayType The type of gateway service that can be run on this server.
 type ServerFeaturesGatewayType string
+
+// ServerIPSecKeysRollAction A job that rolls new IPSec encryption keys for this node.
+type ServerIPSecKeysRollAction struct {
+	// Action The action to take.
+	Action ServerIPSecKeysRollActionAction `json:"action"`
+}
+
+// ServerIPSecKeysRollActionAction The action to take.
+type ServerIPSecKeysRollActionAction string
 
 // ServerIncludes A resource associated with a server.
 type ServerIncludes struct {
@@ -19773,6 +19910,9 @@ type ServerReconfigureFeaturesAction struct {
 
 		// Sftp A boolean where true represents the desire for the server to accept incoming SFTP requests for container volumes.
 		Sftp *bool `json:"sftp,omitempty"`
+
+		// Ssh A boolean where true represents the desire for the server to accept incoming SSH connections.
+		Ssh *bool `json:"ssh,omitempty"`
 	} `json:"contents"`
 }
 
@@ -20083,13 +20223,13 @@ type ServerStatsTelemetry struct {
 	// StorageBase Telemetry data for the base volume of a given server.
 	StorageBase struct {
 		// Free The amount of free space on the base volume.
-		Free int `json:"free"`
+		Free float32 `json:"free"`
 
 		// Total The total amount of space on the base volume.
-		Total int `json:"total"`
+		Total float32 `json:"total"`
 
 		// Used The amount of storage currently used in the base volume.
-		Used int `json:"used"`
+		Used float32 `json:"used"`
 	} `json:"storage_base"`
 
 	// StoragePool User data storage across all devices.
@@ -22732,7 +22872,10 @@ type StackSpecHttpRouterConfigDetails0Caching0Files0Item0 struct {
 type StackSpecHttpRouterConfigDetails0Forward0 struct {
 	// ContentMod Allows the load balancer to modify content before it reaches the user.
 	ContentMod *StackSpecHttpRouterConfigDetails0Forward0_ContentMod `json:"content_mod,omitempty"`
-	Scheme     *string                                               `json:"scheme,omitempty"`
+
+	// ForceProtocol Forces the HTTP protocol version negotiated with the backend client. `1` forces HTTP/1.1, and `2` forces HTTP/2. If null, the protocol is negotiated with the client as normal.
+	ForceProtocol *StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol `json:"force_protocol,omitempty"`
+	Scheme        *string                                                  `json:"scheme,omitempty"`
 
 	// Url The URL to forward the request to.
 	//
@@ -22742,6 +22885,11 @@ type StackSpecHttpRouterConfigDetails0Forward0 struct {
 
 // StackSpecHttpRouterConfigDetails0Forward0_ContentMod Allows the load balancer to modify content before it reaches the user.
 type StackSpecHttpRouterConfigDetails0Forward0_ContentMod struct {
+	union json.RawMessage
+}
+
+// StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol Forces the HTTP protocol version negotiated with the backend client. `1` forces HTTP/1.1, and `2` forces HTTP/2. If null, the protocol is negotiated with the client as normal.
+type StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol struct {
 	union json.RawMessage
 }
 
@@ -22772,6 +22920,9 @@ type StackSpecHttpRouterConfigDetails0Forward0ContentMod0Replace0Item0 struct {
 	// Value Replacement value.
 	Value string `json:"value"`
 }
+
+// StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0 defines model for StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0.
+type StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0 int
 
 // StackSpecHttpRouterConfigDetails0Proxy0 defines model for StackSpecHttpRouterConfigDetails0Proxy0.
 type StackSpecHttpRouterConfigDetails0Proxy0 struct {
@@ -25461,9 +25612,33 @@ type VirtualMachineVolumeConfig struct {
 		StoragePool *bool `json:"storage_pool,omitempty"`
 	} `json:"local,omitempty"`
 
+	// Options Additional options applied to the volume.
+	Options *VirtualMachineVolumeOptions `json:"options"`
+
 	// ReadOnly Specifies if the volume is mounted as read-only.
 	ReadOnly bool `json:"read_only"`
 }
+
+// VirtualMachineVolumeOptions Additional options that tune how a volume is presented to the virtual machine.
+type VirtualMachineVolumeOptions struct {
+	// Caching The cache mode used by the hypervisor for this volume. If `null`, Cycle will select a default on your behalf.
+	//
+	// - `none`: Bypasses the host page cache; guest flushes are honored.
+	// - `writeback`: Uses the host page cache; guest flushes are honored.
+	// - `writethrough`: Uses the host page cache for reads; every write is synced to disk.
+	// - `directsync`: Bypasses the host page cache; every write is synced to disk.
+	// - `unsafe`: Uses the host page cache and ignores guest flushes. Data loss can occur if the host crashes.
+	Caching *VirtualMachineVolumeOptionsCaching `json:"caching"`
+}
+
+// VirtualMachineVolumeOptionsCaching The cache mode used by the hypervisor for this volume. If `null`, Cycle will select a default on your behalf.
+//
+// - `none`: Bypasses the host page cache; guest flushes are honored.
+// - `writeback`: Uses the host page cache; guest flushes are honored.
+// - `writethrough`: Uses the host page cache for reads; every write is synced to disk.
+// - `directsync`: Bypasses the host page cache; every write is synced to disk.
+// - `unsafe`: Uses the host page cache and ignores guest flushes. Data loss can occur if the host crashes.
+type VirtualMachineVolumeOptionsCaching string
 
 // VirtualProviderGenerateIsoAction defines model for VirtualProviderGenerateIsoAction.
 type VirtualProviderGenerateIsoAction struct {
@@ -29804,6 +29979,9 @@ type CreatePipelineTriggerKeyJSONRequestBody CreatePipelineTriggerKeyJSONBody
 
 // UpdatePipelineTriggerKeyJSONRequestBody defines body for UpdatePipelineTriggerKey for application/json ContentType.
 type UpdatePipelineTriggerKeyJSONRequestBody UpdatePipelineTriggerKeyJSONBody
+
+// CreatePipelineRunJobJSONRequestBody defines body for CreatePipelineRunJob for application/json ContentType.
+type CreatePipelineRunJobJSONRequestBody = PipelineRunTask
 
 // CreatePipelineJobJSONRequestBody defines body for CreatePipelineJob for application/json ContentType.
 type CreatePipelineJobJSONRequestBody = PipelineTask
@@ -34238,6 +34416,65 @@ func (t *PipelineIncludes_Components_AdditionalProperties) UnmarshalJSON(b []byt
 	return err
 }
 
+// AsCancelPipelineRunAction returns the union data inside the PipelineRunTask as a CancelPipelineRunAction
+func (t PipelineRunTask) AsCancelPipelineRunAction() (CancelPipelineRunAction, error) {
+	var body CancelPipelineRunAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromCancelPipelineRunAction overwrites any union data inside the PipelineRunTask as the provided CancelPipelineRunAction
+func (t *PipelineRunTask) FromCancelPipelineRunAction(v CancelPipelineRunAction) error {
+	v.Action = "cancel"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeCancelPipelineRunAction performs a merge with any union data inside the PipelineRunTask, using the provided CancelPipelineRunAction
+func (t *PipelineRunTask) MergeCancelPipelineRunAction(v CancelPipelineRunAction) error {
+	v.Action = "cancel"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t PipelineRunTask) Discriminator() (string, error) {
+	var discriminator struct {
+		Discriminator string `json:"action"`
+	}
+	err := json.Unmarshal(t.union, &discriminator)
+	return discriminator.Discriminator, err
+}
+
+func (t PipelineRunTask) ValueByDiscriminator() (interface{}, error) {
+	discriminator, err := t.Discriminator()
+	if err != nil {
+		return nil, err
+	}
+	switch discriminator {
+	case "cancel":
+		return t.AsCancelPipelineRunAction()
+	default:
+		return nil, errors.New("unknown discriminator value: " + discriminator)
+	}
+}
+
+func (t PipelineRunTask) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *PipelineRunTask) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsImageCreateStep returns the union data inside the PipelineSteps as a ImageCreateStep
 func (t PipelineSteps) AsImageCreateStep() (ImageCreateStep, error) {
 	var body ImageCreateStep
@@ -35165,34 +35402,6 @@ func (t *PipelineTask) MergePipelineTriggerAction(v PipelineTriggerAction) error
 	return err
 }
 
-// AsPipelineRerunAction returns the union data inside the PipelineTask as a PipelineRerunAction
-func (t PipelineTask) AsPipelineRerunAction() (PipelineRerunAction, error) {
-	var body PipelineRerunAction
-	err := json.Unmarshal(t.union, &body)
-	return body, err
-}
-
-// FromPipelineRerunAction overwrites any union data inside the PipelineTask as the provided PipelineRerunAction
-func (t *PipelineTask) FromPipelineRerunAction(v PipelineRerunAction) error {
-	v.Action = "rerun"
-	b, err := json.Marshal(v)
-	t.union = b
-	return err
-}
-
-// MergePipelineRerunAction performs a merge with any union data inside the PipelineTask, using the provided PipelineRerunAction
-func (t *PipelineTask) MergePipelineRerunAction(v PipelineRerunAction) error {
-	v.Action = "rerun"
-	b, err := json.Marshal(v)
-	if err != nil {
-		return err
-	}
-
-	merged, err := runtime.JSONMerge(t.union, b)
-	t.union = merged
-	return err
-}
-
 func (t PipelineTask) Discriminator() (string, error) {
 	var discriminator struct {
 		Discriminator string `json:"action"`
@@ -35207,8 +35416,6 @@ func (t PipelineTask) ValueByDiscriminator() (interface{}, error) {
 		return nil, err
 	}
 	switch discriminator {
-	case "rerun":
-		return t.AsPipelineRerunAction()
 	case "trigger":
 		return t.AsPipelineTriggerAction()
 	default:
@@ -36071,6 +36278,34 @@ func (t *ServerTask) MergeServerUnquarantineAction(v ServerUnquarantineAction) e
 	return err
 }
 
+// AsServerIPSecKeysRollAction returns the union data inside the ServerTask as a ServerIPSecKeysRollAction
+func (t ServerTask) AsServerIPSecKeysRollAction() (ServerIPSecKeysRollAction, error) {
+	var body ServerIPSecKeysRollAction
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromServerIPSecKeysRollAction overwrites any union data inside the ServerTask as the provided ServerIPSecKeysRollAction
+func (t *ServerTask) FromServerIPSecKeysRollAction(v ServerIPSecKeysRollAction) error {
+	v.Action = "ipsec.keys.roll"
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeServerIPSecKeysRollAction performs a merge with any union data inside the ServerTask, using the provided ServerIPSecKeysRollAction
+func (t *ServerTask) MergeServerIPSecKeysRollAction(v ServerIPSecKeysRollAction) error {
+	v.Action = "ipsec.keys.roll"
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
 func (t ServerTask) Discriminator() (string, error) {
 	var discriminator struct {
 		Discriminator string `json:"action"`
@@ -36097,6 +36332,8 @@ func (t ServerTask) ValueByDiscriminator() (interface{}, error) {
 		return t.AsServerEvacuateAction()
 	case "features.reconfigure":
 		return t.AsServerReconfigureFeaturesAction()
+	case "ipsec.keys.roll":
+		return t.AsServerIPSecKeysRollAction()
 	case "power-off":
 		return t.AsServerPowerOffAction()
 	case "restart":
@@ -46052,6 +46289,68 @@ func (t *StackSpecHttpRouterConfigDetails0Forward0_ContentMod) UnmarshalJSON(b [
 	return err
 }
 
+// AsStackSpecHttpRouterConfigDetails0Forward0ForceProtocol0 returns the union data inside the StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol as a StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0
+func (t StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol) AsStackSpecHttpRouterConfigDetails0Forward0ForceProtocol0() (StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0, error) {
+	var body StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStackSpecHttpRouterConfigDetails0Forward0ForceProtocol0 overwrites any union data inside the StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol as the provided StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0
+func (t *StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol) FromStackSpecHttpRouterConfigDetails0Forward0ForceProtocol0(v StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStackSpecHttpRouterConfigDetails0Forward0ForceProtocol0 performs a merge with any union data inside the StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol, using the provided StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0
+func (t *StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol) MergeStackSpecHttpRouterConfigDetails0Forward0ForceProtocol0(v StackSpecHttpRouterConfigDetails0Forward0ForceProtocol0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsStackVariable returns the union data inside the StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol as a StackVariable
+func (t StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol) AsStackVariable() (StackVariable, error) {
+	var body StackVariable
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStackVariable overwrites any union data inside the StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol as the provided StackVariable
+func (t *StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol) FromStackVariable(v StackVariable) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStackVariable performs a merge with any union data inside the StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol, using the provided StackVariable
+func (t *StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol) MergeStackVariable(v StackVariable) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *StackSpecHttpRouterConfigDetails0Forward0_ForceProtocol) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsStackSpecHttpRouterConfigDetails0Forward0ContentMod0Replace0 returns the union data inside the StackSpecHttpRouterConfigDetails0Forward0ContentMod0_Replace as a StackSpecHttpRouterConfigDetails0Forward0ContentMod0Replace0
 func (t StackSpecHttpRouterConfigDetails0Forward0ContentMod0_Replace) AsStackSpecHttpRouterConfigDetails0Forward0ContentMod0Replace0() (StackSpecHttpRouterConfigDetails0Forward0ContentMod0Replace0, error) {
 	var body StackSpecHttpRouterConfigDetails0Forward0ContentMod0Replace0
@@ -55646,6 +55945,11 @@ type ClientInterface interface {
 	// GetPipelineRun request
 	GetPipelineRun(ctx context.Context, pipelineId string, runId string, params *GetPipelineRunParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// CreatePipelineRunJobWithBody request with any body
+	CreatePipelineRunJobWithBody(ctx context.Context, pipelineId string, runId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreatePipelineRunJob(ctx context.Context, pipelineId string, runId string, body CreatePipelineRunJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// CreatePipelineJobWithBody request with any body
 	CreatePipelineJobWithBody(ctx context.Context, pipelineId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -59975,6 +60279,30 @@ func (c *Client) GetPipelineRuns(ctx context.Context, pipelineId string, params 
 
 func (c *Client) GetPipelineRun(ctx context.Context, pipelineId string, runId string, params *GetPipelineRunParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewGetPipelineRunRequest(c.Server, pipelineId, runId, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreatePipelineRunJobWithBody(ctx context.Context, pipelineId string, runId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreatePipelineRunJobRequestWithBody(c.Server, pipelineId, runId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreatePipelineRunJob(ctx context.Context, pipelineId string, runId string, body CreatePipelineRunJobJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreatePipelineRunJobRequest(c.Server, pipelineId, runId, body)
 	if err != nil {
 		return nil, err
 	}
@@ -74570,6 +74898,60 @@ func NewGetPipelineRunRequest(server string, pipelineId string, runId string, pa
 	return req, nil
 }
 
+// NewCreatePipelineRunJobRequest calls the generic CreatePipelineRunJob builder with application/json body
+func NewCreatePipelineRunJobRequest(server string, pipelineId string, runId string, body CreatePipelineRunJobJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreatePipelineRunJobRequestWithBody(server, pipelineId, runId, "application/json", bodyReader)
+}
+
+// NewCreatePipelineRunJobRequestWithBody generates requests for CreatePipelineRunJob with any type of body
+func NewCreatePipelineRunJobRequestWithBody(server string, pipelineId string, runId string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParamWithOptions("simple", false, "pipelineId", pipelineId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	var pathParam1 string
+
+	pathParam1, err = runtime.StyleParamWithOptions("simple", false, "runId", runId, runtime.StyleParamOptions{ParamLocation: runtime.ParamLocationPath, Type: "string", Format: ""})
+	if err != nil {
+		return nil, err
+	}
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/pipelines/%s/runs/%s/tasks", pathParam0, pathParam1)
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodPost, queryURL.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
 // NewCreatePipelineJobRequest calls the generic CreatePipelineJob builder with application/json body
 func NewCreatePipelineJobRequest(server string, pipelineId string, body CreatePipelineJobJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
@@ -77857,6 +78239,11 @@ type ClientWithResponsesInterface interface {
 
 	// GetPipelineRunWithResponse request
 	GetPipelineRunWithResponse(ctx context.Context, pipelineId string, runId string, params *GetPipelineRunParams, reqEditors ...RequestEditorFn) (*GetPipelineRunResponse, error)
+
+	// CreatePipelineRunJobWithBodyWithResponse request with any body
+	CreatePipelineRunJobWithBodyWithResponse(ctx context.Context, pipelineId string, runId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreatePipelineRunJobResponse, error)
+
+	CreatePipelineRunJobWithResponse(ctx context.Context, pipelineId string, runId string, body CreatePipelineRunJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreatePipelineRunJobResponse, error)
 
 	// CreatePipelineJobWithBodyWithResponse request with any body
 	CreatePipelineJobWithBodyWithResponse(ctx context.Context, pipelineId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreatePipelineJobResponse, error)
@@ -86757,6 +87144,40 @@ func (r GetPipelineRunResponse) ContentType() string {
 	return ""
 }
 
+type CreatePipelineRunJobResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON202      *struct {
+		// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+		Data *JobDescriptor `json:"data,omitempty"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreatePipelineRunJobResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreatePipelineRunJobResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r CreatePipelineRunJobResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type CreatePipelineJobResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -91252,6 +91673,23 @@ func (c *ClientWithResponses) GetPipelineRunWithResponse(ctx context.Context, pi
 		return nil, err
 	}
 	return ParseGetPipelineRunResponse(rsp)
+}
+
+// CreatePipelineRunJobWithBodyWithResponse request with arbitrary body returning *CreatePipelineRunJobResponse
+func (c *ClientWithResponses) CreatePipelineRunJobWithBodyWithResponse(ctx context.Context, pipelineId string, runId string, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*CreatePipelineRunJobResponse, error) {
+	rsp, err := c.CreatePipelineRunJobWithBody(ctx, pipelineId, runId, contentType, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreatePipelineRunJobResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreatePipelineRunJobWithResponse(ctx context.Context, pipelineId string, runId string, body CreatePipelineRunJobJSONRequestBody, reqEditors ...RequestEditorFn) (*CreatePipelineRunJobResponse, error) {
+	rsp, err := c.CreatePipelineRunJob(ctx, pipelineId, runId, body, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreatePipelineRunJobResponse(rsp)
 }
 
 // CreatePipelineJobWithBodyWithResponse request with arbitrary body returning *CreatePipelineJobResponse
@@ -100993,6 +101431,42 @@ func ParseGetPipelineRunResponse(rsp *http.Response) (*GetPipelineRunResponse, e
 			return nil, err
 		}
 		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreatePipelineRunJobResponse parses an HTTP response from a CreatePipelineRunJobWithResponse call
+func ParseCreatePipelineRunJobResponse(rsp *http.Response) (*CreatePipelineRunJobResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreatePipelineRunJobResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 202:
+		var dest struct {
+			// Data A Job Descriptor is returned on success by API calls that create jobs. It contains the action that was requested, as well as the ID of the job created as a result.
+			Data *JobDescriptor `json:"data,omitempty"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON202 = &dest
 
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
 		var dest DefaultError
