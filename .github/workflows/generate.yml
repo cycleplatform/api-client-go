@@ -107,16 +107,31 @@ jobs:
           git commit -m "Generate client from api-spec@${SPEC_SHA}"
           git push origin HEAD:${{ github.ref_name }}
 
+      # Releases whenever the client differs from the last release, not just when this run
+      # regenerated something, so a regenerated client committed by hand still gets released.
       - name: Compute next version
         id: version
-        if: steps.changes.outputs.changed == 'true' || env.FORCE == 'true'
         run: |
+          latest=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n1)
+
+          if [ "$BUMP" = "edge" ]; then
+            base="edge"
+          else
+            base="$latest"
+          fi
+
+          if [ "$FORCE" != "true" ] && git rev-parse -q --verify "refs/tags/$base" > /dev/null; then
+            if git diff --quiet "$base" HEAD -- generated.go api-spec; then
+              echo "Generated client is unchanged since $base; skipping release (use force to override)."
+              exit 0
+            fi
+          fi
+
           if [ "$BUMP" = "edge" ]; then
             echo "tag=edge" >> "$GITHUB_OUTPUT"
             exit 0
           fi
 
-          latest=$(git tag --list 'v[0-9]*.[0-9]*.[0-9]*' --sort=-v:refname | grep -E '^v[0-9]+\.[0-9]+\.[0-9]+$' | head -n1)
           if [ -z "$latest" ]; then
             latest="v0.0.0"
           fi

@@ -91,4 +91,4 @@ The **Generate Client** GitHub Action (`.github/workflows/generate.yml`) does al
 - `patch` / `minor` / `major` bumps the latest `vX.Y.Z` tag and creates a GitHub release.
 - `edge` moves the `edge` tag to the new commit and publishes it as a prerelease.
 
-If the generated client didn't change, no release is created unless `force` is checked. The api-spec repo can also trigger it with a `repository_dispatch` event of type `api-spec-updated`.
+If the generated client hasn't changed since the last release (or the `edge` tag, for `edge`), no release is created unless `force` is checked. The api-spec repo can also trigger it with a `repository_dispatch` event of type `api-spec-updated`.
