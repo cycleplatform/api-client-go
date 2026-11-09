@@ -1429,88 +1429,89 @@ func (e CancelPipelineRunActionAction) Valid() bool {
 
 // Defines values for Capability.
 const (
-	ApiKeysManage                     Capability = "api-keys-manage"
-	ApionlyJobsView                   Capability = "apionly-jobs-view"
-	ApionlyNotificationsListen        Capability = "apionly-notifications-listen"
-	AutoscaleGroupsManage             Capability = "autoscale-groups-manage"
-	AutoscaleGroupsView               Capability = "autoscale-groups-view"
-	BillingCreditsView                Capability = "billing-credits-view"
-	BillingInvoicesPay                Capability = "billing-invoices-pay"
-	BillingInvoicesView               Capability = "billing-invoices-view"
-	BillingMethodsManage              Capability = "billing-methods-manage"
-	BillingServicesManage             Capability = "billing-services-manage"
-	BillingServicesView               Capability = "billing-services-view"
-	ClustersManage                    Capability = "clusters-manage"
-	ClustersView                      Capability = "clusters-view"
-	ContainersBackupsManage           Capability = "containers-backups-manage"
-	ContainersBackupsView             Capability = "containers-backups-view"
-	ContainersConsole                 Capability = "containers-console"
-	ContainersDeploy                  Capability = "containers-deploy"
-	ContainersFunctionsTrigger        Capability = "containers-functions-trigger"
-	ContainersInstancesMigrate        Capability = "containers-instances-migrate"
-	ContainersLock                    Capability = "containers-lock"
-	ContainersManage                  Capability = "containers-manage"
-	ContainersSsh                     Capability = "containers-ssh"
-	ContainersView                    Capability = "containers-view"
-	ContainersVolumesManage           Capability = "containers-volumes-manage"
-	ContainersVolumesView             Capability = "containers-volumes-view"
-	DnsCertsView                      Capability = "dns-certs-view"
-	DnsManage                         Capability = "dns-manage"
-	DnsView                           Capability = "dns-view"
-	EnvironmentsDeploymentsManage     Capability = "environments-deployments-manage"
-	EnvironmentsManage                Capability = "environments-manage"
-	EnvironmentsScopedvariablesManage Capability = "environments-scopedvariables-manage"
-	EnvironmentsScopedvariablesView   Capability = "environments-scopedvariables-view"
-	EnvironmentsServicesManage        Capability = "environments-services-manage"
-	EnvironmentsView                  Capability = "environments-view"
-	EnvironmentsVpn                   Capability = "environments-vpn"
-	EnvironmentsVpnManage             Capability = "environments-vpn-manage"
-	ExternalVolumesManage             Capability = "external-volumes-manage"
-	ExternalVolumesView               Capability = "external-volumes-view"
-	HubsAuditlogView                  Capability = "hubs-auditlog-view"
-	HubsDelete                        Capability = "hubs-delete"
-	HubsIntegrationsManage            Capability = "hubs-integrations-manage"
-	HubsIntegrationsView              Capability = "hubs-integrations-view"
-	HubsInvitesManage                 Capability = "hubs-invites-manage"
-	HubsInvitesSend                   Capability = "hubs-invites-send"
-	HubsMembersManage                 Capability = "hubs-members-manage"
-	HubsMembersView                   Capability = "hubs-members-view"
-	HubsRolesManage                   Capability = "hubs-roles-manage"
-	HubsRolesView                     Capability = "hubs-roles-view"
-	HubsUpdate                        Capability = "hubs-update"
-	HubsUsageView                     Capability = "hubs-usage-view"
-	ImagesManage                      Capability = "images-manage"
-	ImagesSourcesManage               Capability = "images-sources-manage"
-	ImagesSourcesView                 Capability = "images-sources-view"
-	ImagesView                        Capability = "images-view"
-	IpsManage                         Capability = "ips-manage"
-	MonitorManage                     Capability = "monitor-manage"
-	MonitorView                       Capability = "monitor-view"
-	PipelinesManage                   Capability = "pipelines-manage"
-	PipelinesTrigger                  Capability = "pipelines-trigger"
-	PipelinesView                     Capability = "pipelines-view"
-	SdnNetworksManage                 Capability = "sdn-networks-manage"
-	SdnNetworksView                   Capability = "sdn-networks-view"
-	SecurityManage                    Capability = "security-manage"
-	SecurityView                      Capability = "security-view"
-	ServersConsole                    Capability = "servers-console"
-	ServersDecommission               Capability = "servers-decommission"
-	ServersLogin                      Capability = "servers-login"
-	ServersManage                     Capability = "servers-manage"
-	ServersProvision                  Capability = "servers-provision"
-	ServersView                       Capability = "servers-view"
-	StacksBuildsDeploy                Capability = "stacks-builds-deploy"
-	StacksBuildsManage                Capability = "stacks-builds-manage"
-	StacksManage                      Capability = "stacks-manage"
-	StacksView                        Capability = "stacks-view"
-	VirtualMachinesConsole            Capability = "virtual-machines-console"
-	VirtualMachinesDeploy             Capability = "virtual-machines-deploy"
-	VirtualMachinesLock               Capability = "virtual-machines-lock"
-	VirtualMachinesManage             Capability = "virtual-machines-manage"
-	VirtualMachinesRootPwView         Capability = "virtual-machines-root-pw-view"
-	VirtualMachinesRootPwViewTemp     Capability = "virtual-machines-root-pw-view-temp"
-	VirtualMachinesSshKeysManage      Capability = "virtual-machines-ssh-keys-manage"
-	VirtualMachinesView               Capability = "virtual-machines-view"
+	ApiKeysManage                            Capability = "api-keys-manage"
+	ApionlyJobsView                          Capability = "apionly-jobs-view"
+	ApionlyNotificationsListen               Capability = "apionly-notifications-listen"
+	AutoscaleGroupsManage                    Capability = "autoscale-groups-manage"
+	AutoscaleGroupsView                      Capability = "autoscale-groups-view"
+	BillingCreditsView                       Capability = "billing-credits-view"
+	BillingInvoicesPay                       Capability = "billing-invoices-pay"
+	BillingInvoicesView                      Capability = "billing-invoices-view"
+	BillingMethodsManage                     Capability = "billing-methods-manage"
+	BillingServicesManage                    Capability = "billing-services-manage"
+	BillingServicesView                      Capability = "billing-services-view"
+	ClustersManage                           Capability = "clusters-manage"
+	ClustersView                             Capability = "clusters-view"
+	ContainersBackupsManage                  Capability = "containers-backups-manage"
+	ContainersBackupsView                    Capability = "containers-backups-view"
+	ContainersConsole                        Capability = "containers-console"
+	ContainersDeploy                         Capability = "containers-deploy"
+	ContainersFunctionsTrigger               Capability = "containers-functions-trigger"
+	ContainersInstancesMigrate               Capability = "containers-instances-migrate"
+	ContainersLock                           Capability = "containers-lock"
+	ContainersManage                         Capability = "containers-manage"
+	ContainersSsh                            Capability = "containers-ssh"
+	ContainersView                           Capability = "containers-view"
+	ContainersVolumesManage                  Capability = "containers-volumes-manage"
+	ContainersVolumesView                    Capability = "containers-volumes-view"
+	DnsCertsView                             Capability = "dns-certs-view"
+	DnsManage                                Capability = "dns-manage"
+	DnsView                                  Capability = "dns-view"
+	EnvironmentsDeploymentsManage            Capability = "environments-deployments-manage"
+	EnvironmentsManage                       Capability = "environments-manage"
+	EnvironmentsScopedvariablesManage        Capability = "environments-scopedvariables-manage"
+	EnvironmentsScopedvariablesSecretsReveal Capability = "environments-scopedvariables-secrets-reveal"
+	EnvironmentsScopedvariablesView          Capability = "environments-scopedvariables-view"
+	EnvironmentsServicesManage               Capability = "environments-services-manage"
+	EnvironmentsView                         Capability = "environments-view"
+	EnvironmentsVpn                          Capability = "environments-vpn"
+	EnvironmentsVpnManage                    Capability = "environments-vpn-manage"
+	ExternalVolumesManage                    Capability = "external-volumes-manage"
+	ExternalVolumesView                      Capability = "external-volumes-view"
+	HubsAuditlogView                         Capability = "hubs-auditlog-view"
+	HubsDelete                               Capability = "hubs-delete"
+	HubsIntegrationsManage                   Capability = "hubs-integrations-manage"
+	HubsIntegrationsView                     Capability = "hubs-integrations-view"
+	HubsInvitesManage                        Capability = "hubs-invites-manage"
+	HubsInvitesSend                          Capability = "hubs-invites-send"
+	HubsMembersManage                        Capability = "hubs-members-manage"
+	HubsMembersView                          Capability = "hubs-members-view"
+	HubsRolesManage                          Capability = "hubs-roles-manage"
+	HubsRolesView                            Capability = "hubs-roles-view"
+	HubsUpdate                               Capability = "hubs-update"
+	HubsUsageView                            Capability = "hubs-usage-view"
+	ImagesManage                             Capability = "images-manage"
+	ImagesSourcesManage                      Capability = "images-sources-manage"
+	ImagesSourcesView                        Capability = "images-sources-view"
+	ImagesView                               Capability = "images-view"
+	IpsManage                                Capability = "ips-manage"
+	MonitorManage                            Capability = "monitor-manage"
+	MonitorView                              Capability = "monitor-view"
+	PipelinesManage                          Capability = "pipelines-manage"
+	PipelinesTrigger                         Capability = "pipelines-trigger"
+	PipelinesView                            Capability = "pipelines-view"
+	SdnNetworksManage                        Capability = "sdn-networks-manage"
+	SdnNetworksView                          Capability = "sdn-networks-view"
+	SecurityManage                           Capability = "security-manage"
+	SecurityView                             Capability = "security-view"
+	ServersConsole                           Capability = "servers-console"
+	ServersDecommission                      Capability = "servers-decommission"
+	ServersLogin                             Capability = "servers-login"
+	ServersManage                            Capability = "servers-manage"
+	ServersProvision                         Capability = "servers-provision"
+	ServersView                              Capability = "servers-view"
+	StacksBuildsDeploy                       Capability = "stacks-builds-deploy"
+	StacksBuildsManage                       Capability = "stacks-builds-manage"
+	StacksManage                             Capability = "stacks-manage"
+	StacksView                               Capability = "stacks-view"
+	VirtualMachinesConsole                   Capability = "virtual-machines-console"
+	VirtualMachinesDeploy                    Capability = "virtual-machines-deploy"
+	VirtualMachinesLock                      Capability = "virtual-machines-lock"
+	VirtualMachinesManage                    Capability = "virtual-machines-manage"
+	VirtualMachinesRootPwView                Capability = "virtual-machines-root-pw-view"
+	VirtualMachinesRootPwViewTemp            Capability = "virtual-machines-root-pw-view-temp"
+	VirtualMachinesSshKeysManage             Capability = "virtual-machines-ssh-keys-manage"
+	VirtualMachinesView                      Capability = "virtual-machines-view"
 )
 
 // Valid indicates whether the value is a known member of the Capability enum.
@@ -1577,6 +1578,8 @@ func (e Capability) Valid() bool {
 	case EnvironmentsManage:
 		return true
 	case EnvironmentsScopedvariablesManage:
+		return true
+	case EnvironmentsScopedvariablesSecretsReveal:
 		return true
 	case EnvironmentsScopedvariablesView:
 		return true
@@ -3529,6 +3532,7 @@ const (
 	ConsoleSshLogin                                         EventType = "console.ssh.login"
 	ConsoleSshLoginFailed                                   EventType = "console.ssh.login.failed"
 	ContainerInstanceBackupCompleted                        EventType = "container.instance.backup.completed"
+	ContainerInstanceBackupDeleted                          EventType = "container.instance.backup.deleted"
 	ContainerInstanceBackupFailed                           EventType = "container.instance.backup.failed"
 	ContainerInstanceDeleteFailed                           EventType = "container.instance.delete.failed"
 	ContainerInstanceError                                  EventType = "container.instance.error"
@@ -3614,6 +3618,8 @@ func (e EventType) Valid() bool {
 	case ConsoleSshLoginFailed:
 		return true
 	case ContainerInstanceBackupCompleted:
+		return true
+	case ContainerInstanceBackupDeleted:
 		return true
 	case ContainerInstanceBackupFailed:
 		return true
@@ -5858,6 +5864,78 @@ func (e ScopedVariableStateCurrent) Valid() bool {
 	}
 }
 
+// Defines values for SeccompRuleSyscallAction.
+const (
+	SeccompRuleSyscallActionSCMPACTALLOW       SeccompRuleSyscallAction = "SCMP_ACT_ALLOW"
+	SeccompRuleSyscallActionSCMPACTERRNO       SeccompRuleSyscallAction = "SCMP_ACT_ERRNO"
+	SeccompRuleSyscallActionSCMPACTKILL        SeccompRuleSyscallAction = "SCMP_ACT_KILL"
+	SeccompRuleSyscallActionSCMPACTKILLPROCESS SeccompRuleSyscallAction = "SCMP_ACT_KILL_PROCESS"
+	SeccompRuleSyscallActionSCMPACTKILLTHREAD  SeccompRuleSyscallAction = "SCMP_ACT_KILL_THREAD"
+	SeccompRuleSyscallActionSCMPACTLOG         SeccompRuleSyscallAction = "SCMP_ACT_LOG"
+	SeccompRuleSyscallActionSCMPACTNOTIFY      SeccompRuleSyscallAction = "SCMP_ACT_NOTIFY"
+	SeccompRuleSyscallActionSCMPACTTRACE       SeccompRuleSyscallAction = "SCMP_ACT_TRACE"
+	SeccompRuleSyscallActionSCMPACTTRAP        SeccompRuleSyscallAction = "SCMP_ACT_TRAP"
+)
+
+// Valid indicates whether the value is a known member of the SeccompRuleSyscallAction enum.
+func (e SeccompRuleSyscallAction) Valid() bool {
+	switch e {
+	case SeccompRuleSyscallActionSCMPACTALLOW:
+		return true
+	case SeccompRuleSyscallActionSCMPACTERRNO:
+		return true
+	case SeccompRuleSyscallActionSCMPACTKILL:
+		return true
+	case SeccompRuleSyscallActionSCMPACTKILLPROCESS:
+		return true
+	case SeccompRuleSyscallActionSCMPACTKILLTHREAD:
+		return true
+	case SeccompRuleSyscallActionSCMPACTLOG:
+		return true
+	case SeccompRuleSyscallActionSCMPACTNOTIFY:
+		return true
+	case SeccompRuleSyscallActionSCMPACTTRACE:
+		return true
+	case SeccompRuleSyscallActionSCMPACTTRAP:
+		return true
+	default:
+		return false
+	}
+}
+
+// Defines values for SeccompRuleSyscallArgsOp.
+const (
+	SeccompRuleSyscallArgsOpSCMPCMPEQ       SeccompRuleSyscallArgsOp = "SCMP_CMP_EQ"
+	SeccompRuleSyscallArgsOpSCMPCMPGE       SeccompRuleSyscallArgsOp = "SCMP_CMP_GE"
+	SeccompRuleSyscallArgsOpSCMPCMPGT       SeccompRuleSyscallArgsOp = "SCMP_CMP_GT"
+	SeccompRuleSyscallArgsOpSCMPCMPLE       SeccompRuleSyscallArgsOp = "SCMP_CMP_LE"
+	SeccompRuleSyscallArgsOpSCMPCMPLT       SeccompRuleSyscallArgsOp = "SCMP_CMP_LT"
+	SeccompRuleSyscallArgsOpSCMPCMPMASKEDEQ SeccompRuleSyscallArgsOp = "SCMP_CMP_MASKED_EQ"
+	SeccompRuleSyscallArgsOpSCMPCMPNE       SeccompRuleSyscallArgsOp = "SCMP_CMP_NE"
+)
+
+// Valid indicates whether the value is a known member of the SeccompRuleSyscallArgsOp enum.
+func (e SeccompRuleSyscallArgsOp) Valid() bool {
+	switch e {
+	case SeccompRuleSyscallArgsOpSCMPCMPEQ:
+		return true
+	case SeccompRuleSyscallArgsOpSCMPCMPGE:
+		return true
+	case SeccompRuleSyscallArgsOpSCMPCMPGT:
+		return true
+	case SeccompRuleSyscallArgsOpSCMPCMPLE:
+		return true
+	case SeccompRuleSyscallArgsOpSCMPCMPLT:
+		return true
+	case SeccompRuleSyscallArgsOpSCMPCMPMASKEDEQ:
+		return true
+	case SeccompRuleSyscallArgsOpSCMPCMPNE:
+		return true
+	default:
+		return false
+	}
+}
+
 // Defines values for ServerAuthResetActionAction.
 const (
 	AuthReset ServerAuthResetActionAction = "auth.reset"
@@ -6457,37 +6535,37 @@ func (e StackSpecContainerRole) Valid() bool {
 
 // Defines values for StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action.
 const (
-	SCMPACTALLOW       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_ALLOW"
-	SCMPACTERRNO       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_ERRNO"
-	SCMPACTKILL        StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_KILL"
-	SCMPACTKILLPROCESS StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_KILL_PROCESS"
-	SCMPACTKILLTHREAD  StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_KILL_THREAD"
-	SCMPACTLOG         StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_LOG"
-	SCMPACTNOTIFY      StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_NOTIFY"
-	SCMPACTTRACE       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_TRACE"
-	SCMPACTTRAP        StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_TRAP"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTALLOW       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_ALLOW"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTERRNO       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_ERRNO"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTKILL        StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_KILL"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTKILLPROCESS StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_KILL_PROCESS"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTKILLTHREAD  StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_KILL_THREAD"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTLOG         StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_LOG"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTNOTIFY      StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_NOTIFY"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTTRACE       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_TRACE"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTTRAP        StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action = "SCMP_ACT_TRAP"
 )
 
 // Valid indicates whether the value is a known member of the StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action enum.
 func (e StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action) Valid() bool {
 	switch e {
-	case SCMPACTALLOW:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTALLOW:
 		return true
-	case SCMPACTERRNO:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTERRNO:
 		return true
-	case SCMPACTKILL:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTKILL:
 		return true
-	case SCMPACTKILLPROCESS:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTKILLPROCESS:
 		return true
-	case SCMPACTKILLTHREAD:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTKILLTHREAD:
 		return true
-	case SCMPACTLOG:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTLOG:
 		return true
-	case SCMPACTNOTIFY:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTNOTIFY:
 		return true
-	case SCMPACTTRACE:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTTRACE:
 		return true
-	case SCMPACTTRAP:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ActionSCMPACTTRAP:
 		return true
 	default:
 		return false
@@ -6496,31 +6574,31 @@ func (e StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0Action) Valid(
 
 // Defines values for StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp.
 const (
-	SCMPCMPEQ       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp = "SCMP_CMP_EQ"
-	SCMPCMPGE       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp = "SCMP_CMP_GE"
-	SCMPCMPGT       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp = "SCMP_CMP_GT"
-	SCMPCMPLE       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp = "SCMP_CMP_LE"
-	SCMPCMPLT       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp = "SCMP_CMP_LT"
-	SCMPCMPMASKEDEQ StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp = "SCMP_CMP_MASKED_EQ"
-	SCMPCMPNE       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp = "SCMP_CMP_NE"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOpSCMPCMPEQ       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp = "SCMP_CMP_EQ"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOpSCMPCMPGE       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp = "SCMP_CMP_GE"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOpSCMPCMPGT       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp = "SCMP_CMP_GT"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOpSCMPCMPLE       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp = "SCMP_CMP_LE"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOpSCMPCMPLT       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp = "SCMP_CMP_LT"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOpSCMPCMPMASKEDEQ StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp = "SCMP_CMP_MASKED_EQ"
+	StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOpSCMPCMPNE       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp = "SCMP_CMP_NE"
 )
 
 // Valid indicates whether the value is a known member of the StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp enum.
 func (e StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp) Valid() bool {
 	switch e {
-	case SCMPCMPEQ:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOpSCMPCMPEQ:
 		return true
-	case SCMPCMPGE:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOpSCMPCMPGE:
 		return true
-	case SCMPCMPGT:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOpSCMPCMPGT:
 		return true
-	case SCMPCMPLE:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOpSCMPCMPLE:
 		return true
-	case SCMPCMPLT:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOpSCMPCMPLT:
 		return true
-	case SCMPCMPMASKEDEQ:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOpSCMPCMPMASKEDEQ:
 		return true
-	case SCMPCMPNE:
+	case StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOpSCMPCMPNE:
 		return true
 	default:
 		return false
@@ -17363,6 +17441,21 @@ type MembershipState struct {
 // MembershipStateCurrent The current state of the membership.
 type MembershipStateCurrent string
 
+// MemoryAllocation A breakdown of the memory charged to the instance, by type. The sum of these values equals the memory usage of the instance.
+type MemoryAllocation struct {
+	// Anon The number of bytes of anonymous memory (heap, stack, etc.) used by the instance. This memory cannot be reclaimed without swapping.
+	Anon *float32 `json:"anon,omitempty"`
+
+	// File The number of bytes of file-backed memory (page cache) used by the instance. The kernel can reclaim most of this memory under pressure.
+	File *float32 `json:"file,omitempty"`
+
+	// Kernel The number of bytes of kernel memory used on behalf of the instance.
+	Kernel *float32 `json:"kernel,omitempty"`
+
+	// Sock The number of bytes of memory used by network socket buffers for the instance.
+	Sock *float32 `json:"sock,omitempty"`
+}
+
 // MemoryData defines model for MemoryData.
 type MemoryData struct {
 	// FailCount The number of times the memory liimit was exceeded for the instance.
@@ -17380,13 +17473,16 @@ type MemoryData struct {
 
 // MemorySnapshot A snapshot of memory usage statistics.
 type MemorySnapshot struct {
+	// Allocation A breakdown of memory usage by type.
+	Allocation MemoryAllocation `json:"allocation"`
+
 	// Cache The number of bytes of page cache memory being used by this instance.
 	Cache *float32 `json:"cache,omitempty"`
 
 	// KernelTcpUsage Kernel TCP buffer usage.
 	KernelTcpUsage *MemoryData `json:"kernel_tcp_usage,omitempty"`
 
-	// KernelUsage Kernal memory usage.
+	// KernelUsage Kernel memory usage.
 	KernelUsage *MemoryData `json:"kernel_usage,omitempty"`
 
 	// SwapUsage Memory swap usage data.
@@ -19287,6 +19383,9 @@ type RuntimeExposedDevice struct {
 
 // RuntimeInternalApi Configuration options for the internal API access within instances of this container.
 type RuntimeInternalApi struct {
+	// Disable If true, the internal API will be disabled for instances of this container.
+	Disable *bool `json:"disable,omitempty"`
+
 	// Scope Scopes determine which set of endpoints instances of this container can reach over the internal API.
 	Scope *[]RuntimeInternalApiScope `json:"scope,omitempty"`
 }
@@ -19599,24 +19698,48 @@ type SdnNetworkTask struct {
 
 // SeccompRule Rules for controlling Linux seccomp inside a container.
 type SeccompRule struct {
+	// Capabilities Conditionally apply this rule based on the capabilities granted to the container.
 	Capabilities *struct {
+		// Excludes A single Linux capability (i.e. `CAP_SYS_ADMIN`). If set, this rule only applies when the container does not have this capability.
 		Excludes *string `json:"excludes,omitempty"`
+
+		// Includes A single Linux capability (i.e. `CAP_SYS_NICE`). If set, this rule only applies when the container has this capability.
 		Includes *string `json:"includes,omitempty"`
 	} `json:"capabilities,omitempty"`
 
 	// Syscall LinuxSyscall is used to match a syscall in Seccomp
 	Syscall *struct {
-		Action string `json:"action"`
-		Args   *[]struct {
-			Index    int    `json:"index"`
-			Op       string `json:"op"`
-			Value    int    `json:"value"`
-			ValueTwo *int   `json:"valueTwo,omitempty"`
+		// Action The action to take when a matching syscall is made.
+		Action SeccompRuleSyscallAction `json:"action"`
+
+		// Args Optional conditions on the syscall arguments. All conditions must match for the rule to apply.
+		Args *[]struct {
+			// Index The zero-based index of the syscall argument to compare.
+			Index int `json:"index"`
+
+			// Op The comparison operator.
+			Op SeccompRuleSyscallArgsOp `json:"op"`
+
+			// Value The value to compare the argument against.
+			Value int `json:"value"`
+
+			// ValueTwo The second value used by `SCMP_CMP_MASKED_EQ`, where `value` is the mask and `valueTwo` is the expected result.
+			ValueTwo *int `json:"valueTwo,omitempty"`
 		} `json:"args,omitempty"`
-		ErrnoRet *int     `json:"errnoRet,omitempty"`
-		Names    []string `json:"names"`
+
+		// ErrnoRet The errno value returned to the caller when the action is `SCMP_ACT_ERRNO`.
+		ErrnoRet *int `json:"errnoRet,omitempty"`
+
+		// Names The names of the syscalls this rule applies to.
+		Names []string `json:"names"`
 	} `json:"syscall,omitempty"`
 }
+
+// SeccompRuleSyscallAction The action to take when a matching syscall is made.
+type SeccompRuleSyscallAction string
+
+// SeccompRuleSyscallArgsOp The comparison operator.
+type SeccompRuleSyscallArgsOp string
 
 // Server The server resource, referring to servers that have been deployed to a Cycle hub.
 type Server struct {
@@ -22085,7 +22208,7 @@ type StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0 struct {
 		Index    int                                                              `json:"index"`
 		Op       StackSpecContainerConfigRuntimeSeccomp0Rules0Item0Syscall0ArgsOp `json:"op"`
 		Value    int                                                              `json:"value"`
-		Valuetwo *int                                                             `json:"valuetwo,omitempty"`
+		ValueTwo *int                                                             `json:"valueTwo,omitempty"`
 	} `json:"args,omitempty"`
 	ErrnoRet *int     `json:"errnoRet,omitempty"`
 	Names    []string `json:"names"`
@@ -23226,7 +23349,16 @@ type StackSpecRuntimeExposedDeviceOptions0 = []string
 
 // StackSpecRuntimeInternalApi Configuration options for the internal API access within instances of this container.
 type StackSpecRuntimeInternalApi struct {
-	Scope *StackSpecRuntimeInternalApi_Scope `json:"scope,omitempty"`
+	Disable *StackSpecRuntimeInternalApi_Disable `json:"disable,omitempty"`
+	Scope   *StackSpecRuntimeInternalApi_Scope   `json:"scope,omitempty"`
+}
+
+// StackSpecRuntimeInternalApiDisable0 If true, the internal API will be disabled for instances of this container.
+type StackSpecRuntimeInternalApiDisable0 = bool
+
+// StackSpecRuntimeInternalApi_Disable defines model for StackSpecRuntimeInternalApi.Disable.
+type StackSpecRuntimeInternalApi_Disable struct {
+	union json.RawMessage
 }
 
 // StackSpecRuntimeInternalApi_Scope defines model for StackSpecRuntimeInternalApi.Scope.
@@ -48199,6 +48331,68 @@ func (t *StackSpecRuntimeExposedDevice_Options) UnmarshalJSON(b []byte) error {
 	return err
 }
 
+// AsStackSpecRuntimeInternalApiDisable0 returns the union data inside the StackSpecRuntimeInternalApi_Disable as a StackSpecRuntimeInternalApiDisable0
+func (t StackSpecRuntimeInternalApi_Disable) AsStackSpecRuntimeInternalApiDisable0() (StackSpecRuntimeInternalApiDisable0, error) {
+	var body StackSpecRuntimeInternalApiDisable0
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStackSpecRuntimeInternalApiDisable0 overwrites any union data inside the StackSpecRuntimeInternalApi_Disable as the provided StackSpecRuntimeInternalApiDisable0
+func (t *StackSpecRuntimeInternalApi_Disable) FromStackSpecRuntimeInternalApiDisable0(v StackSpecRuntimeInternalApiDisable0) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStackSpecRuntimeInternalApiDisable0 performs a merge with any union data inside the StackSpecRuntimeInternalApi_Disable, using the provided StackSpecRuntimeInternalApiDisable0
+func (t *StackSpecRuntimeInternalApi_Disable) MergeStackSpecRuntimeInternalApiDisable0(v StackSpecRuntimeInternalApiDisable0) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+// AsStackVariable returns the union data inside the StackSpecRuntimeInternalApi_Disable as a StackVariable
+func (t StackSpecRuntimeInternalApi_Disable) AsStackVariable() (StackVariable, error) {
+	var body StackVariable
+	err := json.Unmarshal(t.union, &body)
+	return body, err
+}
+
+// FromStackVariable overwrites any union data inside the StackSpecRuntimeInternalApi_Disable as the provided StackVariable
+func (t *StackSpecRuntimeInternalApi_Disable) FromStackVariable(v StackVariable) error {
+	b, err := json.Marshal(v)
+	t.union = b
+	return err
+}
+
+// MergeStackVariable performs a merge with any union data inside the StackSpecRuntimeInternalApi_Disable, using the provided StackVariable
+func (t *StackSpecRuntimeInternalApi_Disable) MergeStackVariable(v StackVariable) error {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return err
+	}
+
+	merged, err := runtime.JSONMerge(t.union, b)
+	t.union = merged
+	return err
+}
+
+func (t StackSpecRuntimeInternalApi_Disable) MarshalJSON() ([]byte, error) {
+	b, err := t.union.MarshalJSON()
+	return b, err
+}
+
+func (t *StackSpecRuntimeInternalApi_Disable) UnmarshalJSON(b []byte) error {
+	err := t.union.UnmarshalJSON(b)
+	return err
+}
+
 // AsStackSpecRuntimeInternalApiScope0 returns the union data inside the StackSpecRuntimeInternalApi_Scope as a StackSpecRuntimeInternalApiScope0
 func (t StackSpecRuntimeInternalApi_Scope) AsStackSpecRuntimeInternalApiScope0() (StackSpecRuntimeInternalApiScope0, error) {
 	var body StackSpecRuntimeInternalApiScope0
@@ -56057,6 +56251,9 @@ type ClientInterface interface {
 	// LookupIdentifier request
 	LookupIdentifier(ctx context.Context, params *LookupIdentifierParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetVersion request
+	GetVersion(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetVirtualMachines request
 	GetVirtualMachines(ctx context.Context, params *GetVirtualMachinesParams, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -60783,6 +60980,18 @@ func (c *Client) LookupComponents(ctx context.Context, body LookupComponentsJSON
 
 func (c *Client) LookupIdentifier(ctx context.Context, params *LookupIdentifierParams, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewLookupIdentifierRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetVersion(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetVersionRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -76414,6 +76623,33 @@ func NewLookupIdentifierRequest(server string, params *LookupIdentifierParams) (
 	return req, nil
 }
 
+// NewGetVersionRequest generates requests for GetVersion
+func NewGetVersionRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/v1/utils/version")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest(http.MethodGet, queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetVirtualMachinesRequest generates requests for GetVirtualMachines
 func NewGetVirtualMachinesRequest(server string, params *GetVirtualMachinesParams) (*http.Request, error) {
 	var err error
@@ -78351,6 +78587,9 @@ type ClientWithResponsesInterface interface {
 
 	// LookupIdentifierWithResponse request
 	LookupIdentifierWithResponse(ctx context.Context, params *LookupIdentifierParams, reqEditors ...RequestEditorFn) (*LookupIdentifierResponse, error)
+
+	// GetVersionWithResponse request
+	GetVersionWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetVersionResponse, error)
 
 	// GetVirtualMachinesWithResponse request
 	GetVirtualMachinesWithResponse(ctx context.Context, params *GetVirtualMachinesParams, reqEditors ...RequestEditorFn) (*GetVirtualMachinesResponse, error)
@@ -88111,6 +88350,45 @@ func (r LookupIdentifierResponse) ContentType() string {
 	return ""
 }
 
+type GetVersionResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		Data struct {
+			// Os The current version of CycleOS.
+			Os string `json:"os"`
+
+			// Platform The current version of the Cycle platform.
+			Platform string `json:"platform"`
+		} `json:"data"`
+	}
+	JSONDefault *DefaultError
+}
+
+// Status returns HTTPResponse.Status
+func (r GetVersionResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetVersionResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+// ContentType is a convenience method to retrieve the Content-Type value from the HTTP response headers
+func (r GetVersionResponse) ContentType() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Header.Get("Content-Type")
+	}
+	return ""
+}
+
 type GetVirtualMachinesResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
@@ -92037,6 +92315,15 @@ func (c *ClientWithResponses) LookupIdentifierWithResponse(ctx context.Context, 
 		return nil, err
 	}
 	return ParseLookupIdentifierResponse(rsp)
+}
+
+// GetVersionWithResponse request returning *GetVersionResponse
+func (c *ClientWithResponses) GetVersionWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetVersionResponse, error) {
+	rsp, err := c.GetVersion(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetVersionResponse(rsp)
 }
 
 // GetVirtualMachinesWithResponse request returning *GetVirtualMachinesResponse
@@ -102448,6 +102735,47 @@ func ParseLookupIdentifierResponse(rsp *http.Response) (*LookupIdentifierRespons
 		var dest struct {
 			Data struct {
 				Id string `json:"id"`
+			} `json:"data"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest DefaultError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseGetVersionResponse parses an HTTP response from a GetVersionWithResponse call
+func ParseGetVersionResponse(rsp *http.Response) (*GetVersionResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetVersionResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			Data struct {
+				// Os The current version of CycleOS.
+				Os string `json:"os"`
+
+				// Platform The current version of the Cycle platform.
+				Platform string `json:"platform"`
 			} `json:"data"`
 		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
